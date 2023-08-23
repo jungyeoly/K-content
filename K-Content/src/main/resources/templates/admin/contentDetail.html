@@ -30,7 +30,29 @@
     <link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/www/v802/home/styles.css">
     <link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" media="all">
 </head>
-
-<body th:replace="~{/include/body-header :: bodyHeader}">
+<body>
+<div th:replace="~{/include/body-header :: bodyHeader}">
+</div>
+<div style="padding-top: 14%;">
+    <div id="content" style="background-color: #5d5d5d; width: 60%; height: 40%; margin: auto; margin-top: 2%;"><h1>컨텐츠
+        삽입 iframe?</h1>
+    </div>
+    <div id="title" style="margin: auto;  padding-top: 2%">
+        <h1 style="float: left; margin: auto">title</h1>
+        <h1>heart</h1>
+    </div>
+    <div id="keyword" style="margin: auto;height: auto; padding-top: 2%">
+        <div style="float: left">키워드1</div>
+        <div>키워드1</div>
+    </div>
+    <hr>
+    <div class="goods" style="background-color: #5d5d5d; width: 20%; height: 25%; margin-left: 6%; float: left">
+        <h1>상품이미지</h1>
+        <h1>타이틀</h1>
+        <h1>가격</h1>
+        <h1>브랜드</h1>
+    </div>
+    <hr>
+</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 
     <meta charset="utf-8">
@@ -33,55 +33,20 @@
 </head>
 <body>
 <div th:replace="~{/include/body-header :: bodyHeader}">
-
-
-<!--    <div id="wp_tg_cts"></div>-->
-<!--</home-root>-->
 </div>
-<!--<home-root _nghost-mol-c47="" ng-version="10.2.3">-->
-<div style="padding-top: 20%;">
+<div style="padding-top: 10%;">
     <div class="row">
-        <div class="col-xl-4 col-lg-6" >
-            <div class="single-category mb-30">
-                <div class="category-img">
-                    <img style="width: 100%" src="https://i.ytimg.com/vi/02rMn4giIUs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD5Kp8yE67ipUi4j1mdyz93RDl-4w" alt="">
+        <div style="width: 340px; height: 280px; padding-top: 4%" class="col-xl-4 col-lg-6"  th:each="list : ${content}">
+            <div class="single-category mb-30" style="width: 340px; height: 280px;">
+                <div class="category-img" style="width: 340px; height: 280px;">
+                    <img style="width: 340px; height: 240px; padding-top: 4%" th:src="${list.getThumbnail()}"  alt="">
                     <div class="category-caption">
-                        <h2 style="text-align: center">title</h2>
+                        <h6 style="text-align: center; padding-top: 2%; padding-bottom: 5%" th:text="${list.title}">title</h6>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-6" >
-            <div class="single-category mb-30">
-                <div class="category-img">
-                    <img style="width: 100%" src="https://i.ytimg.com/vi/02rMn4giIUs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD5Kp8yE67ipUi4j1mdyz93RDl-4w" alt="">
-                    <div class="category-caption">
-                        <h2 style="text-align: center">title</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-6" >
-            <div class="single-category mb-30">
-                <div class="category-img">
-                    <img style="width: 100%" src="https://i.ytimg.com/vi/02rMn4giIUs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD5Kp8yE67ipUi4j1mdyz93RDl-4w" alt="">
-                    <div class="category-caption">
-                        <h2 style="text-align: center">title</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-6" >
-            <div class="single-category mb-30">
-                <div class="category-img">
-                    <img style="width: 100%" src="https://i.ytimg.com/vi/02rMn4giIUs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD5Kp8yE67ipUi4j1mdyz93RDl-4w" alt="">
-                    <div class="category-caption">
-                        <h2 style="text-align: center">title</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 </body>
 </html>

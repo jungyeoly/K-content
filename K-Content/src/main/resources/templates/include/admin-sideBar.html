@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="adminSideBar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-text mx-3">K-Spectrum CMS</div>
+        </a>
+
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/dashBoard}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/contentManage}">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>콘텐츠</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/goods}">
+                <i class="fas fa-fw fa-cubes"></i>
+                <span>상품</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/userManage}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>회원</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/commu}">
+                <i class="fas fa-fw fa-comments"></i>
+                <span>커뮤니티</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/inquiry}">
+                <i class="fas fa-fw fa-phone"></i>
+                <span>문의사항</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/cs/charts}">
+                <i class="fas fa-fw fa-bar-chart" aria-hidden="true"></i>
+                <span>통계</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/main}">
+                <i class="fas fa-fw fa-desktop"></i>
+                <span>사용자 화면</span></a>
+        </li>
+
+
+        <hr class="sidebar-divider d-none d-md-block">
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+</div>
+</html>

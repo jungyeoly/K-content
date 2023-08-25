@@ -1,6 +1,8 @@
 package com.example.myapp.controller;
 
+import com.example.myapp.model.Goods;
 import com.example.myapp.model.YouTubeItem;
+import com.example.myapp.service.ICSService;
 import com.example.myapp.service.YouTubeApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,18 +13,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+//url 카멜에 쓰지마!!!!
 @Controller
 @RequestMapping("/cs")
 public class CSController {
     @Autowired
     YouTubeApiService youTubeApiService;
+    @Autowired
+    ICSService csService;
 
-    @GetMapping("/dashBoard")
+    @GetMapping("/dashboard")
     public String getDashBoard() {
         return "admin/dashBoard";
     }
 
-    @GetMapping("/contentManage")
+    @GetMapping("/contentmanage")
     public String getContentManage(
 //            String search,
             @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
@@ -38,11 +43,15 @@ public class CSController {
     }
 
     @GetMapping("/goods")
-    public String getGoods() {
+    public String getAllGoods (Model model) {
+
+        List<Goods> getAllGoods = csService.getAllGoods();
+        model.addAttribute("goods",getAllGoods);
+
         return "admin/goods";
     }
 
-    @GetMapping("/userManage")
+    @GetMapping("/usermanage")
     public String getUserManage() {
         return "admin/userManage";
     }
@@ -62,7 +71,7 @@ public class CSController {
         return "admin/charts";
     }
 
-    @GetMapping("/contentDetail")
+    @GetMapping("/contentdetail")
     public String getContentDetail() {
         return "admin/contentDetail";
     }

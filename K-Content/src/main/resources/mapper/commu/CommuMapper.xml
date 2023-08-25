@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myapp.commu.dao.ICommuRepository">
+
+<select id="selectAllPost" resultType="com.example.myapp.commu.model.Commu">
+<![CDATA[
+	select commu_id AS "commuId",
+		   commu_title AS "commuTitle",
+			commu_regist_date AS "commuRegistDate",
+			commu_update_date AS "commuUpdateDate",
+			commu_read_cnt AS "commuReadCnt",
+			commu_mber_id AS "commuMberId"
+			from tb_commu
+]]>	
+</select>
+
+<select id="selectMaxPost" resultType="int">
+	<![CDATA[
+		SELECT NVL(MAX(commu_id),0) AS "post"
+		FROM tb_commu
+	]]>
+</select>
+
+<insert id="insertPost" parameterType="com.example.myapp.commu.model.Commu">
+	<![CDATA[
+		INSERT INTO tb_commu
+			(commu_id, commu_title, commu_cntnt, commu_regist_date, commu_update_date, commu_cate_code, commu_mber_id)
+		VALUES
+			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuRegistDate}, #{commuUpdateDate}, #{commuCateCode}, #{commuMberId})
+			]]>	        
+	</insert>
+	
+	<insert id="insertFileData" parameterType="com.example.myapp.commu.model.CommuFile">
+		<![CDATA[
+		INSERT INTO tb_commu_file
+		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_update_date, commu_file_delete_yn, commu_file_commu_id)
+		VALUES
+			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileRegistDate}, #{commuFileUpdateDate}, #{commuFileDeleteYn.code},#{commuFileCommuId})
+			]]>			
+	</insert>
+
+	
+<select id="getFile" parameterType="int" resultType="com.example.myapp.commu.model.CommuFile">
+	<![CDATA[
+		SELECT
+		commu_file_id AS "commuFileId",
+		commu_file_name AS "commuFileName",
+		commu_file_size AS "commuFileSize",
+		commu_file_ext AS "commuFileExt",
+		commu_file_path AS "commuFilePath",
+		commu_file_regist_date AS "commuFileRegistDate",
+		commu_file_update_date AS "commuFileUpdateDate",
+		commu_file_delete_yn AS "commuFileDeleteYn",
+		commu_file_commu_id AS "commuFileCommuId"
+		FROM tb_commu_file 
+		WHERE commu_file_id=#{commuFileId}
+	]]>	
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

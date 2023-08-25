@@ -1,0 +1,26 @@
+@charset "UTF-8";
+:root {
+  /* Color */
+  --color-main: #14dbc8;
+}
+
+.btn {
+	background-color: var(--color-main);
+	color: white;
+}
+
+.btn:hover {
+	background: white;
+	border: 1px var(--color-main) solid;
+	color: var(--color-main);
+}
+
+.menu {
+    width: 200px;
+    text-align: center;
+    background: black;
+    color: white;
+    font-size: 1.2rem;
+    height: 40px;
+    line-height: 40px;
+}

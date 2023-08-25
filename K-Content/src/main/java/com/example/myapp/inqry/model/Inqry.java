@@ -16,4 +16,7 @@ public class Inqry {
 	private String inqryRegistDate;
 	private String inqryDeleteYn;
 	private String inqryMberId;
+	
+	private String inqryFileId;
+	private String inqryFilePath;
 }

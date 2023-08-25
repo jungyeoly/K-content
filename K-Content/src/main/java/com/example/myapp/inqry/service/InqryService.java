@@ -15,8 +15,26 @@ public class InqryService implements IInqryService{
 	IInqryRepository inqryRepository;
 	
 	@Override
-	public List<Inqry> selectInqryList() {
-		return inqryRepository.selectInqryList();
+	public List<Inqry> selectInqryList(int page) {
+		int start = (page-1)*10 + 1;
+		return inqryRepository.selectInqryList(start, start+9);
+	}
+
+	@Override
+	public Inqry selectInqry(int inqryId) {
+		// TODO Auto-generated method stub
+		return inqryRepository.selectInqry(inqryId);
+	}
+
+	@Override
+	public int totalInqry() {
+		// TODO Auto-generated method stub
+		return inqryRepository.totalInqry();
+	}
+
+	@Override
+	public void insertInqry(Inqry inqry) {
+		inqryRepository.insertInqry(inqry);
 	}
 	
 }

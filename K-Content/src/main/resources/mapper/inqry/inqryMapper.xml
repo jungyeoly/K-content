@@ -5,14 +5,58 @@
 	<select id="selectInqryList" resultType="com.example.myapp.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
-			    inqry_id as "inqryId",
-			    inqry_title as "inqryTitle",
-			    inqry_pwd as "inqryPwd",
-			    inqry_regist_date as "inqryRegistDate",
-			    inqry_mber_id as "inqryMberId"    
-			FROM tb_inqry
-			ORDER BY inqry_ref_id desc, inqry_group_ord
+			    b.inqry_id as "inqryId",
+			    b.inqry_title as "inqryTitle",
+			    b.inqry_pwd as "inqryPwd",
+			    b.inqry_regist_date as "inqryRegistDate",
+			    b.inqry_mber_id as "inqryMberId",
+			    a.rn
+			FROM (
+			    select rownum rn,    
+			    inqry_id,
+			    inqry_title,
+			    inqry_pwd,
+			    inqry_regist_date,
+			    inqry_mber_id 
+			    from 
+			        (select tb_inqry.*
+			        from tb_inqry
+			        where inqry_group_ord = 0
+			        order by inqry_id desc
+			        )
+			) A
+			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			WHERE rn BETWEEN #{start} AND #{end}
+			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
 		]]>
 	</select>
+	
+	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.inqry.model.Inqry">
+		<![CDATA[
+			SELECT
+			    inqry_title as "inqryTitle",
+			    inqry_cntnt as "inqryCntnt",
+			    inqry_regist_date as "inqryRegistDate",
+			    inqry_mber_id as "inqryMberId"
+			FROM tb_inqry 
+			WHERE inqry_id=#{inqryId}
+		]]>
+	</select>
+	
+	<select id="totalInqry" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM tb_inqry
+		]]>
+	</select>
+	
+	<insert id="insertInqry" parameterType="com.example.myapp.inqry.model.Inqry">
+		<![CDATA[
+			INSERT INTO tb_inqry
+				(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date, inqry_update_date, inqry_mber_id) 
+			VALUES 
+				(inqry_seq.nextval, inqry_seq.nextval, inqry_JroupOrd, inqryTitle, inqryCntnt, inqryPwd, to_char(sysdate,'yyyy.mm.dd hh24:mi'), null, 'N', inqryMberId);
+		]]>
+	</insert>
+	
 
 </mapper>

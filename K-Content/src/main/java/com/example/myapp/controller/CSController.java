@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+//url 카멜에 쓰지마!!!!
 @Controller
 @RequestMapping("/cs")
 public class CSController {
@@ -21,12 +22,12 @@ public class CSController {
     @Autowired
     ICSService csService;
 
-    @GetMapping("/dashBoard")
+    @GetMapping("/dashboard")
     public String getDashBoard() {
         return "admin/dashBoard";
     }
 
-    @GetMapping("/contentManage")
+    @GetMapping("/contentmanage")
     public String getContentManage(
 //            String search,
             @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
@@ -42,15 +43,15 @@ public class CSController {
     }
 
     @GetMapping("/goods")
-    public String getAllGoods() {
+    public String getAllGoods (Model model) {
 
         List<Goods> getAllGoods = csService.getAllGoods();
-
+        model.addAttribute("goods",getAllGoods);
 
         return "admin/goods";
     }
 
-    @GetMapping("/userManage")
+    @GetMapping("/usermanage")
     public String getUserManage() {
         return "admin/userManage";
     }
@@ -70,7 +71,7 @@ public class CSController {
         return "admin/charts";
     }
 
-    @GetMapping("/contentDetail")
+    @GetMapping("/contentdetail")
     public String getContentDetail() {
         return "admin/contentDetail";
     }

@@ -88,12 +88,12 @@
                 </div>
 
                 <div class="row item">
-                    <div class="col-xl-4 col-lg-6" th:each="list : ${content}">
+                    <div class="col-xl-4 col-lg-6" th:each="list : ${goods}">
                         <div class="single-category mb-30">
                             <div class="category-img">
-                                <img style="width: 400px; height: 300px" th:src="${list.getThumbnail()}" alt="">
+<!--                                <img style="width: 400px; height: 300px" th:src="${list.}" alt="">-->
                                 <div class="category-caption">
-                                    <h6 style="text-align: center; " th:text="${list.title}">title</h6>
+                                    <h6 style="text-align: center; " th:text="${list.goodsName}">title</h6>
                                 </div>
                             </div>
                         </div>

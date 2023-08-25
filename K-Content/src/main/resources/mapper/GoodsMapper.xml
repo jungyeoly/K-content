@@ -4,19 +4,19 @@
 
 <mapper namespace="com.example.myapp.dao.IGoodsRepository">
 
-    <select id="selectAllGoods" resultType="com.example.myapp.model.Goods">
+    <select id="getAllGoods" resultType="com.example.myapp.model.Goods">
         <![CDATA[
         SELECT goods_id        AS "goodsiI",
                goods_name      AS "goodsName",
                goods_brand     AS "goodsBrand",
-               goodsPrice      AS "goodsPrice",
-               goodsPurchsLink AS "goodsPurchsLink",
-               goodsKwrd       AS "goodsKwrd",
-               goodsRegistDate AS "goodsRegistDate",
-               goodsUpdateDate AS "goodsUpdateDate",
-               goodsDeleteYn   AS "goodsDeleteYn"
+               goods_price      AS "goodsPrice",
+               goods_purchs_link AS "goodsPurchsLink",
+               goods_kwrd       AS "goodsKwrd",
+               goods_regist_date AS "goodsRegistDate",
+               goods_update_date AS "goodsUpdateDate",
+               goods_delete_yn   AS "goodsDeleteYn"
 
-        FROM goods
+        FROM tb_goods
         ]]>
     </select>
 

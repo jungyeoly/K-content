@@ -1,6 +1,8 @@
 package com.example.myapp.controller;
 
+import com.example.myapp.model.Goods;
 import com.example.myapp.model.YouTubeItem;
+import com.example.myapp.service.ICSService;
 import com.example.myapp.service.YouTubeApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import java.util.List;
 public class CSController {
     @Autowired
     YouTubeApiService youTubeApiService;
+    @Autowired
+    ICSService csService;
 
     @GetMapping("/dashBoard")
     public String getDashBoard() {
@@ -38,7 +42,11 @@ public class CSController {
     }
 
     @GetMapping("/goods")
-    public String getGoods() {
+    public String getAllGoods() {
+
+        List<Goods> getAllGoods = csService.getAllGoods();
+
+
         return "admin/goods";
     }
 

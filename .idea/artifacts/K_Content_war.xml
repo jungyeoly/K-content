@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="K-Content:war">
+    <output-path>$PROJECT_DIR$/K-Content/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>K-Content</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="K-Content-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="K-Content:war exploded" />
+    </root>
+  </artifact>
+</component>

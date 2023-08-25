@@ -1,6 +1,5 @@
 package com.example.myapp.controller;
 import java.util.List;
-import java.util.ArrayList;
 import java.lang.Integer;
 
 
@@ -17,17 +16,18 @@ public class CSContentController {
     @Autowired
     YouTubeApiService youTubeApiService;
 
-    @GetMapping("/recomm")
-    public String searchYouTube(
+    @GetMapping("/")
+    public  String main(){
+        return "content";
+    }
 
-            String search,
-            @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model
-    ) {
+    @GetMapping("/recomm")
+    public String searchYouTube(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
 //        String search = "강형욱";
         int max = Integer.parseInt(items);
         List<YouTubeItem> result = youTubeApiService.youTubeSearch(search, max);
 //        result.get(1).getThumbnail().ge
         model.addAttribute("content", result);
-        return "admin/recommendContent";
+        return "admin/recommendContent4";
     }
 }

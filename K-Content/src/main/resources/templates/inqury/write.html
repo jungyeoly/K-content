@@ -33,12 +33,30 @@
 						<label for="cntnt">사진첨부</label>
 					</div>
 					<div class="inqry-cntnt">
-						<div class="drag-area active">
-							<i class="fa-solid fa-plus"></i>
+						<div class="drag-area button">
+							<i class="fa-solid fa-plus">
+								<span>
+									<input type="file" hidden>
+								</span>
+							</i>
 						</div>
 					</div>
 				</li>
+				
+				<li class="tit-row">
+					<div class="inqry-label">
+						<label for="pwd">비밀번호</label>
+					</div>
+					<div class="inqry-cntnt">
+						<input type="password" id="pwd" name="inqryPwd">
+					</div>
+				</li>
 			</ul>
+			
+			<div class="d-flex justify-content-center">
+				<input type="reset" class="btn me-2" value="취소">
+				<input type="submit" class="btn" value="글쓰기">
+			</div>
 		</form>
 	</div>
 </body>

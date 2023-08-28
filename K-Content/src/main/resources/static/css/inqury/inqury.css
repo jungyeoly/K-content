@@ -27,3 +27,11 @@
 	position: absolute;
 	right: 1rem;
 }
+
+.hidden {
+	display: none;
+}
+
+.password-input {
+    width: 30%;
+}

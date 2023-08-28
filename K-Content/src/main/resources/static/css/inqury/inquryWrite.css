@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+:root {
+  /* Color */
+  --color-main: #14dbc8;
+}
+
+
 .tb-lst {
 	border-top: 4px solid #000;
 }
@@ -29,7 +35,7 @@ li {
 } 
 
 .inqry-cntnt {
-	width : 90%;
+	width : 85%;
 }
 
 #title {
@@ -41,8 +47,24 @@ textarea {
 }
 
 .drag-area {
-	width: 30px;
-	height: 30px;
-	background: skyblue;
-	padding: 10px; 
+	width: 100px;
+	height: 100px;
+	background: rgb(192, 192, 192);	
+	text-align: center;
+	padding: 0px !important;
 }
+
+.fa-solid {
+	line-height: 100px;
+}
+
+.drag-area.active{
+	border: 2px dotted var(--color-main);
+}
+
+.drag-area img {
+	width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+

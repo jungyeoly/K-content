@@ -4,9 +4,15 @@
   --color-main: #14dbc8;
 }
 
-.btn {
-	background-color: var(--color-main);
+.btn{
+	background: var(--color-main);
 	color: white;
+}
+
+.btn-2{
+	border: 1px solid var(--color-main);
+	color: var(--color-main);
+	background: white;
 }
 
 .btn:hover {

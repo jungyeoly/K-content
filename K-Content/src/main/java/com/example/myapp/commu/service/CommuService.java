@@ -3,6 +3,7 @@ package com.example.myapp.commu.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +16,12 @@ public class CommuService implements ICommuService {
 	
 	@Autowired
 	ICommuRepository commuRepository;
-
+	
 	@Override
 	public List<Commu> selectAllPost() {
 		List<Commu> commuList = commuRepository.selectAllPost();
 		return commuList;
 	}
-	
-	/*
-	 * @Override public class
-	 */
 
 	@Transactional
 	public void insertPost(Commu commu) {
@@ -33,7 +30,6 @@ public class CommuService implements ICommuService {
 		
 	}
 	
-
 	@Transactional
 	public void insertPost(Commu commu, CommuFile file) {
 		commu.setCommuId(commuRepository.selectMaxPost()+1);

@@ -44,13 +44,9 @@
 			</tbody>
 		</table>
 
-<<<<<<< HEAD:K-Content/src/main/resources/templates/user/inqury/list.html
-		<a class="btn writeBtn" th:href="@{/templates/user/inqury/insert}">글쓰기</a>
 
-=======
 		<a class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
 		
->>>>>>> f0a70ff051f100b2c8f82d2e9a717336d18bff42:K-Content/src/main/resources/templates/inqury/list.html
 		<nav aria-label="Page navigation" class="d-flex justify-content-center">
 			<ul class="pagination">
 				<li class="page-item" th:if="${nowPageBlock>1}">
@@ -74,21 +70,6 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-<<<<<<< HEAD:K-Content/src/main/resources/templates/user/inqury/list.html
-	$(function(){
-	    $(".inqry-row").click(function() {
-	        var inqryId = $(this).data("inqry-id");
-
-	     	$.ajax({
-	     		url: "/inqury/detail/" + inqryId,
-	     		type: "GET",
-	            success: function(response) {
-	            	window.location.href = "/inqury/detail/" + inqryId;
-	            }
-	     	})
-	    })
-	})
-=======
     $(function(){
         $(".inqry-row").click(function() {
             var passwordForm = $(this).find(".password-form");
@@ -130,6 +111,5 @@
             });
         });
     });
->>>>>>> f0a70ff051f100b2c8f82d2e9a717336d18bff42:K-Content/src/main/resources/templates/inqury/list.html
 </script>
 </html>

@@ -71,7 +71,7 @@ public class InqryController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 
-		return "inqury/list";
+		return "user/inqury/list";
 	}
 
 	@GetMapping("/inqury")
@@ -96,12 +96,12 @@ public class InqryController {
 	public String selectInqry(@PathVariable int inqryId, Model model) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		model.addAttribute("inqry", inqry);
-		return "inqury/detail";
+		return "user/inqury/detail";
 	}
 
 	@GetMapping("/inqury/insert")
 	public String insertInqry() {
-		return "inqury/write";
+		return "user/inqury/write";
 	}
 
 	@PostMapping("/inqury/insert")
@@ -149,7 +149,7 @@ public class InqryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
-			return "inqury/write";
+			return "user/inqury/write";
 		}
 	}
 }

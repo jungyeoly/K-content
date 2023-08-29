@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.myapp.inqry.dao.IInqryRepository">
+<mapper namespace="com.example.myapp.user.inqry.dao.IInqryRepository">
 
-	<select id="selectInqryList" resultType="com.example.myapp.inqry.model.Inqry">
+	<select id="selectInqryList" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
 			    b.inqry_id as "inqryId",
@@ -40,8 +40,8 @@
 			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
 		]]>
 	</select>
-	
-	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.inqry.model.Inqry">
+
+	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
 			    i.inqry_id as "inqryId",
@@ -61,14 +61,14 @@
 			WHERE inqry_id=#{inqryId}
 		]]>
 	</select>
-	
+
 	<select id="totalInqry" resultType="int">
 		<![CDATA[
 			SELECT count(*) FROM tb_inqry
 		]]>
 	</select>
-	
-	<insert id="insertInqry" parameterType="com.example.myapp.inqry.model.Inqry">
+
+	<insert id="insertInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			INSERT INTO tb_inqry
 				(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date, inqry_update_date, inqry_delete_yn, inqry_mber_id) 
@@ -77,7 +77,7 @@
 		]]>
 	</insert>
 	
-	<insert id="insertFile" parameterType="com.example.myapp.inqry.model.InqryFile">
+	<insert id="insertFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
 		<![CDATA[
 			INSERT INTO tb_inqry_file
 			    (inqry_file_id, inqry_file_name, inqry_file_size, inqry_file_ext, inqry_file_path, inqry_file_regist_date, inqry_file_update_date, inqry_file_delete_yn, inqry_file_inqry_id)

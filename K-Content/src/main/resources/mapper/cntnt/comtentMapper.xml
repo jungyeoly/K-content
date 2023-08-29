@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myapp.cms.content.dao.IContentRepository">
+
+    <select id="getAllContent" resultType="com.example.myapp.cms.content.model.Content">
+        <![CDATA[
+        SELECT cntnt_id          as cntntId,
+               cntnt_cate_code   as cntntCateCode,
+               cntnt_title       as cntntTitle,
+               cntnt_kwrd        as cntntKwrd,
+               cntnt_url         as cntntUrl,
+               cntnt_regist_date as cntntRegistDate,
+               cntnt_update_date as cntntUpdeDate,
+               cntnt_delete_yn   as cntntDeleteYn
+        FROM tb_cntnt
+        ]]>
+    </select>
+    <select id="getAContent" resultType="com.example.myapp.cms.content.model.Content">
+        <![CDATA[
+        SELECT cntnt_id          as cntntId,
+               cntnt_cate_code   as cntntCateCode,
+               cntnt_title       as cntntTitle,
+               cntnt_kwrd        as cntntKwrd,
+               cntnt_url         as cntntUrl,
+               cntnt_regist_date as cntntRegistDate,
+               cntnt_update_date as cntntUpdeDate,
+               cntnt_delete_yn   as cntntDeleteYn
+        FROM tb_cntnt
+        WHERE cntnt_id = #{cntntId}
+        ]]>
+    </select>
+
+</mapper>

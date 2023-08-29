@@ -110,6 +110,12 @@
                     </div>
 
                 </div>
+                <div th:each="img : ${imgUrlList}" >
+                    <img  th:src="${realImg}">
+<!--                    <img src="data:image/<jpg>;base64,<data코드>">-->
+<!--                    <h3 th:text="${encodedString}">asdf</h3>-->
+
+                </div>
             </div>
         </div>
         <!-- End of Main Content -->

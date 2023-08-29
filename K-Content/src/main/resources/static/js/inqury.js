@@ -54,4 +54,4 @@ function displayFile() {
 		alert("사진파일이 아닙니다.")
 		dragArea.classList.remove('active');
 	}
-}
+};

@@ -30,3 +30,9 @@
     height: 40px;
     line-height: 40px;
 }
+
+.delete {
+	color: red !important;
+	border: 1px solid red !important;
+	background: white;
+}

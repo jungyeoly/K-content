@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class InqryFile {
 	private String inqryFileId;
 	private String inqryFileName;
-	private int inqryFileSize;
+	private long inqryFileSize;
 	private String inqryFileExt;
 	private String inqryFilePath;
 	private String inqryFileRegistDate;
 	private String inqryFileUpdateDate;
 	private String inqryFileDeleteYn;
-	private String inqryFileInqryId;
+	private int inqryFileInqryId;
 }

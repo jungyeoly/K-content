@@ -1,22 +1,30 @@
 package com.example.myapp.user.inqry.controller;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.myapp.user.inqry.model.Inqry;
+import com.example.myapp.user.inqry.model.InqryFile;
 import com.example.myapp.user.inqry.service.IInqryService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,16 +34,19 @@ public class InqryController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Value("${part4.upload.path}")
+	private String uploadPath;
+	@Value("${img}")
+	private String url;
+
 	@Autowired
 	IInqryService inqryService;
-
 
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session,Model model) {
 		session.setAttribute("page", page);
 
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
-		logger.info(inqryList.toString());
 		model.addAttribute("inqryList", inqryList);
 
 		int bbsCount = inqryService.totalInqry();
@@ -66,22 +77,19 @@ public class InqryController {
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
 		return selectInqryList(1, session, model);
-
-	}
+	}	
 
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
 	public ResponseEntity<String> checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
-	Inqry inqry = inqryService.selectInqry(inqryId);
 
+	Inqry inqry = inqryService.selectInqry(inqryId);
 
 		if(inqry.getInqryPwd() == enteredPwd) {
 	    	return new ResponseEntity<>("success", HttpStatus.OK);
 	    } else {
 	    	return new ResponseEntity<>("fail", HttpStatus.OK);
 	    }
-
-
 	}
 
 	@RequestMapping("/inqury/detail/{inqryId}")
@@ -94,5 +102,54 @@ public class InqryController {
 	@GetMapping("/inqury/insert")
 	public String insertInqry() {
 		return "inqury/write";
+	}
+
+	@PostMapping("/inqury/insert")
+	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs) {
+		try {
+			//inqry.setInqryTitle(Jsoup.clean(inqry.getInqryTitle(), Safelist.basic()));
+			//inqry.setInqryCntnt(Jsoup.clean(inqry.getInqryCntnt(), Safelist.basic()));
+			MultipartFile mfile = inqry.getFile();
+		
+			int inqryId = inqryService.selectinqryFileId();
+			inqry.setInqryRefId(inqryId);
+			inqry.setInqryMberId("test1");
+
+			if (mfile != null && !mfile.isEmpty()) {
+				
+				if (mfile != null && !mfile.isEmpty()) {
+					InqryFile file = new InqryFile();
+					String originalName = mfile.getOriginalFilename();
+					String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+					String fileExt = originalName.substring(originalName.lastIndexOf(".") + 1);
+					String uuid = UUID.randomUUID().toString();
+					String saveFileName = uuid + "_" + fileName;
+					int inqryFileInqryId = inqryId;
+					
+					file.setInqryFileId(saveFileName); //UUID로 랜덤하게 생성
+					file.setInqryFileName(fileName); //파일 이름
+					file.setInqryFileSize(mfile.getSize());
+					file.setInqryFileExt(fileExt); //파일확장자
+					file.setInqryFileInqryId(inqryFileInqryId); //게시글 번호
+					file.setInqryFilePath(url);
+					
+					Path path = Paths.get(uploadPath+url).toAbsolutePath().normalize();
+					Path realPath = path.resolve(file.getInqryFileId()).normalize();
+					
+					
+					inqryService.insertInqry(inqry, file);
+					mfile.transferTo(realPath);
+					
+				} else {
+					inqryService.insertInqry(inqry);
+				}
+			
+			}
+			return "redirect:/inqury";
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttrs.addFlashAttribute("message", e.getMessage());
+			return "inqury/write";
+		}
 	}
 }

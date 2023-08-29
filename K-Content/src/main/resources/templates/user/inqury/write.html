@@ -2,13 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<div th:replace="~{/include/header :: header}"></div>
-	<link rel="stylesheet" th:href="@{/common.css}">
 	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
 </head>
 <body>
 	<div class="container">
 		<div class="menu fw-bold">문의사항 글 생성</div>
-		<form action="" class="inqry-form">
+		<form th:action="@{/inqury/insert}" method="post" enctype="multipart/form-data" class="inqry-form">
 			<ul class=tb-lst>
 				<li class="tit-row">
 					<div class="inqry-label">
@@ -31,14 +30,11 @@
 				<li class="tit-row">
 					<div class="inqry-label">
 						<label for="cntnt">사진첨부</label>
+						<input type="file" id="file" name="file" hidden>
 					</div>
 					<div class="inqry-cntnt">
 						<div class="drag-area button">
-							<i class="fa-solid fa-plus">
-								<span>
-									<input type="file" hidden>
-								</span>
-							</i>
+							<i class="fa-solid fa-plus"></i>
 						</div>
 					</div>
 				</li>
@@ -55,7 +51,7 @@
 			
 			<div class="d-flex justify-content-center">
 				<input type="reset" class="btn me-2" value="취소">
-				<input type="submit" class="btn" value="글쓰기">
+				<input type="submit" class="btn uploadBtn" value="글 쓰기">
 			</div>
 		</form>
 	</div>

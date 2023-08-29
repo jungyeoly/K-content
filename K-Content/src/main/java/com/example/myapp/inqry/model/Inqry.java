@@ -1,5 +1,7 @@
 package com.example.myapp.inqry.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,6 @@ public class Inqry {
 	
 	private String inqryFileId;
 	private String inqryFilePath;
+	
+	private MultipartFile file;
 }

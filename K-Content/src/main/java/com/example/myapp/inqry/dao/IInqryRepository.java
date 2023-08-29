@@ -14,16 +14,16 @@ import com.example.myapp.inqry.model.InqryFile;
 public interface IInqryRepository {
 	// 문의사항 전체조회(페이징)
 	List<Inqry> selectInqryList(@Param("start") int start, @Param("end") int end);
-	
 	// 문의사항 상세조회
 	Inqry selectInqry(int inqryId);
-	
 	// 페이징 처리를 위한 전체 문의사항글 개수
 	int totalInqry();
 	
 	// 문의사항 글 쓰기
 	void insertInqry(Inqry inqry);
-	
 	// 문의사항 파일 업로드
-	void insertFileData(InqryFile file);
+	void insertFile(InqryFile file);
+	// inqryFileId
+	int selectinqryFileId();
+
 }

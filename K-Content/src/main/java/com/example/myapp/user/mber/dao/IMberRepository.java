@@ -2,9 +2,10 @@ package com.example.myapp.user.mber.dao;
 
 import java.util.List;
 
-import com.example.myapp.user.mber.model.Mber;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import com.example.myapp.user.mber.model.Mber;
 
 @Mapper
 @Repository

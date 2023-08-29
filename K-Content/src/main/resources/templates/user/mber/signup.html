@@ -5,9 +5,9 @@
 <title>Insert title here</title>
 <!-- Bootstrap CSS -->
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
-	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
 
 <link rel="stylesheet"
@@ -55,17 +55,17 @@
 				<div class="input-form col-md-12 mx-auto opacity-95 p-5">
 					<div class="d-flex justify-content-center col-md-12">
 						<div id="circle_kakao">
-							<a href="https://www.kakao.com"><img src="/img/mber/kakaologo.png"
-								id="kakao_logo_img"></a>
+							<a href="https://www.kakao.com"><img
+								src="/img/mber/kakaologo.png" id="kakao_logo_img"></a>
 						</div>
 						<div id="circle_google">
 							<a href="https://www.google.com"><img
-                                    src="/img/mber/googlelogo.png" id="google_logo_img"></a>
+								src="/img/mber/googlelogo.png" id="google_logo_img"></a>
 						</div>
 					</div>
 
-					<form th:action="@{/templates/user/mber/signup}" method="post"
-                          class="validation-form" id="signupForm" novalidate>
+					<form th:action="@{/mber/signup}" method="post"
+						class="validation-form" id="signupForm" novalidate>
 						<div class="row">
 							<div class="col-md-12 mb-3">
 								<label for="mber_id" class="fw-bold">아이디</label> <input
@@ -106,7 +106,7 @@
 									<option value="C0102">여자</option>
 									<option value="C0103">비공개</option>
 								</select>
-								<div class="invalid-feedback">생년월일를 입력해주세요.</div>
+								<div class="invalid-feedback">성별을 입력해주세요.</div>
 							</div>
 						</div>
 						<div class="row">
@@ -115,24 +115,32 @@
 									type="email" id="mber_email" class="form-control"
 									name="mberEmail" placeholder="you@example.com"
 									pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
-								<div class="invalid-feedback">유효한 이메일 주소 형식으로 입력하세요.</div>
+								<div class="invalid-feedback" id="mail-input-check-warn">이메일을
+									입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
 							</div>
-							<!-- 				<div class="col-md-3 mb-3">
-								<label for="EmailAuth">&nbsp;</label> <input type="button"
-									id="mail-check-btn" required>
-									name="EmailAuth" value="메일 인증" class="form-control btn-primary"
-							</div> -->
+							<div class="col-md-3 mb-3">
+								<label for="EmailAuth">&nbsp;</label>
+								<button type="button" id="mail-check-btn" name="EmailAuth"
+									class="form-control btn text-white"
+									style="background-color: #14dbc8;" required>
+									<span id="mail-check-btn-text">메일 인증</span>
+									<div class="spinner-border spinner-border-sm ms-2 d-none"
+										role="status" id="mail-check-spinner"></div>
+								</button>
+							</div>
 						</div>
-						<!-- 		<div class="row">
-							<div class="col-md-5 mb-3">
-								<label for="auth_code" class="fw-bold">인증번호</label> <input
-									type="text" class="form-control mail-check-input"
-									placeholder="인증번호" disabled="disabled" maxlength="7"
+						<div class="row">
+							<div class="col-md-12 mb-3">
+								<label for="auth-code-input" class="fw-bold">인증번호</label> <input
+									type="text" id="auth-code-input"
+									class="form-control mail-check-input" placeholder="인증번호 입력"
+									disabled="disabled" maxlength="6"
+									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									onkeyup="checkAuthNumFn()"> <span id="mail-check-warn"
 									class="mb-2"></span>
 								<div class="invalid-feedback">인증번호를 입력해주세요.</div>
 							</div>
-						</div> -->
+						</div>
 						<div class="row">
 							<div class="col-md-12 mb-3">
 								<label for="mber_phone" class="fw-bold">전화번호</label> <input
@@ -145,36 +153,39 @@
 
 						<hr class="mb-4">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input"
-								id="aggrement" required> <label
-								class="form-check-label" for="aggrement">개인정보 수집 및
-								이용에 동의합니다.</label>
+							<input type="checkbox" class="form-check-input" id="aggrement"
+								required> <label class="form-check-label"
+								for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
 						</div>
 						<div class="mb-4"></div>
-						<button type="submit" class="mb-4 btn btn-lg"
+						<button type="submit" class="mb-4 btn btn-lg text-white"
 							style="background-color: #14dbc8;">가입완료</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"></script>
 	<script>
-	/* window.addEventListener('load', () => {
-		  const forms = document.getElementsByClassName('validation-form');
+		window.addEventListener('load', () => {
+			  const forms = document.getElementsByClassName('validation-form');
 
-		  Array.prototype.filter.call(forms, (form) => {
-		    form.addEventListener('submit', function (event) {
-		      if (form.checkValidity() === false) {
-		        event.preventDefault();
-		        event.stopPropagation();
-		      }
+			  Array.prototype.filter.call(forms, (form) => {
+			    form.addEventListener('submit', function (event) {
+			      if (form.checkValidity() === false) {
+			        event.preventDefault();
+			        event.stopPropagation();
+			      }
 
-		      form.classList.add('was-validated');
-		    }, false);
-		  });
-		}, false);
-	 */
+			      form.classList.add('was-validated');
+			    }, false);
+			  });
+			}, false);
+		 
+
 		var autoHypenPhone = function(str) {
 			str = str.replace(/[^0-9]/g, '');
 			var tmp = '';
@@ -211,5 +222,95 @@
 			this.value = autoHypenPhone(this.value);
 		}
 	</script>
+
+	<script>
+		const authCodeInput = document.getElementById('auth-code-input');
+		let serverAuthCode = '';
+		const mailCheckBtn = document.getElementById('mail-check-btn');
+		const mailCheckWarn = document.getElementById('mail-check-warn');
+		const mailInputCheckWarn = document.getElementById('mail-input-check-warn');
+		const spinner = document.getElementById('mail-check-spinner');
+		const buttonText = document.getElementById('mail-check-btn-text');
+
+		mailCheckBtn.addEventListener('click', function() {
+			const email = document.getElementById('mber_email').value;
+			
+			console.log('이메일:', email);
+	         if (email === '') {
+	            mailInputCheckWarn.style.display = 'block';
+	            mailInputCheckWarn.textContent = '이메일 인증을 위해 이메일을 입력하세요.';
+	            mailInputCheckWarn.style.color = '#dc3545';
+	            return
+	        } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+	            mailInputCheckWarn.style.display = 'block';
+	            mailInputCheckWarn.textContent = '유효한 이메일 주소 형식으로 입력하세요.';
+	            mailInputCheckWarn.style.color = '#dc3545';
+	            return
+	        }
+			document.getElementById('mber_email').setAttribute('disabled',
+					'disabled');
+		 	spinner.classList.remove('d-none'); // 스피너 표시
+			buttonText.textContent = '';
+
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', '/mber/mailauth', true);
+			xhr.setRequestHeader('Content-Type',
+					'application/x-www-form-urlencoded');
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+			 		spinner.classList.add('d-none'); // 스피너 숨김
+					buttonText.textContent = '메일 인증'; 
+
+					if (xhr.status === 200) {
+						serverAuthCode = xhr.responseText.trim();
+						const enteredAuthCode = authCodeInput.value.trim();
+						console.log('수신된 검증 코드:', serverAuthCode);
+						console.log('입력된 코드:', enteredAuthCode);
+
+						authCodeInput.removeAttribute('disabled');
+					} else {
+						mailCheckWarn.textContent = '이메일 입력 오류';
+						mailCheckWarn.style.color = 'red';
+					}
+				}
+			};
+
+			xhr.send(`email=${encodeURIComponent(email)}`);
+		});
+
+		// 인증 번호 확인 함수
+		function checkAuthNumFn() {
+			if (authCodeInput.value.length === 0) {
+				mailCheckWarn.textContent = '';
+			}
+			
+			if (authCodeInput.value.length >= 1) {
+				mailCheckWarn.textContent = '인증번호 확인 중입니다...';
+				mailCheckWarn.style.color = 'black';
+			}
+			
+			if (authCodeInput.value.length === 6) {
+				mailCheckWarn.style.color = 'black'; // 초기화
+				if (serverAuthCode === authCodeInput.value) {
+					// 서버에서 가져온 인증 코드와 입력한 코드가 일치하는 경우
+					mailCheckWarn.textContent = '인증 성공';
+					mailCheckWarn.style.color = 'green';
+				} else {
+					// 서버에서 가져온 인증 코드와 입력한 코드가 일치하지 않는 경우
+					mailCheckWarn.textContent = '인증 실패';
+					mailCheckWarn.style.color = 'red';
+				}
+			}
+		}
+
+		const birthdateInput = document.getElementById('mber_birth');
+		const currentDate = new Date();
+		const currentDateString = currentDate.toISOString().split('T')[0];
+
+		birthdateInput.setAttribute('max', currentDateString);
+		birthdateInput.setAttribute('value', currentDateString);
+	</script>
+
 </body>
 </html>

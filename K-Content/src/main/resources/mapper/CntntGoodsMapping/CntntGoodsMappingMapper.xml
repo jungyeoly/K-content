@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myapp.cms.content.dao.ICntntGoodsMappingRepository">
+
+    <select id="getAllGoodsByContent" resultType="com.example.myapp.cms.content.model.CntntGoodsMapping">
+        <![CDATA[
+        SELECT cntnt_id as cntntId,
+               goods_id as goodsId
+        FROM tb_cntnt_goods_mapping
+        WHERE cntnt_id = #{cntntId}
+        ]]>
+    </select>
+
+</mapper>

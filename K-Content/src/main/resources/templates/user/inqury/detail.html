@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="~{/include/header :: header}"></div> 	
+</head>
+<body>
+	<div class="container">
+		<div class="inqry-no">[[${inqry.inqryId}]]</div>
+		<div class="inqry-heaer d-flex justify-content-between">
+			<div class="username">[[${inqry.inqryMberId}]]</div>
+			<div class="title">[[${inqry.inqryTitle}]]</div>
+			<div class="registdate">[[${inqry.inqryRegistDate}]]</div>
+		</div>
+		<div class="inqry-cntnt">
+			<div class="cntnt">[[${inqry.inqryCntnt}]]</div>
+		</div>
+	</div>
+</body>
+</html>

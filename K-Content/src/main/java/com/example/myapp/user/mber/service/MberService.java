@@ -2,17 +2,18 @@ package com.example.myapp.user.mber.service;
 
 import java.util.List;
 
-import com.example.myapp.user.mber.dao.IMberRepository;
-import com.example.myapp.user.mber.model.Mber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.myapp.user.mber.dao.IMberRepository;
+import com.example.myapp.user.mber.model.Mber;
 
 @Service
 public class MberService implements IMberService {
 
 	@Autowired
-    IMberRepository mberRepository;
-
+	IMberRepository mberRepository;
+	
 	@Override
 	public Mber selectMberbyId(String mberId) {
 		return mberRepository.selectMberbyId(mberId);

@@ -35,10 +35,10 @@ public class CSController {
 
     @Autowired
     Instagram_Selenium instagram_Selenium;
+
     @GetMapping("/dashboard")
     public String getDashBoard() {
-        String query = "woodz";
-        instagram_Selenium.crawl(query);
+
         return "cms/dashBoard";
     }
 
@@ -49,24 +49,32 @@ public class CSController {
 
         return "cms/contentManage";
     }
+
     @GetMapping("/contentmanage/contentdetail")
     public String getAContent(Model model) {
         int id = 5;
         Content content = contentService.getAContent(id);
         model.addAttribute("content", content);
 
-        List<String> contentList  = Arrays.stream(content.getCntntKwrd().split(",")).toList();
+        List<String> contentList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("contentList", contentList);
 
         //  contntID 알고 있으a
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(id);
         List<Goods> goodsList = new ArrayList<Goods>();
-        for (int i=0; i<goodsIdByCntnt.size();  i++ ){
+        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
             goodsList.add(goodsService.getAGoods(goodsIdByCntnt.get(i).getGoodsId()));
         }
         model.addAttribute("goodsList", goodsList);
+
+        String query = "woodz";
+        List<String> imgUrlList = instagram_Selenium.crawl(query);
+
+        model.addAttribute("imgUrlList", imgUrlList);
+
         return "cms/contentDetail";
     }
+
     @GetMapping("/goods")
     public String getAllGoods(Model model) {
 

@@ -1,20 +1,32 @@
 package com.example.myapp.cms.content.controller;
 
-import com.example.myapp.cms.content.dao.IGoodsRepository;
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.model.Content;
-import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
 import com.example.myapp.cms.content.model.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 //url 카멜에 쓰지마!!!!
@@ -50,8 +62,33 @@ public class CSController {
         return "cms/contentManage";
     }
 
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> getImage(String s) {
+        // 이미지 파일의 경로를 설정
+        String imagePath = "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/366414072_261850193301231_7322515485343116845_n.jpg?stp=dst-jpg_e15&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=lCT3edsH6mcAX--_j8p&edm=AOUPxh0BAAAA&ccb=7-5&oh=00_AfDcuq9cHw0CvfHwcG3rCeueVg-DDJD2kwqN1MUcEf8SdA&oe=64EF90E2&_nc_sid=9dc660"; // 실제 이미지 파일 경로로 변경
+
+        try {
+            // 이미지 파일을 바이트 배열로 읽어옴
+            Path path = Paths.get(imagePath);
+            byte[] imageBytes = Files.readAllBytes(path);
+
+            // HTTP 응답 헤더 설정 (이미지 타입에 따라 Content-Type 설정)
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG); // 이미지 타입에 따라 변경
+
+            // ResponseEntity를 사용하여 이미지 데이터를 응답으로 반환
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+
+        } catch (IOException e) {
+            // 예외 처리: 이미지 파일을 읽을 수 없는 경우
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/contentmanage/contentdetail")
-    public String getAContent(Model model) {
+
+    public String getAContent(Model model) throws IOException {
         int id = 5;
         Content content = contentService.getAContent(id);
         model.addAttribute("content", content);
@@ -71,7 +108,20 @@ public class CSController {
         List<String> imgUrlList = instagram_Selenium.crawl(query);
 
         model.addAttribute("imgUrlList", imgUrlList);
+        System.out.println("dfd:    "+imgUrlList.get(0));
+//        ResponseEntity<byte[]> img = getImage(imgUrlList.get(0));
+        URL urlInput = new URL(imgUrlList.get(0));
+        BufferedImage urlImg = ImageIO.read(urlInput);
 
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(urlImg, "jpg", bos);
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encodedString = encoder.encodeToString(bos.toByteArray());
+        System.out.println("wwwwwww:    "+encodedString);
+
+       String realImg = "   data:image/jpg;base64,"+encodedString;
+
+        model.addAttribute("realImg", realImg);
         return "cms/contentDetail";
     }
 

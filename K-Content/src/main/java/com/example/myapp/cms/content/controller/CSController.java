@@ -34,11 +34,11 @@ public class CSController {
     IGoodsService goodsService;
 
     @Autowired
-    CrawlingExample crawlingExample;
+    Instagram_Selenium instagram_Selenium;
     @GetMapping("/dashboard")
     public String getDashBoard() {
-        String query = "태민";
-        crawlingExample.process(query);
+        String query = "woodz";
+        instagram_Selenium.crawl(query);
         return "cms/dashBoard";
     }
 

@@ -43,7 +43,9 @@ public class InqryController {
 	IInqryService inqryService;
 
 	@GetMapping("/inqury/{page}")
-	public String selectInqryList(@PathVariable int page, HttpSession session,Model model) {
+	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
+		boolean inqryPwdstate = false;
+		session.setAttribute("inqryPwdstate", inqryPwdstate);
 		session.setAttribute("page", page);
 
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
@@ -82,21 +84,35 @@ public class InqryController {
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
 	public ResponseEntity<String> checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
+	    Inqry inqry = inqryService.selectInqry(inqryId);
+	    boolean inqryPwdstate = (Boolean) session.getAttribute("inqryPwdstate");
 
-	Inqry inqry = inqryService.selectInqry(inqryId);
+	    if (inqry.getInqryPwd() == enteredPwd) {
+	    	inqryPwdstate = true;
+	    }
 
-		if(inqry.getInqryPwd() == enteredPwd) {
-	    	return new ResponseEntity<>("success", HttpStatus.OK);
+	    session.setAttribute("inqryPwdstate", inqryPwdstate);
+
+	    if (inqryPwdstate) {
+	        return new ResponseEntity<>("success", HttpStatus.OK);
 	    } else {
-	    	return new ResponseEntity<>("fail", HttpStatus.OK);
+	        return new ResponseEntity<>("fail", HttpStatus.OK);
 	    }
 	}
 
 	@RequestMapping("/inqury/detail/{inqryId}")
-	public String selectInqry(@PathVariable int inqryId, Model model) {
-		Inqry inqry = inqryService.selectInqry(inqryId);
-		model.addAttribute("inqry", inqry);
-		return "user/inqury/detail";
+	public String selectInqry(@PathVariable int inqryId, Model model, HttpSession session) {
+		boolean inqryPwdstate = (Boolean) session.getAttribute("inqryPwdstate");
+		
+		if (inqryPwdstate == true) {
+			Inqry inqry = inqryService.selectInqry(inqryId);
+			model.addAttribute("inqry", inqry);
+			inqryPwdstate = false;
+			session.setAttribute("inqryPwdstate", inqryPwdstate);
+			return "user/inqury/detail";
+	    } else {
+	    	return "redirect:/inqury";
+	    }
 	}
 
 	@GetMapping("/inqury/insert")
@@ -107,44 +123,38 @@ public class InqryController {
 	@PostMapping("/inqury/insert")
 	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs) {
 		try {
-			//inqry.setInqryTitle(Jsoup.clean(inqry.getInqryTitle(), Safelist.basic()));
-			//inqry.setInqryCntnt(Jsoup.clean(inqry.getInqryCntnt(), Safelist.basic()));
 			MultipartFile mfile = inqry.getFile();
 		
 			int inqryId = inqryService.selectinqryFileId();
 			inqry.setInqryRefId(inqryId);
 			inqry.setInqryMberId("test1");
-
-			if (mfile != null && !mfile.isEmpty()) {
 				
-				if (mfile != null && !mfile.isEmpty()) {
-					InqryFile file = new InqryFile();
-					String originalName = mfile.getOriginalFilename();
-					String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
-					String fileExt = originalName.substring(originalName.lastIndexOf(".") + 1);
-					String uuid = UUID.randomUUID().toString();
-					String saveFileName = uuid + "_" + fileName;
-					int inqryFileInqryId = inqryId;
-					
-					file.setInqryFileId(saveFileName); //UUID로 랜덤하게 생성
-					file.setInqryFileName(fileName); //파일 이름
-					file.setInqryFileSize(mfile.getSize());
-					file.setInqryFileExt(fileExt); //파일확장자
-					file.setInqryFileInqryId(inqryFileInqryId); //게시글 번호
-					file.setInqryFilePath(url);
-					
-					Path path = Paths.get(uploadPath+url).toAbsolutePath().normalize();
-					Path realPath = path.resolve(file.getInqryFileId()).normalize();
-					
-					
-					inqryService.insertInqry(inqry, file);
-					mfile.transferTo(realPath);
-					
-				} else {
-					inqryService.insertInqry(inqry);
-				}
-			
+			if (mfile != null && !mfile.isEmpty()) {
+				InqryFile file = new InqryFile();
+				String originalName = mfile.getOriginalFilename();
+				String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+				String fileExt = originalName.substring(originalName.lastIndexOf(".") + 1);
+				String uuid = UUID.randomUUID().toString();
+				String saveFileName = uuid + "_" + fileName;
+				int inqryFileInqryId = inqryId;
+				
+				file.setInqryFileId(saveFileName); //UUID로 랜덤하게 생성
+				file.setInqryFileName(fileName); //파일 이름
+				file.setInqryFileSize(mfile.getSize());
+				file.setInqryFileExt(fileExt); //파일확장자
+				file.setInqryFileInqryId(inqryFileInqryId); //게시글 번호
+				file.setInqryFilePath(url);
+				
+				Path path = Paths.get(uploadPath+url).toAbsolutePath().normalize();
+				Path realPath = path.resolve(file.getInqryFileId()).normalize();
+				
+				inqryService.insertInqry(inqry, file);
+				mfile.transferTo(realPath);
+				
+			} else {
+				inqryService.insertInqry(inqry);
 			}
+			
 			return "redirect:/inqury";
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -6,19 +6,38 @@
 		<![CDATA[
 			SELECT
 			    b.inqry_id as "inqryId",
+			    b.inqry_ref_id as "inqryRefId",
+			    b.inqry_group_ord as "inqryGroupOrd",
 			    b.inqry_title as "inqryTitle",
+			    b.inqry_cntnt as "inqryCntnt",
 			    b.inqry_pwd as "inqryPwd",
 			    b.inqry_regist_date as "inqryRegistDate",
+			    b.inqry_update_date as "inqryUpdateDate",
+			    b.inqry_delete_yn as "inqryDeleteYn",
 			    b.inqry_mber_id as "inqryMberId",
 			    a.rn
 			FROM (
 			    select rownum rn,
+<<<<<<< HEAD
 			    inqry_id,
 			    inqry_title,
 			    inqry_pwd,
 			    inqry_regist_date,
 			    inqry_mber_id
 			    from
+=======
+			        inqry_id,
+			        inqry_ref_id,
+			        inqry_group_ord,
+			        inqry_title,
+			        inqry_cntnt,
+			        inqry_pwd,
+			        inqry_regist_date,
+			        inqry_update_date,
+			        inqry_delete_yn,
+			        inqry_mber_id
+			    from 
+>>>>>>> f0a70ff051f100b2c8f82d2e9a717336d18bff42
 			        (select tb_inqry.*
 			        from tb_inqry
 			        where inqry_group_ord = 0
@@ -34,9 +53,15 @@
 	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
+			    inqry_id as "inqryId",
+			    inqry_ref_id as "inqryRefId",
+			    inqry_group_ord as "inqryGroupOrd",
 			    inqry_title as "inqryTitle",
 			    inqry_cntnt as "inqryCntnt",
+			    inqry_pwd as "inqryPwd",
 			    inqry_regist_date as "inqryRegistDate",
+			    inqry_update_date as "inqryUpdateDate",
+			    inqry_delete_yn as "inqryDeleteYn",
 			    inqry_mber_id as "inqryMberId"
 			FROM tb_inqry
 			WHERE inqry_id=#{inqryId}

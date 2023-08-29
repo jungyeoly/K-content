@@ -2,11 +2,12 @@ package com.example.myapp.user.commu.service;
 
 import java.util.List;
 
-import com.example.myapp.user.commu.dao.ICommuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.myapp.user.commu.dao.ICommuRepository;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 
@@ -14,17 +15,13 @@ import com.example.myapp.user.commu.model.CommuFile;
 public class CommuService implements ICommuService {
 
 	@Autowired
-    ICommuRepository commuRepository;
+	ICommuRepository commuRepository;
 
 	@Override
 	public List<Commu> selectAllPost() {
 		List<Commu> commuList = commuRepository.selectAllPost();
 		return commuList;
 	}
-
-	/*
-	 * @Override public class
-	 */
 
 	@Transactional
 	public void insertPost(Commu commu) {
@@ -33,15 +30,14 @@ public class CommuService implements ICommuService {
 
 	}
 
-
 	@Transactional
 	public void insertPost(Commu commu, CommuFile file) {
 		commu.setCommuId(commuRepository.selectMaxPost()+1);
 		commuRepository.insertPost(commu);
 		if(file != null && file.getCommuFileName() != null &&
-	! file.getCommuFileName().equals("")) {
-				file.setCommuFileCommuId(commu.getCommuId());
-				commuRepository.insertFileData(file);
+				! file.getCommuFileName().equals("")) {
+			file.setCommuFileCommuId(commu.getCommuId());
+			commuRepository.insertFileData(file);
 		}
 	}
 

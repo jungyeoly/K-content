@@ -1,4 +1,4 @@
-package com.example.myapp.commu.model;
+package com.example.myapp.user.commu.model;
 
 import java.util.List;
 

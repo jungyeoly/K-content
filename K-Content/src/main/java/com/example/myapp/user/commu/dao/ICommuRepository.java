@@ -1,12 +1,12 @@
-package com.example.myapp.commu.dao;
+package com.example.myapp.user.commu.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.myapp.commu.model.Commu;
-import com.example.myapp.commu.model.CommuFile;
+import com.example.myapp.user.commu.model.Commu;
+import com.example.myapp.user.commu.model.CommuFile;
 
 @Repository
 @Mapper

@@ -1,4 +1,4 @@
-package com.example.myapp.commu.controller;
+package com.example.myapp.user.commu.controller;
 
 import org.springframework.stereotype.Component;
 

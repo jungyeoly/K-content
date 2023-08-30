@@ -1,4 +1,4 @@
-package com.example.myapp.commu.model;
+package com.example.myapp.user.commu.model;
 
 import com.example.myapp.commu.status.CommuFileDeleteYn;
 import lombok.Getter;

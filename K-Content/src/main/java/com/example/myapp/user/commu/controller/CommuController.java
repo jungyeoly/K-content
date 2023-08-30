@@ -1,4 +1,4 @@
-package com.example.myapp.commu.controller;
+package com.example.myapp.user.commu.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.myapp.commu.model.Commu;
-import com.example.myapp.commu.service.ICommuService;
+import com.example.myapp.user.commu.model.Commu;
+import com.example.myapp.user.commu.service.ICommuService;
 import com.google.common.collect.Lists;
 
 import jakarta.servlet.http.HttpSession;

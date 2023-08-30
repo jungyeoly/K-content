@@ -1,9 +1,9 @@
-package com.example.myapp.commu.service;
+package com.example.myapp.user.commu.service;
 
 import java.util.List;
 
-import com.example.myapp.commu.model.Commu;
-import com.example.myapp.commu.model.CommuFile;
+import com.example.myapp.user.commu.model.Commu;
+import com.example.myapp.user.commu.model.CommuFile;
 
 public interface ICommuService {
 	

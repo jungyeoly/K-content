@@ -90,7 +90,8 @@
                 <div class="row item">
                     <div class="col-xl-4 col-lg-6" th:each="list : ${content}">
                         <div class="single-category mb-30">
-                            <div class="category-img">
+                            <div class="category-img" th:onclick="getDetail()">
+                                <input type="hidden" id="targetContentId" name="targetContentId" th:value="${list.cntntId}">
                                 <img style="width: 400px; height: 300px" th:src="${list.cntntUrl}" alt="">
                                 <div class="category-caption">
                                     <h6 style="text-align: center; " th:text="${list.cntntTitle}">title</h6>
@@ -153,6 +154,28 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
+<script defer th:inline="javascript" >
+    window.onload = function () {
+        var el = document.getElementsByClassName("category-img");
+        el.onclick = getDetail;
+    }
+
+    function getDetail()  {
+        var targetContentId = document.getElementById("targetContentId").value;
+        console.log(targetContentId);
+
+        const formHtml = `
+                    <form id="contentDetail" action="/cs/contentdetail" method="get">
+                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    </form>`;
+
+        const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+        const form = doc.body.firstChild;
+        document.body.append(form);
+        document.getElementById("targetContentIdF").value = targetContentId;
+        document.getElementById('contentDetail').submit();
+    }
+</script>
 </div>
 
 </body>

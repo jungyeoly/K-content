@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비밀번호 찾기</title>
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/mber/mber.css}">
+
+<style>
+input[type="radio"] {
+	display: none;
+}
+
+input[type="radio"]+label {
+	display: inline-block;
+	padding: 1rem 6rem;
+	background: #14dbc8;
+	color: #FFF;
+	border-bottom: 1px solid #ccc;
+	font-size: 0.9rem;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+input[type="radio"]:checked+label {
+	background: #14dbc8;
+	color: #000;
+	border-bottom: 4px solid #000;
+	color: #000;
+}
+
+.conbox {
+	width: 100%;
+	height: 100%;
+	display: block;
+	margin-top: -1px;
+}
+
+input[id="tab01"]:checked ~.con1 {
+	display: block;
+}
+
+input[id="tab02"]:checked ~.con2 {
+	display: block;
+}
+</style>
+</head>
+<body>
+	<div class="bg p-5">
+		<video muted autoplay loop id="bgvid">
+			<source src="/img/mber/background2.mp4" type="video/mp4">
+		</video>
+		<div class="container">
+			<div class="input-form-background row">
+				<div class="input-form col-md-12 mx-auto p-5 opacity-95">
+					<div class="col-md-12 mb-5 text-center">
+						<p class="fw-bold fs-2 mb-3 menu-title">계정 찾기</p>
+					</div>
+					<div class="col-md-12 mb-3">
+						<ul class="nav nav-tabs justify-content-center fw-bold mb-3"
+							id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="find-id-tab"
+									data-bs-toggle="tab" data-bs-target="#find-id-tab-pane"
+									type="button" role="tab" aria-controls="find-id-tab-pane"
+									aria-selected="${findType == 'id'"}>아이디 찾기</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="find-password-tab"
+									data-bs-toggle="tab" data-bs-target="#find-password-tab-pane"
+									type="button" role="tab" aria-controls="find-password-tab-pane"
+									aria-selected="${findType == 'password'"}>비밀번호 찾기</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active" id="find-id-tab-pane"
+								role="tabpanel" aria-labelledby="find-id-tab" tabindex="0">
+								<div class="row">
+									<form th:action="@{/mber/signin}" method="post"
+										class="validation-form" id="joinForm" novalidate>
+										<div th:if="${message}" class="alert alert-danger"
+											role="alert" th:text="${message}"></div>
+										<p class="text-center fw-bold">
+											가입한 계정 정보의 이메일을 입력해주세요.<br>이메일을 통해 마스킹 처리된 아이디를 알려드립니다.
+										</p>
+										<div class="row">
+											<div class="col-md-12 mb-3">
+												<label for="mber_email" class="fw-bold">이메일</label> <input
+													type="text" class="form-control" id="mber_email"
+													name="mberEmail" placeholder="이메일" value="" required
+													th:value="${savedUserId}">
+												<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
+													이메일입니다.</div>
+											</div>
+											<div class="col-md-12 mb-3"></div>
+										</div>
+										<div class="row">
+											<button type="submit"
+												class="mb-4 btn btn-lg btn-style text-white">마스킹
+												아이디 전송</button>
+											<hr class="mb-3">
+										</div>
+
+										<div class="row">
+											<div class="col-md-12 text-center">
+
+												<p class="text-center">
+													가입했던 계정의 이메일과 아이디가 기억나지 않을 경우 <br> <b>kspectrumkorea@gmail.com</b>으로
+													문의하시기 바랍니다.
+												</p>
+
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="find-password-tab-pane"
+								role="tabpanel" aria-labelledby="find-password-tab" tabindex="0">
+								<div class="row">
+									<form th:action="@{/mber/signin}" method="post"
+										class="validation-form" id="joinForm" novalidate>
+										<div th:if="${message}" class="alert alert-danger"
+											role="alert" th:text="${message}"></div>
+										<p class="text-center fw-bold">
+											가입한 계정 정보의 아이디와 이메일을 입력해주세요.<br>임시 비밀번호로 변경하고 이메일을 통해 임시
+											비밀번호를 발송드립니다.
+										</p>
+										<div class="row">
+											<div class="col-md-12 mb-3">
+												<label for="mber_id" class="fw-bold">아이디</label> <input
+													type="text" class="form-control" id="mber_id" name="mberId"
+													placeholder="아이디" value="" required
+													th:value="${savedUserId}">
+											</div>
+											<div class="col-md-12 mb-3">
+												<label for="mber_email" class="fw-bold">이메일</label> <input
+													type="text" class="form-control" id="mber_email"
+													name="mberEmail" placeholder="이메일" value="" required
+													th:value="${savedUserId}">
+												<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
+													이메일입니다.</div>
+											</div>
+											<div class="col-md-12 mb-3"></div>
+										</div>
+										<div class="row">
+											<button type="submit"
+												class="mb-4 btn btn-lg btn-style text-white">임시비밀번호
+												전송</button>
+											<hr class="mb-3">
+										</div>
+
+										<div class="row">
+											<div class="col-md-12 text-center">
+
+												<p class="text-center">보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.</p>
+
+											</div>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+			document.addEventListener("DOMContentLoaded", function() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const findType = urlParams.get('findType');
+
+			const idTab = document.getElementById('find-id-tab');
+			const passwordTab = document.getElementById('find-password-tab');
+			const idTabPane = document.getElementById('find-id-tab-pane');
+			const passwordTabPane = document
+					.getElementById('find-password-tab-pane');
+
+			if (findType === 'password') {
+				passwordTab.classList.add('active');
+				idTab.classList.remove('active');
+				passwordTabPane.classList.add('active', 'show');
+				idTabPane.classList.remove('active', 'show');
+			} else {
+				idTab.classList.add('active');
+				passwordTab.classList.remove('active');
+				idTabPane.classList.add('active', 'show');
+				passwordTabPane.classList.remove('active', 'show');
+			}
+		});
+	</script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -13,6 +13,9 @@
 <link rel="stylesheet"
 	href="https://d13fzx7h5ezopb.cloudfront.net/www/v802/home/styles.css">
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous"></script>
 <style>
 #circle_kakao {
 	display: flex;
@@ -121,8 +124,7 @@
 							<div class="col-md-3 mb-3">
 								<label for="EmailAuth">&nbsp;</label>
 								<button type="button" id="mail-check-btn" name="EmailAuth"
-									class="form-control btn text-white"
-									style="background-color: #14dbc8;" required>
+									class="form-control btn btn-style text-white" required>
 									<span id="mail-check-btn-text">메일 인증</span>
 									<div class="spinner-border spinner-border-sm ms-2 d-none"
 										role="status" id="mail-check-spinner"></div>
@@ -147,19 +149,20 @@
 									type="text" id="mber_phone" name="mberPhone"
 									class="form-control" placeholder="전화번호"
 									pattern="^010-\d{4}-\d{4}$" required>
-								<div class="invalid-feedback">010-xxxx-xxxx 형식으로 입력하세요.</div>
+								<div class="invalid-feedback">전화번호를 입력해주세요.</div>
 							</div>
+							<hr class="mb-4">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="aggrement"
+									required> <label class="form-check-label"
+									for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+							</div>
+							<div class="mb-4"></div>
+							<button type="submit"
+								class="mb-4 btn btn-lg btn-style text-white">가입완료</button>
 						</div>
 
-						<hr class="mb-4">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="aggrement"
-								required> <label class="form-check-label"
-								for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
-						</div>
-						<div class="mb-4"></div>
-						<button type="submit" class="mb-4 btn btn-lg text-white"
-							style="background-color: #14dbc8;">가입완료</button>
+
 					</form>
 				</div>
 			</div>
@@ -224,85 +227,93 @@
 	</script>
 
 	<script>
-		const authCodeInput = document.getElementById('auth-code-input');
-		let serverAuthCode = '';
-		const mailCheckBtn = document.getElementById('mail-check-btn');
-		const mailCheckWarn = document.getElementById('mail-check-warn');
-		const mailInputCheckWarn = document.getElementById('mail-input-check-warn');
-		const spinner = document.getElementById('mail-check-spinner');
-		const buttonText = document.getElementById('mail-check-btn-text');
+			let emailAuthYN = 'N';
+		    const authCodeInput = $('#auth-code-input');
+		    let serverAuthCode = '';
+		    const mailCheckBtn = $('#mail-check-btn');
+		    const mailCheckWarn = $('#mail-check-warn');
+		    const mailInputCheckWarn = $('#mail-input-check-warn');
+		    const spinner = $('#mail-check-spinner');
+		    const buttonText = $('#mail-check-btn-text');
+    // 인증 번호 확인 함수   
+		$(document).ready(function() {
+		 
+		    mailCheckBtn.on('click', function() {
+		        const email = $('#mber_email').val();
+	
+		        console.log('이메일:', email);
+		        
+		        if (email === '') {
+		            mailInputCheckWarn.css({
+		                display: 'block',
+		                color: '#dc3545'
+		            }).text('이메일 인증을 위해 이메일을 입력하세요.');
+		            return;
+		        } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+		            mailInputCheckWarn.css({
+		                display: 'block',
+		                color: '#dc3545'
+		            }).text('유효한 이메일 주소 형식으로 입력하세요.');
+		            return;
+		        }
+		        
+		        $('#mber_email').prop('disabled', true);
+		        spinner.removeClass('d-none');
+		        buttonText.text('');
+	
+		        $.ajax({
+		            type: 'POST',
 
-		mailCheckBtn.addEventListener('click', function() {
-			const email = document.getElementById('mber_email').value;
-			
-			console.log('이메일:', email);
-	         if (email === '') {
-	            mailInputCheckWarn.style.display = 'block';
-	            mailInputCheckWarn.textContent = '이메일 인증을 위해 이메일을 입력하세요.';
-	            mailInputCheckWarn.style.color = '#dc3545';
-	            return
-	        } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-	            mailInputCheckWarn.style.display = 'block';
-	            mailInputCheckWarn.textContent = '유효한 이메일 주소 형식으로 입력하세요.';
-	            mailInputCheckWarn.style.color = '#dc3545';
-	            return
-	        }
-			document.getElementById('mber_email').setAttribute('disabled',
-					'disabled');
-		 	spinner.classList.remove('d-none'); // 스피너 표시
-			buttonText.textContent = '';
-
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/mber/mailauth', true);
-			xhr.setRequestHeader('Content-Type',
-					'application/x-www-form-urlencoded');
-
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState === XMLHttpRequest.DONE) {
-			 		spinner.classList.add('d-none'); // 스피너 숨김
-					buttonText.textContent = '메일 인증'; 
-
-					if (xhr.status === 200) {
-						serverAuthCode = xhr.responseText.trim();
-						const enteredAuthCode = authCodeInput.value.trim();
-						console.log('수신된 검증 코드:', serverAuthCode);
-						console.log('입력된 코드:', enteredAuthCode);
-
-						authCodeInput.removeAttribute('disabled');
-					} else {
-						mailCheckWarn.textContent = '이메일 입력 오류';
-						mailCheckWarn.style.color = 'red';
-					}
-				}
-			};
-
-			xhr.send(`email=${encodeURIComponent(email)}`);
+		            url: '/mber/mailauth',
+		            data: {
+		                email: email
+		            },
+		            success: function(response) {
+		                spinner.addClass('d-none');
+		                buttonText.text('메일 인증');
+		                serverAuthCode = response.trim();
+		                const enteredAuthCode = authCodeInput.val().trim();
+		                console.log('수신된 검증 코드:', serverAuthCode);
+		                console.log('입력된 코드:', enteredAuthCode);
+		                authCodeInput.prop('disabled', false);
+		            },
+		            error: function() {
+		                mailCheckWarn.text('이메일 입력 오류').css('color', 'red');
+		            }
+		        });
+		 
+       	    });
+		  
 		});
 
-		// 인증 번호 확인 함수
-		function checkAuthNumFn() {
-			if (authCodeInput.value.length === 0) {
-				mailCheckWarn.textContent = '';
-			}
-			
-			if (authCodeInput.value.length >= 1) {
-				mailCheckWarn.textContent = '인증번호 확인 중입니다...';
-				mailCheckWarn.style.color = 'black';
-			}
-			
-			if (authCodeInput.value.length === 6) {
-				mailCheckWarn.style.color = 'black'; // 초기화
-				if (serverAuthCode === authCodeInput.value) {
-					// 서버에서 가져온 인증 코드와 입력한 코드가 일치하는 경우
-					mailCheckWarn.textContent = '인증 성공';
-					mailCheckWarn.style.color = 'green';
-				} else {
-					// 서버에서 가져온 인증 코드와 입력한 코드가 일치하지 않는 경우
-					mailCheckWarn.textContent = '인증 실패';
-					mailCheckWarn.style.color = 'red';
-				}
-			}
-		}
+		 function checkAuthNumFn() {
+		        if (authCodeInput.val().length === 0) {
+		            emailAuthYN = 'N';
+		            mailCheckWarn.text('');
+		        }
+		        
+		        if (authCodeInput.val().length >= 1) {
+		            emailAuthYN = 'N';
+		            mailCheckWarn.text('인증번호 확인 중입니다...');
+		            mailCheckWarn.css('color', 'black');
+		        }
+		        
+		        if (authCodeInput.val().length === 6) {
+		            mailCheckWarn.css('color', 'black'); // 초기화
+		            if (serverAuthCode === authCodeInput.val()) {
+		                // 서버에서 가져온 인증 코드와 입력한 코드가 일치하는 경우
+		                emailAuthYN = 'Y';
+		                mailCheckWarn.text('인증 성공');
+		                mailCheckWarn.css('color', 'green');
+		   
+		            } else {
+		                // 서버에서 가져온 인증 코드와 입력한 코드가 일치하지 않는 경우
+		                emailAuthYN = 'N';
+		                mailCheckWarn.text('인증 실패');
+		                mailCheckWarn.css('color', 'red');
+		            }
+		        }
+		    }
 
 		const birthdateInput = document.getElementById('mber_birth');
 		const currentDate = new Date();

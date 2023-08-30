@@ -31,7 +31,7 @@ public class MberController {
 	IMberService mberService;
 
 	@Autowired
-    IEmailService emailService;
+	IEmailService emailService;
 
 	@GetMapping("/modal")
 	public String modal() {
@@ -130,18 +130,25 @@ public class MberController {
 	}
 
 	@GetMapping("/mber/findmber")
-	public String findMber(@RequestParam(name = "tab", required = false, defaultValue = "1") String tab, Model model) {
+	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,
+			Model model) {
+		model.addAttribute("findType", findType);
 		return "user/mber/findmber";
 	}
 
 	@RequestMapping(value = "/mber/mailauth", method = RequestMethod.POST)
 	@ResponseBody
-	public String mailConfirm(@RequestParam String email) throws Exception {
-		String code = emailService.sendSimpleMessage(email);
-		System.out.println(code);
-		System.out.println(email);
-		logger.info("인증코드 : " + code);
-		return code;
+	public String sendMailAuth(@RequestParam String email) throws Exception {
+		String authNum = emailService.sendAuthNum(email);
+		logger.info("인증코드 : " + authNum);
+		return authNum;
 	}
 
+	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
+	@ResponseBody
+	public String sendTempPwd(@RequestParam String email) throws Exception {
+		String tempPwd = emailService.sendTempPwd(email);
+		logger.info("임시비밀번호 : " + tempPwd);
+		return tempPwd;
+	}
 }

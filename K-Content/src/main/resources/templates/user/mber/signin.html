@@ -13,6 +13,8 @@
 	rel="stylesheet"
 	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
+		
+	
 	
 <link rel="stylesheet"
 	href="https://d13fzx7h5ezopb.cloudfront.net/www/v802/home/styles.css">
@@ -34,7 +36,7 @@
 								class="img-fluid" alt="K-Spectrum">
 						</p>
 						<p class="text-center fw-bold fs-2 mb-3">안녕하세요. 당신은 누구신가요?</p>
-						<div th:if="${message}" class="alert alert-danger" role="alert"
+						<div th:if="${message}" class="alert alert-danger fw-bold" role="alert"
 							th:text="${message}"></div>
 
 						<div class="row">
@@ -59,8 +61,7 @@
 									</div>
 								</div>
 								<div class="col-md-6 mb-3 text-end">
-									<a th:href="@{/mber/findmber}" class="fw-bold">아이디 찾기</a> <a
-										th:href="@{/mber/findmber}" class="fw-bold">비밀번호 찾기</a>
+									<a th:href="@{/mber/findmber(findType='id')}" class="fw-bold">아이디 찾기</a> <a th:href="@{/mber/findmber(findType='password')}" class="fw-bold">비밀번호 찾기</a>
 								</div>
 							</div>
 
@@ -68,8 +69,7 @@
 
 						<div class="row">
 							<div class="col-md-12 text-center">
-								<button type="submit" class="mb-4 btn btn-lg"
-									style="background-color: #14dbc8; color: #ffffff">로그인</button>
+								<button type="submit" class="mb-4 btn btn-lg btn-style">로그인</button>
 								<p class="text-center">
 									아직 회원이 아니신가요? <a th:href="@{/mber/signup}" class="fw-bold">회원가입</a>
 								</p>

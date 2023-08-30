@@ -14,7 +14,7 @@
 ]]>
 </select>
 
-<select id="selectPost" parameterType="int" resultType="com.example.myapp.commu.model.Commu">
+<select id="selectPost" parameterType="int" resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
     SELECT 
         tb_commu.commu_id AS "commuId",

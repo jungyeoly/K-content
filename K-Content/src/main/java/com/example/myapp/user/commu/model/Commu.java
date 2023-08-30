@@ -1,8 +1,9 @@
 package com.example.myapp.user.commu.model;
 
+
+import java.util.List;
 import com.example.myapp.user.commu.status.CommuStatus;
 import com.example.myapp.user.commu.status.CommuType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,7 @@ public class Commu {
 	private int commuDepth; // 댓글 깊이
 	private int commuOrder; // 댓글 순서
 	private String commuCateCode; // 게시판 카테고리 코드 (공통코드)
-	private String commuMberId; //회원 ID
 
-
+	private String commuMberId; //회원 ID 
+	private List<CommuFile> commuFiles;
 }

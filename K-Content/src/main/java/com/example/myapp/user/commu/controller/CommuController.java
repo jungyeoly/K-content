@@ -78,7 +78,7 @@ public class CommuController {
 		return "user/commu/commuview";
 	}
 	
-	//커뮤니티별 게시글 글쓰기
+	//커뮤니티별 게시글 글쓰기 
 	//@GetMapping("/commu/write/{CommonCode}")
 //	public String writePost(@PathVariable String commuCateCode, Model model ) {
 		

@@ -1,7 +1,6 @@
 package com.example.myapp.user.commu.model;
 
 
-import com.example.myapp.commu.status.CommuFileDeleteYn;
 import com.example.myapp.user.commu.status.CommuFileDeleteYn;
 import lombok.Getter;
 import lombok.Setter;

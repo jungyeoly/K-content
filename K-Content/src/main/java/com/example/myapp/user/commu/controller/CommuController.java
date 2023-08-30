@@ -162,5 +162,5 @@ public class CommuController {
 		 * ! = null && !mfile.isEmpty()) { CommuImage file = new CommuImage();
 		 * file.setCommu } }
 		 */
-			}
+			
 

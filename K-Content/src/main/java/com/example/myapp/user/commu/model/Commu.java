@@ -2,8 +2,6 @@ package com.example.myapp.user.commu.model;
 
 
 import java.util.List;
-import com.example.myapp.commu.status.CommuStatus;
-import com.example.myapp.commu.status.CommuType;
 import com.example.myapp.user.commu.status.CommuStatus;
 import com.example.myapp.user.commu.status.CommuType;
 import lombok.Getter;

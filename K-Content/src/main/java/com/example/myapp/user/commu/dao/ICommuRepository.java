@@ -17,7 +17,6 @@ public interface ICommuRepository {
 	Commu selectPost(int commuId); //커뮤니티 게시글 상세조회(댓글포함)
 	
 	void updateReadCnt(int commuId); 
-
 	int selectMaxPost();
 	
 	void insertPost(Commu commu);

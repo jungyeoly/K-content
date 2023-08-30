@@ -11,22 +11,19 @@ import com.example.myapp.user.commu.model.CommuFile;
 @Repository
 @Mapper
 public interface ICommuRepository {
-	
+  
 	List<Commu> selectAllPost(); //커뮤니티 전체글 다 보기
 	
 	Commu selectPost(int commuId); //커뮤니티 게시글 상세조회(댓글포함)
 	
 	void updateReadCnt(int commuId); 
 
- 	
-	
 	int selectMaxPost();
 	
+	List<Commu> selectAllPost();
+
+	int selectMaxPost();
+
 	void insertPost(Commu commu);
 	void insertFileData(CommuFile file);
 	CommuFile getFile(int commuFileId);
-
-	
-	
-	
-}

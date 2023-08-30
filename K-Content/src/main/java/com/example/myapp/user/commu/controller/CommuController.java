@@ -2,6 +2,9 @@ package com.example.myapp.user.commu.controller;
 
 import java.util.List;
 
+
+
+import com.example.myapp.user.commu.service.ICommuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ public class CommuController {
 
 	@Autowired
 	ICommuService commuService;
+
 
 	@GetMapping("/commulist") // 커뮤니티 메인
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
@@ -105,17 +109,27 @@ public class CommuController {
 	 * return "log/loglist2"; }
 	 */
 
+	@GetMapping("/commuList")  //커뮤니티 메인
+	public String main(Model model) {
+		List<Commu> commuList = commuService.selectAllPost();
+		model.addAttribute("commuList", commuList);
+		return "user/commuList";
+	}
+
+
 	/*
 	 * @GetMapping("/commuView") public String commuView(Model model, commu id) {
 	 * model.addAttribute("commuview",commuService.commuView(id)); return
 	 * "/user/commuView";
-	 * 
+
+
 	 * }
 	 */
 	/*
 	 * @GetMapping("/commu/write") public String writePost(Model model, HttpSession
 	 * session) { return "user/write"; }
 	 */
+
 
 	/*
 	 * @PostMapping("/commu/write") //커뮤니티 글쓰기 public String writePost(Commu commu,
@@ -132,3 +146,21 @@ public class CommuController {
 	 * file.setCommu } }
 	 */
 }
+
+
+		/*
+		 * @PostMapping("/commu/write") //커뮤니티 글쓰기 public String writePost(Commu commu,
+		 * BindingResult result, RedirectAttributes redirectAttrs, HttpSession session)
+		 * { logger.info("/commu/write : " + commu.toString());
+		 * commu.setCommuMberId((String) session.getAttribute("mberId")); try {
+		 * commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
+		 * commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
+		 * commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+		 * List<CommuImage> fileList = new ArrayList<CommuImage>();
+		 *
+		 * for(MultipartFile m : CommuFile.getFile()) { MultipartFile mfile=m; if(mfile
+		 * ! = null && !mfile.isEmpty()) { CommuImage file = new CommuImage();
+		 * file.setCommu } }
+		 */
+			}
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myapp.cms.content.dao.IGoodsRepository">
+
+    <select id="getAllGoods" resultType="com.example.myapp.cms.content.model.Goods">
+        <![CDATA[
+        SELECT goods_id          AS "goodsId",
+               goods_name        AS "goodsName",
+               goods_brand       AS "goodsBrand",
+               goods_price       AS "goodsPrice",
+               goods_purchs_link AS "goodsPurchsLink",
+               goods_kwrd        AS "goodsKwrd",
+               goods_regist_date AS "goodsRegistDate",
+               goods_update_date AS "goodsUpdateDate",
+               goods_delete_yn   AS "goodsDeleteYn"
+
+        FROM tb_goods
+        ]]>
+    </select>
+    <select id="getAGoods" resultType="com.example.myapp.cms.content.model.Goods">
+        <![CDATA[
+        SELECT goods_id          AS "goodsId",
+               goods_name        AS "goodsName",
+               goods_brand       AS "goodsBrand",
+               goods_price       AS "goodsPrice",
+               goods_purchs_link AS "goodsPurchsLink",
+               goods_kwrd        AS "goodsKwrd",
+               goods_regist_date AS "goodsRegistDate",
+               goods_update_date AS "goodsUpdateDate",
+               goods_delete_yn   AS "goodsDeleteYn"
+
+        FROM tb_goods
+        WHERE goods_id = #{goodsId}
+        ]]>
+    </select>
+
+</mapper>

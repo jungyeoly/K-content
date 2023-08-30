@@ -86,41 +86,44 @@ public class CSController {
         }
     }
 
-    @GetMapping("/contentmanage/contentdetail")
-
-    public String getAContent(Model model) throws IOException {
-        int id = 5;
-        Content content = contentService.getAContent(id);
+    @GetMapping("/contentdetail")
+    public String getAContent(int targetContentIdF, Model model) throws IOException {
+        Content content = contentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
         List<String> contentList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("contentList", contentList);
 
-        //  contntID 알고 있으a
-        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(id);
+        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
         List<Goods> goodsList = new ArrayList<Goods>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
             goodsList.add(goodsService.getAGoods(goodsIdByCntnt.get(i).getGoodsId()));
         }
         model.addAttribute("goodsList", goodsList);
+        // 쿼리 앞에 키워드 가져와서 뽑기
+        List<String> trendQueryList = new ArrayList<>();
+        for (int i = 0; i < contentList.size(); i++) {
+            trendQueryList.add(contentList.get(i));
+        }
+        List<String> imgUrlList = new ArrayList<>();
+        instagram_Selenium.instagram_Selenium();
+        for (int i = 0; i < trendQueryList.size(); i++) {
+            imgUrlList.add(instagram_Selenium.crawl(trendQueryList.get(i)));
+        }
 
-        String query = "woodz";
-        List<String> imgUrlList = instagram_Selenium.crawl(query);
 
-        model.addAttribute("imgUrlList", imgUrlList);
-        System.out.println("dfd:    "+imgUrlList.get(0));
-//        ResponseEntity<byte[]> img = getImage(imgUrlList.get(0));
-        URL urlInput = new URL(imgUrlList.get(0));
-        BufferedImage urlImg = ImageIO.read(urlInput);
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(urlImg, "jpg", bos);
-        Base64.Encoder encoder = Base64.getEncoder();
-        String encodedString = encoder.encodeToString(bos.toByteArray());
-        System.out.println("wwwwwww:    "+encodedString);
-
-       String realImg = "   data:image/jpg;base64,"+encodedString;
-
+        List<String> realImg = new ArrayList<>();
+        for (int i = 0; i < imgUrlList.size(); i++) {
+            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+            URL urlInput = new URL(oneUrl);
+            BufferedImage urlImg = ImageIO.read(urlInput);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(urlImg, "jpg", bos);
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encodedString = encoder.encodeToString(bos.toByteArray());
+            realImg.add("data:image/jpg;base64," + encodedString);
+            System.out.println(realImg.size());
+        }
         model.addAttribute("realImg", realImg);
         return "cms/contentDetail";
     }
@@ -154,10 +157,10 @@ public class CSController {
         return "cms/charts";
     }
 
-    @GetMapping("/contentdetail")
-    public String getContentDetail() {
-        return "cms/contentDetail";
-    }
+//    @GetMapping("/contentdetail")
+//    public String getContentDetail() {
+//        return "cms/contentDetail";
+//    }
 
 
 }

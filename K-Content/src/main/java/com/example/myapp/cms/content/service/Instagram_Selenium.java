@@ -26,20 +26,18 @@ public class Instagram_Selenium {
 
     private String base_url;
 
-    public void instagram_Selenium(String query) {
-
+    public void instagram_Selenium() {
         //System Property SetUp
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         driver = new ChromeDriver();
-        base_url = "https://www.instagram.com/explore/tags/" + query;
     }
 
-    public List<String> crawl(String query) {
-        List<String> imgUrlList = new ArrayList<>();
+    public String crawl(String query) {
+
+        base_url = "https://www.instagram.com/explore/tags/" + query;
         try {
-            instagram_Selenium(query);
+
             driver.get(base_url);
-            JavascriptExecutor js = (JavascriptExecutor) driver;
 
             //System.out.println(driver.getPageSource());
             Document doc = Jsoup.parse(driver.getPageSource());
@@ -50,28 +48,10 @@ public class Instagram_Selenium {
             WebElement posts = driver.findElement(By.className("_aagv"));
             WebElement post = posts.findElement(By.tagName("img"));
             String imageUrl = post.getAttribute("src");
-//            posts.click();
-//            Elements tables = doc.select("._aagv");
-            // class "_aagv" 내의 모든 이미지 가져오기
-//            Elements images = doc.select("img._acf-");
             System.out.println("이미지 URL: " + imageUrl);
-            imgUrlList.add(imageUrl);
-            // 이미지 출력 또는 저장
-//            for (Element image : tables) {
-//                String imageUrl = image.attr("src");
-//                System.out.println("이미지 URL: " + imageUrl);
-//            }
-            int i = 1;
-//            for (Element page : tables) {
-//                System.out.println("count : "+i++);
-//                Element link = page.select("a").first();
-//                String linkHref = link.attr("href");
-//                System.out.println("a href : "+base_url+linkHref);
-//                Element img = page.select("img").first();
-//                String imgtag = img.outerHtml();
-//                System.out.println("img : "+imgtag);
-//            }
-            System.out.println("======================================================");
+            return imageUrl;
+
+
 
         } catch (Exception e) {
 
@@ -80,6 +60,6 @@ public class Instagram_Selenium {
         } finally {
 //            driver.close();
         }
-return imgUrlList;
+return "";
     }
 }

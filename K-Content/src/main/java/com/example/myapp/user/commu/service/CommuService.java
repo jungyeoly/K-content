@@ -15,9 +15,6 @@ public class CommuService implements ICommuService {
 
 	@Autowired
 	ICommuRepository commuRepository;
-	
-	@Autowired
-	ICommuRepository commuRepository;
 
 	@Override
 	public List<Commu> selectAllPost() {
@@ -27,23 +24,16 @@ public class CommuService implements ICommuService {
 
 	@Transactional
 	public void insertPost(Commu commu) {
-		commu.setCommuId(commuRepository.selectMaxPost()+1);
+		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
 	}
 
-	}
 
 	@Transactional
 	public void insertPost(Commu commu, CommuFile file) {
-		commu.setCommuId(commuRepository.selectMaxPost()+1);
+		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
-		if(file != null && file.getCommuFileName() != null &&
-	! file.getCommuFileName().equals("")) {
-				file.setCommuFileCommuId(commu.getCommuId());
-				commuRepository.insertFileData(file);
-		}
-	}
-				! file.getCommuFileName().equals("")) {
+		if (file != null && file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
 			file.setCommuFileCommuId(commu.getCommuId());
 			commuRepository.insertFileData(file);
 		}
@@ -59,11 +49,5 @@ public class CommuService implements ICommuService {
 		commuRepository.updateReadCnt(commuId);
 		return commuRepository.selectPost(commuId);
 	}
-
-
-	
-}
-
-
 
 }

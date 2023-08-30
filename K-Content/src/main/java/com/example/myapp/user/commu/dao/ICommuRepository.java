@@ -20,10 +20,7 @@ public interface ICommuRepository {
 
 	int selectMaxPost();
 	
-	List<Commu> selectAllPost();
-
-	int selectMaxPost();
-
 	void insertPost(Commu commu);
 	void insertFileData(CommuFile file);
 	CommuFile getFile(int commuFileId);
+}

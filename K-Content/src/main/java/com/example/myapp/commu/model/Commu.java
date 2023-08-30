@@ -1,5 +1,7 @@
 package com.example.myapp.commu.model;
 
+import java.util.List;
+
 import com.example.myapp.commu.status.CommuStatus;
 import com.example.myapp.commu.status.CommuType;
 
@@ -22,6 +24,6 @@ public class Commu {
 	private int commuOrder; // 댓글 순서
 	private String commuCateCode; // 게시판 카테고리 코드 (공통코드)
 	private String commuMberId; //회원 ID 
-	
+	private List<CommuFile> commuFiles;
 
 }

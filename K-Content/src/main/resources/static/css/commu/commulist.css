@@ -3,6 +3,9 @@
 .commuBtn {
     position: absolute;
     right: 1rem;
+    background-color: var(--color-main);
+    color: white; 
+    float:right;
 }
 
 .container {

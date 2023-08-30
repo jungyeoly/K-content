@@ -55,7 +55,7 @@ public class CommuController {
 
 		model.addAttribute("totalCommu", totalCommu);
 		model.addAttribute("commulist", commulist);
-		return "commu/commulist";
+		return "user/commu/commulist";
 	}
 	
 	//커뮤니티 게시글 제목 누르면 상세보기
@@ -64,10 +64,10 @@ public class CommuController {
 	    Commu commu = commuService.selectPost(commuId);
 	    model.addAttribute("commuview", commu);
 	    logger.info("getCommuDetails" + commu.toString());
-	    return "commu/commuview";
+	    return "user/commu/commuview";
 	}
 	
-	//커뮤니티 게시글 상세보기
+	//커뮤니티 게시글 글번호,페이지수에 따른 게시글 상세보기
 	@GetMapping("/commu/{commuId}/{page}")
 	public String getCommuDetails(@PathVariable int commuId,@PathVariable int page, Model model) {
 		Commu commu = commuService.selectPost(commuId);
@@ -75,8 +75,14 @@ public class CommuController {
 		model.addAttribute("page",page);
 		model.addAttribute("commuId", commu.getCommuId());
 		logger.info("getCommuDetails" + commu.toString());
-		return "commu/commuview";
+		return "user/commu/commuview";
 	}
+	
+	//커뮤니티별 게시글 글쓰기 
+	//@GetMapping("/commu/write/{CommonCode}")
+//	public String writePost(@PathVariable String commuCateCode, Model model ) {
+		
+//	}
 	
 
 	/*
@@ -108,59 +114,8 @@ public class CommuController {
 	 * 
 	 * return "log/loglist2"; }
 	 */
-
-	@GetMapping("/commuList")  //커뮤니티 메인
-	public String main(Model model) {
-		List<Commu> commuList = commuService.selectAllPost();
-		model.addAttribute("commuList", commuList);
-		return "user/commuList";
-	}
-
-
-	/*
-	 * @GetMapping("/commuView") public String commuView(Model model, commu id) {
-	 * model.addAttribute("commuview",commuService.commuView(id)); return
-	 * "/user/commuView";
-
-
-	 * }
-	 */
-	/*
-	 * @GetMapping("/commu/write") public String writePost(Model model, HttpSession
-	 * session) { return "user/write"; }
-	 */
-
-
-	/*
-	 * @PostMapping("/commu/write") //커뮤니티 글쓰기 public String writePost(Commu commu,
-	 * BindingResult result, RedirectAttributes redirectAttrs, HttpSession session)
-	 * { logger.info("/commu/write : " + commu.toString());
-	 * commu.setCommuMberId((String) session.getAttribute("mberId")); try {
-	 * commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
-	 * commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-	 * commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
-	 * List<CommuImage> fileList = new ArrayList<CommuImage>();
-	 * 
-	 * for(MultipartFile m : CommuFile.getFile()) { MultipartFile mfile=m; if(mfile
-	 * ! = null && !mfile.isEmpty()) { CommuImage file = new CommuImage();
-	 * file.setCommu } }
-	 */
 }
 
 
-		/*
-		 * @PostMapping("/commu/write") //커뮤니티 글쓰기 public String writePost(Commu commu,
-		 * BindingResult result, RedirectAttributes redirectAttrs, HttpSession session)
-		 * { logger.info("/commu/write : " + commu.toString());
-		 * commu.setCommuMberId((String) session.getAttribute("mberId")); try {
-		 * commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
-		 * commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-		 * commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
-		 * List<CommuImage> fileList = new ArrayList<CommuImage>();
-		 *
-		 * for(MultipartFile m : CommuFile.getFile()) { MultipartFile mfile=m; if(mfile
-		 * ! = null && !mfile.isEmpty()) { CommuImage file = new CommuImage();
-		 * file.setCommu } }
-		 */
 			
 

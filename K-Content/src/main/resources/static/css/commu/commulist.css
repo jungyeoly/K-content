@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.commuBtn {
+    position: absolute;
+    right: 1rem;
+}
+
+.container {
+    position: relative;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.page-btn {
+	display: inline-block;
+	margin:0;
+}
+.page-btn a { 
+    color: #000; 
+    background-color: #fff;
+    border: 1px solid #ccc; 
+    padding: 6px 12px;
+    text-decoration: none;
+    
+}
+
+.page-btn a:hover, .page-btn a:focus {
+    color: #000;
+    background-color: #fafafa; 
+    border-color: #ccc;
+}
+
+.page-btn a:active {             
+    background-color: #c0c0c0;
+    z-index: 1;
+    color: #555;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    border-color: #ccc;
+}
+
+.page-btn a.selected {
+    z-index: 1;
+    color: #555;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    border-color: #ccc;
+}

@@ -3,9 +3,9 @@ package com.example.myapp.user.commu.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.myapp.user.commu.dao.ICommuRepository;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
@@ -13,6 +13,9 @@ import com.example.myapp.user.commu.model.CommuFile;
 @Service
 public class CommuService implements ICommuService {
 
+	@Autowired
+	ICommuRepository commuRepository;
+	
 	@Autowired
 	ICommuRepository commuRepository;
 
@@ -26,6 +29,7 @@ public class CommuService implements ICommuService {
 	public void insertPost(Commu commu) {
 		commu.setCommuId(commuRepository.selectMaxPost()+1);
 		commuRepository.insertPost(commu);
+	}
 
 	}
 
@@ -34,6 +38,11 @@ public class CommuService implements ICommuService {
 		commu.setCommuId(commuRepository.selectMaxPost()+1);
 		commuRepository.insertPost(commu);
 		if(file != null && file.getCommuFileName() != null &&
+	! file.getCommuFileName().equals("")) {
+				file.setCommuFileCommuId(commu.getCommuId());
+				commuRepository.insertFileData(file);
+		}
+	}
 				! file.getCommuFileName().equals("")) {
 			file.setCommuFileCommuId(commu.getCommuId());
 			commuRepository.insertFileData(file);
@@ -45,11 +54,15 @@ public class CommuService implements ICommuService {
 		return commuRepository.getFile(commuFileId);
 	}
 
+	@Transactional
+	public Commu selectPost(int commuId) {
+		commuRepository.updateReadCnt(commuId);
+		return commuRepository.selectPost(commuId);
+	}
 
 
-
-
-
+	
+}
 
 
 

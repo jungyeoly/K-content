@@ -16,11 +16,13 @@ public interface ICommuRepository {
 	
 	Commu selectPost(int commuId); //커뮤니티 게시글 상세조회(댓글포함)
 	
-	void updateReadCnt(int commuId); 
+	void updateReadCnt(int commuId);//커뮤니티 게시글 조회수 업데이트
+	
+	void insertPost(Commu commu); //커뮤니티 글쓰기
+	void insertFileData(CommuFile file); //커뮤니티 글쓰기에 첨부파일
 
 	int selectMaxPost();
 	
-	void insertPost(Commu commu);
-	void insertFileData(CommuFile file);
+	
 	CommuFile getFile(int commuFileId);
 }

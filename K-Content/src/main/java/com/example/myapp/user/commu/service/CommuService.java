@@ -24,18 +24,18 @@ public class CommuService implements ICommuService {
 
 	@Transactional
 	public void insertPost(Commu commu) {
-		commu.setCommuId(commuRepository.selectMaxPost()+1);
+		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
 	}
-	
+
 	@Transactional
 	public void insertPost(Commu commu, CommuFile file) {
-		commu.setCommuId(commuRepository.selectMaxPost()+1);
+		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
-		if(file != null && file.getCommuFileName() != null &&
-	! file.getCommuFileName().equals("")) {
-				file.setCommuFileCommuId(commu.getCommuId());
-				commuRepository.insertFileData(file);
+
+		if (file != null && file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
+			file.setCommuFileCommuId(commu.getCommuId());
+			commuRepository.insertFileData(file);
 		}
 	}
 
@@ -51,5 +51,4 @@ public class CommuService implements ICommuService {
 	}
 
 
-	
 }

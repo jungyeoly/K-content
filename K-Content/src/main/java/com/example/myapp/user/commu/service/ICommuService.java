@@ -15,6 +15,5 @@ public interface ICommuService {
 	void insertPost(Commu commuId, CommuFile file);
 	
 	CommuFile getFile(int commuFileid);
-	
 }
 

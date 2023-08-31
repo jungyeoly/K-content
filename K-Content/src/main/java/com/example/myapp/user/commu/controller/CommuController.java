@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.myapp.commoncode.model.CommonCode;
+import com.example.myapp.commoncode.service.CommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.service.ICommuService;
 import com.google.common.collect.Lists;
@@ -78,11 +80,18 @@ public class CommuController {
 		return "user/commu/commuview";
 	}
 	
-	//커뮤니티별 게시글 글쓰기 
-	//@GetMapping("/commu/write/{CommonCode}")
+	//카테고리별 커뮤니티 게시글 글쓰기 
+//	@GetMapping("/commu/write/{CommonCateCode}")
 //	public String writePost(@PathVariable String commuCateCode, Model model ) {
-		
-//	}
+	    // 상위 카테고리 코드를 사용하여 관련 카테고리 리스트를 가져옴
+	 //   List<CommonCode> categoryList = CommonCodeService.selectAllCategoryByUpperCode(commuCateCode);
+	    
+	 //   model.addAttribute("categoryList", categoryList);
+	 //  model.addAttribute("commuCateCode", commuCateCode);
+	    
+	 //   return "user/commu/commuwrite";
+	//}
+
 	
 
 	/*

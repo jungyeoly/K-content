@@ -37,6 +37,7 @@
 			) A
 			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
 			WHERE rn BETWEEN #{start} AND #{end}
+			AND a.inqry_delete_yn = 'N'
 			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
 		]]>
 	</select>
@@ -54,11 +55,13 @@
 			    i.inqry_update_date as "inqryUpdateDate",
 			    i.inqry_delete_yn as "inqryDeleteYn",
 			    i.inqry_mber_id as "inqryMberId",
-			    f.inqry_file_id as "inqryFileId"
+			    f.inqry_file_id as "inqryFileId",
+			    f.inqry_file_inqry_id as "inqryFileInqryId"
 			FROM tb_inqry i
 			LEFT JOIN tb_inqry_file f
 			on i.inqry_id = f.inqry_file_inqry_id
 			WHERE inqry_id=#{inqryId}
+			AND inqry_delete_yn='N'
 		]]>
 	</select>
 
@@ -94,6 +97,38 @@
          		user_sequences 
       		WHERE sequence_name = 'INQRY_SEQ'
       ]]>
+	</select>
+
+	<update id="updateInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
+		<![CDATA[
+			UPDATE tb_inqry
+			SET inqry_title = #{inqryTitle},
+			    inqry_cntnt = #{inqryCntnt},
+			    inqry_pwd = #{inqryPwd},
+			    inqry_update_date = to_char(sysdate,'yyyy.mm.dd hh24:mi')
+			WHERE inqry_id = #{inqryId}
+		]]>
+	</update>
+	
+	<update id="updateInqryFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
+		<![CDATA[
+			UPDATE tb_inqry_file
+			SET inqry_file_id = #{inqryFileId},
+			    inqry_file_name = #{inqryFileName},
+			    inqry_file_size = #{inqryFileSize},
+			    inqry_file_ext = #{inqryFileExt},
+			    inqry_file_path = #{inqryFilePath},
+			    inqry_file_update_date = to_char(sysdate,'yyyy.mm.dd hh24:mi')
+			WHERE inqry_file_inqry_id = #{inqryFileInqryId}   
+		]]>
+	</update>
+	
+	<select id="getInqryFileId" parameterType="int" resultType="String">
+		<![CDATA[
+			SELECT inqry_file_id as inqryFileId 
+			FROM tb_inqry_file 
+			WHERE inqry_file_inqry_id=#{inqryId}
+		]]>
 	</select>
 
 </mapper>

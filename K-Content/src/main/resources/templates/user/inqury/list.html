@@ -23,6 +23,7 @@
 					<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
 					<td th:if="${inqry.inqryGroupOrd == 1}"></td>
 					<td class="text-start pwd">
+						<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<span th:if="inqry.inqryPwd" class="me-1">
 							<i class="fa-solid fa-lock"></i>
 						</span>
@@ -45,22 +46,22 @@
 		</table>
 
 
-		<a class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
+		<a th:if=${session.userId} class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
 		
 		<nav aria-label="Page navigation" class="d-flex justify-content-center">
 			<ul class="pagination">
 				<li class="page-item" th:if="${nowPageBlock>1}">
-					<a class="page-link" th:href="@{/templates/user/inqury/__${startPage-1}__}" aria-label="Previous">
+					<a class="page-link" th:href="@{/inqury/__${startPage-1}__}" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 					</a>
 				</li>
 
 				<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
-					<a class="page-link" th:href="@{/templates/user/inqury/__${i}__}">[[${i}]]</a>
+					<a class="page-link" th:href="@{/inqury/__${i}__}">[[${i}]]</a>
 				</li>
 
 				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-					<a class="page-link" th:href="@{/templates/user/inqury/__${endPage+1}__}" aria-label="Next">
+					<a class="page-link" th:href="@{/inqury/__${endPage+1}__}" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>

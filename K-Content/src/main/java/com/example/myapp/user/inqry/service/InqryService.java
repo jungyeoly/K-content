@@ -48,4 +48,32 @@ public class InqryService implements IInqryService{
 	public int selectinqryFileId() {
 		return inqryRepository.selectinqryFileId();
 	}
+
+	@Override
+	public void updateInqry(Inqry inqry) {
+		inqryRepository.updateInqry(inqry);
+	}
+
+	@Transactional
+	public void updateInqry(Inqry inqry, InqryFile file) {
+		inqryRepository.updateInqry(inqry);
+		
+		System.out.println("-----------------------------------------------------------------");
+		System.out.println(file);
+		System.out.println("-----------------------------------------------------------------");
+
+		if(file != null && file.getInqryFileId() != null && !file.getInqryFileId().equals("")) {
+			if(file.getInqryFileInqryId()>0) {
+				inqryRepository.updateInqryFile(file);
+			} else {
+				file.setInqryFileInqryId(inqry.getInqryId());
+				inqryRepository.insertFile(file);
+			}
+		}
+	}
+
+	@Override
+	public String getInqryFileId(int inqryId) {
+		return inqryRepository.getInqryFileId(inqryId);
+	}
 }

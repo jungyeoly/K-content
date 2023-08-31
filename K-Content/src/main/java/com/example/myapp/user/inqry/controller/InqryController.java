@@ -41,6 +41,11 @@ public class InqryController {
 
 	@Autowired
 	IInqryService inqryService;
+	
+	@GetMapping("/test")
+	public String testInqry() {
+		return "user/inqury/inquryMain";
+	}
 
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
@@ -85,7 +90,7 @@ public class InqryController {
 
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
-	public ResponseEntity<String> checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
+	public String checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
 
@@ -96,9 +101,9 @@ public class InqryController {
 		session.setAttribute("inqryPwdId", inqryPwdId);
 
 		if (inqryPwdId > 0) {
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return "user/inqury/detail";
 		} else {
-			return new ResponseEntity<>("fail", HttpStatus.OK);
+			return "user/inqury/list";
 		}
 	}
 
@@ -182,10 +187,6 @@ public class InqryController {
 	
 	@PostMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Inqry inqry, RedirectAttributes redirectAttrs, Model model, HttpSession session) {
-		
-		System.out.println("----------------------------------------------");
-		System.out.println(inqry);
-		System.out.println("--------------------------------------------------");
 		
 		try {
 			MultipartFile mfile = inqry.getFile();

@@ -92,25 +92,27 @@ public class CSController {
         for (int i = 0; i < keywordList.size(); i++) {
             trendQueryList.add(keywordList.get(i));
         }
-        List<String> imgUrlList = new ArrayList<>();
-        instagram_Selenium.instagram_Selenium();
-        for (int i = 0; i < trendQueryList.size(); i++) {
-            imgUrlList.add(instagram_Selenium.crawl(trendQueryList.get(i)));
-        }
+//        List<String> imgUrlList = new ArrayList<>();
+//        instagram_Selenium.instagram_Selenium();
+//        for (int i = 0; i < trendQueryList.size(); i++) {
+//            imgUrlList.add(instagram_Selenium.crawl(trendQueryList.get(i)));
+//        }
 
-        List<String> realImg = new ArrayList<>();
-        for (int i = 0; i < imgUrlList.size(); i++) {
-            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-            URL urlInput = new URL(oneUrl);
-            BufferedImage urlImg = ImageIO.read(urlInput);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(urlImg, "jpg", bos);
-            Base64.Encoder encoder = Base64.getEncoder();
-            String encodedString = encoder.encodeToString(bos.toByteArray());
-            realImg.add("data:image/jpg;base64," + encodedString);
-        }
-        model.addAttribute("realImg", realImg);
-        return "cms/contentDetail2";
+//        List<String> realImg = new ArrayList<>();
+//        for (int i = 0; i < imgUrlList.size(); i++) {
+//            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+//            URL urlInput = new URL(oneUrl);
+//            BufferedImage urlImg = ImageIO.read(urlInput);
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            ImageIO.write(urlImg, "jpg", bos);
+//            Base64.Encoder encoder = Base64.getEncoder();
+//            String encodedString = encoder.encodeToString(bos.toByteArray());
+//            realImg.add("data:image/jpg;base64," + encodedString);
+//        }
+//        model.addAttribute("realImg", realImg);
+//        return "cms/contentDetail2";
+        return "user/content/contentDetail";
+//        return "include/body-header";
     }
 
     @GetMapping("/goods")

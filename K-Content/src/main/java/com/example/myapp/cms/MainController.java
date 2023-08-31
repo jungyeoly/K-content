@@ -10,7 +10,7 @@ public class MainController {
     public String getMain(Model model) {
 
 //        여기에
-    model.addAttribute("keyword", "a");
+        model.addAttribute("keyword", "a");
 
         String t = "asyTarget";
         model.addAttribute("targetHtml", "/asyTarget");
@@ -21,6 +21,7 @@ public class MainController {
         return "asyHesu";
 
     }
+
     @GetMapping("/as2")
     public String getMain2(Model model) {
 

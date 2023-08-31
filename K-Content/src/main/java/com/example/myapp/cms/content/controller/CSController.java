@@ -110,8 +110,8 @@ public class CSController {
 //            realImg.add("data:image/jpg;base64," + encodedString);
 //        }
 //        model.addAttribute("realImg", realImg);
-//        return "cms/contentDetail2";
-        return "user/content/contentDetail";
+        return "cms/contentDetail2";
+//        return "user/content/contentDetail";
 //        return "include/body-header";
     }
 

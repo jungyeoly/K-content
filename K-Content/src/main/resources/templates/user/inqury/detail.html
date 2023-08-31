@@ -22,8 +22,6 @@
 			</div>
 		</div>
 		
-		<p>[[${session.userId}]]</p>
-		<p>[[${inqry.inqryMberId}]]
 		<div th:if="${session.userId} == ${inqry.inqryMberId}" class="d-flex btn-div" >
 			<a th:href="@{/inqury/{page}(page=${session.nowPage})}" class="list-link btn">목록</a>
 			<div class="btns">

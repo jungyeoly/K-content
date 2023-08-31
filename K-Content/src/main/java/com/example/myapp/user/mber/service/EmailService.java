@@ -1,6 +1,7 @@
 package com.example.myapp.user.mber.service;
 
 import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,40 +24,72 @@ public class EmailService implements IEmailService {
 
 	private final JavaMailSender javaMailSender;
 
-	// 인증번호 생성
-	private	String ePw;
+	private String authNum;
+	private String tempPwd;
 
 	@Value("${spring.mail.username}")
 	private String id;
 
-	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-		log.info("보내는 대상 : " + to);
-		log.info("인증 번호 : " + ePw);
-
-		ePw = createKey();
+	// 공통적인 이메일 작성
+	private MimeMessage createEmail(String to, String subject, String content)
+			throws MessagingException, UnsupportedEncodingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
 
-		message.addRecipients(MimeMessage.RecipientType.TO, to); // to 보내는 대상
-		message.setSubject("[K-Spectrum] 회원가입 이메일 인증 안내 "); // 메일 제목
+		message.addRecipients(MimeMessage.RecipientType.TO, to);
+		message.setSubject(subject);
 
-		// 메일 내용 메일의 subtype을 html로 지정하여 html문법 사용 가능
-		String msg = "";
-		
-		msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
-		msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 회원가입 화면에서 입력해주세요.</p>";
-		msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
-		msg += ePw;
-		msg += "</td></tr></tbody></table></div>";
+		String msg = content;
 
-		message.setText(msg, "utf-8", "html"); // 내용, charset타입, subtype
-		message.setFrom(new InternetAddress(id, "K-Spectrum")); // 보내는 사람의 메일 주소, 보내는 사람 이름
+		message.setText(msg, "utf-8", "html");
+		message.setFrom(new InternetAddress(id, "K-Spectrum"));
 
 		return message;
 	}
 
-	
+	// 인증번호 메일 생성
+	public MimeMessage createAuthEmail(String to) throws MessagingException, UnsupportedEncodingException {
+		authNum = createAuthNum();
+		String subject = "[K-Spectrum] 회원가입 이메일 인증 안내 ";
+		String content = generateAuthEmailContent(authNum);
+		log.info("보내는 대상 : " + to);
+		log.info("인증 번호 : " + authNum);
+		return createEmail(to, subject, content);
+	}
+
+	// 임시 비밀번호 메일 생성
+	public MimeMessage createTempPwdEmail(String to) throws MessagingException, UnsupportedEncodingException {
+		tempPwd = createTempPwd();
+		String subject = "[K-Spectrum] 임시 비밀번호 안내 ";
+		String content = generateTempPwdEmailContent(tempPwd);
+		log.info("보내는 대상 : " + to);
+		log.info("인증 번호 : " + tempPwd);
+		return createEmail(to, subject, content);
+	}
+
+	// 인증번호 메일 내용 생성
+	private String generateAuthEmailContent(String authNum) {
+		String msg = "";
+		msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
+		msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 회원가입 화면에서 입력해주세요.</p>";
+		msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
+		msg += authNum;
+		msg += "</td></tr></tbody></table></div>";
+		return msg;
+	}
+
+	// 임시 비밀번호 메일 내용 생성
+	private String generateTempPwdEmailContent(String tempPwd) {
+		String msg = "";
+		msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">임시 비밀번호 안내</h1>";
+		msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">임시 비밀번호를 확인하세요. 임시비밀번호로 로그인 후 보안을 위해 반드시 비밀번호를 변경해주세요.</p>";
+		msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
+		msg += tempPwd;
+		msg += "</td></tr></tbody></table></div>";
+		return msg;
+	}
+
 	// 인증코드 만들기
-	public static String createKey() {
+	public static String createAuthNum() {
 		StringBuffer key = new StringBuffer();
 		Random rnd = new Random();
 
@@ -66,21 +99,71 @@ public class EmailService implements IEmailService {
 		return key.toString();
 	}
 
-	/*
-	 * 메일 발송 sendSimpleMessage의 매개변수로 들어온 to는 인증번호를 받을 메일주소 MimeMessage 객체 안에 내가 전송할
-	 * 메일의 내용을 담아준다. bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
-	 */
+	// 임시비밀번호 만들기
+	public String createTempPwd() {
+		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
+		SecureRandom random = new SecureRandom();
+		StringBuilder strBuilder = new StringBuilder();
 
-	@Override
-	public String sendSimpleMessage(String to) throws Exception {
-		MimeMessage message = createMessage(to);
+		// 랜덤한 숫자 하나 추가
+		strBuilder.append(charSet[random.nextInt(10)]);
+
+		// 랜덤한 소문자 하나 추가
+		strBuilder.append(Character.toLowerCase(charSet[10 + random.nextInt(26)]));
+
+		// 랜덤한 대문자 하나 추가
+		strBuilder.append(charSet[10 + random.nextInt(26)]);
+
+		// 나머지 문자들 추가하여 길이가 6이 될 때까지
+		for (int i = 0; i < 3; i++) {
+			int idx = random.nextInt(charSet.length);
+			strBuilder.append(charSet[idx]);
+		}
+
+		// 문자들을 랜덤하게 섞음
+		for (int i = strBuilder.length() - 1; i > 0; i--) {
+			int j = random.nextInt(i + 1);
+			char temp = strBuilder.charAt(i);
+			strBuilder.setCharAt(i, strBuilder.charAt(j));
+			strBuilder.setCharAt(j, temp);
+		}
+
+		return strBuilder.toString();
+	}
+
+	// 메일 전송 공통 메서드
+	private void sendEmail(MimeMessage message) throws Exception {
 		try {
-			javaMailSender.send(message); // 메일 발송
+			javaMailSender.send(message);
 		} catch (MailException es) {
 			es.printStackTrace();
 			throw new IllegalArgumentException();
 		}
-		return ePw; // 메일로 보냈던 인증 코드를 서버로 리턴
 	}
+	
+	@Override
+    public String sendAuthNum(String to) throws Exception {
+        authNum = createAuthNum();
+        String subject = "[K-Spectrum] 회원가입 이메일 인증 안내 ";
+        String content = generateAuthEmailContent(authNum);
+
+        MimeMessage message = createEmail(to, subject, content);
+        sendEmail(message);
+
+        return authNum;
+    }
+
+	@Override
+    public String sendTempPwd(String to) throws Exception {
+        tempPwd = createTempPwd();
+        String subject = "[K-Spectrum] 임시 비밀번호 안내 ";
+        String content = generateTempPwdEmailContent(tempPwd);
+
+        MimeMessage message = createEmail(to, subject, content);
+        sendEmail(message);
+
+        return tempPwd;
+    }
 }

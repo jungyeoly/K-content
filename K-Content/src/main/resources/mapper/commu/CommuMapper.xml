@@ -55,26 +55,26 @@
 
 <select id="selectMaxPost" resultType="int">
 	<![CDATA[
-		SELECT NVL(MAX(commu_id),0) AS "post"
-		FROM tb_commu
+		SELECT NVL(MAX(commu_file_commu_id),0) AS "commuFileCommuId" 
+		FROM tb_commu_file
 	]]>
 </select>
 
 <insert id="insertPost" parameterType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[
 		INSERT INTO tb_commu
-			(commu_id, commu_title, commu_cntnt, commu_regist_date, commu_update_date, commu_cate_code, commu_mber_id)
+			(commu_id, commu_title, commu_cntnt, commu_regist_date, commu_cate_code, commu_mber_id)
 		VALUES
-			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuRegistDate}, #{commuUpdateDate}, #{commuCateCode}, #{commuMberId})
+			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuRegistDate}, #{commmuCateCode}, #{commuMberId})
 			]]>
 	</insert>
 
 	<insert id="insertFileData" parameterType="com.example.myapp.user.commu.model.CommuFile">
 		<![CDATA[
 		INSERT INTO tb_commu_file
-		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_update_date, commu_file_delete_yn, commu_file_commu_id)
+		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
 		VALUES
-			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileRegistDate}, #{commuFileUpdateDate}, #{commuFileDeleteYn.code},#{commuFileCommuId})
+			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileRegistDate}, #{commuFileCommuId})
 			]]>
 	</insert>
 

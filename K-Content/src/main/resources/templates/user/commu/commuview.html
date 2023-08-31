@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="/css/commu/commuview.css">
+<link rel="stylesheet" href="/common.css">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+<title>커뮤니티</title>
+</head>
+<body>
+
+	<div th:replace="~{/include/header :: header}"></div>
+	<div class="container">
+		<div class="menu fw-bold">커뮤니티 상세조회</div>
+		<table class="table table-hover text-center table-group-divider">
+			<thead>
+				<tr>
+					<th scope="col">번호</th>
+					<th scope="col">작성자</th>
+					<th scope="col">제목</th>
+					<th scope="col">작성일</th>
+					<th scope="col">수정일</th>
+					<th scope="col">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="commu : ${commuview}" class="commu-row" th:attr="data-commu-id=${commu.commuId}">
+                	   <td th:text="${commu.commuId}"></td>
+                	  <td th:text="${commu.commuMberId}"></td>
+                	<td th:text="${commu.commuTitle}"></td>
+                    <td th:text="${commu.commuRegistDate}"></td>
+                    <td th:text="${commu.commuUpdateDate}"></td>
+                    <td th:text="${commu.commuReadCnt}"></td>
+					
+				</tr>
+
+			</tbody>
+		</table>
+		
+<div class="commuCntnt" th:each="commu : ${commuview}">
+    <label for="commuCntnt" class="form-label"></label>
+    <textarea class="form-control" id="commuCntnt" rows="3" th:text="${commu.commuCntnt}" readonly></textarea>
+</div>
+
+<div class="comment-input">
+    <h5>댓글</h5>
+    <textarea class="form-control" id="commentText" rows="3" placeholder="댓글을 입력하려면 로그인 해주세요." style="height: 17px;"></textarea>
+    <button class="btn btn-primary mt-2">등록</button>
+</div>
+<!-- 댓글 입력 폼 끝 -->
+
+<!-- 댓글 목록 시작 -->
+<div class="comment-list mt-4">
+    <h5>댓글 목록</h5>
+    <!-- 댓글 예시, 실제로는 서버에서 데이터를 가져와 동적으로 생성될 것입니다. -->
+    <div class="comment">
+        <strong>사용자1:</strong>
+        <p>이 게시글은 정말 유용하네요!</p>
+    </div>
+    <div class="comment">
+        <strong>사용자2:</strong>
+        <p>감사합니다!</p>
+    </div>
+    <!-- ... -->
+</div>
+</div>
+<!-- 댓글 목록 끝 -->
+
+<div class="buttonlist">
+<a class="btn commulistBtn" th:href="@{/commulist}">목록</a>
+    
+    <a class="btn commuupdateBtn" th:href="@{/commu/commuupdate}">수정</a>
+    
+     <a class="btn commureportBtn" th:href="@{/commulist}">게시글 신고</a>
+    
+     <a class="btn commudeleteBtn" th:href="@{/commulist}">게시글 삭제</a>
+</div>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+</body>
+</html>

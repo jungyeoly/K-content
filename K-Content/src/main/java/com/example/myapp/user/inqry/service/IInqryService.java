@@ -14,4 +14,9 @@ public interface IInqryService {
 	void insertInqry(Inqry inqry, InqryFile file);
 	
 	int selectinqryFileId();
+	
+	void updateInqry(Inqry inqry);
+	void updateInqry(Inqry inqry, InqryFile file);
+	
+	String getInqryFileId(int inqryId);
 }

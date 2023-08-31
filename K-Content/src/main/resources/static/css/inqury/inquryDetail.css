@@ -36,3 +36,7 @@ img {
 	top: 1em;
 	right: 0;
 }
+
+.detail-cntnt {
+	min-height: 400px;	
+}

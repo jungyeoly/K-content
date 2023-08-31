@@ -12,17 +12,22 @@
 			<div class="title">[[${inqry.inqryTitle}]]</div>
 			<div class="registdate">[[${inqry.inqryRegistDate}]]</div>
 		</div>
-		<div th:if="${inqry.inqryFileId} != null" class="text-center img-div">
-			<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}">
-		</div>
-		<div class="inqry-cntnt text-start cntnt-div">
-			<div class="cntnt">[[${inqry.inqryCntnt}]]</div>
+		
+		<div class="detail-cntnt">
+			<div th:if="${inqry.inqryFileId} != null" class="text-center img-div">
+				<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}">
+			</div>
+			<div class="inqry-cntnt text-start cntnt-div">
+				<div class="cntnt">[[${inqry.inqryCntnt}]]</div>
+			</div>
 		</div>
 		
-		<div class="d-flex btn-div">
-			<a class="list-link btn">목록</a>
+		<p>[[${session.userId}]]</p>
+		<p>[[${inqry.inqryMberId}]]
+		<div th:if="${session.userId} == ${inqry.inqryMberId}" class="d-flex btn-div" >
+			<a th:href="@{/inqury/{page}(page=${session.nowPage})}" class="list-link btn">목록</a>
 			<div class="btns">
-				<a class="btn">수정</a>
+				<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn">수정</a>
 				<a class="btn delete">삭제</a>
 			</div>
 		</div>

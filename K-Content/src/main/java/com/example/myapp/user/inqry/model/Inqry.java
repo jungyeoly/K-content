@@ -21,6 +21,7 @@ public class Inqry {
 	private int inqryGroupOrd;
 	private String inqryFileId;
 	private String inqryFilePath;
+	private int inqryFileInqryId;
 	
 	private MultipartFile file;
 }

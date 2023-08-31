@@ -9,15 +9,14 @@ public class MainController {
     @GetMapping("/as")
     public String getMain(Model model) {
 
-//        여기에
+//        타깃 되는(갈아 끼워짐을 당하는) html의 div 안에 들어갈 데이터들을 넣어주세요 start
         model.addAttribute("keyword", "a");
 
-        String t = "asyTarget";
+//        타깃 되는(갈아 끼워짐을 당하는) html의 div 안에 들어갈 데이터들을 넣어주세요 end
+
+
+        // 타깃되는 html의 이름을 attrVal자리에 넣어주세요
         model.addAttribute("targetHtml", "/asyTarget");
-
-        //여기에 model.addAttribute("keyword", "a")
-
-
         return "asyHesu";
 
     }
@@ -25,15 +24,14 @@ public class MainController {
     @GetMapping("/as2")
     public String getMain2(Model model) {
 
-//        여기에
+//        타깃 되는(갈아 끼워짐을 당하는) html의 div 안에 들어갈 데이터들을 넣어주세요 start
         model.addAttribute("keyword", "a");
 
-        String t = "asyTarget";
+//        타깃 되는(갈아 끼워짐을 당하는) html의 div 안에 들어갈 데이터들을 넣어주세요 end
+
+
+        // 타깃되는 html의 이름을 attrVal자리에 넣어주세요
         model.addAttribute("targetHtml", "/asyTarget2");
-
-        //여기에 model.addAttribute("keyword", "a")
-
-
         return "asyHesu";
 
     }

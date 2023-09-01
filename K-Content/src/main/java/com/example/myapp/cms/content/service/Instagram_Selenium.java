@@ -49,4 +49,7 @@ public class Instagram_Selenium {
         }
 return "";
     }
+    public void chromeExit(){
+        driver.close();
+    }
 }

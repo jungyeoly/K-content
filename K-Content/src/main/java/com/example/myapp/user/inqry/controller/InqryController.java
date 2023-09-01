@@ -80,12 +80,13 @@ public class InqryController {
 
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
-		return selectInqryList(1, session, model);
+		// return selectInqryList(1, session, model);
+		return "user/inqury/main";
 	}	
 
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
-	public ResponseEntity<String> checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
+	public String checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
 
@@ -96,9 +97,9 @@ public class InqryController {
 		session.setAttribute("inqryPwdId", inqryPwdId);
 
 		if (inqryPwdId > 0) {
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return "user/inqury/detail";
 		} else {
-			return new ResponseEntity<>("fail", HttpStatus.OK);
+			return "user/inqury/list";
 		}
 	}
 
@@ -183,10 +184,6 @@ public class InqryController {
 	@PostMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Inqry inqry, RedirectAttributes redirectAttrs, Model model, HttpSession session) {
 		
-		System.out.println("----------------------------------------------");
-		System.out.println(inqry);
-		System.out.println("--------------------------------------------------");
-		
 		try {
 			MultipartFile mfile = inqry.getFile();
 			
@@ -223,5 +220,28 @@ public class InqryController {
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 		}
 		return "redirect:/inqury/detail/" + inqryId;
+	};
+	
+	@PostMapping(value="inqury/delete/{inqryId}")
+	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model) {
+		try {
+				Inqry inqry = inqryService.selectInqry(inqryId);
+				String loginId = (String) session.getAttribute("userId");
+				System.out.println("===========================================");
+				System.out.println(inqry.getInqryMberId());
+				System.out.println(loginId);
+				System.out.println("===========================================");
+				if (loginId.equals(inqry.getInqryMberId())) {
+					inqryService.deleteInqry(inqryId);
+					return "redirect:/inqury/" + (Integer)session.getAttribute("page");
+				} else {
+					model.addFlashAttribute("message", "잘못된 접근입니다.");
+					return "redirect:/inqury/detail/" +  inqryId;
+			}
+		}catch(Exception e){
+			model.addAttribute("message", e.getMessage());
+			e.printStackTrace();
+			return "error/runtime";
+		}
 	}
 }

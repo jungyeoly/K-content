@@ -5,6 +5,9 @@
 	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
 </head>
 <body>
+
+	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	
 	<div class="container">
 		<div class="menu fw-bold">문의사항 글 생성</div>
 		<form th:action="@{/inqury/insert}" method="post" enctype="multipart/form-data" class="inqry-form">

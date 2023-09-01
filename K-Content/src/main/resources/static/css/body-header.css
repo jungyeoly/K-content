@@ -4,6 +4,7 @@
 
 header {
   font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
+  background-color: white;
 }
 
 
@@ -13,16 +14,17 @@ header div.logo {
 }
 
 header div.logo img {
-  padding: 29px 50px 0px;
-  height: 30px;
-  width: 120px;
+    width: 300px;
+    height: 100px;
+    margin: 0 0 8px;
+    padding: 48px 50px 0;
 }
 
 header ul.icons {
   display: flex;
   margin-left: auto;
   margin-right: 30px;
-  margin-top: 30px;
+  margin-top: 80px;
 }
 
 header ul.icons li {

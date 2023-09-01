@@ -35,20 +35,45 @@ $(function(){
         });
     });
 
-	$(function() {
-			$(".selpage").click(function() {
-				var nowPage = $(this).data("selpage");
-				
-				$.ajax({
-					url: "/inqury/" + nowPage,
-					method: "get",
-					success: function(data) {
-						let layout = $(".layout");
-						layout.find(".container").remove();
-						layout.append(data)
-					}
-				})
-			})
-			
+	$(".selpage").click(function() {
+		var nowPage = $(this).data("selpage");
+		
+		$.ajax({
+			url: "/inqury/" + nowPage,
+			method: "get",
+			success: function(data) {
+				let layout = $(".layout");
+				layout.find(".container").remove();
+				layout.append(data)
+			}
 		})
+	})
+	
+	$(".prepage").click(function() {
+		var prePage = $(this).data("prepage") - 1;
+		
+		$.ajax({
+			url : "/inqury/" + prePage,
+			method: "get",
+			seccess: function(data) {
+				let layout = $(".layout");
+				layout.find(".container").remove();
+				layout.append(data);
+			}
+		})
+	})
+	
+	$(".nexpage").click(function() {
+		var nexPage = $(this).data("nexpage") + 1;
+		
+		$.ajax({
+			url : "/inqury/" + prePage,
+			method: "get",
+			seccess: function(data) {
+				let layout = $(".layout");
+				layout.find(".container").remove();
+				layout.append(data);
+			}
+		})
+	})
 });

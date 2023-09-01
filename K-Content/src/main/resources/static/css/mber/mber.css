@@ -77,22 +77,31 @@ video#bgvid {
 	background-color: #14dbc8;
 }
 
-.btn-style {
-	font-family: 'S-CoreDream-9Black';
-	color: #ffffff;
+.mail-check-btn-text {
 	background-color: #14dbc8;
-	box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
-	font-weight: bold;
 }
 
-.btn-style:hover {
-	color: #ffffff;
-	background-color: #1f2029;
-	box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
+
+/* 카카오, 구글 버튼 */
+.social_circle_btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 100px;
+	background-color: #fee500;
+	border-radius: 50%;
+	margin-right: 20px; 
 }
 
-/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 
-	
+.logo_img {
+	width: 60px;
+	height: 60px;
+}
+
+
+
+/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 	
  .nav{ 
 	font-family: 'S-CoreDream-9Black'
 }

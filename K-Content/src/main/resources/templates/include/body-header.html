@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-	<div th:replace="~{/include/header :: header}"></div>
-</head>
+<div>
+    <head>
+		<div th:replace="~{/include/header :: header}"></div>
+  
+        <link rel="icon" href="./favi.png">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+
 
 <body>
 	<header th:fragment="userNavBar">

@@ -1,0 +1,16 @@
+.container {
+	margin-left : 3rem;
+}
+
+.link {
+	text-decoration: none;
+	color: #d3d3d3;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	font-size: 1em;
+}
+
+.link-active {
+	font-weight: bold;
+	color: black;
+}

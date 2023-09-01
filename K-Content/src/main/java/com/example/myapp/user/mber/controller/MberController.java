@@ -38,11 +38,11 @@ public class MberController {
 		return "include/modal";
 	}
 
-	@GetMapping("/mber/list")
+	@GetMapping("/user/main")
 	public String mberList(Model model) {
 		List<Mber> mber = mberService.selectMberAllList();
 		model.addAttribute("mber", mber);
-		return "user/mber/list";
+		return "user/main";
 	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
@@ -70,11 +70,6 @@ public class MberController {
 					session.setAttribute("userName", mber.getMberName());
 					session.setAttribute("userState", mber.getMberStatCode());
 
-					System.out.println(saveId);
-
-					System.out.println(saveId);
-
-					System.out.println(saveId);
 					if (saveId != null && saveId.equals("on")) {
 						// 체크박스가 선택된 경우, 아이디를 쿠키에 저장
 						Cookie idCookie = new Cookie("savedUserId", mber.getMberId());
@@ -90,7 +85,7 @@ public class MberController {
 						response.addCookie(idCookie);
 					}
 					model.addAttribute("mber", mber);
-					return "redirect:/mber/list";
+					return "redirect:/user/main";
 				} else { // 비밀번호가 다른 경우
 					session.invalidate();
 					model.addAttribute("message", "비밀번호가 다릅니다. 다시 확인해주세요.");
@@ -112,6 +107,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
 		System.out.println(mber.getMberId());
+		System.out.println(mber.getMberPwd());
 		System.out.println(mber.getMberEmail());
 		System.out.println(mber.getMberName());
 		System.out.println(mber.getMberBirth());
@@ -126,7 +122,7 @@ public class MberController {
 			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
 			return "user/mber/signup";
 		}
-		return "redirect:/user/mber/signin";
+		return "user/mber/signin";
 	}
 
 	@GetMapping("/mber/findmber")

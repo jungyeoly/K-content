@@ -19,4 +19,6 @@ public interface IInqryService {
 	void updateInqry(Inqry inqry, InqryFile file);
 	
 	String getInqryFileId(int inqryId);
+	
+	void deleteInqry(int inqryId);
 }

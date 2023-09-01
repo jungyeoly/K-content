@@ -130,5 +130,13 @@
 			WHERE inqry_file_inqry_id=#{inqryId}
 		]]>
 	</select>
+	
+	<update id="deleteInqry" parameterType="int">
+		<![CDATA[
+			UPDATE tb_inqry
+			SET inqry_delete_yn = 'Y'
+			WHERE inqry_id = #{inqryId}
+		]]>	
+	</update>
 
 </mapper>

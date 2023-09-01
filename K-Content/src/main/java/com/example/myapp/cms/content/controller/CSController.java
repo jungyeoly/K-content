@@ -68,19 +68,21 @@ public class CSController {
 
 
     @GetMapping("/contentdetail")
-    public String getAContent(int targetContentIdF, Model model) throws IOException {
+    public String getAContent(int targetContentIdF, Model model)  {
         Content content = contentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
 
+
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-        List<Goods> goodsList = new ArrayList<Goods>();
+        List<Goods> goodsJFileList = new ArrayList<Goods>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            goodsList.add(goodsService.getAGoods(goodsIdByCntnt.get(i).getGoodsId()));
+            //일단 파일이 하나라고 가정....
+            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
-        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("goodsJFileList", goodsJFileList);
         // 쿼리 앞에 키워드 가져와서 뽑기
         List<String> trendQueryList = new ArrayList<>();
 
@@ -111,7 +113,7 @@ public class CSController {
             String encodedString = encoder.encodeToString(bos.toByteArray());
             realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
         }
-
+        instagram_Selenium.chromeExit();
         return realImg;
 
     }

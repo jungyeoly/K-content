@@ -47,31 +47,67 @@
 <style>
     .fullContainer {
         display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        /*grid-template-columns: 1fr 9fr 3fr;*/
+
+        grid-template-areas:
+		"header header header header header header header header header"
+		"side    main   main   main   main   main   main  trendtap trendtap"
+		"recon    recon  recon  recon  recon  recon recon  recon  recon";
     }
 
     .title {
-        grid-column: 1 / 2;
+        grid-area: header;
+        /*grid-column: 1 / 4;*/
         background-color: red;
     }
 
     .side-bar {
-        grid-row: 2 / 8;
-        grid-column: 1 / 2;
+        grid-area: side;
+        /*grid-row: 2 / 7;*/
+        /*grid-column: 1 / 2;*/
         background-color: blue;
     }
 
     .trend {
-        grid-row: 2 / 8;
-        grid-column: 3 / 4;
+        grid-area: trendtap;
+        /*grid-row: 2 / 7;*/
+        grid-column: 8 / 10;
         background-color: blue;
     }
 
     .content {
-        grid-row: 2 / 8;
-        grid-column: 2 / 3;
+        grid-area: main;
+        /*grid-row: 2 / 7;*/
+        /*grid-column: 2 / 3;*/
         background-color: pink;
         /*grid-template-rows: 1fr 4fr 1fr;*/
+    }
+
+    .reco {
+        grid-area: reco;
+        /*grid-row: 3 / 4;*/
+        grid-column: 1 / 10;
+        background-color: #e71439;
+        height: 500px;
+    }
+
+    .keyword {
+        display: flex;
+    }
+
+    .keywordItem {
+
+    }
+
+    .goods {
+        text-align: center;
+    }
+
+    .goods-box {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        background-color: purple;
+
     }
 
 </style>
@@ -90,6 +126,7 @@
     </div>
     <div class="item content">
         <div class="item category-img">
+
             <img style="width: 400px; height: 300px; margin:auto; display: block" th:src="${content.cntntUrl}"
                  alt="">
 
@@ -97,17 +134,23 @@
         <div class="item category-caption">
             <h6 style="text-align: center; " th:text="${content.cntntTitle}">title</h6>
         </div>
-        <div class="item" style="display: flex">
-            <div th:each="keyword : ${keywordList}">
+        <div class="item keyword">
+            <div class="keywordItem" th:each="keyword : ${keywordList}">
                 <h2 th:text="${keyword}"></h2>
             </div>
         </div>
-        <div class="item">
-            <div th:each="goods : ${goodsList}">
+        <div class="item goods-box">
+            <div th:each="goods : ${goodsJFileList}">
                 <a th:href="${goods.goodsPurchsLink}">
-                    <h6 th:text="${goods.goodsName}"></h6>
-                    <h6 th:text="${goods.goodsPrice}"></h6>
-                    <h6 th:text="${goods.goodsBrand}"></h6>
+                    <div class="card" style="width: 18rem; height: 240px">
+                        <img th:src="@{/img/goods/{image}(image=${goods.goodsFileName})}" class="card-img-top"
+                             alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title goods" th:text="${goods.goodsName}">Card title</h5>
+                            <p class="card-text goods" th:text="${goods.goodsPrice} + ' 원'"></p>
+                            <p class="card-text goods" th:text="${goods.goodsBrand}"></p>
+                        </div>
+                    </div>
                 </a>
             </div>
 
@@ -116,23 +159,19 @@
     </div>
     <div class="item trend" id="trend">
 
-        <!--            이미지 크기 적당하게 지정하기-->
-        <!--            <img th:src="${img}" style="width: 200px; height: auto;">-->
-        <!--        </div>-->
     </div>
-
-    <input id="trendQueryList" type="hidden" th:value="${trendQueryList}" th:text="${trendQueryList}">
+    <div class="item reco">
+        sdfghj
+    </div>
+    <input class="item"  id="trendQueryList" type="hidden" th:value="${trendQueryList}"
+           style="display: none">
 </div>
 <a class="item scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
 </body>
 <script>

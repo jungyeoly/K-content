@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"></html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<div th:replace="~{/include/header :: header}"></div>
 	<link rel="stylesheet" th:href="@{/css/inqury/inqury.css}">
@@ -7,32 +7,35 @@
 	<link rel="stylesheet" th:href="@{/css/inqury/main.css}">
 </head>
 <body>
-	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	<header th:replace="~{include/cs-header :: userNavBar}"></header>
 
 	<div class="row">
 	
-		<div class="side-bar col-1 ms-3 ps-5 d-flex flex-column">
+		<div class="side-bar col-1 ms-3 ps-5 d-flex flex-column" style="max-width: 150px; min-width: 150px;">
 			<a th:href="@{/inqury}" class="link link-active">문의사항</a>
 			<a th:href="@{/commu}" class="link">커뮤니티</a>
 		</div>
-	
 	
 		<div class="layout col"></div>
 		
 	</div>
 		
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	
 	<script th:inline="javascript">
-		const page = /*[[${session.page}]]*/
-
-		
 		$(document).ready(function() {
+			let page = "[[${session.page}]]"
+			
+			if(page == null) {
+				page = 1;
+			}
+
 			$.ajax({
 				url: "/inqury/" + page,
 				type: "GET",
 				success: function(data) {
-					var layout = $(".layout");
-					layout.append(data);
+				var layout = $(".layout");
+				layout.append(data);
 				}
 			})
 		})

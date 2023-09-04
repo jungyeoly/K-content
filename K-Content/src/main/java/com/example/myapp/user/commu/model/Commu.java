@@ -1,7 +1,12 @@
 package com.example.myapp.user.commu.model;
 
 
+
+
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.myapp.user.commu.status.CommuStatus;
 import com.example.myapp.user.commu.status.CommuType;
 import lombok.Getter;
@@ -24,5 +29,6 @@ public class Commu {
 	private String commuCateCode; // 게시판 카테고리 코드 (공통코드)
 
 	private String commuMberId; //회원 ID 
-	private List<CommuFile> commuFiles;
+
+	private List<CommuFile> commuFiles; //첨부파일 리스트
 }

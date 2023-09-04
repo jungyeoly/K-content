@@ -20,7 +20,11 @@ public interface ICommuRepository {
 	
 	void insertPost(Commu commu); //커뮤니티 글쓰기
 	void insertFileData(CommuFile file); //커뮤니티 글쓰기에 첨부파일
-
+	
+	/*
+	 * void updatePost(Commu commu); // 커뮤니티 글쓴 글 업데이트 void updateFiledata(CommuFile
+	 * file);// 커뮤니티 글쓴 글에 첨부파일 업데이트
+	 */
 	int selectMaxPost();
 	
 	

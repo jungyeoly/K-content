@@ -1,5 +1,7 @@
 package com.example.myapp.commoncode.service;
 
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,9 @@ public class CommonCodeService implements ICommonCodeService {
 	  @Autowired
 	    private ICommonCodeRepository commonCodeRepository;
 
-	    @Override
-	    public List<CommonCode> selectAllCategoryByUpperCode(String upperCode) {
-	        return commonCodeRepository.findAllByUpperCommonCode(upperCode);
-	    }
-	}
+	@Override
+	public List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode) {
+		return commonCodeRepository.findByUpperCommonCode(upperCommonCode);
+}
+	
+}

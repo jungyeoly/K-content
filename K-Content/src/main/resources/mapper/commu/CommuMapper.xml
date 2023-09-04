@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.myapp.user.commu.dao.ICommuRepository">
+<mapper
+	namespace="com.example.myapp.user.commu.dao.ICommuRepository">
 
-<select id="selectAllPost" resultType="com.example.myapp.user.commu.model.Commu">
+	<select id="selectAllPost"
+		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
 	select commu_id AS "commuId",
 		   commu_title AS "commuTitle",
@@ -12,9 +14,10 @@
 			commu_mber_id AS "commuMberId"
 			from tb_commu
 ]]>
-</select>
+	</select>
 
-<select id="selectPost" parameterType="int" resultType="com.example.myapp.user.commu.model.Commu">
+	<select id="selectPost" parameterType="int"
+		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
     SELECT 
         tb_commu.commu_id AS "commuId",
@@ -42,44 +45,47 @@
      	ON tb_commu.commu_id=tb_commu_file.commu_file_commu_id
      WHERE tb_commu.commu_id=#{commuId}
 ]]>
-</select>
+	</select>
 
-<update id="updateReadCnt" parameterType="int">
+	<update id="updateReadCnt" parameterType="int">
 	<![CDATA[
 		UPDATE tb_commu 
 			SET commu_read_cnt = commu_read_cnt+1 
 		WHERE commu_id=#{commuId}
 	]]>
 	</update>
-		
 
-<select id="selectMaxPost" resultType="int">
+
+	<select id="selectMaxPost" resultType="int">
 	<![CDATA[
 		SELECT NVL(MAX(commu_file_commu_id),0) AS "commuFileCommuId" 
 		FROM tb_commu_file
 	]]>
-</select>
+	</select>
 
-<insert id="insertPost" parameterType="com.example.myapp.user.commu.model.Commu">
+	<insert id="insertPost"
+		parameterType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[
 		INSERT INTO tb_commu
-			(commu_id, commu_title, commu_cntnt, commu_regist_date, commu_cate_code, commu_mber_id)
+			(commu_id, commu_title, commu_cntnt,commu_cate_code, commu_regist_date, commu_mber_id)
 		VALUES
-			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuRegistDate}, #{commmuCateCode}, #{commuMberId})
+			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commu_regist_date}, #{commuMberId})
 			]]>
 	</insert>
 
-	<insert id="insertFileData" parameterType="com.example.myapp.user.commu.model.CommuFile">
+	<insert id="insertFileData"
+		parameterType="com.example.myapp.user.commu.model.CommuFile">
 		<![CDATA[
 		INSERT INTO tb_commu_file
-		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
+		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_commu commu_file_commu_id)
 		VALUES
-			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileRegistDate}, #{commuFileCommuId})
+			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileCommuId})
 			]]>
 	</insert>
 
 
-<select id="getFile" parameterType="int" resultType="com.example.myapp.user.commu.model.CommuFile">
+	<select id="getFile" parameterType="int"
+		resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
 		SELECT
 		commu_file_id AS "commuFileId",
@@ -96,11 +102,23 @@
 	]]>
 	</select>
 
+	<update id="updatePost"
+		parameterType="com.example.myapp.user.commu.model.Commu">
+<![CDATA[
+update tb_commu
+set commu_id=#{commuId}, commu_title=#{commuTitle}, commu_cntnt=#{commuCntnt}, commu_regist_date=SYSDATE, commu_cate_code=#{commuCateCode}, commu_mber_id=#{commuMberId)
+where commu_id=#{commuId}
+	]]>
+	</update>
 
+	<update id="updateFiledata"
+		parameterType="com.example.myapp.user.commu.model.CommuFile">
+	<![CDATA[
+	update tb_commu_file
+	set
+		commu_file_id=#{commuFileId}, commu_file_name=#{commuFileName}, commu_file_size=#{commuFileSize}, commu_file_ext=#{commuFileExt}, commu_file_path=#{commuFilePath}, commu_file_commu_id=#{commuFileCommuId}
+		where commu_file_id = #{commuFileId}
 
-
-
-
-
-
+	]]>
+	</update>
 </mapper>

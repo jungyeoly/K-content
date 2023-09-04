@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.myapp.commoncode.model.CommonCode;
 
 public interface ICommonCodeService {
-	 List<CommonCode> selectAllCategoryByUpperCode(String upperCode);
+	
+	List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode);
 
 }

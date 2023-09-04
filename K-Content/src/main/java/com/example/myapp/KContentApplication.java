@@ -16,14 +16,5 @@ public class KContentApplication {
 		SpringApplication.run(KContentApplication.class, args);
 
 	}
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**").allowedOrigins("http://localhost:8082/cs/");
-//			}
-//		};
-//	}
 
 }

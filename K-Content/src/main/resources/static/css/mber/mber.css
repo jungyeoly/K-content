@@ -117,10 +117,19 @@ video#bgvid {
 .nav-tabs .nav-link {
 	border-top-left-radius: unset;
 	border-top-right-radius: unset;
+		border-bottom-left-radius: unset;
+	border-bottom-right-radius: unset;
+	
 	background-color: #14dbc8;
 }
 
+
 .nav-link, .nav-link:focus, .nav-link:hover {
+	color: white;
+}
+
+.nav-link:hover, .nav-link.active:hover {
+	background-color: black;
 	color: white;
 }
 

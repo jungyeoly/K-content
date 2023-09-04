@@ -16,7 +16,7 @@
 }
 
 .btn:hover {
-	background: white;
+	background: black;
 	border: 1px var(--color-main) solid;
 	color: var(--color-main);
 }

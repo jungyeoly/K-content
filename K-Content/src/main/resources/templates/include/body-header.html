@@ -6,41 +6,43 @@
 
 <body>
 	<header th:fragment="userNavBar">
-	    <div class="logo">
-            <img src="/img/mainLogo.png" alt="브랜드 로고">
-            
-	        <ul class="icons">
-	            <i class="fa-solid fa-user"></i>
-	            <li class="myPage">MY PAGE</li>
-	            <i class="fa-solid fa-heart"></i>
-	            <li class="myLike">MY LIKE</li>
-	            <i class="fa-solid fa-bag-shopping"></i>
-	            <li class="shoppingBag">SHOPPING BAG</li>
-	            <i class="fa-solid fa-door-closed"></i>
-	            <li class="login">LOGIN</li>
-	        </ul>
-	    </div>
-	    <ul class="contents">
-	        <li class="content"><a th:href="@{/}">Main</a></li>
-	        <li class="content"><a th:href="@{comm}">Comm</a></li>
-	        <li class="content"><a th:href="@{inqury}">Cs</a></li>
-	        <li class="search"><i class="fa-solid fa-magnifying-glass"></i></li>
-	    </ul>
-	    <div class="categories-nav">
-	        <ul class="categories">
-	            <li>BEST</li>
-	            <li>POP</li>
-	            <li>Celebrity</li>
-	            <li>Food</li>
-	            <li>Movie</li>
-	            <li>Sports</li>
-	            <li>Fashion</li>
-	            <li>Beauty</li>
-	            <li>Drama</li>
-	            <li>Travel</li>
-	            <li>Game</li>
-	        </ul>
-	    </div>
+		<div class="logo">
+			<img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고">
+
+			<ul class="icons">
+				<i class="fa-solid fa-user"></i>
+				<li class="myPage">MY PAGE</li>
+				<i class="fa-solid fa-heart"></i>
+				<li class="myLike">MY LIKE</li>
+				<i class="fa-solid fa-bag-shopping"></i>
+				<li class="shoppingBag">SHOPPING BAG</li>
+				<i class="fa-solid fa-door-closed" th:if="${session.mberId == null}"></i>
+				<li class="login" th:if="${session.mberId == null}"><a th:href="@{/mber/signin}">LOGIN</a></li>
+				<i class="fa-solid fa-door-open" th:unless="${session.mberId == null}"></i>
+				<li class="logout" th:unless="${session.mberId == null}"><a th:href="@{/mber/signout}">LOGOUT</a></li>
+			</ul>
+		</div>
+		<ul class="contents">
+			<li class="content"><a th:href="@{/}">Main</a></li>
+			<li class="content"><a th:href="@{comm}">Comm</a></li>
+			<li class="content"><a th:href="@{inqury}">Cs</a></li>
+			<li class="search"><i class="fa-solid fa-magnifying-glass"></i></li>
+		</ul>
+		<div class="categories-nav">
+			<ul class="categories">
+				<li>BEST</li>
+				<li>POP</li>
+				<li>Celebrity</li>
+				<li>Food</li>
+				<li>Movie</li>
+				<li>Sports</li>
+				<li>Fashion</li>
+				<li>Beauty</li>
+				<li>Drama</li>
+				<li>Travel</li>
+				<li>Game</li>
+			</ul>
+		</div>
 	</header>
 </body>
 

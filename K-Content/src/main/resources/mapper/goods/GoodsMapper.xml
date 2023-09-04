@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.myapp.cms.content.dao.IGoodsRepository">
+<mapper namespace="com.example.myapp.cms.goods.dao.IGoodsRepository">
 
-    <select id="getAllGoods" resultType="com.example.myapp.cms.content.model.Goods">
+    <select id="getAllGoods" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
         SELECT goods_id          AS "goodsId",
                goods_name        AS "goodsName",
@@ -19,7 +19,7 @@
         FROM tb_goods
         ]]>
     </select>
-    <select id="getAGoods" resultType="com.example.myapp.cms.content.model.Goods">
+    <select id="getAGoods" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
         SELECT goods_id          AS "goodsId",
                goods_name        AS "goodsName",

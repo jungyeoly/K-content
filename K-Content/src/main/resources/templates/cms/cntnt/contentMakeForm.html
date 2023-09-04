@@ -155,9 +155,14 @@
                 </button>
             </div>
 
-            <input type="text" id="inputKeyword">
+            <input type="text" id="inputKeyword" placeholder="키워드 입력">
             <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
 
+        </div>
+        <div>
+            <!--            <button th:onclick="|location.href='@{/cs/goods/list}'|">상품 추가</button>-->
+
+            <button th:onclick="goodsNewPage()">상품 추가</button>
         </div>
         <div class="item goods-box">
             <!--            <div th:each="goods : ${goodsJFileList}">-->
@@ -246,5 +251,8 @@
         thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
     }
 
+    function goodsNewPage() {
+        window.open("localhost:8083/cs/goods/list", "_blank", "width=500, height=500");
+    }
 </script>
 </html>

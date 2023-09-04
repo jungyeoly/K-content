@@ -1,6 +1,6 @@
-package com.example.myapp.cms.content.dao;
+package com.example.myapp.cms.goods.dao;
 
-import com.example.myapp.cms.content.model.Goods;
+import com.example.myapp.cms.goods.model.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

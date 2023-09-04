@@ -1,4 +1,4 @@
-package com.example.myapp.cms.content.model;
+package com.example.myapp.cms.goods.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -126,17 +126,16 @@
     </div>
     <div class="item content">
         <div class="item category-img">
-
+<input type="hidden">
             <div id="iframe" style="width: 400px; height: 300px; margin:auto; display: block"
-                 th:src="${content.cntntUrl}"
+                 th:src="${cntntURL}"
                  alt="">
-
-
             </div>
 
         </div>
         <div class="item category-caption">
-            <h6 style="text-align: center; " th:text="${content.cntntTitle}">title</h6>
+            <h6>title: </h6>
+            <input style="text-align: center; " th:value="${cntntTitle}">
         </div>
         <div class="item keyword">
             <div class="keywordItem" th:each="keyword : ${keywordList}">
@@ -144,35 +143,28 @@
             </div>
         </div>
         <div class="item goods-box">
-            <div th:each="goods : ${goodsJFileList}">
-                <a th:href="${goods.goodsPurchsLink}">
-                    <div class="card" style="width: 18rem; height: 240px">
-                        <div style="width:18rem; height:140px">
-                            <img style="width:100%; height:100%"
-                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileName})}" class="card-img-top"
-                                 alt="...">
-                        </div>
-                        <div style="width:18rem; height:100px;border:1px solid">
-                            <h5 class="text-center" th:text="${goods.goodsName}">Card title</h5>
-                            <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
-                            <p class="text-center" th:text="${goods.goodsBrand}"></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <!--            <div th:each="goods : ${goodsJFileList}">-->
+            <!--                <a th:href="${goods.goodsPurchsLink}">-->
+            <!--                    <div class="card" style="width: 18rem; height: 240px">-->
+            <!--                        <div style="width:18rem; height:140px">-->
+            <!--                            <img style="width:100%; height:100%"-->
+            <!--                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileName})}" class="card-img-top"-->
+            <!--                                 alt="...">-->
+            <!--                        </div>-->
+            <!--                        <div style="width:18rem; height:100px;border:1px solid">-->
+            <!--                            <h5 class="text-center" th:text="${goods.goodsName}">Card title</h5>-->
+            <!--                            <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>-->
+            <!--                            <p class="text-center" th:text="${goods.goodsBrand}"></p>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </a>-->
+            <!--            </div>-->
 
         </div>
 
     </div>
-    <div class="item trend" id="trend">
 
-    </div>
-    <div class="item reco">
-        sdfghj
-    </div>
-    <input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
-           style="display: none">
-    <input type="hidden" id="contentId" th:name="${targetContentIdF}" th:value="${content.getCntntUrl()}">
+
 </div>
 <a class="item scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
@@ -184,33 +176,10 @@
 </body>
 <script>
     $(document).ready(function () {
-
-        var requestData = {
-            trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1)
-        };
-
-        // /cs/instaimg URL로 GET 요청을 보냅니다.
-        $.ajax({
-            url: '/cs/instacrol',
-            type: 'GET',
-            data: requestData, // 데이터 객체 전달
-            success: function (data) {
-                // 서버에서 받은 데이터를 result 요소에 추가합니다.
-                const element = document.getElementById('trend');
-                data.slice(1, -1);
-                data.slice(1, -1);
-                element.innerHTML = data
-
-                // $('#trend').innerHTML(data);
-                console.log(data);
-            },
-            error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-
-        var requestData = {
-            targetContentIdF: document.getElementById("contentId").value
+        var cntntURL = /*[[${cntntURL}]]*/;
+        // 여기는 이거 말고 url 을 받아갈 수 있어 url 받아가는 거로 다시 해봐봐보바봐
+       var requestData = {
+            targetContentIdF: cntntURL
         };
 
         // /cs/instaimg URL로 GET 요청을 보냅니다.

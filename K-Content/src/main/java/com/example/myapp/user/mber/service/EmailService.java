@@ -99,6 +99,19 @@ public class EmailService implements IEmailService {
 		return key.toString();
 	}
 
+	
+//    private String maskUsername(String username) {
+//        // 아이디의 길이에 따라 마스킹 처리
+//        int length = username.length();
+//        if (length <= 2) {
+//            return username.substring(0, 1) + "*";
+//        } else if (length <= 4) {
+//            return username.substring(0, 2) + "**";
+//        } else {
+//            return username.substring(0, 2) + "****";
+//        }
+//    }
+    
 	// 임시비밀번호 만들기
 	public String createTempPwd() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',

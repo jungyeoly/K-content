@@ -5,46 +5,10 @@
 
 <div th:replace="~{/include/header :: header}"></div>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
-<style>
-input[type="radio"] {
-	display: none;
-}
 
-input[type="radio"]+label {
-	display: inline-block;
-	padding: 1rem 6rem;
-	background: #14dbc8;
-	color: #FFF;
-	border-bottom: 1px solid #ccc;
-	font-size: 0.9rem;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-input[type="radio"]:checked+label {
-	background: #14dbc8;
-	color: #000;
-	border-bottom: 4px solid #000;
-	color: #000;
-}
-
-.conbox {
-	width: 100%;
-	height: 100%;
-	display: block;
-	margin-top: -1px;
-}
-
-input[id="tab01"]:checked ~.con1 {
-	display: block;
-}
-
-input[id="tab02"]:checked ~.con2 {
-	display: block;
-}
-</style>
 </head>
 <body>
+<header th:include="~{/include/body-header :: userNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
@@ -65,7 +29,7 @@ input[id="tab02"]:checked ~.con2 {
 									aria-selected="${findType == 'id'"}>아이디 찾기</button>
 							</li>
 							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="find-password-tab"
+								<button class="nav-link btn" id="find-password-tab"
 									data-bs-toggle="tab" data-bs-target="#find-password-tab-pane"
 									type="button" role="tab" aria-controls="find-password-tab-pane"
 									aria-selected="${findType == 'password'"}>비밀번호 찾기</button>
@@ -75,7 +39,7 @@ input[id="tab02"]:checked ~.con2 {
 							<div class="tab-pane fade show active" id="find-id-tab-pane"
 								role="tabpanel" aria-labelledby="find-id-tab" tabindex="0">
 								<div class="row">
-									<form th:action="@{/mber/signin}" method="post"
+									<form th:action="@{/mber/findid}" method="post"
 										class="validation-form" id="joinForm" novalidate>
 										<div th:if="${message}" class="alert alert-danger"
 											role="alert" th:text="${message}"></div>

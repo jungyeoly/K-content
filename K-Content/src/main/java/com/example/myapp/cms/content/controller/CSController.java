@@ -144,14 +144,44 @@ public class CSController {
     //콘텐츠 생성 페이지
     @GetMapping("/makecontent")
     public String getMakeContentForm(String cntntURL,  String cntntTitle, Model model) {
-        model.addAttribute("cntntURL",cntntURL);
-        model.addAttribute("cntntTitle",cntntTitle);
+       Content cntnt = new Content();
+        cntnt.setCntntTitle(cntntTitle);
+        cntnt.setCntntUrl(cntntURL);
+        model.addAttribute("content",cntnt);
+
         System.out.println("cntntURL: "+cntntURL);
         System.out.println("cntntTitle: "+cntntTitle);
         return "cms/contentMakeForm";
     }
 
+    @GetMapping("/makecontent/update")
+    public String getUpdateContentForm(int targetContentIdF, Model model) {
+//        System.out.println("수정부 입니다: "+targetContentIdF);
+        Content content = contentService.getAContent(targetContentIdF);
 
+        model.addAttribute("content", content);
+
+        List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
+        model.addAttribute("keywordList", keywordList);
+
+
+        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
+        List<Goods> goodsJFileList = new ArrayList<Goods>();
+        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
+            //일단 파일이 하나라고 가정....
+            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+        }
+        model.addAttribute("goodsJFileList", goodsJFileList);
+        // 쿼리 앞에 키워드 가져와서 뽑기
+        List<String> trendQueryList = new ArrayList<>();
+
+        for (int i = 0; i < keywordList.size(); i++) {
+            trendQueryList.add(keywordList.get(i));
+        }
+        model.addAttribute("trendQueryList", trendQueryList);
+
+        return "cms/contentMakeForm";
+    }
     @GetMapping("/ma")
     public String getAllds() {
         return "include/admin-sideBar";

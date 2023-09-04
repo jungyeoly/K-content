@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="col-2">
-                            <button style="display: inline-block">수정</button>
+                            <button style="display: inline-block"th:cntntId="${list.cntntId}" onclick="updateCntnt(this.getAttribute('cntntId'))">수정</button>
                             <button style="display: inline-block">삭제</button>
                         </div>
                     </div>
@@ -182,6 +182,20 @@
         document.body.append(form);
         document.getElementById("targetContentIdF").value = cntntId;
         document.getElementById('contentDetail').submit();
+    }
+
+    function updateCntnt(cntntId)  {
+        // console.log(cntntId);
+        const formHtml = `
+                    <form id="updateCntnt" action="/cs/makecontent/update" method="get">
+                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    </form>`;
+
+        const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+        const form = doc.body.firstChild;
+        document.body.append(form);
+        document.getElementById("targetContentIdF").value = cntntId;
+        document.getElementById('updateCntnt').submit();
     }
 </script>
 </div>

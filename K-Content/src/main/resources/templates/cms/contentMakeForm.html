@@ -126,21 +126,38 @@
     </div>
     <div class="item content">
         <div class="item category-img">
-<input type="hidden">
+
             <div id="iframe" style="width: 400px; height: 300px; margin:auto; display: block"
-                 th:src="${cntntURL}"
+                 th:src="${content.getCntntUrl()}"
                  alt="">
             </div>
 
         </div>
         <div class="item category-caption">
-            <h6>title: </h6>
-            <input style="text-align: center; " th:value="${cntntTitle}">
+            <h6>URL: </h6>
+            <input style="text-align: center; " th:value="${content.getCntntUrl()}">
         </div>
+        <div class="item category-caption">
+            <h6>title: </h6>
+            <input style="text-align: center; " th:value="${content.getCntntTitle()}">
+        </div>
+
         <div class="item keyword">
-            <div class="keywordItem" th:each="keyword : ${keywordList}">
-                <h2 th:text="${keyword}"></h2>
+            <div th:each="keyword : ${keywordList}" th:id="${keyword}">
+                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
+                        th:text="${keyword}">
+
+                </button>
+                <button style="z-index: 10; margin-left: -10px"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        th:key="${keyword}"
+                        onclick="delKeyword(this.getAttribute('key'))">X
+                </button>
             </div>
+
+            <input type="text" id="inputKeyword">
+            <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
+
         </div>
         <div class="item goods-box">
             <!--            <div th:each="goods : ${goodsJFileList}">-->
@@ -176,9 +193,10 @@
 </body>
 <script>
     $(document).ready(function () {
-        var cntntURL = "[[${cntntURL}]]";
+        var cntntURL = "[[${content.getCntntUrl()}]]";
+        console.log(cntntURL);
         // 여기는 이거 말고 url 을 받아갈 수 있어 url 받아가는 거로 다시 해봐봐보바봐
-       var requestData = {
+        var requestData = {
             targetContentIdF: cntntURL
         };
 
@@ -190,7 +208,7 @@
             success: function (data2) {
                 // 서버에서 받은 데이터를 result 요소에 추가합니다.
                 const element = document.getElementById('iframe');
-                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` +data2+"\""+
+                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
                     `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                 element.innerHTML = inHtml
                 console.log(data2);
@@ -202,5 +220,35 @@
 
 
     });
+
+    function delKeyword(key) {
+        const div = document.getElementById(key);
+        div.remove();
+    }
+
+    function makeKeyword() {
+        word = document.getElementById("inputKeyword").value;
+// 1. <div> element 만들기
+        const thisDiv = document.getElementsByClassName('keyword')[0];
+        console.log(thisDiv);
+        innerHtml = `
+          <div id="kwt">
+                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
+                        th:text="kwtsdfsdf">
+
+                </button>
+                <button style="z-index: 10; margin-left: -10px"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        key="kwt}"
+                        onclick="delKeyword(this.getAttribute('key'))">X
+                </button>
+        </div>`;
+        // 4. <body>에 1에서 만든 <div> element 붙이기
+
+
+        thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
+        // document.body.appendChild(thisDiv);
+    }
+
 </script>
 </html>

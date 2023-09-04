@@ -17,7 +17,7 @@ header div.logo img {
     width: 300px;
     height: 100px;
     margin: 0 0 8px;
-    padding: 48px 50px 0;
+    padding: 20px 0px 0px 50px
 }
 
 header ul.icons {
@@ -47,7 +47,7 @@ header ul.icons:hover {
 header ul.contents {
   display: flex;
   padding: 0px 0px 0px 35px;
-  margin: 20px 0px 12px 0px;
+  margin: 0px;
   font-weight: 900;
   font-size: 38px;
   justify-content: auto;
@@ -110,6 +110,11 @@ header .categories li:hover::after {
 
 ul, il, ol {
 	list-style: none;
+}
+
+.content a {
+	text-decoration: none;
+	color: black;
 }
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126

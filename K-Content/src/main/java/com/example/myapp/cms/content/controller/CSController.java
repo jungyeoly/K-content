@@ -54,7 +54,7 @@ public class CSController {
 
         model.addAttribute("content", result);
         model.addAttribute("search", search);
-        return "cms/contentRecom";
+        return "cms/cntnt/contentRecom";
     }
 
     //콘텐츠 리스트 페이지
@@ -72,7 +72,7 @@ public class CSController {
         }
         model.addAttribute("content", result);
 
-        return "cms/contentManage";
+        return "cms/cntnt/contentManage";
     }
 
     //콘텐츠 상세 페이지
@@ -102,7 +102,7 @@ public class CSController {
         model.addAttribute("trendQueryList", trendQueryList);
 
 //        javascript비통기로 보내
-        return "cms/contentDetail";
+        return "cms/cntnt/contentDetail";
     }
 
     //콘텐츠 상세페이지의 유튜브 영상 호출
@@ -151,7 +151,7 @@ public class CSController {
 
         System.out.println("cntntURL: "+cntntURL);
         System.out.println("cntntTitle: "+cntntTitle);
-        return "cms/contentMakeForm";
+        return "cms/cntnt/contentMakeForm";
     }
 
     @GetMapping("/makecontent/update")
@@ -180,7 +180,7 @@ public class CSController {
         }
         model.addAttribute("trendQueryList", trendQueryList);
 
-        return "cms/contentMakeForm";
+        return "cms/cntnt/contentMakeForm";
     }
     @GetMapping("/ma")
     public String getAllds() {

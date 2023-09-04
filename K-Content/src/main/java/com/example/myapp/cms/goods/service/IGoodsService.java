@@ -1,9 +1,6 @@
-package com.example.myapp.cms.content.service;
+package com.example.myapp.cms.goods.service;
 
-import com.example.myapp.cms.content.model.Content;
-import com.example.myapp.cms.content.model.Goods;
-
-import java.util.List;
+import com.example.myapp.cms.goods.model.Goods;
 
 public interface IGoodsService {
     Goods getAGoods(int goodsId);

@@ -1,10 +1,14 @@
 package com.example.myapp.cms.content.controller;
 
+
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.model.Content;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
-import com.example.myapp.cms.content.model.Goods;
+
+
+import com.example.myapp.cms.goods.model.Goods;
+import com.example.myapp.cms.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -198,7 +202,7 @@ public class CSController {
         List<Goods> getAllGoods = csService.getAllGoods();
         model.addAttribute("goods", getAllGoods);
 
-        return "cms/goods";
+        return "goodsList";
     }
 
     @GetMapping("/usermanage")

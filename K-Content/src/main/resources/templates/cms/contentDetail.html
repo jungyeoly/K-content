@@ -71,7 +71,7 @@
     .trend {
         grid-area: trendtap;
         /*grid-row: 2 / 7;*/
-        grid-column: 8 / 10;
+
         background-color: blue;
     }
 
@@ -127,8 +127,12 @@
     <div class="item content">
         <div class="item category-img">
 
-            <img style="width: 400px; height: 300px; margin:auto; display: block" th:src="${content.cntntUrl}"
+            <div id="iframe" style="width: 400px; height: 300px; margin:auto; display: block"
+                 th:src="${content.cntntUrl}"
                  alt="">
+
+
+            </div>
 
         </div>
         <div class="item category-caption">
@@ -143,12 +147,15 @@
             <div th:each="goods : ${goodsJFileList}">
                 <a th:href="${goods.goodsPurchsLink}">
                     <div class="card" style="width: 18rem; height: 240px">
-                        <img th:src="@{/img/goods/{image}(image=${goods.goodsFileName})}" class="card-img-top"
-                             alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title goods" th:text="${goods.goodsName}">Card title</h5>
-                            <p class="card-text goods" th:text="${goods.goodsPrice} + ' 원'"></p>
-                            <p class="card-text goods" th:text="${goods.goodsBrand}"></p>
+                        <div style="width:18rem; height:140px">
+                            <img style="width:100%; height:100%"
+                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileName})}" class="card-img-top"
+                                 alt="...">
+                        </div>
+                        <div style="width:18rem; height:100px;border:1px solid">
+                            <h5 class="text-center" th:text="${goods.goodsName}">Card title</h5>
+                            <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
+                            <p class="text-center" th:text="${goods.goodsBrand}"></p>
                         </div>
                     </div>
                 </a>
@@ -163,8 +170,9 @@
     <div class="item reco">
         sdfghj
     </div>
-    <input class="item"  id="trendQueryList" type="hidden" th:value="${trendQueryList}"
+    <input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
            style="display: none">
+    <input type="hidden" id="contentId" th:name="${targetContentIdF}" th:value="${content.getCntntId()}">
 </div>
 <a class="item scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
@@ -204,6 +212,30 @@
                 console.error('에러 발생: ', error);
             }
         });
+
+        var requestData = {
+            targetContentIdF: document.getElementById("contentId").value
+        };
+
+        // /cs/instaimg URL로 GET 요청을 보냅니다.
+        $.ajax({
+            url: '/cs/youtube/ifrmae',
+            type: 'GET',
+            data: requestData, // 데이터 객체 전달
+            success: function (data2) {
+                // 서버에서 받은 데이터를 result 요소에 추가합니다.
+                const element = document.getElementById('iframe');
+                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` +data2+"\""+
+                    `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                element.innerHTML = inHtml
+                console.log(data2);
+            },
+            error: function (error) {
+                console.error('에러 발생: ', error);
+            }
+        });
+
+
     });
 </script>
 </html>

@@ -15,4 +15,5 @@ public class Content {
     private String cntntRegistDate;
     private String cntntUpdeDate;
     private char cntntDeleteYn;
+    private String cntntThumnail;
 }

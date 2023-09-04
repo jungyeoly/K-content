@@ -29,7 +29,6 @@ import java.util.List;
 public class CSController {
     @Autowired
     YouTubeApiService youTubeApiService;
-
     @Autowired
     IContentService contentService;
     @Autowired
@@ -38,7 +37,6 @@ public class CSController {
     ICntntGoodsMappingService cntntGoodsMappingService;
     @Autowired
     IGoodsService goodsService;
-
     @Autowired
     Instagram_Selenium instagram_Selenium;
 
@@ -48,37 +46,40 @@ public class CSController {
         return "cms/dashBoard";
     }
 
+    // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
     public String searchYouTube(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
-//        String search = "강형욱";
         int max = Integer.parseInt(items);
         List<YouTubeItem> result = youTubeApiService.youTubeSearch(search, max);
-//        result.get(1).getThumbnail().ge
+
         model.addAttribute("content", result);
-        return "cms/recommendContent";
+        model.addAttribute("search", search);
+        return "cms/contentRecom";
     }
 
+    //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
     public String getContentManage(Model model) {
         List<Content> result = contentService.getAllContent();
+
+        for(int i=0; i<result.size(); i++){
+            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String restultCode = partOfUrl2.get(1);
+            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+restultCode+"/hqdefault.jpg");
+
+        }
         model.addAttribute("content", result);
 
         return "cms/contentManage";
     }
 
-    @GetMapping("/youtube/ifrmae")
-    @ResponseBody
-    public String getAIframe(@RequestParam(value = "targetContentIdF") int targetContentIdF) {
-        Content content = contentService.getAContent(targetContentIdF);
-        List<String> contentUrlSplit= List.of(content.getCntntUrl().split("/"));
-//        System.out.println("sdfsdfsdf: "+contentUrlSplit);
-        String partOfUrl = contentUrlSplit.get(4);
-        return partOfUrl;
-    }
-
+    //콘텐츠 상세 페이지
     @GetMapping("/contentdetail")
     public String getAContent(int targetContentIdF, Model model) {
         Content content = contentService.getAContent(targetContentIdF);
+
         model.addAttribute("content", content);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
@@ -104,12 +105,26 @@ public class CSController {
         return "cms/contentDetail";
     }
 
+    //콘텐츠 상세페이지의 유튜브 영상 호출
+    @GetMapping("/youtube/iframe")
+    @ResponseBody
+    public String getAIframe(@RequestParam(value = "targetContentIdF") String targetContentIdF) {
+        System.out.println("targetContentIdFtargetContentIdF: " + targetContentIdF);
+        List<String> contentUrlSplit = List.of(targetContentIdF.split("/"));
+        String partOfUrl = contentUrlSplit.get(3);
+        List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+        System.out.println("partOfUrl2: " + partOfUrl2);
+        String restultCode = partOfUrl2.get(1);
+        return restultCode;
+    }
+
+    //콘텐츠 상세 페이지인스타 크롤링
     @GetMapping("/instacrol")
     @ResponseBody
     public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
 
         instagram_Selenium.instagram_Selenium();
-        System.out.println("trendQueryList   : " + trendQueryList.size());
+
 
         List<String> realImg = new ArrayList<>();
         for (int i = 0; i < trendQueryList.size(); i++) {
@@ -126,6 +141,16 @@ public class CSController {
         return realImg;
 
     }
+    //콘텐츠 생성 페이지
+    @GetMapping("/makecontent")
+    public String getMakeContentForm(String cntntURL,  String cntntTitle, Model model) {
+        model.addAttribute("cntntURL",cntntURL);
+        model.addAttribute("cntntTitle",cntntTitle);
+        System.out.println("cntntURL: "+cntntURL);
+        System.out.println("cntntTitle: "+cntntTitle);
+        return "cms/contentMakeForm";
+    }
+
 
     @GetMapping("/ma")
     public String getAllds() {

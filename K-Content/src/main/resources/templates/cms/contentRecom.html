@@ -65,14 +65,14 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <form action="/cs/recomm" method="get"
+                      class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                        <input th:name="search" type="text" class="form-control bg-light border-0 small"
+                               placeholder="Search for..."
                                aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -82,33 +82,33 @@
             </nav>
             <div class="container-fluid">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">content manage</h1>
+
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fas fa-download fa-sm text-white-50"></i> 정렬조건</a>
                 </div>
-
+                <!--이미지 클릭 시 생성 페이지로 이동 -->
+                <!--                이거 비동기로 처리 해야함 -->
                 <div class="row item">
                     <div class="col-xl-4 col-lg-6" th:each="list : ${content}">
                         <div class="single-category mb-30">
-                            <div class="category-img"  th:cntntId="${list.cntntId}" th:onclick="getDetail(this.getAttribute('cntntId'))">
-                                <input type="hidden" id="targetContentId" name="targetContentId" th:value="${list.cntntId}">
-                                <img style="width: 400px; height: 300px" th:src="${list.cntntThumnail}" alt="">
+                            <div class="category-img">
+                                <img style="width: 400px; height: 300px"
+                                     th:cntntURL="${list.url}"
+                                     th:cntntTitle="${list.title}"
+
+                                     th:src="${list.getThumbnail()}"
+                                     onclick="getMakeCntnt(this.getAttribute('cntntURL'),this.getAttribute('cntntTitle'))"
+                                     alt="">
+
                                 <div class="category-caption">
-                                    <h6 style="text-align: center; " th:text="${list.cntntTitle}">title</h6>
+                                    <h6 style="text-align: center; " th:text="${list.title}">title</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <button style="display: inline-block">수정</button>
-                            <button style="display: inline-block">삭제</button>
-                        </div>
                     </div>
+                </div>
 
-                </div>
-                <div class="col-2">
-                    <a href="">생성</a>
-                    <a type="button" href="recomm">추천</a>
-                </div>
+
             </div>
         </div>
         <!-- End of Main Content -->
@@ -162,30 +162,32 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
-<script defer th:inline="javascript" >
-    window.onload = function () {
-        var el = document.getElementsByClassName("category-img");
-        el.onclick = getDetail;
-    }
 
-    function getDetail(cntntId)  {
-        // var targetContentId = document.getElementById("targetContentId").value;
-        console.log(cntntId);
+</div>
+
+<script>
+
+    function getMakeCntnt(cntntURL,cntntTitle) {
+
 
         const formHtml = `
-                    <form id="contentDetail" action="/cs/contentdetail" method="get">
-                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    <form id="contentMake" action="/cs/makecontent" method="get">
+                        <input  id="cntntURL" name="cntntURL"  />
+                        <input  id="cntntTitle" name="cntntTitle"  />
                     </form>`;
 
         const doc = new DOMParser().parseFromString(formHtml, 'text/html');
         const form = doc.body.firstChild;
         document.body.append(form);
-        document.getElementById("targetContentIdF").value = cntntId;
-        document.getElementById('contentDetail').submit();
+        document.getElementById("cntntURL").value = cntntURL;
+        document.getElementById("cntntTitle").value = cntntTitle;
+        ;
+        console.log(document.getElementsByClassName("cntntURL").value);
+        console.log(document.getElementsByClassName("cntntTitle").value);
+        document.getElementById('contentMake').submit();
+
     }
 </script>
-</div>
-
 </body>
 
 </html>

@@ -57,10 +57,6 @@ public class InqryService implements IInqryService{
 	@Transactional
 	public void updateInqry(Inqry inqry, InqryFile file) {
 		inqryRepository.updateInqry(inqry);
-		
-		System.out.println("-----------------------------------------------------------------");
-		System.out.println(file);
-		System.out.println("-----------------------------------------------------------------");
 
 		if(file != null && file.getInqryFileId() != null && !file.getInqryFileId().equals("")) {
 			if(file.getInqryFileInqryId()>0) {
@@ -75,5 +71,10 @@ public class InqryService implements IInqryService{
 	@Override
 	public String getInqryFileId(int inqryId) {
 		return inqryRepository.getInqryFileId(inqryId);
+	}
+
+	@Override
+	public void deleteInqry(int inqryId) {
+		inqryRepository.deleteInqry(inqryId);		
 	}
 }

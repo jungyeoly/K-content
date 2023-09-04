@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
 
-
+a, a:visited {
+	 text-decoration: none;
+	 color: #5D5D5D;
+}
 
 header {
   font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
+  background-color: white;
 }
 
 
@@ -13,16 +17,17 @@ header div.logo {
 }
 
 header div.logo img {
-  padding: 29px 50px 0px;
-  height: 30px;
-  width: 120px;
+    width: 300px;
+    height: 100px;
+    margin: 0 0 8px;
+    padding: 20px 0px 0px 50px
 }
 
 header ul.icons {
   display: flex;
   margin-left: auto;
   margin-right: 30px;
-  margin-top: 30px;
+  margin-top: 80px;
 }
 
 header ul.icons li {
@@ -45,7 +50,7 @@ header ul.icons:hover {
 header ul.contents {
   display: flex;
   padding: 0px 0px 0px 35px;
-  margin: 20px 0px 12px 0px;
+  margin: 0px;
   font-weight: 900;
   font-size: 38px;
   justify-content: auto;
@@ -54,6 +59,12 @@ header ul.contents {
 
 header ul.contents li {
   margin: 4px 20px 2px 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+header ul.contents li.cms {
+  margin: 4px 20px 2px 850px;
   position: relative;
   cursor: pointer;
 }
@@ -106,12 +117,19 @@ header .categories li:hover::after {
   bottom: -3px;
 }
 
+ul, il, ol {
+	list-style: none;
+}
 
-
+.content a {
+	text-decoration: none;
+	color: black;
+}
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
+/*
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -121,7 +139,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
+ caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
@@ -133,7 +151,10 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+*/
 /* HTML5 display-role reset for older browsers */
+
+/*
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -156,3 +177,4 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+*/

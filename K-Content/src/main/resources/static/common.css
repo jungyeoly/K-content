@@ -1,34 +1,74 @@
 @charset "UTF-8";
+
 :root {
-  /* Color */
-  --color-main: #14dbc8;
+	/* Color */ 
+	--color-main: #14dbc8;
 }
 
-.btn{
-	background: var(--color-main);
+@import
+	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+
+@import
+	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean')
+	;
+
+@font-face {
+	font-family: 'NEXON Lv1 Gothic OTF Light';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NEXON Lv1 Gothic OTF';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic Bold';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'NEXON Lv1 Gothic OTF Light';
+	letter-spacing: 0.1px;
+}
+
+.btn {
+	background: var(- -color-main);
 	color: white;
 }
 
-.btn-2{
-	border: 1px solid var(--color-main);
-	color: var(--color-main);
+.btn-2 {
+	border: 1px solid var(- -color-main);
+	color: var(- -color-main);
 	background: white;
 }
 
 .btn:hover {
-	background: white;
-	border: 1px var(--color-main) solid;
-	color: var(--color-main);
+	background: black;
+	border: 1px var(- -color-main) solid;
+	color: var(- -color-main);
 }
 
 .menu {
-    width: 200px;
-    text-align: center;
-    background: black;
-    color: white;
-    font-size: 1.2rem;
-    height: 40px;
-    line-height: 40px;
+	width: 200px;
+	text-align: center;
+	background: black;
+	color: white;
+	font-size: 1.2rem;
+	height: 40px;
+	line-height: 40px;
 }
 
 .delete {

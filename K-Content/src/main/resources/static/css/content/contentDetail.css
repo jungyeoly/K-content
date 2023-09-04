@@ -1,3 +1,10 @@
-.container{
-    grid-template-columns: 1fr 1fr 1fr;
+.full{
+    display: grid;
+}
+.full{
+    /*grid-template-columns: 10px 2fr 1fr;*/
+    grid-template-columns: 200px 200px 500px;
+
+    margin: 0px;
+    padding: 0px;
 }

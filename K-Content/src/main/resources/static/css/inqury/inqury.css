@@ -35,3 +35,7 @@
 .password-input {
     width: 30%;
 }
+
+.contents {
+	padding-bottom: 90px !important;
+}

@@ -17,7 +17,7 @@
 }
 
 img {
-	width: 300px;
+	width: auto;
 	height: 300px;
 }
 
@@ -32,6 +32,7 @@ img {
 }
 
 .btns{
+	display: flex;
 	position: absolute;
 	top: 1em;
 	right: 0;

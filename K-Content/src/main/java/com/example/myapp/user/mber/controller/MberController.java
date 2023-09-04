@@ -38,11 +38,11 @@ public class MberController {
 		return "include/modal";
 	}
 
-	@GetMapping("/mber/list")
+	@GetMapping("/user/index")
 	public String mberList(Model model) {
 		List<Mber> mber = mberService.selectMberAllList();
 		model.addAttribute("mber", mber);
-		return "user/mber/list";
+		return "user/index";
 	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
@@ -66,31 +66,27 @@ public class MberController {
 				if (dbPassword.equals(mberPwd)) { // 비밀번호 일치
 					// 로그인이 성공한 경우, 세션에 사용자 정보를 설정하고 뷰 반환
 					session.setMaxInactiveInterval(600); // 10분
-					session.setAttribute("userId", mber.getMberId());
-					session.setAttribute("userName", mber.getMberName());
-					session.setAttribute("userState", mber.getMberStatCode());
+					session.setAttribute("mberId", mber.getMberId());
+					session.setAttribute("mberName", mber.getMberName());
+					session.setAttribute("mberState", mber.getMberStatCode());
 
-					System.out.println(saveId);
-
-					System.out.println(saveId);
-
-					System.out.println(saveId);
+					System.out.println(mber.getMberStatCode());
 					if (saveId != null && saveId.equals("on")) {
 						// 체크박스가 선택된 경우, 아이디를 쿠키에 저장
-						Cookie idCookie = new Cookie("savedUserId", mber.getMberId());
+						Cookie idCookie = new Cookie("savedMberId", mber.getMberId());
 						idCookie.setMaxAge(30 * 24 * 60 * 60); // 쿠키 유효기간 설정 (30일)
 						idCookie.setPath("/"); // 쿠키 경로 설정
 						response.addCookie(idCookie);
-						System.out.println(idCookie);
 					} else {
 						// 체크박스가 선택되지 않은 경우, 아이디를 저장하는 쿠키 삭제
-						Cookie idCookie = new Cookie("savedUserId", "");
+						Cookie idCookie = new Cookie("savedMberId", "");
 						idCookie.setMaxAge(0); // 쿠키 삭제
 						idCookie.setPath("/"); // 쿠키 경로 설정
 						response.addCookie(idCookie);
 					}
 					model.addAttribute("mber", mber);
-					return "redirect:/mber/list";
+					System.out.println(mberId);
+					return "redirect:/user/index";
 				} else { // 비밀번호가 다른 경우
 					session.invalidate();
 					model.addAttribute("message", "비밀번호가 다릅니다. 다시 확인해주세요.");
@@ -104,6 +100,13 @@ public class MberController {
 		}
 	}
 
+	@RequestMapping(value = "/mber/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate(); // 로그아웃
+		return "redirect:/user/index";
+	}
+
+	
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		return "user/mber/signup";
@@ -112,6 +115,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
 		System.out.println(mber.getMberId());
+		System.out.println(mber.getMberPwd());
 		System.out.println(mber.getMberEmail());
 		System.out.println(mber.getMberName());
 		System.out.println(mber.getMberBirth());
@@ -126,7 +130,7 @@ public class MberController {
 			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
 			return "user/mber/signup";
 		}
-		return "redirect:/user/mber/signin";
+		return "user/mber/signin";
 	}
 
 	@GetMapping("/mber/findmber")

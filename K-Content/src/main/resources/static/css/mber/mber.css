@@ -1,46 +1,6 @@
-@import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
 
-@import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean')
-	;
-
-@font-face {
-	font-family: 'NEXON Lv1 Gothic OTF Light';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'NEXON Lv1 Gothic OTF';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'NEXON Lv2 Gothic Bold';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-/*
-# font-family: 'MapoFlowerIsland';
-강조: font-family: 'Black Han Sans', sans-serif;
-보통: font-family: 'NEXON Lv1 Gothic OTF';
-
-*/
 body {
 	min-height: 100vh;
-	font-family: 'NEXON Lv1 Gothic OTF Light';
-	letter-spacing: 0.1px;
 }
 
 video#bgvid {
@@ -77,22 +37,31 @@ video#bgvid {
 	background-color: #14dbc8;
 }
 
-.btn-style {
-	font-family: 'S-CoreDream-9Black';
-	color: #ffffff;
+.mail-check-btn-text {
 	background-color: #14dbc8;
-	box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
-	font-weight: bold;
 }
 
-.btn-style:hover {
-	color: #ffffff;
-	background-color: #1f2029;
-	box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
+
+/* 카카오, 구글 버튼 */
+.social_circle_btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 100px;
+	background-color: #fee500;
+	border-radius: 50%;
+	margin-right: 20px; 
 }
 
-/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 
-	
+.logo_img {
+	width: 60px;
+	height: 60px;
+}
+
+
+
+/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 	
  .nav{ 
 	font-family: 'S-CoreDream-9Black'
 }
@@ -108,10 +77,19 @@ video#bgvid {
 .nav-tabs .nav-link {
 	border-top-left-radius: unset;
 	border-top-right-radius: unset;
+		border-bottom-left-radius: unset;
+	border-bottom-right-radius: unset;
+	
 	background-color: #14dbc8;
 }
 
+
 .nav-link, .nav-link:focus, .nav-link:hover {
+	color: white;
+}
+
+.nav-link:hover, .nav-link.active:hover {
+	background-color: black;
 	color: white;
 }
 

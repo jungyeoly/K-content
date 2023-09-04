@@ -63,6 +63,12 @@ header ul.contents li {
   cursor: pointer;
 }
 
+header ul.contents li.cms {
+  margin: 4px 20px 2px 850px;
+  position: relative;
+  cursor: pointer;
+}
+
 header ul li.search {
   margin-left: auto;
   padding-right: 30px;

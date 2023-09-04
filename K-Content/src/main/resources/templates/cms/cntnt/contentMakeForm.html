@@ -206,7 +206,6 @@
             type: 'GET',
             data: requestData, // 데이터 객체 전달
             success: function (data2) {
-                // 서버에서 받은 데이터를 result 요소에 추가합니다.
                 const element = document.getElementById('iframe');
                 const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
                     `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
@@ -228,7 +227,7 @@
 
     function makeKeyword() {
         word = document.getElementById("inputKeyword").value;
-// 1. <div> element 만들기
+
         const thisDiv = document.getElementsByClassName('keyword')[0];
         console.log(thisDiv);
         innerHtml = `

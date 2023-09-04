@@ -232,22 +232,19 @@
         const thisDiv = document.getElementsByClassName('keyword')[0];
         console.log(thisDiv);
         innerHtml = `
-          <div id="kwt">
+          <div id="${word}">
                 <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
-                        th:text="kwtsdfsdf">
-
+                        >
+                     ${word}
                 </button>
                 <button style="z-index: 10; margin-left: -10px"
                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        key="kwt}"
+                            key="${word}"
                         onclick="delKeyword(this.getAttribute('key'))">X
                 </button>
         </div>`;
-        // 4. <body>에 1에서 만든 <div> element 붙이기
-
 
         thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
-        // document.body.appendChild(thisDiv);
     }
 
 </script>

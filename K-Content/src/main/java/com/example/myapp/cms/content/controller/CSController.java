@@ -66,9 +66,18 @@ public class CSController {
         return "cms/contentManage";
     }
 
+    @GetMapping("/youtube/ifrmae")
+    @ResponseBody
+    public String getAIframe(@RequestParam(value = "targetContentIdF") int targetContentIdF) {
+        Content content = contentService.getAContent(targetContentIdF);
+        List<String> contentUrlSplit= List.of(content.getCntntUrl().split("/"));
+//        System.out.println("sdfsdfsdf: "+contentUrlSplit);
+        String partOfUrl = contentUrlSplit.get(4);
+        return partOfUrl;
+    }
 
     @GetMapping("/contentdetail")
-    public String getAContent(int targetContentIdF, Model model)  {
+    public String getAContent(int targetContentIdF, Model model) {
         Content content = contentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 

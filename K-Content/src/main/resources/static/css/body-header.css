@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
 
-
+a, a:visited {
+	 text-decoration: none;
+	 color: #5D5D5D;
+}
 
 header {
   font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
@@ -56,6 +59,12 @@ header ul.contents {
 
 header ul.contents li {
   margin: 4px 20px 2px 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+header ul.contents li.cms {
+  margin: 4px 20px 2px 850px;
   position: relative;
   cursor: pointer;
 }

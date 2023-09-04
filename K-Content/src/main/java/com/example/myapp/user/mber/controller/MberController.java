@@ -70,7 +70,7 @@ public class MberController {
 					session.setAttribute("mberName", mber.getMberName());
 					session.setAttribute("mberState", mber.getMberStatCode());
 
-					System.out.println(mber.getMberStatCode());
+					
 					if (saveId != null && saveId.equals("on")) {
 						// 체크박스가 선택된 경우, 아이디를 쿠키에 저장
 						Cookie idCookie = new Cookie("savedMberId", mber.getMberId());
@@ -100,7 +100,7 @@ public class MberController {
 		}
 	}
 
-	@RequestMapping(value = "/mber/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate(); // 로그아웃
 		return "redirect:/user/index";

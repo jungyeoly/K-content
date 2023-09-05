@@ -15,23 +15,21 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 
 @Controller
 public class MainCon {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	ICommonCodeService commonCodeService;
-	
+
 	//@GetMapping("/")
     //public String getUserState() {
     //    return "user/main";
-	
+
     @GetMapping("/")
     public String getCate(Model model) {
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
-    		
-    	System.out.println(cateList);
-    	
+
         return "user/index";
     }
 }

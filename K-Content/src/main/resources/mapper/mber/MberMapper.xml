@@ -3,38 +3,56 @@
 <mapper
 	namespace="com.example.myapp.user.mber.dao.IMberRepository">
 
-	<select id="selectMberbyId"
+		<select id="selectMberbyId"
+			resultType="com.example.myapp.user.mber.model.Mber">
+			<![CDATA[
+				SELECT mber_id,
+					mber_email,
+					mber_pwd,
+					mber_name,
+					mber_birth,
+					mber_phone,
+					mber_regist_date,
+					mber_update_date,
+					mber_gender_code,
+					mber_stat_code
+				FROM tb_mber 
+				WHERE mber_id=#{mberId}
+			]]>
+		</select>
+	
+		<select id="selectMberbyIdEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT mber_id 				AS mberId, 
-				mber_email					AS mberEmail,
-				mber_pwd					AS mberPwd,
-				mber_name					AS mberName,
-				mber_birth					AS mberBirth,
-				mber_phone					AS mberPhone,
-				mber_regist_date			AS mberRegistDate,
-				mber_update_date			AS mberUpdateDate,
-				mber_gender_code			AS mberGenderCode,
-				mber_stat_code				AS mberStatCode
+			SELECT mber_id,
+				mber_email,
+				mber_pwd,
+				mber_name,
+				mber_birth,
+				mber_phone,
+				mber_regist_date,
+				mber_update_date,
+				mber_gender_code,
+				mber_stat_code
 			FROM tb_mber 
-			WHERE mber_id=#{mberId}
+			WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
 		]]>
 	</select>
 
 	<select id="selectMberAllList"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT mber_id 				AS mberId, 
-				mber_email					AS mberEmail,
-				mber_pwd					AS mberPwd,
-				mber_birth					AS mberBirth,
-				mber_name					AS mberName,
-				mber_birth					AS mberBirth,
-				mber_phone					AS mberPhone,
-				mber_regist_date			AS mberRegistDate,
-				mber_update_date			AS mberUpdateDate,
-				mber_gender_code			AS mberGenderCode,
-				mber_stat_code				AS mberStatCode
+			SELECT mber_id, 
+				mber_email,
+				mber_pwd,
+				mber_birth,
+				mber_name,
+				mber_birth,
+				mber_phone,
+				mber_regist_date,
+				mber_update_date,
+				mber_gender_code,
+				mber_stat_code
 			FROM tb_mber
 		]]>
 	</select>
@@ -51,9 +69,12 @@
 	<select id="maskMberId" parameterType="String" resultType="String">
     <![CDATA[
 		SELECT 
-    		SUBSTR(mber_id, 1, 2) || RPAD('*', LENGTH(mber_id) - 2, '*') AS mberId
+    		SUBSTR(mber_id, 1, 3) || RPAD('*', LENGTH(mber_id) - 2, '*')
 		FROM tb_mber
 		WHERE mber_email = #{mberEmail}
     ]]>
 	</select>
+	
+	
+	
 </mapper>

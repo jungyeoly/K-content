@@ -18,4 +18,5 @@ public interface IGoodsRepository {
     Goods getGoodsJFileByGoodsId(@Param("goodsId") int goodsId);
 
     Goods getAGoodsJFile(@Param("goodsId") int goodsId);
+    List<Goods> getSearchGoodsJFile(@Param("search") String search);
 }

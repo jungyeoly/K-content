@@ -31,5 +31,4 @@
         WHERE cntnt_id = #{cntntId}
         ]]>
     </select>
-
 </mapper>

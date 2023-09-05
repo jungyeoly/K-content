@@ -5,16 +5,16 @@
 	<select id="selectInqryList" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
-			    b.inqry_id as "inqryId",
-			    b.inqry_ref_id as "inqryRefId",
-			    b.inqry_group_ord as "inqryGroupOrd",
-			    b.inqry_title as "inqryTitle",
-			    b.inqry_cntnt as "inqryCntnt",
-			    b.inqry_pwd as "inqryPwd",
-			    b.inqry_regist_date as "inqryRegistDate",
-			    b.inqry_update_date as "inqryUpdateDate",
-			    b.inqry_delete_yn as "inqryDeleteYn",
-			    b.inqry_mber_id as "inqryMberId",
+			    b.inqry_id,
+			    b.inqry_ref_id,
+			    b.inqry_group_ord,
+			    b.inqry_title,
+			    b.inqry_cntnt,
+			    b.inqry_pwd,
+			    b.inqry_regist_date,
+			    b.inqry_update_date,
+			    b.inqry_delete_yn,
+			    b.inqry_mber_id,
 			    a.rn
 			FROM (
 			    select rownum rn,
@@ -45,18 +45,18 @@
 	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
 			SELECT
-			    i.inqry_id as "inqryId",
-			    i.inqry_ref_id as "inqryRefId",
-			    i.inqry_group_ord as "inqryGroupOrd",
-			    i.inqry_title as "inqryTitle",
-			    i.inqry_cntnt as "inqryCntnt",
-			    i.inqry_pwd as "inqryPwd",
-			    i.inqry_regist_date as "inqryRegistDate",
-			    i.inqry_update_date as "inqryUpdateDate",
-			    i.inqry_delete_yn as "inqryDeleteYn",
-			    i.inqry_mber_id as "inqryMberId",
-			    f.inqry_file_id as "inqryFileId",
-			    f.inqry_file_inqry_id as "inqryFileInqryId"
+			    i.inqry_id,
+			    i.inqry_ref_id,
+			    i.inqry_group_ord,
+			    i.inqry_title,
+			    i.inqry_cntnt,
+			    i.inqry_pwd,
+			    i.inqry_regist_date,
+			    i.inqry_update_date,
+			    i.inqry_delete_yn,
+			    i.inqry_mber_id,
+			    f.inqry_file_id,
+			    f.inqry_file_inqry_id
 			FROM tb_inqry i
 			LEFT JOIN tb_inqry_file f
 			on i.inqry_id = f.inqry_file_inqry_id
@@ -125,7 +125,7 @@
 	
 	<select id="getInqryFileId" parameterType="int" resultType="String">
 		<![CDATA[
-			SELECT inqry_file_id as inqryFileId 
+			SELECT inqry_file_id
 			FROM tb_inqry_file 
 			WHERE inqry_file_inqry_id=#{inqryId}
 		]]>

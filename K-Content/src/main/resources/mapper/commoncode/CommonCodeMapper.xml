@@ -3,18 +3,26 @@
 <mapper
         namespace="com.example.myapp.commoncode.dao.ICommonCodeRepository">
 
-    <select id="findByUpperCommonCode"
-            resultType="com.example.myapp.commoncode.model.CommonCode">
-<![CDATA[
-        SELECT common_code,
-               upper_common_code,
-               common_code_val,
-               common_code_dscr,
-               common_update_date,
-               common_delete_yn,
-               common_order
-        from tb_common_code
-        where upper_common_code = #{upperCommonCode}
-        ]]>
+  <select id="findByUpperCommonCode" resultType="com.example.myapp.commoncode.model.CommonCode">
+        <![CDATA[
+                SELECT common_code,
+                       upper_common_code,
+                       common_code_val,
+                       common_code_dscr,
+                       common_update_date,
+                       common_delete_yn,
+                       common_order
+                from tb_common_code
+                where upper_common_code = #{upperCommonCode}
+            ]]>
 	</select>
+	
+	<select id="cateList" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT
+		    	common_code_val
+			FROM tb_common_code
+			WHERE upper_common_code=#{upperCommonCode}
+			ORDER BY common_order
+		]]>
 </mapper>

@@ -12,9 +12,7 @@ import com.example.myapp.commoncode.model.CommonCode;
 @Repository
 @Mapper
 public interface ICommonCodeRepository  {
-	
 	List<CommonCode> findByUpperCommonCode(String upperCommonCode);
-
 	
-
+	List<String> cateList(String upperCommonCode);
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myapp.user.content.dao.IContentUserRepository">
+
+	<select id="selectUserContent" parameterType="String" resultType="com.example.myapp.user.content.model.Content">
+		SELECT 
+			cc.common_code_val,
+			c.cntnt_id,
+			c.cntnt_title,
+			c.cntnt_url as "cntntUrl",
+			c.cntnt_regist_date,
+			c.cntnt_update_date
+		FROM 
+			tb_common_code cc
+		JOIN 
+			tb_cntnt c
+		ON 
+			cc.common_code = c.cntnt_cate_code
+		WHERE 
+			c.cntnt_delete_yn = 'N'
+		<if test='commonCodeVal != ALL'>
+			AND cc.common_code_val = #{commonCodeVal}
+		</if>
+		ORDER BY c.cntnt_regist_date DESC	
+	</select>
+
+</mapper>

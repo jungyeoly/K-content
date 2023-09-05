@@ -4,59 +4,65 @@
 
     <select id="selectInqryList" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-        SELECT b.inqry_id          ,
-               b.inqry_ref_id      ,
-               b.inqry_group_ord   ,
-               b.inqry_title       ,
-               b.inqry_cntnt       ,
-               b.inqry_pwd         ,
-               b.inqry_regist_date ,
-               b.inqry_update_date ,
-               b.inqry_delete_yn   ,
-               b.inqry_mber_id     ,
-               a.rn
-        FROM (select rownum rn,
-                     inqry_id,
-                     inqry_ref_id,
-                     inqry_group_ord,
-                     inqry_title,
-                     inqry_cntnt,
-                     inqry_pwd,
-                     inqry_regist_date,
-                     inqry_update_date,
-                     inqry_delete_yn,
-                     inqry_mber_id
-              from (select tb_inqry.*
-                    from tb_inqry
-                    where inqry_group_ord = 0
-                    order by inqry_id desc)) A
-                 INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
-        WHERE rn BETWEEN #{start} AND #{end}
-          AND a.inqry_delete_yn = 'N'
-        ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
-        ]]>
+			SELECT
+			    b.inqry_id,
+			    b.inqry_ref_id,
+			    b.inqry_group_ord,
+			    b.inqry_title,
+			    b.inqry_cntnt,
+			    b.inqry_pwd,
+			    b.inqry_regist_date,
+			    b.inqry_update_date,
+			    b.inqry_delete_yn,
+			    b.inqry_mber_id,
+			    a.rn
+			FROM (
+			    select rownum rn,
+			        inqry_id,
+			        inqry_ref_id,
+			        inqry_group_ord,
+			        inqry_title,
+			        inqry_cntnt,
+			        inqry_pwd,
+			        inqry_regist_date,
+			        inqry_update_date,
+			        inqry_delete_yn,
+			        inqry_mber_id
+			    from 
+			        (select tb_inqry.*
+			        from tb_inqry
+			        where inqry_group_ord = 0
+			        order by inqry_id desc
+			        )
+			) A
+			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			WHERE rn BETWEEN #{start} AND #{end}
+			AND a.inqry_delete_yn = 'N'
+			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
+		]]>
 	</select>
 
     <select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-        SELECT i.inqry_id            ,
-               i.inqry_ref_id        ,
-               i.inqry_group_ord     ,
-               i.inqry_title         ,
-               i.inqry_cntnt         ,
-               i.inqry_pwd           ,
-               i.inqry_regist_date   ,
-               i.inqry_update_date   ,
-               i.inqry_delete_yn     ,
-               i.inqry_mber_id       ,
-               f.inqry_file_id       ,
-               f.inqry_file_inqry_id
-        FROM tb_inqry i
-                 LEFT JOIN tb_inqry_file f
-                           on i.inqry_id = f.inqry_file_inqry_id
-        WHERE inqry_id = #{inqryId}
-          AND inqry_delete_yn = 'N'
-        ]]>
+			SELECT
+			    i.inqry_id,
+			    i.inqry_ref_id,
+			    i.inqry_group_ord,
+			    i.inqry_title,
+			    i.inqry_cntnt,
+			    i.inqry_pwd,
+			    i.inqry_regist_date,
+			    i.inqry_update_date,
+			    i.inqry_delete_yn,
+			    i.inqry_mber_id,
+			    f.inqry_file_id,
+			    f.inqry_file_inqry_id
+			FROM tb_inqry i
+			LEFT JOIN tb_inqry_file f
+			on i.inqry_id = f.inqry_file_inqry_id
+			WHERE inqry_id=#{inqryId}
+			AND inqry_delete_yn='N'
+		]]>
 	</select>
 
     <select id="totalInqry" resultType="int">
@@ -120,10 +126,10 @@
 
     <select id="getInqryFileId" parameterType="int" resultType="String">
 		<![CDATA[
-        SELECT inqry_file_id
-        FROM tb_inqry_file
-        WHERE inqry_file_inqry_id = #{inqryId}
-        ]]>
+			SELECT inqry_file_id
+			FROM tb_inqry_file 
+			WHERE inqry_file_inqry_id=#{inqryId}
+		]]>
 	</select>
 
     <update id="deleteInqry" parameterType="int">

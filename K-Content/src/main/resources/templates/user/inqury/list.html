@@ -1,67 +1,67 @@
-	<div class="container">
-		<div class="menu fw-bold">문의사항</div>
-		<table class="table table-hover text-center table-group-divider">
-			<thead>
-				<tr>
-					<th scope="col">글번호</th>
-					<th scope="col">제목</th>
-					<th scope="col">작성자</th>
-					<th scope="col">등록일</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="inqry : ${inqryList}" class="inqry-row" th:attr="data-inqry-id=${inqry.inqryId}">
-					<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
-					<td th:if="${inqry.inqryGroupOrd == 1}"></td>
-					<td class="text-start pwd">
-						<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<span th:if="inqry.inqryPwd" class="me-1">
-							<i class="fa-solid fa-lock"></i>
-						</span>
-						<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
-						<div class="password-form hidden">
-							<form th:action="@{/pwdcheck}" method="post" class="d-flex">
-							    <input type="hidden" name="inqryId" th:value="${inqry.inqryId}">
-								<input type="password" class="password-input me-2 form-control" placeholder="비밀번호" name="inqryPwd">
-								<input type="submit" value="확인" class="btn submit-btn">
-							</form>
-						    <div th:if="${error}" class="error-message">
-	       						<p th:text="${error}"></p>
-	   						</div>
-						</div>
-					</td>
-					<td>[[${inqry.inqryMberId}]]</td>
-					<td>[[${inqry.inqryRegistDate}]]</td>
-				</tr>
-			</tbody>
-		</table>
+<div class="container">
+	<div class="menu fw-bold">문의사항</div>
+	<table class="table table-hover text-center table-group-divider">
+		<thead>
+			<tr>
+				<th scope="col">글번호</th>
+				<th scope="col">제목</th>
+				<th scope="col">작성자</th>
+				<th scope="col">등록일</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="inqry : ${inqryList}" class="inqry-row" th:attr="data-inqry-id=${inqry.inqryId}">
+				<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
+				<td th:if="${inqry.inqryGroupOrd == 1}"></td>
+				<td class="text-start pwd">
+					<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span th:if="inqry.inqryPwd" class="me-1">
+						<i class="fa-solid fa-lock"></i>
+					</span>
+					<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
+					<div class="password-form hidden">
+						<form th:action="@{/pwdcheck}" method="post" class="d-flex">
+						    <input type="hidden" name="inqryId" th:value="${inqry.inqryId}">
+							<input type="password" class="password-input me-2 form-control" placeholder="비밀번호" name="inqryPwd">
+							<input type="submit" value="확인" class="btn submit-btn">
+						</form>
+					    <div th:if="${error}" class="error-message">
+       						<p th:text="${error}"></p>
+   						</div>
+					</div>
+				</td>
+				<td>[[${inqry.inqryMberId}]]</td>
+				<td>[[${inqry.inqryRegistDate}]]</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<a th:if=${session.userId} class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
 	
+	<nav aria-label="Page navigation" class="d-flex justify-content-center">
+		<ul class="pagination">
+			<li class="page-item" th:if="${nowPageBlock>1}">
+				<!-- <a class="page-link" th:href="@{/inqury/__${startPage-1}__}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a> -->
+				<a class="page-link prepage" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+
+			<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
+				<!-- <a class="page-link" th:href="@{/inqury/__${i}__}">[[${i}]]</a> -->
+				<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
+			</li>
+
+			<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+				<!-- <a class="page-link" th:href="@{/inqury/__${endPage+1}__}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a> -->
+				<a class="page-link nexpage" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
 	
-		<a th:if=${session.userId} class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
-		
-		<nav aria-label="Page navigation" class="d-flex justify-content-center">
-			<ul class="pagination">
-				<li class="page-item" th:if="${nowPageBlock>1}">
-					<!-- <a class="page-link" th:href="@{/inqury/__${startPage-1}__}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a> -->
-					<a class="page-link prepage" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
-	
-				<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
-					<!-- <a class="page-link" th:href="@{/inqury/__${i}__}">[[${i}]]</a> -->
-					<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
-				</li>
-	
-				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-					<!-- <a class="page-link" th:href="@{/inqury/__${endPage+1}__}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a> -->
-					<a class="page-link nexpage" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-		
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-	<script th:src="@{/js/inqury/inquryList.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script th:src="@{/js/inqury/inquryList.js}"></script>

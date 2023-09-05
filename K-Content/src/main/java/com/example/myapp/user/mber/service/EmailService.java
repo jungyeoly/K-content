@@ -4,11 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import com.example.myapp.user.mber.dao.IMberRepository;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -22,9 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class EmailService implements IEmailService {
 
+	@Autowired
+	IMberRepository mberRepository;
+	
 	private final JavaMailSender javaMailSender;
 
 	private String authNum;
+	private String maskId;
 	private String tempPwd;
 
 	@Value("${spring.mail.username}")
@@ -55,14 +62,24 @@ public class EmailService implements IEmailService {
 		log.info("인증 번호 : " + authNum);
 		return createEmail(to, subject, content);
 	}
-
+	
 	// 임시 비밀번호 메일 생성
+	public MimeMessage createMaskMberIdEmail(String to) throws MessagingException, UnsupportedEncodingException {
+		maskId = createTempPwd();
+		String subject = "[K-Spectrum] 임시 비밀번호 안내 ";
+		String content = generateTempPwdEmailContent(maskId);
+		log.info("보내는 대상 : " + to);
+		log.info("임시비밀번호 : " + tempPwd);
+		return createEmail(to, subject, content);
+	}
+	
+		// 임시 비밀번호 메일 생성
 	public MimeMessage createTempPwdEmail(String to) throws MessagingException, UnsupportedEncodingException {
 		tempPwd = createTempPwd();
 		String subject = "[K-Spectrum] 임시 비밀번호 안내 ";
 		String content = generateTempPwdEmailContent(tempPwd);
 		log.info("보내는 대상 : " + to);
-		log.info("인증 번호 : " + tempPwd);
+		log.info("임시비밀번호 : " + tempPwd);
 		return createEmail(to, subject, content);
 	}
 
@@ -73,6 +90,17 @@ public class EmailService implements IEmailService {
 		msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 회원가입 화면에서 입력해주세요.</p>";
 		msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
 		msg += authNum;
+		msg += "</td></tr></tbody></table></div>";
+		return msg;
+	}
+	
+	// 인증번호 메일 내용 생성
+	private String generateMaskMberIdEmailContent(String maskId) {
+		String msg = "";
+		msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">아이디 찾기</h1>";
+		msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래는 마스킹 처리된 아이디입니다. 확인 후에도 아이디를 알 수 없다면 고객센터로 문의주세요.</p>";
+		msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
+		msg += maskId;
 		msg += "</td></tr></tbody></table></div>";
 		return msg;
 	}
@@ -99,19 +127,7 @@ public class EmailService implements IEmailService {
 		return key.toString();
 	}
 
-	
-//    private String maskUsername(String username) {
-//        // 아이디의 길이에 따라 마스킹 처리
-//        int length = username.length();
-//        if (length <= 2) {
-//            return username.substring(0, 1) + "*";
-//        } else if (length <= 4) {
-//            return username.substring(0, 2) + "**";
-//        } else {
-//            return username.substring(0, 2) + "****";
-//        }
-//    }
-    
+
 	// 임시비밀번호 만들기
 	public String createTempPwd() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -157,6 +173,20 @@ public class EmailService implements IEmailService {
 	}
 	
 	@Override
+    public String sendMaskId(String to) throws Exception {
+		maskId = maskMberId(to);
+        String subject = "[K-Spectrum] 아이디 찾기 ";
+        String content = generateMaskMberIdEmailContent(maskId);
+
+        MimeMessage message = createEmail(to, subject, content);
+        sendEmail(message);
+
+        return maskId;
+    }
+	
+	
+	
+	@Override
     public String sendAuthNum(String to) throws Exception {
         authNum = createAuthNum();
         String subject = "[K-Spectrum] 회원가입 이메일 인증 안내 ";
@@ -179,4 +209,10 @@ public class EmailService implements IEmailService {
 
         return tempPwd;
     }
+	
+	
+	@Override
+	public String maskMberId(String mberEmail) {
+		return mberRepository.maskMberId(mberEmail);
+	}
 }

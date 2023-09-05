@@ -113,3 +113,8 @@ a:focus {
 a:hover, a:active {
 	text-decoration: none !important;
 }
+
+
+#mail-check-btn:focus {
+	background-color: black;
+}

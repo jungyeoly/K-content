@@ -38,9 +38,6 @@ public class MberService implements IMberService {
 	public void deleteMber(String mberId) {
 		mberRepository.deleteMber(mberId);
 	}
-//
-//	@Override
-//	public String maskingMberId(String mberEmail) {
-//		return mberRepository.maskingMberId(mberEmail);
-//	}
+
+
 }

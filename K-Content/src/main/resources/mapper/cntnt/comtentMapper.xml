@@ -6,27 +6,27 @@
 
     <select id="getAllContent" resultType="com.example.myapp.cms.content.model.Content">
         <![CDATA[
-        SELECT cntnt_id          as cntntId,
-               cntnt_cate_code   as cntntCateCode,
-               cntnt_title       as cntntTitle,
-               cntnt_kwrd        as cntntKwrd,
-               cntnt_url         as cntntUrl,
-               cntnt_regist_date as cntntRegistDate,
-               cntnt_update_date as cntntUpdeDate,
-               cntnt_delete_yn   as cntntDeleteYn
+        SELECT cntnt_id          ,
+               cntnt_cate_code   ,
+               cntnt_title       ,
+               cntnt_kwrd        ,
+               cntnt_url         ,
+               cntnt_regist_date ,
+               cntnt_update_date ,
+               cntnt_delete_yn
         FROM tb_cntnt
         ]]>
     </select>
     <select id="getAContent" resultType="com.example.myapp.cms.content.model.Content">
         <![CDATA[
-        SELECT cntnt_id          as cntntId,
-               cntnt_cate_code   as cntntCateCode,
-               cntnt_title       as cntntTitle,
-               cntnt_kwrd        as cntntKwrd,
-               cntnt_url         as cntntUrl,
-               cntnt_regist_date as cntntRegistDate,
-               cntnt_update_date as cntntUpdeDate,
-               cntnt_delete_yn   as cntntDeleteYn
+        SELECT cntnt_id          ,
+               cntnt_cate_code   ,
+               cntnt_title       ,
+               cntnt_kwrd        ,
+               cntnt_url         ,
+               cntnt_regist_date ,
+               cntnt_update_date ,
+               cntnt_delete_yn
         FROM tb_cntnt
         WHERE cntnt_id = #{cntntId}
         ]]>

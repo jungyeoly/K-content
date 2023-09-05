@@ -2,141 +2,136 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.myapp.user.inqry.dao.IInqryRepository">
 
-	<select id="selectInqryList" resultType="com.example.myapp.user.inqry.model.Inqry">
+    <select id="selectInqryList" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-			SELECT
-			    b.inqry_id as "inqryId",
-			    b.inqry_ref_id as "inqryRefId",
-			    b.inqry_group_ord as "inqryGroupOrd",
-			    b.inqry_title as "inqryTitle",
-			    b.inqry_cntnt as "inqryCntnt",
-			    b.inqry_pwd as "inqryPwd",
-			    b.inqry_regist_date as "inqryRegistDate",
-			    b.inqry_update_date as "inqryUpdateDate",
-			    b.inqry_delete_yn as "inqryDeleteYn",
-			    b.inqry_mber_id as "inqryMberId",
-			    a.rn
-			FROM (
-			    select rownum rn,
-			        inqry_id,
-			        inqry_ref_id,
-			        inqry_group_ord,
-			        inqry_title,
-			        inqry_cntnt,
-			        inqry_pwd,
-			        inqry_regist_date,
-			        inqry_update_date,
-			        inqry_delete_yn,
-			        inqry_mber_id
-			    from 
-			        (select tb_inqry.*
-			        from tb_inqry
-			        where inqry_group_ord = 0
-			        order by inqry_id desc
-			        )
-			) A
-			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
-			WHERE rn BETWEEN #{start} AND #{end}
-			AND a.inqry_delete_yn = 'N'
-			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
-		]]>
+        SELECT b.inqry_id          ,
+               b.inqry_ref_id      ,
+               b.inqry_group_ord   ,
+               b.inqry_title       ,
+               b.inqry_cntnt       ,
+               b.inqry_pwd         ,
+               b.inqry_regist_date ,
+               b.inqry_update_date ,
+               b.inqry_delete_yn   ,
+               b.inqry_mber_id     ,
+               a.rn
+        FROM (select rownum rn,
+                     inqry_id,
+                     inqry_ref_id,
+                     inqry_group_ord,
+                     inqry_title,
+                     inqry_cntnt,
+                     inqry_pwd,
+                     inqry_regist_date,
+                     inqry_update_date,
+                     inqry_delete_yn,
+                     inqry_mber_id
+              from (select tb_inqry.*
+                    from tb_inqry
+                    where inqry_group_ord = 0
+                    order by inqry_id desc)) A
+                 INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+        WHERE rn BETWEEN #{start} AND #{end}
+          AND a.inqry_delete_yn = 'N'
+        ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
+        ]]>
 	</select>
 
-	<select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
+    <select id="selectInqry" parameterType="int" resultType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-			SELECT
-			    i.inqry_id as "inqryId",
-			    i.inqry_ref_id as "inqryRefId",
-			    i.inqry_group_ord as "inqryGroupOrd",
-			    i.inqry_title as "inqryTitle",
-			    i.inqry_cntnt as "inqryCntnt",
-			    i.inqry_pwd as "inqryPwd",
-			    i.inqry_regist_date as "inqryRegistDate",
-			    i.inqry_update_date as "inqryUpdateDate",
-			    i.inqry_delete_yn as "inqryDeleteYn",
-			    i.inqry_mber_id as "inqryMberId",
-			    f.inqry_file_id as "inqryFileId",
-			    f.inqry_file_inqry_id as "inqryFileInqryId"
-			FROM tb_inqry i
-			LEFT JOIN tb_inqry_file f
-			on i.inqry_id = f.inqry_file_inqry_id
-			WHERE inqry_id=#{inqryId}
-			AND inqry_delete_yn='N'
-		]]>
+        SELECT i.inqry_id            ,
+               i.inqry_ref_id        ,
+               i.inqry_group_ord     ,
+               i.inqry_title         ,
+               i.inqry_cntnt         ,
+               i.inqry_pwd           ,
+               i.inqry_regist_date   ,
+               i.inqry_update_date   ,
+               i.inqry_delete_yn     ,
+               i.inqry_mber_id       ,
+               f.inqry_file_id       ,
+               f.inqry_file_inqry_id
+        FROM tb_inqry i
+                 LEFT JOIN tb_inqry_file f
+                           on i.inqry_id = f.inqry_file_inqry_id
+        WHERE inqry_id = #{inqryId}
+          AND inqry_delete_yn = 'N'
+        ]]>
 	</select>
 
-	<select id="totalInqry" resultType="int">
+    <select id="totalInqry" resultType="int">
 		<![CDATA[
-			SELECT count(*) FROM tb_inqry
-		]]>
+        SELECT count(*)
+        FROM tb_inqry
+        ]]>
 	</select>
 
-	<insert id="insertInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
+    <insert id="insertInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-			INSERT INTO tb_inqry
-				(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date, inqry_update_date, inqry_delete_yn, inqry_mber_id) 
-			VALUES 
-				(inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd}, to_char(sysdate,'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
-		]]>
+        INSERT INTO tb_inqry
+        (inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date,
+         inqry_update_date, inqry_delete_yn, inqry_mber_id)
+        VALUES (inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd},
+                to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
+        ]]>
 	</insert>
-	
-	<insert id="insertFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
+
+    <insert id="insertFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
 		<![CDATA[
-			INSERT INTO tb_inqry_file
-			    (inqry_file_id, inqry_file_name, inqry_file_size, inqry_file_ext, inqry_file_path, inqry_file_regist_date, inqry_file_update_date, inqry_file_delete_yn, inqry_file_inqry_id)
-			VALUES 
-			    (#{inqryFileId}, #{inqryFileName}, #{inqryFileSize}, #{inqryFileExt}, #{inqryFilePath}, to_char(sysdate,'yyyy.mm.dd hh24:mi'), NULL, 'N', #{inqryFileInqryId})
-		]]>
+        INSERT INTO tb_inqry_file
+        (inqry_file_id, inqry_file_name, inqry_file_size, inqry_file_ext, inqry_file_path, inqry_file_regist_date,
+         inqry_file_update_date, inqry_file_delete_yn, inqry_file_inqry_id)
+        VALUES (#{inqryFileId}, #{inqryFileName}, #{inqryFileSize}, #{inqryFileExt}, #{inqryFilePath},
+                to_char(sysdate, 'yyyy.mm.dd hh24:mi'), NULL, 'N', #{inqryFileInqryId})
+        ]]>
 	</insert>
-	
-	<select id="selectinqryFileId" resultType="int">
+
+    <select id="selectinqryFileId" resultType="int">
 		<![CDATA[
-			SELECT 
-         		LAST_NUMBER AS inqryFileId
-      		FROM 
-         		user_sequences 
-      		WHERE sequence_name = 'INQRY_SEQ'
-      ]]>
+        SELECT LAST_NUMBER AS inqryFileId
+        FROM user_sequences
+        WHERE sequence_name = 'INQRY_SEQ'
+        ]]>
 	</select>
 
-	<update id="updateInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
+    <update id="updateInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
 		<![CDATA[
-			UPDATE tb_inqry
-			SET inqry_title = #{inqryTitle},
-			    inqry_cntnt = #{inqryCntnt},
-			    inqry_pwd = #{inqryPwd},
-			    inqry_update_date = to_char(sysdate,'yyyy.mm.dd hh24:mi')
-			WHERE inqry_id = #{inqryId}
-		]]>
+        UPDATE tb_inqry
+        SET inqry_title       = #{inqryTitle},
+            inqry_cntnt       = #{inqryCntnt},
+            inqry_pwd         = #{inqryPwd},
+            inqry_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi')
+        WHERE inqry_id = #{inqryId}
+        ]]>
 	</update>
-	
-	<update id="updateInqryFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
+
+    <update id="updateInqryFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
 		<![CDATA[
-			UPDATE tb_inqry_file
-			SET inqry_file_id = #{inqryFileId},
-			    inqry_file_name = #{inqryFileName},
-			    inqry_file_size = #{inqryFileSize},
-			    inqry_file_ext = #{inqryFileExt},
-			    inqry_file_path = #{inqryFilePath},
-			    inqry_file_update_date = to_char(sysdate,'yyyy.mm.dd hh24:mi')
-			WHERE inqry_file_inqry_id = #{inqryFileInqryId}   
-		]]>
+        UPDATE tb_inqry_file
+        SET inqry_file_id          = #{inqryFileId},
+            inqry_file_name        = #{inqryFileName},
+            inqry_file_size        = #{inqryFileSize},
+            inqry_file_ext         = #{inqryFileExt},
+            inqry_file_path        = #{inqryFilePath},
+            inqry_file_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi')
+        WHERE inqry_file_inqry_id = #{inqryFileInqryId}
+        ]]>
 	</update>
-	
-	<select id="getInqryFileId" parameterType="int" resultType="String">
+
+    <select id="getInqryFileId" parameterType="int" resultType="String">
 		<![CDATA[
-			SELECT inqry_file_id as inqryFileId 
-			FROM tb_inqry_file 
-			WHERE inqry_file_inqry_id=#{inqryId}
-		]]>
+        SELECT inqry_file_id
+        FROM tb_inqry_file
+        WHERE inqry_file_inqry_id = #{inqryId}
+        ]]>
 	</select>
-	
-	<update id="deleteInqry" parameterType="int">
+
+    <update id="deleteInqry" parameterType="int">
 		<![CDATA[
-			UPDATE tb_inqry
-			SET inqry_delete_yn = 'Y'
-			WHERE inqry_id = #{inqryId}
-		]]>	
+        UPDATE tb_inqry
+        SET inqry_delete_yn = 'Y'
+        WHERE inqry_id = #{inqryId}
+        ]]>
 	</update>
 
 </mapper>

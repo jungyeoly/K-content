@@ -6,8 +6,8 @@
 
     <select id="getAllGoodsByContent" resultType="com.example.myapp.cms.content.model.CntntGoodsMapping">
         <![CDATA[
-        SELECT cntnt_id as cntntId,
-               goods_id as goodsId
+        SELECT cntnt_id ,
+               goods_id
         FROM tb_cntnt_goods_mapping
         WHERE cntnt_id = #{cntntId}
         ]]>

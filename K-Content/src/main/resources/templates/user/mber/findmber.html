@@ -40,7 +40,7 @@
 								role="tabpanel" aria-labelledby="find-id-tab" tabindex="0">
 								<div class="row">
 									<form th:action="@{/mber/findid}" method="post"
-										class="validation-form" id="joinForm" novalidate>
+										class="validation-form" id="findIdForm" novalidate>
 										<div th:if="${message}" class="alert alert-danger"
 											role="alert" th:text="${message}"></div>
 										<p class="text-center fw-bold">
@@ -50,8 +50,7 @@
 											<div class="col-md-12 mb-3">
 												<label for="mber_email" class="fw-bold">이메일</label> <input
 													type="text" class="form-control" id="mber_email"
-													name="mberEmail" placeholder="이메일" value="" required
-													th:value="${savedUserId}">
+													name="mberEmail" placeholder="이메일" value="" required>
 												<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
 													이메일입니다.</div>
 											</div>
@@ -59,7 +58,7 @@
 										</div>
 										<div class="row">
 											<button type="submit"
-												class="mb-4 btn btn-lg text-white">마스킹
+												class="mb-4 btn btn-lg text-white" id="sendMaskIdBtn">마스킹
 												아이디 전송</button>
 											<hr class="mb-3">
 										</div>
@@ -79,8 +78,8 @@
 							</div>
 							<div class="tab-pane fade" id="find-password-tab-pane"
 								role="tabpanel" aria-labelledby="find-password-tab" tabindex="0">
-									<form th:action="@{/mber/signin}" method="post"
-										class="validation-form" id="joinForm" novalidate>
+									<form th:action="@{/mber/temppwd}" method="post"
+										class="validation-form" id="tempPwdForm" novalidate>
 										<div th:if="${message}" class="alert alert-danger"
 											role="alert" th:text="${message}"></div>
 										<p class="text-center fw-bold">
@@ -91,14 +90,12 @@
 											<div class="col-md-12 mb-3">
 												<label for="mber_id" class="fw-bold">아이디</label> <input
 													type="text" class="form-control" id="mber_id" name="mberId"
-													placeholder="아이디" value="" required
-													th:value="${savedUserId}">
+													placeholder="아이디" value="" required	>
 											</div>
 											<div class="col-md-12 mb-3">
 												<label for="mber_email" class="fw-bold">이메일</label> <input
 													type="text" class="form-control" id="mber_email"
-													name="mberEmail" placeholder="이메일" value="" required
-													th:value="${savedUserId}">
+													name="mberEmail" placeholder="이메일" value="" required>
 												<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
 													이메일입니다.</div>
 											</div>
@@ -128,8 +125,66 @@
 		</div>
 	</div>
 
+<script>
+const sendMaskIdBtn = $('#mail-check-btn');
+const mailCheckInfo = $('#mail-check-info');
+const mailCheckWarn = $('#mail-check-warn');
+const mailInputCheckWarn = $('#mail-input-check-warn');
+const spinner = $('#mail-check-spinner');
+const buttonText = $('#mail-check-btn-text');
 
-	<script>
+mailCheckBtn.on('click', function() {
+    const mberEmail = $('#mber_email').val();
+
+    console.log('이메일:', mberEmail);
+    
+    if (mberEmail === '') {
+        mailInputCheckWarn.css({
+            display: 'block',
+            color: '#dc3545'
+        }).text('이메일 인증을 위해 이메일을 입력하세요.');
+        return;
+    } else if (!mberEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        mailInputCheckWarn.css({
+            display: 'block',
+            color: '#dc3545'
+        }).text('유효한 이메일 주소 형식으로 입력하세요.');
+        return;
+    }
+    
+    $('#mber_email').prop('disabled', true);
+    spinner.removeClass('d-none');
+    buttonText.text('');
+
+    $.ajax({
+        type: 'POST',
+
+        url: '/mber/findid',
+        data: {
+            mberEmail: mberEmail
+        },
+        success: function(response) {
+            spinner.addClass('d-none');
+            buttonText.text('마스킹 아이디 전송 완료');
+            serverAuthCode = response.trim();
+            const enteredAuthCode = authCodeInput.val().trim();
+            console.log('수신된 검증 코드:', serverAuthCode);
+            console.log('입력된 코드:', enteredAuthCode);
+            mailCheckInfo.text('마스킹 메일이 발송되었습니다.');
+            authCodeInput.prop('disabled', false);
+            mailCheckBtn.blur();
+        },
+        error: function() {
+            mailCheckWarn.text('이메일 입력 오류').css('color', 'red');
+        }
+    });
+
+   });
+
+
+</script>
+
+<!-- 	<script>
 			document.addEventListener("DOMContentLoaded", function() {
 			const urlParams = new URLSearchParams(window.location.search);
 			const findType = urlParams.get('findType');
@@ -152,7 +207,7 @@
 				passwordTabPane.classList.remove('active', 'show');
 			}
 		});
-	</script>
+	</script> -->
 
 </body>
 

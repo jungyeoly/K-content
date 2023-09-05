@@ -15,5 +15,4 @@ public interface IMberService {
 
 	void deleteMber(String mberId);
 
-//	String maskingMberId(String mberEmail);
 }

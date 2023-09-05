@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.example.myapp.user.mber.dao.IMberRepository;
+import com.example.myapp.user.mber.model.Mber;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -215,4 +216,6 @@ public class EmailService implements IEmailService {
 	public String maskMberId(String mberEmail) {
 		return mberRepository.maskMberId(mberEmail);
 	}
+	
+
 }

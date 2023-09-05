@@ -16,18 +16,19 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 
 @Controller
 public class MainCon {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	ICommonCodeService commonCodeService;
+
 
     @GetMapping("/")
     public String getCate(Model model) {
     	// 공통코드를 이용한 content의 카테고리 조회
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
-    	    	
-        return "user/index";
+
+      return "user/index";
     }
 }

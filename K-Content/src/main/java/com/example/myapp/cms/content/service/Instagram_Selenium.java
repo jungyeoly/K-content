@@ -32,12 +32,10 @@ public class Instagram_Selenium {
             driver.get(base_url);
             Document doc = Jsoup.parse(driver.getPageSource());
             // HTML 문서의 타이틀 추출하기
-//            System.out.println("HTML TITLE : " + doc.title());
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
             WebElement posts = driver.findElement(By.className("_aagv"));
             WebElement post = posts.findElement(By.tagName("img"));
             String imageUrl = post.getAttribute("src");
-//            System.out.println("이미지 URL: " + imageUrl);
             return imageUrl;
         } catch (Exception e) {
 

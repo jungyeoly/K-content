@@ -164,6 +164,9 @@
 
             <button th:onclick="goodsNewPage()">상품 추가</button>
         </div>
+        <div>
+            <input type="hidden" id="pInput" >
+        </div>
         <div class="item goods-box">
             <!--            <div th:each="goods : ${goodsJFileList}">-->
             <!--                <a th:href="${goods.goodsPurchsLink}">-->
@@ -195,6 +198,7 @@
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="/js/sb-admin-2.min.js"></script>
+<!--<script src="/js/cntnt/contentMakeForm.js" defer></script>-->
 </body>
 <script>
     $(document).ready(function () {
@@ -254,5 +258,10 @@
     function goodsNewPage() {
         window.open("http://localhost:8083/cs/goods/", "/cs/goods/", "width=1200, height=800");
     }
+
+    clickGoodsList = [];
+    console.log(clickGoodsList);
+
+
 </script>
 </html>

@@ -38,13 +38,6 @@ public class MberController {
 		return "include/modal";
 	}
 
-	@GetMapping("/user/index")
-	public String mberList(Model model) {
-		List<Mber> mber = mberService.selectMberAllList();
-		model.addAttribute("mber", mber);
-		return "user/index";
-	}
-
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(Model model) {
 		return "user/mber/signin";
@@ -84,7 +77,7 @@ public class MberController {
 						response.addCookie(idCookie);
 					}
 					model.addAttribute("mber", mber);
-					return "redirect:/user/index";
+					return "redirect:/";
 				} else { // 비밀번호가 다른 경우
 					session.invalidate();
 					model.addAttribute("message", "비밀번호가 다릅니다. 다시 확인해주세요.");
@@ -101,7 +94,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate(); // 로그아웃
-		return "redirect:/user/index";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.GET)
@@ -111,16 +104,6 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
-//		System.out.println(mber.getMberId());
-//		System.out.println(mber.getMberPwd());
-//		System.out.println(mber.getMberEmail());
-//		System.out.println(mber.getMberName());
-//		System.out.println(mber.getMberBirth());
-//		System.out.println(mber.getMberPhone());
-//		System.out.println(mber.getMberRegistDate());
-//		System.out.println(mber.getMberUpdateDate());
-//		System.out.println(mber.getMberGenderCode());
-//		System.out.println(mber.getMberStatCode());
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {
@@ -155,9 +138,23 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTempPwd(@RequestParam String mberEmail) throws Exception {
+	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
+
+		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
+		String dbMberId = mber.getMberId();
+		String dbMberEmail = mber.getMberEmail();
+
+		logger.info(dbMberId);
+		logger.info(dbMberEmail);
 		String tempPwd = emailService.sendTempPwd(mberEmail);
 		logger.info("임시비밀번호 : " + tempPwd);
+		// 회원 정보 업데이트
+		if (mber != null) {
+		mber.setMberPwd(tempPwd);
+		mberService.updateMber(mber);
+
+		}
+
 		return tempPwd;
 	}
 }

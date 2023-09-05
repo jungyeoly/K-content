@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.myapp.user.content.model.Content;
 import com.example.myapp.user.content.service.IContentUserService;
@@ -22,10 +23,12 @@ public class contentUserController {
 	IContentUserService contentService;
 	
 	@GetMapping("/user/content")
-	public String selectUserContentList(Model model) {
-		List<Content> contentList = contentService.selectUserContent();
-		
+	public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, Model model) {
+		// 카테고리 별 조회
+		List<Content> contentList = contentService.selectUserContent(cate);
+
 		for(int i=0; i<contentList.size(); i++) {
+			// 유튜뷰 영상 썸네일 추출
 			List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
 			String partOfUrl = contentUrlSplit.get(3);
 			List<String> partOfUrl2 = List.of(partOfUrl.split("="));

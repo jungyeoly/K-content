@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.myapp.commoncode.dao.ICommonCodeRepository;
 import com.example.myapp.commoncode.model.CommonCode;
@@ -20,18 +21,13 @@ public class MainCon {
 	
 	@Autowired
 	ICommonCodeService commonCodeService;
-	
-	//@GetMapping("/")
-    //public String getUserState() {
-    //    return "user/main";
-	
+
     @GetMapping("/")
     public String getCate(Model model) {
+    	// 공통코드를 이용한 content의 카테고리 조회
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
-    		
-    	System.out.println(cateList);
-    	
+    	    	
         return "user/index";
     }
 }

@@ -78,7 +78,6 @@ public class InqryController {
 
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
-		// return selectInqryList(1, session, model);
 		return "user/inqury/main";
 	}
 
@@ -225,6 +224,7 @@ public class InqryController {
 		try {
 				Inqry inqry = inqryService.selectInqry(inqryId);
 				String loginId = (String) session.getAttribute("userId");
+
 				if (loginId.equals(inqry.getInqryMberId())) {
 					inqryService.deleteInqry(inqryId);
 					return "redirect:/inqury/" + (Integer)session.getAttribute("page");

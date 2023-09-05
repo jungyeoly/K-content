@@ -10,6 +10,5 @@ import com.example.myapp.user.content.model.Content;
 @Repository
 @Mapper
 public interface IContentUserRepository {
-	List<Content> selectUserContent();
-	List<Content> selectUserCateContent(String commonCodeVal);
+	List<Content> selectUserContent(String commonCodeVal);
 }

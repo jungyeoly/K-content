@@ -16,7 +16,7 @@
                 where upper_common_code = #{upperCommonCode}
             ]]>
 	</select>
-	
+
 	<select id="cateList" parameterType="String" resultType="String">
 		<![CDATA[
 			SELECT
@@ -25,4 +25,5 @@
 			WHERE upper_common_code=#{upperCommonCode}
 			ORDER BY common_order
 		]]>
+	</select>
 </mapper>

@@ -12,6 +12,9 @@ import com.example.myapp.user.commu.model.CommuFile;
 @Mapper
 public interface ICommuRepository {
   
+	int selectMaxPost(); //가장 최근 게시판글
+	int selectMaxCommuFileCommuId(); //가장 최근 첨부파일이 있는 게시글 번호
+	
 	List<Commu> selectAllPost(); //커뮤니티 전체글 다 보기
 	
 	Commu selectPost(int commuId); //커뮤니티 게시글 상세조회(댓글포함)
@@ -21,12 +24,15 @@ public interface ICommuRepository {
 	void insertPost(Commu commu); //커뮤니티 글쓰기
 	void insertFileData(CommuFile file); //커뮤니티 글쓰기에 첨부파일
 	
-	/*
-	 * void updatePost(Commu commu); // 커뮤니티 글쓴 글 업데이트 void updateFiledata(CommuFile
-	 * file);// 커뮤니티 글쓴 글에 첨부파일 업데이트
-	 */
-	int selectMaxPost();
+	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트
+	void updateFiledata(CommuFile file);// 커뮤니티 게시글에 첨부파일 업데이트
+	
+	
 	
 	
 	CommuFile getFile(int commuFileId);
+
+	
+
+	
 }

@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
 .commuBtn {
-    position: absolute;
-    right: 1rem;
-    background-color: var(--color-main);
-    color: white; 
-    float:right;
+    position: absolute !important;
+    right: 1rem !important;
+    background-color: var(--color-main) !important; 
+    color: white !important; 
+    float:right !important; ;
 }
+
 
 .container {
     position: relative;

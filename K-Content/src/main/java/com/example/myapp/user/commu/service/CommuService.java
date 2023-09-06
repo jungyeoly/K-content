@@ -15,8 +15,6 @@ import com.example.myapp.user.commu.model.CommuFile;
 
 @Service
 public class CommuService implements ICommuService {
-	private static final Logger logger = LoggerFactory.getLogger(CommuService.class);
-
 
 	@Autowired
 	ICommuRepository commuRepository;
@@ -50,18 +48,11 @@ public class CommuService implements ICommuService {
 		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
 
-		if (files != null && !files.isEmpty()) {
-			for (CommuFile file : files) {
-				if (file != null && file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
-					file.setCommuFileCommuId(commu.getCommuId());
-					
-					// CommuFile 객체에 대한 등록 날짜 설정 
-	                if(file.getCommuFileRegistDate() == null) {
-	                    file.setCommuFileRegistDate(currentTimestamp);
-	                }
-	                file.setCommuFileCommuId(commu.getCommuId());
-	                logger.info("commuFileRegistDate value: " + file.getCommuFileRegistDate());
-					commuRepository.insertFileData(file);
+		 if (files != null && !files.isEmpty()) {
+		        for (CommuFile commufile : files) {
+		            if (commufile.getCommuFileName() != null && !commufile.getCommuFileName().equals("")) {
+		                commufile.setCommuFileCommuId(commu.getCommuId());
+		                commuRepository.insertFileData(commufile); 
 				}
 			}
 		}
@@ -78,19 +69,30 @@ public class CommuService implements ICommuService {
 		return commuRepository.selectPost(commuId);
 	}
 
-	/*
-	 * @Override public void updatePost(Commu commu) {
-	 * commuRepository.updatePost(commu);
-	 * 
-	 * }
-	 * 
-	 * @Transactional public void updatePost(Commu commu, CommuFile file) {
-	 * commuRepository.updatePost(commu); if(file != null && file.getCommuFileName()
-	 * != null && !file.getCommuFileName().equals("")) {
-	 * file.setCommuFileCommuId(commu.getCommuId());
-	 * 
-	 * if(file.getCommuFileId()) { commuRepository.updateFiledata(file); }else {
-	 * file.setCommuFileId { commuRepository.insertFileData(file); } } }
-	 */
+	@Override
+	public void updatePost(Commu commu) {
+		commuRepository.updatePost(commu);
+
+	}
+
+	@Override
+	public void updatePost(Commu commu, CommuFile file) {
+		commuRepository.updatePost(commu);
+		if (file != null && file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
+			file.setCommuFileCommuId(commu.getCommuId());
+
+			if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
+				// 파일 ID가 존재하면, 해당 파일 업데이트
+				commuRepository.updateFiledata(file);
+			} else {
+				// 아니라면, 새로운 파일 추가
+				// (이 부분은 필요하다면 파일 ID 생성 로직 추가)
+				commuRepository.updateFiledata(file);
+			}
+		}
+
+	}
+
+	
 
 }

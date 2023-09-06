@@ -123,13 +123,13 @@ public class MberController {
 	@ResponseBody
 	public String findId(@RequestParam String mberEmail) throws Exception {
 		Mber mber = mberService.selectMberbyEmail(mberEmail);
-		String maskId="";
-		
+		String maskId = "";
+
 		if (mber != null) {
-		maskId = emailService.sendMaskId(mberEmail);
-		logger.info("마스킹된 아이디 이메일 전송 완료");
+			maskId = emailService.sendMaskId(mberEmail);
+			logger.info("마스킹된 아이디 이메일 전송 완료");
 		}
-		
+
 		return maskId;
 	}
 
@@ -144,7 +144,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
-		String tempPwd="";
+		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
 		// 회원 정보 업데이트
@@ -152,9 +152,9 @@ public class MberController {
 			tempPwd = emailService.sendTempPwd(mberEmail);
 			mber.setMberPwd(tempPwd);
 			mberService.updateMber(mber);
-		
-		} 
-		
+
+		}
+
 		return tempPwd;
 	}
 }

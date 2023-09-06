@@ -4,7 +4,6 @@
 <head th:include="~{/include/admin-header :: adminHeader}">
 
 
-
 </head>
 
 <body id="page-top">
@@ -45,8 +44,9 @@
 
                 </div>
                 <div>
-                    <button>선택</button>
-                    <button>생성</button>
+                    <button onclick="selectEnd()">선택</button>
+                    <button href="">생성</button>
+<!--                    TODO 상품 생성페이지 만들기-->
                 </div>
             </div>
         </div>
@@ -101,74 +101,9 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
+<script src="/js/goods/goods.js"></script>
 </div>
 
 </body>
-<script>
-    function searchKeyword() {
-        console.log("검색 시작");
-        var requestData = {
-            search: document.getElementById("search").value
-        };
-        console.log(requestData);
-        $.ajax({
-            url: '/cs/goods/search',
-            type: 'GET',
-            data: requestData,
-            success: function (data) {
-                const element = document.getElementById('goodsPad');
-                element.innerHTML = "";
 
-                for (var i = 0; i < data.length; i++) {
-                    console.log(element);
-                    inHtml = `<div class="col-xl-4 col-lg-6" >
-                        <div class="single-category mb-30">
-                            <div class="category-img">
-                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileName}" alt="">
-                                <div class="category-caption">
-                                    <h6 style="text-align: center; " >${data[i].goodsName}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                    element.insertAdjacentHTML('beforeend', inHtml);
-                }
-            },
-            error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-
-    }
-
-    $(document).ready(function () {
-
-        $.ajax({
-            url: '/cs/goods/list',
-            type: 'GET',
-            success: function (data) {
-                const element = document.getElementById('goodsPad');
-
-                for (var i = 0; i < data.length; i++) {
-                    inHtml = `<div class="col-xl-3 col-lg-6" >
-                        <div class="single-category mb-30">
-                            <div class="category-img">
-                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileName}" alt="">
-                                <div class="category-caption">
-                                    <h6 style="text-align: center; " >${data[i].goodsName}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                    element.insertAdjacentHTML('beforeend', inHtml);
-                }
-            },
-            error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-
-
-    });
-</script>
 </html>

@@ -31,7 +31,7 @@
 		</ul>
 		<div class="categories-nav">
 			<ul th:each= "cate : ${cateList}" class="categories">
-				<li><a>[[${cate}]]</a></li>
+				<li class="cate" th:data-cate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
 	</header>

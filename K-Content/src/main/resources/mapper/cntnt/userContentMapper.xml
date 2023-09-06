@@ -7,9 +7,10 @@
 			cc.common_code_val,
 			c.cntnt_id,
 			c.cntnt_title,
-			c.cntnt_url as "cntntUrl",
+			c.cntnt_url,
 			c.cntnt_regist_date,
-			c.cntnt_update_date
+			c.cntnt_update_date,
+			cc.common_code_val
 		FROM 
 			tb_common_code cc
 		JOIN 
@@ -18,7 +19,7 @@
 			cc.common_code = c.cntnt_cate_code
 		WHERE 
 			c.cntnt_delete_yn = 'N'
-		<if test='commonCodeVal != ALL'>
+		<if test="commonCodeVal != 'All'">
 			AND cc.common_code_val = #{commonCodeVal}
 		</if>
 		ORDER BY c.cntnt_regist_date DESC	

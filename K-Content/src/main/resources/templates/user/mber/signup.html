@@ -34,8 +34,7 @@
                                 placeholder="아이디" pattern="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$"
                                 required>
                             <div class="invalid-feedback">영문 대소문자로 시작하고, 영문 대소문자, 숫자,
-                                밑줄(_)로 이루어진 5자 이상 12자 이하의 아이디를 입력하세요.
-                            </div>
+                                밑줄(_)로 이루어진 5자 이상 12자 이하의 아이디를 입력하세요.</div>
                             <div th:text="${existIdMessage}" style="color: red;"></div>
                         </div>
                         <div class="col-md-12 mb-3">
@@ -45,8 +44,7 @@
                                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
                                 required>
                             <div class="invalid-feedback">최소 8자, 최대 16자이어야 하며, 영문
-                                대소문자, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다.
-                            </div>
+                                대소문자, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다.</div>
                         </div>
                     </div>
                     <div class="row">
@@ -75,14 +73,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-9 mb-3">
-                            <label for="mber_email" class="fw-bold">이메일</label>
-                            <input
-                                    type="email" id="mber_email" class="form-control"
-                                    name="mberEmail" placeholder="you@example.com"
-                                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required >
+                            <label for="mber_email" class="fw-bold">이메일</label> <input
+                                type="email" id="mber_email" class="form-control"
+                                name="mberEmail" placeholder="you@example.com"
+                                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
                             <div class="invalid-feedback" id="mail-input-check-warn">이메일을
-                                입력하거나 유효한 이메일 주소 형식으로 입력하세요.
-                            </div>
+                                입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="EmailAuth">&nbsp;</label>
@@ -148,7 +144,7 @@
     }, false);
 
 
-    var autoHypenPhone = function (str) {
+    var autoHypenPhone = function(str) {
         str = str.replace(/[^0-9]/g, '');
         var tmp = '';
         if (str.length < 4) {
@@ -179,14 +175,14 @@
 
     var phoneNum = document.getElementById('mber_phone');
 
-    phoneNum.onkeyup = function () {
+    phoneNum.onkeyup = function() {
         console.log(this.value);
         this.value = autoHypenPhone(this.value);
     }
 </script>
 
 
-<!-- 제이쿼리 -->
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
@@ -202,9 +198,9 @@
     const spinner = $('#mail-check-spinner');
     const buttonText = $('#mail-check-btn-text');
     // 인증 번호 확인 함수
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-        mailCheckBtn.on('click', function () {
+        mailCheckBtn.on('click', function() {
             const mberEmail = $('#mber_email').val();
 
             console.log('이메일:', mberEmail);
@@ -223,7 +219,7 @@
                 return;
             }
 
-            // $('#mber_email').prop('disabled', true);
+            $('#mber_email').prop('readonly', true);
             spinner.removeClass('d-none');
             buttonText.text('');
 
@@ -234,19 +230,19 @@
                 data: {
                     mberEmail: mberEmail
                 },
-                success: function (response) {
+                success: function(response) {
+                    console.log('수신된 검증 코드:', serverAuthCode);
+                    console.log('입력된 코드:', enteredAuthCode);
                     spinner.addClass('d-none');
                     buttonText.text('전송 완료');
                     mailCheckBtn.prop('disabled', true);
                     serverAuthCode = response.trim();
                     const enteredAuthCode = authCodeInput.val().trim();
-                    console.log('수신된 검증 코드:', serverAuthCode);
-                    console.log('입력된 코드:', enteredAuthCode);
                     mailCheckInfo.text('인증 메일이 발송되었습니다.');
                     authCodeInput.prop('disabled', false);
                     mailCheckBtn.blur();
                 },
-                error: function () {
+                error: function() {
                     mailCheckWarn.text('이메일 입력 오류').css('color', 'red');
                 }
             });

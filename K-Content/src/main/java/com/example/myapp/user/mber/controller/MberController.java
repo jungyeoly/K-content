@@ -45,7 +45,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.POST)
 	public String signin(String mberId, String mberPwd, @RequestParam(name = "saveId", required = false) String saveId,
-			HttpSession session, HttpServletResponse response, Model model) {
+						 HttpSession session, HttpServletResponse response, Model model) {
 		Mber mber = mberService.selectMberbyId(mberId);
 		if (mber != null) {
 			if ("C0201".equals(mber.getMberStatCode())) {
@@ -104,19 +104,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
-		System.out.println(mber);
-		System.out.println(mber.getMberId());
-		System.out.println(mber.getMberPwd());
 
-		System.out.println(mber.getMberEmail());
-
-		System.out.println(mber.getMberName());
-		System.out.println(mber.getMberBirth());
-		System.out.println(mber.getMberPhone());
-		System.out.println(mber.getMberRegistDate());
-		System.out.println(mber.getMberUpdateDate());
-		System.out.println(mber.getMberGenderCode());
-		System.out.println(mber.getMberStatCode());
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {
@@ -128,7 +116,7 @@ public class MberController {
 
 	@GetMapping("/mber/findmber")
 	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,
-			Model model) {
+						   Model model) {
 		model.addAttribute("findType", findType);
 		return "user/mber/findmber";
 	}
@@ -154,17 +142,14 @@ public class MberController {
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
 
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
-		String dbMberId = mber.getMberId();
-		String dbMberEmail = mber.getMberEmail();
 
-		logger.info(dbMberId);
-		logger.info(dbMberEmail);
 		String tempPwd = emailService.sendTempPwd(mberEmail);
-		logger.info("임시비밀번호 : " + tempPwd);
+		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
-		mber.setMberPwd(tempPwd);
-		mberService.updateMber(mber);
+
+			mber.setMberPwd(tempPwd);
+			mberService.updateMber(mber);
 
 		}
 

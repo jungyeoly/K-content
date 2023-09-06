@@ -21,20 +21,29 @@
 				<li class="logout" th:unless="${session.mberId == null}"><a th:href="@{/mber/signout}">LOGOUT</a></li>
 			</ul>
 		</div>
+		
 		<ul class="contents">
-			<li class="content"><a th:href="@{/}">Main</a></li>
-			<li class="content"><a th:href="@{/commu/list}">Comm</a></li>
-			<li class="content"><a th:href="@{/inqury}">Cs</a></li>
+			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
+			<li id="comm" class="content"><a th:href="@{/list}">Comm</a></li>
+			<li id="cs" class="content"><a th:href="@{/inqury}">Cs</a></li>
 			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
 			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
 			<li class="search"><i class="fa-solid fa-magnifying-glass"></i></li>
 		</ul>
-		<div class="categories-nav">
+		
+		<div id="main-cate" class="categories-nav">
 			<ul th:each= "cate : ${cateList}" class="categories">
-				<li class="cate" th:data-cate-value="${cate}">[[${cate}]]</li>
+				<li class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
+			</ul>
+		</div>
+		
+		<div id="comm-cate" class="categories-nav">
+			<ul th:each= "cate : ${cateList}" class="categories">
+				<li class="cate" th:data-commcate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
 	</header>
+
 </body>
 
 </html>

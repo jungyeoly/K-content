@@ -73,10 +73,10 @@
     SET mber_email = #{mberEmail},
         mber_pwd = #{mberPwd},
         mber_name = #{mberName},
-        mber_birth = to_date(#{mberBirth}, 'yyyy.mm.dd hh24:mi:ss'),
+        mber_birth = #{mberBirth},
         mber_phone = #{mberPhone},
         mber_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
-	    WHERE mber_id = #{mberId}
+       WHERE mber_id = #{mberId}
     ]]>
 	</update>
 

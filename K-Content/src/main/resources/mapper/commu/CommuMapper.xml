@@ -53,11 +53,11 @@
         ]]>
 	</update>
 
-	<select id="selectMaxPost" parameterType="int" resultType="int">
+	<select id="selectMaxPost" resultType="int">
 	<![CDATA[
-		SELECT NVL(MAX(commu_id),0) AS "post" 
-		FROM tb_commu
-	]]>
+        SELECT NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
+        FROM tb_commu_file
+        ]]>
 	</select>
 
 	<select id="selectMaxCommuFileCommuId" parameterType="int"
@@ -90,13 +90,7 @@ VALUES
     ]]>
 	</insert>
 
-	<select id="selectMaxPost" resultType="int">
-	<![CDATA[
-        SELECT NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
-        FROM tb_commu_file
-        ]]>
-		>>>>>>> 030f32ae83c275d5e8bfd627668ddbdcb7025f64
-	</select>
+	
 
 
 	<select id="getFile" parameterType="int"

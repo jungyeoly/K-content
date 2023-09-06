@@ -8,10 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.example.myapp.commoncode.dao.ICommonCodeRepository;
-import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 
 @Controller

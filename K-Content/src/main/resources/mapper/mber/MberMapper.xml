@@ -21,6 +21,24 @@
 			]]>
 	</select>
 
+	<select id="selectMberbyEmail"
+		resultType="com.example.myapp.user.mber.model.Mber">
+			<![CDATA[
+				SELECT mber_id,
+					mber_email,
+					mber_pwd,
+					mber_name,
+					mber_birth,
+					mber_phone,
+					mber_regist_date,
+					mber_update_date,
+					mber_gender_code,
+					mber_stat_code
+				FROM tb_mber 
+				WHERE mber_Email=#{mberEmail}
+			]]>
+	</select>
+	
 	<select id="selectMberbyIdEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[

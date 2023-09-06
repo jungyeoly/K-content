@@ -181,12 +181,6 @@
 		}
 	</script>
 
-
-
-	<script src="https://code.jquery.com/jquery-3.7.1.js"
-		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-		crossorigin="anonymous"></script>
-
 	<script>
 			let emailAuthYN = 'N';
 		    const authCodeInput = $('#auth-code-input');
@@ -231,13 +225,13 @@
 		                mberEmail: mberEmail
 		            },
 		            success: function(response) {
-		                console.log('수신된 검증 코드:', serverAuthCode);
-		                console.log('입력된 코드:', enteredAuthCode);
 		                spinner.addClass('d-none');
 		                buttonText.text('전송 완료');
-		                mailCheckBtn.prop('disabled', true);
 		                serverAuthCode = response.trim();
 		                const enteredAuthCode = authCodeInput.val().trim();
+		                console.log('수신된 검증 코드:', serverAuthCode);
+		                console.log('입력된 코드:', enteredAuthCode);
+		                mailCheckBtn.prop('disabled', true);
 		                mailCheckInfo.text('인증 메일이 발송되었습니다.');
 		                authCodeInput.prop('disabled', false);
 		                mailCheckBtn.blur();

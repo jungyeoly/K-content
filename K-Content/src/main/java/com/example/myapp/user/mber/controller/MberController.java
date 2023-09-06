@@ -1,7 +1,5 @@
 package com.example.myapp.user.mber.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,16 +102,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
-		System.out.println(mber.getMberId());
-		System.out.println(mber.getMberPwd());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberName());
-		System.out.println(mber.getMberBirth());
-		System.out.println(mber.getMberPhone());
-		System.out.println(mber.getMberRegistDate());
-		System.out.println(mber.getMberUpdateDate());
-		System.out.println(mber.getMberGenderCode());
-		System.out.println(mber.getMberStatCode());
+
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {
@@ -133,8 +122,14 @@ public class MberController {
 	@RequestMapping(value = "/mber/findid", method = RequestMethod.POST)
 	@ResponseBody
 	public String findId(@RequestParam String mberEmail) throws Exception {
-		String maskId = emailService.sendMaskId(mberEmail);
+		Mber mber = mberService.selectMberbyEmail(mberEmail);
+		String maskId="";
+		
+		if (mber != null) {
+		maskId = emailService.sendMaskId(mberEmail);
 		logger.info("마스킹된 아이디 이메일 전송 완료");
+		}
+		
 		return maskId;
 	}
 
@@ -149,23 +144,13 @@ public class MberController {
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
-
+		String tempPwd="";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
-		logger.info(mber.getMberId());
-		logger.info(mber.getMberEmail());
 
-		logger.info(mber.getMberBirth());
-		logger.info(mber.getMberUpdateDate());
-		logger.info(mber.getMberPhone());
-		logger.info(mber.getMberName());
-//		String dbMberId = mber.getMberId();
-//		String dbMberEmail = mber.getMberEmail();
-		String tempPwd = emailService.sendTempPwd(mberEmail);
-		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
+			tempPwd = emailService.sendTempPwd(mberEmail);
 			mber.setMberPwd(tempPwd);
-			logger.info(mber.getMberPwd());
 			mberService.updateMber(mber);
 		
 		} 

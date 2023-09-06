@@ -2,6 +2,8 @@ package com.example.myapp.user.mber.model;
 
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
 public class Mber {
 	String mberId;
@@ -10,8 +12,8 @@ public class Mber {
 	String mberName;
 	String mberBirth;
 	String mberPhone;
-	String mberRegistDate;
-	String mberUpdateDate;
+	Date mberRegistDate;
+	Date mberUpdateDate;
 	String mberGenderCode;
 	String mberStatCode;
 }

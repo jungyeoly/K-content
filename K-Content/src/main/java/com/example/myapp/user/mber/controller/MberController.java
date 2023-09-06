@@ -45,7 +45,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.POST)
 	public String signin(String mberId, String mberPwd, @RequestParam(name = "saveId", required = false) String saveId,
-			HttpSession session, HttpServletResponse response, Model model) {
+						 HttpSession session, HttpServletResponse response, Model model) {
 		Mber mber = mberService.selectMberbyId(mberId);
 		if (mber != null) {
 			if ("C0201".equals(mber.getMberStatCode())) {
@@ -116,7 +116,7 @@ public class MberController {
 
 	@GetMapping("/mber/findmber")
 	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,
-			Model model) {
+						   Model model) {
 		model.addAttribute("findType", findType);
 		return "user/mber/findmber";
 	}
@@ -148,8 +148,8 @@ public class MberController {
 		// 회원 정보 업데이트
 		if (mber != null) {
 
-		mber.setMberPwd(tempPwd);
-		mberService.updateMber(mber);
+			mber.setMberPwd(tempPwd);
+			mberService.updateMber(mber);
 
 		}
 

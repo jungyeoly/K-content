@@ -1,10 +1,11 @@
 clickGoodsList = [];
 
 function selectEnd(){
-    //TODO 창 닫고 리스트 값 부모 페이지로 넘기기
     console.log(clickGoodsList);
+    const openerWindow = window.opener;
+    console.log(openerWindow);
+    window.opener.postMessage(clickGoodsList, "*");
     window.close();
-    opener.document.getElementById("pInput").value = clickGoodsList
 }
 
 function addList(goodsId) {

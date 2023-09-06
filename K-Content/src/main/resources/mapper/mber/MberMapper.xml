@@ -1,95 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.example.myapp.user.mber.dao.IMberRepository">
+		namespace="com.example.myapp.user.mber.dao.IMberRepository">
 
 	<select id="selectMberbyId"
-		resultType="com.example.myapp.user.mber.model.Mber">
+			resultType="com.example.myapp.user.mber.model.Mber">
 			<![CDATA[
-				SELECT mber_id,
-					mber_email,
-					mber_pwd,
-					mber_name,
-					mber_birth,
-					mber_phone,
-					mber_regist_date,
-					mber_update_date,
-					mber_gender_code,
-					mber_stat_code
-				FROM tb_mber 
-				WHERE mber_id=#{mberId}
-			]]>
+		SELECT mber_id,
+			   mber_email,
+			   mber_pwd,
+			   mber_name,
+			   mber_birth,
+			   mber_phone,
+			   mber_regist_date,
+			   mber_update_date,
+			   mber_gender_code,
+			   mber_stat_code
+		FROM tb_mber
+		WHERE mber_id=#{mberId}
+		]]>
 	</select>
 
 	<select id="selectMberbyIdEmail"
-		resultType="com.example.myapp.user.mber.model.Mber">
+			resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT mber_id,
-				mber_email,
-				mber_pwd,
-				mber_name,
-				mber_birth,
-				mber_phone,
-				mber_regist_date,
-				mber_update_date,
-				mber_gender_code,
-				mber_stat_code
-			FROM tb_mber 
-			WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
+		SELECT mber_id,
+			   mber_email,
+			   mber_pwd,
+			   mber_name,
+			   mber_birth,
+			   mber_phone,
+			   mber_regist_date,
+			   mber_update_date,
+			   mber_gender_code,
+			   mber_stat_code
+		FROM tb_mber
+		WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
 		]]>
 	</select>
 
 	<select id="selectMberAllList"
-		resultType="com.example.myapp.user.mber.model.Mber">
+			resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT mber_id, 
-				mber_email,
-				mber_pwd,
-				mber_birth,
-				mber_name,
-				mber_birth,
-				mber_phone,
-				mber_regist_date,
-				mber_update_date,
-				mber_gender_code,
-				mber_stat_code
-			FROM tb_mber
+		SELECT mber_id,
+			   mber_email,
+			   mber_pwd,
+			   mber_birth,
+			   mber_name,
+			   mber_birth,
+			   mber_phone,
+			   mber_regist_date,
+			   mber_update_date,
+			   mber_gender_code,
+			   mber_stat_code
+		FROM tb_mber
 		]]>
 	</select>
 
 	<insert id="insertMber" parameterType="String">
 	    <![CDATA[
-        INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
-                             mber_update_date, mber_gender_code, mber_stat_code)
-        VALUES (#{mberId}, #{mberEmail}, #{mberPwd}, #{mberName}, #{mberBirth}, #{mberPhone},
-                to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'), null, #{mberGenderCode}, 'C0202')
-        ]]>
+		INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
+							 mber_update_date, mber_gender_code, mber_stat_code)
+		VALUES (#{mberId}, #{mberEmail}, #{mberPwd}, #{mberName}, #{mberBirth}, #{mberPhone},
+				to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'), null, #{mberGenderCode}, 'C0202')
+		]]>
 	</insert>
 
 	<update id="updateMber"
-		parameterType="com.example.myapp.user.mber.model.Mber">
+			parameterType="com.example.myapp.user.mber.model.Mber">
     <![CDATA[
-    UPDATE tb_mber
-    SET mber_email = #{mberEmail},
-        mber_pwd = #{mberPwd},
-        mber_name = #{mberName},
-        mber_birth = to_date(#{mberBirth}, 'yyyy.mm.dd hh24:mi:ss'),
-        mber_phone = #{mberPhone},
-        mber_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
-	    WHERE mber_id = #{mberId}
-    ]]>
+		UPDATE tb_mber
+		SET mber_email = #{mberEmail},
+			mber_pwd = #{mberPwd},
+			mber_name = #{mberName},
+			mber_birth = to_date(#{mberBirth}, 'yyyy.mm.dd hh24:mi:ss'),
+			mber_phone = #{mberPhone},
+			mber_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+		WHERE mber_id = #{mberId}
+		]]>
 	</update>
 
 
 
 	<select id="maskMberId" parameterType="String"
-		resultType="String">
+			resultType="String">
     <![CDATA[
-		SELECT 
-    		SUBSTR(mber_id, 1, 3) || RPAD('*', LENGTH(mber_id) - 2, '*')
+		SELECT
+			SUBSTR(mber_id, 1, 3) || RPAD('*', LENGTH(mber_id) - 2, '*')
 		FROM tb_mber
 		WHERE mber_email = #{mberEmail}
-    ]]>
+		]]>
 	</select>
 
 </mapper>

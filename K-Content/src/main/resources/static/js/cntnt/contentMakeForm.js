@@ -72,6 +72,9 @@ function selectGoods(receivedData) {
             str += receivedData[i] + ",";
         }
     }
+/*    receivedData.map((data,index) => {
+        console.log(data, index);
+    })*/
     console.log(str);
     var requestData = {
         sendData: str

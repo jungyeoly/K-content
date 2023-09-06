@@ -188,7 +188,7 @@
         var requestData = {
             trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1)
         };
-
+    console.log(requestData);
         $.ajax({
             url: '/cs/instacrol',
             type: 'GET',

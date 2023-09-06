@@ -1,12 +1,9 @@
 $(document).ready(function () {
-    var cntntURL = "[[${content.getCntntUrl()}]]";
-    console.log(cntntURL);
-    // 여기는 이거 말고 url 을 받아갈 수 있어 url 받아가는 거로 다시 해봐봐보바봐
+    var cntntURL = document.getElementById("contentURL").value;
     var requestData = {
         targetContentIdF: cntntURL
     };
 
-    // /cs/instaimg URL로 GET 요청을 보냅니다.
     $.ajax({
         url: '/cs/youtube/iframe',
         type: 'GET',
@@ -16,7 +13,6 @@ $(document).ready(function () {
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
                 `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             element.innerHTML = inHtml
-            console.log(data2);
         },
         error: function (error) {
             console.error('에러 발생: ', error);
@@ -52,10 +48,61 @@ function makeKeyword() {
     thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
 }
 
+window.name = "goods_parent";
+
 function goodsNewPage() {
     window.open("http://localhost:8083/cs/goods/", "/cs/goods/", "width=1200, height=800");
 }
 
-clickGoodsList = [];
-console.log(clickGoodsList);
+const receiveMessage = async (e) => {
+    var receivedData = e.data;
+    // 원하는 작업을 수행하거나 데이터를 출력
+
+    // console.log("자식 창에서 받은 데이터:", receivedData);
+    selectGoods(receivedData)
+}
+window.addEventListener("message", receiveMessage, false);
+
+function selectGoods(receivedData) {
+    var str = "";
+    for( i=0; i<receivedData.length; i++){
+        if(receivedData.length == i+1){
+            str += receivedData[i];
+        }else {
+            str += receivedData[i] + ",";
+        }
+    }
+    console.log(str);
+    var requestData = {
+        sendData: str
+    };
+    console.log(requestData);
+    $.ajax({
+        url: '/cs/goods/makecntntselectgoods',
+        type: 'GET',
+        data: requestData,
+        success: function (data) {
+            const element = document.getElementById('goods-box');
+
+            for (var i = 0; i < data.length; i++) {
+                inHtml = `<div class="col-xl-3 col-lg-6" >
+                        <div class="single-category mb-30" onclick="addList(${data[i].goodsId})">
+                            <div class="category-img">
+
+                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileName}" alt="">
+
+                                <div class="category-caption">
+                                    <h6 style="text-align: center; " >${data[i].goodsName}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                element.insertAdjacentHTML('beforeend', inHtml);
+            }
+        },
+        error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+}
 

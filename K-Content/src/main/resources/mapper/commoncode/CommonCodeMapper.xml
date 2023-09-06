@@ -16,7 +16,7 @@
                 where upper_common_code = #{upperCommonCode}
             ]]>
 	</select>
-	
+
 	<select id="cateList" parameterType="String" resultType="String">
 		<![CDATA[
 			SELECT

@@ -104,16 +104,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
-		System.out.println(mber.getMberId());
-		System.out.println(mber.getMberPwd());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberName());
-		System.out.println(mber.getMberBirth());
-		System.out.println(mber.getMberPhone());
-		System.out.println(mber.getMberRegistDate());
-		System.out.println(mber.getMberUpdateDate());
-		System.out.println(mber.getMberGenderCode());
-		System.out.println(mber.getMberStatCode());
+
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {
@@ -151,25 +142,17 @@ public class MberController {
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
 
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
-		logger.info(mber.getMberId());
-		logger.info(mber.getMberEmail());
 
-		logger.info(mber.getMberBirth());
-		logger.info(mber.getMberUpdateDate());
-		logger.info(mber.getMberPhone());
-		logger.info(mber.getMberName());
-//		String dbMberId = mber.getMberId();
-//		String dbMberEmail = mber.getMberEmail();
 		String tempPwd = emailService.sendTempPwd(mberEmail);
 		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
-			mber.setMberPwd(tempPwd);
-			logger.info(mber.getMberPwd());
-			mberService.updateMber(mber);
-		
-		} 
-		
+
+		mber.setMberPwd(tempPwd);
+		mberService.updateMber(mber);
+
+		}
+
 		return tempPwd;
 	}
 }

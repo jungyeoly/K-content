@@ -51,8 +51,6 @@ public class CommuController {
 
 		model.addAttribute("showAll", true); // "BEST" 대신 "ALL" 표시
 
-		System.out.println(currentPage);
-
 		List<Commu> commulist = commuService.selectAllPost();
 
 		int totalPage = 0;
@@ -62,7 +60,6 @@ public class CommuController {
 		if (commulist != null && !commulist.isEmpty()) {
 
 			totalCommu = commulist.size();
-			System.out.println(totalCommu);
 			int partitionSize = 10;
 			List<List<Commu>> partitionedList = Lists.partition(commulist, partitionSize);
 			totalPage = partitionedList.size();
@@ -128,7 +125,7 @@ public class CommuController {
 			List<CommuFile> commuFiles = commu.getCommuFiles();
 			if (commuFiles == null) {
 			    commuFiles = new ArrayList<>();
-			    commu.setCommuFiles(commuFiles);  
+			    commu.setCommuFiles(commuFiles);
 			}
 
 
@@ -158,7 +155,6 @@ public class CommuController {
 							file.setCommuFileName(fileName);
 							file.setCommuFileSize(uploadFile.getSize());
 							file.setCommuFileExt(FilenameUtils.getExtension(originalName));
-							System.out.println(originalName);
 							file.setCommuFilePath(savefileName); // 파일의 저장 경로
 
 

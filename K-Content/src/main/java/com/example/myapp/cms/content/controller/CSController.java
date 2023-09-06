@@ -66,12 +66,12 @@ public class CSController {
     public String getContentManage(Model model) {
         List<Content> result = contentService.getAllContent();
 
-        for(int i=0; i<result.size(); i++){
+        for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
             List<String> partOfUrl2 = List.of(partOfUrl.split("="));
             String restultCode = partOfUrl2.get(1);
-            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+restultCode+"/hqdefault.jpg");
+            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
 
         }
         model.addAttribute("content", result);
@@ -113,11 +113,9 @@ public class CSController {
     @GetMapping("/youtube/iframe")
     @ResponseBody
     public String getAIframe(@RequestParam(value = "targetContentIdF") String targetContentIdF) {
-        System.out.println("targetContentIdFtargetContentIdF: " + targetContentIdF);
         List<String> contentUrlSplit = List.of(targetContentIdF.split("/"));
         String partOfUrl = contentUrlSplit.get(3);
         List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-        System.out.println("partOfUrl2: " + partOfUrl2);
         String restultCode = partOfUrl2.get(1);
         return restultCode;
     }
@@ -145,30 +143,25 @@ public class CSController {
         return realImg;
 
     }
+
     //콘텐츠 생성 페이지
     @GetMapping("/makecontent")
-    public String getMakeContentForm(String cntntURL,  String cntntTitle, Model model) {
-       Content cntnt = new Content();
+    public String getMakeContentForm(String cntntURL, String cntntTitle, Model model) {
+        Content cntnt = new Content();
         cntnt.setCntntTitle(cntntTitle);
         cntnt.setCntntUrl(cntntURL);
-        model.addAttribute("content",cntnt);
-
-        System.out.println("cntntURL: "+cntntURL);
-        System.out.println("cntntTitle: "+cntntTitle);
+        model.addAttribute("content", cntnt);
         return "cms/cntnt/contentMakeForm";
     }
 
     @GetMapping("/makecontent/update")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
-//        System.out.println("수정부 입니다: "+targetContentIdF);
         Content content = contentService.getAContent(targetContentIdF);
 
         model.addAttribute("content", content);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
-
-
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
         List<Goods> goodsJFileList = new ArrayList<Goods>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
@@ -186,6 +179,7 @@ public class CSController {
 
         return "cms/cntnt/contentMakeForm";
     }
+
     @GetMapping("/ma")
     public String getAllds() {
         return "include/admin-sideBar";

@@ -6,23 +6,10 @@
 </head>
 <body>
 <header th:include="~{/include/body-header :: userNavBar}"></header>
+
 <div class="layout"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
-<script th:inline="javascript">
-		$(document).ready(function() {
-			
-			$.ajax({
-				url: "/user/content",
-				type: "GET",
-				success: function(data) {
-					console.log(data);
-					var layout = $(".layout");
-					layout.append(data);
-				}
-			})
-		})
-	</script>
+<script th:src="@{/js/content/content.js}"></script>
 </body>
 </html>

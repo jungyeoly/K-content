@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.inqry.model.Inqry;
 import com.example.myapp.user.inqry.model.InqryFile;
 import com.example.myapp.user.inqry.service.IInqryService;
@@ -39,6 +40,9 @@ public class InqryController {
 
 	@Autowired
 	IInqryService inqryService;
+	
+	@Autowired
+	ICommonCodeService commonCodeSerivce;
 
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
@@ -78,6 +82,8 @@ public class InqryController {
 
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
+		List<String> cateList = commonCodeSerivce.cateList("C03");
+		model.addAttribute("cateList", cateList);
 		return "user/inqury/main";
 	}
 

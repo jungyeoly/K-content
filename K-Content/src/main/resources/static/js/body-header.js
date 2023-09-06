@@ -1,21 +1,26 @@
-const mainTab = ducument.getElementById('main');
-const commTab = document.getElementById('comm');
-const csTab = document.getElemetById('cs');
-const categories = documet.querySelectorAll('.categories li');
+$('#main').mouseover(function() {
+	$('#comm-cate').css('display', 'none');
+	$('#main-cate').css('display', 'block');
+})
 
-mainTab.addEventListeer('click', function() {
-	categories.style.display = 'block';
-});
+$('#main-cate').mouseleave(function() {
+	$('#main-cate').css('display', 'none');
+})
 
-commTab.addEventListener('click', function() {
-	const bestCategory = categories.querySelector('li:first-child');
-	if(bestCategory) {
-		bestCategory.textCotent = 'ALL';
-	}
-	
-	categories.style.display = 'block';
-});
+$("#comm").mouseover(function() {
+	$('#main-cate').css('display', 'none');
+	$('#comm-cate').css('display', 'block');
+})
 
-csTab.addEventListener('click', function () {
-    categories.style.display = 'none';
-});
+$('#comm-cate').mouseleave(function() {
+	$('#comm-cate').css('display', 'none');
+})
+
+$('#cs').mouseover(function() {
+	$('#comm-cate').css('display', 'none');
+	$('#main-cate').css('display', 'none');
+})
+
+$('.logo').mouseover(function() {
+	$('.categories-nav').css('display', 'none');
+})

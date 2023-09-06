@@ -56,33 +56,41 @@
 	</update>
 
 
-	<select id="selectMaxPost" resultType="int">
+	<select id="selectMaxPost" parameterType="int" resultType="int">
 	<![CDATA[
-		SELECT NVL(MAX(commu_file_commu_id),0) AS "commuFileCommuId" 
-		FROM tb_commu_file
+		SELECT NVL(MAX(commu_id),0) AS "post" 
+		FROM tb_commu
+	]]>
+	</select>
+	
+	<select id="selectMaxCommuFileCommuId" parameterType="int" resultType="int">
+	<![CDATA[
+		select NVL(MAX(commu_file_commu_id),0) as "commuFileCommuId"
+		from tb_commu_file
 	]]>
 	</select>
 
 	<insert id="insertPost"
 		parameterType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[
-		INSERT INTO tb_commu
-			(commu_id, commu_title, commu_cntnt,commu_cate_code, commu_regist_date, commu_mber_id)
-		VALUES
-			(#{commuId}, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commu_regist_date}, #{commuMberId})
-			]]>
+	INSERT INTO tb_commu
+  (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id, 
+   commu_status, commu_type, commu_read_cnt, commu_ref_id, commu_depth, commu_order)
+VALUES
+  (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId}, 
+   'N', 'N', 0, 0, 0, 0)
+	]]>
 	</insert>
 
 	<insert id="insertFileData"
 		parameterType="com.example.myapp.user.commu.model.CommuFile">
-		<![CDATA[
-		INSERT INTO tb_commu_file
-		(commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_commu commu_file_commu_id)
-		VALUES
-			(#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath}, #{commuFileCommuId})
-			]]>
+    <![CDATA[
+    INSERT INTO tb_commu_file
+    (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_delete_yn, commu_file_commu_id)
+    VALUES
+        (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),'N',#{commuFileCommuId})
+    ]]> 
 	</insert>
-
 
 	<select id="getFile" parameterType="int"
 		resultType="com.example.myapp.user.commu.model.CommuFile">
@@ -106,7 +114,7 @@
 		parameterType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
 update tb_commu
-set commu_id=#{commuId}, commu_title=#{commuTitle}, commu_cntnt=#{commuCntnt}, commu_regist_date=SYSDATE, commu_cate_code=#{commuCateCode}, commu_mber_id=#{commuMberId)
+set commu_id=#{commuId}, commu_title=#{commuTitle}, commu_cntnt=#{commuCntnt}, commu_regist_date=SYSDATE, commu_update_date=SYSDATE, commu_read_cnt=#{commuReadCnt}, commu_ref_id=#{commuRefId}, commu_depth=#{commuDepth}, commu_order=#{commuOrder}, commu_cate_code=#{commuCateCode}, commu_mber_id=#{commuMberId)
 where commu_id=#{commuId}
 	]]>
 	</update>
@@ -116,9 +124,8 @@ where commu_id=#{commuId}
 	<![CDATA[
 	update tb_commu_file
 	set
-		commu_file_id=#{commuFileId}, commu_file_name=#{commuFileName}, commu_file_size=#{commuFileSize}, commu_file_ext=#{commuFileExt}, commu_file_path=#{commuFilePath}, commu_file_commu_id=#{commuFileCommuId}
-		where commu_file_id = #{commuFileId}
-
+		commu_file_id=#{commuFileId}, commu_file_name=#{commuFileName}, commu_file_size=#{commuFileSize}, commu_file_ext=#{commuFileExt}, commu_file_path=#{commuFilePath}, commu_file_regist_date=#{commuFileRegistDate}, commu_file_update_date=#{commuFileUpdateDate}, commu_file_commu_id=#{commuFileCommuId}
+		where commu_file_commu_id=#{commuFileCommuId}
 	]]>
 	</update>
 </mapper>

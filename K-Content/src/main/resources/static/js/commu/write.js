@@ -49,3 +49,10 @@ function validateForm() {
 
     return true;
 }
+
+const fileSelectButton = document.getElementById('fileSelectButton');
+fileSelectButton.onclick = function(event) {
+    event.preventDefault();
+    document.getElementById('attachment').click();
+};
+

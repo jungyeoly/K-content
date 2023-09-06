@@ -1,16 +1,17 @@
 @charset "UTF-8";
-
-:root {
-	/* Color */ 
-	--color-main: #14dbc8;
-}
-
 @import
 	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
 
 @import
 	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean')
 	;
+
+:root {
+	/* Color */ 
+	--color-main: #14dbc8;
+}
+
+
 
 @font-face {
 	font-family: 'NEXON Lv1 Gothic OTF Light';

@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.CommonCodeService;
+import com.example.myapp.user.commu.dao.ICommuRepository;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 import com.google.common.collect.Lists;
@@ -45,7 +46,7 @@ public class CommuController {
 	@Autowired
 	private CommonCodeService commonCodeService;
 
-	@GetMapping("/list") // 커뮤니티 메인
+	@GetMapping("/commu/list") // 커뮤니티 메인
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
 			Model model, HttpSession session) {
 
@@ -98,7 +99,7 @@ public class CommuController {
 	}
 
 	// 카테고리별 커뮤니티 글쓰기
-	@GetMapping("/commu/commuwrite")
+	@GetMapping("/commu/write/{commuCateCode}")
 	public String writePost(Model model) {
 		model.addAttribute("showAll", true);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -109,78 +110,79 @@ public class CommuController {
 	}
 
 	// 커뮤니티 글쓰기 및 파일 업로드를 처리하는 메서드
-	@PostMapping("/commu/commuwrite")
-	public String writePostAndUploadFiles(Commu commu,
-			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
-			RedirectAttributes redirectAttrs) {
+	@PostMapping("/commu/write/{commuCateCode}")
+	public String writePost(Commu commu,
+	                        @RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles,
+	                        BindingResult results,
+	                        RedirectAttributes redirectAttrs) {
 
-		// 게시물 정보 로깅
-		logger.info("/user/commu/write : " + commu.toString());
+	    logger.info("writePost method started.");
+	    logger.info("Commu object: " + commu.toString());
 
-		try {
-			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
-			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
-			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+	    // 게시물 정보 로깅
+	    logger.info("/user/commu/write : " + commu.toString());
 
-			// 첨부파일 리스트 초기화
-			List<CommuFile> commuFiles = commu.getCommuFiles();
-			if (commuFiles == null) {
-			    commuFiles = new ArrayList<>();
-			    commu.setCommuFiles(commuFiles);  
-			}
+	    try {
+	        // 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
+	        commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
+	        // 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
+	        commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
+	        commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
+	        // 데이터베이스에 게시물 정보 삽입
+	        commuService.insertPost(commu);
 
-			// 첨부 파일이 있을 경우 처리
-			if (commuUploadFiles != null && commuUploadFiles.length > 0) {
-				// 첨부파일들을 반복 처리
-				for (MultipartFile uploadFile : commuUploadFiles) {
-					// 파일이 비어있지 않은 경우
-					if (!uploadFile.isEmpty()) {
-						String originalName = uploadFile.getOriginalFilename();
-						String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
-						String uuid = UUID.randomUUID().toString(); // 고유 ID 생성
-						String url = "C:\\Users\\KOSA\\Downloads";
-						File dir = new File(url);
-						if (!dir.exists()) {
-							dir.mkdirs(); // 폴더가 존재하지 않으면 생성
-						}
-						String savefileName = url + File.separator + uuid + "_" + fileName; // 저장될 파일명 결정
-						Path savePath = Paths.get(savefileName);
+	        // 첨부파일 리스트 초기화
+	        List<CommuFile> commuFiles = new ArrayList<>();
 
-						// 실제 파일 저장
-						try {
-							uploadFile.transferTo(savePath);
+	        if (commuUploadFiles != null && commuUploadFiles.length > 0) {
+	            logger.info("Processing uploaded files.");
 
-							// 첨부 파일 메타데이터 생성
-							CommuFile file = new CommuFile();
-							file.setCommuFileName(fileName);
-							file.setCommuFileSize(uploadFile.getSize());
-							file.setCommuFileExt(FilenameUtils.getExtension(originalName));
-							System.out.println(originalName);
-							file.setCommuFilePath(savefileName); // 파일의 저장 경로
+	            for (MultipartFile uploadFile : commuUploadFiles) {
+	                if (!uploadFile.isEmpty()) {
+	                    String originalName = uploadFile.getOriginalFilename();
+	                    String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+	                    String uuid = UUID.randomUUID().toString();
+	                    String url = "C:\\Users\\KOSA\\Downloads";
+	                    File dir = new File(url);
+	                    if (!dir.exists()) {
+	                        dir.mkdirs();
+	                    }
+	                    String savefileName = url + File.separator + uuid + "_" + fileName;
+	                    Path savePath = Paths.get(savefileName);
 
+	                    try {
+	                        uploadFile.transferTo(savePath);
+	                        logger.info("File saved successfully at: " + savePath);
 
-							commuFiles.add(file); // 첨부 파일 리스트에 추가
+	                        CommuFile file = new CommuFile();
+	                        file.setCommuFileId(UUID.randomUUID().toString());
+	                        file.setCommuFileName(fileName);
+	                        file.setCommuFileSize(uploadFile.getSize());
+	                        file.setCommuFileExt(FilenameUtils.getExtension(originalName));
+	                        file.setCommuFilePath(savefileName);
+	                        file.setCommuFileCommuId(commu.getCommuId());
+	                        commuFiles.add(file);
+	                        logger.info("Created CommuFile metadata: " + file.toString());
 
-						} catch (IOException e) { // 파일 저장 실패 시 예외 처리
-							logger.error("File saving failed: ", e);
-						}
-					}
-				}
-			}
-			// 데이터베이스에 게시물 및 첨부파일 정보 삽입
-			commuService.insertPost(commu, commuFiles);
+	                    } catch (IOException e) {
+	                        logger.error("File saving failed: ", e);
+	                    }
+	                }
+	            }
 
-		} catch (Exception e) { // 기타 예외 처리
-			e.printStackTrace();
-			// 리다이렉트 시 메시지 전달
-			redirectAttrs.addFlashAttribute("message", e.getMessage());
-		}
+	            if (!commuFiles.isEmpty()) {
+	                logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
+	                commuService.insertPost(commu, commuFiles);
+	                logger.info("Successfully saved CommuFiles to the DB.");
+	            }
+	        }
 
-		// 작성한 게시물을 보여주는 페이지로 리다이렉트
-		return "redirect:/user/commu/view" + commu.getCommuId() + "/" + commu.getCommuCateCode();
+	    } catch (Exception e) {
+	        logger.error("Error message", e);
+	        redirectAttrs.addFlashAttribute("message", e.getMessage());
+	    }
+
+	    return "redirect:/user/commu/view" + commu.getCommuId();
 	}
-
 }

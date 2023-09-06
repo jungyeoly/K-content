@@ -25,4 +25,5 @@
 			WHERE upper_common_code=#{upperCommonCode}
 			ORDER BY common_order
 		]]>
+	</select>
 </mapper>

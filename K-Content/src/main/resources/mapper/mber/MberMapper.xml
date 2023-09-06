@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-        namespace="com.example.myapp.user.mber.dao.IMberRepository">
+	namespace="com.example.myapp.user.mber.dao.IMberRepository">
 
-		<select id="selectMberbyId"
-			resultType="com.example.myapp.user.mber.model.Mber">
+	<select id="selectMberbyId"
+		resultType="com.example.myapp.user.mber.model.Mber">
 			<![CDATA[
 				SELECT mber_id,
 					mber_email,
@@ -19,9 +19,9 @@
 				FROM tb_mber 
 				WHERE mber_id=#{mberId}
 			]]>
-		</select>
-	
-		<select id="selectMberbyIdEmail"
+	</select>
+
+	<select id="selectMberbyIdEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
 			SELECT mber_id,
@@ -39,8 +39,8 @@
 		]]>
 	</select>
 
-    <select id="selectMberAllList"
-            resultType="com.example.myapp.user.mber.model.Mber">
+	<select id="selectMberAllList"
+		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
 			SELECT mber_id, 
 				mber_email,
@@ -57,7 +57,7 @@
 		]]>
 	</select>
 
-    <insert id="insertMber" parameterType="String">
+	<insert id="insertMber" parameterType="String">
 	    <![CDATA[
         INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
                              mber_update_date, mber_gender_code, mber_stat_code)
@@ -66,7 +66,24 @@
         ]]>
 	</insert>
 
-    <select id="maskMberId" parameterType="String" resultType="String">
+	<update id="updateMber"
+		parameterType="com.example.myapp.user.mber.model.Mber">
+    <![CDATA[
+    UPDATE tb_mber
+    SET mber_email = #{mberEmail},
+        mber_pwd = #{mberPwd},
+        mber_name = #{mberName},
+        mber_birth = to_date(#{mberBirth}, 'yyyy.mm.dd hh24:mi:ss'),
+        mber_phone = #{mberPhone},
+        mber_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+	    WHERE mber_id = #{mberId}
+    ]]>
+	</update>
+
+
+
+	<select id="maskMberId" parameterType="String"
+		resultType="String">
     <![CDATA[
 		SELECT 
     		SUBSTR(mber_id, 1, 3) || RPAD('*', LENGTH(mber_id) - 2, '*')
@@ -74,5 +91,5 @@
 		WHERE mber_email = #{mberEmail}
     ]]>
 	</select>
-	
+
 </mapper>

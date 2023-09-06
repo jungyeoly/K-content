@@ -29,7 +29,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.CommonCodeService;
-import com.example.myapp.user.commu.dao.ICommuRepository;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 import com.google.common.collect.Lists;

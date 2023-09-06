@@ -104,6 +104,19 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
+		System.out.println(mber);
+		System.out.println(mber.getMberId());
+		System.out.println(mber.getMberPwd());
+
+		System.out.println(mber.getMberEmail());
+
+		System.out.println(mber.getMberName());
+		System.out.println(mber.getMberBirth());
+		System.out.println(mber.getMberPhone());
+		System.out.println(mber.getMberRegistDate());
+		System.out.println(mber.getMberUpdateDate());
+		System.out.println(mber.getMberGenderCode());
+		System.out.println(mber.getMberStatCode());
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {

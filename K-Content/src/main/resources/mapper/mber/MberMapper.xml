@@ -16,11 +16,11 @@
 					mber_update_date,
 					mber_gender_code,
 					mber_stat_code
-				FROM tb_mber 
+				FROM tb_mber
 				WHERE mber_id=#{mberId}
 			]]>
 		</select>
-	
+
 		<select id="selectMberbyIdEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
@@ -34,7 +34,7 @@
 				mber_update_date,
 				mber_gender_code,
 				mber_stat_code
-			FROM tb_mber 
+			FROM tb_mber
 			WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
 		]]>
 	</select>
@@ -42,7 +42,7 @@
     <select id="selectMberAllList"
             resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT mber_id, 
+			SELECT mber_id,
 				mber_email,
 				mber_pwd,
 				mber_birth,
@@ -68,11 +68,23 @@
 
     <select id="maskMberId" parameterType="String" resultType="String">
     <![CDATA[
-		SELECT 
+		SELECT
     		SUBSTR(mber_id, 1, 3) || RPAD('*', LENGTH(mber_id) - 2, '*')
 		FROM tb_mber
 		WHERE mber_email = #{mberEmail}
     ]]>
 	</select>
-	
+	<update id="updateMber"
+			parameterType="com.example.myapp.user.mber.model.Mber">
+    <![CDATA[
+		UPDATE tb_mber
+		SET mber_email = #{mberEmail},
+			mber_pwd = #{mberPwd},
+			mber_name = #{mberName},
+			mber_birth = #{mberBirth},
+			mber_phone = #{mberPhone},
+			mber_update_date = sysdate
+		WHERE mber_id = #{mberId}
+		]]>
+   </update>
 </mapper>

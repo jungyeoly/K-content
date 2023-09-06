@@ -12,8 +12,11 @@
 	<div th:replace="~{/include/header :: header}"></div>
 	<div class="container">
 		<div class="menu fw-bold">커뮤니티 글 생성</div>
-		<form action="/commu/commuwrite" method="post"
-			enctype="multipart/form-data">
+		<form action="/commu/write/{commuCateCode}" method="post"
+			enctype="multipart/form-data" onsubmit="return validateForm()">
+			
+				<label for="commuMberId">아이디</label> <input type="text" id="commuMberId"
+					name="commuMberId" required>
 
 			<!-- 글쓰기 제목 -->
 			<div>
@@ -45,18 +48,17 @@
 				<label for="attachment">첨부파일</label> <input type="file"
 					id="attachment" name="commuUploadFiles" multiple
 					onchange="appendFileList()" style="display: none;">
-				<button onclick="document.getElementById('attachment').click();">파일
-					선택</button>
+				<button id="fileSelectButton" onclick="document.getElementById('attachment').click();">파일 선택</button>
 				<ul id="fileList"></ul>
 			</div>
 			
 			
-			<button type="button" onclick="window.location.href='/commulist'">취소</button>
+			<button type="button" onclick="window.location.href='/commu/list'">취소</button>
 			
 			<!-- 제출 버튼 -->
-			<button type="submit" onclick="return validateForm()">생성</button>
+			<button type="submit">생성</button>
 		</form>
 	</div>
 </body>
-<script th:src="@{/js/commu/commuwrite.js}"></script>
+<script th:src="@{/js/commu/write.js}"></script>
 </html>

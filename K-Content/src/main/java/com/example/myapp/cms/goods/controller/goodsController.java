@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,6 +38,17 @@ public class goodsController {
     @ResponseBody
     public List<Goods> getSearchGoods(String search) {
         List<Goods> goodsList = goodsService.getSearchGoodsJFile(search);
+        return goodsList;
+    }
+    @GetMapping("/makecntntselectgoods")
+    @ResponseBody
+    public List<Goods> getSearchGoodsResult(@RequestParam(value = "sendData") List<String> receivedData) {
+
+        List<Goods> goodsList = new ArrayList<>();
+        for (int i=0; i<receivedData.size(); i++){
+            goodsList.add(goodsService.getGoodsJFileByGoodsId(Integer.parseInt(receivedData.get(i))));
+        }
+
         return goodsList;
     }
 

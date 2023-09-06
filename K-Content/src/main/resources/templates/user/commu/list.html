@@ -35,7 +35,7 @@
 
 			</tbody>
 		</table>
-		<a class="btn commuBtn" th:href="@{commu/write}">글쓰기</a>
+		<a class="btn commuBtn" th:href="@{/commu/write/{commuCateCode}}">글쓰기</a>
     
 
 	
@@ -47,7 +47,7 @@
                   th:each="page : ${#numbers.sequence(1, totalPage)}"
                   th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
                   <a
-                     th:href="@{/list(currentPage=${page})}"
+                     th:href="@{/commu/list(currentPage=${page})}"
                      th:text="${page}" class="page-btn"
                      th:classappend="${currentPage == page ? 'selected' : ''}"></a>
 

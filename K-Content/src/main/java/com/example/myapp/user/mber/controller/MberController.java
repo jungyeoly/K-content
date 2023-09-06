@@ -1,7 +1,5 @@
 package com.example.myapp.user.mber.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,8 +122,14 @@ public class MberController {
 	@RequestMapping(value = "/mber/findid", method = RequestMethod.POST)
 	@ResponseBody
 	public String findId(@RequestParam String mberEmail) throws Exception {
-		String maskId = emailService.sendMaskId(mberEmail);
-		logger.info("마스킹된 아이디 이메일 전송 완료");
+		Mber mber = mberService.selectMberbyEmail(mberEmail);
+		String maskId = "";
+
+		if (mber != null) {
+			maskId = emailService.sendMaskId(mberEmail);
+			logger.info("마스킹된 아이디 이메일 전송 완료");
+		}
+
 		return maskId;
 	}
 
@@ -140,11 +144,9 @@ public class MberController {
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
-
+		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
-		String tempPwd = emailService.sendTempPwd(mberEmail);
-		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
 

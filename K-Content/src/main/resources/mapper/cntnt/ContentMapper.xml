@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.myapp.cms.content.dao.IContentRepository">
 
-    <select id="getAllContent" resultType="com.example.myapp.cms.content.model.Content">
+    <select id="getAllContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
         SELECT cntnt_id          ,
                cntnt_cate_code   ,
@@ -17,7 +17,7 @@
         FROM tb_cntnt
         ]]>
     </select>
-    <select id="getAContent" resultType="com.example.myapp.cms.content.model.Content">
+    <select id="getAContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
         SELECT cntnt_id          ,
                cntnt_cate_code   ,
@@ -31,4 +31,5 @@
         WHERE cntnt_id = #{cntntId}
         ]]>
     </select>
+
 </mapper>

@@ -55,10 +55,11 @@
 
 	<select id="selectMaxPost" parameterType="int" resultType="int">
 	<![CDATA[
-		SELECT NVL(MAX(commu_id),0) AS "post" 
+		SELECT NVL(MAX(commu_id),0) AS "post"
 		FROM tb_commu
 	]]>
 	</select>
+
 
 	<select id="selectMaxCommuFileCommuId" parameterType="int"
 		resultType="int">
@@ -72,10 +73,10 @@
 		parameterType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[
 	INSERT INTO tb_commu
-  (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id, 
+  (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
    commu_status, commu_type, commu_read_cnt, commu_ref_id, commu_depth, commu_order)
 VALUES
-  (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId}, 
+  (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
    'N', 'N', 0, 0, 0, 0)
 	]]>
 	</insert>
@@ -90,13 +91,6 @@ VALUES
     ]]>
 	</insert>
 
-	<select id="selectMaxPost" resultType="int">
-	<![CDATA[
-        SELECT NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
-        FROM tb_commu_file
-        ]]>
-		>>>>>>> 030f32ae83c275d5e8bfd627668ddbdcb7025f64
-	</select>
 
 
 	<select id="getFile" parameterType="int"
@@ -125,7 +119,7 @@ set commu_id=#{commuId}, commu_title=#{commuTitle}, commu_cntnt=#{commuCntnt}, c
 where commu_id=#{commuId}
 	]]>
 	</update>
-		
+
 
 	<update id="updateFiledata"
 		parameterType="com.example.myapp.user.commu.model.CommuFile">

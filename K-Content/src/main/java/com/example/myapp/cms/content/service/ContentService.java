@@ -1,7 +1,7 @@
 package com.example.myapp.cms.content.service;
 
 import com.example.myapp.cms.content.dao.IContentRepository;
-import com.example.myapp.cms.content.model.Content;
+import com.example.myapp.cms.content.model.CmsContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ public class ContentService implements IContentService {
     IContentRepository contentRepository;
 
     @Override
-    public List<Content> getAllContent() {
+    public List<CmsContent> getAllContent() {
         return contentRepository.getAllContent();
     }
 
     @Override
-    public Content getAContent(int id) {
+    public CmsContent getAContent(int id) {
         return contentRepository.getAContent(id);
     }
 

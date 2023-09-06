@@ -29,7 +29,7 @@
 									aria-selected="${findType == 'id'}">아이디 찾기</button>
 							</li>
 							<li class="nav-item" role="presentation">
-								<button class="nav-link btn" id="find-password-tab"
+								<button class="nav-link" id="find-password-tab"
 									data-bs-toggle="tab" data-bs-target="#find-password-tab-pane"
 									type="button" role="tab" aria-controls="find-password-tab-pane"
 									aria-selected="${findType == 'password'}">비밀번호 찾기</button>
@@ -54,9 +54,10 @@
 										<div class="col-md-12 mb-3"></div>
 									</div>
 									<div class="row">
-										<button type="button" class="mb-4 btn btn-lg text-white"
-											id="send-maskid-btn"><span id="send-maskid-btn-text">마스킹 아이디 전송</span>	
-											
+										<button type="button" class="mb-4 btn btn-lg"
+											id="send-maskid-btn">
+											<span id="send-maskid-btn-text">마스킹 아이디 전송</span>
+
 											<div
 												class="spinner-border text-info spinner-border-sm ms-2 d-none"
 												role="status" id="maskid-spinner"></div>
@@ -102,10 +103,13 @@
 										<div class="col-md-12 mb-3"></div>
 									</div>
 									<div class="row">
-										<button type="button" class="mb-4 btn btn-lg text-white" id="send-temppwd-btn"><span id="send-temppwd-btn-text">임시비밀번호
-											전송</span>	<div
+										<button type="button" class="mb-4 btn btn-lg"
+											id="send-temppwd-btn">
+											<span id="send-temppwd-btn-text">임시비밀번호 전송</span>
+											<div
 												class="spinner-border text-info spinner-border-sm ms-2 d-none"
-												role="status" id="findpwd-spinner"></div></button>
+												role="status" id="findpwd-spinner"></div>
+										</button>
 										<hr class="mb-3">
 									</div>
 
@@ -128,13 +132,12 @@
 	<script>
 		$(document).ready(function() {
 			$("#send-maskid-btn").click(function(e) {
-				
-				 const sendMaskIdBtnText = $('#send-maskid-btn-text');
+
+				const sendMaskIdBtnText = $('#send-maskid-btn-text');
 				// 응답을 기다리는 동안 스피너 표시
 				sendMaskIdBtnText.addClass("d-none");
 				$("#maskid-spinner").removeClass("d-none");
 
-				
 				// 입력 필드에서 이메일 값을 가져옴
 				var mberEmail = $("#findid_mber_email").val();
 
@@ -146,22 +149,23 @@
 						mberEmail : mberEmail
 					},
 					success : function(response) {
+				    	sendMaskIdBtnText.removeClass("d-none");
 						// 성공 시 스피너 숨김
 						$("#maskid-spinner").addClass("d-none");
 						if (response) {
-					    	$("#send-maskid-btn").prop('disabled', true);
-					    	sendMaskIdBtnText.removeClass("d-none");
-					    	sendMaskIdBtnText.text('마스킹 아이디 전송 완료');
+							sendMaskIdBtnText.removeClass("d-none");
+							sendMaskIdBtnText.text('마스킹 아이디 전송 완료');
 							alert("마스킹된 아이디가 이메일로 전송되었습니다.");
 							window.location.href = "/mber/signin";
 						} else {
 							alert("존재하지 않는 이메일입니다. 다시 시도해주세요.");
-							sendMaskIdBtnText.text('마스킹 아이디 전송');
-							$("#send-maskid-btn").css('background-color', 'var(--color-main)');
+					    	sendMaskIdBtnText.removeClass("d-none");
+
 						}
 					},
 					error : function() {
 						// 오류 발생 시 스피너 숨김
+						sendMaskIdBtnText.removeClass("d-none");
 						$("#maskid-spinner").addClass("d-none");
 						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
 					}
@@ -171,49 +175,74 @@
 	</script>
 
 	<script>
-		$(document).ready(function() {
-			$("#send-temppwd-btn").click(function(e) {
+		$(document)
+				.ready(
+						function() {
+							$("#send-temppwd-btn")
+									.click(
+											function(e) {
 
-			    const sendTempPwdBtnText = $('#send-temppwd-btn-text');
-			    
-			    sendTempPwdBtnText.addClass("d-none");
-				// 응답을 기다리는 동안 스피너 표시
-				$("#findpwd-spinner").removeClass("d-none");
-				// 입력 필드에서 이메일 값을 가져옴
-				var mberEmail = $("#findpwd_mber_email").val();
-				var mberId = $("#findpwd_mber_id").val();
+												const sendTempPwdBtnText = $('#send-temppwd-btn-text');
 
-				// 서버에 AJAX 요청 보내기
-				$.ajax({
-					type : "POST",
-					url : "/mber/temppwd",
-					data : {
-						mberEmail : mberEmail,
-						mberId: mberId
-					},
-					success : function(response) {
-						// 성공 시 스피너 숨김
-						sendTempPwdBtnText.removeClass("d-none");
-						$("#findpwd-spinner").addClass("d-none");
-						if (response) {
-			              	$("#send-temppwd-btn").prop('disabled', true);
-					    	sendTempPwdBtnText.text('임시비밀번호 전송 완료');
-							alert("임시 비밀번호가 이메일로 전송되었습니다.");
-							window.location.href = "/mber/signin";
-						} else {
-							alert("존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.");
-						}
-					},
-					error : function() {
-						// 오류 발생 시 스피너 숨김
-						$("#findpwd-spinner").addClass("d-none");
-						
-						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-						sendTempPwdBtnText.removeClass("d-none");
-					}
-				});
-			});
-		});
+												sendTempPwdBtnText
+														.addClass("d-none");
+												// 응답을 기다리는 동안 스피너 표시
+												$("#findpwd-spinner")
+														.removeClass("d-none");
+												// 입력 필드에서 이메일 값을 가져옴
+												var mberEmail = $(
+														"#findpwd_mber_email")
+														.val();
+												var mberId = $(
+														"#findpwd_mber_id")
+														.val();
+
+												// 서버에 AJAX 요청 보내기
+												$
+														.ajax({
+															type : "POST",
+															url : "/mber/temppwd",
+															data : {
+																mberEmail : mberEmail,
+																mberId : mberId
+															},
+															success : function(
+																	response) {
+																// 성공 시 스피너 숨김
+																sendTempPwdBtnText
+																		.removeClass("d-none");
+																$(
+																		"#findpwd-spinner")
+																		.addClass(
+																				"d-none");
+																if (response) {
+																	$(
+																			"#send-temppwd-btn")
+																			.prop(
+																					'disabled',
+																					true);
+																	sendTempPwdBtnText
+																			.text('임시비밀번호 전송 완료');
+																	alert("임시 비밀번호가 이메일로 전송되었습니다.");
+																	window.location.href = "/mber/signin";
+																} else {
+																	alert("존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.");
+																}
+															},
+															error : function() {
+																// 오류 발생 시 스피너 숨김
+																$(
+																		"#findpwd-spinner")
+																		.addClass(
+																				"d-none");
+
+																alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+																sendTempPwdBtnText
+																		.removeClass("d-none");
+															}
+														});
+											});
+						});
 	</script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {

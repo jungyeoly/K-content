@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -80,9 +78,8 @@ public class InqryController {
 
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
-		// return selectInqryList(1, session, model);
 		return "user/inqury/main";
-	}	
+	}
 
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
@@ -168,37 +165,37 @@ public class InqryController {
 			return "user/inqury/write";
 		}
 	}
-	
+
 	@GetMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Model model, HttpSession session) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 
 		if (inqry.getInqryMberId().equals((String) session.getAttribute("userId"))) {
 			model.addAttribute("inqry", inqry);
-			return "user/inqury/update";			
+			return "user/inqury/update";
 		} else {
 			return "redirect:/inqury";
 		}
 	}
-	
+
 	@PostMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Inqry inqry, RedirectAttributes redirectAttrs, Model model, HttpSession session) {
-		
+
 		try {
 			MultipartFile mfile = inqry.getFile();
-			
+
 			if(mfile != null && !mfile.isEmpty()) {
-		
+
 				InqryFile file = new InqryFile();
-				
+
 				String originalName = mfile.getOriginalFilename();
 				String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 				String fileExt = originalName.substring(originalName.lastIndexOf(".") + 1);
 				String uuid = UUID.randomUUID().toString();
 				String saveFileName = uuid + "_" + fileName;
-				
+
 				int inqryFileInqryId = inqry.getInqryFileInqryId();
-				
+
 				file.setInqryFileId(saveFileName);
 				file.setInqryFileName(fileName);
 				file.setInqryFileName(fileName);
@@ -206,10 +203,10 @@ public class InqryController {
 				file.setInqryFileExt(fileExt);
 				file.setInqryFileInqryId(inqryFileInqryId);
 				file.setInqryFilePath(url);
-				
+
 				Path path = Paths.get(uploadPath + url).toAbsolutePath().normalize();
 				Path realPath = path.resolve(file.getInqryFileId()).normalize();
-				
+
 				inqryService.updateInqry(inqry, file);
 				mfile.transferTo(realPath);
 			} else {
@@ -221,16 +218,13 @@ public class InqryController {
 		}
 		return "redirect:/inqury/detail/" + inqryId;
 	};
-	
+
 	@PostMapping(value="inqury/delete/{inqryId}")
 	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model) {
 		try {
 				Inqry inqry = inqryService.selectInqry(inqryId);
 				String loginId = (String) session.getAttribute("userId");
-				System.out.println("===========================================");
-				System.out.println(inqry.getInqryMberId());
-				System.out.println(loginId);
-				System.out.println("===========================================");
+
 				if (loginId.equals(inqry.getInqryMberId())) {
 					inqryService.deleteInqry(inqryId);
 					return "redirect:/inqury/" + (Integer)session.getAttribute("page");

@@ -52,8 +52,6 @@ public class CommuController {
 
 		model.addAttribute("showAll", true); // "BEST" 대신 "ALL" 표시
 
-		System.out.println(currentPage);
-
 		List<Commu> commulist = commuService.selectAllPost();
 
 		int totalPage = 0;
@@ -63,7 +61,6 @@ public class CommuController {
 		if (commulist != null && !commulist.isEmpty()) {
 
 			totalCommu = commulist.size();
-			System.out.println(totalCommu);
 			int partitionSize = 10;
 			List<List<Commu>> partitionedList = Lists.partition(commulist, partitionSize);
 			totalPage = partitionedList.size();
@@ -128,7 +125,7 @@ public class CommuController {
 	        // 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 	        commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 	        commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
-
+	        
 	        // 데이터베이스에 게시물 정보 삽입
 	        commuService.insertPost(commu);
 
@@ -150,7 +147,7 @@ public class CommuController {
 	                    }
 	                    String savefileName = url + File.separator + uuid + "_" + fileName;
 	                    Path savePath = Paths.get(savefileName);
-
+	                    
 	                    try {
 	                        uploadFile.transferTo(savePath);
 	                        logger.info("File saved successfully at: " + savePath);
@@ -170,14 +167,14 @@ public class CommuController {
 	                    }
 	                }
 	            }
-
+	            
 	            if (!commuFiles.isEmpty()) {
 	                logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
 	                commuService.insertPost(commu, commuFiles);
 	                logger.info("Successfully saved CommuFiles to the DB.");
 	            }
 	        }
-
+	        
 	    } catch (Exception e) {
 	        logger.error("Error message", e);
 	        redirectAttrs.addFlashAttribute("message", e.getMessage());

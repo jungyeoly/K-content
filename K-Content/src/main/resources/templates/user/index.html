@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:replace="~{/include/header :: header}"></div>	
+	<div th:replace="~{/include/header :: header}"></div>
+	<link rel="stylesheet" th:href="@{/css/content/content.css}">	
 </head>
 <body>
 <header th:include="~{/include/body-header :: userNavBar}"></header>
+
+<div class="layout"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script th:src="@{/js/content/content.js}"></script>
 </body>
 </html>

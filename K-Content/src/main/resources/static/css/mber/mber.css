@@ -63,7 +63,7 @@ video#bgvid {
 
 /*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 	
  .nav{ 
-	font-family: 'S-CoreDream-9Black'
+	font-weight: bold;
 }
 
 .nav-tabs {
@@ -112,4 +112,9 @@ a:focus {
 
 a:hover, a:active {
 	text-decoration: none !important;
+}
+
+
+#mail-check-btn:focus {
+	background-color: black;
 }

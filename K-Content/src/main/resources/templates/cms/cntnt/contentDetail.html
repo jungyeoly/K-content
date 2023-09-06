@@ -189,19 +189,16 @@
             trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1)
         };
 
-        // /cs/instaimg URL로 GET 요청을 보냅니다.
         $.ajax({
             url: '/cs/instacrol',
             type: 'GET',
-            data: requestData, // 데이터 객체 전달
+            data: requestData,
             success: function (data) {
-                // 서버에서 받은 데이터를 result 요소에 추가합니다.
                 const element = document.getElementById('trend');
                 data.slice(1, -1);
                 data.slice(1, -1);
                 element.innerHTML = data
 
-                // $('#trend').innerHTML(data);
                 console.log(data);
             },
             error: function (error) {
@@ -213,7 +210,6 @@
             targetContentIdF: document.getElementById("contentId").value
         };
 
-        // /cs/instaimg URL로 GET 요청을 보냅니다.
         $.ajax({
             url: '/cs/youtube/iframe',
             type: 'GET',
@@ -221,7 +217,7 @@
             success: function (data2) {
                 // 서버에서 받은 데이터를 result 요소에 추가합니다.
                 const element = document.getElementById('iframe');
-                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` +data2+"\""+
+                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
                     `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                 element.innerHTML = inHtml
                 console.log(data2);

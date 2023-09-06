@@ -1,7 +1,6 @@
-package com.example.myapp.cms.content.service;
+package com.example.myapp.cms.goods.service;
 
-import com.example.myapp.cms.content.model.Content;
-import com.example.myapp.cms.content.model.Goods;
+import com.example.myapp.cms.goods.model.Goods;
 
 import java.util.List;
 
@@ -13,5 +12,6 @@ public interface IGoodsService {
     //일단 굿즈 파일이 하나라고 가정..
     Goods getGoodsJFileByGoodsId(int goodsId);
 
-
+    List<Goods> getAllGoodsJFile();
+    List<Goods> getSearchGoodsJFile(String search);
 }

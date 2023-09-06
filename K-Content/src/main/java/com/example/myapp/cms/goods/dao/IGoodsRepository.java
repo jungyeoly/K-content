@@ -1,6 +1,6 @@
-package com.example.myapp.cms.content.dao;
+package com.example.myapp.cms.goods.dao;
 
-import com.example.myapp.cms.content.model.Goods;
+import com.example.myapp.cms.goods.model.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -18,4 +18,5 @@ public interface IGoodsRepository {
     Goods getGoodsJFileByGoodsId(@Param("goodsId") int goodsId);
 
     Goods getAGoodsJFile(@Param("goodsId") int goodsId);
+    List<Goods> getSearchGoodsJFile(@Param("search") String search);
 }

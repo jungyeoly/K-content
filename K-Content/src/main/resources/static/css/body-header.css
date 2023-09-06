@@ -63,20 +63,17 @@ header ul.contents li {
   cursor: pointer;
 }
 
-header ul.contents li.cms {
-  margin: 4px 20px 2px 850px;
-  position: relative;
-  cursor: pointer;
+header ul li.cms {
+  margin-left: auto;
 }
 
 header ul li.search {
-  margin-left: auto;
   padding-right: 30px;
   font-weight: 900;
   font-size: 45px;
 }
 
-header .contents li.content:hover::after {
+header .contents li.content:hover::after, header .contents li.cms:hover::after {
   content: "";
   display: block;
   width: 100%;
@@ -121,10 +118,11 @@ ul, il, ol {
 	list-style: none;
 }
 
-.content a {
+.content a,.cms a {
 	text-decoration: none;
 	color: black;
 }
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)

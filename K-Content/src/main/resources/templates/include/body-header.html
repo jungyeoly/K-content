@@ -6,7 +6,7 @@
 <body>
 	<header th:fragment="userNavBar">
 		<div class="logo">
-			<img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고">
+			<a th:href="@{/}"><img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고"></a>
 
 			<ul class="icons">
 				<i class="fa-solid fa-user"></i>
@@ -22,25 +22,16 @@
 			</ul>
 		</div>
 		<ul class="contents">
-			<li class="content"><a th:href="@{/user/index}">Main</a></li>
-			<li class="content"><a th:href="@{/user/commu/commulist}">Comm</a></li>
-			<li class="content"><a th:href="@{/user/inqury/main}">Cs</a></li>
-			<li class="cms"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
+			<li class="content"><a th:href="@{/}">Main</a></li>
+			<li class="content"><a th:href="@{/commu/list}">Comm</a></li>
+			<li class="content"><a th:href="@{/inqury}">Cs</a></li>
+			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
+			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
 			<li class="search"><i class="fa-solid fa-magnifying-glass"></i></li>
 		</ul>
 		<div class="categories-nav">
-			<ul class="categories">
-				<li>BEST</li>
-				<li>POP</li>
-				<li>Celebrity</li>
-				<li>Food</li>
-				<li>Movie</li>
-				<li>Sports</li>
-				<li>Fashion</li>
-				<li>Beauty</li>
-				<li>Drama</li>
-				<li>Travel</li>
-				<li>Game</li>
+			<ul th:each= "cate : ${cateList}" class="categories">
+				<li class="cate" th:data-cate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
 	</header>

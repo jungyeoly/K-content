@@ -17,7 +17,7 @@
 			<div class="input-form col-md-12 mx-auto p-5 opacity-95">
 				<div class="input-form-background">
 					<form th:action="@{/mber/signin}" method="post"
-						class="validation-form" id="joinForm" novalidate>
+						class="validation-form" id="signinForm" novalidate>
 						<p class="text-center">
 							<img src="/img/mainLogo.png" width="500" height="240"
 								class="img-fluid mb-3" alt="K-Spectrum">
@@ -30,7 +30,7 @@
 							<div class="col-md-12 mb-3">
 								<label for="mber_id" class="fw-bold">아이디</label> <input
 									type="text" class="form-control" id="mber_id" name="mberId"
-									placeholder="아이디" value="" required th:value="${savedUserId}">
+									placeholder="아이디" value="" required th:value="${savedMberId}">
 							</div>
 						</div>
 
@@ -88,13 +88,13 @@
 
 		// 페이지 로드 시 실행
 		window.onload = function() {
-			const savedUserId = getCookie("savedUserId");
+			const savedMberId = getCookie("savedMberId");
 			const saveIdCheckbox = document.getElementById("save_id");
-			const memberIdInput = document.getElementById("mber_id");
+			const mberIdInput = document.getElementById("mber_id");
 
-			if (savedUserId != null) {
+			if (savedMberId != null) {
 				saveIdCheckbox.checked = true;
-				memberIdInput.value = savedUserId;
+				mberIdInput.value = savedMberId;
 			}
 		};
 	</script>

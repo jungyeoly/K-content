@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.example.myapp.commoncode.dao.ICommonCodeRepository">
+        namespace="com.example.myapp.commoncode.dao.ICommonCodeRepository">
 
-	<select id="findByUpperCommonCode"
-		resultType="com.example.myapp.commoncode.model.CommonCode">
-<![CDATA[
-        SELECT 
-        common_code AS "commonCode",
-        upper_common_code  as "upperCommonCode",
-        common_code_val AS "commonCodeVal",
-        common_code_dscr as "commonCodeDscr",
-        common_update_date as "commonUpdateDate",
-        common_delete_yn as "commonDeleteYn",
-        common_order as "commonOrder"
-        from tb_common_code
-        where upper_common_code =#{upperCommonCode}
+  <select id="findByUpperCommonCode" resultType="com.example.myapp.commoncode.model.CommonCode">
+        <![CDATA[
+                SELECT common_code,
+                       upper_common_code,
+                       common_code_val,
+                       common_code_dscr,
+                       common_update_date,
+                       common_delete_yn,
+                       common_order
+                from tb_common_code
+                where upper_common_code = #{upperCommonCode}
+            ]]>
+	</select>
 
-]]>
+	<select id="cateList" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT
+		    	common_code_val
+			FROM tb_common_code
+			WHERE upper_common_code=#{upperCommonCode}
+			ORDER BY common_order
+		]]>
 	</select>
 </mapper>

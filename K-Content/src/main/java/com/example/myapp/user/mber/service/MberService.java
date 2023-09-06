@@ -20,6 +20,11 @@ public class MberService implements IMberService {
 	}
 
 	@Override
+	public Mber selectMberbyIdEmail(String mberId, String mberEmail) {
+		return mberRepository.selectMberbyIdEmail(mberId, mberEmail);
+	}
+
+	@Override
 	public List<Mber> selectMberAllList() {
 		return mberRepository.selectMberAllList();
 	}
@@ -38,9 +43,7 @@ public class MberService implements IMberService {
 	public void deleteMber(String mberId) {
 		mberRepository.deleteMber(mberId);
 	}
-//
-//	@Override
-//	public String maskingMberId(String mberEmail) {
-//		return mberRepository.maskingMberId(mberEmail);
-//	}
+
+	
+
 }

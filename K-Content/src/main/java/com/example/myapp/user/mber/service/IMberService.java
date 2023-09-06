@@ -7,6 +7,8 @@ import com.example.myapp.user.mber.model.Mber;
 public interface IMberService {
 	Mber selectMberbyId(String mberId);
 
+	Mber selectMberbyIdEmail(String mberId, String mberEmail);
+
 	List<Mber> selectMberAllList();
 
 	void insertMber(Mber mber);
@@ -15,5 +17,4 @@ public interface IMberService {
 
 	void deleteMber(String mberId);
 
-//	String maskingMberId(String mberEmail);
 }

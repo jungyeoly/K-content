@@ -20,5 +20,10 @@ public class CommonCodeService implements ICommonCodeService {
 	public List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode) {
 		return commonCodeRepository.findByUpperCommonCode(upperCommonCode);
 }
+
+	@Override
+	public List<String> cateList(String upperCommonCode) {
+		return commonCodeRepository.cateList(upperCommonCode);
+	}
 	
 }

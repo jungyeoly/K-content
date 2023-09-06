@@ -2,40 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.myapp.cms.content.dao.IGoodsRepository">
+<mapper namespace="com.example.myapp.cms.goods.dao.IGoodsRepository">
 
-    <select id="getAllGoodsJFile" resultType="com.example.myapp.cms.content.model.Goods">
+    <select id="getAllGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          AS "goodsId",
-               g.goods_name        AS "goodsName",
-               g.goods_brand       AS "goodsBrand",
-               g.goods_price       AS "goodsPrice",
-               g.goods_purchs_link AS "goodsPurchsLink",
-               g.goods_kwrd        AS "goodsKwrd",
-               g.goods_regist_date AS "goodsRegistDate",
-               g.goods_update_date AS "goodsUpdateDate",
-               g.goods_delete_yn   AS "goodsDeleteYn",
-               f.goods_file_path   AS "goodsFilePath",
-            f.goods_file_name AS "goodsFileName"
+        SELECT g.goods_id          ,
+               g.goods_name        ,
+               g.goods_brand       ,
+               g.goods_price       ,
+               g.goods_purchs_link ,
+               g.goods_kwrd        ,
+               g.goods_regist_date ,
+               g.goods_update_date ,
+               g.goods_delete_yn   ,
+               f.goods_file_path   ,
+               f.goods_file_name
 
         FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
                                  ON g.goods_id = f.goods_file_goods_id
         ]]>
     </select>
-    <select id="getGoodsJFileByGoodsId" resultType="com.example.myapp.cms.content.model.Goods">
+    <select id="getGoodsJFileByGoodsId" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          AS "goodsId",
-               g.goods_name        AS "goodsName",
-               g.goods_brand       AS "goodsBrand",
-               g.goods_price       AS "goodsPrice",
-               g.goods_purchs_link AS "goodsPurchsLink",
-               g.goods_kwrd        AS "goodsKwrd",
-               g.goods_regist_date AS "goodsRegistDate",
-               g.goods_update_date AS "goodsUpdateDate",
-               g.goods_delete_yn   AS "goodsDeleteYn",
-               f.goods_file_path   AS "goodsFilePath",
-               f.goods_file_name AS "goodsFileName"
+        SELECT g.goods_id          ,
+               g.goods_name        ,
+               g.goods_brand       ,
+               g.goods_price       ,
+               g.goods_purchs_link ,
+               g.goods_kwrd        ,
+               g.goods_regist_date ,
+               g.goods_update_date ,
+               g.goods_delete_yn   ,
+               f.goods_file_path   ,
+               f.goods_file_name
 
         FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
@@ -43,24 +43,47 @@
         WHERE g.goods_id = #{goodsId}
         ]]>
     </select>
-    <select id="getAGoodsJFile" resultType="com.example.myapp.cms.content.model.Goods">
+    <select id="getAGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          AS "goodsId",
-               g.goods_name        AS "goodsName",
-               g.goods_brand       AS "goodsBrand",
-               g.goods_price       AS "goodsPrice",
-               g.goods_purchs_link AS "goodsPurchsLink",
-               g.goods_kwrd        AS "goodsKwrd",
-               g.goods_regist_date AS "goodsRegistDate",
-               g.goods_update_date AS "goodsUpdateDate",
-               g.goods_delete_yn   AS "goodsDeleteYn",
-               f.goods_file_path   AS "goodsFilePath",
-               f.goods_file_name AS "goodsFileName"
+        SELECT g.goods_id          ,
+               g.goods_name        ,
+               g.goods_brand       ,
+               g.goods_price       ,
+               g.goods_purchs_link ,
+               g.goods_kwrd        ,
+               g.goods_regist_date ,
+               g.goods_update_date ,
+               g.goods_delete_yn   ,
+               f.goods_file_path   ,
+               f.goods_file_name
 
         FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
                                  ON g.goods_id = f.goods_file_goods_id
         WHERE g.goods_id = #{goodsId}
+        ]]>
+    </select>
+
+    <select id="getSearchGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
+        <![CDATA[
+        SELECT g.goods_id          ,
+               g.goods_name        ,
+               g.goods_brand       ,
+               g.goods_price       ,
+               g.goods_purchs_link ,
+               g.goods_kwrd        ,
+               g.goods_regist_date ,
+               g.goods_update_date ,
+               g.goods_delete_yn   ,
+               f.goods_file_path   ,
+               f.goods_file_name
+
+        FROM tb_goods g
+                 LEFT OUTER JOIN tb_goods_file f
+                                 ON g.goods_id = f.goods_file_goods_id
+        WHERE g.goods_kwrd LIKE ('%' || #{search} || '%')
+           OR g.goods_brand LIKE ('%' || #{search} || '%')
+           OR g.goods_name LIKE ('%' || #{search} || '%')
         ]]>
     </select>
 </mapper>

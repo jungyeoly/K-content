@@ -12,6 +12,8 @@ import com.example.myapp.user.mber.model.Mber;
 public interface IMberRepository {
 	Mber selectMberbyId(String mberId);
 
+	Mber selectMberbyIdEmail(String mberId, String mberEmail);
+
 	List<Mber> selectMberAllList();
 
 	void insertMber(Mber mber);
@@ -19,6 +21,6 @@ public interface IMberRepository {
 	void updateMber(Mber mber);
 
 	void deleteMber(String mberId);
-	
-//	String maskingMberId(String mberEmail);
+
+	String maskMberId(String mberEmail);
 }

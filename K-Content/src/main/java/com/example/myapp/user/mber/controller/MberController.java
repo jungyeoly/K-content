@@ -104,6 +104,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
+
 		try {
 			mberService.insertMber(mber);
 		} catch (DuplicateKeyException e) {
@@ -141,15 +142,12 @@ public class MberController {
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
 
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
-		String dbMberId = mber.getMberId();
-		String dbMberEmail = mber.getMberEmail();
 
-		logger.info(dbMberId);
-		logger.info(dbMberEmail);
 		String tempPwd = emailService.sendTempPwd(mberEmail);
-		logger.info("임시비밀번호 : " + tempPwd);
+		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
+
 		mber.setMberPwd(tempPwd);
 		mberService.updateMber(mber);
 

@@ -12,6 +12,8 @@ import com.example.myapp.user.mber.model.Mber;
 public interface IMberRepository {
 	Mber selectMberbyId(String mberId);
 
+	Mber selectMberbyEmail(String mberEmail);
+	
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
 	List<Mber> selectMberAllList();

@@ -36,6 +36,11 @@
     width: 30%;
 }
 
-.contents {
-	padding-bottom: 90px !important;
+.pagination {
+	cursor: pointer;
 }
+
+.pwd {
+	width: 400px;
+}
+

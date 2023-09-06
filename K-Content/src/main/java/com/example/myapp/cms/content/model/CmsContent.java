@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Content {
+public class CmsContent {
     private int cntntId;
     private String cntntCateCode;
     private String cntntTitle;

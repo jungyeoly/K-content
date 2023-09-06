@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- properties, settings, typeAliases 등을 여기에 추가 -->
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="CmsContent" type="com.example.myapp.cms.content.model.CmsContent"/>
+    </typeAliases>
+
+    <!-- 다른 설정 요소들을 필요에 따라 추가 -->
+
+    <!-- mappers 등 다른 설정 요소들을 여기에 추가 -->
+</configuration>

@@ -20,6 +20,11 @@ public class MberService implements IMberService {
 	}
 
 	@Override
+	public Mber selectMberbyEmail(String mberEmail) {
+		return mberRepository.selectMberbyEmail(mberEmail);
+	}
+	
+	@Override
 	public Mber selectMberbyIdEmail(String mberId, String mberEmail) {
 		return mberRepository.selectMberbyIdEmail(mberId, mberEmail);
 	}

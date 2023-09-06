@@ -43,7 +43,7 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.POST)
 	public String signin(String mberId, String mberPwd, @RequestParam(name = "saveId", required = false) String saveId,
-			HttpSession session, HttpServletResponse response, Model model) {
+						 HttpSession session, HttpServletResponse response, Model model) {
 		Mber mber = mberService.selectMberbyId(mberId);
 		if (mber != null) {
 			if ("C0201".equals(mber.getMberStatCode())) {
@@ -114,7 +114,7 @@ public class MberController {
 
 	@GetMapping("/mber/findmber")
 	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,
-			Model model) {
+						   Model model) {
 		model.addAttribute("findType", findType);
 		return "user/mber/findmber";
 	}
@@ -122,8 +122,14 @@ public class MberController {
 	@RequestMapping(value = "/mber/findid", method = RequestMethod.POST)
 	@ResponseBody
 	public String findId(@RequestParam String mberEmail) throws Exception {
-		String maskId = emailService.sendMaskId(mberEmail);
-		logger.info("마스킹된 아이디 이메일 전송 완료");
+		Mber mber = mberService.selectMberbyEmail(mberEmail);
+		String maskId = "";
+
+		if (mber != null) {
+			maskId = emailService.sendMaskId(mberEmail);
+			logger.info("마스킹된 아이디 이메일 전송 완료");
+		}
+
 		return maskId;
 	}
 
@@ -138,16 +144,14 @@ public class MberController {
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
-
+		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
-		String tempPwd = emailService.sendTempPwd(mberEmail);
-		System.out.println(tempPwd);
 		// 회원 정보 업데이트
 		if (mber != null) {
 
-		mber.setMberPwd(tempPwd);
-		mberService.updateMber(mber);
+			mber.setMberPwd(tempPwd);
+			mberService.updateMber(mber);
 
 		}
 

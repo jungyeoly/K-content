@@ -2,7 +2,7 @@ package com.example.myapp.cms.content.controller;
 
 
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
-import com.example.myapp.cms.content.model.Content;
+import com.example.myapp.cms.content.model.CmsContent;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
 
@@ -64,7 +64,7 @@ public class CSController {
     //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
     public String getContentManage(Model model) {
-        List<Content> result = contentService.getAllContent();
+        List<CmsContent> result = contentService.getAllContent();
 
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
@@ -82,7 +82,7 @@ public class CSController {
     //콘텐츠 상세 페이지
     @GetMapping("/contentdetail")
     public String getAContent(int targetContentIdF, Model model) {
-        Content content = contentService.getAContent(targetContentIdF);
+        CmsContent content = contentService.getAContent(targetContentIdF);
 
         model.addAttribute("content", content);
 
@@ -147,7 +147,7 @@ public class CSController {
     //콘텐츠 생성 페이지
     @GetMapping("/makecontent")
     public String getMakeContentForm(String cntntURL, String cntntTitle, Model model) {
-        Content cntnt = new Content();
+        CmsContent cntnt = new CmsContent();
         cntnt.setCntntTitle(cntntTitle);
         cntnt.setCntntUrl(cntntURL);
         model.addAttribute("content", cntnt);
@@ -156,7 +156,7 @@ public class CSController {
 
     @GetMapping("/makecontent/update")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
-        Content content = contentService.getAContent(targetContentIdF);
+        CmsContent content = contentService.getAContent(targetContentIdF);
 
         model.addAttribute("content", content);
 

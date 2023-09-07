@@ -24,8 +24,8 @@
 		
 		<ul class="contents">
 			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
-			<li id="comm" class="content"><a th:href="@{/list}">Comm</a></li>
-			<li id="cs" class="content"><a th:href="@{/inqury}">Cs</a></li>
+			<li id="comm" class="content"><a th:href="@{/commu/list}">Comm</a></li>
+			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
 			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
 			<li class="search">

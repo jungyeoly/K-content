@@ -4,8 +4,8 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,6 @@ public class goodsController {
     @ResponseBody
     public void postCntntForm(@RequestParam(value = "cntntForm") List<Object> receivedData) {
         System.out.println("receivedData: " + receivedData);
-
 
 
     }

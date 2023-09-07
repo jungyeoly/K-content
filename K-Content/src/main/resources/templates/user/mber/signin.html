@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<header th:include="~{/include/body-header :: userNavBar}"></header>
+<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
@@ -74,7 +74,7 @@
 		</div>
 	</div>
 
-	<script>
+<!-- 	<script>
 		// 쿠키 값 가져오는 함수
 		function getCookie(name) {
 			const value = "; " + document.cookie;
@@ -96,7 +96,7 @@
 				mberIdInput.value = savedMberId;
 			}
 		};
-	</script>
+	</script> -->
 
 </body>
 

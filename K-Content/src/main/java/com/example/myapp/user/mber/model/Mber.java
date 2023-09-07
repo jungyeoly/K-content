@@ -12,7 +12,7 @@ public class Mber {
 	String mberName;
 	String mberBirth;
 	String mberPhone;
-	Date mberRegistDate;
+	String mberRegistDate;
 	Date mberUpdateDate;
 	String mberGenderCode;
 	String mberStatCode;

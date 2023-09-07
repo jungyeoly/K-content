@@ -28,7 +28,14 @@
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
 			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
-			<li class="search"><i class="fa-solid fa-magnifying-glass"></i></li>
+			<li class="search">
+				<form id="searchForm" class="input-group">
+				    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">
+				    <button type="submit" class="btn">
+				      <i class="fa-solid fa-magnifying-glass"></i>
+				    </button>
+				  </form>
+			</li>
 		</ul>
 		
 		<div id="main-cate" class="categories-nav">
@@ -42,8 +49,7 @@
 				<li class="cate" th:data-commcate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
-	</header>
-
+	</header>		
 </body>
 
 </html>

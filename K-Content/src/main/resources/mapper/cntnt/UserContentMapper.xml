@@ -24,5 +24,30 @@
 		</if>
 		ORDER BY c.cntnt_regist_date DESC	
 	</select>
+	
+	<select id="searchUserContent" parameterType="String" resultType="com.example.myapp.user.content.model.Content">
+		<![CDATA[ 		
+			SELECT 
+				cc.common_code_val,
+				c.cntnt_id,
+				c.cntnt_title,
+				c.cntnt_url,
+				c.cntnt_regist_date,
+				c.cntnt_update_date,
+				cc.common_code_val
+			FROM 
+				tb_cntnt c
+			JOIN 
+				tb_common_code cc
+			ON 
+				c.cntnt_cate_code = cc.common_code
+			WHERE 
+				c.cntnt_title LIKE '%'||#{keyword}||'%'
+			OR 
+				c.cntnt_kwrd LIKE '%'||#{keyword}||'%'
+			OR 
+				cc.common_code_val LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 
 </mapper>

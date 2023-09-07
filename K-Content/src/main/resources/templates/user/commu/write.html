@@ -1,64 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" href="/css/commu/list.css">
-<link rel="stylesheet" href="/common.css">
-<link rel="stylesheet" href="/css/body-header.css">
+
+<link rel="stylesheet" th:href="@{/css/commu/write.css}">
+
 <meta charset="UTF-8">
-<title>커뮤니티 글쓰기</title>
 </head>
 <body>
-	<div th:replace="~{/include/body-header :: header }"></div>
-	<div th:replace="~{/include/header :: header}"></div>
+ <div th:replace="~{/include/header :: header}"></div> 
+	 <header th:replace="~{include/body-header :: userNavBar}"></header>  
+	
+	
 	<div class="container">
 		<div class="menu fw-bold">커뮤니티 글 생성</div>
-		<form action="/commu/write/{commuCateCode}" method="post"
-			enctype="multipart/form-data" onsubmit="return validateForm()">
-			
-				<label for="commuMberId">아이디</label> <input type="text" id="commuMberId"
-					name="commuMberId" required>
-
-			<!-- 글쓰기 제목 -->
-			<div>
-				<label for="commuTitle">제목</label> <input type="text" id="commuTitle"
-					name="commuTitle" required>
+		<form th:action="@{/commu/write/{commuCateCode}(commuCateCode=${commuCateCode})}" method="post"
+			enctype="multipart/form-data" class="commu-form" onsubmit="return validateForm()">
+			<ul class=tb-lst>
+			<li class="tit-row">
+			<div class="commu-label">
+				<label for="title">제목</label>
+				</div>
+				<div class="commu-title">
+				 <input type="text" id="title" name="commuTitle" placeholder="제목을 입력하세요.">
 			</div>
-
-
-			<!-- 카테고리 선택 -->
+			</li>
+			
+			<li class="tit-row">
+			<div class="commu-label">
+				<label for="category">카테고리</label>
+				</div>
+				<div class="commu-category">
 			<select id="category" name="commuCateCode">
 			   <option value="">카테고리를 선택해주세요.</option>
 				<option th:each="code : ${commuCateCodeList}"
 					th:if="${code != null}" th:value="${code.commonCode}"
 					th:text="${code.commonCodeVal}">카테고리명</option>
 			</select>
-
-
-
-
-
-			<!-- 글쓰기 내용 -->
-			<div>
-				<label for="commuCntnt">내용</label>
-				<textarea id="commuCntnt" name="commuCntnt" rows="4" required></textarea>
 			</div>
+			</li>
 
-			<!-- 첨부 파일 -->
-			<div>
-				<label for="attachment">첨부파일</label> <input type="file"
-					id="attachment" name="commuUploadFiles" multiple
+			<li class="tit-row">
+			<div class="commu-label">
+				<label for="cntnt">내용</label>
+				</div>
+				<div class="commu-cntnt">
+				<textarea id="cntnt" name="commuCntnt"></textarea>
+			</div>
+			</li>
+
+			<li class="tit-row">
+			<div class="commu-label">
+				<label for="attachment">첨부파일</label> 
+				</div>
+				
+				<div class="commu-File">
+				<input type="file" id="attachment" name="commuUploadFiles" multiple
 					onchange="appendFileList()" style="display: none;">
 				<button id="fileSelectButton" onclick="document.getElementById('attachment').click();">파일 선택</button>
 				<ul id="fileList"></ul>
 			</div>
+			</li>
+			</ul>
 			
+		
+			<div class="d-flex justify-content-center">
+				<input type="hidden" name="commuMberId" th:value="${session.mberId}">
+		<button type="button" class="btn writeBtn" onclick="window.location.href='/commu'">취소</button>			
+			</div>
 			
-			<button type="button" onclick="window.location.href='/commu/list'">취소</button>
-			
-			<!-- 제출 버튼 -->
-			<button type="submit">생성</button>
-		</form>
+			<input type="submit" class="btn writeBtn" value="생성">
+	
+	</form>
 	</div>
+
 </body>
 <script th:src="@{/js/commu/write.js}"></script>
 </html>

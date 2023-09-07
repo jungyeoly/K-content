@@ -45,7 +45,7 @@ public class CommuController {
 	@Autowired
 	private CommonCodeService commonCodeService;
 
-	@GetMapping("/commu/list") // 커뮤니티 메인
+	@GetMapping("/commu") // 커뮤니티 메인
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
 			Model model, HttpSession session) {
 
@@ -110,7 +110,8 @@ public class CommuController {
 	public String writePost(Commu commu,
 	                        @RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles,
 	                        BindingResult results,
-	                        RedirectAttributes redirectAttrs) {
+	                        RedirectAttributes redirectAttrs, HttpSession session) {
+		String mberId = (String) session.getAttribute("mberId");
 
 	    logger.info("writePost method started.");
 	    logger.info("Commu object: " + commu.toString());
@@ -119,6 +120,7 @@ public class CommuController {
 	    logger.info("/user/commu/write : " + commu.toString());
 
 	    try {
+	    	commu.setCommuMberId(mberId);
 	        // 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
 	        commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
 	        // 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)

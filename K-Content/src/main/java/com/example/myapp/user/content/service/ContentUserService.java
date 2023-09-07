@@ -18,4 +18,9 @@ public class ContentUserService implements IContentUserService {
 	public List<Content> selectUserContent(String commonCodeVal) {
 		return contentRepository.selectUserContent(commonCodeVal);
 	}
+
+	@Override
+	public List<Content> searchUserContent(String keyword) {
+		return contentRepository.searchUserContent(keyword);
+	}
 }

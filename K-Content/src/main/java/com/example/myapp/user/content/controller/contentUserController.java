@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.myapp.user.content.model.Content;
@@ -35,6 +36,26 @@ public class contentUserController {
 			String resultCode = partOfUrl2.get(1);
 			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
 		}
+		
+		model.addAttribute("contentList", contentList);
+		
+		return "user/content/list";
+	}
+	
+	@PostMapping("/user/content")
+	public String searchUserContentList(@RequestParam String keyword, Model model) {
+		
+		List<Content> contentList = contentService.searchUserContent(keyword);
+		
+		for(int i=0; i<contentList.size(); i++) {
+			// 유튜뷰 영상 썸네일 추출
+			List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
+			String partOfUrl = contentUrlSplit.get(3);
+			List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+			String resultCode = partOfUrl2.get(1);
+			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
+		}
+		
 		model.addAttribute("contentList", contentList);
 		
 		return "user/content/list";

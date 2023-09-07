@@ -11,4 +11,6 @@ import java.util.List;
 @Mapper
 public interface ICntntGoodsMappingRepository {
     List<CntntGoodsMapping> getAllGoodsByContent(@Param("cntntId") int cntntId);
+
+    int insertMappingDate(@Param("cntntId") int cntntId, @Param("goodsId") int goodsId);
 }

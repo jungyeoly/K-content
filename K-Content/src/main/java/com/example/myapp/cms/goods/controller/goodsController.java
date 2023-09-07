@@ -42,7 +42,6 @@ public class goodsController {
     @GetMapping("/makecntntselectgoods")
     @ResponseBody
     public List<Goods> getSearchGoodsResult(@RequestParam(value = "sendData") List<String> receivedData) {
-        System.out.println("receivedData: " + receivedData);
         List<Goods> goodsList = new ArrayList<>();
         for (int i = 0; i < receivedData.size(); i++) {
             goodsList.add(goodsService.getGoodsJFileByGoodsId(Integer.parseInt(receivedData.get(i))));

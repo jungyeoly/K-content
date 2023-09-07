@@ -46,7 +46,6 @@ public class ContentService implements IContentService {
                 int goodsId = goodsList.get(i);
                 rowsAffected = cntntGoodsMappingRepository.insertMappingDate(contentId, goodsId);
             }
-            System.out.println("contentId: " + contentId);
             // INSERT 작업의 성공 여부 확인
             if (contentId > 0 && rowsAffected > 0) {
                 return true;

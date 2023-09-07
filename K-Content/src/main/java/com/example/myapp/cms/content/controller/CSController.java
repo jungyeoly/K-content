@@ -189,13 +189,16 @@ public class CSController {
     @PostMapping("/content/inputcntntform")
     @ResponseBody
     public void postCntntForm(@RequestBody CntntInsertForm receivedData) {
-        CmsContent content = null;
+        CmsContent content = new CmsContent();
 
         content.setCntntUrl(receivedData.getCntntUrl());
         content.setCntntTitle(receivedData.getCntntTitle());
         content.setCntntCateCode(receivedData.getCntntCateCode());
         // 키워드 리스트를 하나의 문자열로
-        String keyword = receivedData.getKeywordList().toString().substring(1, -1);
+
+        String keywordlist = receivedData.getKeywordList().toString();
+
+        String keyword = receivedData.getKeywordList().toString().substring(1, keywordlist.length() - 1);
         content.setCntntKwrd(keyword);
 
         List<Integer> goodsList = receivedData.getGoodsList();

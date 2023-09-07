@@ -5,13 +5,11 @@ import com.example.myapp.cms.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cs/goods")
@@ -40,16 +38,24 @@ public class goodsController {
         List<Goods> goodsList = goodsService.getSearchGoodsJFile(search);
         return goodsList;
     }
+
     @GetMapping("/makecntntselectgoods")
     @ResponseBody
     public List<Goods> getSearchGoodsResult(@RequestParam(value = "sendData") List<String> receivedData) {
-
+        System.out.println("receivedData: " + receivedData);
         List<Goods> goodsList = new ArrayList<>();
-        for (int i=0; i<receivedData.size(); i++){
+        for (int i = 0; i < receivedData.size(); i++) {
             goodsList.add(goodsService.getGoodsJFileByGoodsId(Integer.parseInt(receivedData.get(i))));
         }
 
         return goodsList;
     }
+    @PostMapping("/inputcntntform")
+    @ResponseBody
+    public void postCntntForm(@RequestParam(value = "cntntForm") List<Object> receivedData) {
+        System.out.println("receivedData: " + receivedData);
 
+
+
+    }
 }

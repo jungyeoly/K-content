@@ -9,6 +9,8 @@ import com.example.myapp.cms.content.service.*;
 
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
+import com.example.myapp.commoncode.model.CommonCode;
+import com.example.myapp.commoncode.service.ICommonCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +45,9 @@ public class CSController {
     IGoodsService goodsService;
     @Autowired
     Instagram_Selenium instagram_Selenium;
+
+    @Autowired
+    ICommonCodeService commonCodeService;
 
     @GetMapping("/dashboard")
     public String getDashBoard() {
@@ -151,6 +156,10 @@ public class CSController {
         cntnt.setCntntTitle(cntntTitle);
         cntnt.setCntntUrl(cntntURL);
         model.addAttribute("content", cntnt);
+        List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+
+        model.addAttribute("category", commonCodes);
+
         return "cms/cntnt/contentMakeForm";
     }
 

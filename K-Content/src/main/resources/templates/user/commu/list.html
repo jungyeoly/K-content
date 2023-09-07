@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="/common.css">
 <link rel="stylesheet" href="/css/body-header.css">
 <meta charset="UTF-8">
-<title>커뮤니티 목록</title>
 </head>
 <body>
 	<div th:replace="~{/include/body-header :: header }"></div>
@@ -35,7 +34,8 @@
 
 			</tbody>
 		</table>
-		<a class="btn commuBtn" th:href="@{/commu/write/{commuCateCode}}">글쓰기</a>
+		<a th:if=${session.mberId} class="btn commuBtn" th:href="@{/commu/write/{commuCateCode}}">글쓰기</a>
+		
     
 
 	
@@ -47,7 +47,7 @@
                   th:each="page : ${#numbers.sequence(1, totalPage)}"
                   th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
                   <a
-                     th:href="@{/commu/list(currentPage=${page})}"
+                     th:href="@{/commu(currentPage=${page})}"
                      th:text="${page}" class="page-btn"
                      th:classappend="${currentPage == page ? 'selected' : ''}"></a>
 

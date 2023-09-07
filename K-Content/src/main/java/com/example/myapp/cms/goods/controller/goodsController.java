@@ -50,11 +50,5 @@ public class goodsController {
 
         return goodsList;
     }
-    @PostMapping("/inputcntntform")
-    @ResponseBody
-    public void postCntntForm(@RequestParam(value = "cntntForm") List<Object> receivedData) {
-        System.out.println("receivedData: " + receivedData);
 
-
-    }
 }

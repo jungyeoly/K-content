@@ -145,20 +145,21 @@ function createContent() {
     }
     console.log("goodsDivList: " + goodsDivList);
     var sendData = {
-        cntntForm: {
-            cntntUrl: document.getElementById("contentURL").value,
-            cntntTitle: document.getElementById("contentTitle").value,
-            keywordList: keywordDivList,
-            goodsList: goodsDivList,
-            cntntCateCode: document.getElementById("commonCode").value
-        }
+
+            "cntntUrl": document.getElementById("contentURL").value,
+            "cntntTitle": document.getElementById("contentTitle").value,
+            "keywordList": keywordDivList,
+            "goodsList": goodsDivList,
+            "cntntCateCode": document.getElementById("commonCode").value
+
 
     };
     console.log(sendData);
     $.ajax({
-        url: '/cs/goods/inputcntntform',
+        url: '/cs/content/inputcntntform',
         type: 'POST',
-        data: sendData,
+        data: JSON.stringify(sendData),
+        contentType : 'application/json',
         success: function (data) {
             alert("컨텐츠가 등록되었습니다!")
         },

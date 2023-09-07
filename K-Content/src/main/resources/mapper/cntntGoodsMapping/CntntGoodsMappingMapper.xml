@@ -6,11 +6,21 @@
 
     <select id="getAllGoodsByContent" resultType="com.example.myapp.cms.content.model.CntntGoodsMapping">
         <![CDATA[
-        SELECT cntnt_id ,
+        SELECT cntnt_id,
                goods_id
         FROM tb_cntnt_goods_mapping
         WHERE cntnt_id = #{cntntId}
         ]]>
     </select>
+
+    <insert id="insertMappingDate" parameterType="int">
+        <![CDATA[
+        INSERT INTO tb_cntnt_goods_mapping (cntnt_id,
+                                            goods_id)
+        VALUES (#{cntntId},
+                #{goodsId})
+        ]]>
+    </insert>
+
 
 </mapper>

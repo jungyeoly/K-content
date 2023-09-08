@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myapp.cms.inqry.dao.ICmsInqryRepository">
+
+	<select id="selectCmsInqryList" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			SELECT 
+				inqry_id,
+				inqry_ref_id,
+				inqry_group_ord,
+				inqry_title,
+				inqry_cntnt,
+				inqry_pwd,
+				inqry_regist_date,
+				inqry_update_date,
+				inqry_delete_yn,
+				inqry_mber_id
+			FROM tb_inqry
+		]]>		
+	</select>
+
+</mapper>

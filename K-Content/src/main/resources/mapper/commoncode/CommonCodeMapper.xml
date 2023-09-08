@@ -26,4 +26,16 @@
 			ORDER BY common_order
 		]]>
 	</select>
+	
+	<select id="mberStatbyCode" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT b.common_code_val 
+			FROM tb_mber A
+			JOIN tb_common_code B
+			ON B.common_code = A.mber_stat_code
+			WHERE A.mber_id = #{mberId}
+			ORDER BY common_order desc		
+		]]>
+	</select>
+ 	
 </mapper>

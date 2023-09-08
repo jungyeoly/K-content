@@ -31,5 +31,28 @@
         WHERE cntnt_id = #{cntntId}
         ]]>
     </select>
+    <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true" keyColumn="cntnt_id" keyProperty="cntntId">
+        <![CDATA[
+        INSERT INTO tb_cntnt (
+        cntnt_id,
+        cntnt_cate_code,
+        cntnt_title,
+        cntnt_kwrd,
+        cntnt_url,
+        cntnt_regist_date,
+        cntnt_delete_yn
+        )VALUES(
+        cntnt_seq.NEXTVAL,
+        #{cntntCateCode},
+        #{cntntTitle},
+        #{cntntKwrd},
+        #{cntntUrl},
+        to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'),
+        'N'
+        )
+        ]]>
+    </insert>
+
+
 
 </mapper>

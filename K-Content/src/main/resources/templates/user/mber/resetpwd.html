@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	<header th:include="~{/include/body-header :: userNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
@@ -129,145 +129,7 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$(document).ready(function() {
-			$("#send-maskid-btn").click(function(e) {
 
-				const sendMaskIdBtnText = $('#send-maskid-btn-text');
-				// 응답을 기다리는 동안 스피너 표시
-				sendMaskIdBtnText.addClass("d-none");
-				$("#maskid-spinner").removeClass("d-none");
-
-				// 입력 필드에서 이메일 값을 가져옴
-				var mberEmail = $("#findid_mber_email").val();
-
-				// 서버에 AJAX 요청 보내기
-				$.ajax({
-					type : "POST",
-					url : "/mber/findid", // 올바른 URL 지정
-					data : {
-						mberEmail : mberEmail
-					},
-					success : function(response) {
-				    	sendMaskIdBtnText.removeClass("d-none");
-						// 성공 시 스피너 숨김
-						$("#maskid-spinner").addClass("d-none");
-						if (response) {
-							sendMaskIdBtnText.removeClass("d-none");
-							sendMaskIdBtnText.text('마스킹 아이디 전송 완료');
-							alert("마스킹된 아이디가 이메일로 전송되었습니다.");
-							window.location.href = "/mber/signin";
-						} else {
-							alert("존재하지 않는 이메일입니다. 다시 시도해주세요.");
-					    	sendMaskIdBtnText.removeClass("d-none");
-
-						}
-					},
-					error : function() {
-						// 오류 발생 시 스피너 숨김
-						sendMaskIdBtnText.removeClass("d-none");
-						$("#maskid-spinner").addClass("d-none");
-						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-					}
-				});
-			});
-		});
-	</script>
-
-	<script>
-		$(document)
-				.ready(
-						function() {
-							$("#send-temppwd-btn")
-									.click(
-											function(e) {
-
-												const sendTempPwdBtnText = $('#send-temppwd-btn-text');
-
-												sendTempPwdBtnText
-														.addClass("d-none");
-												// 응답을 기다리는 동안 스피너 표시
-												$("#findpwd-spinner")
-														.removeClass("d-none");
-												// 입력 필드에서 이메일 값을 가져옴
-												var mberEmail = $(
-														"#findpwd_mber_email")
-														.val();
-												var mberId = $(
-														"#findpwd_mber_id")
-														.val();
-
-												// 서버에 AJAX 요청 보내기
-												$
-														.ajax({
-															type : "POST",
-															url : "/mber/temppwd",
-															data : {
-																mberEmail : mberEmail,
-																mberId : mberId
-															},
-															success : function(
-																	response) {
-																// 성공 시 스피너 숨김
-																sendTempPwdBtnText
-																		.removeClass("d-none");
-																$(
-																		"#findpwd-spinner")
-																		.addClass(
-																				"d-none");
-																if (response) {
-																	$(
-																			"#send-temppwd-btn")
-																			.prop(
-																					'disabled',
-																					true);
-																	sendTempPwdBtnText
-																			.text('임시비밀번호 전송 완료');
-																	alert("임시 비밀번호가 이메일로 전송되었습니다.");
-																	window.location.href = "/mber/signin";
-																} else {
-																	alert("존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.");
-																}
-															},
-															error : function() {
-																// 오류 발생 시 스피너 숨김
-																$(
-																		"#findpwd-spinner")
-																		.addClass(
-																				"d-none");
-
-																alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-																sendTempPwdBtnText
-																		.removeClass("d-none");
-															}
-														});
-											});
-						});
-	</script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			const urlParams = new URLSearchParams(window.location.search);
-			const findType = urlParams.get('findType');
-
-			const idTab = document.getElementById('find-id-tab');
-			const passwordTab = document.getElementById('find-password-tab');
-			const idTabPane = document.getElementById('find-id-tab-pane');
-			const passwordTabPane = document
-					.getElementById('find-password-tab-pane');
-
-			if (findType === 'password') {
-				passwordTab.classList.add('active');
-				idTab.classList.remove('active');
-				passwordTabPane.classList.add('active', 'show');
-				idTabPane.classList.remove('active', 'show');
-			} else {
-				idTab.classList.add('active');
-				passwordTab.classList.remove('active');
-				idTabPane.classList.add('active', 'show');
-				passwordTabPane.classList.remove('active', 'show');
-			}
-		});
-	</script>
 
 </body>
 

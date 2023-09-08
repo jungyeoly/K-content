@@ -49,8 +49,6 @@ public class CommuController {
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
 			Model model, HttpSession session) {
 
-		model.addAttribute("showAll", true); // "BEST" 대신 "ALL" 표시
-
 		List<Commu> commulist = commuService.selectAllPost();
 
 		int totalPage = 0;
@@ -95,9 +93,8 @@ public class CommuController {
 	}
 
 	// 카테고리별 커뮤니티 글쓰기
-	@GetMapping("/commu/write/{commuCateCode}")
+	@GetMapping("/commu/write")
 	public String writePost(Model model) {
-		model.addAttribute("showAll", true);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		logger.info("Fetched commuCateCodeList: " + commuCateCodeList);// 실제 데이터 확인
@@ -107,80 +104,82 @@ public class CommuController {
 
 	// 커뮤니티 글쓰기 및 파일 업로드를 처리하는 메서드
 	@PostMapping("/commu/write/{commuCateCode}")
-	public String writePost(Commu commu,
-	                        @RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles,
-	                        BindingResult results,
-	                        RedirectAttributes redirectAttrs, HttpSession session) {
+	public String writePost(Commu commu, @PathVariable String commuCateCode,
+			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
+			RedirectAttributes redirectAttrs, HttpSession session) {
 		String mberId = (String) session.getAttribute("mberId");
 
-	    logger.info("writePost method started.");
-	    logger.info("Commu object: " + commu.toString());
+		logger.info("writePost method started.");
+		logger.info("Commu object: " + commu.toString());
 
-	    // 게시물 정보 로깅
-	    logger.info("/user/commu/write : " + commu.toString());
+		// 게시물 정보 로깅
+		logger.info("/user/commu/write : " + commu.toString());
 
-	    try {
-	    	commu.setCommuMberId(mberId);
-	        // 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-	        commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
-	        // 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
-	        commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-	        commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
-	        
-	        // 데이터베이스에 게시물 정보 삽입
-	        commuService.insertPost(commu);
+		try {
+			commu.setCommuMberId(mberId);
+			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
+			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
+			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
+			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
+			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
-	        // 첨부파일 리스트 초기화
-	        List<CommuFile> commuFiles = new ArrayList<>();
+			
 
-	        if (commuUploadFiles != null && commuUploadFiles.length > 0) {
-	            logger.info("Processing uploaded files.");
+			// 첨부파일 리스트 초기화
+			List<CommuFile> commuFiles = new ArrayList<>();
 
-	            for (MultipartFile uploadFile : commuUploadFiles) {
-	                if (!uploadFile.isEmpty()) {
-	                    String originalName = uploadFile.getOriginalFilename();
-	                    String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
-	                    String uuid = UUID.randomUUID().toString();
-	                    String url = "C:\\Users\\KOSA\\Downloads";
-	                    File dir = new File(url);
-	                    if (!dir.exists()) {
-	                        dir.mkdirs();
-	                    }
-	                    String savefileName = url + File.separator + uuid + "_" + fileName;
-	                    Path savePath = Paths.get(savefileName);
-	                    
-	                    try {
-	                        uploadFile.transferTo(savePath);
-	                        logger.info("File saved successfully at: " + savePath);
+			if (commuUploadFiles != null && commuUploadFiles.length > 0) {
+				logger.info("Processing uploaded files.");
 
-	                        CommuFile file = new CommuFile();
-	                        file.setCommuFileId(UUID.randomUUID().toString());
-	                        file.setCommuFileName(fileName);
-	                        file.setCommuFileSize(uploadFile.getSize());
-	                        file.setCommuFileExt(FilenameUtils.getExtension(originalName));
-	                        file.setCommuFilePath(savefileName);
-	                        file.setCommuFileCommuId(commu.getCommuId());
-	                        commuFiles.add(file);
-	                        logger.info("Created CommuFile metadata: " + file.toString());
+				for (MultipartFile uploadFile : commuUploadFiles) {
+					if (!uploadFile.isEmpty()) {
+						String originalName = uploadFile.getOriginalFilename();
+						String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+						String uuid = UUID.randomUUID().toString();
+						String url = "C:\\Users\\KOSA\\Downloads";
+						File dir = new File(url);
+						if (!dir.exists()) {
+							dir.mkdirs();
+						}
+						String savefileName = url + File.separator + uuid + "_" + fileName;
+						Path savePath = Paths.get(savefileName);
 
-	                    } catch (IOException e) {
-	                        logger.error("File saving failed: ", e);
-	                    }
-	                }
-	            }
-	            
-	            if (!commuFiles.isEmpty()) {
-	                logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
-	                commuService.insertPost(commu, commuFiles);
-	                logger.info("Successfully saved CommuFiles to the DB.");
-	            }
-	        }
-	        
-	    } catch (Exception e) {
-	        logger.error("Error message", e);
-	        redirectAttrs.addFlashAttribute("message", e.getMessage());
-	    }
+						try {
+							uploadFile.transferTo(savePath);
+							logger.info("File saved successfully at: " + savePath);
 
-	    return "redirect:/user/commu/view" + commu.getCommuId();
+							CommuFile file = new CommuFile();
+							file.setCommuFileId(UUID.randomUUID().toString());
+							file.setCommuFileName(fileName);
+							file.setCommuFileSize(uploadFile.getSize());
+							file.setCommuFileExt(FilenameUtils.getExtension(originalName));
+							file.setCommuFilePath(savefileName);
+							file.setCommuFileCommuId(commu.getCommuId());
+							commuFiles.add(file);
+							logger.info("Created CommuFile metadata: " + file.toString());
+
+						} catch (IOException e) {
+							logger.error("File saving failed: ", e);
+						}
+					}
+				}
+
+				if (!commuFiles.isEmpty()) {
+					logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
+					commuService.insertPost(commu, commuFiles);
+					logger.info("Successfully saved CommuFiles to the DB.");
+				}  else {
+				    commuService.insertPost(commu);
+				}
+				
+			}
+
+		} catch (Exception e) {
+			logger.error("Error message", e);
+			redirectAttrs.addFlashAttribute("message", e.getMessage());
+		}
+
+		return "redirect:/commu/{commuCateCode}/" + commu.getCommuId();
+
 	}
 }

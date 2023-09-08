@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
   
@@ -15,17 +16,19 @@
 				<li class="myLike">MY LIKE</li>
 				<i class="fa-solid fa-bag-shopping"></i>
 				<li class="shoppingBag">SHOPPING BAG</li>
-				<i class="fa-solid fa-door-closed" th:if="${session.mberId == null}"></i>
-				<li class="login" th:if="${session.mberId == null}"><a th:href="@{/mber/signin}">LOGIN</a></li>
-				<i class="fa-solid fa-door-open" th:unless="${session.mberId == null}"></i>
-				<li class="logout" th:unless="${session.mberId == null}"><a th:href="@{/mber/signout}">LOGOUT</a></li>
+				<i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i>
+				<li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}">LOGIN</a></li>
+				<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>
+				<li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}">LOGOUT</a></li>
 			</ul>
 		</div>
 		
 		<ul class="contents">
 			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
-			<li id="comm" class="content"><a th:href="@{/list}">Comm</a></li>
+
+			<li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>
 			<li id="cs" class="content"><a th:href="@{/inqury}">Cs</a></li>
+
 			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
 			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
 			<li class="search">

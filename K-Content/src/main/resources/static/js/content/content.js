@@ -2,13 +2,12 @@ $(document).ready(function() {
 	$.ajax({
 		url: "/user/content",
 		type: "GET",
-		success: function(data) {
-			console.log(data);
+		success: function(result) {
+			console.log(result);
 			var layout = $(".layout");
-			layout.append(data);
+			layout.append(result);
 		}
 	})
-
 	
 	$(".cate").click(function() {
 		var cateValue = this.getAttribute('data-maincate-value');
@@ -28,7 +27,6 @@ $(document).ready(function() {
 	    	}
 	    })
 	})
-
 
 	$("#searchForm").submit(function(event) {
 		event.preventDefault();

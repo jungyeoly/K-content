@@ -17,6 +17,6 @@ public interface IContentRepository {
 
     List<CntntGoodsMapping> getGoodsByContent(@Param("cntntId") int cntntId);
 
-
+    int insertAContent(CmsContent content);
 
 }

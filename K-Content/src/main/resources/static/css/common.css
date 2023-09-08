@@ -4,13 +4,13 @@
 	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
 
 @import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
+	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean')
+	;
 
 :root {
 	/* Color */ 
 	--color-main: #14dbc8;
 }
-
 
 @font-face {
 	font-family: 'NEXON Lv1 Gothic OTF Light';
@@ -45,32 +45,36 @@ body {
 }
 
 .btn {
-	font-weight: bold;
-	background-color: var(--color-main);
-	color: white;
-}
-
-.btn-2 {
-	font-weight: bold;
-	border: 1px solid var(--color-main);
-	color: var(--color-main);
-	background-color: white;
+	border-radius: 2px;
+    height: 50px;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 22.5px;
+    font-weight: 600;
+    transition: all 200ms linear;
+    padding: 0 40px;
+    display: inline-flex;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    text-align: center;
+    border: none;
+    color: white;
+    background-color: var(--color-main);
+    box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
 }
 
 .btn:hover {
-	background-color: black;
-	border: 1px var(--color-main) solid;
-	color: var(--color-main);
+    color: white;
+    background-color: #1f2029;
+    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
 }
 
-.btn:focus {
-  	color: var(--color-main);
-}
-.btn:active {
-   background-color: var(--color-main);
-   color: white;
-   border: 1px solid var(--color-main);
-}
+
 .menu {
 	width: 200px;
 	text-align: center;

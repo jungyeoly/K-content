@@ -42,7 +42,15 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>3.0.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -110,9 +118,9 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.4</version>
 		</dependency>
-	
-	
-	 <!--파일명, 파일 경로 및 파일 확장자와 같은 파일 관련 연산을 도와주는 유틸리티 -->
+
+
+		<!--파일명, 파일 경로 및 파일 확장자와 같은 파일 관련 연산을 도와주는 유틸리티 -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

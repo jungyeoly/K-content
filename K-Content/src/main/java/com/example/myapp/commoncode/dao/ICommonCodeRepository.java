@@ -15,4 +15,6 @@ public interface ICommonCodeRepository  {
 	List<CommonCode> findByUpperCommonCode(String upperCommonCode);
 	
 	List<String> cateList(String upperCommonCode);
+	
+	String mberStatbyCode(String mberId);
 }

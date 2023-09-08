@@ -27,10 +27,10 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
 
 			<li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>
-			<li id="cs" class="content"><a th:href="@{/inqury}">Cs</a></li>
+			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
-			<li class="cms content" th:if="${session.mberState == 'C0203'}"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
-			<li class="cms content" th:unless="${session.mberState == 'C0203'}"></li>			
+			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
+			<li class="cms content" sec:authorize="hasRole('USER')"></li>			
 			<li class="search">
 				<form id="searchForm" class="input-group">
 				    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">

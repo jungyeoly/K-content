@@ -3,34 +3,33 @@ package com.example.myapp.cms.content.controller;
 
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.model.CmsContent;
+import com.example.myapp.cms.content.model.CntntInsertForm;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
 
 
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
+import com.example.myapp.commoncode.model.CommonCode;
+import com.example.myapp.commoncode.service.ICommonCodeService;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 //url 카멜에 쓰지마!!!!
 @Controller
 @RequestMapping("/cs")
 public class CSController {
+    SqlSession sqlSession;
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired
@@ -43,6 +42,9 @@ public class CSController {
     IGoodsService goodsService;
     @Autowired
     Instagram_Selenium instagram_Selenium;
+
+    @Autowired
+    ICommonCodeService commonCodeService;
 
     @GetMapping("/dashboard")
     public String getDashBoard() {
@@ -151,6 +153,10 @@ public class CSController {
         cntnt.setCntntTitle(cntntTitle);
         cntnt.setCntntUrl(cntntURL);
         model.addAttribute("content", cntnt);
+        List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+
+        model.addAttribute("category", commonCodes);
+
         return "cms/cntnt/contentMakeForm";
     }
 
@@ -178,6 +184,28 @@ public class CSController {
         model.addAttribute("trendQueryList", trendQueryList);
 
         return "cms/cntnt/contentMakeForm";
+    }
+
+    @PostMapping("/content/inputcntntform")
+    @ResponseBody
+    public void postCntntForm(@RequestBody CntntInsertForm receivedData) {
+        CmsContent content = new CmsContent();
+
+        content.setCntntUrl(receivedData.getCntntUrl());
+        content.setCntntTitle(receivedData.getCntntTitle());
+        content.setCntntCateCode(receivedData.getCntntCateCode());
+        // 키워드 리스트를 하나의 문자열로
+
+        String keywordlist = receivedData.getKeywordList().toString();
+
+        String keyword = receivedData.getKeywordList().toString().substring(1, keywordlist.length() - 1);
+        content.setCntntKwrd(keyword);
+
+        List<Integer> goodsList = receivedData.getGoodsList();
+
+        contentService.insertAContent(content, goodsList);
+
+        // 성공 여부 리턴
     }
 
     @GetMapping("/ma")

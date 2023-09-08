@@ -12,11 +12,11 @@ public interface ICommuService {
 	Commu selectPost(int commuId); //커뮤니티 게시글 상세조회(댓글포함)
 	
 	void insertPost(Commu commu); //커뮤니티 글쓰기
-	void insertPost(Commu commu,List<CommuFile> files);//커뮤니티 글쓰기에 첨부파일
-	
+	void insertPost(Commu commu, List<CommuFile> files);  //커뮤니티 글쓰기에 첨부파일
+
 	
 	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트 
-	void updatePost(Commu commu, CommuFile file); // 커뮤니티 게시글 업데이트
+	void updatePost(Commu commu, List<CommuFile> files); // 커뮤니티 게시글 업데이트
 	 
 	CommuFile getFile(int commuFileid);
 

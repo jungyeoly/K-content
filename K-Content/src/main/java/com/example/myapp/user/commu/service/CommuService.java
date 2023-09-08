@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +34,9 @@ public class CommuService implements ICommuService {
 		commuRepository.insertPost(commu);
 	}
 
-	@Transactional
+	// @Transactional
 	public void insertPost(Commu commu, List<CommuFile> files) {
-		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		  String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
 		// Commu 객체에 대한 등록 날짜 설정
 		if (commu.getCommuRegistDate() == null) {
@@ -47,11 +46,11 @@ public class CommuService implements ICommuService {
 		commu.setCommuId(commuRepository.selectMaxPost() + 1);
 		commuRepository.insertPost(commu);
 
-		 if (files != null && !files.isEmpty()) {
-		        for (CommuFile commufile : files) {
-		            if (commufile.getCommuFileName() != null && !commufile.getCommuFileName().equals("")) {
-		                commufile.setCommuFileCommuId(commu.getCommuId());
-		                commuRepository.insertFileData(commufile); 
+		if (files != null && !files.isEmpty()) {
+			for (CommuFile commufile : files) {
+				if (commufile.getCommuFileName() != null && !commufile.getCommuFileName().equals("")) {
+					commufile.setCommuFileCommuId(commu.getCommuId());
+					commuRepository.insertFileData(commufile);
 				}
 			}
 		}
@@ -67,31 +66,43 @@ public class CommuService implements ICommuService {
 		commuRepository.updateReadCnt(commuId);
 		return commuRepository.selectPost(commuId);
 	}
-
-	@Override
+ 
+	@Transactional
 	public void updatePost(Commu commu) {
-		commuRepository.updatePost(commu);
-
+		 String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		
+		 if (commu.getCommuUpdateDate() == null) {
+		        commu.setCommuUpdateDate(currentTimestamp);
+		    }
+		   commuRepository.updatePost(commu);
 	}
 
-	@Override
-	public void updatePost(Commu commu, CommuFile file) {
-		commuRepository.updatePost(commu);
-		if (file != null && file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
-			file.setCommuFileCommuId(commu.getCommuId());
-
-			if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
-				// 파일 ID가 존재하면, 해당 파일 업데이트
-				commuRepository.updateFiledata(file);
-			} else {
-				// 아니라면, 새로운 파일 추가
-				// (이 부분은 필요하다면 파일 ID 생성 로직 추가)
-				commuRepository.updateFiledata(file);
-			}
-		}
-
+	@Transactional
+	public void updatePost(Commu commu, List<CommuFile> files) {
+	    String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+	    
+	    if (commu.getCommuUpdateDate() == null) {
+	        commu.setCommuUpdateDate(currentTimestamp);
+	    }
+	    
+	    commuRepository.updatePost(commu);
+	    
+	    if (files != null && !files.isEmpty()) {
+	        for (CommuFile file : files) {
+	            if (file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
+	                file.setCommuFileCommuId(commu.getCommuId());
+	                
+	                if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
+	                    // 파일 ID가 존재하면, 해당 파일 업데이트
+	                    commuRepository.updateFiledata(file);
+	                } else {
+	                    // 아니라면, 새로운 파일 추가   
+	                	  commuRepository.insertFileData(file);
+	                }
+	                
+	            }
+	        }
+	    }
 	}
-
-	
-
 }
+	

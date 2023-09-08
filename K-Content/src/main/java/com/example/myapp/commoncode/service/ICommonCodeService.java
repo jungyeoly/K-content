@@ -9,4 +9,6 @@ public interface ICommonCodeService {
 	List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode);
 	
 	List<String> cateList(String upperCommonCode);
+	
+	String mberStatbyCode(String mberId);
 }

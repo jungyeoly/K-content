@@ -1,76 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-
-<link rel="stylesheet" th:href="@{/css/commu/write.css}">
-
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
 </head>
 <body>
- <div th:replace="~{/include/header :: header}"></div> 
-	 <header th:replace="~{include/body-header :: userNavBar}"></header>  
-	
-	
+	<div th:replace="~{/include/header :: header}"></div>
+	<header th:replace="~{include/body-header :: userNavBar}"></header>
+
+
 	<div class="container">
 		<div class="menu fw-bold">커뮤니티 글 생성</div>
-		<form th:action="@{/commu/write/{commuCateCode}(commuCateCode=${commuCateCode})}" method="post"
-			enctype="multipart/form-data" class="commu-form" onsubmit="return validateForm()">
+		<form th:action="@{/commu/write/${commu.commuCateCode}}" method="post"
+			enctype="multipart/form-data" onsubmit="return validateForm()">
+
 			<ul class=tb-lst>
-			<li class="tit-row">
-			<div class="commu-label">
-				<label for="title">제목</label>
-				</div>
-				<div class="commu-title">
-				 <input type="text" id="title" name="commuTitle" placeholder="제목을 입력하세요.">
-			</div>
-			</li>
-			
-			<li class="tit-row">
-			<div class="commu-label">
-				<label for="category">카테고리</label>
-				</div>
-				<div class="commu-category">
-			<select id="category" name="commuCateCode">
-			   <option value="">카테고리를 선택해주세요.</option>
-				<option th:each="code : ${commuCateCodeList}"
-					th:if="${code != null}" th:value="${code.commonCode}"
-					th:text="${code.commonCodeVal}">카테고리명</option>
-			</select>
-			</div>
-			</li>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="title">제목</label>
+					</div>
+					<div class="commu-title">
+						<input type="text" id="title" name="commuTitle"
+							placeholder="제목을 입력하세요.">
+					</div>
+				</li>
 
-			<li class="tit-row">
-			<div class="commu-label">
-				<label for="cntnt">내용</label>
-				</div>
-				<div class="commu-cntnt">
-				<textarea id="cntnt" name="commuCntnt"></textarea>
-			</div>
-			</li>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="category">카테고리</label>
+					</div>
+					<div class="commu-category">
+						<select id="category" name="commuCateCode">
+							<option value="">카테고리를 선택해주세요.</option>
+							<option th:each="code : ${commuCateCodeList}"
+								th:if="${code != null}" th:value="${code.commonCode}"
+								th:text="${code.commonCodeVal}">카테고리명</option>
+						</select>
+					</div>
+				</li>
 
-			<li class="tit-row">
-			<div class="commu-label">
-				<label for="attachment">첨부파일</label> 
-				</div>
-				
-				<div class="commu-File">
-				<input type="file" id="attachment" name="commuUploadFiles" multiple
-					onchange="appendFileList()" style="display: none;">
-				<button id="fileSelectButton" onclick="document.getElementById('attachment').click();">파일 선택</button>
-				<ul id="fileList"></ul>
-			</div>
-			</li>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="cntnt">내용</label>
+					</div>
+					<div class="commu-cntnt">
+						<textarea id="cntnt" name="commuCntnt"></textarea>
+					</div>
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="attachment">첨부파일</label>
+					</div>
+
+					<div class="commu-File">
+
+						<input type="file" id="attachment" name="commuUploadFiles"
+							multiple onchange="appendFileList()" style="display: none;">
+						<button id="fileSelectButton"
+							onclick="document.getElementById('attachment').click();">파일
+							선택</button>
+						<ul id="fileList"></ul>
+					</div>
+				</li>
 			</ul>
-			
-		
+
+
 			<div class="d-flex justify-content-center">
-				<input type="hidden" name="commuMberId" th:value="${session.mberId}">
-		<button type="button" class="btn writeBtn" onclick="window.location.href='/commu'">취소</button>			
+				<input type="hidden" name="commuMberId" th:value="${session.MberId}"sec:authorize="isAuthenticated()">
+				
+				<button type="button" class="btn writeBtn"
+					onclick="window.location.href='/commu'">취소</button>
 			</div>
-			
-			<input type="submit" class="btn writeBtn" value="생성">
-	
-	</form>
+
+			<button type="submit" class="btn commuBtn">생성</button>
+
+
+
+		</form>
 	</div>
 
 </body>

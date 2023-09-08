@@ -6,7 +6,7 @@
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
 </head>
 <body>
-	<header th:include="~{/include/body-header :: userNavBar}"></header>
+	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
@@ -82,8 +82,8 @@
 							</div>
 							<div class="col-md-3 mb-3">
 								<label for="EmailAuth">&nbsp;</label>
-								<button type="button" id="mail-check-btn" name="EmailAuth"
-									class="form-control btn">
+								<button type="button" tabindex="-1" id="mail-check-btn" name="EmailAuth"
+									class="form-control mailauth-btn">
 									<span id="mail-check-btn-text">메일 인증</span>
 									<div class="spinner-border text-info spinner-border-sm ms-2 d-none"
 										role="status" id="mail-check-spinner"></div>
@@ -204,12 +204,14 @@
 		                display: 'block',
 		                color: '#dc3545'
 		            }).text('이메일 인증을 위해 이메일을 입력하세요.');
+		            mailCheckBtn.blur();
 		            return;
 		        } else if (!mberEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
 		            mailInputCheckWarn.css({
 		                display: 'block',
 		                color: '#dc3545'
 		            }).text('유효한 이메일 주소 형식으로 입력하세요.');
+		            mailCheckBtn.blur();
 		            return;
 		        } 
 		        
@@ -238,6 +240,7 @@
 		            },
 		            error: function() {
 		                mailCheckWarn.text('이메일 입력 오류').css('color', 'red');
+		                mailCheckBtn.blur();
 		            }
 		        });
 		 

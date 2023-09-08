@@ -13,12 +13,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.example.myapp.user.mber.service.CustomUserDetailsService;
+import com.example.myapp.user.mber.service.MberUserDetailsService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,8 +33,8 @@ public class SpringSecurityConfig {
 
 	 @Bean // 패스워드 암호화 관련 메소드 
 	 public PasswordEncoder passwordEncoder() { 
-	 return new BCryptPasswordEncoder(); 
-}
+		 return PasswordEncoderFactories.createDelegatingPasswordEncoder(); 
+	 }
 	
 	@Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,7 +48,7 @@ public class SpringSecurityConfig {
 						
 						 .requestMatchers("/css/**", "/img/**", "/mber/signup", 
 								 			"/", "/mber/signin", "/mber/signout", "/js/**",
-								 			"/user/content", "/cms/**", "/user/**").permitAll() 
+								 			"/user/content", "/cms/**", "/user/**", "/mber/mailauth", "/mber/**").permitAll() 
 						 .requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**").hasAnyRole("ADMIN") 
 						 .requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**").hasAnyRole("USER")
 						 .anyRequest().authenticated())
@@ -78,6 +79,7 @@ public class SpringSecurityConfig {
 					            
 					    .logout(logout -> logout // 로그아웃 기능 작동함
 					            .logoutUrl("/mber/signout")
+					            .invalidateHttpSession(true)
 					            .logoutSuccessUrl("/")); // 로그아웃 성공 후 이동페이지
 //					            .deleteCookies("JSESSIONID", "remember-me")); // 로그아웃 후 쿠키 삭제
 //					            .addLogoutHandler( ...생략... ) // 로그아웃 핸들러

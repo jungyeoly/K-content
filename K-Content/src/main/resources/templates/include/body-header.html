@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
   
@@ -11,7 +11,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 			<ul class="icons">
 				<i class="fa-solid fa-user"></i>
-				<li class="myPage">MY PAGE</li>
+				<li class="myPage"><a th:href="@{/mber/mypage}">MY PAGE</a></li>
 				<i class="fa-solid fa-heart"></i>
 				<li class="myLike">MY LIKE</li>
 				<i class="fa-solid fa-bag-shopping"></i>
@@ -29,7 +29,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
-			
 			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
 			<li class="cms content" sec:authorize="hasRole('USER')">&nbsp;</li>			
 			<li class="search">

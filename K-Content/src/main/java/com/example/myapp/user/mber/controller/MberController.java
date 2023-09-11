@@ -58,6 +58,14 @@ public class MberController {
 //		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
 //			throw new RuntimeException("CSRF Token Error.");
 //		}
+		
+	    // 이메일 중복 체크
+	    Mber existingMber = mberService.selectMberbyEmail(mber.getMberEmail());
+	    if (existingMber != null) {
+	        model.addAttribute("mber", mber);
+	        model.addAttribute("existEmailMessage", "이미 존재하는 이메일입니다.");
+	        return "user/mber/signup";
+	    } 
 		mber.setMberStatCode("C0202");
 
 		try {
@@ -139,16 +147,16 @@ public class MberController {
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
-		String tempPwd = "";
+		String tempPwd="";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
-
+		
 		// 회원 정보 업데이트
 		if (mber != null) {
-
+			tempPwd = emailService.sendTempPwd(mberEmail);
 			mber.setMberPwd(tempPwd);
 			mberService.updateMber(mber);
 
-		}
+		} 
 
 		return tempPwd;
 	}

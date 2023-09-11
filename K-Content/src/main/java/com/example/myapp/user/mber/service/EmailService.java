@@ -115,6 +115,7 @@ public class EmailService implements IEmailService {
 		return msg;
 	}
 
+
 	// 인증코드 만들기
 	public static String createAuthNum() {
 		StringBuffer key = new StringBuffer();
@@ -128,6 +129,7 @@ public class EmailService implements IEmailService {
 
 
 	// 임시비밀번호 만들기
+	@Override
 	public String createTempPwd() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };

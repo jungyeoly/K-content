@@ -11,11 +11,11 @@ $(document).ready(function() {
 	
 	$(".cate").click(function() {
 		var cateValue = this.getAttribute('data-maincate-value');
-		    
+
 		if (cateValue == null) {
 			cateValue = 'All';
 		}
-		
+		console.log(cateValue);
 	    $.ajax({
 	    	url: "/user/content",
 	    	type: "GET",

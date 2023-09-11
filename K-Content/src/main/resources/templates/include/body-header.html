@@ -44,7 +44,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 		
 		<div id="main-cate" class="categories-nav">
 			<ul class="categories">
-				<li th:each= "cate : ${cateList}"  class="cate">[[${cate}]]</li>
+				<li th:each= "cate : ${cateList}"  class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
 		

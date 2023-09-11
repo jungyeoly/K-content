@@ -36,6 +36,7 @@ public class contentUserController {
 			String resultCode = partOfUrl2.get(1);
 			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
 		}
+		System.out.println(contentList.size());
 		
 		model.addAttribute("contentList", contentList);
 		

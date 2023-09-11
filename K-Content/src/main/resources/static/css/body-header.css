@@ -71,6 +71,7 @@ header ul li.search {
   padding-right: 30px;
   font-weight: 900;
   font-size: 45px;
+  margin-left: auto;
 }
 
 header .contents li.content:hover::after, header .contents li.cms:hover::after {

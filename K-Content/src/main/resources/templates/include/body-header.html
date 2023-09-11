@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
-xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
   
@@ -29,8 +29,9 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
+			
 			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
-			<li class="cms content" sec:authorize="hasRole('USER')"></li>			
+			<li class="cms content" sec:authorize="hasRole('USER')">&nbsp;</li>			
 			<li class="search">
 				<form id="searchForm" class="input-group">
 				    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">
@@ -42,16 +43,11 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 		</ul>
 		
 		<div id="main-cate" class="categories-nav">
-			<ul th:each= "cate : ${cateList}" class="categories">
-				<li class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
+			<ul class="categories">
+				<li th:each= "cate : ${cateList}"  class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
 		
-		<div id="comm-cate" class="categories-nav">
-			<ul th:each= "cate : ${cateList}" class="categories">
-				<li class="cate" th:data-commcate-value="${cate}">[[${cate}]]</li>
-			</ul>
-		</div>
 	</header>		
 </body>
 

@@ -84,7 +84,6 @@ header .contents li.content:hover::after, header .contents li.cms:hover::after {
 }
 
 header .categories-nav {
-  display: none;
   padding: 0px 50px 50px 50px;
 }
 

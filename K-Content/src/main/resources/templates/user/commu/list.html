@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+
 <head>
 <link rel="stylesheet" href="/css/commu/commuList.css">
-<link rel="stylesheet" href="/common.css">
+<link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/css/body-header.css">
 <meta charset="UTF-8">
 </head>
 <body>
-	<div th:replace="~{/include/body-header :: header }"></div>
 	<div th:replace="~{/include/header :: header}"></div>
+	<div th:replace="~{/include/body-header :: header }"></div>
+
+	<div id="main-cate" class="categories-nav">
+		<ul class="categories">
+			<li th:each="cate : ${commuCateCodeList}" class="cate">[[${cate.commonCodeVal}]]</li>
+		</ul>
+	</div>
+
 	<div class="container">
+		<!--  <div class="row">
+		<div class="side-bar col-1 ms-3 ps-5 d-flex flex-column"
+			style="max-width: 150px; min-width: 150px;">
+			<a th:href="@{/inqury}" class="link link-active">문의사항</a> 
+			<a th:href="@{/commu}" class="link">커뮤니티</a>
+		</div>
+		<div class="col"> -->
 		<div class="menu fw-bold">커뮤니티</div>
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
@@ -24,40 +39,39 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${commulist}" class="commu-row" th:attr="data-commu-id=${commu.commuId}">
-					  <td th:text="${commu.commuId}"></td>
-                <td> <a th:href="@{/commu/{id}(id=${commu.commuId})}" th:text="${commu.commuTitle}"></a>
-                    <td th:text="${commu.commuMberId}"></td>
-                    <td th:text="${commu.commuRegistDate}"></td>
-                    <td th:text="${commu.commuUpdateDate}"></td>
-                    <td th:text="${commu.commuReadCnt}"></td>
+				<tr th:each="commu : ${commulist}" class="commu-row"
+					th:attr="data-commu-id=${commu.commuId}">
+					<td th:text="${commu.commuId}"></td>
+					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
+						th:text="${commu.commuTitle}"></a>
+					<td th:text="${commu.commuMberId}"></td>
+					<td th:text="${commu.commuRegistDate}"></td>
+					<td th:text="${commu.commuUpdateDate}"></td>
+					<td th:if="${commu.commuUpdateDate != null}"
+						th:text="${commu.commuUpdateDate}"></td>
+					<td th:text="${commu.commuReadCnt}"></td>
 				</tr>
 
 			</tbody>
 		</table>
-		<a th:if="${session.mberId}" sec:authorize="isAuthenticated()" class="btn commuBtn" th:href="@{/commu/write}">글쓰기</a>
+		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
+			th:href="@{/commu/write}">글쓰기</a>
 
-		
-    
-
-	
-   <div class="pagination">
-            <!-- 페이지 목록 출력 -->
-            <div
-               th:with="share=${currentPage > 1 ? @objectUtil.divideAndGetQuotient(currentPage - 1, 10) : 0}">
-               <div class="page-btn"
-                  th:each="page : ${#numbers.sequence(1, totalPage)}"
-                  th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
-                  <a
-                     th:href="@{/commu(currentPage=${page})}"
-                     th:text="${page}" class="page-btn"
-                     th:classappend="${currentPage == page ? 'selected' : ''}"></a>
-
-               </div>
-            </div>
-
-        
-         </div>
+		<div class="pagination">
+			<!-- 페이지 목록 출력 -->
+			<div
+				th:with="share=${currentPage > 1 ? @objectUtil.divideAndGetQuotient(currentPage - 1, 10) : 0}">
+				<div class="page-btn"
+					th:each="page : ${#numbers.sequence(1, totalPage)}"
+					th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
+					<a th:href="@{/commu(currentPage=${page})}" th:text="${page}"
+						class="page-btn"
+						th:classappend="${currentPage == page ? 'selected' : ''}"></a>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 </body>
 </html>

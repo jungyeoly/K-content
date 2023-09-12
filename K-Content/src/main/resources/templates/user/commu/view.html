@@ -9,76 +9,45 @@
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
 
 
-	<div class="container">
-		<div class="menu fw-bold">커뮤니티 글 생성</div>
-		<form th:action="@{/commu/view}}" method="post"
-			enctype="multipart/form-data" onsubmit="return validateForm()">
+	<div class="container mb-3">
+		<div class="commu-no menu fw-bold">[[${commu.commuId}]]</div>
+		<div class="commu-header d-flex justify-content-between fw-bold">
+			<div class="username">[[${commu.commuMberId}]]</div>
+			<div class="title">[[${commu.commuTitle}]]</div>
+			<div class="registdate">[[${commu.commuRegistDate}]]</div>
+		</div>
 
-			<ul class=tb-lst>
-				<li class="tit-row">
-					<div class="commu-label">
-						<label for="title">제목</label>
-					</div>
-					<div class="commu-title">
-						<input type="text" id="title" name="commuTitle"
-							placeholder="제목을 입력하세요.">
-					</div>
-				</li>
-
-				<li class="tit-row">
-					<div class="commu-label">
-						<label for="category">카테고리</label>
-					</div>
-					<div class="commu-category">
-						<select id="category" name="commuCateCode">
-							<option value="">카테고리를 선택해주세요.</option>
-							<option th:each="code : ${commuCateCodeList}"
-								th:if="${code != null}" th:value="${code.commonCode}"
-								th:text="${code.commonCodeVal}">카테고리명</option>
-						</select>
-					</div>
-				</li>
-
-				<li class="tit-row">
-					<div class="commu-label">
-						<label for="cntnt">내용</label>
-					</div>
-					<div class="commu-cntnt">
-						<textarea id="cntnt" name="commuCntnt"></textarea>
-					</div>
-				</li>
-
-				<li class="tit-row">
-					<div class="commu-label">
-						<label for="attachment">첨부파일</label>
-					</div>
-
-					<div class="commu-File">
-
-						<input type="file" id="attachment" name="commuUploadFiles"
-							multiple onchange="appendFileList()" style="display: none;">
-						<button id="fileSelectButton"
-							onclick="document.getElementById('attachment').click();">파일
-							선택</button>
-						<ul id="fileList"></ul>
-					</div>
-				</li>
-			</ul>
-
-
-			<div class="d-flex justify-content-center">
-				<input type="hidden" name="commuMberId" th:value="${session.MberId}">
-				<button type="button" class="btn writeBtn"
-					onclick="window.location.href='/commu'">취소</button>
+		<div class="detail-cntnt">
+			<div th:each="file : ${commuFiles}" class="text-center img-div">
+				<img alt="" th:src="@{'file:' + ${file.commuFilePath}}">
 			</div>
-
-			<button type="submit" class="btn commuBtn">생성</button>
-
-
-
-		</form>
+		</div>
+		<div class="commu-cntnt text-start cntnt-div">
+			<div class="cntnt">[[${commu.commuCntnt}]]</div>
+		</div>
 	</div>
 
+	<div class="d-flex btn-div">
+		<div th:if="${session.mberId} == ${commu.commuMberId}" class="btns">
+			<a th:href="@{/commu/update/{commuId}(commuId=${commu.commuId})}"
+				class="btn me-2">수정</a>
+			<form th:action="@{/commu/delete/{id}(id=${commu.commuId})}"
+				method="post">
+				<input type="hidden" name="commuId" th:value=${commu.commuId}>
+				<input type="submit" class="btn delete" value="삭제">
+			</form>
+		</div>
+	</div>
+	
+
+
+
+<div class="buttonlist">
+	<a class="btn commulistBtn" th:href="@{/commu}">목록</a> <a
+		class="btn commuupdateBtn" th:href="@{/commu/commuupdate}">수정</a> <a
+		class="btn commureportBtn" th:href="@{/commulist}">게시글 신고</a> <a
+		class="btn commudeleteBtn" th:href="@{/commulist}">게시글 삭제</a>
+</div>
+
 </body>
-<script th:src="@{/js/commu/write.js}"></script>
 </html>

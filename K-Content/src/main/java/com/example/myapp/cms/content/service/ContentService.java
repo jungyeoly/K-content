@@ -63,6 +63,12 @@ public class ContentService implements IContentService {
 
     }
 
+    @Override
+    public List<CmsContent> getContentByKeyword(List<String> keywordList) {
+        return  contentRepository.getContentByKeyword(keywordList);
+    }
+
+
 
 }
 //         contentRepository.insertAContent(contentForm);

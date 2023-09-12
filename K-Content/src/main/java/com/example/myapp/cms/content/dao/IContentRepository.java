@@ -19,4 +19,7 @@ public interface IContentRepository {
 
     int insertAContent(CmsContent content);
 
+    List<CmsContent> getContentByKeyword(@Param("keywordList") List<String> keywordList);
+
+
 }

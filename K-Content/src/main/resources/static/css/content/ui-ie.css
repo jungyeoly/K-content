@@ -1,0 +1,118 @@
+/* menu */
+.menu {
+	display: flex;
+	flex-direction: column; /*수평 정렬*/
+	display: block;
+}
+.menu-item {
+	/* flex-grow: 1; */
+	/*width: 25%;*/
+
+	transition: 0.5s;
+}
+.menu-item:hover {
+	/* flex-grow: 1.5; */
+	/*width: 35%;*/
+	border-radius: 10px;
+	background: #1c294e;
+	transaction: 0.5s;
+}
+.menu-link {
+	display: flex;
+	justify-content: space-around;
+	padding: 1em;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #dad7d7;
+	text-decoration: none;
+	text-align: center;
+}
+.menu-link:hover {
+	font-size: 1.3em;
+	color: whitesmoke;
+}
+hr{
+	background: #CCCCFF;
+}
+/* search */
+.search-form {
+	display: flex;
+	height: 40px;
+}
+.search-form input[type="search"] {
+	flex: 1;
+	min-width: 0;
+	margin-right: 10px;
+	border: 0;
+	border-radius: 0.3em;
+	font-size: 1rem;
+}
+.search-form input[type="button"] {
+	width: 4em;
+	border: 0;
+	border-radius: 0.3em;
+	font-size: 1rem;
+	background: gold;
+}
+
+
+/* modal */
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.3);
+}
+.dialog {
+	width: 50vw;
+	padding: 2em;
+	border-radius: 1em;
+	background: white;
+}
+
+/* card list */
+.card-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 2rem;
+}
+.card-image {
+	height: 0;
+	padding-bottom: 60%;
+	background-color: lightgray;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.card-image img {
+	display: none;
+}
+.card-desc {
+	flex: 1 1 auto;
+	padding: 1em;
+	background: white;
+}
+
+
+@media (min-width: 600px) {
+	.card-list {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -1rem;
+	}
+	.card-item {
+		width: 50%;
+		padding: 0 1rem;
+	}
+}
+
+@media (min-width: 1200px) {
+	.card-item {
+		width: 33.33333%;
+	}
+}

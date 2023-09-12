@@ -6,53 +6,79 @@
 
     <select id="getAllContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
-        SELECT cntnt_id          ,
-               cntnt_cate_code   ,
-               cntnt_title       ,
-               cntnt_kwrd        ,
-               cntnt_url         ,
-               cntnt_regist_date ,
-               cntnt_update_date ,
+        SELECT cntnt_id,
+               cntnt_cate_code,
+               cntnt_title,
+               cntnt_kwrd,
+               cntnt_url,
+               cntnt_regist_date,
+               cntnt_update_date,
                cntnt_delete_yn
         FROM tb_cntnt
         ]]>
     </select>
     <select id="getAContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
-        SELECT cntnt_id          ,
-               cntnt_cate_code   ,
-               cntnt_title       ,
-               cntnt_kwrd        ,
-               cntnt_url         ,
-               cntnt_regist_date ,
-               cntnt_update_date ,
+        SELECT cntnt_id,
+               cntnt_cate_code,
+               cntnt_title,
+               cntnt_kwrd,
+               cntnt_url,
+               cntnt_regist_date,
+               cntnt_update_date,
                cntnt_delete_yn
         FROM tb_cntnt
         WHERE cntnt_id = #{cntntId}
         ]]>
     </select>
-    <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true" keyColumn="cntnt_id" keyProperty="cntntId">
-        <![CDATA[
-        INSERT INTO tb_cntnt (
-        cntnt_id,
+    <select id="getContentByKeyword" parameterType="java.util.List"
+            resultType="com.example.myapp.cms.content.model.CmsContent">
+
+        SELECT cntnt_id,
         cntnt_cate_code,
         cntnt_title,
         cntnt_kwrd,
         cntnt_url,
         cntnt_regist_date,
+        cntnt_update_date,
         cntnt_delete_yn
-        )VALUES(
-        cntnt_seq.NEXTVAL,
-        #{cntntCateCode},
-        #{cntntTitle},
-        #{cntntKwrd},
-        #{cntntUrl},
-        to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'),
-        'N'
-        )
+        FROM tb_cntnt
+        WHERE
+        <if test="keywordList.size() != 0">
+            (
+            <foreach collection="keywordList" item="addr" separator=" OR ">
+                cntnt_kwrd LIKE ('%' || #{addr}|| '%')
+            </foreach>
+            ) or
+        </if>
+        <if test="keywordList.size() != 0">
+            (
+            <foreach collection="keywordList" item="addr" separator=" OR ">
+                cntnt_title LIKE ('%' || #{addr}|| '%')
+            </foreach>
+            )
+        </if>
+
+    </select>
+    <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
+            keyColumn="cntnt_id" keyProperty="cntntId">
+        <![CDATA[
+        INSERT INTO tb_cntnt (cntnt_id,
+                              cntnt_cate_code,
+                              cntnt_title,
+                              cntnt_kwrd,
+                              cntnt_url,
+                              cntnt_regist_date,
+                              cntnt_delete_yn)
+        VALUES (cntnt_seq.NEXTVAL,
+                #{cntntCateCode},
+                #{cntntTitle},
+                #{cntntKwrd},
+                #{cntntUrl},
+                to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'),
+                'N')
         ]]>
     </insert>
-
 
 
 </mapper>

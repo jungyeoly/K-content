@@ -13,7 +13,7 @@ public class Mber {
 	String mberBirth;
 	String mberPhone;
 	String mberRegistDate;
-	Date mberUpdateDate;
+	String mberUpdateDate;
 	String mberGenderCode;
 	String mberStatCode;
 }

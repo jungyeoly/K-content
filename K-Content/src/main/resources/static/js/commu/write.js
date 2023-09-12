@@ -58,7 +58,7 @@ fileSelectButton.onclick = function(event) {
 
 
 document.getElementById('category').addEventListener('change', function() {
-    let commuCateCode = this.value;
-    let form = document.querySelector('form');
-    form.setAttribute('action', "/commu/write/" + commuCateCode);
+	let commuCateCode = this.value;
+	let form = document.querySelector('form');
+	form.setAttribute('action', "/commu/write/" + commuCateCode);
 });

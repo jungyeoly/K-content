@@ -24,7 +24,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 //url 카멜에 쓰지마!!!!
 @Controller
@@ -66,7 +65,13 @@ public class CSController {
 
     //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
-    public String getContentManage(Model model) {
+    public String getContentManage() {
+        return "cms/cntnt/newcontentManage";
+    }
+
+    @GetMapping("/getallcntnt")
+    @ResponseBody
+    public List<CmsContent> getallcntnt() {
         List<CmsContent> result = contentService.getAllContent();
 
         for (int i = 0; i < result.size(); i++) {
@@ -77,10 +82,11 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
 
         }
-        model.addAttribute("content", result);
 
-        return "cms/cntnt/contentManage";
+        return result;
     }
+
+
 
     //콘텐츠 상세 페이지
     @GetMapping("/contentdetail")
@@ -109,8 +115,8 @@ public class CSController {
         model.addAttribute("trendQueryList", trendQueryList);
 
 //        javascript비통기로 보내
-//        return "cms/cntnt/contentDetail";
-        return "cms/cntnt/newContentDetail";
+
+        return "cms/cntnt/contentDetail";
     }
 
     //콘텐츠 상세페이지의 유튜브 영상 호출
@@ -210,6 +216,7 @@ public class CSController {
         // 성공 여부 리턴
     }
 
+    //콘텐츠 상세 콘텐츠 추천
     @GetMapping("/contentbykeyword")
     @ResponseBody
     public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList) {
@@ -225,16 +232,28 @@ public class CSController {
         return result;
 
     }
+    @GetMapping("/getsearchcntnt")
+    @ResponseBody
+    public List<CmsContent> getContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
+
+        List<CmsContent> result = contentService.getContentByKeyword(Collections.singletonList(searchKeyword));
+        for (int i = 0; i < result.size(); i++) {
+            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String restultCode = partOfUrl2.get(1);
+            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
+        }
+        return result;
+
+    }
+
 
     @GetMapping("/ma")
     public String getAllds() {
         return "include/admin-sideBar";
     }
 
-    @GetMapping("/gird")
-    public String getAlld() {
-        return "contentDetail";
-    }
 
     @GetMapping("/goods")
     public String getAllGoods(Model model) {

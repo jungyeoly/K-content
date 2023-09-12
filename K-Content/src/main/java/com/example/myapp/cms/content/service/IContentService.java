@@ -13,5 +13,6 @@ public interface IContentService {
     boolean insertAContent(CmsContent content,List<Integer> goodsList );
 
     List<CmsContent> getContentByKeyword( List<String> keywordList);
+
 }
 

@@ -4,7 +4,47 @@
 
 	<select id="selectCmsInqryList" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
 		<![CDATA[
-			SELECT 
+			SELECT
+			    b.inqry_id,
+			    b.inqry_ref_id,
+			    b.inqry_group_ord,
+			    b.inqry_title,
+			    b.inqry_cntnt,
+			    b.inqry_pwd,
+			    b.inqry_regist_date,
+			    b.inqry_update_date,
+			    b.inqry_delete_yn,
+			    b.inqry_mber_id,
+			    a.rn
+			FROM (
+			    select rownum rn,
+			        inqry_id,
+			        inqry_ref_id,
+			        inqry_group_ord,
+			        inqry_title,
+			        inqry_cntnt,
+			        inqry_pwd,
+			        inqry_regist_date,
+			        inqry_update_date,
+			        inqry_delete_yn,
+			        inqry_mber_id
+			    from 
+			        (select tb_inqry.*
+			        from tb_inqry
+			        where inqry_group_ord = 0
+			        order by inqry_id desc
+			        )
+			) A
+			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			WHERE rn BETWEEN #{start} AND #{end}
+			AND a.inqry_delete_yn = 'N'
+			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
+		]]>		
+	</select>
+	
+	<select id="selectCmsInqry" parameterType="int" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			SELECT
 				inqry_id,
 				inqry_ref_id,
 				inqry_group_ord,
@@ -16,7 +56,7 @@
 				inqry_delete_yn,
 				inqry_mber_id
 			FROM tb_inqry
-		]]>		
+			WHERE inqry_id = #{inqryId}
+		]]>
 	</select>
-
 </mapper>

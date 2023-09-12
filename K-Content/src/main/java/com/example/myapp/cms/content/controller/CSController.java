@@ -108,7 +108,8 @@ public class CSController {
         model.addAttribute("trendQueryList", trendQueryList);
 
 //        javascript비통기로 보내
-        return "cms/cntnt/contentDetail";
+//        return "cms/cntnt/contentDetail";
+        return "cms/cntnt/newContentDetail";
     }
 
     //콘텐츠 상세페이지의 유튜브 영상 호출

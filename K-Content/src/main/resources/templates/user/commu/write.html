@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
@@ -11,7 +11,7 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 
 	<div class="container">
-		<div class="menu fw-bold">커뮤니티 글 생성</div>
+		<div class="menu fw-bold">커뮤니티 글쓰기</div>
 		<form th:action="@{/commu/write/${commu.commuCateCode}}" method="post"
 			enctype="multipart/form-data" onsubmit="return validateForm()">
 
@@ -68,19 +68,13 @@ xmlsn:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 
 			<div class="d-flex justify-content-center">
-				<input type="hidden" name="commuMberId" th:value="${session.MberId}"sec:authorize="isAuthenticated()">
-				
-				<button type="button" class="btn writeBtn"
-					onclick="window.location.href='/commu'">취소</button>
+				<input type="hidden" name="commuMberId" value="${mberId}"
+					sec:authorize="isAuthenticated()"> <a type="reset"
+					class="btn me-2 cancel-btn" th:href="@{/commu}">취소</a> <input
+					type="submit" class="btn commuBtn" value="등록">
 			</div>
-
-			<button type="submit" class="btn commuBtn">생성</button>
-
-
-
 		</form>
 	</div>
-
 </body>
 <script th:src="@{/js/commu/write.js}"></script>
 </html>

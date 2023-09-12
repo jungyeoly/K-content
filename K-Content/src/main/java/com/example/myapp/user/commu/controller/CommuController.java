@@ -16,6 +16,7 @@ import org.jsoup.safety.Safelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.myapp.commoncode.model.CommonCode;
-import com.example.myapp.commoncode.service.CommonCodeService;
+import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 import com.google.common.collect.Lists;
@@ -39,17 +40,23 @@ import jakarta.servlet.http.HttpSession;
 public class CommuController {
 	static final Logger logger = LoggerFactory.getLogger(CommuController.class);
 
+	@Value("${part4.upload.path}")
+	private String uploadPath;
+	@Value("${img}")
+	private String url;
+
 	@Autowired
 	ICommuService commuService;
 
 	@Autowired
-	private CommonCodeService commonCodeService;
+	private ICommonCodeService commonCodeService;
 
 	@GetMapping("/commu") // 커뮤니티 메인
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
 			Model model, HttpSession session) {
-
 		List<Commu> commulist = commuService.selectAllPost();
+		List<String> cateList = commonCodeService.cateList("C03");
+		model.addAttribute("cateList", cateList);
 
 		int totalPage = 0;
 		int totalCommu = 0;
@@ -76,17 +83,21 @@ public class CommuController {
 	@GetMapping("/commu/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		Commu commu = commuService.selectPost(commuId);
-		model.addAttribute("commuview", commu);
+		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
+		model.addAttribute("commu", commu);
+		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
 		return "user/commu/view";
 	}
 
 	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기
-	@GetMapping("/commu/{commuId}/{commuCateCode}")
-	public String getCommuDetails(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
+	@GetMapping("/commu/{commuCateCode}/{commuId}")
+	public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
 		Commu commu = commuService.selectPost(commuId);
-		model.addAttribute("commuview", commu);
-		model.addAttribute("commuCateCode", commuCateCode);
+		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
+		model.addAttribute("commu", commu);
+		model.addAttribute("commuFiles", commuFiles);
+		model.addAttribute("commuCateCode", commu.getCommuCateCode());
 		model.addAttribute("commuId", commu.getCommuId());
 		logger.info("getCommuDetails" + commu.toString());
 		return "user/commu/view";
@@ -123,8 +134,6 @@ public class CommuController {
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
-			
-
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();
 
@@ -136,7 +145,7 @@ public class CommuController {
 						String originalName = uploadFile.getOriginalFilename();
 						String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 						String uuid = UUID.randomUUID().toString();
-						String url = "C:\\Users\\KOSA\\Downloads";
+						String url = uploadPath; // 동적으로 경로 설정
 						File dir = new File(url);
 						if (!dir.exists()) {
 							dir.mkdirs();
@@ -168,10 +177,10 @@ public class CommuController {
 					logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
 					commuService.insertPost(commu, commuFiles);
 					logger.info("Successfully saved CommuFiles to the DB.");
-				}  else {
-				    commuService.insertPost(commu);
+				} else {
+					commuService.insertPost(commu);
 				}
-				
+
 			}
 
 		} catch (Exception e) {

@@ -9,4 +9,6 @@ public interface IEmailService {
 	String sendTempPwd(String to) throws Exception;
 
 	String maskMberId(String mberEmail);
+
+	String createTempPwd();
 }

@@ -32,7 +32,6 @@ public class MberUserDetailsService implements UserDetailsService {
 		// 사용자 이름(여기서는 mberId)을 기반으로 사용자 정보를 데이터베이스에서 가져온다.
 		Mber mber = mberService.selectMberbyId(mberId);
 		String mberStat = commonCodeService.mberStatbyCode(mberId);
-		logger.info(mber.getMberPwd());
 
 
 		

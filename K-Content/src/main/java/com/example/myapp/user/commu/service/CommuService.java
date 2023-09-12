@@ -36,7 +36,7 @@ public class CommuService implements ICommuService {
 
 	// @Transactional
 	public void insertPost(Commu commu, List<CommuFile> files) {
-		  String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
 		// Commu 객체에 대한 등록 날짜 설정
 		if (commu.getCommuRegistDate() == null) {
@@ -66,43 +66,61 @@ public class CommuService implements ICommuService {
 		commuRepository.updateReadCnt(commuId);
 		return commuRepository.selectPost(commuId);
 	}
- 
+
 	@Transactional
 	public void updatePost(Commu commu) {
-		 String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		
-		 if (commu.getCommuUpdateDate() == null) {
-		        commu.setCommuUpdateDate(currentTimestamp);
-		    }
-		   commuRepository.updatePost(commu);
+		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+		if (commu.getCommuUpdateDate() == null) {
+			commu.setCommuUpdateDate(currentTimestamp);
+		}
+		commuRepository.updatePost(commu);
 	}
 
 	@Transactional
 	public void updatePost(Commu commu, List<CommuFile> files) {
-	    String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-	    
-	    if (commu.getCommuUpdateDate() == null) {
-	        commu.setCommuUpdateDate(currentTimestamp);
-	    }
-	    
-	    commuRepository.updatePost(commu);
-	    
-	    if (files != null && !files.isEmpty()) {
-	        for (CommuFile file : files) {
-	            if (file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
-	                file.setCommuFileCommuId(commu.getCommuId());
-	                
-	                if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
-	                    // 파일 ID가 존재하면, 해당 파일 업데이트
-	                    commuRepository.updateFiledata(file);
-	                } else {
-	                    // 아니라면, 새로운 파일 추가   
-	                	  commuRepository.insertFileData(file);
-	                }
-	                
-	            }
-	        }
-	    }
+		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+		if (commu.getCommuUpdateDate() == null) {
+			commu.setCommuUpdateDate(currentTimestamp);
+		}
+
+		commuRepository.updatePost(commu);
+
+		if (files != null && !files.isEmpty()) {
+			for (CommuFile file : files) {
+				if (file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
+					file.setCommuFileCommuId(commu.getCommuId());
+
+					if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
+						// 파일 ID가 존재하면, 해당 파일 업데이트
+						commuRepository.updateFiledata(file);
+					} else {
+						// 아니라면, 새로운 파일 추가
+						commuRepository.insertFileData(file);
+					}
+
+				}
+			}
+		}
 	}
-}
 	
+	
+	  @Override 
+	  public List<Commu> selectPostListByCategory(String commuCateCode, int page) {
+		  int start = (page-1)*10 +1;
+		  return commuRepository.selectPostListByCategory(commuCateCode, start, start+9); 
+	  }
+
+	@Override
+	public List<CommuFile> selectFilesByPostId(int commuId) {
+		return commuRepository.selectFilesByPostId(commuId);
+	}
+
+	
+		  
+	 
+	 
+
+	
+}

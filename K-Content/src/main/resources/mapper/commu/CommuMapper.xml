@@ -16,10 +16,10 @@
         ]]>
 	</select>
 
-	<select id="selectPost" parameterType="int"
+	<select id="selectPost" 
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
-        SELECT tb_commu.commu_id,
+        SELECT commu_id,
                commu_title,
                commu_cntnt,
                commu_regist_date,
@@ -29,21 +29,27 @@
                commu_depth,
                commu_order,
                commu_cate_code,
-               commu_mber_id,
-               tb_commu_file.commu_file_id,
-               tb_commu_file.commu_file_name,
-               tb_commu_file.commu_file_size,
-               tb_commu_file.commu_file_ext,
-               tb_commu_file.commu_file_path,
-               tb_commu_file.commu_file_regist_date,
-               tb_commu_file.commu_file_update_date,
-               tb_commu_file.commu_file_commu_id
+               commu_mber_id
         FROM tb_commu
-                 LEFT OUTER JOIN tb_commu_file
-                                 ON tb_commu.commu_id = tb_commu_file.commu_file_commu_id
-        WHERE tb_commu.commu_id = #{commuId}
+        WHERE commu_id = #{commuId}
         ]]>
 	</select>
+	
+	<select id="selectFilesByPostId" resultType="com.example.myapp.user.commu.model.CommuFile">
+	<![CDATA[
+		select commu_file_id,
+			   commu_file_name,
+			   commu_file_size,
+			   commu_file_ext,
+			   commu_file_path,
+			   commu_file_regist_date,
+			   commu_file_update_date,
+			   commu_file_delete_yn,
+			   commu_file_commu_id
+			   from tb_commu_file
+			  where commu_file_commu_id=#{commuId}
+		  ]]>
+		  </select>	 
 
 	<update id="updateReadCnt" parameterType="int">
 	<![CDATA[
@@ -58,7 +64,7 @@
         SELECT NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
         FROM tb_commu_file
         ]]>
-  </select>
+	</select>
 
 
 

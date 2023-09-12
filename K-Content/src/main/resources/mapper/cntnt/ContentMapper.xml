@@ -49,7 +49,7 @@
             <foreach collection="keywordList" item="addr" separator=" OR ">
                 cntnt_kwrd LIKE ('%' || #{addr}|| '%')
             </foreach>
-            ) and
+            ) or
         </if>
         <if test="keywordList.size() != 0">
             (

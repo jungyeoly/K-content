@@ -31,10 +31,14 @@
 }
 
 .secondary-a {
-    background: rgb(93, 108, 176);
-    background: linear-gradient(133deg, rgba(93, 108, 176, 1) 4%, rgba(89, 106, 186, 1) 20%, rgba(65, 86, 184, 1) 41%, rgba(43, 69, 195, 1) 89%);
-}
+    background: rgb(93,108,176);
+    background: linear-gradient(133deg, rgba(93,108,176,1) 4%, rgba(89,106,186,1) 20%, rgba(65,86,184,1) 41%, rgba(65,86,184,1) 89%);
 
+}
+.goods-box{
+    display: flex;
+    justify-content: space-evenly;
+}
 .secondary-b {
     color: white;
     background: #666;

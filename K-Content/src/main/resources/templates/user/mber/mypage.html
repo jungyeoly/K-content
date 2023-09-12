@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>대시보드</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+<div th:replace="~{/include/header :: header}"></div>
 </head>
 
 <body>
-<div class="container">
-    <h3 class="form-signin-heading text-center mb-5">nahwasa.com</h3>
+<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	<div class="container">
+		<div class="menu fw-bold">마이페이지</div>
+		<div class="border-bottom border-top border-2 fw-bold border-dark">
+			<div class="mt-3 mb-3 row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext"
+						id="staticEmail" value="email@example.com">
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="inputPassword">
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <h3 class="overview-normalize">접속 아이디</h3>
-    <p id='login_id'>
-    </p>
-    <hr/>
-    <h3 class="overview-normalize">역할</h3>
-    <p id='pw'>
-    </p>
-    <hr/>
-    <h3 class="overview-normalize">역할에 따른 페이지 이동 권한 확인</h3>
-    <p>
-        <button onclick="location.href='/view/setting/admin'" class="btn btn-sm btn-success">관리자 설정 페이지(관리자만)</button>
-        <button onclick="location.href='/view/setting/user'" class="btn btn-sm btn-info">유저 설정 페이지(유저만)</button>
-    </p>
-    <hr/>
-    <form method="post" action="/logout">
-        <button class="btn btn-sm btn-danger btn-block" type="submit" id="logout_btn">로그아웃</button>
-    </form>
+	<div class="toast-container position-fixed bottom-0 end-0 p-3">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<img src="/img/icon.png" width="30px" height="30px"
+					class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
+				<small>알림</small>
 
-    <script>
-        const loginId = document.getElementById('login_id');
-        loginId.innerHTML = sessionStorage.getItem('userid');
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
+		</div>
+	</div>
+<!-- 	<script>
+		$(document).ready(
+				function() {
+					const toastLiveExample = document
+							.getElementById('liveToast')
 
-        const logoutBtn = document.getElementById('logout_btn');
-        logoutBtn.addEventListener('click', () => {
-            sessionStorage.setItem('userid', '');
-        });
-    </script>
-</div>
+					const toastBootstrap = bootstrap.Toast
+							.getOrCreateInstance(toastLiveExample)
+
+					toastBootstrap.show()
+				})
+	</script> -->
 </body>
 </html>

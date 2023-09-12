@@ -5,17 +5,17 @@
 
 <div th:replace="~{/include/header :: header}"></div>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
-
+<link rel="stylesheet" th:href="@{/css/mber/mber-header.css}">
 </head>
 <body>
-	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
 		</video>
 		<div class="container">
 			<div class="input-form-background row">
-				<div class="input-form col-md-12 mx-auto p-5 opacity-95">
+				<div class="input-form col-md-12 mx-auto opacity-95">
 					<div class="col-md-12 mb-5 text-center">
 						<p class="fw-bold fs-2 mb-3 menu-title">계정 찾기</p>
 					</div>

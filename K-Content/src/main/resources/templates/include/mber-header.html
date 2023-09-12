@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+
+</head>
+
+<body>
+	<header th:fragment="mberNavBar">
+<div class="header">
+            <div class="header-left">
+             		<a th:href="@{/}"><img src="/img/mainLogo.png" width="200px" height="200px" class="img-fluid logo-img" alt="브랜드 로고"></a>
+            </div>
+            <div class="header-middle">
+            
+            </div>
+            <div class="header-right">
+   
+                <div>	
+                    <span id="v-line" class="text v-line" > &#124;</span>
+                </div>
+                <div class="login">
+               		
+              <!-- <a th:href="@{/mber/signin}">	</a> -->
+                    <span class="text" sec:authorize="isAnonymous()"><i class="fa-solid fa-door-closed"></i>&nbsp;LOGIN</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </header>
+</body>
+
+</html>

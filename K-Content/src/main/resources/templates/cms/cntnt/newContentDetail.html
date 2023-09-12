@@ -42,7 +42,7 @@
         </div>
 
         <div class="item goods-box">
-            <div th:each="goods : ${goodsJFileList}">
+            <div th:each="goods : ${goodsJFileList}" id="goods">
                 <a th:href="${goods.goodsPurchsLink}">
                     <div class="card" style="width: 18rem; height: 240px">
                         <div style="width:18rem; height:140px">
@@ -63,60 +63,8 @@
     </div>
     <!--    mainend-->
     <section class="recommand">
-        <ul class="card-list">
-            <li class="card-item">
-                <figure class="card-image" style="background-image: url(images/ilbuni.png)">
-                    <img src="images/ilbuni.png" alt="일분이">
-                </figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam!
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum.
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in
-                    ratione dicta nihil corporis illo odio, voluptatem a nam!
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam!
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam!
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam!
-                </div>
-            </li>
-            <li class="card-item">
-                <figure class="card-image"></figure>
-                <div class="card-desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit libero in ratione dicta nihil corporis
-                    illo odio, voluptatem a nam!
-                </div>
-            </li>
+        <ul class="card-list" id="card-list">
         </ul>
-
     </section>
 
     <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">

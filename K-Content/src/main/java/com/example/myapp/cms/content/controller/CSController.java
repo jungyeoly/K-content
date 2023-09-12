@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //url 카멜에 쓰지마!!!!
 @Controller
@@ -207,6 +208,22 @@ public class CSController {
         contentService.insertAContent(content, goodsList);
 
         // 성공 여부 리턴
+    }
+
+    @GetMapping("/contentbykeyword")
+    @ResponseBody
+    public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList) {
+
+        List<CmsContent> result = contentService.getContentByKeyword(keywordList);
+        for (int i = 0; i < result.size(); i++) {
+            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String restultCode = partOfUrl2.get(1);
+            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
+        }
+        return result;
+
     }
 
     @GetMapping("/ma")

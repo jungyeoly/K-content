@@ -98,6 +98,7 @@ hr{
 	background: white;
 }
 
+
 @media (min-width: 600px) {
 	.card-list {
 		display: flex;

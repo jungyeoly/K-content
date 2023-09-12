@@ -17,10 +17,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="preload" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" as="style">
-    <!--    <link rel="stylesheet" href="/header.css">-->
-    <!--    <link rel="stylesheet" href="/main.css">-->
     <link rel="stylesheet" href="/recommand.css">
-    <link rel="stylesheet" href="/css/content/contentDetail.css">
     <link rel="stylesheet" href="/css/content/contentDetail.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -44,73 +41,7 @@
     <link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" media="all">
 </head>
 <title>Title</title>
-<style>
-    .fullContainer {
-        display: grid;
-        /*grid-template-columns: 1fr 9fr 3fr;*/
 
-        grid-template-areas:
-		"header header header header header header header header header"
-		"side    main   main   main   main   main   main  trendtap trendtap"
-		"recon    recon  recon  recon  recon  recon recon  recon  recon";
-    }
-
-    .title {
-        grid-area: header;
-        /*grid-column: 1 / 4;*/
-        background-color: red;
-    }
-
-    .side-bar {
-        grid-area: side;
-        /*grid-row: 2 / 7;*/
-        /*grid-column: 1 / 2;*/
-        background-color: blue;
-    }
-
-    .trend {
-        grid-area: trendtap;
-        /*grid-row: 2 / 7;*/
-
-        background-color: blue;
-    }
-
-    .content {
-        grid-area: main;
-        /*grid-row: 2 / 7;*/
-        /*grid-column: 2 / 3;*/
-        background-color: pink;
-        /*grid-template-rows: 1fr 4fr 1fr;*/
-    }
-
-    .reco {
-        grid-area: reco;
-        /*grid-row: 3 / 4;*/
-        grid-column: 1 / 10;
-        background-color: #e71439;
-        height: 500px;
-    }
-
-    .keyword {
-        display: flex;
-    }
-
-    .keywordItem {
-
-    }
-
-    .goods {
-        text-align: center;
-    }
-
-    .goods-box {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        background-color: purple;
-
-    }
-
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <body>
 <div class="fullContainer">
@@ -135,7 +66,7 @@
             </div>
 
         </div>
-        <div class="item category-caption">
+        <div class="item category-caption" id="title">
             <h6 style="text-align: center; " th:text="${content.cntntTitle}">title</h6>
         </div>
         <div class="item keyword">
@@ -167,9 +98,45 @@
     <div class="item trend" id="trend">
 
     </div>
-    <div class="item reco">
-        sdfghj
+
+    <div class="card-list-con reco item">
+        <ul class="card-list">
+            <li class="card-item">
+                <figure class="card-image" style="background-image: url(images/ilbuni.png)">
+                    <img src="images/ilbuni.png" alt="일분이">
+                </figure>
+                <div class="card-desc">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, perferendis? dolor sit, amet
+                    consectetur adipisicing elit. Hic, perferendis?
+                </div>
+            </li>
+            <li class="card-item">
+                <figure class="card-image" style="background-image: url(images/ilbuni.png)">
+                    <img src="images/ilbuni.png" alt="일분이">
+                </figure>
+                <div class="card-desc">
+                    Lorem ipsum.
+                </div>
+            </li>
+            <li class="card-item">
+                <figure class="card-image" style="background-image: url(images/ilbuni.png)">
+                    <img src="images/ilbuni.png" alt="일분이">
+                </figure>
+                <div class="card-desc">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim impedit odio expedita pariatur
+                    architecto molestias recusandae quam distinctio! Nemo sapiente laborum fugit adipisci reiciendis eos
+                    in eveniet dicta iure unde vel beatae nihil sit necessitatibus similique perspiciatis saepe aperiam,
+                    expedita laudantium consequatur? Blanditiis, rem exercitationem. Exercitationem odio aliquam
+                    distinctio unde?
+                </div>
+            </li>
+
+
+
+
+        </ul>
     </div>
+
     <input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
            style="display: none">
     <input type="hidden" id="contentId" th:name="${targetContentIdF}" th:value="${content.getCntntUrl()}">
@@ -181,53 +148,7 @@
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="/js/sb-admin-2.min.js"></script>
+<script src="/js/cntnt/cntntDetail.js"></script>
 </body>
-<script>
-    $(document).ready(function () {
 
-        var requestData = {
-            trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1)
-        };
-    console.log(requestData);
-        $.ajax({
-            url: '/cs/instacrol',
-            type: 'GET',
-            data: requestData,
-            success: function (data) {
-                const element = document.getElementById('trend');
-                data.slice(1, -1);
-                data.slice(1, -1);
-                element.innerHTML = data
-
-                console.log(data);
-            },
-            error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-
-        var requestData = {
-            targetContentIdF: document.getElementById("contentId").value
-        };
-
-        $.ajax({
-            url: '/cs/youtube/iframe',
-            type: 'GET',
-            data: requestData, // 데이터 객체 전달
-            success: function (data2) {
-                // 서버에서 받은 데이터를 result 요소에 추가합니다.
-                const element = document.getElementById('iframe');
-                const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
-                    `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                element.innerHTML = inHtml
-                console.log(data2);
-            },
-            error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-
-
-    });
-</script>
 </html>

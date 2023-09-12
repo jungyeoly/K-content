@@ -1,71 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="adminSideBar" >
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="width: auto !important;">
 
-        <!-- Sidebar - Brand -->
+<ul class="menu" th:fragment="adminSideBar">
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/dashboard}">
+            <i class="material-symbols-outlined">
+                Dashboard
+            </i>
+            <span> Dashboard</span>
+        </a>
+    </li>
 
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/dashboard}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/contentmanage}">
+            <i class="material-symbols-outlined">
+                ent
+            </i>
+            <span>콘텐츠</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/contentmanage}">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>콘텐츠</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/goods}">
+            <i class="material-symbols-outlined">
+                inventory_2
+            </i>
+            <span>상품</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/goods}">
-                <i class="fas fa-fw fa-cubes"></i>
-                <span>상품</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/usermanage}">
+            <i class="material-symbols-outlined">account_circle</i>
+            <span>회원</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/usermanage}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>회원</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/commu}">
+            <i class="material-symbols-outlined">
+                diversity_3
+            </i>
+            <span>커뮤니티</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/commu}">
-                <i class="fas fa-fw fa-comments"></i>
-                <span>커뮤니티</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/inquiry}">
+            <i class="material-symbols-outlined">
+                live_help
+            </i>
+            <span>문의사항</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/inquiry}">
-                <i class="fas fa-fw fa-phone"></i>
-                <span>문의사항</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/cs/charts}">
+            <i class="material-symbols-outlined">
+                monitoring
+            </i>
+            <span>통계</span></a>
+    </li>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/cs/charts}">
-                <i class="fas fa-fw fa-bar-chart" aria-hidden="true"></i>
-                <span>통계</span></a>
-        </li>
+    <hr>
+    <li class="menu-item">
+        <a class="menu-link" th:href="@{/user/main}">
+            <i class="material-symbols-outlined">
+                co_present
+            </i>
+            <span>사용자 화면</span></a>
+    </li>
+    <hr>
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
-        <hr class="sidebar-divider">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/user/main}">
-                <i class="fas fa-fw fa-desktop"></i>
-                <span>사용자 화면</span></a>
-        </li>
+</ul>
 
-
-        <hr class="sidebar-divider d-none d-md-block">
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
-
-    </ul>
-</div>
 </html>

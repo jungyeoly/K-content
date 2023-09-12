@@ -19,7 +19,7 @@ $(function(){
 		}			
 		
         $.ajax({
-            url: "/inqury/check-password",
+            url: "/cs/inqry/check-password",
             method: "post",
             data: {
                 inqryId: inqryId,
@@ -27,10 +27,10 @@ $(function(){
             },
             success: function(data) {
 				var inqryId = passwordForm.closest(".inqry-row").data("inqry-id");
-                window.location.href = "/inqury/detail/" + inqryId;
+                window.location.href = "cs/inqry/detail/" + inqryId;
             },
             error: function() {
-            	alert("비밀번호가 일치하지 않습니다.");
+            	alert("잘못된 접근 입니다.");
             }
         });
     });
@@ -39,7 +39,7 @@ $(function(){
 		var nowPage = $(this).data("selpage");
 		
 		$.ajax({
-			url: "/inqury/" + nowPage,
+			url: "/cs/inqry/" + nowPage,
 			method: "get",
 			success: function(data) {
 				let layout = $(".layout");
@@ -53,7 +53,7 @@ $(function(){
 		var prePage = $(this).data("prepage") - 1;
 		
 		$.ajax({
-			url : "/inqury/" + prePage,
+			url : "/cs/inqry/" + prePage,
 			method: "get",
 			seccess: function(data) {
 				let layout = $(".layout");
@@ -67,7 +67,7 @@ $(function(){
 		var nexPage = $(this).data("nexpage") + 1;
 		
 		$.ajax({
-			url : "/inqury/" + prePage,
+			url : "/cs/inqry/" + prePage,
 			method: "get",
 			seccess: function(data) {
 				let layout = $(".layout");

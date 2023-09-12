@@ -9,14 +9,20 @@ import com.example.myapp.cms.inqry.dao.ICmsInqryRepository;
 import com.example.myapp.cms.inqry.model.CmsInqry;
 
 @Service
-public class CmsInqryService implements ICmsInqryService, ICmsInqryRepository {
+public class CmsInqryService implements ICmsInqryService{
 
 	@Autowired
 	ICmsInqryRepository cmsInqryRepository;
 	
 	@Override
-	public List<CmsInqry> selectCmsInqryList() {
-		return cmsInqryRepository.selectCmsInqryList();
+	public List<CmsInqry> selectCmsInqryList(int page) {
+		int start = (page-1)*10 + 1;
+		return cmsInqryRepository.selectCmsInqryList(start, start+9);
+	}
+
+	@Override
+	public CmsInqry selectCmsInqry(int inqryId) {
+		return cmsInqryRepository.selectCmsInqry(inqryId);
 	}
 
 }

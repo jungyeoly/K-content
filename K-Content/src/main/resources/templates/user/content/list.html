@@ -1,8 +1,9 @@
-<div class="container mx-auto d-flex flex-wrap justify-content-center contents">
+<div id="contentsList" class="container mx-auto d-flex flex-wrap justify-content-center contents">
 
 	<div class="container text-center mt-5" th:if="${#lists.isEmpty(contentList)}">
 		<img alt="" src="/img/fail.png">
 	</div>
+
 	<div th:each="content : ${contentList}" class="card mx-3 my-3" style="width: 18rem;">
 	  <img th:src="${content.CntntThumnail}" class="card-img-top" alt="">
 	  <div class="card-body">

@@ -4,10 +4,11 @@
 <head>
 <div th:replace="~{/include/header :: header}"></div>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
+<link rel="stylesheet" th:href="@{/css/mber/mber-header.css}">	
 
 </head>
 <body>
-<header th:insert="~{/include/body-header :: userNavBar}"></header>
+<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
 	<div class="bg p-5">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
@@ -73,7 +74,6 @@
 			</div>
 		</div>
 	</div>
-
 <!-- 	<script>
 		// 쿠키 값 가져오는 함수
 		function getCookie(name) {

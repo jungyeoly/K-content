@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CmsInqry {
 	private int inqryId;
 	private int inqryrefId;
-	private int inqryGroudId;
+	private int inqryGroupOrd;
 	private String inqryTitle;
 	private String inqryCntnt;
 	private int inqryPwd;

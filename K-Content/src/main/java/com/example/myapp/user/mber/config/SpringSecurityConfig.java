@@ -40,9 +40,9 @@ public class SpringSecurityConfig {
 
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(AbstractHttpConfigurer::disable)
+		http
+		.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-
 						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
 								"/mber/mailauth", "/mber/**")
 						.permitAll().requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**")

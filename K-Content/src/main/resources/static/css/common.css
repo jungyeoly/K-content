@@ -77,6 +77,30 @@ img, a {
     box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
 }
 
+.toast-btn {
+	border-radius: 7px;
+    height: 30px;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 22.5px;
+    font-weight: 600;
+    transition: all 200ms linear;
+    padding: 0 126px; 
+    display: inline-flex;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    text-align: center;
+    border: none;
+    color: white;
+    background-color: var(--color-main);
+    box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
+}
+
 .btn:hover {
     color: white;
     background-color: #1f2029;

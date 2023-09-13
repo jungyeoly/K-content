@@ -108,6 +108,10 @@ public class CmsInqryController {
 		if(inqryPwdId == inqryId) {
 			Inqry inqry = inqryService.selectInqry(inqryId);
 			model.addAttribute("inqry", inqry);
+			if (inqry.getInqryGroupOrd() == 1) {
+				Inqry originInqry = inqryService.selectInqry(inqry.getInqryRefId());
+				model.addAttribute("origin", originInqry);
+			}
 			return "cs/inqry/detail";
 		} else {
 			return "redirect: /cs/inqry";

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,11 +54,8 @@ public class MberController {
 	}
 
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
-	public String signup(Mber mber, HttpSession session, Model model) {
-//		String sessionToken = (String) session.getAttribute("csrfToken");
-//		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
-//			throw new RuntimeException("CSRF Token Error.");
-//		}
+	public String signup(Mber mber, HttpSession session, Model model, String CsrfToken) {
+	
 		
 	    // 이메일 중복 체크
 	    Mber existingMber = mberService.selectMberbyEmail(mber.getMberEmail());
@@ -69,9 +67,9 @@ public class MberController {
 		mber.setMberStatCode("C0202");
 
 		try {
-			PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-			String encodedPw = pwEncoder.encode(mber.getMberPwd());
-			mber.setMberPwd(encodedPw);
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
+			mber.setMberPwd(encodedPwd);
 			mberService.insertMber(mber);
 			logger.info("Saved: " + mber.getMberId());
 		} catch (DuplicateKeyException e) {
@@ -153,7 +151,11 @@ public class MberController {
 		// 회원 정보 업데이트
 		if (mber != null) {
 			tempPwd = emailService.sendTempPwd(mberEmail);
-			mber.setMberPwd(tempPwd);
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			String encodedPwd = pwdEncoder.encode(tempPwd);
+			mber.setMberPwd(encodedPwd);
+			logger.info(encodedPwd);
+			logger.info(mber.getMberPwd());
 			mberService.updateMber(mber);
 
 		} 

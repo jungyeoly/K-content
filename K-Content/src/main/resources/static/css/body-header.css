@@ -30,7 +30,7 @@ header ul.icons {
   margin-top: 80px;
 }
 
-header ul.icons li {
+header ul.icons li, header ul.icons li a{
   font-size: 9px;
   padding: 0px 18px 0px 5px;
   margin-left: auto;
@@ -38,7 +38,7 @@ header ul.icons li {
   color: #5D5D5D;
 }
 
-header ul.icons>i {
+header ul.icons li a >i, header ul.icons li >i {
   font-size: large;
   color: #2C2C2F;
 }

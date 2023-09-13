@@ -60,7 +60,7 @@ public class contentUserController {
 		}
 		
 		Map<String, Object> map = new HashMap<> ();
-		
+
 		map.put("contentList", contentList);
 		
 		return map;

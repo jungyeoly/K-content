@@ -37,7 +37,7 @@
 	</table>
 
 
-	<a th:if=${session.userId} class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
+	<a sec:authrize="isAuthenticated()" class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
 	
 	<nav aria-label="Page navigation" class="d-flex justify-content-center">
 		<ul class="pagination">

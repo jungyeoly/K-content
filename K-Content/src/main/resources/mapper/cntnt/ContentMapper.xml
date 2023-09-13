@@ -44,6 +44,7 @@
         cntnt_delete_yn
         FROM tb_cntnt
         WHERE
+
         <if test="keywordList.size() != 0">
             (
             <foreach collection="keywordList" item="addr" separator=" OR ">

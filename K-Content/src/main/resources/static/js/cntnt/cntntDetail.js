@@ -1,10 +1,9 @@
 $(document).ready(function () {
 
     var requestData = {
-        trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1)
+        trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1),
+        cntntId:document.getElementById("cntntId").value
     };
-
-
     // 추천 콘텐츠
     $.ajax({
         url: '/cs/contentbykeyword', type: 'GET',
@@ -17,7 +16,7 @@ $(document).ready(function () {
                 console.log("키워드 기반 추천 콘텐츠" + contentList[i].cntntTitle);
 
                 inHtml = `
-            <li class="card-item" id="card-item">
+            <li class="card-item" id="card-item" onclick="recomCntntDetail(${contentList[i].cntntId})">
                 <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} alt="일분이">
                 </figure>
@@ -32,7 +31,6 @@ $(document).ready(function () {
             console.error('에러 발생: ', error);
         }
     });
-
 
     // 키워드로 인스타 크롤링
     $.ajax({
@@ -71,3 +69,15 @@ $(document).ready(function () {
 
 
 });
+function recomCntntDetail(cntntId) {
+    const formHtml = `
+                    <form id="contentDetail" action="/cs/contentdetail" method="get">
+                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    </form>`;
+
+    const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+    const form = doc.body.firstChild;
+    document.body.append(form);
+    document.getElementById("targetContentIdF").value = cntntId;
+    document.getElementById('contentDetail').submit();
+}

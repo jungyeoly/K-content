@@ -7,7 +7,6 @@ import com.example.myapp.cms.content.model.CntntInsertForm;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
 
-
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
@@ -66,7 +65,7 @@ public class CSController {
     //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
     public String getContentManage() {
-        return "cms/cntnt/newcontentManage";
+        return "cms/cntnt/contentManage";
     }
 
     @GetMapping("/getallcntnt")
@@ -85,7 +84,6 @@ public class CSController {
 
         return result;
     }
-
 
 
     //콘텐츠 상세 페이지
@@ -219,9 +217,18 @@ public class CSController {
     //콘텐츠 상세 콘텐츠 추천
     @GetMapping("/contentbykeyword")
     @ResponseBody
-    public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList) {
+    public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList,
+                                                @RequestParam(value = "cntntId") int cntntId) {
 
         List<CmsContent> result = contentService.getContentByKeyword(keywordList);
+        for (int i = 0; i < result.size(); i++) {
+            if (result.get(i).getCntntId() == cntntId) {
+                result.remove(i);
+            } else {
+                continue;
+            }
+        }
+
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
@@ -229,9 +236,11 @@ public class CSController {
             String restultCode = partOfUrl2.get(1);
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
         }
+
         return result;
 
     }
+
     @GetMapping("/getsearchcntnt")
     @ResponseBody
     public List<CmsContent> getContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {

@@ -31,23 +31,34 @@ function validateForm() {
 	var title = document.getElementById('title').value;
 	var category = document.getElementById('category').value;
 	var cntnt = document.getElementById('cntnt').value;
-
+	
 	if (!title || title.trim() === "") {
-		alert("제목을 입력하세요.");
+		showModal("Error", "제목을 입력하세요.");
 		return false;
 	}
 
 	if (!category || category.trim() === "") {
-		alert("카테고리를 선택하세요.");
+		showModal("Error", "카테고리를 선택하세요.");
 		return false;
 	}
 
 	if (!cntnt || cntnt.trim() === "") {
-		alert("내용을 입력하세요.");
+		showModal("Error", "내용을 입력하세요.");
 		return false;
 	}
 
 	return true;
+}
+
+
+function showModal(title, content) {
+	// 제목과 내용을 설정
+	document.getElementById('commonModalLabel').textContent = title;
+	document.querySelector('.modal-body').textContent = content;
+
+	// 모달을 보여줌
+	var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
+	commonModal.show();
 }
 
 const fileSelectButton = document.getElementById('fileSelectButton');
@@ -62,3 +73,5 @@ document.getElementById('category').addEventListener('change', function() {
 	let form = document.querySelector('form');
 	form.setAttribute('action', "/commu/write/" + commuCateCode);
 });
+
+

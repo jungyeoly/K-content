@@ -37,8 +37,12 @@ public interface ICommuRepository {
 			@Param("commuDepth") int commuDepth, @Param("commuOrder") int commuOrder);// 댓글 관련 업데이트
 
 	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트
-
 	void updateFiledata(CommuFile file);// 커뮤니티 게시글에 첨부파일 업데이트
+	
+	void deletePost(Commu commu);// 커뮤니티 게시글 삭제
+	void deleteFileData(CommuFile file); //커뮤니티 게시글 파일 삭제
+	
+	
 	
 	
 

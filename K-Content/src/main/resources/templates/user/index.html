@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
 <script th:src="@{/js/content/content.js}"></script>
+
 <script th:inline="javascript">
 function change(data){
 	
@@ -91,5 +92,8 @@ function change(data){
     // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
     window.onload = showTempPwdToast;
 </script>
+
+<script th:src="@{/js/content/scroll.js}"></script>
+
 </body>
 </html>

@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,6 +86,7 @@ public class InqryController {
 	public String selectInqryList(HttpSession session, Model model) {
 		List<String> cateList = commonCodeSerivce.cateList("C03");
 		model.addAttribute("cateList", cateList);
+		
 		return "user/inqury/main";
 	}
 
@@ -113,6 +116,10 @@ public class InqryController {
 		if (inqryPwdId == inqryId) {
 			Inqry inqry = inqryService.selectInqry(inqryId);
 			model.addAttribute("inqry", inqry);
+			if(inqry.getInqryGroupOrd() == 1) {
+				Inqry origin = inqryService.selectInqry(inqry.getInqryRefId());
+				model.addAttribute("origin", origin);
+			}
 			return "user/inqury/detail";
 		} else {
 			return "redirect:/inqury";
@@ -121,19 +128,23 @@ public class InqryController {
 
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
+		List<String> cateList = commonCodeSerivce.cateList("C03");
+		model.addAttribute("cateList", cateList);
 		Inqry inqry = new Inqry();
 	    model.addAttribute("inqry", inqry);
 		return "user/inqury/write";
 	}
 
 	@PostMapping("/inqury/insert")
-	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs, HttpSession session) {
-		String userId = (String) session.getAttribute("userId");
+	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs, HttpSession session, Authentication authentication) {
+		//String userId = (String) session.getAttribute("userId");
+		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		 String userId = userDetails.getUsername();
+		 
 		try {
 			int inqryId = inqryService.selectinqryFileId();
 			inqry.setInqryRefId(inqryId);
 			inqry.setInqryMberId(userId);
-
 
 			MultipartFile mfile = inqry.getFile();
 
@@ -173,10 +184,12 @@ public class InqryController {
 	}
 
 	@GetMapping(value="/inqury/update/{inqryId}")
-	public String updateInqury(@PathVariable int inqryId, Model model, HttpSession session) {
+	public String updateInqury(@PathVariable int inqryId, Model model, HttpSession session, Authentication authentication) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String userId = userDetails.getUsername();
 
-		if (inqry.getInqryMberId().equals((String) session.getAttribute("userId"))) {
+		if (inqry.getInqryMberId().equals(userId)) {
 			model.addAttribute("inqry", inqry);
 			return "user/inqury/update";
 		} else {
@@ -226,14 +239,15 @@ public class InqryController {
 	};
 
 	@PostMapping(value="inqury/delete/{inqryId}")
-	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model) {
+	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model, Authentication authentication) {
 		try {
 				Inqry inqry = inqryService.selectInqry(inqryId);
-				String loginId = (String) session.getAttribute("userId");
-
+				UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+				String loginId = userDetails.getUsername();
+				
 				if (loginId.equals(inqry.getInqryMberId())) {
 					inqryService.deleteInqry(inqryId);
-					return "redirect:/inqury/" + (Integer)session.getAttribute("page");
+					return "redirect:/inqury";
 				} else {
 					model.addFlashAttribute("message", "잘못된 접근입니다.");
 					return "redirect:/inqury/detail/" +  inqryId;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"		
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<div th:replace="~{/include/header :: header}"></div>
 	<link rel="stylesheet" th:href="@{/css/inqury/inquryDetail.css}"> 	
@@ -8,11 +9,26 @@
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
 	
 	<div class="container mb-3">
-		<div class="inqry-no menu fw-bold">[[${inqry.inqryId}]]</div>
-		<div class="inqry-header d-flex justify-content-between fw-bold">
-			<div class="username">[[${inqry.inqryMberId}]]</div>
+		<div th:if="${origin}">
+			<div class="inqry-no menu fw-bold">[[${origin.inqryId}]]</div>
+			<div class="inqry-header d-flex justify-content-between fw-bold">
+				<div class="username">[[${origin.inqryMberId}]]</div>
+				<div class="title">[[${origin.inqryTitle}]]</div>
+				<div class="registdate">[[${origin.inqryRegistDate}]]</div>
+			</div>
+			
+			<div class="detail-cntnt">
+				<div th:if="${origin.inqryFileId} != null" class="text-center img-div">
+					<img alt="" th:src="@{/img/photo/{image}(image=${origin.inqryFileId})}">
+				</div>
+				<div class="inqry-cntnt text-start cntnt-div">
+					<div class="cntnt">[[${origin.inqryCntnt}]]</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="inqry-header d-flex justify-content-center fw-bold">
 			<div class="title">[[${inqry.inqryTitle}]]</div>
-			<div class="registdate">[[${inqry.inqryRegistDate}]]</div>
 		</div>
 		
 		<div class="detail-cntnt">
@@ -26,7 +42,7 @@
 		
 		<div class="d-flex btn-div" >
 			<a th:href="@{/inqury}" class="list-link btn">목록</a>
-			<div th:if="${session.userId} == ${inqry.inqryMberId}" class="btns">
+			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns">
 				<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2">수정</a>
 				<form th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
 					<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>

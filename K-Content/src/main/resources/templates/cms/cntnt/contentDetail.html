@@ -20,14 +20,12 @@
 <div class="page">
     <header class="header">
         <h1 class="website-title">k-spectrum</h1>
-        <form class="search-form">
-            <input type="search">
-            <input type="submit" value="찾기">
-        </form>
+
     </header>
     <!--    main-->
     <div class="main-content">
-        <p >
+        <input id ="cntntId" type="hidden" th:value="${content.cntntId}">
+        <p>
         <div id="iframe" th:src="${content.cntntUrl}" alt="">
         </div>
         </p>
@@ -84,15 +82,6 @@
 
 </div>
 
-<div class="modal">
-    <div class="dialog">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque exercitationem odio, modi laboriosam a
-        perspiciatis est delectus quisquam obcaecati vel eos natus ipsam quasi reprehenderit nihil eligendi quam
-        aliquid! Totam vitae quis, obcaecati quos, ut aut eveniet architecto sed harum ea deleniti itaque saepe unde
-        nulla?
-    </div>
-
-</div>
 
 <input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
        style="display: none">

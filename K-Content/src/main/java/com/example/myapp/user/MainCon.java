@@ -32,7 +32,7 @@ public class MainCon {
 	    Cookie[] cookies = request.getCookies();
 	    if (cookies != null) {
 	        for (Cookie cookie : cookies) {
-	            if ("tempPwd".equals(cookie.getName()) && "Y".equals(cookie.getValue())) {
+	            if ("tempPwd".equals(cookie.getName()) && "N".equals(cookie.getValue())) {
 	                isTempPwd = true;
 	                break;
 	            }

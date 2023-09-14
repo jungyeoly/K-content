@@ -41,6 +41,10 @@ body {
     }
 }
 
+select {
+	color:  #14dbc8 !important;
+	font-weight: 600;
+}
 video#bgvid {
 	position: fixed;
 	right: 0;
@@ -54,7 +58,49 @@ video#bgvid {
 	background-size: cover;
 }
 
+.form-check-input:checked, .form-check-input:checked label{
+    background-color: #14dbc8;
+    border-color: #14dbc8;
+}
+input[type="checkbox"]:checked + .form-check-label {
+    color: #14dbc8;
+}
+.link-effect:before {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    border-radius: 1px;
+    width: 0;
+    content: '';
+    z-index: 1;
+    background: linear-gradient(93.58deg, #14dbc8, #228179);
+    transition: all 200ms linear;
+}
+.link-effect {
+    position: relative;
+    display: inline-block;
+    line-height: 2;
+    padding-left: 24px;
+    transition: all 200ms linear;
+}
+
+.link-effect:hover {
+    color: #14dbc8;
+}
+
+.link-effect:hover:before {
+    width: calc(100% - 24px);
+}
+
+.link-effect:hover:after {
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+}
+
 .input-form {
+	width: 39vw;
 	max-width: 680px;
 	margin-top: 60px;
 	padding: 32px;
@@ -66,6 +112,8 @@ video#bgvid {
 	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
 }
+
+
 
 .menu-title {
 	font-family: 'S-CoreDream-9Black'
@@ -96,7 +144,59 @@ video#bgvid {
 	width: 35px;
 	height: 35px;
 }
+.form-control {
+	height: 37px;
+	width: 100%;
+	font-weight: 600;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 22px;
+	letter-spacing: 0.5px;
+	outline: none;
+	color: #14dbc8;
+	background-color: #f4f3f9;
+	border: none;
+	transition: all 200ms linear;
+}
 
+.form-control.form-bid {
+	background-color: white;
+}
+
+.form-control.form-bid:focus, .form-control.form-bid:active {
+	border: none;
+	outline: none;
+	color: #57585f;
+	background-color: #e2e4f1;
+}
+
+.row input:-ms-input-placeholder {
+	color: #14dbc8;
+	opacity: 0.7;
+	-ms-transition: all 200ms linear;
+	transition: all 200ms linear;
+}
+
+.row input::-moz-placeholder {
+	color: #14dbc8;
+	opacity: 0.7;
+	-moz-transition: all 200ms linear;
+	transition: all 200ms linear;
+}
+
+.row input:-moz-placeholder {
+	color: #14dbc8;
+	opacity: 0.7;
+	-moz-transition: all 200ms linear;
+	transition: all 200ms linear;
+}
+
+.row input::-webkit-input-placeholder {
+	color: #14dbc8;
+	opacity: 0.7;
+	-webkit-transition: all 200ms linear;
+	transition: all 200ms linear;
+}
 
 .mailauth-btn {
 	border-radius: 7px;
@@ -134,7 +234,7 @@ video#bgvid {
 
 /*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 	
  .nav{ 
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .nav-tabs {

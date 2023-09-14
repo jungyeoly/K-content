@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 	<div th:replace="~{/include/header :: header}"></div>
 	<link rel="stylesheet" th:href="@{/css/content/content.css}">	
@@ -57,7 +58,7 @@ function change(data){
 	})
 	
 </script>
-	<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
 			<div class="toast-header fw-bold">
@@ -80,8 +81,7 @@ function change(data){
     function showTempPwdToast() {
         const tempPwdCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('tempPwd='));
         if (tempPwdCookie && tempPwdCookie.split('=')[1].trim() === 'Y') {
-            // 쿠키가 있고 값이 "Y"인 경우, 토스트를 표시
-            console.log("쿠키 Y 잡음");
+            // 쿠키가 있고 값이 "F"인 경우, 토스트를 표시
             const toastLiveExample = document.getElementById('liveToast');
             toastLiveExample.removeAttribute('display');
             const toastBootstrap = new bootstrap.Toast(toastLiveExample);

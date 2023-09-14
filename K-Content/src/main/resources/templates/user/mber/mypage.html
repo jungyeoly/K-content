@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <div th:replace="~{/include/header :: header}"></div>
-<link rel="stylesheet" th:href="@{/css/mber/mber.css}">
+
 </head>
 
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="container">
 		<div class="menu fw-bold">마이페이지</div>
-		<div class="border-bottom border-top border-2 fw-bold border-dark">
+		<div class="border-bottom border-top border-2 fw-bold border-dark mb-3">
+			<form th:action="@{/mber/signup}" method="post"
+						class="validation-form" id="mypageForm" novalidate>
 			<div class="mt-3 mb-3 row">
 				<label for="mber_email" class="col-sm-2 col-form-label">아이디</label>
 				<div class="col-md-4">
@@ -20,43 +22,48 @@
 			<div class="mb-3 row">
 				<label for="mber_pwd" class="col-sm-2 col-form-label">비밀번호</label>
 				<div class="col-md-4">
-					<input type="password" readonly class="form-control-plaintext" id="mber_pwd" value="test1111">
+					<input type="password" readonly class="form-control-plaintext"
+						id="mber_pwd" value="test1111">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="mber_name" class="col-sm-2 col-form-label">이름</label>
 				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext" id="mber_name" value="양정열">
+					<input type="text" readonly class="form-control-plaintext"
+						id="mber_name" value="양정열">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">성별</label>
 				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="남자">
+					<input type="text" readonly class="form-control-plaintext"
+						id="inputPassword" value="남자">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">생년월일</label>
 				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="1998-03-25">
+					<input type="text" readonly class="form-control-plaintext"
+						id="inputPassword" value="1998-03-25">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">전화번호</label>
 				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="010-9957-0673">
+					<input type="text" readonly class="form-control-plaintext"
+						id="inputPassword" value="010-9957-0673">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">가입일자</label>
 				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="2023-09-02">
+					<input type="text" readonly class="form-control-plaintext"
+						id="inputPassword" value="2023-09-02">
 				</div>
-				<div class="col-md-3">
-				</div>
-				<div class="col-md-3">
+				<div class="col-md-4"></div>
+				<div class="col-md-2">
 					<button type="button" tabindex="-1" id="mail-check-btn"
-						name="EmailAuth" class="delete form-control">
+						class="delete form-control">
 						<span id="fw-bold">계정탈퇴</span>
 						<div
 							class="spinner-border text-info spinner-border-sm ms-2 d-none"
@@ -64,7 +71,17 @@
 					</button>
 				</div>
 			</div>
+			</form>
+		</div>
 
+		<div class="mb-3 row">
+			<div class="col-md-2">
+				<button type="button" tabindex="-1" class="btn form-control" form="mypageForm">
+					<span id="fw-bold">수정</span>
+					<div class="spinner-border text-info spinner-border-sm ms-2 d-none"
+						role="status" id="mail-check-spinner"></div>
+				</button>
+			</div>
 		</div>
 	</div>
 

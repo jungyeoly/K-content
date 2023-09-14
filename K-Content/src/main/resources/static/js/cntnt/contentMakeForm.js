@@ -31,8 +31,11 @@ function delKeyword(key) {
 function makeKeyword() {
     word = document.getElementById("inputKeyword").value;
 
-    const thisDiv = document.getElementsByClassName('keyword')[0];
-    innerHtml = `
+    if(word == null || word == ''){
+        alert("키워드를 입력하세요!");
+    }else{
+        const thisDiv = document.getElementsByClassName('newKeyword')[0];
+        innerHtml = `
           <div id="${word}">
                 <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
                         >
@@ -45,7 +48,11 @@ function makeKeyword() {
                 </button>
         </div>`;
 
-    thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
+        thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
+        document.getElementById("inputKeyword").value = '';
+    }
+
+
 }
 
 window.name = "goods_parent";
@@ -146,11 +153,11 @@ function createContent() {
     console.log("goodsDivList: " + goodsDivList);
     var sendData = {
 
-            "cntntUrl": document.getElementById("contentURL").value,
-            "cntntTitle": document.getElementById("contentTitle").value,
-            "keywordList": keywordDivList,
-            "goodsList": goodsDivList,
-            "cntntCateCode": document.getElementById("commonCode").value
+        "cntntUrl": document.getElementById("url").value,
+        "cntntTitle": document.getElementById("title").value,
+        "keywordList": keywordDivList,
+        "goodsList": goodsDivList,
+        "cntntCateCode": document.getElementById("commonCode").value
 
 
     };
@@ -159,7 +166,7 @@ function createContent() {
         url: '/cs/content/inputcntntform',
         type: 'POST',
         data: JSON.stringify(sendData),
-        contentType : 'application/json',
+        contentType: 'application/json',
         success: function (data) {
             alert("컨텐츠가 등록되었습니다!")
         },
@@ -168,3 +175,29 @@ function createContent() {
         }
     });
 }
+
+function printIframe() {
+    key = document.getElementById("url").value;
+    var words = key.split('=');
+    keyword = words[1];
+
+    $.ajax({
+        url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v='+keyword,
+        type: 'get',
+        success: function (data) {
+            console.log(data);
+            let parseData = JSON.parse(data);
+            console.log(parseData);
+            document.getElementById("title").value =parseData.title;
+            const element = document.getElementById('iframe');
+            const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + keyword + "\"" +
+                `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            element.innerHTML = inHtml
+
+        },
+        error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+}
+

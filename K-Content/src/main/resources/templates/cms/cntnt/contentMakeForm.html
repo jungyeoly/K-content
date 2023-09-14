@@ -44,73 +44,7 @@
     <link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" media="all">
 </head>
 <title>Title</title>
-<style>
-    .fullContainer {
-        display: grid;
-        /*grid-template-columns: 1fr 9fr 3fr;*/
 
-        grid-template-areas:
-		"header header header header header header header header header"
-		"side    main   main   main   main   main   main  trendtap trendtap"
-		"recon    recon  recon  recon  recon  recon recon  recon  recon";
-    }
-
-    .title {
-        grid-area: header;
-        /*grid-column: 1 / 4;*/
-        background-color: red;
-    }
-
-    .side-bar {
-        grid-area: side;
-        /*grid-row: 2 / 7;*/
-        /*grid-column: 1 / 2;*/
-        background-color: blue;
-    }
-
-    .trend {
-        grid-area: trendtap;
-        /*grid-row: 2 / 7;*/
-
-        background-color: blue;
-    }
-
-    .content {
-        grid-area: main;
-        /*grid-row: 2 / 7;*/
-        /*grid-column: 2 / 3;*/
-        background-color: pink;
-        /*grid-template-rows: 1fr 4fr 1fr;*/
-    }
-
-    .reco {
-        grid-area: reco;
-        /*grid-row: 3 / 4;*/
-        grid-column: 1 / 10;
-        background-color: #e71439;
-        height: 500px;
-    }
-
-    .keyword {
-        display: flex;
-    }
-
-    .keywordItem {
-
-    }
-
-    .goods {
-        text-align: center;
-    }
-
-    .goods-box {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        background-color: purple;
-
-    }
-
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <body>
 <div class="fullContainer">
@@ -126,7 +60,9 @@
     </div>
     <div class="item content">
         <div class="item category-img">
+
             <div id="iframe" style="width: 400px; height: 300px; margin:auto; display: block"
+                 th:if="${not #strings.isEmpty(content)}"
                  th:src="${content.getCntntUrl()}"
                  alt="">
             </div>
@@ -134,27 +70,35 @@
 
         <div class="item category-caption">
             <h6>URL: </h6>
-            <input style="text-align: center;" id="contentURL" th:value="${content.getCntntUrl()}">
+
+            <input style="text-align: center;" id="contentURL" th:if="${not #strings.isEmpty(content)}"
+                   th:value="${content.getCntntUrl()}">
+
         </div>
+
         <div class="item category-caption">
             <h6>title: </h6>
-            <input id="contentTitle" style="text-align: center; " th:value="${content.getCntntTitle()}">
+            <input id="contentTitle" style="text-align: center; " th:if="${not #strings.isEmpty(content)}"
+                   th:value="${content?.getCntntTitle()}">
         </div>
         <select name="category" id="category">
-            <option id="commonCode" th:each="category : ${category}" th:value="${category.getCommonCode()}"
+            <option id="commonCode" th:if="${not #strings.isEmpty(category)}"
+                    th:each="category : ${category}" th:value="${category.getCommonCode()}"
                     th:text="${category.getCommonCodeVal()}"></option>
         </select>
         <div class="item keyword" id="keywordList">
-            <div th:each="keyword : ${keywordList}" th:id="${keyword}" >
-                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
-                        th:text="${keyword}"></button>
-                <button style="z-index: 10; margin-left: -10px"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        th:key="${keyword}"
-                        onclick="delKeyword(this.getAttribute('key'))">X
-                </button>
+            <div th:if="${not #strings.isEmpty(keywordList)}">
+                <div th:each="keyword : ${keywordList}" th:id="${keyword}">
+                    <button type="button" style="margin-left: 10px"
+                            class="btn btn-primary position-relative keywordButton"
+                            th:text="${keyword}"></button>
+                    <button style="z-index: 10; margin-left: -10px"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            th:key="${keyword}"
+                            onclick="delKeyword(this.getAttribute('key'))">X
+                    </button>
+                </div>
             </div>
-
             <input type="text" id="inputKeyword" placeholder="키워드 입력">
             <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
 

@@ -16,10 +16,7 @@
 	transition: all ease 0.5s 0s;
 }
 
-a {
-	 text-decoration: inherit;
-	 color: inherit;
-}
+
 
 .logo-img {
 	filter: invert(100%) sepia(0%) saturate(7488%) hue-rotate(336deg)
@@ -28,6 +25,15 @@ a {
 
 .header:hover {
 	background-color: white;
+	color: black;
+}
+
+.header span {
+	color: white;
+	transition: all ease 1s 0s;
+}
+
+.header:hover span {
 	color: black;
 }
 
@@ -41,7 +47,7 @@ a {
 	justify-content: space-between;
 }
 
-.text, .text a {
+.text {
 	padding: 30px 20px;
 	display: flex;
 	align-items: center;
@@ -51,9 +57,11 @@ a {
 	font-weight: bold;
 }
 
+
 .text:hover, .text a:hover {
 	cursor: pointer;
 }
+
 
 #v-line:hover {
 	border-bottom: 2px solid rgba(208, 208, 208, 0);
@@ -64,8 +72,10 @@ a {
 	align-items: center;
 }
 
+
 .login {
 	display: flex;
 	align-items: center;
 	column-gap: 10px;
 }
+

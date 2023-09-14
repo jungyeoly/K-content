@@ -6,6 +6,7 @@
 <div th:replace="~{/include/header :: header}"></div>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
 <link rel="stylesheet" th:href="@{/css/mber/mber-header.css}">
+
 </head>
 <body>
 	<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
@@ -23,50 +24,47 @@
 						<p class="fw-bold fs-2 mb-3 menu-title">비밀번호 재설정</p>
 						임시 비밀번호로 로그인 하셨군요! <br>보안을 위해 새 비밀번호를 변경해주세요.
 					</div>
-					<form action="#" method="post" class="validation-form"
-						id="signinForm" novalidate>
+					<form action="@{/mber/resetpwd}" method="post" class="validation-form"
+						id="resetPwdForm" novalidate>
 						<div th:if="${message}" class="alert alert-danger fw-bold"
 							role="alert" th:text="${message}"></div>
 
 						<div class="row">
 							<div class="col-md-12 mb-3">
-								<label for="mber_id" class="fw-bold">현재 비밀번호</label> <input
-									type="text" class="form-control" id="mber_id" name="mberId"
-									placeholder="현재 비밀번호" value="" required>
+								<input
+									type="text" class="form-control form-bid"
+									name="mberPwd" placeholder="현재 비밀번호" value="" autocomplete="off" required>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-12 mb-3">
-								<label for="mber_pwd" class="fw-bold">비밀번호</label> <input
-									type="password" class="form-control" id="mber_pwd"
+								<input
+									type="password" class="form-control form-bid" id="mber_pwd"
 									name="mberPwd" placeholder="비밀번호" value="" required>
 								<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<label for="mber_pwd" class="fw-bold">비밀번호 확인</label> <input
-									type="password" class="form-control" id="mber_pwd"
-									name="mberPwd" placeholder="비밀번호 확인" value="" required>
-								<div class="invalid-feedback">비밀번호확인을 입력해주세요.</div>
-							</div>
-						</div>
-						<hr class="mb-3">
-
-
-						<div class="row text-center">
-							<div class="col-md-6">
-								<button type="submit" class="btn btn-lg mb-3">비밀번호 재설정</button>
-							</div>
-
-						</div>
-
-
 					</form>
-					<div class="col-md-6 text-center">
-						<button class="btn btn-lg mb-3" id="changePwdNextBtn">다음에
-							변경하기</button>
+					<div class="row">
+						<div class="col-md-12">
+							<input
+								type="password" class="form-control form-bid" id="mber_pwd_re"
+								placeholder="비밀번호 확인" value="" required>
+							<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
+						</div>
+					</div>
+					<hr class="mb-3">
+
+
+					<div class="row">
+						<div class="col-md-6 text-center">
+							<button type="submit" form="resetPwdForm" class="btn btn-lg mb-3">비밀번호 재설정</button>
+						</div>
+						<div class="col-md-6 text-center">
+							<button type="button" class="btn btn-lg mb-3"
+								id="changePwdNextBtn">다음에 변경하기</button>
+						</div>
 					</div>
 
 				</div>
@@ -83,7 +81,7 @@
 						function() {
 							// 변경할 쿠키 이름과 값을 설정
 							const cookieName = 'tempPwd';
-							const newValue = 'N';
+							const newValue = 'Y';
 
 							// 현재 날짜를 이용하여 만료일을 설정 (예: 현재 시간에서 1일 뒤)
 							const expirationDate = new Date();
@@ -99,6 +97,24 @@
 							// 페이지를 이동 (여기서는 홈 페이지로 이동하도록 설정)
 							window.location.href = '/';
 						});
+	</script>
+	
+	<script>
+	var mberPwd = document.getElementById("mber_pwd")
+	  ,mberPwdRe = document.getElementById("mber_pwd_re");
+
+	function validatePassword(){
+	  if(mberPwd.value != mberPwdRe.value) { // 만일 두 인풋 필드값이 같지 않을 경우
+	    // setCustomValidity의 값을 지정해 무조건 경고 표시가 나게 하고
+	    mberPwdRe.setCustomValidity("비밀번호가 일치하지 않습니다."); 
+	  } 
+	  else { 
+	    mberPwdRe.setCustomValidity(''); 
+	  }
+	}
+
+	mberPwd.onchange = validatePwd;
+	mberPwdRe.onkeyup = validatePwd;
 	</script>
 </body>
 

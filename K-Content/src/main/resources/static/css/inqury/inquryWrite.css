@@ -1,16 +1,12 @@
 @charset "UTF-8";
 
 :root {
-  /* Color */
   --color-main: #14dbc8;
 }
 
 
 .tb-lst {
 	border-top: 4px solid #000;
-}
-
-ul {
 	list-style: none;
 	padding: 0;
 }
@@ -22,9 +18,6 @@ ul {
 
 .tit-row {
 	height: auto;
-}
-
-li {
 	border-bottom: 1px solid #e4e4e4;
 }
 
@@ -52,10 +45,6 @@ textarea {
 	background: rgb(192, 192, 192);	
 	text-align: center;
 	padding: 0px !important;
-}
-
-.fa-solid {
-	line-height: 100px;
 }
 
 .drag-area.active{

@@ -3,7 +3,6 @@ $(document).ready(function() {
 		url: "/user/content",
 		type: "GET",
 		success: function(result) {
-			console.log(result);
 			var layout = $(".layout");
 			layout.append(result);
 		}

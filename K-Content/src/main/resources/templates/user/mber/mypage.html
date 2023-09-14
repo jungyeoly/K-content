@@ -17,44 +17,46 @@
 						id="mber_email" value="email@example.com">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
+			<div class="mb-3 row">
+				<label for="mber_pwd" class="col-sm-2 col-form-label">비밀번호</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="password" readonly class="form-control-plaintext" id="mber_pwd" value="test1111">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">이름</label>
+			<div class="mb-3 row">
+				<label for="mber_name" class="col-sm-2 col-form-label">이름</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="text" readonly class="form-control-plaintext" id="mber_name" value="양정열">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
+			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">성별</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="남자">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
+			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">생년월일</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="1998-03-25">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
+			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">전화번호</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="010-9957-0673">
 				</div>
 			</div>
-			<div class="mb-3 mb-3 row">
+			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">가입일자</label>
 				<div class="col-md-4">
-					<input type="password" class="form-control" id="inputPassword">
+					<input type="text" readonly class="form-control-plaintext" id="inputPassword" value="2023-09-02">
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-3">
 					<button type="button" tabindex="-1" id="mail-check-btn"
-						name="EmailAuth" class="form-control delete">
+						name="EmailAuth" class="delete form-control">
 						<span id="fw-bold">계정탈퇴</span>
 						<div
 							class="spinner-border text-info spinner-border-sm ms-2 d-none"
@@ -66,31 +68,6 @@
 		</div>
 	</div>
 
-	<div class="toast-container position-fixed bottom-0 end-0 p-3">
-		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
-			aria-atomic="true">
-			<div class="toast-header">
-				<img src="/img/icon.png" width="30px" height="30px"
-					class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
-				<small>알림</small>
 
-				<button type="button" class="btn-close" data-bs-dismiss="toast"
-					aria-label="Close"></button>
-			</div>
-			<div class="toast-body">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
-		</div>
-	</div>
-	<!-- 	<script>
-		$(document).ready(
-				function() {
-					const toastLiveExample = document
-							.getElementById('liveToast')
-
-					const toastBootstrap = bootstrap.Toast
-							.getOrCreateInstance(toastLiveExample)
-
-					toastBootstrap.show()
-				})
-	</script> -->
 </body>
 </html>

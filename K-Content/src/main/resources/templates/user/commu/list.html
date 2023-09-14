@@ -34,7 +34,6 @@
 					<th scope="col">제목</th>
 					<th scope="col">작성자</th>
 					<th scope="col">작성일</th>
-					<th scope="col">수정일</th>
 					<th scope="col">조회</th>
 				</tr>
 			</thead>
@@ -47,8 +46,6 @@
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>
 					<td th:text="${commu.commuUpdateDate}"></td>
-					<td th:if="${commu.commuUpdateDate != null}"
-						th:text="${commu.commuUpdateDate}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
 				</tr>
 

@@ -30,7 +30,7 @@ public class CommuService implements ICommuService {
 			commu.setCommuRegistDate(currentTimestamp);
 		}
 
-		commu.setCommuId(commuRepository.selectMaxPost() + 1);
+		
 		commuRepository.insertPost(commu);
 	}
 
@@ -43,7 +43,7 @@ public class CommuService implements ICommuService {
 			commu.setCommuRegistDate(currentTimestamp);
 		}
 
-		commu.setCommuId(commuRepository.selectMaxPost() + 1);
+		
 		commuRepository.insertPost(commu);
 
 		if (files != null && !files.isEmpty()) {

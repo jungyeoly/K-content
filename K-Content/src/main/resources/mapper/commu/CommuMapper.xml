@@ -77,7 +77,7 @@
 	</select>
 
 	<insert id="insertPost"
-		parameterType="com.example.myapp.user.commu.model.Commu">
+		parameterType="com.example.myapp.user.commu.model.Commu" useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
 	<![CDATA[
 	INSERT INTO tb_commu
   (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,

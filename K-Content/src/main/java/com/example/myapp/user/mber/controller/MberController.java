@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +56,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
 	public String signup(Mber mber, HttpSession session, Model model) {
 //		String sessionToken = (String) session.getAttribute("csrfToken");
-//		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
+//		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
 //			throw new RuntimeException("CSRF Token Error.");
 //		}
 		
@@ -69,9 +70,9 @@ public class MberController {
 		mber.setMberStatCode("C0202");
 
 		try {
-			PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-			String encodedPw = pwEncoder.encode(mber.getMberPwd());
-			mber.setMberPwd(encodedPw);
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
+			mber.setMberPwd(encodedPwd);
 			mberService.insertMber(mber);
 			logger.info("Saved: " + mber.getMberId());
 		} catch (DuplicateKeyException e) {
@@ -85,32 +86,38 @@ public class MberController {
 	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
-	public String signin(Model model) {
-		return "user/mber/signin";
+	public String signin(HttpServletRequest request, Model model) {
+	
+	    return "user/mber/signin";
 	}
 	
 	@GetMapping(value = "/mber/mypage")
-	public String mypage() {
+	public String myPage() {
 		return "user/mber/mypage";
 	}
-
+	
+	@GetMapping(value = "/mber/resetpwd")
+	public String resetPwd() {
+		return "user/mber/resetpwd";
+	}
+	
 	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
 	public String signout(HttpServletRequest request, HttpServletResponse response, SessionStatus sessionStatus) {
 		// Spring Security가 로그아웃 처리를 하므로 여기에서는 세션만 초기화하고 리다이렉트
 		sessionStatus.setComplete();
 
-		// 쿠키 삭제
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("savedMberId")) {
-					cookie.setValue("");
-					cookie.setMaxAge(0);
-					cookie.setPath("/");
-					response.addCookie(cookie);
-				}
-			}
-		}
+//		// 쿠키 삭제
+//		Cookie[] cookies = request.getCookies();
+//		if (cookies != null) {
+//			for (Cookie cookie : cookies) {
+//				if (cookie.getName().equals("savedMberId")) {
+//					cookie.setValue("");
+//					cookie.setMaxAge(0);
+//					cookie.setPath("/");
+//					response.addCookie(cookie);
+//				}
+//			}
+//		}
 
 		return "redirect:/";
 	}
@@ -146,15 +153,24 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail) throws Exception {
+	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail, HttpServletResponse response) throws Exception {
 		String tempPwd="";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 		
 		// 회원 정보 업데이트
 		if (mber != null) {
 			tempPwd = emailService.sendTempPwd(mberEmail);
-			mber.setMberPwd(tempPwd);
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			String encodedPwd = pwdEncoder.encode(tempPwd);
+			mber.setMberPwd(encodedPwd);
+			logger.info(encodedPwd);
+			logger.info(mber.getMberPwd());
 			mberService.updateMber(mber);
+            // 임시 비밀번호 여부 생성
+            Cookie tempPwdCookie = new Cookie("tempPwd", "Y"); // "Y"로 설정
+            tempPwdCookie.setMaxAge(86400); // 쿠키 유효 기간 설정
+            tempPwdCookie.setPath("/"); // 쿠키 경로 설정
+            response.addCookie(tempPwdCookie);
 
 		} 
 

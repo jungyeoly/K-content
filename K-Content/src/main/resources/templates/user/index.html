@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
 <script th:src="@{/js/content/content.js}"></script>
+
 <script th:inline="javascript">
 function change(data){
 	
@@ -54,6 +55,45 @@ function change(data){
 			}
 		})
 	})
+	
 </script>
+	<div class="toast-container position-fixed bottom-0 end-0 p-3">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true" style="display: hidden">
+			<div class="toast-header fw-bold">
+				<img src="/img/icon.png" width="30px" height="30px"
+					class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
+				<small>알림</small>
+
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
+			      <a th:href="@{/mber/mypage}"><button type="button" class="toast-btn">변경하러 가기</button></a>
+		</div>
+	</div>
+
+
+
+<script th:inline="javascript">
+    // 쿠키 값이 "Y"일 때 토스트를 표시하는 함수
+    function showTempPwdToast() {
+        const tempPwdCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('tempPwd='));
+        if (tempPwdCookie && tempPwdCookie.split('=')[1].trim() === 'Y') {
+            // 쿠키가 있고 값이 "Y"인 경우, 토스트를 표시
+            console.log("쿠키 Y 잡음");
+            const toastLiveExample = document.getElementById('liveToast');
+            toastLiveExample.removeAttribute('display');
+            const toastBootstrap = new bootstrap.Toast(toastLiveExample);
+            toastBootstrap.show();
+        }
+    }
+
+    // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
+    window.onload = showTempPwdToast;
+</script>
+
+<script th:src="@{/js/content/scroll.js}"></script>
+
 </body>
 </html>

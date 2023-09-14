@@ -17,8 +17,8 @@
 <div class="page">
     <header class="header">
         <h1 class="website-title">k-spectrum</h1>
-        <form class="search-form" id="search-form">
-            <input type="search" id="search-input">
+        <form class="search-form" id="search-form" action="/cs/recomm" method="get">
+            <input type="search" id="search-input" th:name="search">
             <input id="search-button" onclick="searchButton()" type="button"  value="찾기">
         </form>
     </header>
@@ -31,15 +31,9 @@
 
     <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">
     </aside>
-
-
     <!-- </div> -->
 
     <footer class="footer">
-        <div class="col-2">
-            <a href="">생성</a>
-            <a type="button" href="recomm">추천</a>
-        </div>
         Lorem ipsum dolor sit amet consectetur.
     </footer>
 
@@ -47,7 +41,7 @@
 
 
 <script src="/vendor/jquery/jquery.min.js"></script>
-
+<script src="/js/cntnt/cntntRecom.js"></script>
 
 </body>
 

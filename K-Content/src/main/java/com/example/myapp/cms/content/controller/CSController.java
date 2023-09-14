@@ -53,15 +53,25 @@ public class CSController {
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String searchYouTube(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
-        int max = Integer.parseInt(items);
-        List<YouTubeItem> result = youTubeApiService.youTubeSearch(search, max);
-
-        model.addAttribute("content", result);
-        model.addAttribute("search", search);
-        return "cms/cntnt/contentRecom";
+    public String showYouTube() {
+        return "cms/cntnt/newcontentRecom";
     }
+//    @GetMapping("/recomm/main")
+//    public List<YouTubeItem> showYouTubeMain(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
+//        int max = Integer.parseInt(items);
+//        List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
+//
+//        return result;
+//
+//    }
+    @GetMapping("/getsearchyoutube")
+    @ResponseBody
+    public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "25") String items) {
+        int max = Integer.parseInt(items);
+        List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
 
+        return result;
+    }
     //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
     public String getContentManage() {

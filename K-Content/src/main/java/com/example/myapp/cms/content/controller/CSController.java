@@ -166,8 +166,10 @@ public class CSController {
 
     //콘텐츠 생성 페이지
     @GetMapping("/makecontent/new")
-    public String getMakeContentFormNew() {
+    public String getMakeContentFormNew(Model model) {
+        List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 
+        model.addAttribute("category", commonCodes);
         return "cms/cntnt/newcontentNakeForm";
     }
 

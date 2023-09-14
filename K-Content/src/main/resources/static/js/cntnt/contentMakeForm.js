@@ -153,8 +153,8 @@ function createContent() {
     console.log("goodsDivList: " + goodsDivList);
     var sendData = {
 
-        "cntntUrl": document.getElementById("contentURL").value,
-        "cntntTitle": document.getElementById("contentTitle").value,
+        "cntntUrl": document.getElementById("url").value,
+        "cntntTitle": document.getElementById("title").value,
         "keywordList": keywordDivList,
         "goodsList": goodsDivList,
         "cntntCateCode": document.getElementById("commonCode").value
@@ -185,7 +185,9 @@ function printIframe() {
         url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v='+keyword,
         type: 'get',
         success: function (data) {
-            parseData = JSON.parse(data);
+            console.log(data);
+            let parseData = JSON.parse(data);
+            console.log(parseData);
             document.getElementById("title").value =parseData.title;
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + keyword + "\"" +

@@ -42,7 +42,7 @@ public class GoodsService implements IGoodsService {
     @Override
     @Transactional
     public int insertGoods(Goods goods, GoodsFile goodsFile) {
-
+System.out.println("goodsFile.getGoodsFileExt():" +goodsFile.getGoodsFileExt());
         goodsRepository.insertGoods(goods);
         int goodsId = goods.getGoodsId();
         goodsFile.setGoodsFileGoodsId(goodsId);

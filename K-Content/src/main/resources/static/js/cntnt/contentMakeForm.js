@@ -97,7 +97,7 @@ function selectGoods(receivedData) {
                     <a th:href="${data[i].goodsPurchsLink}">
                              <div class="card" style="width: 18rem; height: 240px">
                                 <div style="width:18rem; height:140px">
-                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileName}" alt="">
+                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileId}" alt="">
                                 </div>
                                 <div style="width:18rem; height:100px;border:1px solid">
                                         <h5 class="text-center" >${data[i].goodsName}</h5>

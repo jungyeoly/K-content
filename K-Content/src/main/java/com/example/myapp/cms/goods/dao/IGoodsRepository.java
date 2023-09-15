@@ -25,5 +25,5 @@ public interface IGoodsRepository {
 
     int insertGoods(Goods goods);
 
-    int insertGoodsFile(GoodsFile goodsFile);
+    int insertGoodsFile(@Param("goodsFile") GoodsFile goodsFile);
 }

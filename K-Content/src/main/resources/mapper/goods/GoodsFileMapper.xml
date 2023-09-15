@@ -6,7 +6,7 @@
 
     <insert id="insertGoodsFile" parameterType="com.example.myapp.cms.goods.model.GoodsFile">
         <![CDATA[
-        INSERT INTO tb_goods (goods_file_id,
+        INSERT INTO tb_goods_file (goods_file_id,
                               goods_file_name,
                               goods_file_size,
                               goods_file_ext,
@@ -15,15 +15,15 @@
                               goods_file_update_date,
                               goods_file_delete_yn,
                               goods_file_goods_id)
-        VALUES (#{goodsFileID},
-                #{goodsFileName},
-                #{goodsFileSize},
-                #{goodsFileExt},
-                #{goodsFilePath},
+        VALUES (#{goodsFile.goodsFileID},
+                #{goodsFile.goodsFileName},
+                #{goodsFile.goodsFileSize},
+                #{goodsFile.goodsFileExt},
+                #{goodsFile.goodsFilePath},
                 to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'),
                 null,
                 'N',
-                #{goodsFileGoodsId},)
+                #{goodsFile.goodsFileGoodsId})
         ]]>
     </insert>
 </mapper>

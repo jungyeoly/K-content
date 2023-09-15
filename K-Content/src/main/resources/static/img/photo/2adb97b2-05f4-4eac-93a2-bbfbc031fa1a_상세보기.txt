@@ -1,0 +1,41 @@
+@GetMapping("/commu/{commuCateCode}/{page}")
+	public String getListByCategory(@PathVariable String commuCateCode, @PathVariable int page, HttpSession session, Model model) {
+		session.setAttribute("page", page);
+		model.addAttribute("commuCateCode", commuCateCode);
+		List<Commu> commuList = commuService.selectPostListByCategory(commuCateCode, page);
+		model.addAttribute("commuList", commuList);
+		String ccsCount = commuService.selectTotalPostCountByCategoryId(commuCateCode);
+		int totalPage = 0;
+		if(ccsCount >0) {
+			totalPage = (int)Math.ceil(ccsCount/10.0);
+		}
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("page", page);
+		return "user/commu/list";
+		
+		
+	}
+	
+	@GetMapping("/commu/{commuId}")
+	public String getListByCategory(@PathVariable String commuCateCode, HttpSession session, Model model) {
+		return getListByCategory(commuCateCode, 1, session, model);
+	}
+
+
+
+
+int selectTotalPostCount();
+	String selectTotalPostCountByCategoryId(String commuCateCode);  //인터페이스서비스
+
+int selectTotalPostCount();
+	String selectTotalPostCountByCategoryId(String commuCateCode); // 레퍼지토리
+
+@Override
+	public int selectTotalPostCount() {
+		return commuRepository.selectTotalPostCount();
+		}
+
+	@Override
+	public String selectTotalPostCountByCategoryId(String commuCateCode) {
+	return commuRepository.selectTotalPostCountByCategoryId(commuCateCode);
+	}  // 서비스

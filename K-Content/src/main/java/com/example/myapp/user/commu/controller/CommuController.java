@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -60,6 +57,8 @@ public class CommuController {
 			Model model, HttpSession session) {
 		List<Commu> commulist = commuService.selectAllPost();
 		List<String> cateList = commonCodeService.cateList("C03");
+		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		model.addAttribute("cateList", cateList);
 
 		int totalPage = 0;
@@ -84,6 +83,7 @@ public class CommuController {
 	}
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
+
 	@GetMapping("/commu/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -202,7 +202,7 @@ public class CommuController {
 
 	}
 
-	// 게시글 수정하기
+	// 게시글 수정하기(기존 게시글 정보 가져오기)
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
 		Commu commu = commuService.selectPost(commuId);
@@ -214,17 +214,15 @@ public class CommuController {
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		logger.info("Editing Commu: " + commu.toString());
 
-		return "user/commu/view";
+		return "user/commu/update";
 	}
 
 	// 게시글 수정 처리
 	@PostMapping("/commu/update/{commuCateCode}/{commuId}")
-	@ResponseBody
-	public Map<String, Object> updatePostAsync(Commu commu, @PathVariable int commuId,
+	public String updatePost(Commu commu, @PathVariable int commuId, 
 			@PathVariable String commuCateCode, @RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles,
 			BindingResult results, RedirectAttributes redirectAttrs) {
 
-		Map<String, Object> response = new HashMap<>();
 		// 게시물 정보 로깅
 		logger.info("/commu/update : " + commu.toString());
 
@@ -271,10 +269,8 @@ public class CommuController {
 							commuFiles.add(file);
 							logger.info("Created CommuFile metadata: " + file.toString());
 
-							response.put("status", "success");
-							response.put("message", "Update successful");
-							response.put("redirectUrl",
-									"/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId());
+							
+									
 
 						} catch (IOException e) {
 							logger.error("File saving failed: ", e);
@@ -282,21 +278,30 @@ public class CommuController {
 					}
 				}
 
-				if (!commuFiles.isEmpty()) {
-					logger.info("Attempting to update the following CommuFiles to the DB: " + commuFiles.toString());
-					commuService.updatePost(commu, commuFiles);
-					logger.info("Successfully updated CommuFiles in the DB.");
-				} else {
-					commuService.updatePost(commu);
-				}
+				  if (!commuFiles.isEmpty()) {
+			            commuService.updatePostAndFiles(commu, commuFiles);
+			            logger.info("Successfully updated Commu and/or CommuFiles in the DB.");
+			        } else {
+			            commuService.updatePost(commu);
+			            logger.info("Successfully updated Commu in the DB.");
+			        }
 			}
 
 		} catch (Exception e) {
-			logger.error("Error during update:", e);
-			redirectAttrs.addFlashAttribute("message", e.getMessage());
-			response.put("status", "error");
-			response.put("message", e.getMessage());
+		    logger.error("Error during update:", e);
+		    redirectAttrs.addFlashAttribute("message", e.getMessage());
+		    return "redirect:/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정 페이지로 리다이렉트
 		}
-		return response;
-	}
+		redirectAttrs.addFlashAttribute("message", "게시물이 성공적으로 업데이트되었습니다.");
+		return "redirect:/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId();
+
+		}
 }
+/*
+ * @GetMapping("/commu/delete/{commuId}") public String
+ * deletePostStatus(@PathVariable int commuId, Model model) { // Commu commu =
+ * commuService.deletePost(commuId); // model.addAttribute("commuCateCode",
+ * commu.getCommuCateCode() }// }
+ */
+
+

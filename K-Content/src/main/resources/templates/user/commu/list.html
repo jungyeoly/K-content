@@ -12,12 +12,6 @@
 	<div th:replace="~{/include/header :: header}"></div>
 	<div th:replace="~{/include/body-header :: header }"></div>
 
-	<div id="main-cate" class="categories-nav">
-		<ul class="categories">
-			<li th:each="cate : ${commuCateCodeList}" class="cate">[[${cate.commonCodeVal}]]</li>
-		</ul>
-	</div>
-
 	<div class="container">
 		<!--  <div class="row">
 		<div class="side-bar col-1 ms-3 ps-5 d-flex flex-column"
@@ -30,27 +24,32 @@
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
 				<tr>
+					<th scope="col">카테고리</th>
 					<th scope="col">번호</th>
 					<th scope="col">제목</th>
 					<th scope="col">작성자</th>
-					<th scope="col">작성일</th>
+					<th scope="col">등록일</th>
 					<th scope="col">조회</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${commulist}" class="commu-row"
-					th:attr="data-commu-id=${commu.commuId}">
-					<td th:text="${commu.commuId}"></td>
-					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
-						th:text="${commu.commuTitle}"></a>
-					<td th:text="${commu.commuMberId}"></td>
-					<td th:text="${commu.commuRegistDate}"></td>
-					<td th:text="${commu.commuUpdateDate}"></td>
-					<td th:text="${commu.commuReadCnt}"></td>
-				</tr>
+			<tr th:each="commu : ${commulist}" class="commu-row" th:attr="data-commu-id=${commu.commuId}">
+  <td>
+      <span th:each="code : ${commuCateCodeList}" 
+            th:if="${code.commonCode} eq ${commu.commuCateCode}"
+            th:text="${code.commonCodeVal}" style="font-weight:bold">카테고리명</span>
 
+  </td>
+  <td th:text="${commu.commuId}"></td>
+  <td><a th:href="@{/commu/{id}(id=${commu.commuId})}" th:text="${commu.commuTitle}"></a></td>
+  <td th:text="${commu.commuMberId}"></td>
+  <td th:text="${commu.commuRegistDate}"></td>
+  <td th:text="${commu.commuReadCnt}"></td>
+</tr>
+			
 			</tbody>
 		</table>
+
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>
 

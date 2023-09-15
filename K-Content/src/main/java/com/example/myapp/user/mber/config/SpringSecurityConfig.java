@@ -87,17 +87,17 @@ public class SpringSecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 						.maximumSessions(1) // 최대 허용 가능 세션 수 (-1 : 무제한)
 						.maxSessionsPreventsLogin(false) // true : 로그인 제한 false(default) : 기존 세션 만료
-						.expiredUrl("/mber/signin")) // 세션 만료시 이동 페이지
-	    		.csrf(csrf -> csrf
-	    				.csrfTokenRepository(csrfTokenRepository()));
+						.expiredUrl("/mber/signin")); // 세션 만료시 이동 페이지
+//	    		.csrf(csrf -> csrf
+//	    				.csrfTokenRepository(csrfTokenRepository()));
 		return http.build();
 	}
 	// 이외에도 등록해서 사용하면 된다..
 
-	@Bean
-	public CsrfTokenRepository csrfTokenRepository() {
-		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-		repository.setHeaderName("X-CSRF-TOKEN"); // HTTP 헤더에 CSRF 토큰 이름을 설정
-		return repository;
-	}
+//	@Bean
+//	public CsrfTokenRepository csrfTokenRepository() {
+//		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+//		repository.setHeaderName("X-CSRF-TOKEN"); // HTTP 헤더에 CSRF 토큰 이름을 설정
+//		return repository;
+//	}
 }

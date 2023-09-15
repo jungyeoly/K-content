@@ -13,4 +13,6 @@ import com.example.myapp.cms.inqry.model.CmsInqry;
 public interface ICmsInqryRepository {
 	List<CmsInqry> selectCmsInqryList(@Param("start") int start, @Param("end") int end);
 	CmsInqry selectCmsInqry(int inqryId);
+	void writeCmsInqry(CmsInqry cmsInqry);
+	int countInqry(int inqryRefId);
 }

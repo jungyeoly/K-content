@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.myapp.cms.inqry.dao.ICmsInqryRepository;
+import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.inqry.model.Inqry;
 import com.example.myapp.user.inqry.model.InqryFile;
@@ -45,6 +47,9 @@ public class InqryController {
 	
 	@Autowired
 	ICommonCodeService commonCodeSerivce;
+	
+	@Autowired
+	ICmsInqryService cmsInqryService;
 
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
@@ -84,8 +89,6 @@ public class InqryController {
 
 	@GetMapping("/inqury")
 	public String selectInqryList(HttpSession session, Model model) {
-		List<String> cateList = commonCodeSerivce.cateList("C03");
-		model.addAttribute("cateList", cateList);
 		
 		return "user/inqury/main";
 	}
@@ -128,10 +131,13 @@ public class InqryController {
 
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
-		List<String> cateList = commonCodeSerivce.cateList("C03");
-		model.addAttribute("cateList", cateList);
+		/*
+		 * List<String> cateList = commonCodeSerivce.cateList("C03");
+		 * model.addAttribute("cateList", cateList);
+		 */
 		Inqry inqry = new Inqry();
 	    model.addAttribute("inqry", inqry);
+	    logger.info(inqry.toString());
 		return "user/inqury/write";
 	}
 

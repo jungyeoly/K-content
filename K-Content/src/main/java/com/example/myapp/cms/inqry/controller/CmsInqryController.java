@@ -1,5 +1,6 @@
 package com.example.myapp.cms.inqry.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,9 @@ public class CmsInqryController {
 	
 	@Autowired
 	IInqryService inqryService;
+	
+	@Autowired
+	ICmsInqryService cmsInqryService;
 	
 	@GetMapping("/inqry/{page}")
 	public String selectCmsInqryList(@PathVariable int page, HttpSession session, Model model) {
@@ -80,41 +85,69 @@ public class CmsInqryController {
 		return "cms/inqry/main";
 	}
 	
-	@PostMapping("/inqry/check-password")
-	@ResponseBody
-	public String checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
-		Inqry inqry = inqryService.selectInqry(inqryId);
-		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
-
-		if (inqry.getInqryPwd() == enteredPwd) {
-			inqryPwdId = inqryId;
-		}
-
-		session.setAttribute("inqryPwdId", inqryPwdId);
-		
-		if (inqryPwdId > 0) {
-			// 세션에 고유 id 담아 확인
-			return "cms/inqry/detail";
-		} else {
-			// 비밀번호 틀리면 다시 리스트로
-			return "cms/inqry/list";
-		}
-	}
-	
 	@RequestMapping("/inqry/detail/{inqryId}")
 	public String selectCmsInqry(@PathVariable int inqryId, Model model, HttpSession session) {
-		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
+		Inqry inqry = inqryService.selectInqry(inqryId);
+		model.addAttribute("inqry", inqry);
+		session.setAttribute("inqryId", inqryId);
 		
-		if(inqryPwdId == inqryId) {
-			Inqry inqry = inqryService.selectInqry(inqryId);
-			model.addAttribute("inqry", inqry);
-			if (inqry.getInqryGroupOrd() == 1) {
-				Inqry originInqry = inqryService.selectInqry(inqry.getInqryRefId());
-				model.addAttribute("origin", originInqry);
-			}
-			return "cs/inqry/detail";
+		int cnt = cmsInqryService.countInqry(inqryId);
+		model.addAttribute("cnt", cnt);
+		
+		if (inqry.getInqryGroupOrd() == 1) {
+			Inqry originInqry = inqryService.selectInqry(inqry.getInqryRefId());
+			model.addAttribute("origin", originInqry);
+			model.addAttribute("ref", "ref");
+		}
+		
+		return "cms/inqry/detail";
+	}
+	
+	@GetMapping("/inqry/write")
+	public String writeInqry(HttpSession session, Model model) {
+		int inqryId = (int) session.getAttribute("inqryId");
+		
+		Inqry inqry = inqryService.selectInqry(inqryId);
+		model.addAttribute("inqry", inqry);
+		
+		int cnt = cmsInqryService.countInqry(inqry.getInqryRefId());
+		
+		if (cnt > 1) {
+			model.addAttribute("message", "이미 답글이 등록된 글입니다.");
+			return "cms/inqry/main";
+		}
+		else {
+			return "cms/inqry/write";
+		}		
+	}
+	
+	@PostMapping("/inqry/write")
+	public String writeInqry(CmsInqry cmsInqry, HttpSession session, Principal principal) {
+		int inqryId = (int) session.getAttribute("inqryId");
+		Inqry inqry = inqryService.selectInqry(inqryId);
+		cmsInqry.setInqryRefId(inqryId);
+		cmsInqry.setInqryGroupOrd(1);
+		cmsInqry.setInqryPwd(inqry.getInqryPwd());
+		cmsInqry.setInqryMberId(principal.getName());
+		
+		logger.info(cmsInqry.toString());
+		
+		cmsInqryService.writeCmsInqry(cmsInqry);
+		
+		return "redirect:/cs/inqry";
+	}
+	
+	@GetMapping("/inqry/update/{inqryId}")
+	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal) {
+		CmsInqry cmsInqry = cmsInqryService.selectCmsInqry(inqryId);
+		String userName = principal.getName();
+		
+		if (cmsInqry.getInqryMberId().equals(userName)) {
+			model.addAttribute("cmsInqry", cmsInqry);
+			return "cms/inqry/write";
 		} else {
-			return "redirect: /cs/inqry";
+			model.addAttribute("message", "잘못된 접근입니다.");
+			return "cms/inqry";
 		}
 	}
 }

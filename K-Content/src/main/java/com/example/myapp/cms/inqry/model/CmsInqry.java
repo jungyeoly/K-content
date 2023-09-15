@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CmsInqry {
 	private int inqryId;
-	private int inqryrefId;
+	private int inqryRefId;
 	private int inqryGroupOrd;
 	private String inqryTitle;
 	private String inqryCntnt;

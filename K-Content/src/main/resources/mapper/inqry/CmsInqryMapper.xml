@@ -59,4 +59,23 @@
 			WHERE inqry_id = #{inqryId}
 		]]>
 	</select>
+	
+	<insert id="writeCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			INSERT INTO tb_inqry
+				(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date,
+			 	inqry_update_date, inqry_delete_yn, inqry_mber_id)
+			VALUES
+				(inqry_seq.nextval, #{inqryRefId}, #{inqryGroupOrd}, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd},
+				to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
+		]]>
+	</insert>
+	
+	<select id="countInqry" parameterType="int">
+		<![CDATA[
+			SELECT count(*) 
+			FROM tb_inqry 
+			WHERE inqry_ref_id = #{inqryRefId}
+		]]>
+	</select>
 </mapper>

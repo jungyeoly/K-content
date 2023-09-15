@@ -6,16 +6,17 @@
 
     <select id="getAllGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          ,
-               g.goods_name        ,
-               g.goods_brand       ,
-               g.goods_price       ,
-               g.goods_purchs_link ,
-               g.goods_kwrd        ,
-               g.goods_regist_date ,
-               g.goods_update_date ,
-               g.goods_delete_yn   ,
-               f.goods_file_path   ,
+        SELECT g.goods_id,
+               g.goods_name,
+               g.goods_brand,
+               g.goods_price,
+               g.goods_purchs_link,
+               g.goods_kwrd,
+               g.goods_regist_date,
+               g.goods_update_date,
+               g.goods_delete_yn,
+               f.goods_file_id,
+               f.goods_file_path,
                f.goods_file_name
 
         FROM tb_goods g
@@ -25,16 +26,17 @@
     </select>
     <select id="getGoodsJFileByGoodsId" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          ,
-               g.goods_name        ,
-               g.goods_brand       ,
-               g.goods_price       ,
-               g.goods_purchs_link ,
-               g.goods_kwrd        ,
-               g.goods_regist_date ,
-               g.goods_update_date ,
-               g.goods_delete_yn   ,
-               f.goods_file_path   ,
+        SELECT g.goods_id,
+               g.goods_name,
+               g.goods_brand,
+               g.goods_price,
+               g.goods_purchs_link,
+               g.goods_kwrd,
+               g.goods_regist_date,
+               g.goods_update_date,
+               g.goods_delete_yn,
+               f.goods_file_id,
+               f.goods_file_path,
                f.goods_file_name
 
         FROM tb_goods g
@@ -45,16 +47,16 @@
     </select>
     <select id="getAGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          ,
-               g.goods_name        ,
-               g.goods_brand       ,
-               g.goods_price       ,
-               g.goods_purchs_link ,
-               g.goods_kwrd        ,
-               g.goods_regist_date ,
-               g.goods_update_date ,
-               g.goods_delete_yn   ,
-               f.goods_file_path   ,
+        SELECT g.goods_id,
+               g.goods_name,
+               g.goods_brand,
+               g.goods_price,
+               g.goods_purchs_link,
+               g.goods_kwrd,
+               g.goods_regist_date,
+               g.goods_update_date,
+               g.goods_delete_yn,
+               f.goods_file_path,
                f.goods_file_name
 
         FROM tb_goods g
@@ -66,16 +68,16 @@
 
     <select id="getSearchGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id          ,
-               g.goods_name        ,
-               g.goods_brand       ,
-               g.goods_price       ,
-               g.goods_purchs_link ,
-               g.goods_kwrd        ,
-               g.goods_regist_date ,
-               g.goods_update_date ,
-               g.goods_delete_yn   ,
-               f.goods_file_path   ,
+        SELECT g.goods_id,
+               g.goods_name,
+               g.goods_brand,
+               g.goods_price,
+               g.goods_purchs_link,
+               g.goods_kwrd,
+               g.goods_regist_date,
+               g.goods_update_date,
+               g.goods_delete_yn,
+               f.goods_file_path,
                f.goods_file_name
 
         FROM tb_goods g

@@ -2,6 +2,7 @@ package com.example.myapp.user.mber.service;
 
 import java.util.List;
 
+import com.example.myapp.user.mber.model.MberUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
-import com.example.myapp.user.mber.model.MberUserDetails;
+
 
 @Service
 public class MberUserDetailsService implements UserDetailsService {
@@ -37,7 +38,7 @@ public class MberUserDetailsService implements UserDetailsService {
 		String mberGender = commonCodeService.mberGenderByCode(mberId);
 		String mberRole = commonCodeService.mberRoleByCode(mberId);
 
-//		
+//
 
 		if (mberStat == "DEACTIVATED") {
 			throw new DisabledException("비활성화된 계정입니다. 관리자에게 문의하세요.");

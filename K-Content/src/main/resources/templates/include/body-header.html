@@ -11,8 +11,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 			<ul class="icons">
 				<li class="myPage"><a th:href="@{/mber/mypage}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
-				<li class="myLike"><i class="fa-solid fa-heart"></i> MY LIKE</li>
-				<li class="shoppingBag"><i class="fa-solid fa-bag-shopping"></i> SHOPPING BAG</li>
+				<li class="myLike"><a href="#"><i class="fa-solid fa-heart"></i> MY LIKE</a></li>
+				<li class="shoppingBag"><a href="#"><i class="fa-solid fa-bag-shopping"></i> SHOPPING BAG</a></li>
 				<li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}"><i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> LOGIN</a></li>
 				<li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}"><i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> LOGOUT</a></li>
 			</ul>

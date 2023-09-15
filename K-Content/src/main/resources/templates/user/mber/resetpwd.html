@@ -6,6 +6,7 @@
 <div th:replace="~{/include/header :: header}"></div>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
 <link rel="stylesheet" th:href="@{/css/mber/mber-header.css}">
+
 </head>
 <body>
 	<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
@@ -23,50 +24,51 @@
 						<p class="fw-bold fs-2 mb-3 menu-title">비밀번호 재설정</p>
 						임시 비밀번호로 로그인 하셨군요! <br>보안을 위해 새 비밀번호를 변경해주세요.
 					</div>
-					<form action="#" method="post" class="validation-form"
-						id="signinForm" novalidate>
+					<form th:action="@{/mber/resetpwd}" method="post"
+						class="validation-form" id="resetPwdForm">
 						<div th:if="${message}" class="alert alert-danger fw-bold"
 							role="alert" th:text="${message}"></div>
 
 						<div class="row">
 							<div class="col-md-12 mb-3">
-								<label for="mber_id" class="fw-bold">현재 비밀번호</label> <input
-									type="text" class="form-control" id="mber_id" name="mberId"
-									placeholder="현재 비밀번호" value="" required>
+								<input type="password" class="form-control form-bid"
+									name="currentMberPwd" id="current-mber-pwd"
+									placeholder="현재 비밀번호" value="" autocomplete="off" required>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-12 mb-3">
-								<label for="mber_pwd" class="fw-bold">비밀번호</label> <input
-									type="password" class="form-control" id="mber_pwd"
-									name="mberPwd" placeholder="비밀번호" value="" required>
+								<input type="password" class="form-control form-bid"
+									id="mber-pwd" name="mberPwd" placeholder="비밀번호" value=""
+									required>
 								<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<label for="mber_pwd" class="fw-bold">비밀번호 확인</label> <input
-									type="password" class="form-control" id="mber_pwd"
-									name="mberPwd" placeholder="비밀번호 확인" value="" required>
-								<div class="invalid-feedback">비밀번호확인을 입력해주세요.</div>
-							</div>
-						</div>
-						<hr class="mb-3">
-
-
-						<div class="row text-center">
-							<div class="col-md-6">
-								<button type="submit" class="btn btn-lg mb-3">비밀번호 재설정</button>
-							</div>
-
-						</div>
-
-
 					</form>
-					<div class="col-md-6 text-center">
-						<button class="btn btn-lg mb-3" id="changePwdNextBtn">다음에
-							변경하기</button>
+					<div class="row">
+						<div class="col-md-12">
+							<input type="password" class="form-control form-bid"
+								id="mber-pwd-re" placeholder="비밀번호 확인" value="" required>
+							<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
+						</div>
+					</div>
+					<hr class="mb-3">
+
+
+					<div class="row">
+						<div class="col-md-6 text-center">
+							<button type="button" class="btn btn-lg mb-3" id="reset-pwd-btn">
+								<span id="reset-pwd-btn-text">비밀번호 재설정</span>
+								<div
+									class="spinner-border text-info spinner-border-sm ms-2 d-none"
+									role="status" id="reset-pwd-spinner"></div>
+							</button>
+						</div>
+						<div class="col-md-6 text-center">
+							<button type="button" class="btn btn-lg mb-3"
+								id="changePwdNextBtn">다음에 변경하기</button>
+						</div>
 					</div>
 
 				</div>
@@ -74,31 +76,59 @@
 		</div>
 	</div>
 
-	<script th:inline="javascript">
-		// 버튼 클릭 시 쿠키 값을 "N"으로 변경하는 함수
-		document
-				.getElementById('changePwdNextBtn')
-				.addEventListener(
-						'click',
-						function() {
-							// 변경할 쿠키 이름과 값을 설정
-							const cookieName = 'tempPwd';
-							const newValue = 'N';
 
-							// 현재 날짜를 이용하여 만료일을 설정 (예: 현재 시간에서 1일 뒤)
-							const expirationDate = new Date();
-							expirationDate
-									.setDate(expirationDate.getDate() + 1);
+	<script>
+		$(document).ready(function() {
+			$("#reset-pwd-btn").click(function(e) {
+				const resetPwdBtnText = $('#reset-pwd-btn-text');
 
-							// 쿠키 문자열 생성
-							const cookieString = `${cookieName}=${newValue}; expires=${expirationDate.toUTCString()}; path=/`;
+				resetPwdBtnText.addClass("d-none");
+				// 응답을 기다리는 동안 스피너 표시
+				$("#reset-pwd-spinner").removeClass("d-none");
+				// 입력 필드에서 이메일 값을 가져옴
+				var mberPwd = $("#mber-pwd").val();
+				var currentMberPwd = $("#current-mber-pwd").val();
+				var mberPwdRe = $("#mber-pwd-re").val(); // 비밀번호 확인 값 가져오기
 
-							// 쿠키 설정
-							document.cookie = cookieString;
+				// 비밀번호와 비밀번호 확인이 일치하는지 확인
+				if (mberPwd !== mberPwdRe) {
+					alert("입력된 새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+					resetPwdBtnText.removeClass("d-none");
+					$("#reset-pwd-spinner").addClass("d-none");
+					return; // 일치하지 않으면 함수 종료
+				}
 
-							// 페이지를 이동 (여기서는 홈 페이지로 이동하도록 설정)
-							window.location.href = '/';
-						});
+				// 서버에 AJAX 요청 보내기
+				$.ajax({
+					type : "POST",
+					url : "/mber/resetpwd",
+					data : {
+						mberPwd : mberPwd,
+						currentMberPwd : currentMberPwd
+					},
+					success : function(response) {
+						// 성공 시 스피너 숨김
+						resetPwdBtnText.removeClass("d-none");
+						$("#reset-pwd-spinner").addClass("d-none");
+						if (response) {
+							$("#reset-pwd-btn").prop('disabled', true);
+							resetPwdBtnText.text('비밀번호 재설정 완료');
+							alert("비밀번호 재설정 완료되었습니다.");
+							window.location.href = "/";
+						} else {
+							alert("오류가 발생했습니다.");
+						}
+					},
+					error : function() {
+						// 오류 발생 시 스피너 숨김
+						$("#reset-pwd-spinner").addClass("d-none");
+
+						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+						resetPwdBtnText.removeClass("d-none");
+					}
+				});
+			});
+		});
 	</script>
 </body>
 

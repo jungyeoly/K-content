@@ -56,7 +56,8 @@ public class CSController {
     public String showYouTube() {
         return "cms/cntnt/newcontentRecom";
     }
-//    @GetMapping("/recomm/main")
+
+    //    @GetMapping("/recomm/main")
 //    public List<YouTubeItem> showYouTubeMain(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
 //        int max = Integer.parseInt(items);
 //        List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
@@ -66,12 +67,13 @@ public class CSController {
 //    }
     @GetMapping("/getsearchyoutube")
     @ResponseBody
-    public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "25") String items) {
+    public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
         int max = Integer.parseInt(items);
         List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
 
         return result;
     }
+
     //콘텐츠 리스트 페이지
     @GetMapping("/contentmanage")
     public String getContentManage() {
@@ -163,6 +165,31 @@ public class CSController {
     }
 
     //콘텐츠 생성 페이지
+    @GetMapping("/makecontent/new")
+    public String getMakeContentFormNew(Model model) {
+        List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+
+        model.addAttribute("category", commonCodes);
+        return "cms/cntnt/newcontentNakeForm";
+    }
+
+
+    //콘텐츠 생성 url 넣고 출력 하면 타이틀 썸네일 뽑기
+    @GetMapping("/makecontent/new/etc")
+    @ResponseBody
+    public CmsContent getMakeContentFormTHumTitle(@RequestParam(value = "url") String url) {
+        CmsContent newcntnt = new CmsContent();
+        List<String> contentUrlSplit = List.of(url.split("/"));
+        String partOfUrl = contentUrlSplit.get(3);
+        List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+        String restultCode = partOfUrl2.get(1);
+        newcntnt.setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
+//        newcntnt.setCntntTitle();
+        return newcntnt;
+    }
+
+
+    //콘텐츠 생성 페이지 form 유튜브
     @GetMapping("/makecontent")
     public String getMakeContentForm(String cntntURL, String cntntTitle, Model model) {
         CmsContent cntnt = new CmsContent();
@@ -175,7 +202,11 @@ public class CSController {
 
         return "cms/cntnt/contentMakeForm";
     }
+    @GetMapping("/test")
+    public String test() {
 
+        return "cms/cntnt/youtubeNoApi";
+    }
     @GetMapping("/makecontent/update")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
         CmsContent content = contentService.getAContent(targetContentIdF);

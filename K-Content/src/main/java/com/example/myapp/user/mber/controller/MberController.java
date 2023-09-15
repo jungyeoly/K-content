@@ -55,36 +55,36 @@ public class MberController {
 		return "user/mber/signup";
 	}
 
-	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
-	public String signup(Mber mber, HttpSession session, Model model) {
-//		String sessionToken = (String) session.getAttribute("csrfToken");
-//		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
-//			throw new RuntimeException("CSRF Token Error.");
+//	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
+//	public String signup(Mber mber, HttpSession session, Model model) {
+////		String sessionToken = (String) session.getAttribute("csrfToken");
+////		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
+////			throw new RuntimeException("CSRF Token Error.");
+////		}
+//
+//		// 이메일 중복 체크
+//		Mber existingMberEmail = mberService.selectMberbyEmail(mber.getMberEmail());
+//		if (existingMberEmail != null) {
+//			model.addAttribute("mber", mber);
+//			model.addAttribute("existEmailMessage", "이미 존재하는 이메일입니다.");
+//			return "user/mber/signup";
 //		}
-
-		// 이메일 중복 체크
-		Mber existingMberEmail = mberService.selectMberbyEmail(mber.getMberEmail());
-		if (existingMberEmail != null) {
-			model.addAttribute("mber", mber);
-			model.addAttribute("existEmailMessage", "이미 존재하는 이메일입니다.");
-			return "user/mber/signup";
-		}
-
-		try {
-			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
-			mber.setMberPwd(encodedPwd);
-			mberService.insertMber(mber);
-			logger.info("Saved: " + mber.getMberId());
-		} catch (DuplicateKeyException e) {
-			mber.setMberId(null);
-			model.addAttribute("mber", mber);
-			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
-			return "user/mber/signup";
-		}
-		session.invalidate();
-		return "user/mber/signin";
-	}
+//
+//		try {
+//			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
+//			mber.setMberPwd(encodedPwd);
+//			mberService.insertMber(mber);
+//			logger.info("Saved: " + mber.getMberId());
+//		} catch (DuplicateKeyException e) {
+//			mber.setMberId(null);
+//			model.addAttribute("mber", mber);
+//			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
+//			return "user/mber/signup";
+//		}
+//		session.invalidate();
+//		return "user/mber/signin";
+//	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(HttpServletRequest request, Model model) {
@@ -97,10 +97,10 @@ public class MberController {
 		return "user/mber/mypage";
 	}
 
-	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
-	public String signout(HttpServletRequest request, HttpServletResponse response, SessionStatus sessionStatus) {
+//	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
+//	public String signout() {
 		// Spring Security가 로그아웃 처리를 하므로 여기에서는 세션만 초기화하고 리다이렉트
-		sessionStatus.setComplete();
+//		sessionStatus.setComplete();
 
 //		// 쿠키 삭제
 //		Cookie[] cookies = request.getCookies();
@@ -115,8 +115,8 @@ public class MberController {
 //			}
 //		}
 
-		return "redirect:/";
-	}
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/mber/findmber")
 	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,

@@ -150,8 +150,8 @@ public class MberController {
 
 	@RequestMapping(value = "/mber/temppwd", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail, HttpServletResponse response)
-			throws Exception {
+	public String sendTempPwd(@RequestParam String mberId, @RequestParam String mberEmail, HttpServletResponse response,
+			HttpSession session) throws Exception {
 		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
@@ -164,11 +164,8 @@ public class MberController {
 			logger.info(encodedPwd);
 			logger.info(mber.getMberPwd());
 			mberService.updateMber(mber);
-			// 임시 비밀번호 여부 생성
-			Cookie tempPwdCookie = new Cookie("tempPwd", "Y"); // 재설정 페이지로 이동시켜주는 쿠키 "Y"로 설정
-			tempPwdCookie.setMaxAge(86400); // 쿠키 유효 기간 설정
-			tempPwdCookie.setPath("/"); // 쿠키 경로 설정
-			response.addCookie(tempPwdCookie);
+
+			session.setAttribute("isTempPwd", true);
 
 		}
 
@@ -176,25 +173,48 @@ public class MberController {
 	}
 
 	@GetMapping(value = "/mber/resetpwd")
-	public String resetPwd() {
-		return "user/mber/resetpwd";
+	public String resetPwd(HttpSession session) {
+		boolean isTempPwd = session.getAttribute("isTempPwd") != null && (boolean) session.getAttribute("isTempPwd");
+
+		if (isTempPwd) {
+			// 임시 비밀번호가 생성된 경우에만 재설정 페이지로 이동
+			return "user/mber/resetpwd";
+		} else {
+			// 임시 비밀번호가 생성되지 않은 경우 다른 페이지로 리다이렉트 또는 처리
+			// 예: 오류 메시지 표시 등
+			return "redirect:/";
+		}
 	}
 
 	@RequestMapping(value = "/mber/resetpwd", method = RequestMethod.POST)
-	public String resetPwd(Model model, @RequestParam String mberPwd) {
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	public String resetPwd(Model model, @RequestParam String mberPwd, @RequestParam String currentMberPwd,
+			HttpSession session) {
+		boolean isTempPwd = session.getAttribute("isTempPwd") != null && (boolean) session.getAttribute("isTempPwd");
+		if (isTempPwd) {
+			// 비밀번호 재설정 로직을 수행
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			logger.info(authentication.getName());
+			Mber mber = mberService.selectMberbyId(authentication.getName());
 
-	    Mber mber = mberService.selectMberbyId(authentication.getName());
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			// 현재 비밀번호가 맞는지 확인
+			if (pwdEncoder.matches(currentMberPwd, mber.getMberPwd())) {
+				String encodedPwd = pwdEncoder.encode(mberPwd);
+				mber.setMberPwd(encodedPwd);
+				mberService.updateMber(mber);
 
-		
-		  if (mber != null) {
-		        PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		        String encodedPwd = pwdEncoder.encode(mberPwd);
-		        mber.setMberPwd(encodedPwd);
-		        mberService.updateMber(mber);
-		    }
-		  
+				// 세션에서 임시 비밀번호 생성 여부 제거
+				session.removeAttribute("isTempPwd");
+
+				return "redirect:/";
+			} else {
+				// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
+				// 예: 오류 메시지 표시 등
+				return "redirect:/";
+			}
+		}
+		// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
+		// 예: 오류 메시지 표시 등
 		return "redirect:/";
 	}
-
 }

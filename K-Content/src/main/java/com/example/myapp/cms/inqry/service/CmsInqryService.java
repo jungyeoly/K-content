@@ -25,4 +25,14 @@ public class CmsInqryService implements ICmsInqryService{
 		return cmsInqryRepository.selectCmsInqry(inqryId);
 	}
 
+	@Override
+	public void writeCmsInqry(CmsInqry cmsInqry) {
+		cmsInqryRepository.writeCmsInqry(cmsInqry);		
+	}
+
+	@Override
+	public int countInqry(int inqryRefId) {
+		return cmsInqryRepository.countInqry(inqryRefId);
+	}
+
 }

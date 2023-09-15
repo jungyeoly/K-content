@@ -16,4 +16,5 @@ public class Mber {
 	String mberUpdateDate;
 	String mberGenderCode;
 	String mberStatCode;
+	String commonCodeVal;
 }

@@ -13,51 +13,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
-<script th:src="@{/js/content/content.js}"></script>
+<script th:src="@{/js/content/content.js}"></script>	
+<script th:src="@{/js/content/scroll.js}"></script>
 
-<script th:inline="javascript">
-function change(data){
-	
-	for (var i = data.contentList.length - 1; i >= 0; i--) {
-		/* console.log(data.contentList[i].cntntThumnail); */
-		var Thumnail = data.contentList[i].cntntThumnail;
-		var Title = data.contentList[i].cntntTitle;
-		var scroll = `
-			  <img src="`+ Thumnail + `" class="card-img-top" alt="">
-			  <div class="card-body">
-			    <p class="card-text text-center">` + Title + `</p>
-			  </div>
-		`;
-		
-		var divEl = document.createElement("div");
-		divEl.setAttribute("class", "card mx-3 my-3");
-		divEl.setAttribute("style", "width: 18rem;");
-		divEl.innerHTML = scroll;
-		document.querySelector("#contentsList").appendChild(divEl);
-		console.log(document.querySelector("#contentsList"));
-	}
-}
-	$(document).ready(function() {
-		var start = 1;
-		var end = 15;
-		
-		$(window).scroll(function() {
-			if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
-				start = end + 1;
-				end = start + 4;
-				$.ajax({
-					type: 'GET',
-					url: '/content/scroll',
-					data: {start : start, end : end},
-					success: function(data) {
-						change(data);
-					}
-				}) 
-			}
-		})
-	})
-	
-</script>
+
 	<div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
@@ -92,8 +51,6 @@ function change(data){
     // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
     window.onload = showTempPwdToast;
 </script>
-
-<script th:src="@{/js/content/scroll.js}"></script>
 
 </body>
 </html>

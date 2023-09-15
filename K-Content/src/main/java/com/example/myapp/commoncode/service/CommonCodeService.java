@@ -25,8 +25,15 @@ public class CommonCodeService implements ICommonCodeService {
 	}
 
 	@Override
-	public String mberStatbyCode(String mberId) {
-		return commonCodeRepository.mberStatbyCode(mberId);
+	public String mberStatByCode(String mberId) {
+		return commonCodeRepository.mberStatByCode(mberId);
 	}
-
+	@Override
+	public String mberRoleByCode(String mberId) {
+		return commonCodeRepository.mberRoleByCode(mberId);
+	}
+	@Override
+	public String mberGenderByCode(String mberId) {
+		return commonCodeRepository.mberGenderByCode(mberId);
+	}
 }

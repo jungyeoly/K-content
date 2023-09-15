@@ -63,13 +63,12 @@ public class MberController {
 //		}
 
 		// 이메일 중복 체크
-		Mber existingMber = mberService.selectMberbyEmail(mber.getMberEmail());
-		if (existingMber != null) {
+		Mber existingMberEmail = mberService.selectMberbyEmail(mber.getMberEmail());
+		if (existingMberEmail != null) {
 			model.addAttribute("mber", mber);
 			model.addAttribute("existEmailMessage", "이미 존재하는 이메일입니다.");
 			return "user/mber/signup";
 		}
-		mber.setMberStatCode("C0202");
 
 		try {
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();

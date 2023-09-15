@@ -5,10 +5,14 @@ import java.util.List;
 import com.example.myapp.commoncode.model.CommonCode;
 
 public interface ICommonCodeService {
-	
+
 	List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode);
-	
+
 	List<String> cateList(String upperCommonCode);
-	
-	String mberStatbyCode(String mberId);
+
+	String mberStatByCode(String mberId);
+
+	String mberRoleByCode(String mberId);
+
+	String mberGenderByCode(String mberId);
 }

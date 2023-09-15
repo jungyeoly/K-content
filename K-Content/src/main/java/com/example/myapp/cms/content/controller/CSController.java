@@ -147,7 +147,6 @@ public class CSController {
 
         instagram_Selenium.instagram_Selenium();
 
-
         List<String> realImg = new ArrayList<>();
         for (int i = 0; i < trendQueryList.size(); i++) {
             String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
@@ -157,8 +156,10 @@ public class CSController {
             ImageIO.write(urlImg, "jpg", bos);
             Base64.Encoder encoder = Base64.getEncoder();
             String encodedString = encoder.encodeToString(bos.toByteArray());
+            //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
             realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
         }
+
         instagram_Selenium.chromeExit();
         return realImg;
 
@@ -170,7 +171,7 @@ public class CSController {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentNakeForm";
+        return "cms/cntnt/newcontentMakeForm";
     }
 
 
@@ -201,11 +202,6 @@ public class CSController {
         model.addAttribute("category", commonCodes);
 
         return "cms/cntnt/contentMakeForm";
-    }
-    @GetMapping("/test")
-    public String test() {
-
-        return "cms/cntnt/youtubeNoApi";
     }
     @GetMapping("/makecontent/update")
     public String getUpdateContentForm(int targetContentIdF, Model model) {

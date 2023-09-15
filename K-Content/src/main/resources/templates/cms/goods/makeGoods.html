@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 생성</title>
+    <link rel="stylesheet" href="/css/goods/makeGoods.css">
+</head>
+<body>
+<div class="page">
+    <div class="header">
+        <h2>상품 생성</h2>
+    </div>
+    <div class="col-title" style="background-color: #1c606a">
+        <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
+        <table>
+            <tr>
+                <td>상품 이름:</td>
+                <td>
+                    <input id="name" name="name" type="text" placeholder="상품 이름을 입력하세요" required>
+                </td>
+            </tr>
+            <tr>
+                <td>브랜드:</td>
+                <td>
+                    <input id="brand" name="brand" type="text" placeholder="상품 브랜드를 입력하세요" required>
+                </td>
+            </tr>
+            <tr>
+                <td>가격:</td>
+                <td>
+                    <input id="price" name="price" type="text" placeholder="상품 가격을 입력하세요" required>
+                </td>
+            </tr>
+            <tr>
+                <td>구매링크:</td>
+                <td>
+                    <input id="link" name="link" type="text" placeholder="상품 구매링크를 입력하세요" required>
+                </td>
+            </tr>
+        </table>
+
+        <!--                <input type="file" id="fileInput"/>-->
+        <!--                <button onclick="createGoods()">상품 생성</button>-->
+        <!--        </form>-->
+    </div>
+    <div class="file-append-box">
+        파일 선택 : <input type="file" multiple="multiple" name="files" id="input-file">
+    </div>
+    <div class="img" id="pictures">
+
+    </div>
+
+    <div class="item keyword" id="keywordList">
+        <div class="newKeyword">
+        </div>
+        <div class="keywordInput">
+            <input type="text" id="inputKeyword" placeholder="키워드 입력">
+        </div>
+    </div>
+
+    <div class="button-box">
+        <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
+        <button onclick="createGoods()">상품 생성</button>
+    </div>
+
+</div>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/goods/makeGoods.js"></script>
+</body>
+</html>

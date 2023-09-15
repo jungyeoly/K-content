@@ -31,9 +31,9 @@ function delKeyword(key) {
 function makeKeyword() {
     word = document.getElementById("inputKeyword").value;
 
-    if(word == null || word == ''){
+    if (word == null || word == '') {
         alert("키워드를 입력하세요!");
-    }else{
+    } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
           <div id="${word}">
@@ -182,13 +182,13 @@ function printIframe() {
     keyword = words[1];
 
     $.ajax({
-        url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v='+keyword,
+        url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v=' + keyword,
         type: 'get',
         success: function (data) {
             console.log(data);
             let parseData = JSON.parse(data);
             console.log(parseData);
-            document.getElementById("title").value =parseData.title;
+            document.getElementById("title").value = parseData.title;
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + keyword + "\"" +
                 `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;

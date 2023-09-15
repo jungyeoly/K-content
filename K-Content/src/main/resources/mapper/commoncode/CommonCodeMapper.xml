@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-        namespace="com.example.myapp.commoncode.dao.ICommonCodeRepository">
+	namespace="com.example.myapp.commoncode.dao.ICommonCodeRepository">
 
-  <select id="findByUpperCommonCode" resultType="com.example.myapp.commoncode.model.CommonCode">
+	<select id="findByUpperCommonCode"
+		resultType="com.example.myapp.commoncode.model.CommonCode">
         <![CDATA[
                 SELECT common_code,
                        upper_common_code,
@@ -26,16 +27,40 @@
 			ORDER BY common_order
 		]]>
 	</select>
-	
-	<select id="mberStatbyCode" parameterType="String" resultType="String">
+
+	<select id="mberStatByCode" parameterType="String"
+		resultType="String">
 		<![CDATA[
 			SELECT b.common_code_val 
 			FROM tb_mber A
 			JOIN tb_common_code B
 			ON B.common_code = A.mber_stat_code
 			WHERE A.mber_id = #{mberId}
-			ORDER BY common_order desc		
+			ORDER BY common_order desc
 		]]>
 	</select>
- 	
+
+	<select id="mberRoleByCode" parameterType="String"
+		resultType="String">
+		<![CDATA[
+			SELECT b.common_code_val 
+			FROM tb_mber A
+			JOIN tb_common_code B
+			ON B.common_code = A.mber_role_code
+			WHERE A.mber_id = #{mberId}
+			ORDER BY common_order desc
+		]]>
+	</select>
+
+	<select id="mberGenderByCode" parameterType="String"
+		resultType="String">
+		<![CDATA[
+			SELECT b.common_code_dscr 
+			FROM tb_mber A
+			JOIN tb_common_code B
+			ON B.common_code = A.mber_gender_code
+			WHERE A.mber_id = #{mberId}
+			ORDER BY common_order desc
+		]]>
+	</select>
 </mapper>

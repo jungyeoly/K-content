@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/commu/commuUpdate.css}">
+</head>
+<body>
+	<div th:replace="~{/include/header :: header}"></div>
+	<header th:replace="~{include/body-header :: userNavBar}"></header>
+
+	<div class="container">
+		<div class="menu fw-bold" id="commuId">[[${commu.commuId}]]</div>
+		<form
+			th:action="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+			method="post" enctype="multipart/form-data"
+			onsubmit="return validateForm()">
+
+			<ul class=tb-lst>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="title">제목</label>
+					</div>
+					<div class="commu-title">
+						<input type="text" id="title" name="commuTitle"
+							th:value="${commu.commuTitle}" placeholder="제목을 입력하세요.">
+					</div>
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="category">카테고리</label>
+					</div>
+					<div class="commu-category">
+						<select id="category" name="commuCateCode">
+							<option value="">카테고리를 선택해주세요.</option>
+							<option th:each="code : ${commuCateCodeList}"
+								th:if="${code != null}" th:value="${code.commonCode}"
+								th:selected="${code.commonCode == commu.commuCateCode}"
+								th:text="${code.commonCodeVal}">카테고리명</option>
+						</select>
+					</div>
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="cntnt">내용</label>
+					</div>
+					<div class="commu-cntnt">
+						<textarea id="cntnt" name="commuCntnt"
+							th:text="${commu.commuCntnt}"></textarea>
+					</div>
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="attachment">첨부파일</label>
+
+					</div>
+
+					<div class="commu-File">
+						<input type="file" id="attachment" name="commuUploadFiles"
+							multiple onchange="appendFileList()" style="display: none;">
+						<button id="fileSelectButton"
+							onclick="document.getElementById('attachment').click();">파일
+							선택</button>
+						<!-- 기존 첨부파일 목록 -->
+						<ul>
+							<li data-type="existing" th:each="file : ${commuFiles}"><span
+								th:text="${file.commuFileName}"></span>
+								<button data-filename="${file.commuFileName}"
+									data-fileid="${file.commuFileId}"
+									onclick="removeFileFromDisplayList(event, this)">삭제</button></li>
+
+						</ul>
+
+						<!-- 새로 추가할 파일들의 목록 -->
+						<ul id="fileList"></ul>
+					</div>
+			</ul>
+
+
+			<div class="d-flex justify-content-center">
+				<input type="hidden" name="commuMberId"
+					th:value="${#authentication.principal.username}"
+					sec:authorize="isAuthenticated()"> <a type="reset"
+					class="btn me-2 cancel-btn" th:href="@{/commu}">취소</a> <input
+					type="submit" class="btn saveBtn" value="저장"> <input
+					type="hidden" name="filesToDelete" id="filesToDelete">
+
+			</div>
+		</form>
+	</div>
+	<div th:insert="include/common-modal :: commonmodal"></div>
+	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
+
+	<script th:src="@{/js/commu/update.js}"></script>
+</body>
+</html>

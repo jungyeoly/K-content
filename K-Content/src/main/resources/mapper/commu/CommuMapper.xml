@@ -9,14 +9,14 @@
         select commu_id,
                commu_title,
                commu_regist_date,
-               commu_update_date,
                commu_read_cnt,
+               commu_cate_code,
                commu_mber_id
         from tb_commu
         ]]>
 	</select>
 
-	<select id="selectPost" 
+	<select id="selectPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
         SELECT commu_id,
@@ -34,8 +34,9 @@
         WHERE commu_id = #{commuId}
         ]]>
 	</select>
-	
-	<select id="selectFilesByPostId" resultType="com.example.myapp.user.commu.model.CommuFile">
+
+	<select id="selectFilesByPostId"
+		resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
 		select commu_file_id,
 			   commu_file_name,
@@ -44,12 +45,11 @@
 			   commu_file_path,
 			   commu_file_regist_date,
 			   commu_file_update_date,
-			   commu_file_delete_yn,
 			   commu_file_commu_id
 			   from tb_commu_file
 			  where commu_file_commu_id=#{commuId}
 		  ]]>
-		  </select>	 
+	</select>
 
 	<update id="updateReadCnt" parameterType="int">
 	<![CDATA[
@@ -77,7 +77,8 @@
 	</select>
 
 	<insert id="insertPost"
-		parameterType="com.example.myapp.user.commu.model.Commu" useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
+		parameterType="com.example.myapp.user.commu.model.Commu"
+		useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
 	<![CDATA[
 	INSERT INTO tb_commu
   (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
@@ -92,9 +93,9 @@ VALUES
 		parameterType="com.example.myapp.user.commu.model.CommuFile">
     <![CDATA[
     INSERT INTO tb_commu_file
-    (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_delete_yn, commu_file_commu_id)
+    (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
     VALUES
-        (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),'N',#{commuFileCommuId})
+        (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),#{commuFileCommuId})
     ]]>
 	</insert>
 
@@ -110,7 +111,6 @@ VALUES
 		commu_file_path AS "commuFilePath",
 		commu_file_regist_date AS "commuFileRegistDate",
 		commu_file_update_date AS "commuFileUpdateDate",
-		commu_file_delete_yn AS "commuFileDeleteYn",
 		commu_file_commu_id AS "commuFileCommuId"
 		FROM tb_commu_file
 		WHERE commu_file_id=#{commuFileId}
@@ -121,19 +121,40 @@ VALUES
 		parameterType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
 update tb_commu
-set commu_id=#{commuId}, commu_title=#{commuTitle}, commu_cntnt=#{commuCntnt}, commu_regist_date=#{commuRegistDate}, commu_update_date= #{commuUpdateDate}, commu_read_cnt=#{commuReadCnt}, commu_ref_id=#{commuRefId}, commu_depth=#{commuDepth}, commu_order=#{commuOrder}, commu_cate_code=#{commuCateCode}, commu_mber_id=#{commuMberId)
+set commu_title=#{commuTitle},
+    commu_cntnt=#{commuCntnt},
+    commu_update_date=#{commuUpdateDate},
+    commu_read_cnt=#{commuReadCnt},
+    commu_ref_id=#{commuRefId},
+    commu_depth=#{commuDepth},
+    commu_order=#{commuOrder},
+    commu_cate_code=#{commuCateCode},
+    commu_mber_id=#{commuMberId}
 where commu_id=#{commuId}
-	]]>
+]]>
 	</update>
-
 
 	<update id="updateFiledata"
 		parameterType="com.example.myapp.user.commu.model.CommuFile">
-	<![CDATA[
-	update tb_commu_file
-	set
-		commu_file_id=#{commuFileId}, commu_file_name=#{commuFileName}, commu_file_size=#{commuFileSize}, commu_file_ext=#{commuFileExt}, commu_file_path=#{commuFilePath}, commu_file_regist_date= to_char(sysdate,'yyyy.mm.dd hh24:mi'), commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi'), commu_file_commu_id=#{commuFileCommuId}
-		where commu_file_commu_id=#{commuFileCommuId}
-		]]>
+<![CDATA[
+update tb_commu_file
+set commu_file_name=#{commuFileName},
+    commu_file_size=#{commuFileSize},
+    commu_file_ext=#{commuFileExt},
+    commu_file_path=#{commuFilePath},
+    commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi') <!-- 이 부분의 콤마를 제거하세요 -->
+where commu_file_id=#{commuFileId}
+]]>
 	</update>
+
+
+
+
+	<delete id="deleteFileById" parameterType="int">
+<![CDATA[
+    DELETE FROM tb_commu_file
+    WHERE commu_file_commu_id = #{commuId}
+]]>
+	</delete>
+
 </mapper>

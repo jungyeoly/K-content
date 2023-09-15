@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<meta charset="UTF-8">
+
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
+<meta charset="UTF-8">
 </head>
 <body>
 	<div th:replace="~{/include/header :: header}"></div>
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
-	<div class="container mb-3">
 	
-
+	<div class="container mb-3">
 		<div class="commu-no menu fw-bold">[[${commu.commuId}]]</div>
 		<div class="commu-header d-flex justify-content-between fw-bold">
 			<div class="username">[[${commu.commuMberId}]]</div>
@@ -35,7 +35,7 @@
 	<div class="d-flex btn-div">
 			<a th:href="@{/commu}" class="list-link btn">목록</a>
 		<div th:if="${#authentication.principal.username} == ${commu.commuMberId}" class="btns">
-		<a id="updateButton" th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}" 
+		<a th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}" 
 			class="btn me-2">수정</a>
 			<form th:action="@{/commu/delete/{id}(id=${commu.commuId})}" method="post">
 				<input type="hidden" name="commuId" th:value=${commu.commuId}>
@@ -44,80 +44,5 @@
 		</div>
 	</div>
 </body>
-<script>
-$('#updateButton').click(function(e) {
-    e.preventDefault();
-
-    // 기존 내용을 변수에 저장
-    let currentTitle = $('.title').text();
-    let currentContent = $('.cntnt').text();
-
-    // 입력 필드로 변환
-    $('.title').html(`<input type='text' id='newTitle' value='${currentTitle}' />`);
-    $('.cntnt').html(`<textarea id='newContent'>${currentContent}</textarea>`);
-
-    // 카테고리 드롭다운 추가
-    $('.commu-category').html(`
-        <select id="category" name="commuCateCode">
-    		<option value="">카테고리를 선택해주세요.</option>
-			<option th:each="code : ${commuCateCodeList}"
-				th:if="${code != null}" th:value="${code.commonCode}"
-				th:text="${code.commonCodeVal}">카테고리명</option>
-		</select>
-    `);
-
-    // 첨부파일 입력 필드 추가
-    $('.detail-cntnt').prepend('<input type="file" id="newFile">');
-
-    // '저장' 버튼 추가
-    $(this).after('<button id="saveButton">저장</button>');
-    $(this).hide();
-});
-$(document).on('click', '#saveButton', function(e) {
-    e.preventDefault();
-
-    var formData = new FormData();
-    formData.append('commuTitle', $('#newTitle').val());
-    formData.append('commuCntnt', $('#newContent').val());
-    formData.append('commuCateCode', $('#category').val());
-    formData.append('commuFile', $('#newFile')[0].files[0]);
-
-    $.ajax({
-        type: 'POST',
-        url: `/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId());`, 
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            // 응답 데이터로 UI 업데이트
-            $('.title').text(data.newTitle);
-            $('.cntnt').text(data.newContent);
-            $('.commu-category').text(data.newCategory);
-           	$('.registdate').text(data.newRegistDate);
-           	let initialTitle = $('.title').text();
-           	let initialContent = $('.cntnt').text();
-           	let initialCategory = $('.commu-category').text();
-           	$(this).after('<button id="cancelButton">취소</button>');
-           	$(document).on('click', '#cancelButton', function(e) {
-           	    e.preventDefault();
-           	    $('.title').text(initialTitle);
-           	    $('.cntnt').text(initialContent);
-           	    $('.commu-category').text(initialCategory);
-           	    // Remove the added input fields and buttons, and show the update button
-           	    $('#newTitle, #newContent, #category, #newFile, #saveButton').remove();
-           	    $('#updateButton').show();
-           	    $(this).remove();  // remove the cancelButton itself
-           	});
-
-            $('#updateButton').show();
-            $('#saveButton').remove();
-        },
-        error: function(error) {
-            console.log('Error:', error);
-        }
-    });
-});
-
-</script>
 
 </html>

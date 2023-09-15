@@ -1,6 +1,8 @@
 package com.example.myapp.user.commu.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class CommuService implements ICommuService {
 
 	// @Transactional
 	public void insertPost(Commu commu, List<CommuFile> files) {
-		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 
 		// Commu 객체에 대한 등록 날짜 설정
 		if (commu.getCommuRegistDate() == null) {
@@ -69,7 +72,8 @@ public class CommuService implements ICommuService {
 
 	@Transactional
 	public void updatePost(Commu commu) {
-		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 
 		if (commu.getCommuUpdateDate() == null) {
 			commu.setCommuUpdateDate(currentTimestamp);
@@ -78,32 +82,37 @@ public class CommuService implements ICommuService {
 	}
 
 	@Transactional
-	public void updatePost(Commu commu, List<CommuFile> files) {
-		String currentTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+	public void updatePostAndFiles(Commu commu, List<CommuFile> files) {
+		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-		if (commu.getCommuUpdateDate() == null) {
-			commu.setCommuUpdateDate(currentTimestamp);
+
+		  if (commu.getCommuUpdateDate() == null) {
+		        commu.setCommuUpdateDate(currentTimestamp);
+		    }
+
+		    commuRepository.updatePost(commu);
+
+		    if (files != null && !files.isEmpty()) {
+		        for (CommuFile file : files) {
+		            // 새로운 파일 추가
+		            if (file.getCommuFileName() != null && !file.getCommuFileName().equals("") && 
+		                (file.getCommuFileId() == null || file.getCommuFileId().equals(""))) {
+		                
+		                file.setCommuFileCommuId(commu.getCommuId());
+		                commuRepository.insertFileData(file);
+		                
+		            } else if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
+		                // 기존 파일 업데이트 혹은 삭제
+		                if (file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
+		                    commuRepository.updateFiledata(file);
+		                } else {
+		                    commuRepository.deleteFileById(file.getCommuFileId());
+		                }
+		            }
+		        }
+		    }
 		}
-
-		commuRepository.updatePost(commu);
-
-		if (files != null && !files.isEmpty()) {
-			for (CommuFile file : files) {
-				if (file.getCommuFileName() != null && !file.getCommuFileName().equals("")) {
-					file.setCommuFileCommuId(commu.getCommuId());
-
-					if (file.getCommuFileId() != null && !file.getCommuFileId().equals("")) {
-						// 파일 ID가 존재하면, 해당 파일 업데이트
-						commuRepository.updateFiledata(file);
-					} else {
-						// 아니라면, 새로운 파일 추가
-						commuRepository.insertFileData(file);
-					}
-
-				}
-			}
-		}
-	}
+	
 	
 	
 	  @Override 
@@ -117,10 +126,16 @@ public class CommuService implements ICommuService {
 		return commuRepository.selectFilesByPostId(commuId);
 	}
 
-	
-		  
-	 
-	 
+	@Override
+	public void deletePost(int commuId) {
+		commuRepository.deletePostStatus(commuId);
+		
+	}
 
-	
+	@Override
+	public void deleteFileById(String commuFileId) {
+		commuRepository.deleteFileById(commuFileId);
+		
+	}
+
 }

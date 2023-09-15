@@ -121,5 +121,5 @@ img, a {
 .delete {
 	color: red !important;
 	border: 1px solid red !important;
-	background-color: white;
+	background-color: white !important;
 }

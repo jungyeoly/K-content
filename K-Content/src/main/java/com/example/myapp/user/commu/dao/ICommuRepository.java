@@ -29,7 +29,7 @@ public interface ICommuRepository {
 	
 	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, @Param("start") int start, @Param("end") int end);  //카테고리에 따른 게시글 상세조회
 
-	CommuFile getFile(int commuFileId);
+	CommuFile getFile(String commuFileId);
 
 	void updateReadCnt(int commuId);// 커뮤니티 게시글 조회수 업데이트
 
@@ -39,11 +39,7 @@ public interface ICommuRepository {
 	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트
 	void updateFiledata(CommuFile file);// 커뮤니티 게시글에 첨부파일 업데이트
 	
-	void deletePost(Commu commu);// 커뮤니티 게시글 삭제
-	void deleteFileData(CommuFile file); //커뮤니티 게시글 파일 삭제
-	
-	
-	
-	
+	void deletePostStatus(int commuId); //커뮤니티 게시글 삭제(삭제상태로 변경)
+	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제
 
 }

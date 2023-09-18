@@ -17,7 +17,20 @@
                 where upper_common_code = #{upperCommonCode}
             ]]>
 	</select>
-
+	<select id="findByCommonCode"
+			resultType="com.example.myapp.commoncode.model.CommonCode">
+        <![CDATA[
+		SELECT common_code,
+			   upper_common_code,
+			   common_code_val,
+			   common_code_dscr,
+			   common_update_date,
+			   common_delete_yn,
+			   common_order
+		from tb_common_code
+		where common_code = #{commonCode}
+		]]>
+	</select>
 	<select id="cateList" parameterType="String" resultType="String">
 		<![CDATA[
 			SELECT
@@ -31,7 +44,7 @@
 	<select id="mberStatByCode" parameterType="String"
 		resultType="String">
 		<![CDATA[
-			SELECT b.common_code_val 
+			SELECT b.common_code_val
 			FROM tb_mber A
 			JOIN tb_common_code B
 			ON B.common_code = A.mber_stat_code
@@ -43,7 +56,7 @@
 	<select id="mberRoleByCode" parameterType="String"
 		resultType="String">
 		<![CDATA[
-			SELECT b.common_code_val 
+			SELECT b.common_code_val
 			FROM tb_mber A
 			JOIN tb_common_code B
 			ON B.common_code = A.mber_role_code
@@ -55,7 +68,7 @@
 	<select id="mberGenderByCode" parameterType="String"
 		resultType="String">
 		<![CDATA[
-			SELECT b.common_code_dscr 
+			SELECT b.common_code_dscr
 			FROM tb_mber A
 			JOIN tb_common_code B
 			ON B.common_code = A.mber_gender_code

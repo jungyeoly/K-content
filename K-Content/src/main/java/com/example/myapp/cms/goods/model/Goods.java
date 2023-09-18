@@ -15,6 +15,7 @@ public class Goods {
     private String goodsRegistDate;
     private String goodsUpdateDate;
     private char goodsDeleteYn;
+    private String goodsFileId;
     private String goodsFilePath;
     private String goodsFileName;
 }

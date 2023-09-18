@@ -61,11 +61,12 @@ $(document).ready(function () {
             const element = document.getElementById('goodsPad');
 
             for (var i = 0; i < data.length; i++) {
+                console.log(data);
                 inHtml = `<div class="col-xl-3 col-lg-6" >
                         <div class="single-category mb-30" onclick="addList(${data[i].goodsId})">
                             <div class="category-img">
 
-                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileName}" alt="">
+                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileId}" alt="">
 
                                 <div class="category-caption">
                                     <h6 style="text-align: center; " >${data[i].goodsName}</h6>

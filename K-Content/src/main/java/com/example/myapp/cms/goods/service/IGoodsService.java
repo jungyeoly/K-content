@@ -1,6 +1,7 @@
 package com.example.myapp.cms.goods.service;
 
 import com.example.myapp.cms.goods.model.Goods;
+import com.example.myapp.cms.goods.model.GoodsFile;
 
 import java.util.List;
 
@@ -13,5 +14,8 @@ public interface IGoodsService {
     Goods getGoodsJFileByGoodsId(int goodsId);
 
     List<Goods> getAllGoodsJFile();
+
     List<Goods> getSearchGoodsJFile(String search);
+
+    int insertGoods(Goods goods, GoodsFile goodsFile);
 }

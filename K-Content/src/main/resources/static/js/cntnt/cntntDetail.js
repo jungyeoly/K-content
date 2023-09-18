@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     var requestData = {
         trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1),
-        cntntId:document.getElementById("cntntId").value
+        cntntId: document.getElementById("cntntId").value
     };
     // 추천 콘텐츠
     $.ajax({
@@ -69,6 +69,7 @@ $(document).ready(function () {
 
 
 });
+
 function recomCntntDetail(cntntId) {
     const formHtml = `
                     <form id="contentDetail" action="/cs/contentdetail" method="get">
@@ -80,4 +81,36 @@ function recomCntntDetail(cntntId) {
     document.body.append(form);
     document.getElementById("targetContentIdF").value = cntntId;
     document.getElementById('contentDetail').submit();
+}
+
+
+function updateCntnt(cntntId) {
+    cntntId = document.getElementById('cntntId').value;
+    // console.log(cntntId);
+    const formHtml = `
+                    <form id="updateCntnt" action="/cs/makecontent/update" method="get">
+                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    </form>`;
+
+    const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+    const form = doc.body.firstChild;
+    document.body.append(form);
+    document.getElementById("targetContentIdF").value = cntntId;
+    document.getElementById('updateCntnt').submit();
+}
+
+function deleteCntnt() {
+    var requestData = {
+        cntntId: document.getElementById("cntntId").value
+    }
+    console.log(cntntId);
+    $.ajax({
+        url: '/cs/content/delete', type: 'post',
+        data: requestData , // 데이터 객체 전달
+        success: function (data2) {
+
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
 }

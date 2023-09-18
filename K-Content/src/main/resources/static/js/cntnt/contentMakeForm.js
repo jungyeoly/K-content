@@ -1,6 +1,7 @@
 // 유튜브 iframe 가져오기
 $(document).ready(function () {
     var cntntURL = document.getElementById("contentURL").value;
+    console.log("cntntURL" + cntntURL);
     var requestData = {
         targetContentIdF: cntntURL
     };
@@ -31,9 +32,9 @@ function delKeyword(key) {
 function makeKeyword() {
     word = document.getElementById("inputKeyword").value;
 
-    if(word == null || word == ''){
+    if (word == null || word == '') {
         alert("키워드를 입력하세요!");
-    }else{
+    } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
           <div id="${word}">
@@ -97,7 +98,7 @@ function selectGoods(receivedData) {
                     <a th:href="${data[i].goodsPurchsLink}">
                              <div class="card" style="width: 18rem; height: 240px">
                                 <div style="width:18rem; height:140px">
-                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileName}" alt="">
+                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileId}" alt="">
                                 </div>
                                 <div style="width:18rem; height:100px;border:1px solid">
                                         <h5 class="text-center" >${data[i].goodsName}</h5>
@@ -125,6 +126,7 @@ function selectGoods(receivedData) {
 
 //선택한 굿즈 삭제
 function delGoods(goodsID) {
+    console.log("goodsID" + goodsID);
     const div = document.getElementById(goodsID);
     div.remove();
 
@@ -139,29 +141,41 @@ function createContent() {
     var goodsDiv = document.getElementById("goodsList");
     var goodsDivCount = goodsDiv.getElementsByClassName("goodsList");
 
-    console.log("keywordDivCount: " + keywordDivCount);
-    console.log("goodsDivCount: " + goodsDivCount.length);
     for (i = 0; i < keywordDivCount.length; i++) {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
     }
-    console.log("keywordDivList: " + keywordDivList);
+
 
     for (i = 0; i < goodsDivCount.length; i++) {
         goodsDivList.push(goodsDivCount[i].value);
     }
-    console.log("goodsDivList: " + goodsDivList);
-    var sendData = {
 
-        "cntntUrl": document.getElementById("url").value,
-        "cntntTitle": document.getElementById("title").value,
-        "keywordList": keywordDivList,
-        "goodsList": goodsDivList,
-        "cntntCateCode": document.getElementById("commonCode").value
+    if (document.getElementById("insertOrModify").value == '수정') {
+        var sendData = {
+            "cntntId": document.getElementById("cntntId").value,
+            "is": document.getElementById("insertOrModify").value,
+            "cntntUrl": document.getElementById("url").value,
+            "cntntTitle": document.getElementById("title").value,
+            "keywordList": keywordDivList,
+            "goodsList": goodsDivList,
+            "cntntCateCode": document.getElementById("category").value
+        };
+    } else if (document.getElementById("insertOrModify").value == '생성') {
+        var sendData = {
+            "is": document.getElementById("insertOrModify").value,
+            "cntntUrl": document.getElementById("url").value,
+            "cntntTitle": document.getElementById("title").value,
+            "keywordList": keywordDivList,
+            "goodsList": goodsDivList,
+            "cntntCateCode": document.getElementById("category").value
+        };
+    }
 
 
-    };
-    console.log(sendData);
+    console.log(sendData.cntntCateCode);
+
+
     $.ajax({
         url: '/cs/content/inputcntntform',
         type: 'POST',
@@ -174,6 +188,8 @@ function createContent() {
             console.error('에러 발생: ', error);
         }
     });
+
+
 }
 
 function printIframe() {
@@ -182,13 +198,13 @@ function printIframe() {
     keyword = words[1];
 
     $.ajax({
-        url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v='+keyword,
+        url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v=' + keyword,
         type: 'get',
         success: function (data) {
             console.log(data);
             let parseData = JSON.parse(data);
             console.log(parseData);
-            document.getElementById("title").value =parseData.title;
+            document.getElementById("title").value = parseData.title;
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + keyword + "\"" +
                 `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;

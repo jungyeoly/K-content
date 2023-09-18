@@ -64,10 +64,43 @@ public class ContentService implements IContentService {
     }
 
     @Override
+    @Transactional
+    public boolean updateAContent(CmsContent contentForm, List<Integer> goodsList) {
+        int rowsAffected = 0;
+        List<Boolean> resultList = new ArrayList<>();
+        try {
+            contentRepository.updateAContent(contentForm);
+            int contentId = contentForm.getCntntId();
+            System.out.println("contentId: "+contentId);
+            cntntGoodsMappingRepository.delMappingDate(contentId);
+            for (int i = 0; i < goodsList.size(); i++) {
+                int goodsId = goodsList.get(i);
+                rowsAffected = cntntGoodsMappingRepository.insertMappingDate(contentId, goodsId);
+            }
+            // INSERT 작업의 성공 여부 확인
+            if (contentId > 0 && rowsAffected > 0) {
+                return true;
+            } else {
+                return false; // 실패
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+            return false; // 실패
+        }
+
+        //cntnt Goods mapping insert
+    }
+
+    @Override
     public List<CmsContent> getContentByKeyword(List<String> keywordList) {
         return  contentRepository.getContentByKeyword(keywordList);
     }
 
+    @Override
+    public void updateDelStat(int cntntId) {
+         contentRepository.updateDelStat(cntntId);
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.example.myapp.user.commu.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,15 +21,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -60,6 +64,8 @@ public class CommuController {
 			Model model, HttpSession session) {
 		List<Commu> commulist = commuService.selectAllPost();
 		List<String> cateList = commonCodeService.cateList("C03");
+		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		model.addAttribute("cateList", cateList);
 
 		int totalPage = 0;
@@ -84,6 +90,7 @@ public class CommuController {
 	}
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
+
 	@GetMapping("/commu/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -202,7 +209,7 @@ public class CommuController {
 
 	}
 
-	// 게시글 수정하기
+	// 게시글 수정하기(기존 게시글 정보 가져오기)
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
 		Commu commu = commuService.selectPost(commuId);
@@ -214,17 +221,15 @@ public class CommuController {
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		logger.info("Editing Commu: " + commu.toString());
 
-		return "user/commu/view";
+		return "user/commu/update";
 	}
 
 	// 게시글 수정 처리
 	@PostMapping("/commu/update/{commuCateCode}/{commuId}")
-	@ResponseBody
-	public Map<String, Object> updatePostAsync(Commu commu, @PathVariable int commuId,
-			@PathVariable String commuCateCode, @RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles,
-			BindingResult results, RedirectAttributes redirectAttrs) {
+	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
+			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
+			RedirectAttributes redirectAttrs) {
 
-		Map<String, Object> response = new HashMap<>();
 		// 게시물 정보 로깅
 		logger.info("/commu/update : " + commu.toString());
 
@@ -262,7 +267,6 @@ public class CommuController {
 							String webAccessPath = url + uuid + "_" + fileName; // url 변수 사용
 
 							CommuFile file = new CommuFile();
-							file.setCommuFileId(UUID.randomUUID().toString());
 							file.setCommuFileName(fileName);
 							file.setCommuFileSize(uploadFile.getSize());
 							file.setCommuFileExt(FilenameUtils.getExtension(originalName));
@@ -271,11 +275,6 @@ public class CommuController {
 							commuFiles.add(file);
 							logger.info("Created CommuFile metadata: " + file.toString());
 
-							response.put("status", "success");
-							response.put("message", "Update successful");
-							response.put("redirectUrl",
-									"/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId());
-
 						} catch (IOException e) {
 							logger.error("File saving failed: ", e);
 						}
@@ -283,20 +282,87 @@ public class CommuController {
 				}
 
 				if (!commuFiles.isEmpty()) {
-					logger.info("Attempting to update the following CommuFiles to the DB: " + commuFiles.toString());
-					commuService.updatePost(commu, commuFiles);
-					logger.info("Successfully updated CommuFiles in the DB.");
+					commuService.updatePostAndFiles(commu, commuFiles);
+					logger.info("Successfully updated Commu and/or CommuFiles in the DB.");
 				} else {
 					commuService.updatePost(commu);
+					logger.info("Successfully updated Commu in the DB.");
 				}
 			}
 
 		} catch (Exception e) {
 			logger.error("Error during update:", e);
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
-			response.put("status", "error");
-			response.put("message", e.getMessage());
+			return "redirect:/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정 페이지로
+																									// 리다이렉트
 		}
-		return response;
+		redirectAttrs.addFlashAttribute("message", "게시물이 성공적으로 업데이트되었습니다.");
+		return "redirect:/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId();
+
 	}
+
+	@PostMapping("/commu/deletepost/{commuId}")
+	public String deletePost(@PathVariable int commuId, RedirectAttributes redirectAttrs) {
+		try {
+
+			// 게시글과 연결된 첨부파일 목록을 가져옵니다.
+			List<CommuFile> attachedFiles = commuService.selectFilesByPostId(commuId);
+
+			// 각 첨부파일을 삭제합니다.
+			for (CommuFile file : attachedFiles) {
+				commuService.deleteFileById(file.getCommuFileId());
+			}
+
+			// 게시글 상태를 "삭제상태"로 변경합니다.
+			commuService.deletePost(commuId);
+
+			redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일이 성공적으로 삭제되었습니다.");
+			return "redirect:/commu"; // 게시글 목록 페이지로 리다이렉트
+
+		} catch (Exception e) {
+			logger.error("Error during deletion:", e);
+			redirectAttrs.addFlashAttribute("message", "게시물 및 파일 삭제 중 오류가 발생하였습니다.");
+			return "redirect:/commu/" + commuId; // 게시글 상세 페이지로 리다이렉트
+		}
+	}
+
+	@PostMapping("/commu/delete-file")
+	@Transactional
+	public ResponseEntity<Map<String, Object>> deleteFile(@RequestBody CommuFile request) {
+		String commuFileId = request.getCommuFileId();
+		Map<String, Object> response = new HashMap<>();
+		logger.info("Received request to delete file with commuFileId: " + commuFileId);
+
+		try {
+			CommuFile commuFile = commuService.getFile(commuFileId);
+
+			// 파일이 DB에 존재하지 않는 경우
+			if (commuFile == null) {
+				logger.warn("No file found in the database for commuFileId: " + commuFileId);
+				response.put("success", false);
+				response.put("message", "지정된 파일이 데이터베이스에 존재하지 않습니다.");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+
+			Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
+
+			if (Files.deleteIfExists(filePath)) {
+				commuService.deleteFileById(commuFileId);
+				response.put("success", true);
+				response.put("message", "파일이 성공적으로 삭제되었습니다.");
+			} else {
+				response.put("success", false);
+				response.put("message", "파일 삭제에 실패했습니다.");
+			}
+
+			return ResponseEntity.ok(response);
+
+		} catch (IOException e) {
+			logger.error("Error while deleting file", e);
+			response.put("success", false);
+			response.put("message", "파일을 삭제하는 동안 오류가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
 }

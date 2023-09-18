@@ -6,14 +6,14 @@
 
     <select id="getAllGoods" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT goods_id          ,
-               goods_name        ,
-               goods_brand       ,
-               goods_price       ,
-               goods_purchs_link ,
-               goods_kwrd        ,
-               goods_regist_date ,
-               goods_update_date ,
+        SELECT goods_id,
+               goods_name,
+               goods_brand,
+               goods_price,
+               goods_purchs_link,
+               goods_kwrd,
+               goods_regist_date,
+               goods_update_date,
                goods_delete_yn
 
         FROM tb_goods
@@ -21,19 +21,43 @@
     </select>
     <select id="getAGoods" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT goods_id          ,
-               goods_name        ,
-               goods_brand       ,
-               goods_price       ,
-               goods_purchs_link ,
-               goods_kwrd        ,
-               goods_regist_date ,
-               goods_update_date ,
+        SELECT goods_id,
+               goods_name,
+               goods_brand,
+               goods_price,
+               goods_purchs_link,
+               goods_kwrd,
+               goods_regist_date,
+               goods_update_date,
                goods_delete_yn
 
         FROM tb_goods
         WHERE goods_id = #{goodsId}
         ]]>
     </select>
+    <insert id="insertGoods" parameterType="com.example.myapp.cms.goods.model.Goods" useGeneratedKeys="true"
+            keyColumn="goods_id" keyProperty="goodsId">
+        <![CDATA[
+        INSERT INTO tb_goods (goods_id,
+                              goods_name,
+                              goods_brand,
+                              goods_price,
+                              goods_purchs_link,
+                              goods_kwrd,
+                              goods_regist_date,
+                              goods_update_date,
+                              goods_delete_yn)
+        VALUES (goods_seq.NEXTVAL,
+                #{goodsName},
+                #{goodsBrand},
+                #{goodsPrice},
+                #{goodsPurchsLink},
+                #{goodsKwrd},
+                to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'),
+                null,
+                'N')
+        ]]>
+    </insert>
+
 
 </mapper>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-	<div th:replace="~{/include/header :: header}"></div>
-	<link rel="stylesheet" th:href="@{/css/content/content.css}">	
+    <div th:replace="~{/include/header :: header}"></div>
+    <link rel="stylesheet" th:href="@{/css/content/content.css}">
 </head>
 <body>
 <header th:insert="~{/include/body-header :: userNavBar}"></header>
@@ -14,50 +14,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
 <script th:src="@{/js/content/content.js}"></script>
+<script th:src="@{/js/content/scroll.js}"></script>
 
-<script th:inline="javascript">
-function change(data){
-	
-	for (var i = data.contentList.length - 1; i >= 0; i--) {
-		/* console.log(data.contentList[i].cntntThumnail); */
-		var Thumnail = data.contentList[i].cntntThumnail;
-		var Title = data.contentList[i].cntntTitle;
-		var scroll = `
-			  <img src="`+ Thumnail + `" class="card-img-top" alt="">
-			  <div class="card-body">
-			    <p class="card-text text-center">` + Title + `</p>
-			  </div>
-		`;
-		
-		var divEl = document.createElement("div");
-		divEl.setAttribute("class", "card mx-3 my-3");
-		divEl.setAttribute("style", "width: 18rem;");
-		divEl.innerHTML = scroll;
-		document.querySelector("#contentsList").appendChild(divEl);
-		console.log(document.querySelector("#contentsList"));
-	}
-}
-	$(document).ready(function() {
-		var start = 1;
-		var end = 15;
-		
-		$(window).scroll(function() {
-			if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
-				start = end + 1;
-				end = start + 4;
-				$.ajax({
-					type: 'GET',
-					url: '/content/scroll',
-					data: {start : start, end : end},
-					success: function(data) {
-						change(data);
-					}
-				}) 
-			}
-		})
-	})
-	
-</script>
+
 	<div sec:authorize="isAuthenticated()" th:if="${session.isTempPwd}" class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
@@ -66,14 +25,23 @@ function change(data){
 					class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
 				<small>알림</small>
 
-				<button type="button" class="btn-close" data-bs-dismiss="toast"
-					aria-label="Close"></button>
-			</div>
-			<div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
-			      <a th:href="@{/mber/mypage}"><button type="button" class="toast-btn">변경하러 가기</button></a>
-		</div>
-	</div>
+<div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive"
+         aria-atomic="true" style="display: hidden">
+        <div class="toast-header fw-bold">
+            <img src="/img/icon.png" width="30px" height="30px"
+                 class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
+            <small>알림</small>
 
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
+        <a th:href="@{/mber/mypage}">
+            <button type="button" class="toast-btn">변경하러 가기</button>
+        </a>
+    </div>
+</div>
 
 
 <script th:inline="javascript">
@@ -88,9 +56,26 @@ function change(data){
 
     // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
     window.onload = showTempPwdToast;
-</script>
 
-<script th:src="@{/js/content/scroll.js}"></script>
+    // 콘텐츠 클릭 시 디테일 페이지 보여주기
+
+
+    function cntntDetail(cntntId) {
+
+        const formHtml = `
+                    <form id="contentDetail" action="/user/content/detail" method="get">
+                        <input  id="targetContentIdF" name="targetContentIdF"  />
+                    </form>`;
+
+        const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+        const form = doc.body.firstChild;
+        document.body.append(form);
+        document.getElementById("targetContentIdF").value = cntntId;
+        document.getElementById('contentDetail').submit();
+
+
+    }
+</script>
 
 </body>
 </html>

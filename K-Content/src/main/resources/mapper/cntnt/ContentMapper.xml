@@ -15,6 +15,7 @@
                cntnt_update_date,
                cntnt_delete_yn
         FROM tb_cntnt
+        where cntnt_delete_yn = 'N'
         ]]>
     </select>
     <select id="getAContent" resultType="com.example.myapp.cms.content.model.CmsContent">
@@ -29,6 +30,7 @@
                cntnt_delete_yn
         FROM tb_cntnt
         WHERE cntnt_id = #{cntntId}
+          and cntnt_delete_yn = 'N'
         ]]>
     </select>
     <select id="getContentByKeyword" parameterType="java.util.List"
@@ -43,7 +45,7 @@
         cntnt_update_date,
         cntnt_delete_yn
         FROM tb_cntnt
-        WHERE
+        WHERE cntnt_delete_yn = 'N' and (
 
         <if test="keywordList.size() != 0">
             (
@@ -58,7 +60,7 @@
                 cntnt_title LIKE ('%' || #{addr}|| '%')
             </foreach>
             )
-        </if>
+        </if>)
 
     </select>
     <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
@@ -80,6 +82,29 @@
                 'N')
         ]]>
     </insert>
+
+    <update id="updateAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
+            keyColumn="cntnt_id" keyProperty="cntntId">
+  <![CDATA[
+        UPDATE tb_cntnt
+        SET cntnt_cate_code   = #{cntntCateCode},
+            cntnt_title       = #{cntntTitle},
+            cntnt_kwrd        = #{cntntKwrd},
+            cntnt_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE cntnt_id = #{cntntId}
+        ]]>
+
+    </update>
+
+    <update id="updateDelStat" parameterType="int">
+     <![CDATA[
+        UPDATE tb_cntnt
+        SET cntnt_delete_YN   = 'Y',
+            cntnt_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE cntnt_id = #{cntntId}
+        ]]>
+
+    </update>
 
 
 </mapper>

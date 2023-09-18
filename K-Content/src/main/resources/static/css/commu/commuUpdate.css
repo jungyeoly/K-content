@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+:root {
+	/* Color */ 
+	-color-main: #14dbc8;
+}
+
+.tb-lst {
+	border-top: 4px solid #000;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+.commu-label {
+	width: 200px;
+	border-right: 1px solid #e4e4e4;
+}
+
+.tit-row {
+	height: auto;
+}
+
+li {
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.category-row {
+	height: auto;
+}
+
+.tit-row div {
+	display: table-cell;
+	padding: 15px;
+	vertical-align: top;
+}
+
+.commu-cntnt {
+	width: 85%;
+}
+
+#title {
+	width: 100%;
+}
+
+.cancel-btn {
+	color: white !important;
+}
+
+textarea {
+	width: 100%;
+}
+
+textarea#cntnt {
+	width: 100%;
+	height: 300px;
+}
+
+.commu-title, .commu-category, .commu-cntnt, .commu-File {
+	width: 85%;
+}
+
+.hidden-file-input {
+	display: none;
+}
+
+.drag-area {
+	width: 100px;
+	height: 100px;
+	background: rgb(192, 192, 192);
+	text-align: center;
+	padding: 0px !important;
+}
+
+.fa-solid {
+	line-height: 100px;
+}
+
+.drag-area.active {
+	border: 2px dotted var(- -color-main);
+}
+
+.drag-area img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.insert {
+	padding: 20px 30px;
+	display: block;
+	width: 600px;
+	margin: 5vh auto;
+	height: 90vh;
+	border: 1px solid #dbdbdb;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.insert .file-list {
+	height: 200px;
+	overflow: auto;
+	border: 1px solid #989898;
+	padding: 10px;
+}
+
+.insert .file-list .filebox p {
+	font-size: 14px;
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.insert .file-list .filebox .delete i {
+	color: #ff5353;
+	margin-left: 5px;
+}

@@ -30,7 +30,7 @@ public interface ICommuService {
 	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제
 	
 
-	CommuFile getFile(int commuFileid);
+	CommuFile getFile(String commufileId);
 	
 	
 

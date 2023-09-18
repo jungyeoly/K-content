@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommuFile {
-	 private String commuFileId; //파일 ID(랜덤으로 생성된 파일 고유번호)
+		private String commuFileId; //파일 ID(랜덤으로 생성된 파일 고유번호)
 	    private String commuFileName; // 파일이름
 	    private long commuFileSize; //파일크기
 	    private String commuFileExt; //파일 확장자

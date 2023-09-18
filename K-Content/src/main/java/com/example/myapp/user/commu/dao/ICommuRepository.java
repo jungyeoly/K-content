@@ -29,7 +29,7 @@ public interface ICommuRepository {
 	
 	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, @Param("start") int start, @Param("end") int end);  //카테고리에 따른 게시글 상세조회
 
-	CommuFile getFile(int commuFileId);
+	CommuFile getFile(String commuFileId);
 
 	void updateReadCnt(int commuId);// 커뮤니티 게시글 조회수 업데이트
 

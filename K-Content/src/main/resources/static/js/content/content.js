@@ -7,7 +7,7 @@ $(document).ready(function() {
 			layout.append(result);
 		}
 	})
-	
+
 	$(".cate").click(function() {
 		var cateValue = this.getAttribute('data-maincate-value');
 
@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 	$("#searchForm").submit(function(event) {
 		event.preventDefault();
-		    
+
 		var keyword = $("#searchInput").val();
 		$.ajax({
 			url: "/user/content",
@@ -42,5 +42,5 @@ $(document).ready(function() {
 			}
 		})
 	});
-	
+
 })

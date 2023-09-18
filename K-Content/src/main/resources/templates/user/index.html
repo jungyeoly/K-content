@@ -17,15 +17,8 @@
 <script th:src="@{/js/content/scroll.js}"></script>
 
 
-	<div sec:authorize="isAuthenticated()" th:if="${session.isTempPwd}" class="toast-container position-fixed bottom-0 end-0 p-3">
-		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
-			aria-atomic="true" style="display: hidden">
-			<div class="toast-header fw-bold">
-				<img src="/img/icon.png" width="30px" height="30px"
-					class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
-				<small>알림</small>
-
-<div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
+<div sec:authorize="isAuthenticated()" th:if="${session.isTempPwd}"
+     class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive"
          aria-atomic="true" style="display: hidden">
         <div class="toast-header fw-bold">
@@ -33,25 +26,34 @@
                  class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
             <small>알림</small>
 
-            <button type="button" class="btn-close" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+            <div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive"
+                     aria-atomic="true" style="display: hidden">
+                    <div class="toast-header fw-bold">
+                        <img src="/img/icon.png" width="30px" height="30px"
+                             class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
+                        <small>알림</small>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
+                    <a th:href="@{/mber/mypage}">
+                        <button type="button" class="toast-btn">변경하러 가기</button>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러 가시겠어요?</div>
-        <a th:href="@{/mber/mypage}">
-            <button type="button" class="toast-btn">변경하러 가기</button>
-        </a>
     </div>
 </div>
-
-
 <script th:inline="javascript">
     // 쿠키 값이 "Y"일 때 토스트를 표시하는 함수
     function showTempPwdToast() {
-   
-            const toastLiveExample = document.getElementById('liveToast');
-            toastLiveExample.removeAttribute('display');
-            const toastBootstrap = new bootstrap.Toast(toastLiveExample);
-            toastBootstrap.show();
+
+        const toastLiveExample = document.getElementById('liveToast');
+        toastLiveExample.removeAttribute('display');
+        const toastBootstrap = new bootstrap.Toast(toastLiveExample);
+        toastBootstrap.show();
     }
 
     // 페이지 로드 시 토스트를 확인하여 표시 여부 결정

@@ -93,6 +93,7 @@ public class CSController {
     //콘텐츠 상세 페이지
     @GetMapping("/contentdetail")
     public String getAContent(int targetContentIdF, Model model) {
+
         CmsContent content = contentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
@@ -117,8 +118,6 @@ public class CSController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-
-//        javascript비통기로 보내
         return "cms/cntnt/contentDetail";
     }
 
@@ -289,6 +288,15 @@ public class CSController {
         return result;
     }
 
+    //콘텐츠 삭제 처리
+    @PostMapping("/content/delete")
+    public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId) {
+
+        //update content
+        contentService.updateDelStat(cntntId);
+
+        return "cms/cntnt/contentManage";
+    }
 
     @GetMapping("/ma")
     public String getAllds() {

@@ -97,6 +97,10 @@ public class ContentService implements IContentService {
         return  contentRepository.getContentByKeyword(keywordList);
     }
 
+    @Override
+    public void updateDelStat(int cntntId) {
+         contentRepository.updateDelStat(cntntId);
+    }
 
 
 }

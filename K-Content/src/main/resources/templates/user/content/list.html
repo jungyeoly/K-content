@@ -4,10 +4,13 @@
 		<img alt="" src="/img/fail.png">
 	</div>
 
-	<div th:each="content : ${contentList}" class="card mx-3 my-3" style="width: 18rem;">
-	  <img th:src="${content.CntntThumnail}" class="card-img-top" alt="">
+	<div th:each="content : ${contentList}" class="card mx-3 my-3" style="width: 18rem;"
+		 th:cntntId="${content.CntntId}" onclick="cntntDetail(this.getAttribute('cntntId'))">
+
+		<img th:src="${content.CntntThumnail}" class="card-img-top" alt="">
 	  <div class="card-body">
 	    <p class="card-text text-center">[[${content.cntntTitle}]]</p>
 	  </div>
+
 	</div>
 </div>

@@ -24,4 +24,6 @@ public interface IContentRepository {
 
     List<CmsContent> getContentByKeyword(@Param("keywordList") List<String> keywordList);
 
+    void updateDelStat(@Param("cntntId") int cntntId);
+
 }

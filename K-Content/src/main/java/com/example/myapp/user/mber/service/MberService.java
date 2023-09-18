@@ -49,6 +49,4 @@ public class MberService implements IMberService {
 		mberRepository.deleteMber(mberId);
 	}
 
-	
-
 }

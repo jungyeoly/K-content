@@ -1,11 +1,10 @@
-
 body {
 	min-height: 100vh;
-	    animation: fadein 0.5s;
-    -moz-animation: fadein 0.5s; /* Firefox */
-    -webkit-animation: fadein 0.5s; /* Safari and Chrome */
-    -o-animation: fadein 0.5s; /* Opera */
-    overflow: hidden;
+	animation: fadein 0.5s;
+	-moz-animation: fadein 0.5s; /* Firefox */
+	-webkit-animation: fadein 0.5s; /* Safari and Chrome */
+	-o-animation: fadein 0.5s; /* Opera */
+	overflow: hidden;
 }
 
 @keyframes fadein {
@@ -42,9 +41,10 @@ body {
 }
 
 select {
-	color:  #14dbc8 !important;
+	color: #14dbc8 !important;
 	font-weight: 600;
 }
+
 video#bgvid {
 	position: fixed;
 	right: 0;
@@ -58,52 +58,59 @@ video#bgvid {
 	background-size: cover;
 }
 
-.form-check-input:checked, .form-check-input:checked label{
-    background-color: #14dbc8;
-    border-color: #14dbc8;
+.form-check-input:checked, .form-check-input:checked label {
+	background-color: #14dbc8;
+	border-color: #14dbc8;
 }
-input[type="checkbox"]:checked + .form-check-label {
-    color: #14dbc8;
+
+input[type="checkbox"]:checked+.form-check-label {
+	color: #14dbc8;
 }
+
+.input-group-text {
+	padding: 0 12px 0 0;
+}
+
 .link-effect:before {
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    border-radius: 1px;
-    width: 0;
-    content: '';
-    z-index: 1;
-    background: linear-gradient(93.58deg, #14dbc8, #228179);
-    transition: all 200ms linear;
+	position: absolute;
+	bottom: 0;
+	height: 2px;
+	border-radius: 1px;
+	width: 0;
+	content: '';
+	z-index: 1;
+	background: linear-gradient(93.58deg, #14dbc8, #228179);
+	transition: all 200ms linear;
 }
+
 .link-effect {
-    position: relative;
-    display: inline-block;
-    line-height: 2;
-    padding-left: 24px;
-    transition: all 200ms linear;
+	position: relative;
+	display: inline-block;
+	line-height: 2;
+	padding-left: 24px;
+	transition: all 200ms linear;
 }
 
 .link-effect:hover {
-    color: #14dbc8;
+	color: #14dbc8;
 }
 
 .link-effect:hover:before {
-    width: calc(100% - 24px);
+	width: calc(100% - 24px);
 }
 
 .link-effect:hover:after {
-    width: 6px;
-    height: 6px;
-    margin-top: -3px;
-    border-radius: 50%;
+	width: 6px;
+	height: 6px;
+	margin-top: -3px;
+	border-radius: 50%;
 }
 
 .input-form {
-	width: 39vw;
+	/* 	width: 39vw; */
 	max-width: 680px;
 	margin-top: 60px;
-	padding: 32px;
+	padding: 25px 32px;
 	background: #f4f3f9;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -113,7 +120,10 @@ input[type="checkbox"]:checked + .form-check-label {
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
 }
 
-
+.input-form label {
+	padding: 6px 12px;
+	white-space: nowrap;
+}
 
 .menu-title {
 	font-family: 'S-CoreDream-9Black'
@@ -127,7 +137,6 @@ input[type="checkbox"]:checked + .form-check-label {
 	background-color: #14dbc8;
 }
 
-
 /* 카카오, 구글 버튼 */
 .social_circle_btn {
 	display: flex;
@@ -137,13 +146,18 @@ input[type="checkbox"]:checked + .form-check-label {
 	height: 70px;
 	background-color: #fee500;
 	border-radius: 50%;
-	margin-right: 20px; 
+	margin-right: 20px;
+}
+
+.fa-eye, .fa-eye-slash {
+	cursor: pointer;
 }
 
 .logo_img {
 	width: 35px;
 	height: 35px;
 }
+
 .form-control {
 	height: 37px;
 	width: 100%;
@@ -168,6 +182,14 @@ input[type="checkbox"]:checked + .form-check-label {
 	outline: none;
 	color: #57585f;
 	background-color: #e2e4f1;
+}
+
+.form-select {
+	font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    height: 37px;
 }
 
 .row input:-ms-input-placeholder {
@@ -200,40 +222,41 @@ input[type="checkbox"]:checked + .form-check-label {
 
 .mailauth-btn {
 	border-radius: 7px;
-    height: 37px;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 22.5px;
-    font-weight: 600;
-    transition: all 200ms linear;
-    display: inline-flex;
-    -moz-align-items: center;
-    -ms-align-items: center;
-    align-items: center;
-    -moz-justify-content: center;
-    -ms-justify-content: center;
-    justify-content: center;
-    -ms-flex-pack: center;
-    text-align: center;
-    border: none;
-    color: white;
-    background-color: var(--color-main);
-    box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
+	height: 37px;
+	font-size: 16px;
+	letter-spacing: 0;
+	line-height: 22.5px;
+	font-weight: 600;
+	transition: all 200ms linear;
+	display: inline-flex;
+	width: auto; 
+	white-space : nowrap;
+	-moz-align-items: center;
+	-ms-align-items: center;
+	align-items: center;
+	-moz-justify-content: center;
+	-ms-justify-content: center;
+	justify-content: center;
+	-ms-flex-pack: center;
+	text-align: center;
+	border: none;
+	color: white;
+	background-color: var(--color-main);
+	box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
 }
 
 .mailauth-btn:disabled {
-	background-color: #b4bec7!important;
+	background-color: #b4bec7 !important;
 }
+
 .mailauth-btn:hover {
-    color: white;
-    background-color: #1f2029;
-    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
+	color: white;
+	background-color: #1f2029;
+	box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
 }
 
-
-
-/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/ 	
- .nav{ 
+/*부트스트랩 CSS 적용돼있는 탭 버튼에 덮어쓰기*/
+.nav {
 	font-weight: 600;
 }
 
@@ -248,12 +271,10 @@ input[type="checkbox"]:checked + .form-check-label {
 .nav-tabs .nav-link {
 	border-top-left-radius: unset;
 	border-top-right-radius: unset;
-		border-bottom-left-radius: unset;
+	border-bottom-left-radius: unset;
 	border-bottom-right-radius: unset;
-	
 	background-color: #14dbc8;
 }
-
 
 .nav-link, .nav-link:focus, .nav-link:hover {
 	color: white;
@@ -284,7 +305,6 @@ a:focus {
 a:hover, a:active {
 	text-decoration: none !important;
 }
-
 
 #mail-check-btn:focus {
 	background-color: black;

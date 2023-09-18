@@ -10,6 +10,7 @@ public class MberUserDetails extends User {
 
 	private static final long serialVersionUID = 1L;
 
+	private String mberName;
 	private String mberEmail;
 	private String mberGender;
 	private String mberBirth;
@@ -18,8 +19,9 @@ public class MberUserDetails extends User {
 
 	
 	public MberUserDetails(String username, String password, 
-			Collection<? extends GrantedAuthority> authorities, String mberEmail, String mberGender, String mberBirth, String mberPhone, String mberRegistDate) {
+			Collection<? extends GrantedAuthority> authorities, String mberName, String mberEmail, String mberGender, String mberBirth, String mberPhone, String mberRegistDate) {
 		super(username, password, authorities);
+		this.mberName = mberName;
 		this.mberEmail = mberEmail;
 		this.mberGender = mberGender;
 		this.mberBirth = mberBirth;
@@ -27,6 +29,9 @@ public class MberUserDetails extends User {
 		this.mberRegistDate = mberRegistDate;
 	}
 
+	public String getMberName() {
+		return this.mberName;
+	}
 	public String getMberEmail() {
 		return this.mberEmail;
 	}
@@ -36,10 +41,10 @@ public class MberUserDetails extends User {
 	public String getMberBirth() {
 		return this.mberBirth;
 	}
-	public String getmberPhone() {
+	public String getMberPhone() {
 		return this.mberPhone;
 	}
-	public String getmberRegistDate() {
+	public String getMberRegistDate() {
 		return this.mberRegistDate;
 	}
 }

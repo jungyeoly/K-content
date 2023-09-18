@@ -58,7 +58,7 @@ function change(data){
 	})
 	
 </script>
-	<div sec:authorize="isAuthenticated()" class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div sec:authorize="isAuthenticated()" th:if="${session.isTempPwd}" class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
 			<div class="toast-header fw-bold">
@@ -79,14 +79,11 @@ function change(data){
 <script th:inline="javascript">
     // 쿠키 값이 "Y"일 때 토스트를 표시하는 함수
     function showTempPwdToast() {
-        const tempPwdCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('tempPwd='));
-        if (tempPwdCookie && tempPwdCookie.split('=')[1].trim() === 'Y') {
-            // 쿠키가 있고 값이 "F"인 경우, 토스트를 표시
+   
             const toastLiveExample = document.getElementById('liveToast');
             toastLiveExample.removeAttribute('display');
             const toastBootstrap = new bootstrap.Toast(toastLiveExample);
             toastBootstrap.show();
-        }
     }
 
     // 페이지 로드 시 토스트를 확인하여 표시 여부 결정

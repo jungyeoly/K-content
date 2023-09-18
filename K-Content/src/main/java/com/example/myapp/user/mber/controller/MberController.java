@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
+import com.example.myapp.user.mber.model.MberUserDetails;
 import com.example.myapp.user.mber.service.IEmailService;
 import com.example.myapp.user.mber.service.IMberService;
 
@@ -55,36 +57,27 @@ public class MberController {
 		return "user/mber/signup";
 	}
 
-//	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
-//	public String signup(Mber mber, HttpSession session, Model model) {
-////		String sessionToken = (String) session.getAttribute("csrfToken");
-////		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
-////			throw new RuntimeException("CSRF Token Error.");
-////		}
-//
-//		// 이메일 중복 체크
-//		Mber existingMberEmail = mberService.selectMberbyEmail(mber.getMberEmail());
-//		if (existingMberEmail != null) {
-//			model.addAttribute("mber", mber);
-//			model.addAttribute("existEmailMessage", "이미 존재하는 이메일입니다.");
-//			return "user/mber/signup";
+	@RequestMapping(value = "/mber/signup", method = RequestMethod.POST)
+	public String signup(Mber mber, HttpSession session, Model model) {
+//		String sessionToken = (String) session.getAttribute("csrfToken");
+//		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
+//			throw new RuntimeException("CSRF Token Error.");
 //		}
-//
-//		try {
-//			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
-//			mber.setMberPwd(encodedPwd);
-//			mberService.insertMber(mber);
-//			logger.info("Saved: " + mber.getMberId());
-//		} catch (DuplicateKeyException e) {
-//			mber.setMberId(null);
-//			model.addAttribute("mber", mber);
-//			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
-//			return "user/mber/signup";
-//		}
-//		session.invalidate();
-//		return "user/mber/signin";
-//	}
+		try {
+			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
+			mber.setMberPwd(encodedPwd);
+			mberService.insertMber(mber);
+			logger.info("Saved: " + mber.getMberId());
+		} catch (DuplicateKeyException e) {
+			mber.setMberId(null);
+			model.addAttribute("mber", mber);
+			model.addAttribute("existIdMessage", "이미 존재하는 아이디입니다.");
+			return "user/mber/signup";
+		}
+		session.invalidate();
+		return "user/mber/signin";
+	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(HttpServletRequest request, Model model) {
@@ -93,7 +86,15 @@ public class MberController {
 	}
 
 	@GetMapping(value = "/mber/mypage")
-	public String myPage() {
+	public String myPage(Model model, Authentication auth) {
+		  boolean isAdmin = false;
+	        for (GrantedAuthority authority : auth.getAuthorities()) {
+	            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+	                isAdmin = true;
+	                break;
+	            }
+	        }
+	        model.addAttribute("isAdmin", isAdmin);
 		return "user/mber/mypage";
 	}
 

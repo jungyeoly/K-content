@@ -68,8 +68,8 @@
 						<ul>
 							<li data-type="existing" th:each="file : ${commuFiles}"><span
 								th:text="${file.commuFileName}"></span>
-								<button data-filename="${file.commuFileName}"
-									data-fileid="${file.commuFileId}"
+								<button th:data-filename="${file.commuFileName}"
+									th:data-fileId="${file.commuFileId}"
 									onclick="removeFileFromDisplayList(event, this)">삭제</button></li>
 
 						</ul>
@@ -91,7 +91,7 @@
 			</div>
 		</form>
 	</div>
-	<div th:insert="include/common-modal :: commonmodal"></div>
+	<div th:insert="~{include/common-modal :: commonmodal}"></div>
 	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
 
 	<script th:src="@{/js/commu/update.js}"></script>

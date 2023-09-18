@@ -13,6 +13,8 @@
                commu_cate_code,
                commu_mber_id
         from tb_commu
+        where  commu_status != 'Y'
+        order by commu_id desc
         ]]>
 	</select>
 
@@ -31,7 +33,7 @@
                commu_cate_code,
                commu_mber_id
         FROM tb_commu
-        WHERE commu_id = #{commuId}
+      	where commu_id =#{commuId}
         ]]>
 	</select>
 
@@ -47,7 +49,7 @@
 			   commu_file_update_date,
 			   commu_file_commu_id
 			   from tb_commu_file
-			  where commu_file_commu_id=#{commuId}
+			  where commu_file_commu_id=#{commuId} 
 		  ]]>
 	</select>
 
@@ -100,7 +102,7 @@ VALUES
 	</insert>
 
 
-	<select id="getFile" parameterType="int"
+	<select id="getFile"
 		resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
 		SELECT
@@ -138,23 +140,34 @@ where commu_id=#{commuId}
 		parameterType="com.example.myapp.user.commu.model.CommuFile">
 <![CDATA[
 update tb_commu_file
-set commu_file_name=#{commuFileName},
+set 
+	commu_file_name=#{commuFileName},
     commu_file_size=#{commuFileSize},
     commu_file_ext=#{commuFileExt},
     commu_file_path=#{commuFilePath},
-    commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi') <!-- 이 부분의 콤마를 제거하세요 -->
+    commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi') 
 where commu_file_id=#{commuFileId}
 ]]>
 	</update>
 
 
+	<update id="deletePostStatus" parameterType="int">
+		UPDATE tb_commu
+		SET
+		commu_status = 'Y'
+		WHERE commu_id = #{commuId}
+
+	</update>
 
 
-	<delete id="deleteFileById" parameterType="int">
+	<delete id="deleteFileById"
+		parameterType="com.example.myapp.user.commu.model.CommuFile">
 <![CDATA[
     DELETE FROM tb_commu_file
-    WHERE commu_file_commu_id = #{commuId}
+    WHERE commu_file_id = #{commuFileId}
 ]]>
 	</delete>
+
+
 
 </mapper>

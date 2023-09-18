@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
 <meta charset="UTF-8">
 </head>
@@ -21,11 +20,16 @@
           th:text="${code.commonCodeVal}">카테고리명</span>
 </div>
 			<div class="registdate">[[${commu.commuRegistDate}]]</div>
+			
+		<div th:if="${commu.commuUpdateDate} != null" class="updatedate">
+    [[${commu.commuUpdateDate}]]
+</div>
+
 		</div>
 
 		<div class="detail-cntnt">
 			<div th:each="file : ${commuFiles}" class="text-center img-div">
-				<img alt="" th:src="@{'/' + ${file.commuFilePath}}">
+				<img th:src="@{'/' + ${file.commuFilePath}}">
 			</div>
 			<div class="commu-cntnt text-start cntnt-div">
 				<div class="cntnt">[[${commu.commuCntnt}]]</div>
@@ -37,7 +41,7 @@
 		<div th:if="${#authentication.principal.username} == ${commu.commuMberId}" class="btns">
 		<a th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}" 
 			class="btn me-2">수정</a>
-			<form th:action="@{/commu/delete/{id}(id=${commu.commuId})}" method="post">
+			<form th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}" method="post">
 				<input type="hidden" name="commuId" th:value=${commu.commuId}>
 				<input type="submit" class="btn delete" value="삭제">
 			</form>

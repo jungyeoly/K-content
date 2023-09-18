@@ -47,9 +47,6 @@ $(document).ready(function () {
         }
     });
 
-
-    //
-
     var requestData = {
         targetContentIdF: document.getElementById("contentId").value
     };
@@ -66,7 +63,6 @@ $(document).ready(function () {
             console.error('에러 발생: ', error);
         }
     });
-
 
 });
 
@@ -100,17 +96,26 @@ function updateCntnt(cntntId) {
 }
 
 function deleteCntnt() {
-    var requestData = {
-        cntntId: document.getElementById("cntntId").value
-    }
-    console.log(cntntId);
-    $.ajax({
-        url: '/cs/content/delete', type: 'post',
-        data: requestData , // 데이터 객체 전달
-        success: function (data2) {
 
-        }, error: function (error) {
-            console.error('에러 발생: ', error);
-        }
-    });
+    if (confirm('컨텐츠를 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '/cs/content/delete', type: 'post',
+            data: {
+                cntntId: document.getElementById("cntntId").value
+            }, // 데이터 객체 전달
+            success: function (data2) {
+                if (confirm('삭제가 완료 되었습니다')) {
+                    window.location.replace("/cs/contentmanage");
+                } else {
+                    window.location.replace("/cs/contentmanage");
+                }
+
+
+            }, error: function (error) {
+                console.error('에러 발생: ', error);
+            }
+        });
+    }
+
+
 }

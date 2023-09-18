@@ -81,5 +81,17 @@
         ]]>
     </insert>
 
+    <update id="updateAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
+            keyColumn="cntnt_id" keyProperty="cntntId">
+  <![CDATA[
+        UPDATE tb_cntnt
+        SET cntnt_cate_code   = #{cntntCateCode},
+            cntnt_title       = #{cntntTitle},
+            cntnt_kwrd        = #{cntntKwrd},
+            cntnt_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE cntnt_id = #{cntntId}
+        ]]>
+
+    </update>
 
 </mapper>

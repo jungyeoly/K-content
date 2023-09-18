@@ -47,7 +47,7 @@
                               goods_regist_date,
                               goods_update_date,
                               goods_delete_yn)
-        VALUES (#{goodsId},
+        VALUES (goods_seq.NEXTVAL,
                 #{goodsName},
                 #{goodsBrand},
                 #{goodsPrice},

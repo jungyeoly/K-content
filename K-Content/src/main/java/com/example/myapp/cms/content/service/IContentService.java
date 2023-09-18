@@ -8,11 +8,14 @@ import java.util.List;
 
 public interface IContentService {
     List<CmsContent> getAllContent();
+
     CmsContent getAContent(int id);
 
-    boolean insertAContent(CmsContent content,List<Integer> goodsList );
+    boolean insertAContent(CmsContent content, List<Integer> goodsList);
 
-    List<CmsContent> getContentByKeyword( List<String> keywordList);
+    boolean updateAContent(CmsContent content, List<Integer> goodsList);
+
+    List<CmsContent> getContentByKeyword(List<String> keywordList);
 
 }
 

@@ -1,17 +1,14 @@
 package com.example.myapp.cms.content.controller;
 
-
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.model.CmsContent;
 import com.example.myapp.cms.content.model.CntntInsertForm;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import com.example.myapp.cms.content.service.*;
-
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +25,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/cs")
 public class CSController {
-    SqlSession sqlSession;
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired
@@ -41,13 +37,11 @@ public class CSController {
     IGoodsService goodsService;
     @Autowired
     Instagram_Selenium instagram_Selenium;
-
     @Autowired
     ICommonCodeService commonCodeService;
 
     @GetMapping("/dashboard")
     public String getDashBoard() {
-
         return "cms/dashBoard";
     }
 
@@ -70,7 +64,6 @@ public class CSController {
     public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
         int max = Integer.parseInt(items);
         List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
-
         return result;
     }
 
@@ -93,7 +86,6 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
 
         }
-
         return result;
     }
 
@@ -102,12 +94,14 @@ public class CSController {
     @GetMapping("/contentdetail")
     public String getAContent(int targetContentIdF, Model model) {
         CmsContent content = contentService.getAContent(targetContentIdF);
-
         model.addAttribute("content", content);
+
+        CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
+        System.out.println("commonCodes:" + commonCodes);
+        model.addAttribute("category", commonCodes);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
-
 
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
         List<Goods> goodsJFileList = new ArrayList<Goods>();
@@ -125,7 +119,6 @@ public class CSController {
         model.addAttribute("trendQueryList", trendQueryList);
 
 //        javascript비통기로 보내
-
         return "cms/cntnt/contentDetail";
     }
 
@@ -159,17 +152,14 @@ public class CSController {
             //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
             realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
         }
-
         instagram_Selenium.chromeExit();
         return realImg;
-
     }
 
     //콘텐츠 생성 페이지
     @GetMapping("/makecontent/new")
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-
         model.addAttribute("category", commonCodes);
         return "cms/cntnt/newcontentMakeForm";
     }
@@ -198,19 +188,21 @@ public class CSController {
         cntnt.setCntntUrl(cntntURL);
         model.addAttribute("content", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-
         model.addAttribute("category", commonCodes);
-
-        return "cms/cntnt/contentMakeForm";
+        return "cms/cntnt/newcontentMakeForm";
     }
+
     @GetMapping("/makecontent/update")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
+        //기존 콘텐츠 데이터 뽑기
         CmsContent content = contentService.getAContent(targetContentIdF);
-
         model.addAttribute("content", content);
 
+        //키워드
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
+
+        //굿즈 & 파일
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
         List<Goods> goodsJFileList = new ArrayList<Goods>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
@@ -218,15 +210,18 @@ public class CSController {
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
         model.addAttribute("goodsJFileList", goodsJFileList);
+
+        //카테고리
+        List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+        model.addAttribute("category", commonCodes);
+
         // 쿼리 앞에 키워드 가져와서 뽑기
         List<String> trendQueryList = new ArrayList<>();
-
         for (int i = 0; i < keywordList.size(); i++) {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-
-        return "cms/cntnt/contentMakeForm";
+        return "cms/cntnt/newcontentMakeForm";
     }
 
     @PostMapping("/content/inputcntntform")
@@ -245,8 +240,12 @@ public class CSController {
         content.setCntntKwrd(keyword);
 
         List<Integer> goodsList = receivedData.getGoodsList();
-
-        contentService.insertAContent(content, goodsList);
+        if (receivedData.getIs().equals("수정")) {
+            content.setCntntId(receivedData.getCntntId());
+            contentService.updateAContent(content, goodsList);
+        } else if (receivedData.getIs().equals("생성")) {
+            contentService.insertAContent(content, goodsList);
+        }
 
         // 성공 여부 리턴
     }
@@ -256,7 +255,6 @@ public class CSController {
     @ResponseBody
     public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList,
                                                 @RequestParam(value = "cntntId") int cntntId) {
-
         List<CmsContent> result = contentService.getContentByKeyword(keywordList);
         for (int i = 0; i < result.size(); i++) {
             if (result.get(i).getCntntId() == cntntId) {
@@ -273,9 +271,7 @@ public class CSController {
             String restultCode = partOfUrl2.get(1);
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
         }
-
         return result;
-
     }
 
     @GetMapping("/getsearchcntnt")
@@ -291,7 +287,6 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
         }
         return result;
-
     }
 
 
@@ -300,15 +295,6 @@ public class CSController {
         return "include/admin-sideBar";
     }
 
-
-    @GetMapping("/goods")
-    public String getAllGoods(Model model) {
-
-        List<Goods> getAllGoods = csService.getAllGoods();
-        model.addAttribute("goods", getAllGoods);
-
-        return "goodsList";
-    }
 
     @GetMapping("/usermanage")
     public String getUserManage() {

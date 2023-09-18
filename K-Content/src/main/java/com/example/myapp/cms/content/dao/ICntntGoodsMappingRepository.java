@@ -13,4 +13,7 @@ public interface ICntntGoodsMappingRepository {
     List<CntntGoodsMapping> getAllGoodsByContent(@Param("cntntId") int cntntId);
 
     int insertMappingDate(@Param("cntntId") int cntntId, @Param("goodsId") int goodsId);
+
+    //TODO 이거 수정
+    int delMappingDate(@Param("contentId") int contentId);
 }

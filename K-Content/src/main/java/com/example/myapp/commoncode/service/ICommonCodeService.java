@@ -7,6 +7,7 @@ import com.example.myapp.commoncode.model.CommonCode;
 public interface ICommonCodeService {
 
 	List<CommonCode> findCommonCateCodeByUpperCommonCode(String upperCommonCode);
+	CommonCode findByCommonCode(String commonCode);
 
 	List<String> cateList(String upperCommonCode);
 

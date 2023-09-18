@@ -20,6 +20,11 @@ public class CommonCodeService implements ICommonCodeService {
 	}
 
 	@Override
+	public CommonCode findByCommonCode(String commonCode) {
+		return commonCodeRepository.findByCommonCode(commonCode);
+	}
+
+	@Override
 	public List<String> cateList(String upperCommonCode) {
 		return commonCodeRepository.cateList(upperCommonCode);
 	}

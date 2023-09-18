@@ -19,4 +19,6 @@ public interface ICommonCodeRepository {
 	String mberRoleByCode(String mberId);
 
 	String mberGenderByCode(String mberId);
+	CommonCode findByCommonCode(String commonCode);
+
 }

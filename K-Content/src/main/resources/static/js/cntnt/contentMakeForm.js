@@ -1,6 +1,7 @@
 // 유튜브 iframe 가져오기
 $(document).ready(function () {
     var cntntURL = document.getElementById("contentURL").value;
+    console.log("cntntURL" + cntntURL);
     var requestData = {
         targetContentIdF: cntntURL
     };
@@ -125,6 +126,7 @@ function selectGoods(receivedData) {
 
 //선택한 굿즈 삭제
 function delGoods(goodsID) {
+    console.log("goodsID" + goodsID);
     const div = document.getElementById(goodsID);
     div.remove();
 
@@ -139,29 +141,41 @@ function createContent() {
     var goodsDiv = document.getElementById("goodsList");
     var goodsDivCount = goodsDiv.getElementsByClassName("goodsList");
 
-    console.log("keywordDivCount: " + keywordDivCount);
-    console.log("goodsDivCount: " + goodsDivCount.length);
     for (i = 0; i < keywordDivCount.length; i++) {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
     }
-    console.log("keywordDivList: " + keywordDivList);
+
 
     for (i = 0; i < goodsDivCount.length; i++) {
         goodsDivList.push(goodsDivCount[i].value);
     }
-    console.log("goodsDivList: " + goodsDivList);
-    var sendData = {
 
-        "cntntUrl": document.getElementById("url").value,
-        "cntntTitle": document.getElementById("title").value,
-        "keywordList": keywordDivList,
-        "goodsList": goodsDivList,
-        "cntntCateCode": document.getElementById("commonCode").value
+    if (document.getElementById("insertOrModify").value == '수정') {
+        var sendData = {
+            "cntntId": document.getElementById("cntntId").value,
+            "is": document.getElementById("insertOrModify").value,
+            "cntntUrl": document.getElementById("url").value,
+            "cntntTitle": document.getElementById("title").value,
+            "keywordList": keywordDivList,
+            "goodsList": goodsDivList,
+            "cntntCateCode": document.getElementById("category").value
+        };
+    } else if (document.getElementById("insertOrModify").value == '생성') {
+        var sendData = {
+            "is": document.getElementById("insertOrModify").value,
+            "cntntUrl": document.getElementById("url").value,
+            "cntntTitle": document.getElementById("title").value,
+            "keywordList": keywordDivList,
+            "goodsList": goodsDivList,
+            "cntntCateCode": document.getElementById("category").value
+        };
+    }
 
 
-    };
-    console.log(sendData);
+    console.log(sendData.cntntCateCode);
+
+
     $.ajax({
         url: '/cs/content/inputcntntform',
         type: 'POST',
@@ -174,6 +188,8 @@ function createContent() {
             console.error('에러 발생: ', error);
         }
     });
+
+
 }
 
 function printIframe() {

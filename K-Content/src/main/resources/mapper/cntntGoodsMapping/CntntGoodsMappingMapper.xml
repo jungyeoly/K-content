@@ -22,5 +22,12 @@
         ]]>
     </insert>
 
+    <delete id="delMappingDate" parameterType="int">
+       <![CDATA[
+        delete
+        from tb_cntnt_goods_mapping
+        where cntnt_id = #{contentId}
+        ]]>
+    </delete>
 
 </mapper>

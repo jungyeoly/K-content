@@ -32,6 +32,7 @@
         <div class="item category-caption iframe-title" id="title">
             <h3 style="text-align: center; " th:text="${content.cntntTitle}">title</h3>
         </div>
+        <button th:text="${category.getCommonCodeVal()}"></button>
 
         <div class="item keyword">
             <div class="keywordItem" th:each="keyword : ${keywordList}">
@@ -75,7 +76,10 @@
         </div>
     </aside>
     <!-- </div> -->
-
+<div class="admin-button">
+    <button onclick="updateCntnt()">수정</button>
+    <button onclick="deleteCntnt()">삭제</button>
+</div>
     <footer class="footer">
         Lorem ipsum dolor sit amet consectetur.
     </footer>

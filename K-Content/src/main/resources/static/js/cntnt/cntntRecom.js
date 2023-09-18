@@ -2,26 +2,31 @@ $(document).ready(function () {
     $.ajax({
         url: '/cs/getsearchyoutube', type: 'GET',
         success: function (contentList) {
-
             const element = document.getElementById('card-list');
             element.innerHTML = '';
             for (i = 0; i < contentList.length; i++) {
-                var str = '';
-                arr = Array.from(contentList[i].title);
-                arr.map((data,idx) => {
-                    if(data == "'"){
-                        str = str + "\\'";
-                    }
-                    else if(data == '"'){
-                        str = str + '\\"';
-                    }
-                    else{
-                        str = str + data;
-                    }
-                })
+                // var str = '';
+                // arr = Array.from(contentList[i].title);
 
+                // var replacedString = contentList[i].title.replace(/&quot;/g, '\\"');
+                singleReplaceString = contentList[i].title.replace(/&#39;/g, "\\'");
+
+                // arr.map((data, idx) => {
+                //     console.log("data:" + data);
+                //     if (data == "'") {
+                //         str = str + "&quot;";
+                //     } else if (data == '"') {
+                //         str = str + "&quot;";
+                //     } else {
+                //         str = str + data;
+                //     }
+                // })
+                console.log(singleReplaceString);
+                // Ep 4 &quot;The Golden Trio (Plus One)&quot; - Overthinking with Kat &amp; June
+                // &#39;뜨거운 타격감&#39; 최지만 현지해설 &quot;최지만에겐 슬라이더가 위협이 되지 않죠&quot; #SPORTSTIME
+                //
                 inHtml = `
-            <li class="card-item" id="card-item" onclick="cntntMake( '${str}' , '${contentList[i].url}' )">
+            <li class="card-item" id="card-item" onclick="cntntMake( '${singleReplaceString}' , '${contentList[i].url}' )">
                 <figure class="card-image"style="background-image: url(${contentList[i].thumbnail})">
                     <img src=${contentList[i].thumbnail} >
                 </figure>
@@ -38,7 +43,7 @@ $(document).ready(function () {
     });
 })
 
-function cntntMake(spaArr,url) {
+function cntntMake(spaArr, url) {
     const formHtml = `
                     <form id="contentMake" action="/cs/makecontent" method="get">
                         <input  id="cntntURL" name="cntntURL"  />
@@ -57,20 +62,20 @@ function cntntMake(spaArr,url) {
 }
 
 function searchButton() {
-
-    var requestData = {
-        searchKeyword: document.getElementById('search-input').value
-    };
-
     $.ajax({
         url: '/cs/getsearchyoutube', type: 'GET',
-        data: requestData,
+        data: {
+            searchKeyword: document.getElementById('search-input').value
+        },
         success: function (contentList) {
             const element = document.getElementById('card-list');
             element.innerHTML = '';
             for (i = 0; i < contentList.length; i++) {
+                singleReplaceString = contentList[i].title.replace(/&#39;/g, "\\'");
+                console.log(singleReplaceString);
+
                 inHtml = `
-            <li class="card-item" id="card-item" onclick="cntntMake(${contentList[i]})">
+            <li class="card-item" id="card-item" onclick="cntntMake( ' ${singleReplaceString}' , '${contentList[i].url}' )">
                 <figure class="card-image"style="background-image: url(${contentList[i].thumbnail})">
                     <img src=${contentList[i].thumbnail} >
                 </figure>

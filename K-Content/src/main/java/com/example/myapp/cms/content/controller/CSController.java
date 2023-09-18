@@ -64,6 +64,7 @@ public class CSController {
     public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
         int max = Integer.parseInt(items);
         List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
+
         return result;
     }
 

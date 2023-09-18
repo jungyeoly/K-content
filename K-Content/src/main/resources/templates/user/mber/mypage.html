@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <div th:replace="~{/include/header :: header}"></div>
 
@@ -9,56 +10,68 @@
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="container">
 		<div class="menu fw-bold">마이페이지</div>
-		<div class="border-bottom border-top border-2 fw-bold border-dark mb-3">
-			<form th:action="@{/mber/signup}" method="post"
-						class="validation-form" id="mypageForm" novalidate>
-			<div class="mt-3 mb-3 row">
+		<div
+			class="border-bottom border-top border-2 fw-bold border-dark mb-3">
+				<div class="mt-3 mb-3 row">
+				<label for="mber_auth" class="col-sm-2 col-form-label">계정 권한</label>
+				<div class="col-md-4">
+					<input type="text" readonly class="form-control-plaintext"
+						id="mber_auth" th:value="${isAdmin ? '관리자' : '회원'}" tabindex="-1">
+				</div>
+			</div>
+			<div class="mb-3 row">
 				<label for="mber_email" class="col-sm-2 col-form-label">아이디</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
-						id="mber_email" value="email@example.com">
+						id="mber_email" th:value="${#authentication.principal.username}">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="mber_pwd" class="col-sm-2 col-form-label">비밀번호</label>
 				<div class="col-md-4">
 					<input type="password" readonly class="form-control-plaintext"
-						id="mber_pwd" value="test1111">
+						id="mber_pwd" value="********" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="mber_name" class="col-sm-2 col-form-label">이름</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
-						id="mber_name" value="양정열">
+						id="mber_name" th:value="${#authentication.principal.mberName}"
+						tabindex="-1">
+				</div>
+
+			</div>
+		
+			<div class="mb-3 row">
+				<label for="mber_gender" class="col-sm-2 col-form-label">성별</label>
+				<div class="col-md-4">
+					<input type="text" readonly class="form-control-plaintext"
+						id="mber_gender"
+						th:value="${#authentication.principal.mberGender}" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">성별</label>
+				<label for="mber_birth" class="col-sm-2 col-form-label">생년월일</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
-						id="inputPassword" value="남자">
+						id="mber_birth" th:value="${#authentication.principal.mberBirth}"
+						tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">생년월일</label>
+				<label for="mber_phone" class="col-sm-2 col-form-label">전화번호</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
-						id="inputPassword" value="1998-03-25">
-				</div>
-			</div>
-			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">전화번호</label>
-				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext"
-						id="inputPassword" value="010-9957-0673">
+						th:value="${#authentication.principal.mberPhone}" id="mber_phone">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">가입일자</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
-						id="inputPassword" value="2023-09-02">
+						id="inputPassword"
+						th:value="${#authentication.principal.mberRegistDate}">
 				</div>
 				<div class="col-md-4"></div>
 				<div class="col-md-2">
@@ -71,12 +84,13 @@
 					</button>
 				</div>
 			</div>
-			</form>
+
 		</div>
 
 		<div class="mb-3 row">
 			<div class="col-md-2">
-				<button type="button" tabindex="-1" class="btn form-control" form="mypageForm">
+				<button type="button" tabindex="-1" class="btn form-control"
+					id="edit-btnn">
 					<span id="fw-bold">수정</span>
 					<div class="spinner-border text-info spinner-border-sm ms-2 d-none"
 						role="status" id="mail-check-spinner"></div>
@@ -84,7 +98,25 @@
 			</div>
 		</div>
 	</div>
-
+<script th:inline="javascript">
+    function toggleEditForm() {
+        var editBtn = document.getElementById('edit-btn');
+        var mypageForm = document.getElementById('mypageForm');
+        
+        if (mypageForm.classList.contains('readonly')) {
+            // 입력 폼으로 변경
+            mypageForm.classList.remove('readonly');
+            editButton.textContent = '저장'; // 수정 버튼 텍스트 변경
+        } else {
+            // 저장 버튼을 눌렀을 때, AJAX를 사용하여 수정 내용을 서버에 전송할 수 있습니다.
+            // AJAX 코드 작성
+            
+            // 수정 완료 후 입력 폼을 읽기 전용으로 변경
+            mypageForm.classList.add('readonly');
+            editButton.textContent = '수정'; // 수정 버튼 텍스트 변경
+        }
+    }
+</script>
 
 </body>
 </html>

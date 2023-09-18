@@ -46,8 +46,9 @@ public class MberUserDetailsService implements UserDetailsService {
 			// 사용자가 활성화 상태인 경우 UserDetails 객체를 생성하고 반환한다.
 			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(mberRole);
 
-			return new MberUserDetails(mber.getMberId(), mber.getMberPwd(), authorities, mber.getMberEmail(),
-					mberGender, mber.getMberBirth(), mber.getMberPhone(), mber.getMberRegistDate());
+			return new MberUserDetails(mber.getMberId(), mber.getMberPwd(), authorities, mber.getMberName(), mber.getMberEmail(), mberGender, mber.getMberBirth(), mber.getMberPhone(),
+					mber.getMberRegistDate());
+
 		}
 
 //			return User.builder().username(mber.getMberId()).password(mber.getMberPwd()).roles("ADMIN").build();

@@ -15,8 +15,8 @@
 		<div class="container">
 			<div class="input-form-background row">
 				<div class="input-form col-md-12 mx-auto opacity-95">
-					<div class="d-flex justify-content-center col-md-12">
-						<div class="col-md-6 social_circle_btn me-3">
+					<div class="d-flex justify-content-center col-md-12 mb-3">
+						<div class="col-md-6 social_circle_btn me-5">
 							<a href="https://www.kakao.com"><img
 								src="/img/mber/kakaologo.png" class="logo_img"></a>
 						</div>
@@ -28,47 +28,67 @@
 
 					<form th:action="@{/mber/signup}" method="post"
 						class="validation-form" id="signupForm" novalidate>
-						<div class="row">
-							<div class="col-md-12 mb-2">
-								<label for="mber_id" class="fw-bold">아이디<span
-									style="color: red;">*</span></label> <input type="text"
-									class="form-control form-bid" id="mber_id" name="mberId"
-									placeholder="아이디" pattern="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$"
-									autocomplete="off" required>
+						<div class="row mb-3">
+							<div class="col-md-2">
+								<label for="mber_id" class="fw-bold text-nowrap">아이디<span
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-10">
+								<input type="text" class="form-control form-bid" id="mber_id"
+									name="mberId" placeholder="아이디 입력"
+									pattern="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$" autocomplete="off"
+									required>
 								<div class="invalid-feedback">영문 대소문자로 시작하고, 영문 대소문자, 숫자,
 									밑줄(_)로 이루어진 5자 이상 12자 이하의 아이디를 입력하세요.</div>
 								<div th:text="${existIdMessage}" style="color: red;"></div>
 							</div>
-							<div class="col-md-12 mb-2">
-								<label for="mber_pwd" class="fw-bold">비밀번호<span
-									style="color: red;">*</span></label> <input type="password"
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-2">
+								<label for="mber_pwd" class="fw-bold text-nowrap">비밀번호<span
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-10">
+								<span class="input-group-text"><input type="password"
 									class="form-control form-bid" id="mber_pwd" name="mberPwd"
-									placeholder="비밀번호"
+									placeholder="비밀번호 입력"
 									pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
-									required>
+									required> <i class="fa fa-eye" id=see_pwd></i></span>
 								<div class="invalid-feedback">최소 8자, 최대 16자이어야 하며, 영문
 									대소문자, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다.</div>
 							</div>
+							<div class="col-md-2"></div>
 						</div>
-						<div class="row">
-							<div class="col-md-12 mb-2">
-								<label for="mber_name" class="fw-bold">이름<span
-									style="color: red;">*</span></label> <input type="text"
-									class="form-control form-bid" id="mber_name" name="mberName"
-									placeholder="이름" value="" autocomplete="off" required>
+						<div class="row mb-3">
+							<div class="col-md-2">
+								<label for="mber_name" class="fw-bold text-nowrap">이름<span
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-10">
+								<input type="text" class="form-control form-bid" id="mber_name"
+									name="mberName" placeholder="이름 입력" value="" autocomplete="off"
+									required>
 								<div class="invalid-feedback">이름을 입력해주세요.</div>
 							</div>
-							<div class="col-md-6">
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-2">
 								<label for="mber_birth" class="fw-bold">생년월일<span
-									style="color: red;">*</span></label> <input type="date"
-									class="form-control form-bid" id="mber_birth" name="mberBirth"
-									value="" autocomplete="off" required>
-								<div class="invalid-feedback">생년월일를 입력해주세요.</div>
+									style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-6">
-								<label for="mber_gender" class="fw-bold">성별<span
-									style="color: red;">*</span></label> <select name="mberGenderCode"
-									class="form-select mb-2" required>
+								<input type="date" class="form-control form-bid" id="mber_birth"
+									name="mberBirth" value="" autocomplete="off" required>
+								<div class="invalid-feedback">생년월일를 입력해주세요.</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-2">
+								<label for="mber_gender" class="fw-bold text-nowrap">성별<span
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-4">
+								<select name="mberGenderCode" class="form-select" required>
 									<option value="" disabled selected>성별 선택</option>
 									<option value="C0101">남자</option>
 									<option value="C0102">여자</option>
@@ -77,18 +97,20 @@
 								<div class="invalid-feedback">성별을 입력해주세요.</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-9 mb-2">
+						<div class="row mb-3">
+							<div class="col-md-2">
 								<label for="mber_email" class="fw-bold">이메일<span
-									style="color: red;">*</span></label> <input type="email"
-									id="mber_email" class="form-control form-bid" name="mberEmail"
-									placeholder="you@example.com"
-									pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-7">
+								<input type="email" id="mber_email"
+									class="form-control form-bid" name="mberEmail"
+									placeholder="이메일 입력" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+									autocomplete="off" required>
 								<div class="invalid-feedback" id="mail-input-check-warn">이메일을
 									입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
 							</div>
-							<div class="col-md-3 mb-2">
-								<label for="EmailAuth">&nbsp;</label>
+							<div class="col-md-3">
 								<button type="button" tabindex="-1" id="mail-check-btn"
 									name="EmailAuth" class="form-control mailauth-btn">
 									<span id="mail-check-btn-text">메일 인증</span>
@@ -99,40 +121,50 @@
 								<div class="invalid-feedback" id="mail-input-check-info"></div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12 mb-2">
+						<div class="row mb-3">
+							<div class="col-md-2">
 								<label for="auth-code-input" class="fw-bold">인증번호<span
-									style="color: red;">*</span></label> <input type="text"
-									id="auth-code-input" class="form-control mail-check-input"
-									placeholder="인증번호 입력" disabled="disabled" maxlength="6"
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-10">
+								<input type="text" id="auth-code-input"
+									class="form-control mail-check-input" placeholder="인증번호 입력"
+									disabled="disabled" maxlength="6"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									onkeyup="checkAuthNumFn()"> <span id="mail-check-warn"
 									class="mb-2"></span>
 								<div class="invalid-feedback">인증번호를 입력해주세요.</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12 mb-2">
+						<div class="row mb-3">
+							<div class="col-md-2">
 								<label for="mber_phone" class="fw-bold">전화번호<span
-									style="color: red;">*</span></label> <input type="text" id="mber_phone"
-									name="mberPhone" class="form-control form-bid"
-									placeholder="전화번호" pattern="^010-\d{4}-\d{4}$"
-									autocomplete="off" required>
+									style="color: red;">*</span></label>
+							</div>
+							<div class="col-md-10">
+								<input type="text" id="mber_phone" name="mberPhone"
+									class="form-control form-bid" placeholder="전화번호 입력"
+									pattern="^010-\d{4}-\d{4}$" oninput="oninputPhone(this)" maxlength="14" autocomplete="off" required>
 								<div class="invalid-feedback">전화번호를 입력하거나, 올바른 형식의 전화번호를
 									입력해주세요.</div>
 							</div>
+						</div>
+						<div class="row mb-2">
 							<hr class="mb-2">
-							<div class="row">
-								<div class="col-md-12 mb-2">
-									<div class="form-check form-switch">
-										<input type="checkbox" class="form-check-input" id="aggrement"
-											required> <label class="form-check-label fw-bold"
-											for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
-									</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 mb-2">
+								<div class="form-check form-switch">
+									<input type="checkbox" class="form-check-input" id="aggrement"
+										required> <label class="form-check-label fw-bold"
+										for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
 								</div>
-								<div class="mb-2"></div>
-								<button type="submit" class="btn btn-lg">가입완료</button>
 							</div>
+						</div>
+						<div class="row">
+							<div class="mb-2"></div>
+							<button type="submit" class="btn btn-lg">가입완료</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -155,40 +187,10 @@
 			}, false);
 		 
 
-		var autoHypenPhone = function(str) {
-			str = str.replace(/[^0-9]/g, '');
-			var tmp = '';
-			if (str.length < 4) {
-				return str;
-			} else if (str.length < 7) {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3);
-				return tmp;
-			} else if (str.length < 11) {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3, 3);
-				tmp += '-';
-				tmp += str.substr(6);
-				return tmp;
-			} else {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3, 4);
-				tmp += '-';
-				tmp += str.substr(7);
-				return tmp;
-			}
-
-			return str;
-		}
-
-		var phoneNum = document.getElementById('mber_phone');
-
-		phoneNum.onkeyup = function() {
-			console.log(this.value);
-			this.value = autoHypenPhone(this.value);
+		function oninputPhone(target) {
+		    target.value = target.value
+		        .replace(/[^0-9]/g, '')
+		        .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
 		}
 	</script>
 
@@ -303,6 +305,19 @@
 			birthdateInput.setAttribute('value', currentDateString);
 		 
 		</script>
-
+	<script>
+		$(document).ready(function(){
+		    $('#see_pwd').on('click',function(){
+		        $('input').toggleClass('active');
+		        if($('input').hasClass('active')){
+		            $(this).attr('class',"fa fa-eye-slash")
+		            .prev('input').attr('type',"text");
+		        }else{
+		            $(this).attr('class',"fa fa-eye")
+		            .prev('input').attr('type','password');
+		        }
+		    });
+		});
+	</script>
 </body>
 </html>

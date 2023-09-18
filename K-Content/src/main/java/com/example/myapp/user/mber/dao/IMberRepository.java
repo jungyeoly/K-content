@@ -25,4 +25,5 @@ public interface IMberRepository {
 	void deleteMber(String mberId);
 
 	String maskMberId(String mberEmail);
+	
 }

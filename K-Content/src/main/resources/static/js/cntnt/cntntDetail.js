@@ -84,7 +84,7 @@ function recomCntntDetail(cntntId) {
 }
 
 
-function updateCntnt(cntntId)  {
+function updateCntnt(cntntId) {
     cntntId = document.getElementById('cntntId').value;
     // console.log(cntntId);
     const formHtml = `
@@ -100,5 +100,17 @@ function updateCntnt(cntntId)  {
 }
 
 function deleteCntnt() {
+    var requestData = {
+        cntntId: document.getElementById("cntntId").value
+    }
+    console.log(cntntId);
+    $.ajax({
+        url: '/cs/content/delete', type: 'post',
+        data: requestData , // 데이터 객체 전달
+        success: function (data2) {
 
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
 }

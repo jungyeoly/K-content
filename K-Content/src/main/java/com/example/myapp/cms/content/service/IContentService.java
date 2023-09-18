@@ -17,5 +17,7 @@ public interface IContentService {
 
     List<CmsContent> getContentByKeyword(List<String> keywordList);
 
+    void updateDelStat(int cntntId);
+
 }
 

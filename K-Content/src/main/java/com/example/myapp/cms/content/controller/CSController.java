@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-//url 카멜에 쓰지마!!!!
 @Controller
 @RequestMapping("/cs")
 public class CSController {
@@ -59,7 +58,7 @@ public class CSController {
 //        return result;
 //
 //    }
-    @GetMapping("/getsearchyoutube")
+    @GetMapping("/youtube/keyword")
     @ResponseBody
     public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
         int max = Integer.parseInt(items);
@@ -68,13 +67,14 @@ public class CSController {
         return result;
     }
 
+
     //콘텐츠 리스트 페이지
-    @GetMapping("/contentmanage")
+    @GetMapping("/content-manage")
     public String getContentManage() {
         return "cms/cntnt/contentManage";
     }
 
-    @GetMapping("/getallcntnt")
+    @GetMapping("/contents")
     @ResponseBody
     public List<CmsContent> getallcntnt() {
         List<CmsContent> result = contentService.getAllContent();
@@ -91,8 +91,8 @@ public class CSController {
     }
 
 
-    //콘텐츠 상세 페이지
-    @GetMapping("/contentdetail")
+    //콘텐츠 상세 페이지 출력
+    @GetMapping("/content/detail")
     public String getAContent(int targetContentIdF, Model model) {
 
         CmsContent content = contentService.getAContent(targetContentIdF);
@@ -134,7 +134,7 @@ public class CSController {
     }
 
     //콘텐츠 상세 페이지인스타 크롤링
-    @GetMapping("/instacrol")
+    @GetMapping("/insta-img")
     @ResponseBody
     public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
 
@@ -157,31 +157,15 @@ public class CSController {
     }
 
     //콘텐츠 생성 페이지
-    @GetMapping("/makecontent/new")
+    @GetMapping("/content/new")
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
         return "cms/cntnt/newcontentMakeForm";
     }
 
-
-    //콘텐츠 생성 url 넣고 출력 하면 타이틀 썸네일 뽑기
-    @GetMapping("/makecontent/new/etc")
-    @ResponseBody
-    public CmsContent getMakeContentFormTHumTitle(@RequestParam(value = "url") String url) {
-        CmsContent newcntnt = new CmsContent();
-        List<String> contentUrlSplit = List.of(url.split("/"));
-        String partOfUrl = contentUrlSplit.get(3);
-        List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-        String restultCode = partOfUrl2.get(1);
-        newcntnt.setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
-//        newcntnt.setCntntTitle();
-        return newcntnt;
-    }
-
-
     //콘텐츠 생성 페이지 form 유튜브
-    @GetMapping("/makecontent")
+    @GetMapping("/content-form")
     public String getMakeContentForm(String cntntURL, String cntntTitle, Model model) {
         CmsContent cntnt = new CmsContent();
         cntnt.setCntntTitle(cntntTitle);
@@ -192,7 +176,8 @@ public class CSController {
         return "cms/cntnt/newcontentMakeForm";
     }
 
-    @GetMapping("/makecontent/update")
+    // 기존 콘텐츠 수정 form
+    @GetMapping("/content/modify-form")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
         //기존 콘텐츠 데이터 뽑기
         CmsContent content = contentService.getAContent(targetContentIdF);
@@ -224,7 +209,8 @@ public class CSController {
         return "cms/cntnt/newcontentMakeForm";
     }
 
-    @PostMapping("/content/inputcntntform")
+    //콘텐츠 생성/수정
+    @PostMapping("/content")
     @ResponseBody
     public void postCntntForm(@RequestBody CntntInsertForm receivedData) {
         CmsContent content = new CmsContent();
@@ -251,7 +237,7 @@ public class CSController {
     }
 
     //콘텐츠 상세 콘텐츠 추천
-    @GetMapping("/contentbykeyword")
+    @GetMapping("/content/keyword")
     @ResponseBody
     public List<CmsContent> getContentBykeyword(@RequestParam(value = "trendQueryList") List<String> keywordList,
                                                 @RequestParam(value = "cntntId") int cntntId) {
@@ -274,7 +260,8 @@ public class CSController {
         return result;
     }
 
-    @GetMapping("/getsearchcntnt")
+    //콘텐츠 검색
+    @GetMapping("/contents/search")
     @ResponseBody
     public List<CmsContent> getContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
 
@@ -290,12 +277,10 @@ public class CSController {
     }
 
     //콘텐츠 삭제 처리
-    @PostMapping("/content/delete")
+    @PatchMapping("/content")
     public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId) {
-
         //update content
         contentService.updateDelStat(cntntId);
-
         return "cms/cntnt/contentManage";
     }
 

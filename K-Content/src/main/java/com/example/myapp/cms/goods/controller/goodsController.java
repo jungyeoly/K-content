@@ -3,8 +3,6 @@ package com.example.myapp.cms.goods.controller;
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.model.GoodsFile;
 import com.example.myapp.cms.goods.service.IGoodsService;
-import com.example.myapp.user.inqry.model.InqryFile;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,17 +27,20 @@ public class goodsController {
     @Value("${goods}")
     private String url;
 
-    @GetMapping("/")
+    // admin side-bar 상품 리스트 접근
+    @GetMapping("/main")
+    public String getGoodsPages() {
+        return "cms/goods/goodsListMain";
+    }
+    @GetMapping("")
     public String getPages() {
         return "cms/goods/goodsList";
     }
-
     //모든 상품 리스트 가져오기
     @GetMapping("/list")
     @ResponseBody
     public List<Goods> getAllGoods() {
         List<Goods> goodsList = goodsService.getAllGoodsJFile();
-
         return goodsList;
     }
 
@@ -54,7 +52,7 @@ public class goodsController {
         return goodsList;
     }
 
-    @GetMapping("/makecntntselectgoods")
+    @GetMapping("/content-form")
     @ResponseBody
     public List<Goods> getSearchGoodsResult(@RequestParam(value = "sendData") List<String> receivedData) {
         List<Goods> goodsList = new ArrayList<>();
@@ -65,13 +63,13 @@ public class goodsController {
         return goodsList;
     }
 
-    @GetMapping("/makegoods")
+    @GetMapping("/form")
     public String getMakeGoodsForm() {
-
         return "cms/goods/makeGoods";
     }
 
-    @PostMapping("/creategoods")
+    // 상품 생성
+    @PostMapping("")
     public ResponseEntity<String> createGoods(@RequestParam("goodsTitle") String goodsTitle,
                                               @RequestParam("goodsBrand") String goodsBrand,
                                               @RequestParam("goodsURL") String goodsURL,

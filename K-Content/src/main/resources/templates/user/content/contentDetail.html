@@ -1,91 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CSS Grid</title>
-    <link rel="stylesheet" href="/css/content/default.css">
-    <link rel="stylesheet" href="/css/content/ui-ie.css">
-    <link rel="stylesheet" href="/css/content/ui-page-ie.css">
+	<th:block th:replace="~{/include/header :: header}"></th:block>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <link rel="stylesheet" href="/css/commu/commuList.css">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/body-header.css">
+    <link rel="stylesheet" th:href="@{/css/content/userContentDetail.css}">
 </head>
 <body>
-<div th:replace="~{/include/header :: header}"></div>
+
 <div th:replace="~{/include/body-header :: header }"></div>
-<input type="checkbox" id="modal-switch">
-<div class="page">
-    <header class="header">
-        <h1 class="website-title">k-spectrum</h1>
+<!-- <input type="checkbox" id="modal-switch"> -->
 
-    </header>
     <!--    main-->
-    <div class="main-content">
-        <input id="cntntId" type="hidden" th:value="${content.cntntId}">
-        <p>
-        <div id="iframe" th:src="${content.cntntUrl}" alt="">
-        </div>
-        </p>
-        <div class="item category-caption iframe-title" id="title">
-            <h3 style="text-align: center; " th:text="${content.cntntTitle}">title</h3>
-        </div>
-        <button th:text="${category.getCommonCodeVal()}"></button>
-
-        <div class="item keyword">
-            <div class="keywordItem" th:each="keyword : ${keywordList}">
-                <h2 th:text="${keyword}"></h2>
-            </div>
-        </div>
-
-        <div class="item goods-box">
-            <div th:each="goods : ${goodsJFileList}" id="goods">
-                <a th:href="${goods.goodsPurchsLink}">
-                    <div class="card" style="width: 18rem; height: 240px">
-                        <div style="width:18rem; height:140px">
-                            <img style="width:100%; height:100%"
-                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" class="card-img-top"
-                                 alt="...">
-                        </div>
-                        <div style="width:18rem; height:100px;border:1px solid">
-                            <h5 class="text-center" th:text="${goods.goodsName}">Card title</h5>
-                            <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
-                            <p class="text-center" th:text="${goods.goodsBrand}"></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-        </div>
+    <div class="container mx-5">
+    	<div class="row">
+    		<div class="col-11">
+		        <input id="cntntId" type="hidden" th:value="${content.cntntId}">
+				
+				<!-- 영상 -->
+		        <div id="iframe" th:src="${content.cntntUrl}"></div>
+		
+				<!-- 제목 -->
+				<div class="d-flex justify-content-between">
+					<div class="d-flex">
+						<span class="me-2 cate px-2">[[${category.getCommonCodeVal()}]]</span>
+		        		<h3 class="text-center" th:text="${content.cntntTitle}"></h3>
+		        	</div>
+		        	<div>
+		        		<i id="cntntBkmk"class="fa-regular fa-heart fs-3 me-2"></i>
+		        		<i class="fa-solid fa-bars fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+		        	</div>
+		        </div>
+				
+				<!-- 키워드 -->
+		        <div class="item keyword d-flex mb-5">
+		            <div class="keywordItem me-2" th:each="keyword : ${keywordList}">
+		                <p class="fw-bold" th:text="${keyword}"></p>
+		            </div>
+		        </div>
+				
+				<hr>
+				
+				<!-- 상품 -->
+				<h3 class="text-center fw-bold">관련 상품</h3>
+		        <div class="item goods-box d-flex justify-content-around my-5 me-5">
+		            <div th:each="goods : ${goodsJFileList}" id="goods" class="goods">
+		                <a th:href="${goods.goodsPurchsLink}">
+		                    <div class="card position-relative" style="width: 18rem; height: 240px">
+		                        <div style="width:18rem; height:140px">
+		                            <img style="width:100%; height:100%"
+		                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" class="card-img-top"
+		                                 alt="...">
+		                        </div>
+		                        <div style="width:18rem; height:100px;border:1px solid">
+		                            <h5 class="text-center card-title px-3" th:text="${goods.goodsName}">Card title</h5>
+		                            <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
+		                            <p class="text-center" th:text="${goods.goodsBrand}"></p>
+		                        </div>
+	                            <i class="goodsBkmk fa-regular fa-star position-absolute top-0 end-0 fs-3"></i>
+		                    </div>
+		                </a>
+		            </div>
+		        </div>
+		        <!-- end 상품 -->
+	        </div>
+	        
+	        <!-- sns 크롤링한 데이터 넣는 곳! -->
+	        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+			  <div class="offcanvas-header">
+			    <h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel">트랜드</h5>
+			    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			  </div>
+			  <div class="offcanvas-body">
+			    <p>Try scrolling the rest of the page to see this option in action.</p>
+			  </div>
+			</div>
+	        
+	        
+	    </div>
     </div>
-    <!--    mainend-->
-    <section class="recommand">
-        <ul class="card-list" id="card-list">
-        </ul>
-    </section>
-
-    <aside class="secondary secondary-b">
-        <div class="item trend" id="trend">
-
-        </div>
-    </aside>
-
-    <footer class="footer">
-        Lorem ipsum dolor sit amet consectetur.
-    </footer>
-
-</div>
 
 
 <input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
        style="display: none">
 <input type="hidden" id="contentId" th:name="${targetContentIdF}" th:value="${content.getCntntUrl()}">
+
+<!-- script -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/js/cntnt/cntntDetail.js" defer></script>
-
+<script src="/js/cntnt/userCntntDetail.js"></script>
 </body>
 
 </html>

@@ -3,6 +3,7 @@
 		/* console.log(data.contentList[i].cntntThumnail); */
 		var Thumnail = result.contentList[i].cntntThumnail;
 		var Title = result.contentList[i].cntntTitle;
+		var cntntId = result.contentList[i].cntntId;
 		var scroll = `
 			  <img src="`+ Thumnail + `" class="card-img-top" alt="">
 			  <div class="card-body">
@@ -13,6 +14,8 @@
 		var divEl = document.createElement("div");
 		divEl.setAttribute("class", "card mx-3 my-3");
 		divEl.setAttribute("style", "width: 18rem;");
+		divEl.setAttribute("cntntId", cntntId);
+		divEl.setAttribute("onclick", "cntntDetail(this.getAttribute('cntntId'))");
 		divEl.innerHTML = scroll;
 		document.querySelector("#contentsList").appendChild(divEl);
 		console.log(document.querySelector("#contentsList"));

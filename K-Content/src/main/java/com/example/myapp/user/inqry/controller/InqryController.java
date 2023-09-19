@@ -88,7 +88,7 @@ public class InqryController {
 	}
 
 	@GetMapping("/inqury")
-	public String selectInqryList(HttpSession session, Model model) {
+	public String selectInqryList() {
 		
 		return "user/inqury/main";
 	}
@@ -115,13 +115,13 @@ public class InqryController {
 	@RequestMapping("/inqury/detail/{inqryId}")
 	public String selectInqry(@PathVariable int inqryId, Model model, HttpSession session) {
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
-
-		if (inqryPwdId == inqryId) {
-			Inqry inqry = inqryService.selectInqry(inqryId);
+		
+		if (inqryPwdId == inqryId) {												// url로 접근 막기
+			Inqry inqry = inqryService.selectInqry(inqryId);						// 글 불러오기
 			model.addAttribute("inqry", inqry);
-			if(inqry.getInqryGroupOrd() == 1) {
-				Inqry origin = inqryService.selectInqry(inqry.getInqryRefId());
-				model.addAttribute("origin", origin);
+			if(inqry.getInqryGroupOrd() == 1) {										// 답글인지 확인
+				Inqry origin = inqryService.selectInqry(inqry.getInqryRefId());		// 답글의 원본글 들고오기
+				model.addAttribute("origin", origin);								// 원본글 담기
 			}
 			return "user/inqury/detail";
 		} else {

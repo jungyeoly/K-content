@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: '/cs/getsearchyoutube', type: 'GET',
+        url: '/cs/youtube/keyword', type: 'GET',
         success: function (contentList) {
             const element = document.getElementById('card-list');
             element.innerHTML = '';
@@ -43,9 +43,10 @@ $(document).ready(function () {
     });
 })
 
+//콘텐츠 생성 페이지 form 유튜브
 function cntntMake(spaArr, url) {
     const formHtml = `
-                    <form id="contentMake" action="/cs/makecontent" method="get">
+                    <form id="contentMake" action="/cs/content-form" method="get">
                         <input  id="cntntURL" name="cntntURL"  />
                         <input  id="cntntTitle" name="cntntTitle"  />
                     </form>`;
@@ -63,7 +64,7 @@ function cntntMake(spaArr, url) {
 
 function searchButton() {
     $.ajax({
-        url: '/cs/getsearchyoutube', type: 'GET',
+        url: '/cs/youtube/keyword', type: 'GET',
         data: {
             searchKeyword: document.getElementById('search-input').value
         },

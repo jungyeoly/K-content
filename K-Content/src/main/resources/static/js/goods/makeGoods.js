@@ -56,7 +56,7 @@ function createGoods() {
     console.log(formData);
 
     $.ajax({
-        url: '/cs/goods/creategoods',
+        url: '/cs/goods',
         type: 'POST',
         data: formData,
         processData: false,

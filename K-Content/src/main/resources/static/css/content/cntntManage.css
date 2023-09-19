@@ -94,9 +94,6 @@ label[for="modal-switch"]:before {
         grid-row: 2;
     }
 
-
-
-
     .footer {
         -ms-grid-column: 1;
         -ms-grid-column-span: 3;

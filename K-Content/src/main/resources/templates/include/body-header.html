@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
+<html xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
-  
+
 <body>
 	<header th:fragment="userNavBar">
 		<div class="logo">
@@ -17,7 +17,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 				<li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}"><i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> LOGOUT</a></li>
 			</ul>
 		</div>
-		
+
 		<ul class="contents">
 			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
 
@@ -25,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
 			<li class="cms content" sec:authorize="!hasRole('ADMIN')">&nbsp;</li>
-			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/contentmanage}">CMS</a></li>			
+			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/content-manage}">CMS</a></li>
 			<li class="search">
 				<form id="searchForm" class="input-group">
 				    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">
@@ -35,14 +35,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 				  </form>
 			</li>
 		</ul>
-		
+
 		<div id="main-cate" class="categories-nav">
 			<ul class="categories">
 				<li th:each= "cate : ${cateList}"  class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
 			</ul>
 		</div>
-		
-	</header>		
+
+	</header>
 </body>
 
 </html>

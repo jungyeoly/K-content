@@ -32,7 +32,7 @@ $(document).ready(function () {
 function searchKeyword() {
     console.log("검색 시작");
     var requestData = {
-        search: document.getElementById("search").value
+        search: document.getElementById("search-input").value
     };
     console.log(requestData);
     $.ajax({
@@ -46,8 +46,7 @@ function searchKeyword() {
                 inHtml = `<div class="col-xl-4 col-lg-6" >
                         <div class="single-category mb-30"  onclick="detail(${data[i].goodsId})">
                             <div class="category-img">
-
-                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileName}"  alt="">
+                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
                                 <div class="category-caption">
                                     <h6 style="text-align: center; " >${data[i].goodsName}</h6>
                                 </div>

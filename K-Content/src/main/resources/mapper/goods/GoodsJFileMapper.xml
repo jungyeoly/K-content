@@ -78,7 +78,8 @@
                g.goods_update_date,
                g.goods_delete_yn,
                f.goods_file_path,
-               f.goods_file_name
+               f.goods_file_name,
+               f.goods_file_id
 
         FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f

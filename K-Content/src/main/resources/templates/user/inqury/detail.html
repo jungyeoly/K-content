@@ -42,12 +42,14 @@
 		
 		<div class="d-flex btn-div" >
 			<a th:href="@{/inqury}" class="list-link btn">목록</a>
-			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns">
-				<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2">수정</a>
-				<form th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
-					<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>
-					<input type="submit" class="btn delete" value="삭제">
-				</form>
+			<div th:if="${inqry.inqryGroupOrd} == 0">
+	 			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns">
+					<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2">수정</a>
+					<form th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
+						<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>
+						<input type="submit" class="btn delete" value="삭제">
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

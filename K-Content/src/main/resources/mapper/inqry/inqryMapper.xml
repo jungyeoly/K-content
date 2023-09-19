@@ -36,8 +36,9 @@
 			        order by inqry_id desc
 			        )
 			) A
-			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			INNER JOIN tb_inqry B ON A.inqry_id = B.inqry_ref_id
 			WHERE rn BETWEEN #{start} AND #{end}
+			AND b.inqry_delete_yn = 'N'
 			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
 		]]>
 	</select>

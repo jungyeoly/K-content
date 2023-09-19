@@ -31,9 +31,13 @@
 	</div>
 	
 	<div class="d-flex btn-div" >
-		<a th:href="@{/cs/inqry}" class="list-link btn">목록</a>
-		<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2">수정</a>
-		<a th:if="${cnt == 1}" th:unless="${origin}" th:href="@{/cs/inqry/write}" class="list-link btn">답글달기</a>
+		<a th:href="@{/cs/inqry}" class="btn list-link">목록</a>
+		<div>
+			<div class="btns">
+				<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2">수정</a>
+				<a th:if="${cnt == 1}" th:unless="${origin}" th:href="@{/cs/inqry/write}" class="btn">답글달기</a>
+			</div>
+		</div>
 	</div> 
 </div>
 

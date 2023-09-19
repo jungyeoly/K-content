@@ -1,0 +1,43 @@
+.inqry-header {
+	border-top: 3px solid black;
+	border-bottom: 1px solid black;
+	padding: .5em;
+}
+
+.img-div {
+	padding: 1.5em;
+}
+
+.cntnt-div {
+	padding: 1.5em;
+}
+
+.container{
+	border-bottom: 1px solid black;
+}
+
+img {
+	width: auto;
+	height: 300px;
+}
+
+.btn-div {
+	position: relative;
+}
+
+.list-link {
+	position: absolute;
+	top: 1em;
+	left: 40%;
+}
+
+.btns{
+	display: flex;
+	position: absolute;
+	top: 1em;
+	right: 0;
+}
+
+.detail-cntnt {
+	min-height: 400px;	
+}

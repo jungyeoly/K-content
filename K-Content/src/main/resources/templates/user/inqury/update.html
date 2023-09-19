@@ -52,7 +52,7 @@
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="inqryId" th:value="${inqry.inqryId}">
 				<input type="hidden" name="inqryFileInqryId" th:value="${inqry.inqryFileInqryId}">
-				<a type="reset" class="btn me-2" th:href="@{/inqury/{page}(page=${session.nowPage})}">취소</a>
+				<a type="reset" class="btn me-2" th:href="@{/inqury}">취소</a>
 				<input type="submit" class="btn insertBtn" value="글 수정">
 			</div>
 		</form>

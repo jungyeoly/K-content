@@ -123,7 +123,6 @@ function selectGoods(receivedData) {
 
 //선택한 굿즈 삭제
 function delGoods(goodsID) {
-    console.log("goodsID" + goodsID);
     const div = document.getElementById(goodsID);
     div.remove();
 
@@ -169,9 +168,6 @@ function createContent() {
         };
     }
 
-
-    console.log(sendData.cntntCateCode);
-
     //콘텐츠 생성/수정
     $.ajax({
         url: '/cs/content',
@@ -196,9 +192,7 @@ function printIframe() {
         url: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v=' + keyword,
         type: 'get',
         success: function (data) {
-            console.log(data);
             let parseData = JSON.parse(data);
-            console.log(parseData);
             document.getElementById("title").value = parseData.title;
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + keyword + "\"" +

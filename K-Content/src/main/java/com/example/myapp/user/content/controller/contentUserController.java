@@ -1,5 +1,9 @@
 package com.example.myapp.user.content.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 import com.example.myapp.cms.content.model.CmsContent;
@@ -23,111 +27,114 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.myapp.user.content.model.Content;
 import com.example.myapp.user.content.service.IContentUserService;
 
+import javax.imageio.ImageIO;
+
 
 @Controller
 public class contentUserController {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	IContentUserService contentService;
-	@Autowired
-	IContentService csContentService;
-	@Autowired
-	ICommonCodeService commonCodeService;
-	@Autowired
-	ICntntGoodsMappingService cntntGoodsMappingService;
-	@Autowired
-	IGoodsService goodsService;
-	@GetMapping("/user/content")
-	public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model) {
-		// 카테고리 별 조회
+    @Autowired
+    IContentUserService contentService;
+    @Autowired
+    IContentService csContentService;
+    @Autowired
+    ICommonCodeService commonCodeService;
+    @Autowired
+    ICntntGoodsMappingService cntntGoodsMappingService;
+    @Autowired
+    IGoodsService goodsService;
 
-		List<Content> contentList = contentService.selectUserContent(cate, start, end);
+    @GetMapping("/user/content")
+    public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model) {
+        // 카테고리 별 조회
 
-		for(int i=0; i<contentList.size(); i++) {
-			// 유튜뷰 영상 썸네일 추출
-			List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
-			String partOfUrl = contentUrlSplit.get(3);
-			List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-			String resultCode = partOfUrl2.get(1);
-			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
-		}
+        List<Content> contentList = contentService.selectUserContent(cate, start, end);
 
-		model.addAttribute("contentList", contentList);
+        for (int i = 0; i < contentList.size(); i++) {
+            // 유튜뷰 영상 썸네일 추출
+            List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String resultCode = partOfUrl2.get(1);
+            contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
+        }
 
-		return "user/content/list";
-	}
+        model.addAttribute("contentList", contentList);
 
-	@GetMapping("/content/scroll")
-	public @ResponseBody Map<String, Object> show(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam int start, @RequestParam int end, Model model) {
-		List<Content> contentList = contentService.selectUserContent(cate, start, end);
+        return "user/content/list";
+    }
+    @PostMapping("/user/content")
+    public String searchUserContentList(@RequestParam String keyword, Model model) {
 
-		for(int i=0; i<contentList.size(); i++) {
-			// 유튜뷰 영상 썸네일 추출
-			List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
-			String partOfUrl = contentUrlSplit.get(3);
-			List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-			String resultCode = partOfUrl2.get(1);
-			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
-		}
+        List<Content> contentList = contentService.searchUserContent(keyword);
 
-		Map<String, Object> map = new HashMap<> ();
+        for (int i = 0; i < contentList.size(); i++) {
+            // 유튜뷰 영상 썸네일 추출
+            List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String resultCode = partOfUrl2.get(1);
+            contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
+        }
 
-		map.put("contentList", contentList);
+        model.addAttribute("contentList", contentList);
 
-		return map;
-	}
+        return "user/content/list";
+    }
 
-	@PostMapping("/user/content")
-	public String searchUserContentList(@RequestParam String keyword, Model model) {
+    @GetMapping("/content/scroll")
+    public @ResponseBody Map<String, Object> show(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam int start, @RequestParam int end, Model model) {
+        List<Content> contentList = contentService.selectUserContent(cate, start, end);
 
-		List<Content> contentList = contentService.searchUserContent(keyword);
+        for (int i = 0; i < contentList.size(); i++) {
+            // 유튜뷰 영상 썸네일 추출
+            List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String resultCode = partOfUrl2.get(1);
+            contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
+        }
 
-		for(int i=0; i<contentList.size(); i++) {
-			// 유튜뷰 영상 썸네일 추출
-			List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));
-			String partOfUrl = contentUrlSplit.get(3);
-			List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-			String resultCode = partOfUrl2.get(1);
-			contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/"+resultCode+"/hqdefault.jpg");
-		}
+        Map<String, Object> map = new HashMap<>();
 
-		model.addAttribute("contentList", contentList);
+        map.put("contentList", contentList);
 
-		return "user/content/list";
-	}
+        return map;
+    }
 
-	//여기 봐봐
-	@GetMapping("/user/content/detail")
-	public String getAContent(int targetContentIdF, Model model) {
-		System.out.println("왔니????");
-		CmsContent content = csContentService.getAContent(targetContentIdF);
-		model.addAttribute("content", content);
 
-		CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
-		System.out.println("commonCodes:" + commonCodes);
-		model.addAttribute("category", commonCodes);
+    //여기 봐봐
+    @GetMapping("/user/content/detail")
+    public String getAContent(int targetContentIdF, Model model) {
+        System.out.println("왔니????");
+        CmsContent content = csContentService.getAContent(targetContentIdF);
+        model.addAttribute("content", content);
 
-		List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
-		model.addAttribute("keywordList", keywordList);
+        CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
+        System.out.println("commonCodes:" + commonCodes);
+        model.addAttribute("category", commonCodes);
 
-		List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-		List<Goods> goodsJFileList = new ArrayList<Goods>();
-		for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-			//일단 파일이 하나라고 가정....
-			goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-		}
-		model.addAttribute("goodsJFileList", goodsJFileList);
-		// 쿼리 앞에 키워드 가져와서 뽑기
-		List<String> trendQueryList = new ArrayList<>();
+        List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
+        model.addAttribute("keywordList", keywordList);
 
-		for (int i = 0; i < keywordList.size(); i++) {
-			trendQueryList.add(keywordList.get(i));
-		}
-		model.addAttribute("trendQueryList", trendQueryList);
-		return "user/content/contentDetail";
-	}
+        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
+        List<Goods> goodsJFileList = new ArrayList<Goods>();
+        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
+            //일단 파일이 하나라고 가정....
+            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+        }
+        model.addAttribute("goodsJFileList", goodsJFileList);
+        // 쿼리 앞에 키워드 가져와서 뽑기
+        List<String> trendQueryList = new ArrayList<>();
+
+        for (int i = 0; i < keywordList.size(); i++) {
+            trendQueryList.add(keywordList.get(i));
+        }
+        model.addAttribute("trendQueryList", trendQueryList);
+        return "user/content/contentDetail";
+    }
 
 
 }

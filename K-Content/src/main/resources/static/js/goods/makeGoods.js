@@ -6,7 +6,6 @@ fileInput.addEventListener('change', function (e) {
     file = e.target.files[0]; //선택된 파일
     var reader = new FileReader();
     reader.readAsDataURL(file); //파일을 읽는 메서드
-    console.log(e.target.files)
     reader.onload = function () {
         var photoFrame = document.createElement("img");
         photoFrame.src = `${reader.result}`;
@@ -52,8 +51,6 @@ function createGoods() {
     //
     //     //TODO 파일 명, 경로 담아서 보내기
     // };
-
-    console.log(formData);
 
     $.ajax({
         url: '/cs/goods',

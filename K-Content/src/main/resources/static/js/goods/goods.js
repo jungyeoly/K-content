@@ -7,7 +7,6 @@ $(document).ready(function () {
             const element = document.getElementById('goodsPad');
 
             for (var i = 0; i < data.length; i++) {
-                console.log(data);
                 inHtml = `<div class="col-xl-3 col-lg-6" >
                         <div class="single-category mb-30" onclick="addList(${data[i].goodsId})">
                             <div class="category-img">
@@ -32,9 +31,7 @@ $(document).ready(function () {
 clickGoodsList = [];
 
 function selectEnd(){
-    console.log(clickGoodsList);
     const openerWindow = window.opener;
-    console.log(openerWindow);
     window.opener.postMessage(clickGoodsList, "*");
     window.close();
 }
@@ -51,7 +48,6 @@ function searchKeyword() {
     var requestData = {
         search: document.getElementById("search").value
     };
-    console.log(requestData);
     $.ajax({
         url: '/cs/goods/search',
         type: 'GET',

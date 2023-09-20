@@ -3,7 +3,7 @@
 
 <head>
 
-<div th:replace="~{/include/header :: header}"></div>
+<th:block th:replace="~{/include/header :: header}"></th:block>
 <link rel="stylesheet" th:href="@{/css/mber/mber.css}">
 <link rel="stylesheet" th:href="@{/css/mber/mber-header.css}">
 
@@ -67,7 +67,7 @@
 						</div>
 						<div class="col-md-6 text-center">
 							<button type="button" class="btn btn-lg mb-3"
-								id="changePwdNextBtn">다음에 변경하기</button>
+								id="changePwdNextBtn"><a th:href="@{/}">다음에 변경하기</a></button>
 						</div>
 					</div>
 

@@ -9,23 +9,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 
-import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
-import com.example.myapp.user.mber.model.MberUserDetails;
 import com.example.myapp.user.mber.service.IEmailService;
 import com.example.myapp.user.mber.service.IMberService;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -40,9 +37,6 @@ public class MberController {
 
 	@Autowired
 	IEmailService emailService;
-
-	@Autowired
-	ICommonCodeService commonCodeService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -84,40 +78,6 @@ public class MberController {
 
 		return "user/mber/signin";
 	}
-
-	@GetMapping(value = "/mber/mypage")
-	public String myPage(Model model, Authentication auth) {
-		  boolean isAdmin = false;
-	        for (GrantedAuthority authority : auth.getAuthorities()) {
-	            if (authority.getAuthority().equals("ROLE_ADMIN")) {
-	                isAdmin = true;
-	                break;
-	            }
-	        }
-	        model.addAttribute("isAdmin", isAdmin);
-		return "user/mber/mypage";
-	}
-
-//	@RequestMapping(value = "/mber/signout", method = RequestMethod.GET)
-//	public String signout() {
-		// Spring Security가 로그아웃 처리를 하므로 여기에서는 세션만 초기화하고 리다이렉트
-//		sessionStatus.setComplete();
-
-//		// 쿠키 삭제
-//		Cookie[] cookies = request.getCookies();
-//		if (cookies != null) {
-//			for (Cookie cookie : cookies) {
-//				if (cookie.getName().equals("savedMberId")) {
-//					cookie.setValue("");
-//					cookie.setMaxAge(0);
-//					cookie.setPath("/");
-//					response.addCookie(cookie);
-//				}
-//			}
-//		}
-
-//		return "redirect:/";
-//	}
 
 	@GetMapping("/mber/findmber")
 	public String findMber(@RequestParam(name = "findType", required = false, defaultValue = "id") String findType,
@@ -217,4 +177,66 @@ public class MberController {
 		// 예: 오류 메시지 표시 등
 		return "redirect:/";
 	}
+
+	@GetMapping(value = "/mber/mypage")
+	public String myPage(Model model, Authentication auth) {
+		String currentMberId = auth.getName();
+
+		Mber mber = mberService.selectMberbyId(currentMberId);
+
+		model.addAttribute(mber);
+		
+		boolean isAdmin = false;
+		for (GrantedAuthority authority : auth.getAuthorities()) {
+			if (authority.getAuthority().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}
+		model.addAttribute("isAdmin", isAdmin);
+		return "user/mber/mypage";
+	}
+
+	@GetMapping(value = "/mber/editprofile")
+	public String mberInfo(Model model, Authentication auth) {
+
+		String currentMberId = auth.getName();
+
+		Mber mber = mberService.selectMberbyId(currentMberId);
+
+		model.addAttribute(mber);
+
+		boolean isAdmin = false;
+		for (GrantedAuthority authority : auth.getAuthorities()) {
+			if (authority.getAuthority().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}
+		model.addAttribute("isAdmin", isAdmin);
+		return "user/mber/editprofile";
+	}
+
+	   // 회원 정보 수정 처리
+    @PostMapping(value = "/mber/update")
+    public String updateProfile(Model model, @ModelAttribute("mber") Mber updatedMber,
+                                Authentication auth) {
+        // 현재 로그인한 회원의 아이디를 가져옵니다.
+        String currentMberId = auth.getName();
+
+        Mber mber = mberService.selectMberbyId(currentMberId);
+    	PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String encodedPwd = pwdEncoder.encode(updatedMber.getMberPwd());
+		
+        mber.setMberPwd(encodedPwd);
+        mber.setMberName(updatedMber.getMberName());
+        mber.setMberEmail(updatedMber.getMberEmail());
+        mber.setMberGenderCode(updatedMber.getMberGenderCode());
+        mber.setMberBirth(updatedMber.getMberBirth());
+        mber.setMberPhone(updatedMber.getMberPhone());
+
+        mberService.updateMber(mber);
+
+        return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
+    }
 }

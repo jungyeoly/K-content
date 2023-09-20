@@ -34,15 +34,13 @@ public class MberUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String mberId) throws UsernameNotFoundException {
 		// 사용자 이름(여기서는 mberId)을 기반으로 사용자 정보를 데이터베이스에서 가져온다.
 		Mber mber = mberService.selectMberbyId(mberId);
-		String mberStat = commonCodeService.mberStatByCode(mberId);
+		String mberStat = mber.getMberStat();
 		String mberGender = commonCodeService.mberGenderByCode(mberId);
-		String mberRole = commonCodeService.mberRoleByCode(mberId);
-
-//
-
-		if (mberStat == "DEACTIVATED") {
+		String mberRole = mber.getMberRole();
+				
+		if (mberStat == "비활성화") {
 			throw new DisabledException("비활성화된 계정입니다. 관리자에게 문의하세요.");
-		} else if (mberStat.equals("ACTIVATED")) {
+		} else if (mberStat.equals("활성화")) {
 			// 사용자가 활성화 상태인 경우 UserDetails 객체를 생성하고 반환한다.
 			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(mberRole);
 

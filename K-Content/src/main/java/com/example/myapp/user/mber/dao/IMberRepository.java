@@ -26,4 +26,6 @@ public interface IMberRepository {
 
 	String maskMberId(String mberEmail);
 	
+	String mberGenderCodeById(String mberId);
+	
 }

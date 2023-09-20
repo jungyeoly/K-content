@@ -19,4 +19,5 @@ public interface IMberService {
 
 	void deleteMber(String mberId);
 
+	String mberGenderCodeById(String mberId);
 }

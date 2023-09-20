@@ -219,26 +219,31 @@ public class MberController {
 		return "user/mber/editprofile";
 	}
 
-	   // 회원 정보 수정 처리
-    @PostMapping(value = "/mber/update")
-    public String updateProfile(Model model, @ModelAttribute("mber") Mber updatedMber,
-                                Authentication auth) {
-        // 현재 로그인한 회원의 아이디를 가져옵니다.
-        String currentMberId = auth.getName();
+	// 회원 정보 수정 처리
+	@PostMapping(value = "/mber/update")
+	public String updateProfile(Model model, @ModelAttribute("mber") Mber updatedMber, Authentication auth) {
+		// 현재 로그인한 회원의 아이디를 가져옵니다.
+		String currentMberId = auth.getName();
 
-        Mber mber = mberService.selectMberbyId(currentMberId);
-    	PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String encodedPwd = pwdEncoder.encode(updatedMber.getMberPwd());
-		
-        mber.setMberPwd(encodedPwd);
-        mber.setMberName(updatedMber.getMberName());
-        mber.setMberEmail(updatedMber.getMberEmail());
-        mber.setMberGenderCode(updatedMber.getMberGenderCode());
-        mber.setMberBirth(updatedMber.getMberBirth());
-        mber.setMberPhone(updatedMber.getMberPhone());
 
-        mberService.updateMber(mber);
+		mber.setMberPwd(encodedPwd);
+		mber.setMberName(updatedMber.getMberName());
+		mber.setMberEmail(updatedMber.getMberEmail());
+		mber.setMberGenderCode(updatedMber.getMberGenderCode());
+		mber.setMberBirth(updatedMber.getMberBirth());
+		mber.setMberPhone(updatedMber.getMberPhone());
 
-        return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
-    }
+		mberService.updateMber(mber);
+
+		return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
+	}
+
+	@GetMapping(value = "/mber/deletember")
+	public String deleteMber(Model model, Authentication auth) {
+		return "user/mber/deletember";
+	}
+
 }

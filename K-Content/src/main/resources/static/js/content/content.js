@@ -44,3 +44,19 @@ $(document).ready(function() {
 	});
 
 })
+
+function cntntDetail(cntntId) {
+
+	const formHtml = `
+<form id="contentDetail" action="/user/content/detail" method="get">
+	<input  id="targetContentIdF" name="targetContentIdF"  />
+</form>`;
+
+	const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+	const form = doc.body.firstChild;
+	document.body.append(form);
+	document.getElementById("targetContentIdF").value = cntntId;
+	document.getElementById('contentDetail').submit();
+
+
+}

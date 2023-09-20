@@ -8,7 +8,10 @@
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 
-	<div class="layout"></div>
+	<div class="layout">
+
+
+	</div>
 
 
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -52,22 +55,6 @@
 
     // 콘텐츠 클릭 시 디테일 페이지 보여주기
 
-    // 메인에서 클릭 시 이거 씀
-    function cntntDetail(cntntId) {
-
-        const formHtml = `
-                    <form id="contentDetail" action="/user/content/detail" method="get">
-                        <input  id="targetContentIdF" name="targetContentIdF"  />
-                    </form>`;
-
-        const doc = new DOMParser().parseFromString(formHtml, 'text/html');
-        const form = doc.body.firstChild;
-        document.body.append(form);
-        document.getElementById("targetContentIdF").value = cntntId;
-        document.getElementById('contentDetail').submit();
-
-
-    }
 </script>
 
 </body>

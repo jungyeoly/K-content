@@ -10,7 +10,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<a th:href="@{/}"><img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고"></a>
 
 			<ul class="icons">
-				<li class="myPage"><a th:href="@{/mber/mypage}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
+				<li class="myPage"><a th:href="@{/mber/verifypwd}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
 				<li class="myLike"><a href="#"><i class="fa-solid fa-heart"></i> MY LIKE</a></li>
 				<li class="shoppingBag"><a href="#"><i class="fa-solid fa-bag-shopping"></i> SHOPPING BAG</a></li>
 				<li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}"><i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> LOGIN</a></li>

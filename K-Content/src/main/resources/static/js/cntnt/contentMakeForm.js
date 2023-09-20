@@ -57,6 +57,7 @@ window.name = "goods_parent";
 
 //굿즈 검색 팝업 생성
 function goodsNewPage() {
+    // TODO 포트번호 적으면 어떡하니
     window.open("http://localhost:8083/cs/goods", "/cs/goods", "width=1200, height=800");
 }
 

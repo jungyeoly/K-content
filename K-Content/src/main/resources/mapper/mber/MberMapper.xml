@@ -6,87 +6,97 @@
 	<select id="selectMberbyId"
 		resultType="com.example.myapp.user.mber.model.Mber">
 			<![CDATA[
-		    	SELECT A.mber_id,
-					   A.mber_email,
-					   A.mber_pwd,
-					   A.mber_name,
-					   A.mber_birth,
-					   A.mber_phone,
-					   A.mber_regist_date,
-					   A.mber_update_date,
-					   A.mber_gender_code,
-					   A.mber_stat_code,
-					   B.common_code_val
+	          SELECT A.mber_id,
+			       A.mber_email,
+			       A.mber_pwd,
+			       A.mber_name,
+			       A.mber_birth,
+			       A.mber_phone,
+			       A.mber_regist_date,
+			       A.mber_update_date,
+			       A.mber_gender_code,
+			       B1.common_code_dscr AS mber_stat,
+			       B2.common_code_val AS mber_role
 				FROM tb_mber A
-		        JOIN tb_common_code B
-		        ON A.mber_role_code = B.common_code
-				WHERE mber_id= #{mberId}
+				JOIN tb_common_code B1
+				ON A.mber_stat_code = B1.common_code
+				JOIN tb_common_code B2
+				ON A.mber_role_code = B2.common_code
+				WHERE A.mber_id = #{mberId}
+            
 		]]>
 	</select>
 
 	<select id="selectMberbyEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 			<![CDATA[
-			 	SELECT A.mber_id,
-					   A.mber_email,
-					   A.mber_pwd,
-					   A.mber_name,
-					   A.mber_birth,
-					   A.mber_phone,
-					   A.mber_regist_date,
-					   A.mber_update_date,
-					   A.mber_gender_code,
-					   A.mber_stat_code,
-					   B.common_code_val
+	        SELECT A.mber_id,
+			       A.mber_email,
+			       A.mber_pwd,
+			       A.mber_name,
+			       A.mber_birth,
+			       A.mber_phone,
+			       A.mber_regist_date,
+			       A.mber_update_date,
+			       A.mber_gender_code,
+			       B1.common_code_dscr AS mber_stat,
+			       B2.common_code_val AS mber_role
 				FROM tb_mber A
-		        JOIN tb_common_code B
-		        ON A.mber_role_code = B.common_code
-				WHERE mber_Email=#{mberEmail}
+				JOIN tb_common_code B1
+				ON A.mber_stat_code = B1.common_code
+				JOIN tb_common_code B2
+				ON A.mber_role_code = B2.common_code
+				WHERE A.mber_email = #{mberEmail}
 			]]>
 	</select>
 
 	<select id="selectMberbyIdEmail"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT A.mber_id,
-					   A.mber_email,
-					   A.mber_pwd,
-					   A.mber_name,
-					   A.mber_birth,
-					   A.mber_phone,
-					   A.mber_regist_date,
-					   A.mber_update_date,
-					   A.mber_gender_code,
-					   A.mber_stat_code,
-					   B.common_code_val
-			FROM tb_mber A
-		    JOIN tb_common_code B
-		    ON A.mber_role_code = B.common_code
-			WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
+		     SELECT A.mber_id,
+			       A.mber_email,
+			       A.mber_pwd,
+			       A.mber_name,
+			       A.mber_birth,
+			       A.mber_phone,
+			       A.mber_regist_date,
+			       A.mber_update_date,
+			       A.mber_gender_code,
+			       B1.common_code_dscr AS mber_stat,
+			       B2.common_code_val AS mber_role
+				FROM tb_mber A
+				JOIN tb_common_code B1
+				ON A.mber_stat_code = B1.common_code
+				JOIN tb_common_code B2
+				ON A.mber_role_code = B2.common_code
+				WHERE mber_id=#{mberId} AND mber_email= #{mberEmail}
 		]]>
 	</select>
 
 	<select id="selectMberAllList"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
-			SELECT A.mber_id,
-					   A.mber_email,
-					   A.mber_pwd,
-					   A.mber_name,
-					   A.mber_birth,
-					   A.mber_phone,
-					   A.mber_regist_date,
-					   A.mber_update_date,
-					   A.mber_gender_code,
-					   A.mber_stat_code,
-					   B.common_code_val
-			FROM tb_mber A
-		    JOIN tb_common_code B
-		    ON A.mber_role_code = B.common_code
-		FROM tb_mber
+		  SELECT A.mber_id,
+			       A.mber_email,
+			       A.mber_pwd,
+			       A.mber_name,
+			       A.mber_birth,
+			       A.mber_phone,
+			       A.mber_regist_date,
+			       A.mber_update_date,
+			       A.mber_gender_code,
+			       B1.common_code_dscr AS mber_stat,
+			       B2.common_code_val AS mber_role
+				FROM tb_mber A
+				JOIN tb_common_code B1
+				ON A.mber_stat_code = B1.common_code
+				JOIN tb_common_code B2
+				ON A.mber_role_code = B2.common_code
 		]]>
 	</select>
 
+
+	
 	<insert id="insertMber" parameterType="String">
 	    <![CDATA[
 		INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
@@ -105,6 +115,7 @@
 			mber_name = #{mberName},
 			mber_birth = #{mberBirth},
 			mber_phone = #{mberPhone},
+			mber_gender_code = #{mberGenderCode},
 			mber_update_date = to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss')
 		WHERE mber_id = #{mberId}
 		]]>

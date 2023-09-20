@@ -49,4 +49,8 @@ public class MberService implements IMberService {
 		mberRepository.deleteMber(mberId);
 	}
 
+	@Override
+	public String mberGenderCodeById(String mberId) {
+		return mberRepository.mberGenderCodeById(mberId);
+	}
 }

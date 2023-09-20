@@ -40,36 +40,36 @@ public class SpringSecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
-                                "/mber/mailauth", "/mber/**", "/mber/resetpwd")
-                        .permitAll().requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**")
-                        .hasAnyRole("ADMIN").requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**")
-                        .hasAnyRole("USER").anyRequest().authenticated())
-//				/* .anyRequest().permitAll()) */
-                // Form 로그인을 활용하는 경우
-                .formLogin(formLogin -> formLogin.loginPage("/mber/signin").loginProcessingUrl("/mber/signin")
-                        .usernameParameter("mberId").passwordParameter("mberPwd").defaultSuccessUrl("/", true)
-                        .successHandler(new AuthenticationSuccessHandler() {
-                            @Override
-                            public void onAuthenticationSuccess(HttpServletRequest request,
-                                                                HttpServletResponse response, Authentication authentication)
-                                    throws IOException, ServletException {
-                                response.sendRedirect("/mber/resetpwd");
-                            }
-                        }).failureHandler(new AuthenticationFailureHandler() {
-                            @Override
-                            public void onAuthenticationFailure(HttpServletRequest request,
-                                                                HttpServletResponse response, AuthenticationException exception)
-                                    throws IOException, ServletException {
-                                System.out.println("exception: " + exception.getMessage());
-                                response.sendRedirect("/mber/signin");
-                            }
-                        }).permitAll())
+	@Bean
+	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+		.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
+								"/mber/mailauth", "/mber/**", "/mber/resetpwd").permitAll()
+						.requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**")
+						.hasAnyRole("ADMIN").requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**")
+						.hasAnyRole("USER").anyRequest().authenticated())
+				/* .anyRequest().permitAll()) */
+				// Form 로그인을 활용하는 경우
+				.formLogin(formLogin -> formLogin.loginPage("/mber/signin").loginProcessingUrl("/mber/signin")
+						.usernameParameter("mberId").passwordParameter("mberPwd").defaultSuccessUrl("/", true)
+						.successHandler(new AuthenticationSuccessHandler() {
+							@Override
+							public void onAuthenticationSuccess(HttpServletRequest request,
+									HttpServletResponse response, Authentication authentication)
+									throws IOException, ServletException {
+								response.sendRedirect("/mber/resetpwd");
+							}
+						}).failureHandler(new AuthenticationFailureHandler() {
+							@Override
+							public void onAuthenticationFailure(HttpServletRequest request,
+									HttpServletResponse response, AuthenticationException exception)
+									throws IOException, ServletException {
+								System.out.println("exception: " + exception.getMessage());
+								response.sendRedirect("/mber/signin");
+							}
+						}).permitAll())
 
                 .logout(logout -> logout // 로그아웃 기능 작동함
                         .logoutUrl("/mber/signout").invalidateHttpSession(true).logoutSuccessUrl("/") // 로그아웃 성공 후

@@ -60,3 +60,4 @@ function cntntDetail(cntntId) {
 
 
 }
+

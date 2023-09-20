@@ -26,16 +26,16 @@ $(document).ready(function () {
         }
     });
 
-    // 키워드로 인스타 크롤링
+    // 키워드로 인스타 크롤링 이거 지금 안된다
     $.ajax({
         url: '/cs/insta-img', type: 'GET',
         data: requestData,
-        success: function (data) {
-            console.log(data);
+        success: function (data2) {
             const element = document.getElementById('trend');
-            data.slice(1, -1);
-            data.slice(1, -1);
-            element.innerHTML = data
+            data2.slice(1, -1);
+            data2.slice(1, -1);
+            console.log(data2);
+            element.innerHTML = data2
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }
@@ -52,7 +52,6 @@ $(document).ready(function () {
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" + `frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             element.innerHTML = inHtml
-            console.log(data2);
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }

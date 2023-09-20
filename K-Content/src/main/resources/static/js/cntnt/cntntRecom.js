@@ -21,7 +21,6 @@ $(document).ready(function () {
                 //         str = str + data;
                 //     }
                 // })
-                console.log(singleReplaceString);
                 // Ep 4 &quot;The Golden Trio (Plus One)&quot; - Overthinking with Kat &amp; June
                 // &#39;뜨거운 타격감&#39; 최지만 현지해설 &quot;최지만에겐 슬라이더가 위협이 되지 않죠&quot; #SPORTSTIME
                 //
@@ -56,9 +55,6 @@ function cntntMake(spaArr, url) {
     document.body.append(form);
     document.getElementById("cntntURL").value = url;
     document.getElementById("cntntTitle").value = spaArr;
-    ;
-    console.log(document.getElementsByClassName("cntntURL").value);
-    console.log(document.getElementsByClassName("cntntTitle").value);
     document.getElementById('contentMake').submit();
 }
 
@@ -73,7 +69,6 @@ function searchButton() {
             element.innerHTML = '';
             for (i = 0; i < contentList.length; i++) {
                 singleReplaceString = contentList[i].title.replace(/&#39;/g, "\\'");
-                console.log(singleReplaceString);
 
                 inHtml = `
             <li class="card-item" id="card-item" onclick="cntntMake( ' ${singleReplaceString}' , '${contentList[i].url}' )">

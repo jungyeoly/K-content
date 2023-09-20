@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -83,9 +85,12 @@ public class goodsController {
 
         String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
 
+
+//        String originalEncodingFilename = new String(goodsFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+        String originalEncodingFilename = Normalizer.normalize(goodsFile.getOriginalFilename(), Normalizer.Form.NFC);
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
-        String originalFilename = goodsFile.getOriginalFilename();
+        String originalFilename = originalEncodingFilename;
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFilename = uuidString + "_" + originalFilename;
 
@@ -105,6 +110,8 @@ public class goodsController {
         newGoods.setGoodsKwrd(keyword);
 
         Path path = Paths.get(uploadPath + url).toAbsolutePath().normalize();
+
+//        newFilename = new String(newFilename.getBytes(StandardCharsets.ISO_8859_1),"UTF-8");
         Path realPath = path.resolve(newFilename).normalize();
 
         int rowsAffected = goodsService.insertGoods(newGoods, newGoodsFile);

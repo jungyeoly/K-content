@@ -10,16 +10,8 @@
 
 	<div class="layout">
 
-
 	</div>
-
-
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-	<script th:src="@{/js/body-header.js}"></script>
-	<script th:src="@{/js/content/content.js}"></script>
-	<script th:src="@{/js/content/scroll.js}"></script>
-
-
+	
 	<div th:if="${session.isTempPwd != null}" class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
@@ -38,24 +30,27 @@
 			</a>
 		</div>
 	</div>
-	</div>
-	</div>
-	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<script th:src="@{/js/body-header.js}"></script>
+	<script th:src="@{/js/content/content.js}"></script>
+	<script th:src="@{/js/content/scroll.js}"></script>
+	
 	<script th:inline="javascript" th:if="${session.isTempPwd != null}">
-    function showTempPwdToast() {
-
-        const toastLiveExample = document.getElementById('liveToast');
-        toastLiveExample.removeAttribute('display');
-        const toastBootstrap = new bootstrap.Toast(toastLiveExample);
-        toastBootstrap.show();
-    }
-
-    // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
-    window.onload = showTempPwdToast;
-
-    // 콘텐츠 클릭 시 디테일 페이지 보여주기
-
-</script>
+	    function showTempPwdToast() {
+	
+	        const toastLiveExample = document.getElementById('liveToast');
+	        toastLiveExample.removeAttribute('display');
+	        const toastBootstrap = new bootstrap.Toast(toastLiveExample);
+	        toastBootstrap.show();
+	    }
+	
+	    // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
+	    window.onload = showTempPwdToast;
+	
+	    // 콘텐츠 클릭 시 디테일 페이지 보여주기
+	</script>
 
 </body>
 </html>

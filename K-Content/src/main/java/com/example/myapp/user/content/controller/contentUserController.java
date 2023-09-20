@@ -108,7 +108,6 @@ public class contentUserController {
     //여기 봐봐
     @GetMapping("/user/content/detail")
     public String getAContent(int targetContentIdF, Model model) {
-
         CmsContent content = csContentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 

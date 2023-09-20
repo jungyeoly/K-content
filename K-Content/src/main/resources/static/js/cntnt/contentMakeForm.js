@@ -57,7 +57,10 @@ window.name = "goods_parent";
 
 //굿즈 검색 팝업 생성
 function goodsNewPage() {
-    window.open("http://localhost:8080/cs/goods", "/cs/goods", "width=1200, height=800");
+
+    // TODO 포트번호 적으면 어떡하니
+    window.open("http://localhost:8083/cs/goods", "/cs/goods", "width=1200, height=800");
+
 }
 
 // 굿즈 검색 팝업에서 클릭한 상품 콘텐츠 생성 페이지로 보내기

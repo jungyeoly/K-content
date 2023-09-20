@@ -1,5 +1,5 @@
 $.ajax({
-    url: '/cs/getallcntnt', type: 'GET',
+    url: '/cs/contents', type: 'GET',
     success: function (contentList) {
         const element = document.getElementById('card-list');
 
@@ -23,13 +23,12 @@ $.ajax({
 
 
 function searchButton() {
-
     var requestData = {
         searchKeyword: document.getElementById('search-input').value
     };
 
     $.ajax({
-        url: '/cs/getsearchcntnt', type: 'GET',
+        url: '/cs/contents/search', type: 'GET',
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');
@@ -57,7 +56,7 @@ function searchButton() {
 function cntntDetail(cntntId) {
 
     const formHtml = `
-                    <form id="contentDetail" action="/cs/contentdetail" method="get">
+                    <form id="contentDetail" action="/cs/content/detail" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 

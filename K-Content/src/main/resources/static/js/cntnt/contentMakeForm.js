@@ -38,8 +38,7 @@ function makeKeyword() {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
           <div id="${word}">
-                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
-                        >
+                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton">
                      ${word}
                 </button>
                 <button style="z-index: 10; margin-left: -10px"
@@ -52,15 +51,13 @@ function makeKeyword() {
         thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
         document.getElementById("inputKeyword").value = '';
     }
-
-
 }
 
 window.name = "goods_parent";
 
 //굿즈 검색 팝업 생성
 function goodsNewPage() {
-    window.open("http://localhost:8083/cs/goods/", "/cs/goods/", "width=1200, height=800");
+    window.open("http://localhost:8083/cs/goods", "/cs/goods", "width=1200, height=800");
 }
 
 // 굿즈 검색 팝업에서 클릭한 상품 콘텐츠 생성 페이지로 보내기
@@ -86,7 +83,7 @@ function selectGoods(receivedData) {
         sendData: str
     };
     $.ajax({
-        url: '/cs/goods/makecntntselectgoods',
+        url: '/cs/goods/content-form',
         type: 'GET',
         data: requestData,
         success: function (data) {
@@ -175,9 +172,9 @@ function createContent() {
 
     console.log(sendData.cntntCateCode);
 
-
+    //콘텐츠 생성/수정
     $.ajax({
-        url: '/cs/content/inputcntntform',
+        url: '/cs/content',
         type: 'POST',
         data: JSON.stringify(sendData),
         contentType: 'application/json',
@@ -188,8 +185,6 @@ function createContent() {
             console.error('에러 발생: ', error);
         }
     });
-
-
 }
 
 function printIframe() {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:fragment="header">
+	<th:block th:fragment="header">
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
 		<!-- 사용자 공통 헤더 -->
 		<link rel="stylesheet" th:href="@{/css/body-header.css}">
 		
-	</div>
+	</th:block>
 </head>
 <body>
 

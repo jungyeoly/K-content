@@ -1,18 +1,25 @@
 $(function(){
-    $(".inqry-row").click(function() {
-        var passwordForm = $(this).find(".password-form");
-        var inqryId = $(this).data("inqry-id");
+	const exampleModal = document.getElementById('exampleModal')
+	if (exampleModal) {
+	  exampleModal.addEventListener('show.bs.modal', event => {
+	    const button = event.relatedTarget
+	    const inqryId = button.getAttribute('data-bs-whatever')
 		
-        $(".password-form").addClass("hidden");
-        passwordForm.toggleClass("hidden");
-    });
-
+	    const modalBodyInput = exampleModal.querySelector(".modal-body input[name='inqryId']")
+		const modalBodyInput2 = exampleModal.querySelector(".modal-body input[name='inqryPwd']")
+	    modalBodyInput.value = inqryId;
+		modalBodyInput2.value = "";
+	  })
+	}
+	
     $(".submit-btn").click(function(e) {
         e.preventDefault();
-        var passwordForm = $(this).closest(".password-form");
-        var inqryId = passwordForm.find("input[name='inqryId']").val();
-        var enteredPwd = passwordForm.find(".password-input").val();
-        
+		var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
+  		var enteredPwd = $("#exampleModal").find("input[name='inqryPwd']").val();
+
+		console.log("id : " + inqryId);
+		console.log("enter : " + enteredPwd);
+		
         if (enteredPwd === "") {
 			alert("비밀번호를 입력하세요.");
 			return;
@@ -26,7 +33,7 @@ $(function(){
                 enteredPwd: enteredPwd
             },
             success: function(data) {
-				var inqryId = passwordForm.closest(".inqry-row").data("inqry-id");
+				var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
                 window.location.href = "/inqury/detail/" + inqryId;
             },
             error: function() {

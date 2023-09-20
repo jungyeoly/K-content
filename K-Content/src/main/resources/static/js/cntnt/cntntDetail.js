@@ -1,20 +1,15 @@
 $(document).ready(function () {
-
     var requestData = {
         trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1),
         cntntId: document.getElementById("cntntId").value
     };
     // 추천 콘텐츠
     $.ajax({
-        url: '/cs/contentbykeyword', type: 'GET',
+        url: '/cs/content/keyword', type: 'GET',
         data: requestData,
         success: function (contentList) {
-
             const element = document.getElementById('card-list');
             for (i = 0; i < contentList.length; i++) {
-                console.log(contentList[i].cntntThumnail)
-                console.log("키워드 기반 추천 콘텐츠" + contentList[i].cntntTitle);
-
                 inHtml = `
             <li class="card-item" id="card-item" onclick="recomCntntDetail(${contentList[i].cntntId})">
                 <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
@@ -25,7 +20,6 @@ $(document).ready(function () {
                 </div>
             </li>`;
                 element.insertAdjacentHTML("afterbegin", inHtml);
-
             }
         }, error: function (error) {
             console.error('에러 발생: ', error);
@@ -34,7 +28,7 @@ $(document).ready(function () {
 
     // 키워드로 인스타 크롤링
     $.ajax({
-        url: '/cs/instacrol', type: 'GET',
+        url: '/cs/insta-img', type: 'GET',
         data: requestData,
         success: function (data) {
             console.log(data);
@@ -66,9 +60,10 @@ $(document).ready(function () {
 
 });
 
+//콘텐츠 상세 화면 출력
 function recomCntntDetail(cntntId) {
     const formHtml = `
-                    <form id="contentDetail" action="/cs/contentdetail" method="get">
+                    <form id="contentDetail" action="/cs/content/detail" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 
@@ -79,12 +74,12 @@ function recomCntntDetail(cntntId) {
     document.getElementById('contentDetail').submit();
 }
 
-
+// 콘텐츠 수정 화면 요청
 function updateCntnt(cntntId) {
     cntntId = document.getElementById('cntntId').value;
     // console.log(cntntId);
     const formHtml = `
-                    <form id="updateCntnt" action="/cs/makecontent/update" method="get">
+                    <form id="updateCntnt" action="/cs/content/modify-form" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 
@@ -95,27 +90,24 @@ function updateCntnt(cntntId) {
     document.getElementById('updateCntnt').submit();
 }
 
+//콘텐츠 삭제 처리
 function deleteCntnt() {
-
     if (confirm('컨텐츠를 삭제하시겠습니까?')) {
         $.ajax({
-            url: '/cs/content/delete', type: 'post',
+            url: '/cs/content', type: 'patch',
             data: {
                 cntntId: document.getElementById("cntntId").value
             }, // 데이터 객체 전달
             success: function (data2) {
                 if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/contentmanage");
+                    window.location.replace("/cs/content-manage");
                 } else {
-                    window.location.replace("/cs/contentmanage");
+                    window.location.replace("/cs/content-manage");
                 }
-
-
             }, error: function (error) {
                 console.error('에러 발생: ', error);
             }
         });
     }
-
 
 }

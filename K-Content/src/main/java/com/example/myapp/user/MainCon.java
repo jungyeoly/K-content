@@ -32,10 +32,6 @@ public class MainCon {
     	// 공통코드를 이용한 content의 카테고리 조회
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
-    	
-//    	MberUserDetails b = (MberUserDetails) a.getPrincipal();
-    	
-//    	logger.info(b.toString());
     
       return "user/index";
     }

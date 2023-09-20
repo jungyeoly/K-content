@@ -23,7 +23,7 @@ i {
 }
 
 /* 제목 옆 카테고리 */
-.cate {
+.categori {
 	height: 25px;
 	background: var(--color-main);
 	color: white;

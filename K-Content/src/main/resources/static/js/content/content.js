@@ -14,7 +14,6 @@ $(document).ready(function() {
 		if (cateValue == null) {
 			cateValue = 'All';
 		}
-		console.log(cateValue);
 	    $.ajax({
 	    	url: "/user/content",
 	    	type: "GET",

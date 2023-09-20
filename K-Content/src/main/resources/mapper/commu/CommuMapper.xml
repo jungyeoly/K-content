@@ -21,18 +21,16 @@
 	<select id="selectPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
-        SELECT commu_id,
+        select commu_id,
                commu_title,
                commu_cntnt,
                commu_regist_date,
                commu_update_date,
                commu_read_cnt,
-               commu_ref_id,
-               commu_depth,
-               commu_order,
+      
                commu_cate_code,
                commu_mber_id
-        FROM tb_commu
+        from tb_commu
       	where commu_id =#{commuId}
         ]]>
 	</select>
@@ -55,16 +53,16 @@
 
 	<update id="updateReadCnt" parameterType="int">
 	<![CDATA[
-        UPDATE tb_commu
-        SET commu_read_cnt = commu_read_cnt + 1
-        WHERE commu_id = #{commuId}
+        update tb_commu
+        set commu_read_cnt = commu_read_cnt + 1
+        where commu_id = #{commuId}
         ]]>
 	</update>
 
 	<select id="selectMaxPost" resultType="int">
 	<![CDATA[
-        SELECT NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
-        FROM tb_commu_file
+        select NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
+        from tb_commu_file
         ]]>
 	</select>
 
@@ -82,19 +80,19 @@
 		parameterType="com.example.myapp.user.commu.model.Commu"
 		useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
 	<![CDATA[
-	INSERT INTO tb_commu
+	insert into tb_commu
   (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
-   commu_status, commu_type, commu_read_cnt, commu_ref_id, commu_depth, commu_order)
+   commu_status, commu_type, commu_read_cnt)
 VALUES
   (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
-   'N', 'N', 0, 0, 0, 0)
+   'N', 'N', 0)
 	]]>
 	</insert>
 
 	<insert id="insertFileData"
 		parameterType="com.example.myapp.user.commu.model.CommuFile">
     <![CDATA[
-    INSERT INTO tb_commu_file
+    insert into tb_commu_file
     (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
     VALUES
         (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),#{commuFileCommuId})
@@ -127,9 +125,6 @@ set commu_title=#{commuTitle},
     commu_cntnt=#{commuCntnt},
     commu_update_date=#{commuUpdateDate},
     commu_read_cnt=#{commuReadCnt},
-    commu_ref_id=#{commuRefId},
-    commu_depth=#{commuDepth},
-    commu_order=#{commuOrder},
     commu_cate_code=#{commuCateCode},
     commu_mber_id=#{commuMberId}
 where commu_id=#{commuId}
@@ -167,7 +162,4 @@ where commu_file_id=#{commuFileId}
     WHERE commu_file_id = #{commuFileId}
 ]]>
 	</delete>
-
-
-
 </mapper>

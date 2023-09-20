@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.example.myapp.user.commucomment.dao.ICommuCommentRepository">
+
+	<!-- 댓글 입력 -->
+	<insert id="insertCommuComment"
+		parameterType="com.example.myapp.user.commucomment.model.CommuComment">
+		INSERT INTO TB_COMMU_COMMENT
+		(COMMU_COMMENT_ID,
+		COMMU_COMMENT_COMMU_ID, COMMU_COMMENT_CNTNT,
+		COMMU_COMMENT_REGIST_DATE,
+		COMMU_COMMENT_UPDATE_DATE,
+		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER, COMMU_COMMENT_MBER_ID,
+		COMMU_COMMENT_REF_ID)
+		VALUES
+		(#{commuCommentId}, #{commuCommentCommuId},
+		#{commuCommentCntnt},
+		#{commuCommentRegistDate},
+		#{commuCommentUpdateDate}, #{commuCommnetDepth}, #{commuCommentOrder},
+		#{commuCommentMberId},
+		#{commuCommentRefId})
+	</insert>
+
+	<!-- 댓글 수정 -->
+	<update id="updateCommuComment"
+		parameterType="com.example.myapp.user.commucomment.model.CommuComment">
+		UPDATE TB_COMMU_COMMENT
+		SET
+		COMMU_COMMENT_CNTNT =
+		#{commuCommentCntnt},
+		COMMU_COMMENT_UPDATE_DATE =
+		#{commuCommentUpdateDate},
+		...
+		WHERE COMMU_COMMENT_ID =
+		#{commuCommentId}
+	</update>
+
+	<!-- 댓글 삭제 -->
+	<delete id="deleteCommuCommentByCommuCommentRefId">
+		DELETE FROM TB_COMMU_COMMENT WHERE
+		COMMU_COMMENT_REF_ID =
+		#{commuCommentRefId}
+	</delete>
+
+	<!-- 댓글 순서 업데이트 -->
+	<update id="updateCommuCommentId">
+		UPDATE TB_COMMU_COMMENT
+		SET
+		COMMU_COMMENT_DEPTH =
+		#{commuCommentDepth},
+		COMMU_COMMENT_ORDER = #{commuCommentOrder}
+		WHERE
+		COMMU_COMMENT_REF_ID = #{commuCommentRefId}
+	</update>
+
+<!--게시글 ID에 따른 댓글 조회-->
+
+<select id=" selectCommuCommentsByCommuCommentId" resultType="com.example.myapp.user.commucomment.model.CommuComment">
+        SELECT *
+        FROM TB_COMMU_COMMENT
+        WHERE commuCommentCommuId = #{commuId}
+    </select>
+</mapper>

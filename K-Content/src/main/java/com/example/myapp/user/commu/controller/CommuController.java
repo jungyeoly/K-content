@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
+import com.example.myapp.user.commucomment.model.CommuComment;
+import com.example.myapp.user.commucomment.service.CommuCommentService;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
@@ -90,7 +92,6 @@ public class CommuController {
 	}
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
-
 	@GetMapping("/commu/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -104,19 +105,24 @@ public class CommuController {
 	}
 
 	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기
-	@GetMapping("/commu/{commuCateCode}/{commuId}")
-	public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
-		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		model.addAttribute("commuCateCodeList", commuCateCodeList);
-		Commu commu = commuService.selectPost(commuId);
-		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
-		model.addAttribute("commu", commu);
-		model.addAttribute("commuFiles", commuFiles);
-		model.addAttribute("commuCateCode", commu.getCommuCateCode());
-		model.addAttribute("commuId", commu.getCommuId());
-		logger.info("getCommuDetails" + commu.toString());
-		return "user/commu/view";
-	}
+		@GetMapping("/commu/{commuCateCode}/{commuId}")
+		public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
+			List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+			model.addAttribute("commuCateCodeList", commuCateCodeList);
+			Commu commu = commuService.selectPost(commuId);
+			List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
+			model.addAttribute("commu", commu);
+			model.addAttribute("commuFiles", commuFiles);
+			model.addAttribute("commuCateCode", commu.getCommuCateCode());
+			model.addAttribute("commuId", commu.getCommuId());
+			logger.info("getCommuDetails" + commu.toString());
+			return "user/commu/view";
+		}
+		 // 게시글에 연결된 댓글 정보 조회
+	//    List<CommuComment> comments = CommuCommentService.getCommentsByCommuId(commuCommentId);
+	//    model.addAttribute("comments", comments);
+	//	return "user/commu/view";
+//	}
 
 	// 카테고리별 커뮤니티 글쓰기
 	@GetMapping("/commu/write")
@@ -192,7 +198,7 @@ public class CommuController {
 
 				if (!commuFiles.isEmpty()) {
 					logger.info("Attempting to save the following CommuFiles to the DB: " + commuFiles.toString());
-					commuService.insertPost(commu, commuFiles);
+					commuService.insertPostwithFiles(commu, commuFiles);
 					logger.info("Successfully saved CommuFiles to the DB.");
 				} else {
 					commuService.insertPost(commu);
@@ -301,6 +307,7 @@ public class CommuController {
 
 	}
 
+	// 게시글 삭제(삭제상태 변경)
 	@PostMapping("/commu/deletepost/{commuId}")
 	public String deletePost(@PathVariable int commuId, RedirectAttributes redirectAttrs) {
 		try {
@@ -326,6 +333,7 @@ public class CommuController {
 		}
 	}
 
+	// 게시글에 첨부파일 삭제
 	@PostMapping("/commu/delete-file")
 	@Transactional
 	public ResponseEntity<Map<String, Object>> deleteFile(@RequestBody CommuFile request) {
@@ -364,5 +372,4 @@ public class CommuController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-
 }

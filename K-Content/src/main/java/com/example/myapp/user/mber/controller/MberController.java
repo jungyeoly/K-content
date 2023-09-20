@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
 import com.example.myapp.user.mber.service.IEmailService;
 import com.example.myapp.user.mber.service.IMberService;
@@ -37,6 +38,9 @@ public class MberController {
 
 	@Autowired
 	IEmailService emailService;
+
+	@Autowired
+	ICommonCodeService commonCodeService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -183,9 +187,7 @@ public class MberController {
 		String currentMberId = auth.getName();
 
 		Mber mber = mberService.selectMberbyId(currentMberId);
-
 		model.addAttribute(mber);
-		
 		boolean isAdmin = false;
 		for (GrantedAuthority authority : auth.getAuthorities()) {
 			if (authority.getAuthority().equals("ROLE_ADMIN")) {

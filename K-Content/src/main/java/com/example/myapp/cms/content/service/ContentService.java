@@ -71,7 +71,7 @@ public class ContentService implements IContentService {
         try {
             contentRepository.updateAContent(contentForm);
             int contentId = contentForm.getCntntId();
-            System.out.println("contentId: "+contentId);
+
             cntntGoodsMappingRepository.delMappingDate(contentId);
             for (int i = 0; i < goodsList.size(); i++) {
                 int goodsId = goodsList.get(i);

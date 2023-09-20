@@ -99,7 +99,6 @@ public class CSController {
         model.addAttribute("content", content);
 
         CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
-        System.out.println("commonCodes:" + commonCodes);
         model.addAttribute("category", commonCodes);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
@@ -137,7 +136,6 @@ public class CSController {
     @GetMapping("/insta-img")
     @ResponseBody
     public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
-        System.out.println("인스타: "+trendQueryList.toString());
         instagram_Selenium.instagram_Selenium();
 
         List<String> realImg = new ArrayList<>();
@@ -151,7 +149,7 @@ public class CSController {
             String encodedString = encoder.encodeToString(bos.toByteArray());
             //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
             realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
-        System.out.println(realImg);
+
         }
         instagram_Selenium.chromeExit();
         return realImg;

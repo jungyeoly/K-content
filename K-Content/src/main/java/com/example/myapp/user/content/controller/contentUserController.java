@@ -108,12 +108,12 @@ public class contentUserController {
     //여기 봐봐
     @GetMapping("/user/content/detail")
     public String getAContent(int targetContentIdF, Model model) {
-        System.out.println("왔니????");
+
         CmsContent content = csContentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
         CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
-        System.out.println("commonCodes:" + commonCodes);
+
         model.addAttribute("category", commonCodes);
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();

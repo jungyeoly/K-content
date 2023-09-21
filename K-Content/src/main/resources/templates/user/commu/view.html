@@ -50,9 +50,9 @@
 				<input type="hidden" name="commuId" th:value=${commu.commuId}>
 				<input type="submit" class="btn delete" value="삭제">
 			</form>
-		<!-- 	<div class="comment-list">
+			<div class="comment-list">
 				<th:block th:each="commucomment : ${comments}">
-					data-id 속성 추가
+
 					<div class="single-comment"
 						th:data-id="${commucomment.commuCommentRefId}">
 						<strong th:text="${commucomment.commuCommentMberId}">UserName</strong>
@@ -61,7 +61,7 @@
 						<div class="comment-date"
 							th:text="${commucomment.commuCommentRegistDate}">Date</div>
 
-						댓글 작성자만 수정, 삭제 버튼을 보도록 설정
+						<!--  댓글 작성자만 수정, 삭제 버튼을 보도록 설정 -->
 						<div
 							th:if="${#authentication.principal.username} == ${commucomment.commuCommentMberId}">
 							<button class="update-comment"
@@ -76,11 +76,10 @@
 			<div th:if="${#authentication.principal}">
 				<div class="comment-section">
 					<form id="commentForm" th:action="@{/commu/comment}" method="post">
-						필드 이름 수정
-						<input type="hidden" name="commuCommentMberId"
+						 <input type="hidden" name="commuCommentMberId"
 							th:value="${#authentication.principal.username}"> <input
-							type="hidden" name="commuCommentMberId"
-							th:value="${commucomment.commuCommentId}">
+							type="hidden" name="commuCommentCommuId"
+							th:value="${commu.commuId}">
 						<textarea name="commuCommentCntnt" rows="4"
 							placeholder="댓글을 입력하세요."></textarea>
 						<button type="button">댓글 작성</button>
@@ -92,7 +91,7 @@
 				<p>
 					댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
 				</p>
-			</div> -->
+			</div>
 
 
 			<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

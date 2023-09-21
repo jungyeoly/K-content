@@ -10,7 +10,7 @@ import com.example.myapp.user.commucomment.model.CommuComment;
 @Repository
 @Mapper
 public interface ICommuCommentRepository {
-	CommuComment insertCommuComment(CommuComment commucomment); //댓글 처리
+	void insertCommuComment(CommuComment commucomment); //댓글 작성
 	
 	void updateCommuComment(CommuComment commucomment); // 댓글 수정
 

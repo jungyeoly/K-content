@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.myapp.user.bkmk.dao.IBkmkRepository">
+
+	<select id="selectCntntBkmkList" resultType="com.example.myapp.user.bkmk.model.CntntBkmk">
+		<![CDATA[
+			SELECT b.mber_id,
+			        c.cntnt_title,
+			        c.cntnt_url
+			FROM tb_cntnt_bkmk a
+			    join tb_mber b 
+			    on a.cntnt_bkmk_mber_id =  b.mber_id
+			    join tb_cntnt c 
+			    on a.cntnt_bkmk_cntnt_id = c.cntnt_id
+			WHERE c.cntnt_delete_yn = 'N'
+			AND mber_id = #{mberId}
+		]]>
+	</select>
+
+</mapper>

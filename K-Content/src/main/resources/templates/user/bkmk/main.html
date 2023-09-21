@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+	<th:block th:replace="~{/include/header :: header}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/content/content.css}">
+</head>
+<body>
+	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	
+	<div th:each="cntnt : ${cntntList}">
+		<p>[[${cntnt.mberId}]]</p>
+		<p>[[${cntnt.cntntTitle}]]</p>
+		<p>[[${cntnt.cntntUrl}]]</p>
+	</div>
+
+</body>
+</html>

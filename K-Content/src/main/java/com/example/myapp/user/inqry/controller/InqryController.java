@@ -53,6 +53,7 @@ public class InqryController {
 
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
+		session.removeAttribute("message");
 		int inqryPwdId = 0;
 		session.setAttribute("inqryPwdId", inqryPwdId);
 		session.setAttribute("page", page);
@@ -88,20 +89,21 @@ public class InqryController {
 	}
 
 	@GetMapping("/inqury")
-	public String selectInqryList() {
-		
+	public String selectInqryList(HttpSession session) {
 		return "user/inqury/main";
 	}
 
 	@PostMapping("/inqury/check-password")
 	@ResponseBody
-	public String checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam int enteredPwd, HttpSession session, Model model) {
+	public String checkPasswordAndSelectInqry(@RequestParam int inqryId, @RequestParam String enteredPwd, HttpSession session, Model model) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
 
-		if (inqry.getInqryPwd() == enteredPwd) {
+		if (inqry.getInqryPwd().equals(enteredPwd)) {
 			inqryPwdId = inqryId;
-		}
+		} else {
+	        session.setAttribute("message", "비밀번호가 틀렸습니다.");
+	    }
 
 		session.setAttribute("inqryPwdId", inqryPwdId);
 
@@ -115,6 +117,12 @@ public class InqryController {
 	@RequestMapping("/inqury/detail/{inqryId}")
 	public String selectInqry(@PathVariable int inqryId, Model model, HttpSession session) {
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
+		
+		if (inqryService.selectInqry(inqryId).getInqryPwd() == null) {
+			Inqry inqry = inqryService.selectInqry(inqryId);
+			model.addAttribute("inqry", inqry);
+			return "user/inqury/detail";
+		}
 		
 		if (inqryPwdId == inqryId) {												// url로 접근 막기
 			Inqry inqry = inqryService.selectInqry(inqryId);						// 글 불러오기
@@ -131,10 +139,6 @@ public class InqryController {
 
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
-		/*
-		 * List<String> cateList = commonCodeSerivce.cateList("C03");
-		 * model.addAttribute("cateList", cateList);
-		 */
 		Inqry inqry = new Inqry();
 	    model.addAttribute("inqry", inqry);
 	    logger.info(inqry.toString());
@@ -151,7 +155,7 @@ public class InqryController {
 			int inqryId = inqryService.selectinqryFileId();
 			inqry.setInqryRefId(inqryId);
 			inqry.setInqryMberId(userId);
-
+			
 			MultipartFile mfile = inqry.getFile();
 
 			if (mfile != null && !mfile.isEmpty()) {

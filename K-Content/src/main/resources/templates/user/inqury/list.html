@@ -1,5 +1,6 @@
-<div class="container">
+<div class="container mx-0">
 	<div class="menu fw-bold">문의사항</div>
+
 	<table class="table table-hover text-center table-group-divider">
 		<thead>
 			<tr>
@@ -12,22 +13,20 @@
 		<tbody>
 			<tr th:each="inqry : ${inqryList}" class="inqry-row" 
 				data-bs-toggle="modal" data-bs-target="#exampleModal" 
-				th:attr="data-inqry-id=${inqry.inqryId}" th:data-bs-whatever="${inqry.inqryId}">
+				th:attr="data-inqry-pwd=${inqry.inqryPwd}" th:data-bs-whatever="${inqry.inqryId}">
 				
 				<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
 				<td th:if="${inqry.inqryGroupOrd == 1}"></td>
 				<td class="text-start pwd">
 					<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span th:if="inqry.inqryPwd" class="me-1">
-						<i class="fa-solid fa-lock"></i>
+						<i th:if="${inqry.inqryPwd} != null" class="fa-solid fa-lock"></i>
 					</span>
 					<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
-					
-
 				</td>
 				<td>[[${inqry.inqryMberId}]]</td>
 				<td>[[${inqry.inqryRegistDate}]]</td>
-				
+				<td class="inqry-pwd" th:text="${inqry.inqryPwd}" hidden></td>
 			</tr>
 		</tbody>
 	</table>
@@ -43,6 +42,7 @@
 					<form class="password-form" th:action="@{/pwdcheck}" method="post">
 						<input type="hidden" name="inqryId">
 						<input type="password" class="password-input me-2 form-control" placeholder="비밀번호" name="inqryPwd">
+						<input type="submit" class="submit-btn btn btn-primary" th:submit="@{/inqury/detail/}+${inqryId}" hidden>
 					</form>
 				</div>
 				<div class="modal-footer">

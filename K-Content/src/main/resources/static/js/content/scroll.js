@@ -7,7 +7,7 @@
 		var scroll = `
 			  <img src="`+ Thumnail + `" class="card-img-top" alt="">
 			  <div class="card-body">
-			    <p class="card-text text-center">` + Title + `</p>
+			    <p class="card-title card-text text-center">` + Title + `</p>
 			  </div>
 		`;
 		
@@ -19,7 +19,7 @@
 		divEl.innerHTML = scroll;
 		document.querySelector("#contentsList").appendChild(divEl);
 		console.log(document.querySelector("#contentsList"));
-	}
+		}
 }
 	$(document).ready(function() {
 		var start = 1;

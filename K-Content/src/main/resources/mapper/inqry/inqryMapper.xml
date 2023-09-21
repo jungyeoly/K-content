@@ -74,13 +74,10 @@
 	</select>
 
     <insert id="insertInqry" parameterType="com.example.myapp.user.inqry.model.Inqry">
-		<![CDATA[
         INSERT INTO tb_inqry
         (inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date,
          inqry_update_date, inqry_delete_yn, inqry_mber_id)
-        VALUES (inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd},
-                to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
-        ]]>
+        VALUES (inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd}, to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})	
 	</insert>
 
     <insert id="insertFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">

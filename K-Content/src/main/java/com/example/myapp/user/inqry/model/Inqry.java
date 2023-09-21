@@ -13,7 +13,7 @@ public class Inqry {
 	private int inqryId;
 	private String inqryTitle;
 	private String inqryCntnt;
-	private int inqryPwd;
+	private String inqryPwd;
 	private int inqryRefId;
 	private String inqryRegistDate;
 	private String inqryDeleteYn;

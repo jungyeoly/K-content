@@ -10,66 +10,58 @@
 <body>
 	<div th:replace="~{/include/header :: header}"></div>
 	<div th:replace="~{/include/body-header :: header }"></div>
-		
-		<!-- <div class="row">
-			<div class="side-bar col-1 ms-3 ps-5 d-flex flex-column"
-				style="max-width: 150px; min-width: 150px;">
-				<a th:href="@{/inqury}" class="link link-active">문의사항</a> <a
-					th:href="@{/commu}" class="link">커뮤니티</a>
-					</div> -->
-			
 
-		
 	<div class="container">
-			<div class="menu fw-bold">커뮤니티</div>
-			<table class="table table-hover text-center table-group-divider">
-				<thead>
-					<tr>
-						<th scope="col">카테고리</th>
-						<th scope="col">글번호</th>
-						<th scope="col">제목</th>
-						<th scope="col">작성자</th>
-						<th scope="col">등록일</th>
-						<th scope="col">조회</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="commu : ${commulist}" class="commu-row"
-						th:attr="data-commu-id=${commu.commuId}">
-						<td><span th:each="code : ${commuCateCodeList}"
-							th:if="${code.commonCode} eq ${commu.commuCateCode}"
-							th:text="${code.commonCodeVal}" style="font-weight: bold">카테고리명</span>
+		<div class="menu fw-bold">커뮤니티</div>
+		<table class="table table-hover text-center table-group-divider">
+			<thead>
+				<tr>
+					<th scope="col">글번호</th>
+					<th scope="col">카테고리</th>
+					<th scope="col">제목</th>
+					<th scope="col">작성자</th>
+					<th scope="col">조회</th>
+					<th scope="col">등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="commu : ${commulist}" class="commu-row"
+					th:attr="data-commu-id=${commu.commuId}">
 
-						</td>
-						<td th:text="${commu.commuId}"></td>
-						<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
-							th:text="${commu.commuTitle}"></a></td>
-						<td th:text="${commu.commuMberId}"></td>
-						<td th:text="${commu.commuRegistDate}"></td>
-						<td th:text="${commu.commuReadCnt}"></td>
-					</tr>
+					<td th:text="${commu.commuId}"></td>
+					<td><span th:each="code : ${commuCateCodeList}"
+						th:if="${code.commonCode} eq ${commu.commuCateCode}"
+						th:text="${code.commonCodeVal}" style="font-weight: bold">카테고리명</span>
 
-				</tbody>
-			</table>
+					</td>
+					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
+						th:text="${commu.commuTitle}"></a></td>
+					<td th:text="${commu.commuMberId}"></td>
+					<td th:text="${commu.commuReadCnt}"></td>
+					<td th:text="${commu.commuRegistDate}"></td>
+				</tr>
 
-			<a sec:authorize="isAuthenticated()" class="btn commuBtn"
-				th:href="@{/commu/write}">글쓰기</a>
+			</tbody>
+		</table>
 
-			<div class="pagination">
-				<!-- 페이지 목록 출력 -->
-				<div
-					th:with="share=${currentPage > 1 ? @objectUtil.divideAndGetQuotient(currentPage - 1, 10) : 0}">
-					<div class="page-btn"
-						th:each="page : ${#numbers.sequence(1, totalPage)}"
-						th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
-						<a th:href="@{/commu(currentPage=${page})}" th:text="${page}"
-							class="page-btn"
-							th:classappend="${currentPage == page ? 'selected' : ''}"></a>
-					</div>
+		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
+			th:href="@{/commu/write}">글쓰기</a>
+
+		<div class="pagination">
+			<!-- 페이지 목록 출력 -->
+			<div
+				th:with="share=${currentPage > 1 ? @objectUtil.divideAndGetQuotient(currentPage - 1, 10) : 0}">
+				<div class="page-btn"
+					th:each="page : ${#numbers.sequence(1, totalPage)}"
+					th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
+					<a th:href="@{/commu(currentPage=${page})}" th:text="${page}"
+						class="page-btn"
+						th:classappend="${currentPage == page ? 'selected' : ''}"></a>
 				</div>
 			</div>
-			</div>
-			
+		</div>
+	</div>
+
 
 </body>
 </html>

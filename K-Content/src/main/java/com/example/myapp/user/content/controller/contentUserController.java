@@ -125,6 +125,7 @@ public class contentUserController {
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
         model.addAttribute("goodsJFileList", goodsJFileList);
+
         // 쿼리 앞에 키워드 가져와서 뽑기
         List<String> trendQueryList = new ArrayList<>();
 

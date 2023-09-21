@@ -45,6 +45,7 @@
 .goods-box{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;fl
 }
 .secondary-b {
     color: white;

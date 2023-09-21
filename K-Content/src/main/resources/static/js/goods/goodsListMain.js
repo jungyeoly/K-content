@@ -40,7 +40,7 @@ function searchKeyword() {
             const element = document.getElementById('card-list');
             element.innerHTML = "";
             for (var i = 0; i < data.length; i++) {
-                inHtml = `<div class="col-xl-4 col-lg-6" >
+                inHtml = `<div class="col-xl-4 col-lg-6">
                         <div class="single-category mb-30"  onclick="detail(${data[i].goodsId})">
                             <div class="category-img">
                                 <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
@@ -61,6 +61,16 @@ function searchKeyword() {
 }
 
 
-function detail(goodsId){
-    console.log(goodsId);
+function detail(goodsId) {
+    // 상품 상세 화면 보여주기
+    const formHtml = `
+                    <form id="goodsDetail" action="/cs/goods/detail" method="get">
+                        <input  id="goodsId" name="goodsId"  />
+                    </form>`;
+
+    const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+    const form = doc.body.firstChild;
+    document.body.append(form);
+    document.getElementById("goodsId").value = goodsId;
+    document.getElementById('goodsDetail').submit();
 }

@@ -183,10 +183,17 @@ public class MberController {
 	}
 
 	@GetMapping(value = "/mber/mypage")
-	public String myPage(Model model, Authentication auth) {
+	public String myPage(Model model, Authentication auth, HttpSession session) {
 		String currentMberId = auth.getName();
 
 		Mber mber = mberService.selectMberbyId(currentMberId);
+		
+	    // 검증이 실패한 경우 다른 페이지로 리다이렉트
+	    if (session.getAttribute("pwdVerificationSuccess") != "Y") {
+	        session.removeAttribute("pwdVerificationFailed"); // 플래그 제거
+	        return "redirect:/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
+	    }
+	    
 		model.addAttribute(mber);
 		boolean isAdmin = false;
 		for (GrantedAuthority authority : auth.getAuthorities()) {
@@ -228,7 +235,6 @@ public class MberController {
 		Mber mber = mberService.selectMberbyId(currentMberId);
 		PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String encodedPwd = pwdEncoder.encode(updatedMber.getMberPwd());
-
 		mber.setMberPwd(encodedPwd);
 		mber.setMberName(updatedMber.getMberName());
 		mber.setMberEmail(updatedMber.getMberEmail());
@@ -241,9 +247,21 @@ public class MberController {
 		return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
 	}
 
-	@GetMapping(value = "/mber/deletember")
-	public String deleteMber(Model model, Authentication auth) {
-		return "user/mber/deletember";
+	@GetMapping(value = "/mber/verifypwd")
+	public String verifyPwd(Model model, Authentication auth) {
+		return "user/mber/verifypwd";
 	}
 
+	@PostMapping(value = "/mber/verifypwd")
+	public String verifyPwd(String mberPwd, Model model, Authentication auth, HttpSession session) {
+		String currentMberId = auth.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+	
+		logger.info(mber.toString());
+		if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
+	        session.setAttribute("pwdVerificationSuccess", "Y");
+			return "redirect:/mber/mypage";
+		}
+		return "user/mber/verifypwd";
+	}
 }

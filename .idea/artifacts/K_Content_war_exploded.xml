@@ -24,7 +24,6 @@
           <element id="library" level="project" name="Maven: org.slf4j:jul-to-slf4j:2.0.7" />
           <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.33" />
           <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:5.0.1" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.7" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:6.0.11" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:6.0.11" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:6.0.11" />
@@ -35,8 +34,6 @@
           <element id="library" level="project" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-web:3.1.2" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-json:3.1.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.15.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.15.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2" />
@@ -44,24 +41,35 @@
           <element id="library" level="project" name="Maven: io.micrometer:micrometer-observation:1.11.2" />
           <element id="library" level="project" name="Maven: io.micrometer:micrometer-commons:1.11.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:6.0.11" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aop:6.0.11" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:6.0.11" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:6.0.11" />
           <element id="library" level="project" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2" />
           <element id="library" level="project" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:3.0.2" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.5.13" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:3.0.2" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-security:3.1.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:6.0.11" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:6.1.2" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:6.1.2" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:6.1.2" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:6.1.2" />
+          <element id="library" level="project" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.7" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:3.1.2" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:3.1.2" />
           <element id="library" level="project" name="Maven: com.oracle.database.jdbc:ojdbc8:21.9.0.0" />
           <element id="library" level="project" name="Maven: jakarta.annotation:jakarta.annotation-api:2.1.1" />
           <element id="library" level="project" name="Maven: jakarta.activation:jakarta.activation-api:2.1.2" />
+          <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.14.5" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:6.0.11" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:6.0.11" />
           <element id="library" level="project" name="Maven: com.google.apis:google-api-services-youtube:v3-rev221-1.25.0" />
           <element id="library" level="project" name="Maven: com.google.api-client:google-api-client:1.25.0" />
           <element id="library" level="project" name="Maven: com.google.oauth-client:google-oauth-client:1.25.0" />
-          <element id="library" level="project" name="Maven: com.google.guava:guava:20.0" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:31.0.1-jre" />
+          <element id="library" level="project" name="Maven: com.google.guava:failureaccess:1.0.1" />
+          <element id="library" level="project" name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.12.0" />
           <element id="library" level="project" name="Maven: com.google.http-client:google-http-client-jackson2:1.43.3" />
           <element id="library" level="project" name="Maven: com.google.http-client:google-http-client:1.43.3" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.14" />
@@ -79,6 +87,7 @@
           <element id="library" level="project" name="Maven: com.google.apis:google-api-services-youtubereporting:v1-rev20230704-2.0.0" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.4" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.8.0" />
           <element id="library" level="project" name="Maven: com.google.oauth-client:google-oauth-client-jetty:1.34.1" />
           <element id="library" level="project" name="Maven: com.google.oauth-client:google-oauth-client-java6:1.34.1" />
           <element id="library" level="project" name="Maven: com.google.collections:google-collections:1.0" />
@@ -86,6 +95,65 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-context-support:6.0.11" />
           <element id="library" level="project" name="Maven: org.eclipse.angus:jakarta.mail:1.1.0" />
           <element id="library" level="project" name="Maven: org.eclipse.angus:angus-activation:2.0.1" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-java:4.6.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-api:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: com.google.auto.service:auto-service-annotations:1.0.1" />
+          <element id="library" level="project" name="Maven: com.google.auto.service:auto-service:1.0.1" />
+          <element id="library" level="project" name="Maven: com.google.auto:auto-common:1.2" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-chromium-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-json:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-manager:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-devtools-v105:4.6.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-devtools-v106:4.6.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-devtools-v107:4.6.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-devtools-v85:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-http:4.8.3" />
+          <element id="library" level="project" name="Maven: dev.failsafe:failsafe:3.3.1" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: com.beust:jcommander:1.82" />
+          <element id="library" level="project" name="Maven: io.netty:netty-buffer:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-codec-http:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-codec:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-handler:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-common:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport-classes-epoll:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport-classes-kqueue:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport-native-unix-common:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-resolver:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-api:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-context:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-exporter-logging:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-metrics:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-logs:1.25.0-alpha" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-api-logs:1.25.0-alpha" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-api-events:1.25.0-alpha" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-common:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:1.24.0-alpha" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk-trace:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-sdk:1.25.0" />
+          <element id="library" level="project" name="Maven: io.opentelemetry:opentelemetry-semconv:1.24.0-alpha" />
+          <element id="library" level="project" name="Maven: io.ous:jtoml:2.0.0" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-exec:1.3" />
+          <element id="library" level="project" name="Maven: org.asynchttpclient:async-http-client:2.12.3" />
+          <element id="library" level="project" name="Maven: org.asynchttpclient:async-http-client-netty-utils:2.12.3" />
+          <element id="library" level="project" name="Maven: io.netty:netty-codec-socks:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-handler-proxy:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport-native-kqueue:osx-x86_64:4.1.94.Final" />
+          <element id="library" level="project" name="Maven: org.reactivestreams:reactive-streams:1.0.4" />
+          <element id="library" level="project" name="Maven: com.typesafe.netty:netty-reactive-streams:2.0.4" />
+          <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:1.2.2" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:4.8.3" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-support:4.8.3" />
+          <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.16.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.15.2" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.15.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

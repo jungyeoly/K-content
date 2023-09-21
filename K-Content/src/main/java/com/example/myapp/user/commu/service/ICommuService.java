@@ -12,26 +12,22 @@ public interface ICommuService {
 	List<Commu> selectAllPost(); // 커뮤니티 전체글 다 보기
 
 	Commu selectPost(int commuId); // 커뮤니티 게시글 상세조회
-	
-	List<CommuFile> selectFilesByPostId(int commuId); //커뮤니티 게시글 첨부파일 상세조회
-	
-	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, int page);  //카테고리에 따른 게시글 상세조회
+
+	List<CommuFile> selectFilesByPostId(int commuId); // 커뮤니티 게시글 첨부파일 상세조회
+
+	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, int page); // 카테고리에 따른 게시글 상세조회
 
 	void insertPost(Commu commu); // 커뮤니티 글쓰기
-
-	void insertPost(Commu commu, List<CommuFile> files); // 커뮤니티 글쓰기에 첨부파일
+	
+	void insertPostwithFiles(Commu commu, List<CommuFile> files); // 커뮤니티 글쓰기에 첨부파일
 
 	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트
- 
+
 	void updatePostAndFiles(Commu commu, List<CommuFile> files);// 커뮤니티 게시글에 첨부파일 업데이트
-	
-	void deletePost(int commuId); //커뮤니티 게시글 삭제(삭제상태로 변경)
-	
+
+	void deletePost(int commuId); // 커뮤니티 게시글 삭제(삭제상태로 변경)
+
 	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제
-	
 
 	CommuFile getFile(String commufileId);
-	
-	
-
 }

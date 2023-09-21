@@ -20,7 +20,7 @@ public interface ICommuRepository {
 	void insertPost(Commu commu); // 커뮤니티 글쓰기
 
 	void insertFileData(CommuFile file); // 커뮤니티 글쓰기에 첨부파일
-
+	
 	List<Commu> selectAllPost(); // 커뮤니티 전체글 다 보기
 
 	Commu selectPost(int commuId); // 커뮤니티 게시글 상세조회
@@ -33,11 +33,9 @@ public interface ICommuRepository {
 
 	void updateReadCnt(int commuId);// 커뮤니티 게시글 조회수 업데이트
 
-	void updateReplyNumber(@Param("commuReadCnt") int commuReadCnt, @Param("commuRefId") int commuRefId,
-			@Param("commuDepth") int commuDepth, @Param("commuOrder") int commuOrder);// 댓글 관련 업데이트
-
 	void updatePost(Commu commu); // 커뮤니티 게시글 업데이트
 	void updateFiledata(CommuFile file);// 커뮤니티 게시글에 첨부파일 업데이트
+
 	
 	void deletePostStatus(int commuId); //커뮤니티 게시글 삭제(삭제상태로 변경)
 	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제

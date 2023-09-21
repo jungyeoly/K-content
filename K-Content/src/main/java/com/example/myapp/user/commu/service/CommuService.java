@@ -35,7 +35,7 @@ public class CommuService implements ICommuService {
 	}
 
 	@Transactional
-	public void insertPost(Commu commu, List<CommuFile> files) {
+	public void insertPostwithFiles(Commu commu, List<CommuFile> files) {
 		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
 		// Commu 객체에 대한 등록 날짜 설정
@@ -125,25 +125,23 @@ public class CommuService implements ICommuService {
 
 	@Transactional
 	public void deletePost(int commuId) {
-	    // 게시글과 연결된 첨부파일 목록을 가져옵니다.
-	    List<CommuFile> attachedFiles = selectFilesByPostId(commuId);
-	    System.out.println(selectFilesByPostId(commuId));
-	    // 각 첨부파일을 삭제합니다.
-	    for (CommuFile file : attachedFiles) {
-	        deleteFileById(file.getCommuFileId());
-	        System.out.println(file.getCommuFileId());
-	    }
+		// 게시글과 연결된 첨부파일 목록을 가져옵니다.
+		List<CommuFile> attachedFiles = selectFilesByPostId(commuId);
+		System.out.println(selectFilesByPostId(commuId));
+		// 각 첨부파일을 삭제합니다.
+		for (CommuFile file : attachedFiles) {
+			deleteFileById(file.getCommuFileId());
+			System.out.println(file.getCommuFileId());
+		}
 
-	    // 게시글 상태를 "삭제상태"로 변경합니다.
-	    commuRepository.deletePostStatus(commuId);
-	    System.out.println(commuId);
+		// 게시글 상태를 "삭제상태"로 변경합니다.
+		commuRepository.deletePostStatus(commuId);
+		System.out.println(commuId);
 	}
-
 
 	@Override
 	public void deleteFileById(String commuFileId) {
 		commuRepository.deleteFileById(commuFileId);
 
 	}
-
 }

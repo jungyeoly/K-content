@@ -11,35 +11,48 @@ $(document).ready(function () {
             const element = document.getElementById('card-list');
             for (i = 0; i < contentList.length; i++) {
                 inHtml = `
-            <li class="card-item" id="card-item" onclick="recomCntntDetail(${contentList[i].cntntId})">
-                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-                    <img src=${contentList[i].cntntThumnail} alt="일분이">
+            <li class="card-item goods-box" onclick="recomCntntDetail(${contentList[i].cntntId})">
+                <figure class="card-image" style="background-image: url(${contentList[i].cntntThumnail})">
+                    <img src=${contentList[i].cntntThumnail} alt="일분이" style="display: none">
                 </figure>
                 <div class="card-desc">
-                   ${contentList[i].cntntTitle}
+                    ${contentList[i].cntntTitle}
                 </div>
-            </li>`;
+            </li> `;
                 element.insertAdjacentHTML("afterbegin", inHtml);
+                //밑에 html 코드도 위에 붙여본겁니다. 안예쁩니다.
+                // <li className="goods-box card-item" id="card-item" style="margin-bottom: 70px"
+                //     onClick="recomCntntDetail(${contentList[i].cntntId})">
+                //     <div className="card " style="width: 18rem; height: 240px">
+                //         <figure className="card-image" style=" background-image: url(${contentList[i].cntntThumnail})">
+                //             <img className="card-img-top" src=${contentList[i].cntntThumnail} alt="일분이"
+                //                  style="display: none">
+                //         </figure>
+                //         <div className="card-desc" style="width:18rem; border:1px solid">
+                //             ${contentList[i].cntntTitle}
+                //         </div>
+                //     </div>
+                // </li>
             }
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }
     });
 
-    // 키워드로 인스타 크롤링 이거 지금 안된다
-    $.ajax({
-        url: '/cs/insta-img', type: 'GET',
-        data: requestData,
-        success: function (data2) {
-            const element = document.getElementById('trend');
-            data2.slice(1, -1);
-            data2.slice(1, -1);
-            console.log(data2);
-            element.innerHTML = data2
-        }, error: function (error) {
-            console.error('에러 발생: ', error);
-        }
-    });
+    // 키워드로 인스타 크롤링 이거 지금 막아놨습니다. css때문에 리로드 엄청 되는데 매번 오류나서 나중에 붙이겠습ㄴ디ㅏ.
+    // $.ajax({
+    //     url: '/cs/insta-img', type: 'GET',
+    //     data: requestData,
+    //     success: function (data2) {
+    //         const element = document.getElementById('trend');
+    //         data2.slice(1, -1);
+    //         data2.slice(1, -1);
+    //         console.log(data2);
+    //         element.innerHTML = data2
+    //     }, error: function (error) {
+    //         console.error('에러 발생: ', error);
+    //     }
+    // });
 
     var requestData = {
         targetContentIdF: document.getElementById("contentId").value

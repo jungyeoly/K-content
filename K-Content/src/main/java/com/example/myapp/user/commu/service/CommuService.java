@@ -144,4 +144,9 @@ public class CommuService implements ICommuService {
 		commuRepository.deleteFileById(commuFileId);
 
 	}
+
+	 @Override
+	    public List<CommuFile> getAllFilesByCommuId(int commuId){
+	        return commuRepository.getAllFilesByCommuId(commuId);
+	    }
 }

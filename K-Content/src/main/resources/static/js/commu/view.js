@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
     // 댓글 작성
-    $("#commentForm button").on("click", function(e) {
-        e.preventDefault();
+    $("#commentForm button").on("click", function() {
+        //e.preventDefault();
 
         var formData = {
             commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
-            commuCommentId: $("#commentForm").find("[name='commuCommentId']").val(),
+            commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
             commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
         };
 

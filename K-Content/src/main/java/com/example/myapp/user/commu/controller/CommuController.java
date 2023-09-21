@@ -15,6 +15,7 @@ import java.util.UUID;
 import com.example.myapp.user.commu.service.ICommuService;
 import com.example.myapp.user.commucomment.model.CommuComment;
 import com.example.myapp.user.commucomment.service.CommuCommentService;
+import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
@@ -57,6 +58,9 @@ public class CommuController {
 
 	@Autowired
 	ICommuService commuService;
+	
+	@Autowired
+	private ICommuCommentService commuCommentService;
 
 	@Autowired
 	private ICommonCodeService commonCodeService;
@@ -116,13 +120,15 @@ public class CommuController {
 			model.addAttribute("commuCateCode", commu.getCommuCateCode());
 			model.addAttribute("commuId", commu.getCommuId());
 			logger.info("getCommuDetails" + commu.toString());
+			
+			 // 게시글에 연결된 댓글 정보 조회
+			List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
+			   model.addAttribute("comments", comments);
 			return "user/commu/view";
 		}
-		 // 게시글에 연결된 댓글 정보 조회
-	//    List<CommuComment> comments = CommuCommentService.getCommentsByCommuId(commuCommentId);
-	//    model.addAttribute("comments", comments);
-	//	return "user/commu/view";
-//	}
+		
+	
+
 
 	// 카테고리별 커뮤니티 글쓰기
 	@GetMapping("/commu/write")

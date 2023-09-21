@@ -20,21 +20,18 @@ public class CommuCommentService implements ICommuCommentService {
 	// 댓글 쓰기
 	@Override
 	@Transactional
-	public CommuComment insertCommuComment(CommuComment commucomment) {
+	public void insertCommuComment(CommuComment commucomment) {
 		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		if (commucomment.getCommuCommentRegistDate() == null) {
 			commucomment.setCommuCommentRegistDate(currentTimestamp);
 			// 필요에 따라 순서 업데이트
-			updateCommuCommentId(commucomment.getCommuCommentRefId(), commucomment.getCommuCommentDepth(),
-					commucomment.getCommuCommentOrder());
+		//	updateCommuCommentId(commucomment.getCommuCommentRefId(), commucomment.getCommuCommentDepth(),
+		//			commucomment.getCommuCommentOrder());
+			System.out.println(commucomment);
 
 			// 댓글 삽입
 			commucommentRepository.insertCommuComment(commucomment);
 		}
-
-		return commucomment; // 저장된 댓글 객체 반환
-		
-		
 	}
 
 	@Transactional

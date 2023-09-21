@@ -24,21 +24,30 @@ public class CommuCommentController {
 	
 
 
-	// 댓글 작성
 	@PostMapping("/commu/comment")
-	public ResponseEntity<CommuComment> insertcommucomment(@RequestBody CommuComment commucomment) {
+	public ResponseEntity<Map<String, Object>> insertcommucomment(@RequestBody CommuComment commucomment) {
 	    logger.info("Received request to post a comment: " + commucomment.toString());
+	    System.out.println(commucomment);
+
+	    Map<String, Object> response = new HashMap<>();
 
 	    try {
-	        CommuComment savedCommuComment = commucommentService.insertCommuComment(commucomment);
+	        commucommentService.insertCommuComment(commucomment); // 반환값이 없으므로 바로 호출
 	        logger.info("Comment saved successfully.");
-	        return ResponseEntity.ok(savedCommuComment);
+
+	        // 예: 성공 메시지 추가
+	        response.put("message", "Comment saved successfully.");
+	        return ResponseEntity.ok(response);
 
 	    } catch (Exception e) {
 	        logger.error("Error during posting a comment:", e);
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+
+	        // 에러 발생 시 메시지 추가 (선택적)
+	        response.put("message", "Error during posting a comment.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	    }
 	}
+
 
 
 	// 댓글 수정

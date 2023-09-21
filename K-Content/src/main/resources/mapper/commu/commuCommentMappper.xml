@@ -10,16 +10,16 @@
 		(COMMU_COMMENT_ID,
 		COMMU_COMMENT_COMMU_ID, COMMU_COMMENT_CNTNT,
 		COMMU_COMMENT_REGIST_DATE,
-		COMMU_COMMENT_UPDATE_DATE,
 		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER, COMMU_COMMENT_MBER_ID,
 		COMMU_COMMENT_REF_ID)
 		VALUES
 		(#{commuCommentId}, #{commuCommentCommuId},
 		#{commuCommentCntnt},
 		#{commuCommentRegistDate},
-		#{commuCommentUpdateDate}, #{commuCommnetDepth}, #{commuCommentOrder},
+		#{commuCommentDepth}, #{commuCommentOrder},
 		#{commuCommentMberId},
 		#{commuCommentRefId})
+		
 	</insert>
 
 	<!-- 댓글 수정 -->
@@ -59,6 +59,7 @@
 <select id=" selectCommuCommentsByCommuCommentId" resultType="com.example.myapp.user.commucomment.model.CommuComment">
         SELECT *
         FROM TB_COMMU_COMMENT
-        WHERE commuCommentCommuId = #{commuId}
+      WHERE COMMU_COMMENT_COMMU_ID = #{commuId}
+
     </select>
 </mapper>

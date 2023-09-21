@@ -68,7 +68,7 @@ public class goodsController {
         return goodsList;
     }
 
-    @GetMapping("/content-form")
+    @GetMapping("/item")
     @ResponseBody
     public List<Goods> getSearchGoodsResult(@RequestParam(value = "sendData") List<String> receivedData) {
         List<Goods> goodsList = new ArrayList<>();
@@ -81,6 +81,7 @@ public class goodsController {
 
     @GetMapping("/form")
     public String getMakeGoodsForm() {
+
         return "cms/goods/makeGoods";
     }
 

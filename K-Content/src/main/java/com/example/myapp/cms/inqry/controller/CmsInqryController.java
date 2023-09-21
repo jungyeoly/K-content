@@ -31,31 +31,31 @@ import jakarta.servlet.http.HttpSession;
 public class CmsInqryController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	ICommonCodeService commonCodeSerivce;
-	
+
 	@Autowired
 	IInqryService inqryService;
-	
+
 	@Autowired
 	ICmsInqryService cmsInqryService;
-	
+
 	@GetMapping("/inqry/{page}")
 	public String selectCmsInqryList(@PathVariable int page, HttpSession session, Model model) {
 		int inqryPwdId = 0;
 		session.setAttribute("inqryPwdId", inqryPwdId);
 		session.setAttribute("page", page);
-		
+
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
 		model.addAttribute("inqryList", inqryList);
-		
+
 		logger.info(inqryList.toString());
-		
-		
+
+
 		int bbsCount = inqryService.totalInqry();
 		int totalPage = 0;
-		
+
 		if(bbsCount > 0) {
 			totalPage= (int)Math.ceil(bbsCount/10.0);
 		}
@@ -76,51 +76,51 @@ public class CmsInqryController {
 		model.addAttribute("endPage", endPage);
 
 		session.setAttribute("nowPage", page);
-		
+
 		return "cms/inqry/list";
 	}
-	
+
 	@GetMapping("/inqry")
 	public String selectInqryList(HttpSession session, Model model) {
 		return "cms/inqry/main";
 	}
-	
+
 	@RequestMapping("/inqry/detail/{inqryId}")
 	public String selectCmsInqry(@PathVariable int inqryId, Model model, HttpSession session) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		model.addAttribute("inqry", inqry);
 		session.setAttribute("inqryId", inqryId);
-		
+
 		int cnt = cmsInqryService.countInqry(inqryId);
 		model.addAttribute("cnt", cnt);
-		
+
 		if (inqry.getInqryGroupOrd() == 1) {
 			Inqry originInqry = inqryService.selectInqry(inqry.getInqryRefId());
 			model.addAttribute("origin", originInqry);
 			model.addAttribute("ref", "ref");
 		}
-		
+
 		return "cms/inqry/detail";
 	}
-	
+
 	@GetMapping("/inqry/write")
 	public String writeInqry(HttpSession session, Model model) {
 		int inqryId = (int) session.getAttribute("inqryId");
-		
+
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		model.addAttribute("inqry", inqry);
-		
+
 		int cnt = cmsInqryService.countInqry(inqry.getInqryRefId());
-		
+
 		if (cnt > 1) {
 			model.addAttribute("message", "이미 답글이 등록된 글입니다.");
 			return "cms/inqry/main";
 		}
 		else {
 			return "cms/inqry/write";
-		}		
+		}
 	}
-	
+
 	@PostMapping("/inqry/write")
 	public String writeInqry(CmsInqry cmsInqry, HttpSession session, Principal principal) {
 		int inqryId = (int) session.getAttribute("inqryId");
@@ -129,19 +129,19 @@ public class CmsInqryController {
 		cmsInqry.setInqryGroupOrd(1);
 		cmsInqry.setInqryPwd(inqry.getInqryPwd());
 		cmsInqry.setInqryMberId(principal.getName());
-		
+
 		logger.info(cmsInqry.toString());
-		
+
 		cmsInqryService.writeCmsInqry(cmsInqry);
-		
+
 		return "redirect:/cs/inqry";
 	}
-	
+
 	@GetMapping("/inqry/update/{inqryId}")
 	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal) {
 		CmsInqry cmsInqry = cmsInqryService.selectCmsInqry(inqryId);
 		String userName = principal.getName();
-		
+
 		if (cmsInqry.getInqryMberId().equals(userName)) {
 			model.addAttribute("cmsInqry", cmsInqry);
 			return "cms/inqry/write";

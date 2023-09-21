@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -34,10 +36,22 @@ public class goodsController {
     public String getGoodsPages() {
         return "cms/goods/goodsListMain";
     }
+
     @GetMapping("")
     public String getPages() {
         return "cms/goods/goodsList";
     }
+
+    // 상품 상세 화면 보여주기
+    @GetMapping("/detail")
+    public String getGoodsDetail(@RequestParam(value = "goodsId") int goodsId, Model model) {
+
+        Goods goods = goodsService.getGoodsJFileByGoodsId(goodsId);
+        model.addAttribute("goods", goods);
+
+        return "cms/goods/goodsDetail";
+    }
+
     //모든 상품 리스트 가져오기
     @GetMapping("/list")
     @ResponseBody
@@ -84,9 +98,6 @@ public class goodsController {
         String keywordlist = keywordListJson.toString();
 
         String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
-
-
-//        String originalEncodingFilename = new String(goodsFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
         String originalEncodingFilename = Normalizer.normalize(goodsFile.getOriginalFilename(), Normalizer.Form.NFC);
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();

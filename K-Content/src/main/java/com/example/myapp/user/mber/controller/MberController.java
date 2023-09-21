@@ -228,7 +228,6 @@ public class MberController {
 		Mber mber = mberService.selectMberbyId(currentMberId);
 		PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String encodedPwd = pwdEncoder.encode(updatedMber.getMberPwd());
-
 		mber.setMberPwd(encodedPwd);
 		mber.setMberName(updatedMber.getMberName());
 		mber.setMberEmail(updatedMber.getMberEmail());

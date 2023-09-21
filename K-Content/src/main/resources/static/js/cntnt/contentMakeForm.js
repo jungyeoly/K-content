@@ -86,7 +86,7 @@ function selectGoods(receivedData) {
         sendData: str
     };
     $.ajax({
-        url: '/cs/goods/content-form',
+        url: '/cs/goods/form',
         type: 'GET',
         data: requestData,
         success: function (data) {

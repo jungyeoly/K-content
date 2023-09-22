@@ -13,7 +13,7 @@
 		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER, COMMU_COMMENT_MBER_ID,
 		COMMU_COMMENT_REF_ID)
 		VALUES
-		(#{commuCommentId}, #{commuCommentCommuId},
+		(TB_COMMU_COMMENT_SEQ.NEXTVAL, #{commuCommentCommuId},
 		#{commuCommentCntnt},
 		#{commuCommentRegistDate},
 		#{commuCommentDepth}, #{commuCommentOrder},
@@ -31,7 +31,6 @@
 		#{commuCommentCntnt},
 		COMMU_COMMENT_UPDATE_DATE =
 		#{commuCommentUpdateDate},
-		...
 		WHERE COMMU_COMMENT_ID =
 		#{commuCommentId}
 	</update>

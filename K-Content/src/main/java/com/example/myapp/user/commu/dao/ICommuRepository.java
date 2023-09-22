@@ -39,5 +39,7 @@ public interface ICommuRepository {
 	
 	void deletePostStatus(int commuId); //커뮤니티 게시글 삭제(삭제상태로 변경)
 	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제
+	
+	 List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일
 
 }

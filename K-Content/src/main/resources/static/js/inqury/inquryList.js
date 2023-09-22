@@ -1,29 +1,37 @@
-$(function(){
+$(function(){		
 	const exampleModal = document.getElementById('exampleModal')
+	 	
 	if (exampleModal) {
-	  exampleModal.addEventListener('show.bs.modal', event => {
-	    const button = event.relatedTarget
-	    const inqryId = button.getAttribute('data-bs-whatever')
-		
-	    const modalBodyInput = exampleModal.querySelector(".modal-body input[name='inqryId']")
-		const modalBodyInput2 = exampleModal.querySelector(".modal-body input[name='inqryPwd']")
-	    modalBodyInput.value = inqryId;
-		modalBodyInput2.value = "";
-	  })
+	  	exampleModal.addEventListener('show.bs.modal', event => {
+
+		    const button = event.relatedTarget;
+		    const inqryId = button.getAttribute('data-bs-whatever');
+	
+		    const modalBodyInput = exampleModal.querySelector(".modal-body input[name='inqryId']");
+			const modalBodyInput2 = exampleModal.querySelector(".modal-body input[name='inqryPwd']");
+			
+		    modalBodyInput.value = inqryId;
+			modalBodyInput2.value = "";
+		})
 	}
+	
+	$(".inqry-row").click(function(e) {
+		const inqryPwd = $(this).attr("data-inqry-pwd");
+		var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
+		if(inqryPwd == null) {
+			window.location.href = "/inqury/detail/" + inqryId;
+		}
+	})
 	
     $(".submit-btn").click(function(e) {
         e.preventDefault();
 		var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
   		var enteredPwd = $("#exampleModal").find("input[name='inqryPwd']").val();
-
-		console.log("id : " + inqryId);
-		console.log("enter : " + enteredPwd);
 		
-        if (enteredPwd === "") {
+        /*if (enteredPwd === "") {
 			alert("비밀번호를 입력하세요.");
 			return;
-		}			
+		}	*/		
 		
         $.ajax({
             url: "/inqury/check-password",

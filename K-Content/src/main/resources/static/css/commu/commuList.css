@@ -1,54 +1,90 @@
 @charset "UTF-8";
 
 .commuBtn {
-	position: absolute !important;
-	right: 1rem !important;
-	background-color: var(- -color-main) !important;
-	color: white !important;
-	float: right !important;;
+    position: absolute !important;
+    right: 1rem !important;
+    background-color: var(--color-main) !important;
+    color: white !important;
+    float: right !important;
 }
 
 .container {
-	position: relative;
-	margin-left : 3rem;
+    position: relative;
+    margin-left: 3rem;
 }
 
 .pagination {
-	justify-content: center;
+    justify-content: center;
 }
 
 .page-btn {
-	display: inline-block;
-	margin: 0;
+    display: inline-block;
+    margin: 0;
 }
 
 .page-btn a {
-	color: #000;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	padding: 6px 12px;
-	text-decoration: none;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    text-decoration: none;
 }
 
 .page-btn a:hover, .page-btn a:focus {
-	color: #000;
-	background-color: #fafafa;
-	border-color: #ccc;
+    color: #000;
+    background-color: #fafafa;
+    border-color: #ccc;
 }
 
 .page-btn a:active {
-	background-color: #c0c0c0;
-	z-index: 1;
-	color: #555;
-	font-weight: bold;
-	background-color: #f1f1f1;
-	border-color: #ccc;
+    background-color: #c0c0c0;
+    z-index: 1;
+    color: #555;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    border-color: #ccc;
 }
 
 .page-btn a.selected {
-	z-index: 1;
-	color: #555;
-	font-weight: bold;
-	background-color: #f1f1f1;
-	border-color: #ccc;
+    z-index: 1;
+    color: #555;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    border-color: #ccc;
 }
+
+t/* 제목에 대한 CSS 수정 */
+table th:nth-child(3), table td:nth-child(3) {
+	width: 50%;
+    text-align: left;  /* 제목 왼쪽 정렬 */
+    min-width: 600px;  /* 제목의 최소 너비 설정 */
+    max-width: 600px;  /* 제목의 최대 너비 설정 */
+    white-space: nowrap;  /* 제목 내부의 공백은 줄바꿈 없이 처리 */
+    overflow: hidden;  /* 내용이 칸을 벗어날 경우 숨김 처리 */
+    text-overflow: ellipsis;  /* 오버플로우 발생 시 '...'로 표시 */
+}
+
+table th:nth-child(1), table td:nth-child(1) {
+    width: 8%;
+}
+table th:nth-child(2), table td:nth-child(2) {
+    width: 8%;
+}
+table th:nth-child(4), table td:nth-child(4) {
+    width: 8%;
+}
+table th:nth-child(5), table td:nth-child(5) {
+    width: 8%;
+}
+
+
+table th:nth-child(5), table td:nth-child(6) {
+    width: 5%;
+}
+
+/* 테이블 간격 조정을 위한 CSS */
+table {
+    width: 100%;  /* 테이블의 전체 너비 설정 */
+    table-layout: fixed;  /* 열 너비가 내용에 따라 변경되지 않도록 고정 */
+}
+

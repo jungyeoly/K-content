@@ -27,7 +27,10 @@
                     <h3 class="text-center" th:text="${content.cntntTitle}"></h3>
                 </div>
                 <div>
-                    <i id="cntntBkmk" class="fa-regular fa-heart fs-3 me-2"></i>
+
+                    <i id="cntntBkmk" th:if="${isCntntBklk <=0 }" class="fa-regular fa-heart fs-3 me-2"></i>
+                    <i id="cntntBkmk"th:if="${isCntntBklk > 0}" class="fa-heart fs-3 me-2 fa-solid" style="color: #14dbc8"></i>
+<!--                    <i id="cntntBkmk" th:if="${'isCntntBklk'}" class="fa-regular fa-heart fs-3 me-2"></i>-->
                     <i class="fa-brands fa-instagram fs-3" data-bs-toggle="offcanvas"
                        data-bs-target="#offcanvasScrolling"
                        aria-controls="offcanvasScrolling"></i>

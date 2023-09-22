@@ -13,10 +13,25 @@ public class BkmkService implements IBkmkService {
 
 	@Autowired
 	IBkmkRepository bkmkRepository;
-	
+
 	@Override
 	public List<CntntBkmk> selectCntntBkmkList(String mberId) {
 		return bkmkRepository.selectCntntBkmkList(mberId);
+	}
+
+	@Override
+	public void insertCntntBkmkList(String mberId, int cntntId) {
+		 bkmkRepository.insertCntntBkmkList(mberId, cntntId);
+	}
+
+	@Override
+	public void deleteCntntBkmkList(String mberId, int cntntId) {
+		bkmkRepository.deleteCntntBkmkList(mberId, cntntId);
+	}
+
+	@Override
+	public int selectCntntBkmk(String mberId, int cntntId) {
+		return bkmkRepository.selectCntntBkmk(mberId, cntntId);
 	}
 
 }

@@ -4,19 +4,46 @@
 
 <mapper namespace="com.example.myapp.user.bkmk.dao.IBkmkRepository">
 
-	<select id="selectCntntBkmkList" resultType="com.example.myapp.user.bkmk.model.CntntBkmk">
+    <select id="selectCntntBkmkList" resultType="com.example.myapp.user.bkmk.model.CntntBkmk">
 		<![CDATA[
-			SELECT b.mber_id,
-			        c.cntnt_title,
-			        c.cntnt_url
-			FROM tb_cntnt_bkmk a
-			    join tb_mber b 
-			    on a.cntnt_bkmk_mber_id =  b.mber_id
-			    join tb_cntnt c 
-			    on a.cntnt_bkmk_cntnt_id = c.cntnt_id
-			WHERE c.cntnt_delete_yn = 'N'
-			AND mber_id = #{mberId}
-		]]>
+        SELECT b.mber_id,
+               c.cntnt_title,
+               c.cntnt_url
+        FROM tb_cntnt_bkmk a
+                 join tb_mber b
+                      on a.cntnt_bkmk_mber_id = b.mber_id
+                 join tb_cntnt c
+                      on a.cntnt_bkmk_cntnt_id = c.cntnt_id
+        WHERE c.cntnt_delete_yn = 'N'
+          AND mber_id = #{mberId}
+        ]]>
 	</select>
+    <insert id="insertCntntBkmkList">
+        <![CDATA[
+        INSERT INTO tb_cntnt_bkmk (cntnt_bkmk_mber_id,
+                                   cntnt_bkmk_cntnt_id,
+                                   cntnt_bkmk_regist_date)
+        VALUES (#{mberId},
+                #{cntntId},
+                to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss'))
+        ]]>
+    </insert>
+    <delete id="deleteCntntBkmkList">
+        <![CDATA[
+        delete
+        From tb_cntnt_bkmk
+        where cntnt_bkmk_mber_id = #{mberId}
+          and cntnt_bkmk_cntnt_id = #{cntntId}
+        ]]>
+    </delete>
+    <select id="selectCntntBkmk" parameterType="hashMap" resultType="int">
+		<![CDATA[
+        SELECT count(cntnt_bkmk_mber_id)
+        FROM tb_cntnt_bkmk
+        WHERE cntnt_bkmk_mber_id = #{mberId}
+          AND cntnt_bkmk_cntnt_id = #{cntntId}
+        ]]>
+	</select>
+
 
 </mapper>

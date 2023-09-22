@@ -14,9 +14,13 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
+import com.example.myapp.user.bkmk.model.CntntBkmk;
+import com.example.myapp.user.bkmk.service.IBkmkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +49,8 @@ public class contentUserController {
     ICntntGoodsMappingService cntntGoodsMappingService;
     @Autowired
     IGoodsService goodsService;
+    @Autowired
+    IBkmkService bkmkService;
 
     @GetMapping("/user/content")
     public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model) {
@@ -105,9 +111,13 @@ public class contentUserController {
     }
 
 
-    //여기 봐봐
     @GetMapping("/user/content/detail")
-    public String getAContent(int targetContentIdF, Model model) {
+    public String getAContent(Authentication authentication,int targetContentIdF, Model model) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userId = userDetails.getUsername();
+        int selectCntntBkmk = bkmkService.selectCntntBkmk(userId, targetContentIdF);
+        model.addAttribute("isCntntBklk", selectCntntBkmk);
+
         CmsContent content = csContentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 

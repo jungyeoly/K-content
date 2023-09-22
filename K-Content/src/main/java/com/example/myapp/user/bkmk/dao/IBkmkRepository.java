@@ -12,4 +12,8 @@ import com.example.myapp.user.bkmk.model.CntntBkmk;
 @Mapper
 public interface IBkmkRepository {
 	List<CntntBkmk> selectCntntBkmkList(@Param("mberId") String mberId);
+	void insertCntntBkmkList(@Param("mberId") String mberId, @Param("cntntId") int cntntId);
+	void deleteCntntBkmkList(@Param("mberId") String mberId, @Param("cntntId") int cntntId);
+	int selectCntntBkmk(@Param("mberId") String mberId, @Param("cntntId") int cntntId);
+
 }

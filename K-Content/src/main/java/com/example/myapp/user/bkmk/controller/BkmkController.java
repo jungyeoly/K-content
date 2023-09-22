@@ -31,25 +31,45 @@ public class BkmkController {
         model.addAttribute("cntntList", selectCntntBkmkList);
         return "user/bkmk/main";
     }
+    //콘텐츠 좋아요
     @PostMapping("/bkmk")
     @ResponseBody
-    public String insertBkmkList(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
+    public String insertCntntBkmk(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
-//        예외 처리
-        bkmkService.insertCntntBkmkList(userId, cntntId);
+//        TODO 예외 처리
+        bkmkService.insertCntntBkmk(userId, cntntId);
         return "ok";
     }
-
+//콘텐츠 좋아요 취소
     @DeleteMapping("/bkmk")
     @ResponseBody
     //컨트롤러 리턴타입이 void 면 뷰이름이 자도응로 설정됨
-    public String deleteBkmkList(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
+    public String deleteCntntBkmk(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
 
-        bkmkService.deleteCntntBkmkList(userId, cntntId);
+        bkmkService.deleteCntntBkmk(userId, cntntId);
         return "ok";
     }
-
+    //상품 좋아요
+    @PostMapping("/bkmk/goods")
+    @ResponseBody
+    public String inserGoodstBkmk(Authentication authentication, @RequestParam(value = "goodsId") int goodsId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userId = userDetails.getUsername();
+//        예외 처리
+        bkmkService.insertGoodsBkmk(userId, goodsId);
+        return "ok";
+    }
+    //상품 좋아요 취소
+    @DeleteMapping("/bkmk/goods")
+    @ResponseBody
+    public String deleteGoodstBkmk(Authentication authentication, @RequestParam(value = "goodsId") int goodsId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userId = userDetails.getUsername();
+//        예외 처리
+        bkmkService.deleteGoodstBkmk(userId, goodsId);
+        return "ok";
+    }
 }

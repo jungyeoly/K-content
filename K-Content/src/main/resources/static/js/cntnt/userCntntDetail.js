@@ -36,9 +36,9 @@ function cntntBkmk() {
         type: 'post',
         data: {
             contentId: cntntId
-        }, // 데이터 객체 전달
+        },
         success: function (data) {
-            console.log("컨텐츠 좋아요: "+data)
+            console.log("컨텐츠 좋아요: " + data)
         },
         error: function (error) {
             console.error('에러 발생: ', error);
@@ -53,9 +53,9 @@ function cancleCntntBkmk() {
         type: 'delete',
         data: {
             contentId: cntntId
-        }, // 데이터 객체 전달
+        },
         success: function (data) {
-            console.log("컨텐츠 좋아요 취소: "+ data)
+            console.log("컨텐츠 좋아요 취소: " + data)
         },
         error: function (error) {
             console.error('에러 발생: ', error);
@@ -65,11 +65,35 @@ function cancleCntntBkmk() {
 
 // 상품 좋아요
 function goodsBkmk(goodsId) {
-    console.log("상품 좋아요: " + goodsId)
+    $.ajax({
+        url: '/bkmk/goods',
+        type: 'post',
+        data: {
+            goodsId: goodsId
+        },
+        success: function (data) {
+            console.log("굿즈 좋아요: " + data)
+        },
+        error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
 }
 
 function cancleGoodsBkmk(goodsId) {
-    console.log("상품 지운다 " + goodsId)
+    $.ajax({
+        url: '/bkmk/goods',
+        type: 'delete',
+        data: {
+            goodsId: goodsId
+        },
+        success: function (data) {
+            console.log("굿즈 좋아요 cnlth: " + data)
+        },
+        error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
 }
 
 function clickGoods(goodsId) {

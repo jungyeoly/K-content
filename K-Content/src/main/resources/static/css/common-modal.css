@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.modal-title-container {
+    display: flex;
+    align-items: center;
+}
+
+.modal-logo {
+    width: 30px;
+    height: 30px;
+}
+
+.modal-title-text {
+    margin-left: 10px;
+}

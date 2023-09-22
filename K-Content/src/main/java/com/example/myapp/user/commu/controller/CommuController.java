@@ -6,9 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -213,6 +210,7 @@ public class CommuController {
 	public String writePost(Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
+	    model.addAttribute("isCommunWritePage", true);
 		logger.info("Fetched commuCateCodeList: " + commuCateCodeList);// 실제 데이터 확인
 
 		return "user/commu/write";

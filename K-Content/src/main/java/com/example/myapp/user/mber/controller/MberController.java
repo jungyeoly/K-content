@@ -78,8 +78,11 @@ public class MberController {
 	}
 
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
-	public String signin(HttpServletRequest request, Model model) {
-
+	public String signin(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "exception", required = false) String exception, Model model) {
+		/* 에러와 예외를 모델에 담아 view resolve */
+		model.addAttribute("error", error);
+		model.addAttribute("exception", exception);
 		return "user/mber/signin";
 	}
 

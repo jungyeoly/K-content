@@ -6,8 +6,6 @@ import com.example.myapp.user.mber.model.MberUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
-
 
 @Service
 public class MberUserDetailsService implements UserDetailsService {
@@ -32,27 +29,17 @@ public class MberUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String mberId) throws UsernameNotFoundException {
-		// 사용자 이름(여기서는 mberId)을 기반으로 사용자 정보를 데이터베이스에서 가져온다.
-		Mber mber = mberService.selectMberbyId(mberId);
-		String mberStat = mber.getMberStat();
-		String mberGender = commonCodeService.mberGenderByCode(mberId);
-		String mberRole = mber.getMberRole();
-				
-		if (mberStat == "비활성화") {
-			throw new DisabledException("비활성화된 계정입니다. 관리자에게 문의하세요.");
-		} else if (mberStat.equals("활성화")) {
-			// 사용자가 활성화 상태인 경우 UserDetails 객체를 생성하고 반환한다.
-			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(mberRole);
+		  Mber mber = mberService.selectMberbyId(mberId);
 
-			return new MberUserDetails(mber.getMberId(), mber.getMberPwd(), authorities, mberGender);
+		    if (mber == null) {
+		        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + mberId);
+		    }
+		    String mberStat = mber.getMberStat();
+		    boolean enabled = !"비활성화".equals(mberStat);
+		    String mberGender = commonCodeService.mberGenderByCode(mberId);
+		    String mberRole = mber.getMberRole();
 
+		    List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(mberRole);
+		    return new MberUserDetails(mber.getMberId(), mber.getMberPwd(), authorities, mberGender, enabled);
 		}
-
-//			return User.builder().username(mber.getMberId()).password(mber.getMberPwd()).roles("ADMIN").build();
-
-		// 다른 상태 코드에 대한 처리를 원하면 여기에 추가하세요.
-
-		throw new BadCredentialsException("올바르지 않은 계정 상태: " + mberStat);
-
-	}
 }

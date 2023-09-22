@@ -28,4 +28,6 @@ public interface IMberRepository {
 	
 	String mberGenderCodeById(String mberId);
 	
+	boolean isMberId(String mberId);
+	
 }

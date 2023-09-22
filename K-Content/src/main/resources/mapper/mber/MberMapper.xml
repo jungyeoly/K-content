@@ -131,4 +131,12 @@
 		]]>
 	</select>
 	
+		<select id="isMberId" parameterType="String"
+		resultType="boolean">
+    <![CDATA[
+		SELECT CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END AS isMberId
+		FROM tb_mber
+		WHERE mber_id = #{mberId}
+		]]>
+	</select>
 </mapper>

@@ -31,6 +31,7 @@
 							<div class="col-md-12 mb-3">
 								<input type="text" class="form-control form-bid" id="mber_id"
 									name="mberId" placeholder="아이디" value="" maxlength="12" required>
+												<div class="invalid-feedback">아이디를 입력해주세요.</div>
 							</div>
 						</div>
 
@@ -38,7 +39,7 @@
 							<div class="col-md-12">
 								<input type="password" class="form-control form-bid"
 									id="mber_pwd" name="mberPwd" placeholder="비밀번호" value="" maxlength="16"
-									required>
+									required><div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 							</div>
 						</div>
 
@@ -76,6 +77,22 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	window.addEventListener('load', () => {
+		  const forms = document.getElementsByClassName('validation-form');
+
+		  Array.prototype.filter.call(forms, (form) => {
+		    form.addEventListener('submit', function (event) {
+		      if (form.checkValidity() === false) {
+		        event.preventDefault();
+		        event.stopPropagation();
+		      }
+
+		      form.classList.add('was-validated');
+		    }, false);
+		  });
+		}, false);
+	</script>
 </body>
 
 </html>

@@ -51,4 +51,9 @@ public class GoodsService implements IGoodsService {
         return rowsAffected;
     }
 
+    @Override
+    public void updateDelYnGoods(int goodsId) {
+        goodsRepository.updateDelYnGoods(goodsId);
+    }
+
 }

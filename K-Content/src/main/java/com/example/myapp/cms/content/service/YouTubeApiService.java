@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.example.myapp.cms.content.model.YouTubeItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -29,7 +30,8 @@ import com.google.api.services.youtube.model.SearchListResponse;
  */
 @Service
 public class YouTubeApiService {
-
+    @Value("${youtube.apikey}")
+    private  String YOUTUBE_APIKEY_ENV ;
     private static Logger log = LoggerFactory.getLogger(YouTubeApiService.class);
 
     public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -41,7 +43,6 @@ public class YouTubeApiService {
     private static final String YOUTUBE_SEARCH_TYPE     = "video";
     private static final String YOUTUBE_SEARCH_FIELDS   = "items(id/kind,id/videoId,snippet/title,snippet/description,snippet/thumbnails/high/url)";
     private static final String YOUTUBE_API_APPLICATION = "google-youtube-api-search";
-    private static final String YOUTUBE_APIKEY_ENV      = "AIzaSyAy8D_jiF9OEfan2L4ePRDVuNMQ6a66wGk";
 
     private static final long NUMBER_OF_VIDEOS_RETURNED  = 25;
 

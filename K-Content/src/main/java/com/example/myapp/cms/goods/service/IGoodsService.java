@@ -18,4 +18,6 @@ public interface IGoodsService {
     List<Goods> getSearchGoodsJFile(String search);
 
     int insertGoods(Goods goods, GoodsFile goodsFile);
+
+    void updateDelYnGoods(int goodsId);
 }

@@ -47,6 +47,7 @@ public class goodsController {
     public String getGoodsDetail(@RequestParam(value = "goodsId") int goodsId, Model model) {
 
         Goods goods = goodsService.getGoodsJFileByGoodsId(goodsId);
+
         model.addAttribute("goods", goods);
 
         return "cms/goods/goodsDetail";
@@ -82,7 +83,7 @@ public class goodsController {
     @GetMapping("/form")
     public String getMakeGoodsForm() {
 
-        return "cms/goods/makeGoods";
+        return "cms/goods/makeGoodsInNav";
     }
 
     // 상품 생성
@@ -142,6 +143,12 @@ public class goodsController {
 //        }    // JSON 문자열을 객체로 변환 (keywordListJson)
 
 
+    }
+    @PatchMapping("")
+    public String createGoods(@RequestParam("goodsId") int goodsId){
+        System.out.println(goodsId);
+        goodsService.updateDelYnGoods(goodsId);
+        return "cms/goods/goodsListMain";
     }
 
 }

@@ -26,4 +26,6 @@ public interface IGoodsRepository {
     int insertGoods(Goods goods);
 
     int insertGoodsFile(@Param("goodsFile") GoodsFile goodsFile);
+
+    void updateDelYnGoods(@Param("goodsId") int goodsId);
 }

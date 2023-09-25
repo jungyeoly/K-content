@@ -33,14 +33,13 @@
 								<label for="mber_id" class="fw-bold text-nowrap">아이디<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-10">
+							<div class="col-md-4">
 								<input type="text" class="form-control form-bid" id="mber_id"
 									name="mberId" placeholder="아이디 입력"
-									pattern="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$" autocomplete="off"
-									required>
-								<div class="invalid-feedback">영문 대소문자로 시작하고, 영문 대소문자, 숫자,
-									밑줄(_)로 이루어진 5자 이상 12자 이하의 아이디를 입력하세요.</div>
-								<div th:text="${existIdMessage}" style="color: red;"></div>
+									oninput="checkId(this.value)" autocomplete="off" required>
+							</div>
+							<div class="col-md-6">
+								<div class="mber-feedback fw-bold" id="check-id-feedback"></div>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -48,54 +47,54 @@
 								<label for="mber_pwd" class="fw-bold text-nowrap">비밀번호<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-10">
+							<div class="col-md-4">
 								<span class="input-group-text"><input type="password"
 									class="form-control form-bid" id="mber_pwd" name="mberPwd"
-									placeholder="비밀번호 입력"
-									pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
-									required> <i class="fa fa-eye" id=see_pwd></i></span>
-								<div class="invalid-feedback">최소 8자, 최대 16자이어야 하며, 영문
-									대소문자, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다.</div>
+									placeholder="비밀번호 입력" oninput="checkPwd(this.value)"
+									maxlength="16" required> <i class="fa fa-eye"
+									id=see_pwd></i></span>
 							</div>
-							<div class="col-md-2"></div>
+							<div class="col-md-6">
+								<div class="mber-feedback fw-bold" id="check-pwd-feedback"></div>
+							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-md-2">
 								<label for="mber_name" class="fw-bold text-nowrap">이름<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-10">
+							<div class="col-md-4">
 								<input type="text" class="form-control form-bid" id="mber_name"
-									name="mberName" placeholder="이름 입력" value="" autocomplete="off"
-									required>
-								<div class="invalid-feedback">이름을 입력해주세요.</div>
+									name="mberName" placeholder="이름 입력"
+									oninput="checkName(this.value)" autocomplete="off" required>
+							</div>
+							<div class="col-md-6">
+								<div class="mber-feedback fw-bold" id="check-name-feedback"></div>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-md-2">
 								<label for="mber_birth" class="fw-bold">생년월일</label>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<input type="date" class="form-control form-bid" id="mber_birth"
 									name="mberBirth" value="" autocomplete="off" required>
-								<div class="invalid-feedback">생년월일를 입력해주세요.</div>
 							</div>
-						</div>
-						<div class="row mb-3">
 							<div class="col-md-2">
 								<label for="mber_gender" class="fw-bold text-nowrap">성별<span
 									style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-4">
-								<select name="mberGenderCode" class="form-select" required>
+								<select name="mberGenderCode" class="form-select"
+									id="mber_gender" required>
 									<option value="" disabled selected>성별 선택</option>
 									<option value="C0101">남자</option>
 									<option value="C0102">여자</option>
 									<option value="C0103">비공개</option>
 								</select>
-								<div class="invalid-feedback">성별을 입력해주세요.</div>
 							</div>
 						</div>
+
 						<div class="row mb-3">
 							<div class="col-md-2">
 								<label for="mber_email" class="fw-bold">이메일<span
@@ -106,18 +105,16 @@
 									class="form-control form-bid" name="mberEmail"
 									placeholder="이메일 입력" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 									autocomplete="off" required>
-								<div class="invalid-feedback" id="mail-input-check-warn">이메일을
-									입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
 							</div>
 							<div class="col-md-3">
-								<button type="button" tabindex="-1" id="mail-check-btn"
-									name="EmailAuth" class="form-control mailauth-btn">
-									<span id="mail-check-btn-text">메일 인증</span>
+								<button type="button" tabindex="-1" id="email-check-btn"
+									name="EmailAuth" class="form-control emailauth-btn">
+									<span id="email-check-btn-text">메일 인증</span>
 									<div
 										class="spinner-border text-info spinner-border-sm ms-2 d-none"
-										role="status" id="mail-check-spinner"></div>
+										role="status" id="email-check-spinner"></div>
 								</button>
-								<div class="invalid-feedback" id="mail-input-check-info"></div>
+								<div class="mber-feedback" id="email-input-check-info"></div>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -125,26 +122,30 @@
 								<label for="auth-code-input" class="fw-bold">인증번호<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-10">
+							<div class="col-md-4">
 								<input type="text" id="auth-code-input"
 									class="form-control mail-check-input" placeholder="인증번호 입력"
 									disabled="disabled" maxlength="6"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-									onkeyup="checkAuthNumFn()"> <span id="mail-check-warn"
-									class="mb-2"></span>
-								<div class="invalid-feedback">인증번호를 입력해주세요.</div>
+									onkeyup="checkAuthNumFn()">
+							</div>
+							<div class="col-md-6">
+								<div class="mber-feedback" id="check-email-feedback">이메일을
+									입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-md-2">
 								<label for="mber_phone" class="fw-bold">전화번호</label>
 							</div>
-							<div class="col-md-10">
+							<div class="col-md-4">
 								<input type="text" id="mber_phone" name="mberPhone"
 									class="form-control form-bid" placeholder="전화번호 입력"
-									pattern="^010-\d{4}-\d{4}$" oninput="oninputPhone(this)" maxlength="14" autocomplete="off" required>
-								<div class="invalid-feedback">전화번호를 입력하거나, 올바른 형식의 전화번호를
-									입력해주세요.</div>
+									oninput="oninputPhone(this); checkPhone(this.value)"
+									maxlength="13" autocomplete="off" required>
+							</div>
+							<div class="col-md-6">
+								<div class="mber-feedback fw-bold" id="check-phone-feedback"></div>
 							</div>
 						</div>
 						<div class="row mb-2">
@@ -161,7 +162,7 @@
 						</div>
 						<div class="row">
 							<div class="mb-2"></div>
-							<button type="submit" class="btn btn-lg">가입완료</button>
+							<button type="submit" class="btn btn-lg" id="submit-btn">가입완료</button>
 						</div>
 					</form>
 				</div>
@@ -169,7 +170,7 @@
 		</div>
 	</div>
 	<script>
-		window.addEventListener('load', () => {
+	/* 	window.addEventListener('load', () => {
 			  const forms = document.getElementsByClassName('validation-form');
 
 			  Array.prototype.filter.call(forms, (form) => {
@@ -182,7 +183,7 @@
 			      form.classList.add('was-validated');
 			    }, false);
 			  });
-			}, false);
+			}, false); */
 		 
 
 		function oninputPhone(target) {
@@ -193,39 +194,44 @@
 	</script>
 
 	<script>
-			let emailAuthYN = 'N';
+		    let isIdValid = false;
+		    let isPwdValid = false;
+		    let isNameValid = false;
+		    let isEmailValid = false;
+		    let isPhoneValid = false;
 		    const authCodeInput = $('#auth-code-input');
 		    let serverAuthCode = '';
-		    const mailCheckBtn = $('#mail-check-btn');
-		    const mailCheckInfo = $('#mail-check-info');
-		    const mailCheckWarn = $('#mail-check-warn');
-		    const mailInputCheckWarn = $('#mail-input-check-warn');
-		    const spinner = $('#mail-check-spinner');
-		    const buttonText = $('#mail-check-btn-text');
+		    const emailCheckBtn = $('#email-check-btn');
+		    const emailCheckInfo = $('#email-check-info');
+		    const emailCheckWarn = $('#email-check-warn');
+		    const checkEmailFeedback = $('#check-email-feedback');
+		    const spinner = $('#email-check-spinner');
+		    const buttonText = $('#email-check-btn-text');
     // 인증 번호 확인 함수   
 		$(document).ready(function() {
-		 
-		    mailCheckBtn.on('click', function() {
+		
+		    emailCheckBtn.on('click', function() {
 		        const mberEmail = $('#mber_email').val();
 	
 		        console.log('이메일:', mberEmail);
 		        
 		        if (mberEmail === '') {
-		            mailInputCheckWarn.css({
+		        	checkEmailFeedback.css({
 		                display: 'block',
 		                color: '#dc3545'
 		            }).text('이메일 인증을 위해 이메일을 입력하세요.');
-		            mailCheckBtn.blur();
+		            emailCheckBtn.blur();
 		            return;
 		        } else if (!mberEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-		            mailInputCheckWarn.css({
+		        	checkEmailFeedback.css({
 		                display: 'block',
 		                color: '#dc3545'
 		            }).text('유효한 이메일 주소 형식으로 입력하세요.');
-		            mailCheckBtn.blur();
+		            emailCheckBtn.blur();
 		            return;
 		        } 
-		        
+		    	checkEmailFeedback.css('display', 'block');
+    	        checkEmailFeedback.text('');
 		        $('#mber_email').prop('readonly', true);
 		        spinner.removeClass('d-none');
 		        buttonText.text('');
@@ -233,7 +239,7 @@
 		        $.ajax({
 		            type: 'POST',
 
-		            url: '/mber/mailauth',
+		            url: '/mber/emailauth',
 		            data: {
 		                mberEmail: mberEmail
 		            },
@@ -244,15 +250,15 @@
 		                const enteredAuthCode = authCodeInput.val().trim();
 		                console.log('수신된 검증 코드:', serverAuthCode);
 		                console.log('입력된 코드:', enteredAuthCode);
-		                mailCheckBtn.prop('disabled', true);
-		                mailCheckInfo.text('인증 메일이 발송되었습니다.');
+		                emailCheckBtn.prop('disabled', true);
+		                emailCheckInfo.text('인증 메일이 발송되었습니다.');
 		                authCodeInput.prop('disabled', false);
 		                authCodeInput.css('background-color', 'white');
-		                mailCheckBtn.blur();
+		                emailCheckBtn.blur();
 		            },
 		            error: function() {
-		                mailCheckWarn.text('이메일 입력 오류').css('color', 'red');
-		                mailCheckBtn.blur();
+		                emailCheckWarn.text('이메일 입력 오류').css('color', 'red');
+		                emailCheckBtn.blur();
 		            }
 		        });
 		 
@@ -260,34 +266,36 @@
 		  
 		});
 
-		 function checkAuthNumFn() {
-		        if (authCodeInput.val().length === 0) {
-		            emailAuthYN = 'N';
-		            mailCheckWarn.text('');
+		function checkAuthNumFn() {
+		    const authCodeInput = $('#auth-code-input');
+		    const enteredAuthCode = authCodeInput.val().trim();
+
+		    
+		    if (enteredAuthCode.length === 0) {
+		    	 isEmailValid = 'N';
+				checkEmailFeedback.css('display', 'none'); 
+		        checkEmailFeedback.text('');
+		        return;
+		    }
+		     if (authCodeInput.val().length >= 1) {
+		    	 	isEmailValid = 'N';
+		    		checkEmailFeedback.css('display', 'block'); 
+		            checkEmailFeedback.text('인증번호 확인 중입니다...');
+		            checkEmailFeedback.css('color', 'black');
 		        }
-		        
-		        if (authCodeInput.val().length >= 1) {
-		            emailAuthYN = 'N';
-		            mailCheckWarn.text('인증번호 확인 중입니다...');
-		            mailCheckWarn.css('color', 'black');
-		        }
-		        
-		        if (authCodeInput.val().length === 6) {
-		            mailCheckWarn.css('color', 'black'); // 초기화
-		            if (serverAuthCode === authCodeInput.val()) {
-		                // 서버에서 가져온 인증 코드와 입력한 코드가 일치하는 경우
-		                emailAuthYN = 'Y';
-		                mailCheckWarn.text('인증 성공');
-		                mailCheckWarn.css('color', 'green');
-		   
-		            } else {
-		                // 서버에서 가져온 인증 코드와 입력한 코드가 일치하지 않는 경우
-		                emailAuthYN = 'N';
-		                mailCheckWarn.text('인증 실패');
-		                mailCheckWarn.css('color', 'red');
-		            }
+		    if (enteredAuthCode.length === 6) {
+		        // 입력한 코드가 서버에서 가져온 인증 코드와 일치하는지 확인
+		        if (serverAuthCode === enteredAuthCode) {
+		            isEmailValid = 'Y';
+		            checkEmailFeedback.text('인증 성공');
+		            checkEmailFeedback.css('color', '#198754');
+		        } else {
+		        	 isEmailValid = 'N';
+		            checkEmailFeedback.text('인증 실패');
+		            checkEmailFeedback.css('color', '#dc3545');
 		        }
 		    }
+		}
 
 			const birthdateInput = document.getElementById('mber_birth');
 			const currentDate = new Date();
@@ -314,6 +322,161 @@
 		        }
 		    });
 		});
+	</script>
+
+	<script>
+
+	 
+	 //아이디 실시간 유효성 체크
+	const checkIdFeedback = document.getElementById('check-id-feedback');
+	function checkId(mberId){
+		$.ajax({
+			type:"POST",
+			url: "/mber/checkid",
+			data : { mberId: mberId },
+			success:function(result){	
+				if(result == true){				
+				    checkIdFeedback.style.display = 'block';
+				    checkIdFeedback.style.color = '#198754';
+				    checkIdFeedback.innerHTML = "좋은 아이디예요!";
+				    isIdValid = true;
+				}else{				
+				    checkIdFeedback.style.display = 'block';
+				    checkIdFeedback.style.color = '#dc3545';
+					checkIdFeedback.innerHTML = "영문으로 시작하고, 영문, 숫자, 밑줄(_)로 이루어진 5자 이상 12자 이하의 아이디를 입력하세요."; 
+					isIdValid = false;
+				}
+			},
+	    	error:function(request,status){
+	    		console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	}
+		});	
+		
+	}
+	 
+	 //비밀번호 실시간 유효성 체크
+	const checkPwdFeedback = document.getElementById('check-pwd-feedback');
+	function checkPwd(mberPwd){
+		$.ajax({
+			type:"POST",
+			url: "/mber/checkpwd",
+			data : { mberPwd: mberPwd },
+			success:function(result){	
+				if(result == true){				
+				    checkPwdFeedback.style.display = 'block'; 	
+				    checkPwdFeedback.style.color = '#198754';
+				    checkPwdFeedback.innerHTML = "보안적으로 좋은 비밀번호예요!";
+				    isPwdValid = true;
+				}else{				
+				    checkPwdFeedback.style.display = 'block';
+				    checkPwdFeedback.style.color = '#dc3545';
+					checkPwdFeedback.innerHTML = "최소 8자, 최대 16자이어야 하며, 영문, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다."; 
+				    isPwdValid = false;
+				}
+			},
+	    	error:function(request,status){
+	    		console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	}
+		});	
+		
+	}
+	
+	 //이름 실시간 유효성 체크
+	const checkNameFeedback = document.getElementById('check-name-feedback');
+	function checkName(mberName){
+		$.ajax({
+			type:"POST",
+			url: "/mber/checkname",
+			data : { mberName: mberName },
+			success:function(result){	
+				if(result == true){				
+					checkNameFeedback.style.display = 'block'; 	
+					checkNameFeedback.style.color = '#198754';
+					checkNameFeedback.innerHTML = "멋진 이름이네요, 기억할게요!";
+				    isNameValid = true;
+				}else{				
+				    checkNameFeedback.style.display = 'block';
+				    checkNameFeedback.style.color = '#dc3545';
+					checkNameFeedback.innerHTML = "한글 또는 영문으로 된 이름을 입력해주세요."; 
+				    isNameValid = false;
+				}
+			},
+	    	error:function(request,status){
+	    		console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	}
+		});	
+		
+	}
+/* 	$(document).ready(function(){
+		$('#mber_email').keyup(function(){
+		}); 
+	 }); 
+	 
+
+	function checkEmail(mberEmail){
+		$.ajax({
+			type:"POST",
+			url: "/mber/checkemail",
+			data : { mberEmail: mberEmail },
+			success:function(result){	
+				if(result == true){				
+				    checkEmailFeedback.style.display = 'block'; 	
+				    checkEmailFeedback.style.color = '#198754';
+				    checkEmailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
+				}else{				
+				    checkEmailFeedback.style.display = 'block';
+				    checkEmailFeedback.style.color = '#dc3545';
+					checkEmailFeedback.innerHTML = "이메일 형식에 맞게 입력해주세요."; 
+				}
+			},
+	    	error:function(request,status){
+	    		console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	}
+		});	
+		
+	} */
+
+	 
+	 //전화번호 실시간 유효성 체크
+	const checkPhoneFeedback = document.getElementById('check-phone-feedback');
+	function checkPhone(mberPhone){
+		$.ajax({
+			type:"POST",
+			url: "/mber/checkphone",
+			data : { mberPhone: mberPhone },
+			success:function(result){	
+				if(result == true){				
+					checkPhoneFeedback.style.display = 'block'; 	
+					checkPhoneFeedback.style.color = '#198754';
+					checkPhoneFeedback.innerHTML = "멋진 이름이네요!";
+					isPhoneValid = true;
+				}else{				
+				    checkPhoneFeedback.style.display = 'block';
+				    checkPhoneFeedback.style.color = '#dc3545';
+					checkPhoneFeedback.innerHTML = "전화번호 형식에 맞게 입력해주세요.";
+					isPhoneValid = false;
+				}
+			},
+	    	error:function(request,status){
+	    		console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	}
+		});	
+		
+	}
+	window.addEventListener('load', () => {
+		  const forms = document.getElementsByClassName('validation-form');
+
+		  Array.prototype.filter.call(forms, (form) => {
+		    form.addEventListener('submit', function (event) {
+		      if (form.checkValidity() === false) {
+		        event.preventDefault();
+		        event.stopPropagation();
+		      }
+
+		      form.classList.add('was-validated');
+		    }, false);
+		  });
+		}, false);
 	</script>
 </body>
 </html>

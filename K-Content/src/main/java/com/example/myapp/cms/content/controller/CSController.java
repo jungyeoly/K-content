@@ -141,6 +141,7 @@ public class CSController {
         List<String> realImg = new ArrayList<>();
         for (int i = 0; i < trendQueryList.size(); i++) {
             String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+            //TODO 예외처리
             URL urlInput = new URL(oneUrl);
             BufferedImage urlImg = ImageIO.read(urlInput);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();

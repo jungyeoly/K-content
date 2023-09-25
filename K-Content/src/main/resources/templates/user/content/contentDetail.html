@@ -70,8 +70,9 @@
                                     <p class="text-center" th:text="${goods.goodsBrand}"></p>
                                 </div>
 
-                                <i th:id="${goods.goodsId}"  th:if="${not #strings.isEmpty(goods.goodsBkmkRegistDate)}"
-                                   class="goodsBkmk fa-heart position-absolute top-0 end-0 fs-3 fa-solid"  style="color: #14dbc8"
+                                <i th:id="${goods.goodsId}" th:if="${not #strings.isEmpty(goods.goodsBkmkRegistDate)}"
+                                   class="goodsBkmk fa-heart position-absolute top-0 end-0 fs-3 fa-solid"
+                                   style="color: #14dbc8"
                                    th:goodsId="${goods.goodsId}"
                                    onclick="clickGoods(this.getAttribute('goodsId'))"></i>
                                 <i th:id="${goods.goodsId}" th:if="${ #strings.isEmpty(goods.goodsBkmkRegistDate)}"
@@ -99,8 +100,10 @@
                 <h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel">트랜드</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <p>Try scrolling the rest of the page to see this option in action.</p>
+            <div class="offcanvas-body ">
+                <div class="item trend" id="trend">
+
+                </div>
             </div>
         </div>
 

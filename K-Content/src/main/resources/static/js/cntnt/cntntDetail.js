@@ -9,8 +9,15 @@ $(document).ready(function () {
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');
-            for (i = 0; i < contentList.length; i++) {
+            if (contentList.length == 0) {
                 inHtml = `
+            <div> 관련 컨텐츠가 존제히지 않습니다.
+            </div>
+                        `;
+                element.insertAdjacentHTML("afterbegin", inHtml);
+            } else {
+                for (i = 0; i < contentList.length; i++) {
+                    inHtml = `
             <li class="card-item goods-box" onclick="recomCntntDetail(${contentList[i].cntntId})">
                 <figure class="card-image" style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} alt="일분이" style="display: none">
@@ -19,21 +26,24 @@ $(document).ready(function () {
                     ${contentList[i].cntntTitle}
                 </div>
             </li> `;
-                element.insertAdjacentHTML("afterbegin", inHtml);
-                //밑에 html 코드도 위에 붙여본겁니다. 안예쁩니다.
-                // <li className="goods-box card-item" id="card-item" style="margin-bottom: 70px"
-                //     onClick="recomCntntDetail(${contentList[i].cntntId})">
-                //     <div className="card " style="width: 18rem; height: 240px">
-                //         <figure className="card-image" style=" background-image: url(${contentList[i].cntntThumnail})">
-                //             <img className="card-img-top" src=${contentList[i].cntntThumnail} alt="일분이"
-                //                  style="display: none">
-                //         </figure>
-                //         <div className="card-desc" style="width:18rem; border:1px solid">
-                //             ${contentList[i].cntntTitle}
-                //         </div>
-                //     </div>
-                // </li>
+                    element.insertAdjacentHTML("afterbegin", inHtml);
+                    //밑에 html 코드도 위에 붙여본겁니다. 안예쁩니다.
+                    // <li className="goods-box card-item" id="card-item" style="margin-bottom: 70px"
+                    //     onClick="recomCntntDetail(${contentList[i].cntntId})">
+                    //     <div className="card " style="width: 18rem; height: 240px">
+                    //         <figure className="card-image" style=" background-image: url(${contentList[i].cntntThumnail})">
+                    //             <img className="card-img-top" src=${contentList[i].cntntThumnail} alt="일분이"
+                    //                  style="display: none">
+                    //         </figure>
+                    //         <div className="card-desc" style="width:18rem; border:1px solid">
+                    //             ${contentList[i].cntntTitle}
+                    //         </div>
+                    //     </div>
+                    // </li>
+                }
             }
+
+
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }

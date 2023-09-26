@@ -48,7 +48,7 @@
 	JOIN tb_common_code b 
 	on a.commu_cate_code = b.common_code
 	WHERE a.commu_status != 'Y'  
-	<if test="commonCodeVal != 'All'">
+	<if test="commuCateCode!= 'All'">
 	AND b.common_code_val = #{commuCateCode}
 	</if>
 	ORDER BY commu_id DESC

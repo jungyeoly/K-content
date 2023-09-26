@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+<th:block th:replace="~{/include/header :: header}"></th:block>
+<link rel="stylesheet" th:href="@{/css/mber/verifypwd.css}">
+</head>
+<body>
+
+	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	<div class="container">
+		<div class="menu fw-bold">회원 탈퇴</div>
+		<div
+			class="border-bottom border-top border-2 fw-bold border-dark mb-3 text-center align-self-center">
+			<div class="mt-5 mb-3 row">
+				<div class="col-md-12">
+					정말 계정 <span class="fw-bold text-danger">탈퇴</span>하시겠습니까? 다시 한번 확인해주세요. 
+ 						<br><span class="fw-bold text-danger">탈퇴</span>를 원하시면 비밀번호를 입력해주세요.
+				</div>
+			</div>
+			<div class="d-flex justify-content-center">
+				<form action="#" method="post"
+					class="validation-form" id="verifyPwdForm" novalidate>
+					<div class="mb-5 row">
+
+						<div class="col-md-8">
+							<span class="input-group-text"> <input type="password"
+								class="enter form-bid" id="mber_pwd" name="mberPwd"
+								placeholder="비밀번호 입력"
+								pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
+								required><i class="fa fa-eye" id=see_pwd></i></span>
+						</div>
+						<div class="col-md-2">
+							<button type="submit" tabindex="-1" class="btn delete1 form-control"
+								id="delete-btn">확인
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+	
+			$(document).ready(function() {
+				$('#see_pwd').on('click', function() {
+					var passwordInput = $('#mber_pwd');
+					var eyeIcon = $(this);
+	
+					if (passwordInput.attr('type') === 'password') {
+						passwordInput.attr('type', 'text');
+						eyeIcon.attr('class', 'fa fa-eye-slash');
+					} else {
+						passwordInput.attr('type', 'password');
+						eyeIcon.attr('class', 'fa fa-eye');
+					}
+				});
+			});
+			
+			
+		/* 	$("#delete-btn").click(function () {
+			Swal.fire({
+				  title: 'Submit your Github username',
+				  input: 'text',
+				  inputAttributes: {
+				    autocapitalize: 'off'
+				  },
+				  showCancelButton: true,
+				  confirmButtonText: '계정 탈퇴',
+				  cancelButtonText: '탈퇴 취소',
+				  showLoaderOnConfirm: true,
+				  preConfirm: (login) => {
+				    return fetch(`//api.github.com/users/${login}`)
+				      .then(response => {
+				        if (!response.ok) {
+				          throw new Error(response.statusText)
+				        }
+				        return response.json()
+				      })
+				      .catch(error => {
+				        Swal.showValidationMessage(
+				          `Request failed: ${error}`
+				        )
+				      })
+				  },
+				  allowOutsideClick: () => !Swal.isLoading()
+				}).then((result) => {
+				  if (result.isConfirmed) {
+				    Swal.fire({
+				      title: `${result.value.login}'s avatar`,
+				      imageUrl: result.value.avatar_url
+				    })
+				  }
+				})
+			}); */
+		/* 	$("#delete-btn").click(function () {
+			const swalWithBootstrapButtons = Swal.mixin({
+				  customClass: {
+				    confirmButton: 'alert-btn alert-delete-btn',
+				    cancelButton: 'alert-btn'
+				  },
+				  buttonsStyling: false
+				})
+
+				swalWithBootstrapButtons.fire({
+				  title: '정말로 회원님의 계정을<br>탈퇴하시겠습니까?',
+				  text: "다시 되돌릴 수 없습니다. 신중하세요.",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: '계정 탈퇴',
+				  cancelButtonText: '탈퇴 취소',
+				  reverseButtons: true
+				}).then((result) => {
+				  if (result.isConfirmed) {
+				    swalWithBootstrapButtons.fire(
+				      '계정 탈퇴 처리 완료',
+				      '회원님의 계정은 탈퇴처리 되었습니다.<br><br>이용해주셔서 감사합니다! 또 다시 만나요.',
+				      'success'
+				    )
+					  document.getElementById('verifyPwdForm').submit();
+				  } else if (
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+				    swalWithBootstrapButtons.fire(
+				      '계정 탈퇴 취소',
+				      '다시 뵙게 되어 반갑네요!',
+				      'error'
+				    )
+				  }
+				})
+			}) */
+		</script>
+</body>
+</html>

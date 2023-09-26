@@ -3,62 +3,8 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <th:block th:replace="~{/include/header :: header}"></th:block>
-
+<link rel="stylesheet" th:href="@{/css/mber/verifypwd.css}">
 </head>
-<style>
-.enter {
-	height: 37px;
-	width: 100%;
-	font-weight: 600;
-	border-radius: 4px;
-	font-size: 14px;
-	line-height: 22px;
-	letter-spacing: 0.5px;
-	outline: none;
-	border: var(- -bs-border-width) solid var(- -bs-border-color);
-	border: none;
-	transition: all 200ms linear;
-}
-
-.enter.form-bid {
-	background-color: #f8f9fa
-}
-
-.enter.form-bid:focus, .enter.form-bid:active {
-	border: none;
-	outline: none;
-	color: #57585f;
-	background-color: #e2e4f1;
-}
-
-.row input:-ms-input-placeholder {
-	color: #14dbc8;
-	opacity: 0.7;
-	-ms-transition: all 200ms linear;
-	transition: all 200ms linear;
-}
-
-.row input::-moz-placeholder {
-	color: #14dbc8;
-	opacity: 0.7;
-	-moz-transition: all 200ms linear;
-	transition: all 200ms linear;
-}
-
-.row input:-moz-placeholder {
-	color: #14dbc8;
-	opacity: 0.7;
-	-moz-transition: all 200ms linear;
-	transition: all 200ms linear;
-}
-
-.row input::-webkit-input-placeholder {
-	color: #14dbc8;
-	opacity: 0.7;
-	-webkit-transition: all 200ms linear;
-	transition: all 200ms linear;
-}
-</style>
 <body>
 
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
@@ -97,13 +43,24 @@
 			</div>
 		</div>
 
-		<div class="mb-3 row">
-			<div class="col-md-1">
-				<a th:href="@{/mber/editprofile}"><button type="button"
-						tabindex="-1" class="btn form-control" id="edit-btn">이전</button></a>
-			</div>
-		</div>
 	</div>
 
+	<script>
+			$(document).ready(function() {
+				$('#see_pwd').on('click', function() {
+					var passwordInput = $('#mber_pwd');
+					var eyeIcon = $(this);
+	
+					if (passwordInput.attr('type') === 'password') {
+						passwordInput.attr('type', 'text');
+						eyeIcon.attr('class', 'fa fa-eye-slash');
+					} else {
+						passwordInput.attr('type', 'password');
+						eyeIcon.attr('class', 'fa fa-eye');
+					}
+				});
+			});
+			
+		</script>
 </body>
 </html>

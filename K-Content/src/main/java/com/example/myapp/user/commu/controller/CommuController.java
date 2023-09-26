@@ -67,7 +67,8 @@ public class CommuController {
 	@Autowired
 	private ICommonCodeService commonCodeService;
 
-	@GetMapping("/commu") // 커뮤니티 메인
+
+@GetMapping("/commu") // 커뮤니티 메인
 	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
 			Model model, HttpSession session) {
 		List<Commu> commulist = commuService.selectAllPost();
@@ -96,6 +97,32 @@ public class CommuController {
 		model.addAttribute("commulist", commulist);
 		return "user/commu/list";
 	}
+	//카테고리별 게시글 조회
+	@GetMapping("/commu/commucatecode/{commuCateCode}")
+	public ResponseEntity<Map<String, Object>> getPostsByCategory(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu, @PathVariable String commuCateCode, Model model, HttpSession session) {
+		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode);
+		for (Commu post : posts) {
+			System.out.println("1:" + post.getCommonCodeVal());
+		}
+		
+		int totalPage = 0;
+	    // 검색결과가 있는 경우 paging처리
+	    if (posts != null && !posts.isEmpty()) {
+	        int partitionSize = 10;
+	        List<List<Commu>> partitionedList = Lists.partition(posts, partitionSize);
+	        totalPage = partitionedList.size();
+	        posts = partitionedList.get(currentPage - 1);
+	    }
+
+	    Map<String, Object> response = new HashMap<>();
+		response.put("totalCommu", commu);
+	    response.put("posts", posts);
+	    response.put("totalPages", totalPage);
+	    response.put("currentPage", currentPage);
+	    return ResponseEntity.ok(response);
+	}
+
+
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
 	@GetMapping("/commu/{commuId}")

@@ -113,9 +113,8 @@ public class CommuService implements ICommuService {
 	}
 
 	@Override
-	public List<Commu> selectPostListByCategory(String commuCateCode, int page) {
-		int start = (page - 1) * 10 + 1;
-		return commuRepository.selectPostListByCategory(commuCateCode, start, start + 9);
+	public List<Commu> selectPostListByCategory(String commuCateCode) {
+		return commuRepository.selectPostListByCategory(commuCateCode);
 	}
 
 	@Override
@@ -149,4 +148,5 @@ public class CommuService implements ICommuService {
 	    public List<CommuFile> getAllFilesByCommuId(int commuId){
 	        return commuRepository.getAllFilesByCommuId(commuId);
 	    }
+
 }

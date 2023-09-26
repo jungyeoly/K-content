@@ -121,6 +121,15 @@
 		]]>
 	</update>
 
+	<update id="deleteMber"
+		parameterType="com.example.myapp.user.mber.model.Mber">
+    <![CDATA[
+		UPDATE tb_mber
+		SET mber_stat_code = 'C0201'
+		WHERE mber_id = #{mberId}
+		]]>
+	</update>
+	
 	<select id="maskMberId" parameterType="String"
 		resultType="String">
     <![CDATA[
@@ -130,7 +139,7 @@
 		]]>
 	</select>
 	
-		<select id="isMberId" parameterType="String"
+	<select id="isMberId" parameterType="String"
 		resultType="boolean">
     <![CDATA[
 		SELECT CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END AS isMberId
@@ -138,4 +147,14 @@
 		WHERE mber_id = #{mberId}
 		]]>
 	</select>
+	
+	<select id="isMberEmail" parameterType="String"
+		resultType="boolean">
+    <![CDATA[
+		SELECT CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END AS isMberEmail
+		FROM tb_mber
+		WHERE mber_email = #{mberEmail}
+		]]>
+	</select>
+	
 </mapper>

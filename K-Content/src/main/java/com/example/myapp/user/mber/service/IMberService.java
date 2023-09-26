@@ -2,6 +2,8 @@ package com.example.myapp.user.mber.service;
 
 import java.util.List;
 
+import org.apache.ibatis.javassist.NotFoundException;
+
 import com.example.myapp.user.mber.model.Mber;
 
 public interface IMberService {
@@ -17,10 +19,12 @@ public interface IMberService {
 
 	void updateMber(Mber mber);
 
-	void deleteMber(String mberId);
+	void deleteMber(String mberId) throws NotFoundException;
 
 	String mberGenderCodeById(String mberId);
-	
+
 	boolean isMberId(String mberId);
-	
+
+	boolean isMberEmail(String mberEmail);
+
 }

@@ -114,7 +114,7 @@
 										class="spinner-border text-info spinner-border-sm ms-2 d-none"
 										role="status" id="email-check-spinner"></div>
 								</button>
-								<div class="mber-feedback" id="email-input-check-info"></div>
+								<div class="mber-feedback fw-bold" id="email-input-check-info"></div>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -199,6 +199,7 @@
 		    let isNameValid = false;
 		    let isEmailValid = false;
 		    let isPhoneValid = false;
+		    
 		    const authCodeInput = $('#auth-code-input');
 		    let serverAuthCode = '';
 		    const emailCheckBtn = $('#email-check-btn');
@@ -448,7 +449,7 @@
 				if(result == true){				
 					checkPhoneFeedback.style.display = 'block'; 	
 					checkPhoneFeedback.style.color = '#198754';
-					checkPhoneFeedback.innerHTML = "멋진 이름이네요!";
+					checkPhoneFeedback.innerHTML = "훌륭해요!";
 					isPhoneValid = true;
 				}else{				
 				    checkPhoneFeedback.style.display = 'block';

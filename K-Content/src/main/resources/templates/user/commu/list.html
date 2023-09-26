@@ -25,7 +25,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${commulist}" class="commu-row"
+			 	<tr th:each="commu : ${commulist}" class="commu-row"
 					th:attr="data-commu-id=${commu.commuId}">
 
 					<td th:text="${commu.commuId}"></td>
@@ -42,7 +42,6 @@
 					<td th:text="${commu.commuReadCnt}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>
 				</tr>
-
 			</tbody>
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"

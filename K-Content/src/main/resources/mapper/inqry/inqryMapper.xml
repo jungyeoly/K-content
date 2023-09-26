@@ -68,8 +68,9 @@
 
     <select id="totalInqry" resultType="int">
 		<![CDATA[
-        SELECT count(*)
-        FROM tb_inqry
+	        SELECT count(*)
+			FROM tb_inqry
+			WHERE inqry_group_ord = 0
         ]]>
 	</select>
 
@@ -130,12 +131,18 @@
 		]]>
 	</select>
 
-    <update id="deleteInqry" parameterType="int">
-		<![CDATA[
-        UPDATE tb_inqry
-        SET inqry_delete_yn = 'Y'
-        WHERE inqry_id = #{inqryId}
-        ]]>
-	</update>
+    <delete id="deleteInqry" parameterType="int">
+    	<![CDATA[
+    		DELETE FROM tb_inqry
+    		WHERE inqry_id = #{inqryId}
+    	]]>
+    </delete>
+    
+    <delete id="deleteInqryFile" parameterType="String">
+    	<![CDATA[
+    		DELETE FROM tb_inqry_file
+    		WHERE inqry_file_id = #{inqryFileId}
+    	]]>
+    </delete>
 
 </mapper>

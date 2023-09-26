@@ -6,19 +6,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.beust.jcommander.internal.Console;
 import com.example.myapp.cms.inqry.model.CmsInqry;
-import com.example.myapp.cms.inqry.service.CmsInqryService;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.inqry.model.Inqry;
@@ -50,8 +48,6 @@ public class CmsInqryController {
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
 		model.addAttribute("inqryList", inqryList);
 
-		logger.info(inqryList.toString());
-
 
 		int bbsCount = inqryService.totalInqry();
 		int totalPage = 0;
@@ -76,7 +72,6 @@ public class CmsInqryController {
 		model.addAttribute("endPage", endPage);
 
 		session.setAttribute("nowPage", page);
-
 		return "cms/inqry/list";
 	}
 
@@ -87,19 +82,18 @@ public class CmsInqryController {
 
 	@RequestMapping("/inqry/detail/{inqryId}")
 	public String selectCmsInqry(@PathVariable int inqryId, Model model, HttpSession session) {
-		Inqry inqry = inqryService.selectInqry(inqryId);
-		model.addAttribute("inqry", inqry);
-		session.setAttribute("inqryId", inqryId);
-
+		if (inqryService.selectInqry(inqryId).getInqryGroupOrd() == 1) {
+			Inqry reply = inqryService.selectInqry(inqryId);
+			Inqry inqry = inqryService.selectInqry(reply.getInqryRefId());
+			model.addAttribute("reply", reply);
+			model.addAttribute("inqry", inqry);
+		} else if (inqryService.selectInqry(inqryId).getInqryGroupOrd() == 0) {
+			Inqry inqry = inqryService.selectInqry(inqryId);
+			model.addAttribute("inqry", inqry);
+		}
 		int cnt = cmsInqryService.countInqry(inqryId);
 		model.addAttribute("cnt", cnt);
-
-		if (inqry.getInqryGroupOrd() == 1) {
-			Inqry originInqry = inqryService.selectInqry(inqry.getInqryRefId());
-			model.addAttribute("origin", originInqry);
-			model.addAttribute("ref", "ref");
-		}
-
+		session.setAttribute("inqryId", inqryId);
 		return "cms/inqry/detail";
 	}
 
@@ -109,9 +103,7 @@ public class CmsInqryController {
 
 		Inqry inqry = inqryService.selectInqry(inqryId);
 		model.addAttribute("inqry", inqry);
-
 		int cnt = cmsInqryService.countInqry(inqry.getInqryRefId());
-
 		if (cnt > 1) {
 			model.addAttribute("message", "이미 답글이 등록된 글입니다.");
 			return "cms/inqry/main";
@@ -125,9 +117,16 @@ public class CmsInqryController {
 	public String writeInqry(CmsInqry cmsInqry, HttpSession session, Principal principal) {
 		int inqryId = (int) session.getAttribute("inqryId");
 		Inqry inqry = inqryService.selectInqry(inqryId);
+		cmsInqry.setInqryTitle(inqry.getInqryTitle());
 		cmsInqry.setInqryRefId(inqryId);
 		cmsInqry.setInqryGroupOrd(1);
-		cmsInqry.setInqryPwd(inqry.getInqryPwd());
+		
+		String pwd = inqry.getInqryPwd();
+		if(pwd == null || pwd == "") {
+			cmsInqry.setInqryPwd("");
+		} else {
+			cmsInqry.setInqryPwd(pwd);			
+		}
 		cmsInqry.setInqryMberId(principal.getName());
 
 		logger.info(cmsInqry.toString());
@@ -138,16 +137,35 @@ public class CmsInqryController {
 	}
 
 	@GetMapping("/inqry/update/{inqryId}")
-	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal) {
+	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal, Authentication authentication) {
 		CmsInqry cmsInqry = cmsInqryService.selectCmsInqry(inqryId);
-		String userName = principal.getName();
-
-		if (cmsInqry.getInqryMberId().equals(userName)) {
-			model.addAttribute("cmsInqry", cmsInqry);
-			return "cms/inqry/write";
+		
+		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			model.addAttribute("inqry", cmsInqry);
+			return "cms/inqry/update";
 		} else {
-			model.addAttribute("message", "잘못된 접근입니다.");
-			return "cms/inqry";
+			model.addAttribute("message", "잘못된 접근입니다."); 
+			return "redirect:/cs/inqry";
 		}
+	}
+	
+	@PostMapping("/inqry/update/{inqryId}")
+	public String updateInqry(@PathVariable int inqryId, CmsInqry cmsInqry) {
+		cmsInqryService.updateCmsInqry(cmsInqry);
+		
+		return "redirect:/cs/inqry";
+	}
+	
+	@PostMapping("/inqry/delete/{inqryId}")
+	public String deleteInqry(@PathVariable int inqryId, Authentication authentication, Principal principal, RedirectAttributes redirectAttrs) {
+		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			cmsInqryService.deleteCmsInqry(inqryId);
+		}
+		return "redirect:/cs/inqry";
+	}
+
+	private void alert(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 }

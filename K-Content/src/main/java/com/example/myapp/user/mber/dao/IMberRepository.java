@@ -13,7 +13,7 @@ public interface IMberRepository {
 	Mber selectMberbyId(String mberId);
 
 	Mber selectMberbyEmail(String mberEmail);
-	
+
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
 	List<Mber> selectMberAllList();
@@ -25,9 +25,11 @@ public interface IMberRepository {
 	void deleteMber(String mberId);
 
 	String maskMberId(String mberEmail);
-	
+
 	String mberGenderCodeById(String mberId);
-	
+
 	boolean isMberId(String mberId);
-	
+
+	boolean isMberEmail(String mberEmail);
+
 }

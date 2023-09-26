@@ -94,7 +94,7 @@ public class EmailService implements IEmailService {
 		String msg = "";
 		msg += "<div><div style=\"width:700px;margin : 50px auto 0;border: 1px solid #D5D9E2;font-family:'Noto Sans KR',sans-serif;\">";
 		msg += "<div style=\"height: 96px;\">";
-		msg += "<img src=\"/img/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
+		msg += "<img src=\"https://i.ibb.co/7zq0Vbg/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
 		msg += "<span style=\"float:right; font-size: 16px;align-self: flex-end;color: #777777; padding: 52px 20px 0 0;\">다양한 분야, 많은 컨텐츠! K-Spectrum</span>";
 		msg += "</div>";
 		msg += "<div style=\"margin-bottom: 8px;height: 95px;background-color: #14dbc8;\">";
@@ -143,7 +143,7 @@ public class EmailService implements IEmailService {
 		String msg = "";
 		msg += "<div><div style=\"width:700px;margin : 50px auto 0;border: 1px solid #D5D9E2;font-family:'Noto Sans KR',sans-serif;\">";
 		msg += "<div style=\"height: 96px;\">";
-		msg += "<img src=\"/img/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
+		msg += "<img src=\"https://i.ibb.co/7zq0Vbg/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
 		msg += "<span style=\"float:right; font-size: 16px;align-self: flex-end;color: #777777; padding: 52px 20px 0 0;\">다양한 분야, 많은 컨텐츠! K-Spectrum</span>";
 		msg += "</div>";
 		msg += "<div style=\"margin-bottom: 8px;height: 95px;background-color: #14dbc8;\">";
@@ -191,7 +191,7 @@ public class EmailService implements IEmailService {
 		String msg = "";
 		msg += "<div><div style=\"width:700px;margin : 50px auto 0;border: 1px solid #D5D9E2;font-family:'Noto Sans KR',sans-serif;\">";
 		msg += "<div style=\"height: 96px;\">";
-		msg += "<img src=\"/img/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
+		msg += "<img src=\"https://i.ibb.co/7zq0Vbg/mainLogo.png\" alt=\"K-Spectrum\" width=\"184\" height=\"40\" style=\"float: left; padding:40px 0 0 20px;\" loading=\"lazy\">";
 		msg += "<span style=\"float:right; font-size: 16px;align-self: flex-end;color: #777777; padding: 52px 20px 0 0;\">다양한 분야, 많은 컨텐츠! K-Spectrum</span>";
 		msg += "</div>";
 		msg += "<div style=\"margin-bottom: 8px;height: 95px;background-color: #14dbc8;\">";

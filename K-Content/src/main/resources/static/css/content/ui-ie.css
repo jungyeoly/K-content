@@ -3,7 +3,9 @@
 	display: flex;
 	flex-direction: column; /*수평 정렬*/
 	display: block;
+	padding: 0px;
 }
+
 .menu-item {
 	/* flex-grow: 1; */
 	/*width: 25%;*/

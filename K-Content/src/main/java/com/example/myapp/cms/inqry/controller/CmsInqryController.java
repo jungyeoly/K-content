@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.example.myapp.cms.inqry.model.CmsInqry;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.commoncode.service.ICommonCodeService;

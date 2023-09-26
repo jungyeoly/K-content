@@ -14,9 +14,14 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
+import com.example.myapp.user.bkmk.model.CntntBkmk;
+import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
+import com.example.myapp.user.bkmk.service.IBkmkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +50,8 @@ public class contentUserController {
     ICntntGoodsMappingService cntntGoodsMappingService;
     @Autowired
     IGoodsService goodsService;
+    @Autowired
+    IBkmkService bkmkService;
 
     @GetMapping("/user/content")
     public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model) {
@@ -65,6 +72,7 @@ public class contentUserController {
 
         return "user/content/list";
     }
+
     @PostMapping("/user/content")
     public String searchUserContentList(@RequestParam String keyword, Model model) {
 
@@ -105,9 +113,14 @@ public class contentUserController {
     }
 
 
-    //여기 봐봐
     @GetMapping("/user/content/detail")
-    public String getAContent(int targetContentIdF, Model model) {
+    public String getAContent(Authentication authentication, int targetContentIdF, Model model) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userId = userDetails.getUsername();
+        int selectCntntBkmk = bkmkService.selectCntntBkmk(userId, targetContentIdF);
+        model.addAttribute("isCntntBklk", selectCntntBkmk);
+
+
         CmsContent content = csContentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
@@ -119,12 +132,19 @@ public class contentUserController {
         model.addAttribute("keywordList", keywordList);
 
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-        List<Goods> goodsJFileList = new ArrayList<Goods>();
+
+        // 얘를 vo를 바꿔서 좋아요 테이블이랑 조인 해야할듯?
+        List<GoodsJFileJBklkList> goodsJFileJBklkList = new ArrayList<GoodsJFileJBklkList>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
             //일단 파일이 하나라고 가정....
-            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+            goodsJFileJBklkList.add(
+                    bkmkService.selectGoodsJBkmk(userId, goodsIdByCntnt.get(i).getGoodsId()));
+//                    goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+
         }
-        model.addAttribute("goodsJFileList", goodsJFileList);
+
+        model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);
+
 
         // 쿼리 앞에 키워드 가져와서 뽑기
         List<String> trendQueryList = new ArrayList<>();

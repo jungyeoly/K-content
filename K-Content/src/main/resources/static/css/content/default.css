@@ -34,6 +34,7 @@ div, span, article, section, header, footer, aside, p, ul, li, fieldset, legend,
 }
 ol, ul, li {
 	list-style: none;
+	/*padding: 0px;*/
 }
 table {
 	border-collapse: collapse;

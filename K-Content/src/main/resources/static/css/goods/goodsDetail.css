@@ -27,6 +27,9 @@
 
 }
 
+th {
+    width: 100px;
+}
 
 .footer {
     padding: 1rem;
@@ -69,8 +72,8 @@ label[for="modal-switch"]:before {
     .page {
         display: -ms-grid;
         display: grid;
-        -ms-grid-columns: 16% 1fr 20%;
-        grid-template-columns: 16% 1fr 20%;
+        -ms-grid-columns: 14% 1fr ;
+        grid-template-columns: 14% 1fr ;
     }
 
     .header {
@@ -141,8 +144,8 @@ label[for="modal-switch"]:before {
 
 @media (min-width: 1400px) {
     .page {
-        -ms-grid-columns: 250px 1fr 300px;
-        grid-template-columns: 250px 1fr 300px;
+        -ms-grid-columns: 250px 1fr ;
+        grid-template-columns: 250px 1fr ;
     }
 
     .secondary {

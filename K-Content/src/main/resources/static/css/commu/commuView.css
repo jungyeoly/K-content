@@ -1,19 +1,93 @@
+.info-container {
+    display: flex;
+    align-items: center;
+    padding: .5em;
+        display: flex;
+    align-items: center;
+}
+
+
+.username, .registdate, .separator {
+    margin: 0 5px;
+}
+
+.registdate {
+    margin-left: 10px; 
+}
+
+.readcnt {
+    margin-left: auto;
+    padding-right: .5em; 
+}
+
+.separator {
+    border-bottom: 1px solid #ccc;
+     margin-bottom: 0; 
+}
+
+.registdate, .readcnt {
+	font-weight:600;
+	    color: #333;
+}
+ 
+ 
+ 
  .commu-header {
 	border-top: 3px solid black;
-	border-bottom: 1px solid black;
 	padding: .5em;
+	font-size:20px;
+	resize:none;
 }
 
 .img-div {
 	padding: 1.5em;
+	  display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
 }
 
 .cntnt-div {
 	padding: 1.5em;
 }
 
-.container {
-	border-bottom: 1px solid black;
+.file-download-section {
+    border: 1px solid #d5d5d5;
+   
+}
+.file-links li a:hover {
+    text-decoration: underline;
+}
+
+
+
+.zip-file-download {
+	font-size:17px;
+	resize:none;
+}
+
+.file-links {
+    text-align: left;
+    display:flex;
+    padding:1px;
+}
+
+.download-container {
+    display: flex;
+    align-items: center; 
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+.download-container .btn.file-download {
+     padding:5px 5px;
+     height:30px;
+     resize:none;
+}
+
+.file-links li span {
+    padding-right: 5px;
+    resize:none;
 }
 
 img {

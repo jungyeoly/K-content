@@ -53,4 +53,9 @@ public class MberService implements IMberService {
 	public String mberGenderCodeById(String mberId) {
 		return mberRepository.mberGenderCodeById(mberId);
 	}
+	
+	@Override
+	public boolean isMberId(String mberId) {
+		return mberRepository.isMberId(mberId);
+	}
 }

@@ -16,12 +16,19 @@ public class Instagram_Selenium {
     //Properties
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
     public static final String WEB_DRIVER_PATH = "src/main/resources/chromedriver";
-
+    public static final String WEB_DRIVER_PATH_WIN = "src/main/resources/chromedriver_win.exe";
     private String base_url;
 
     public void instagram_Selenium() {
         //System Property SetUp
+                String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH_WIN);
+        } else if (os.contains("mac")) {
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+        }
+
         driver = new ChromeDriver();
     }
 

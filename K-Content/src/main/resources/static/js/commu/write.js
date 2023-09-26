@@ -1,3 +1,4 @@
+
 let selectedFiles = [];
 
 function appendFileList() {
@@ -31,41 +32,87 @@ function validateForm() {
 	var title = document.getElementById('title').value;
 	var category = document.getElementById('category').value;
 	var cntnt = document.getElementById('cntnt').value;
-	
-	if (!title || title.trim() === "") {
-		showModal("Error", "제목을 입력하세요.");
+
+	if (!category || category.trim() === "") {
+		showModal("K-Spectrum", "카테고리를 선택하세요.");
 		return false;
 	}
 
-	if (!category || category.trim() === "") {
-		showModal("Error", "카테고리를 선택하세요.");
+	if (!title || title.trim() === "") {
+		showModal("K-Spectrum", "제목을 입력하세요.");
 		return false;
 	}
 
 	if (!cntnt || cntnt.trim() === "") {
-		showModal("Error", "내용을 입력하세요.");
+		showModal("K-Spectrum", "내용을 입력하세요.");
 		return false;
 	}
-
-	return true;
+	// 유효성 검사를 통과한 경우 모달을 보여줍니다.
+	 showModal('정말로 등록하시겠습니까?', '등록을 원하시면 확인을, 취소하시면 취소를 눌러주세요.', function() {
+        document.querySelector('form').submit();
+   }, true);
 }
 
+document.querySelector('form').addEventListener('submit', function(event) {
+	event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+	validateForm(); // 여기서 validateForm 함수를 호출합니다.
+});
 
-function showModal(title, content) {
-	// 제목과 내용을 설정
-	document.getElementById('commonModalLabel').textContent = title;
-	document.querySelector('.modal-body').textContent = content;
 
-	// 모달을 보여줌
-	var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
-	commonModal.show();
+// 취소 버튼 이벤트 리스너
+document.querySelector('.cancel-btn').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    let isFormFilled = false;
+    document.querySelectorAll('#category, #title, #cntnt').forEach(element => {
+	  console.log("콜백 함수가 호출되었습니다.");  // 이 로그가 출력되는지 확인
+        if (element.value.trim() !== '') isFormFilled = true;
+    });
+
+    if (isFormFilled) {
+    showModal('취소 확인', '입력한 내용이 모두 사라집니다. 정말로 취소하시겠습니까?', function() {
+        document.querySelector('form').reset();
+        var commonModal = bootstrap.Modal.getInstance(document.getElementById('commonModal'));
+        if (commonModal) {
+            commonModal.hide();
+        }
+    });
+    } else {
+        window.location.href = '/commu';  // 메인 페이지로 바로 이동합니다.
+    }
+});
+
+
+function showModal(title, content, callback, isSubmit = false) {
+	console.log("콜백:", callback); 
+    document.getElementById('commonModalLabel').textContent = title;
+    document.querySelector('.modal-body').textContent = content;
+    var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
+
+    // isSubmit이 true인 경우 취소 버튼 숨기기
+    const cancelButton = document.querySelector('.modal-footer .btn-secondary');
+    if (isSubmit && cancelButton) {
+    } else {
+        cancelButton.style.display = 'block';
+    }
+
+    const confirmButton = document.querySelector('.modal-footer .btn-confirm');
+    if (confirmButton) {
+        // 기존의 모든 이벤트 리스너를 제거
+        let newConfirmBtn = confirmButton.cloneNode(true);
+        confirmButton.parentNode.replaceChild(newConfirmBtn, confirmButton);
+
+        // 새로운 콜백으로 이벤트 리스너를 설정
+        newConfirmBtn.onclick = function() {
+	console.log("확인 버튼 클릭됨.");  // 이 부분 추가
+            if (callback) callback();
+            commonModal.hide();
+        };
+    }
+
+    commonModal.show();
 }
 
-const fileSelectButton = document.getElementById('fileSelectButton');
-fileSelectButton.onclick = function(event) {
-	event.preventDefault();
-	document.getElementById('attachment').click();
-};
 
 
 document.getElementById('category').addEventListener('change', function() {
@@ -74,4 +121,9 @@ document.getElementById('category').addEventListener('change', function() {
 	form.setAttribute('action', "/commu/write/" + commuCateCode);
 });
 
-
+window.addEventListener('DOMContentLoaded', (event) => {
+    if (document.getElementById('commuWritePage')) {
+        const cancelButton = document.querySelector('.modal-footer .btn-secondary');
+        if (cancelButton) cancelButton.style.display = 'block';  
+    }
+});

@@ -30,7 +30,6 @@
 
 .header span {
 	color: white;
-	transition: all ease 1s 0s;
 }
 
 .header:hover span {

@@ -162,4 +162,19 @@ where commu_file_id=#{commuFileId}
     WHERE commu_file_id = #{commuFileId}
 ]]>
 	</delete>
+	
+	<select id="getAllFilesByCommuId" resultType="com.example.myapp.user.commu.model.CommuFile">
+	<![CDATA[
+   select commu_file_id,
+			   commu_file_name,
+			   commu_file_size,
+			   commu_file_ext,
+			   commu_file_path,
+			   commu_file_regist_date,
+			   commu_file_update_date,
+			   commu_file_commu_id
+			   from tb_commu_file
+			  where commu_file_commu_id=#{commuId} 
+		  ]]>
+	</select> 
 </mapper>

@@ -9,31 +9,31 @@ body {
 
 @keyframes fadein {
     from {
-        opacity:0;
+        opacity: 0;
     }
     to {
-        opacity:1;
+        opacity: 1;
     }
 }
 @-moz-keyframes fadein { /* Firefox */
     from {
-        opacity:0;
+        opacity: 0;
     }
     to {
-        opacity:1;
+        opacity: 1;
     }
 }
 @-webkit-keyframes fadein { /* Safari and Chrome */
     from {
-        opacity:0;
+        opacity: 0;
     }
     to {
-        opacity:1;
+        opacity: 1;
     }
 }
 @-o-keyframes fadein { /* Opera */
     from {
-        opacity:0;
+        opacity: 0;
     }
     to {
         opacity: 1;
@@ -43,6 +43,10 @@ body {
 select {
 	color: #14dbc8 !important;
 	font-weight: 600;
+}
+
+.form-select {
+	color: #14dbc8;
 }
 
 video#bgvid {
@@ -56,6 +60,10 @@ video#bgvid {
 	z-index: -100;
 	background: no-repeat;
 	background-size: cover;
+}
+
+.form-check-input {
+	margin-top: 0.5em;
 }
 
 .form-check-input:checked, .form-check-input:checked label {
@@ -88,7 +96,6 @@ input[type="checkbox"]:checked+.form-check-label {
 	display: inline-block;
 	line-height: 2;
 	padding-left: 24px;
-	transition: all 200ms linear;
 }
 
 .link-effect:hover {
@@ -133,7 +140,7 @@ input[type="checkbox"]:checked+.form-check-label {
 	background-color: #14dbc8;
 }
 
-.mail-check-btn-text {
+.email-check-btn-text {
 	background-color: #14dbc8;
 }
 
@@ -170,7 +177,6 @@ input[type="checkbox"]:checked+.form-check-label {
 	color: #14dbc8;
 	background-color: #f4f3f9;
 	border: none;
-	transition: all 200ms linear;
 }
 
 .form-control.form-bid {
@@ -220,7 +226,7 @@ input[type="checkbox"]:checked+.form-check-label {
 	transition: all 200ms linear;
 }
 
-.mailauth-btn {
+.emailauth-btn {
 	border-radius: 7px;
 	height: 37px;
 	font-size: 16px;
@@ -229,7 +235,6 @@ input[type="checkbox"]:checked+.form-check-label {
 	font-weight: 600;
 	transition: all 200ms linear;
 	display: inline-flex;
-	width: auto; 
 	white-space : nowrap;
 	-moz-align-items: center;
 	-ms-align-items: center;
@@ -245,11 +250,11 @@ input[type="checkbox"]:checked+.form-check-label {
 	box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
 }
 
-.mailauth-btn:disabled {
+.emailauth-btn:disabled {
 	background-color: #b4bec7 !important;
 }
 
-.mailauth-btn:hover {
+.emailauth-btn:hover {
 	color: white;
 	background-color: #1f2029;
 	box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
@@ -306,6 +311,16 @@ a:hover, a:active {
 	text-decoration: none !important;
 }
 
-#mail-check-btn:focus {
+
+.mber-feedback {
+    color: #dc3545;
+    width: 100%;
+    font-size: 0.65em;
+    display: none;
+    padding: 2px;
+}
+
+#email-check-btn:focus {
 	background-color: black;
+	color: white;
 }

@@ -1,22 +1,28 @@
 
 package com.example.myapp.user.commu.controller;
-
-import java.io.File;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import java.io.File;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.commucomment.model.CommuComment;
-import com.example.myapp.user.commucomment.service.CommuCommentService;
-import com.example.myapp.user.commucomment.service.ICommuCommentService;
-
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -24,13 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,9 +64,6 @@ public class CommuController {
 	@Autowired
 	ICommuService commuService;
 	
-	@Autowired
-	private ICommuCommentService commuCommentService;
-
 	@Autowired
 	private ICommonCodeService commonCodeService;
 
@@ -121,12 +123,85 @@ public class CommuController {
 			model.addAttribute("commuId", commu.getCommuId());
 			logger.info("getCommuDetails" + commu.toString());
 			
-			 // 게시글에 연결된 댓글 정보 조회
-			List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
-			   model.addAttribute("comments", comments);
+			/*
+			 * // 게시글에 연결된 댓글 정보 조회 List<CommuComment> comments =
+			 * commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
+			 * model.addAttribute("comments", comments);
+			 */
 			return "user/commu/view";
 		}
 		
+		//게시글에 있는 첨부파일 단일 다운로드
+		@GetMapping("/download/{commuFileId}")
+		public ResponseEntity<Resource> downloadFile(@PathVariable String commuFileId) {
+		    try {
+		        CommuFile commuFile = commuService.getFile(commuFileId);
+		        
+		        // 파일이 DB에 존재하지 않는 경우
+		        if (commuFile == null) {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		                    .body(new ByteArrayResource("지정된 파일이 데이터베이스에 존재하지 않습니다.".getBytes()));
+		        }
+		        
+		        // 파일의 저장 경로에서 파일 데이터를 읽습니다.
+		        Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
+		        Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+		        
+		        // 파일 이름 인코딩
+		        String originalName = commuFile.getCommuFileName();
+		        String encodedFileName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
+		        
+		        return ResponseEntity.ok()
+		                .contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
+		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+		                .body(resource);
+		    } catch (IOException e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+		                .body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes()));
+		    }
+		}
+		
+		//게시글 첨부파일 zip으로 한번에 다운받기
+		@GetMapping("/download-all-images/{commuId}")
+		public ResponseEntity<Resource> downloadAllImages(@PathVariable int commuId) {
+		    try {
+		    	List<CommuFile> commuFiles = commuService.getAllFilesByCommuId(commuId);
+		        
+		        // 파일이 하나도 없다면 적절한 응답을 반환
+		        if (commuFiles.isEmpty()) {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		                    .body(new ByteArrayResource("첨부된 파일이 없습니다.".getBytes(StandardCharsets.UTF_8)));
+		        }
+
+		        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		        try (ZipOutputStream zos = new ZipOutputStream(baos, StandardCharsets.UTF_8)) {
+		            for (CommuFile commuFile : commuFiles) {
+		                Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
+		                if (!Files.exists(filePath)) continue; // 파일이 존재하지 않으면 다음 파일로 넘어갑니다.
+
+		                ZipEntry entry = new ZipEntry(commuFile.getCommuFileName());
+		                zos.putNextEntry(entry);
+		                byte[] bytes = Files.readAllBytes(filePath);
+		                zos.write(bytes, 0, bytes.length);
+		                zos.closeEntry();
+		            }
+		        }
+
+		        byte[] zipBytes = baos.toByteArray();
+		        ByteArrayResource resource = new ByteArrayResource(zipBytes);
+		        
+		        String encodedFileName = URLEncoder.encode("all-images.zip", StandardCharsets.UTF_8);
+
+		        return ResponseEntity.ok()
+		                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+		                .body(resource);
+		    } catch (IOException e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+		                .body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes(StandardCharsets.UTF_8)));
+		    }
+		}
+
 	
 
 
@@ -135,6 +210,7 @@ public class CommuController {
 	public String writePost(Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
+	    model.addAttribute("isCommunWritePage", true);
 		logger.info("Fetched commuCateCodeList: " + commuCateCodeList);// 실제 데이터 확인
 
 		return "user/commu/write";

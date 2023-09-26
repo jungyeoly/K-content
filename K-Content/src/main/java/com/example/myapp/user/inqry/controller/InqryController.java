@@ -101,7 +101,7 @@ public class InqryController {
 		if (inqry.getInqryPwd().equals(enteredPwd)) {
 			inqryPwdId = inqryId;
 		} else {
-	        session.setAttribute("message", "비밀번호가 틀렸습니다.");
+	        session.setAttribute("message", "잘못된 비밀번호 입력");
 	    }
 
 		session.setAttribute("inqryPwdId", inqryPwdId);
@@ -117,36 +117,31 @@ public class InqryController {
 	public String selectInqry(@PathVariable int inqryId, Model model, HttpSession session) {
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
 		
-		if (inqryService.selectInqry(inqryId).getInqryPwd() == null) {
-			Inqry inqry = inqryService.selectInqry(inqryId);
-			model.addAttribute("inqry", inqry);
-			return "user/inqury/detail";
-		}
-		
-		if (inqryPwdId == inqryId) {												// url로 접근 막기
-			Inqry inqry = inqryService.selectInqry(inqryId);						// 글 불러오기
-			model.addAttribute("inqry", inqry);
-			if(inqry.getInqryGroupOrd() == 1) {										// 답글인지 확인
-				Inqry origin = inqryService.selectInqry(inqry.getInqryRefId());		// 답글의 원본글 들고오기
-				model.addAttribute("origin", origin);								// 원본글 담기
+		if (inqryPwdId == inqryId || inqryService.selectInqry(inqryId).getInqryPwd() == null) {
+			if (inqryService.selectInqry(inqryId).getInqryGroupOrd() == 1) {
+				Inqry reply = inqryService.selectInqry(inqryId);
+				Inqry inqry = inqryService.selectInqry(reply.getInqryRefId());
+				model.addAttribute("reply", reply);
+				model.addAttribute("inqry", inqry);
+			} else if (inqryService.selectInqry(inqryId).getInqryGroupOrd() == 0) {
+				Inqry inqry = inqryService.selectInqry(inqryId);
+				model.addAttribute("inqry", inqry);
 			}
-			return "user/inqury/detail";
 		} else {
 			return "redirect:/inqury";
 		}
+		return "user/inqury/detail";
 	}
 
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
 		Inqry inqry = new Inqry();
 	    model.addAttribute("inqry", inqry);
-	    logger.info(inqry.toString());
 		return "user/inqury/write";
 	}
 
 	@PostMapping("/inqury/insert")
 	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs, HttpSession session, Authentication authentication) {
-		//String userId = (String) session.getAttribute("userId");
 		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		 String userId = userDetails.getUsername();
 		 

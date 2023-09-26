@@ -28,10 +28,10 @@ $(function(){
 		var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
   		var enteredPwd = $("#exampleModal").find("input[name='inqryPwd']").val();
 		
-        /*if (enteredPwd === "") {
+        if (enteredPwd === "") {
 			alert("비밀번호를 입력하세요.");
 			return;
-		}	*/		
+		}		
 		
         $.ajax({
             url: "/inqury/check-password",

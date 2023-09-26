@@ -73,8 +73,16 @@ public class InqryService implements IInqryService{
 		return inqryRepository.getInqryFileId(inqryId);
 	}
 
-	@Override
+	@Transactional
 	public void deleteInqry(int inqryId) {
 		inqryRepository.deleteInqry(inqryId);		
+	}
+	
+	@Transactional
+	public void deleteInqry(int inqryId, String inqryFileId) {
+		if(inqryFileId != null && !inqryFileId.equals("")) {
+			inqryRepository.deleteInqryFile(inqryFileId);
+			inqryRepository.deleteInqry(inqryId);
+		}
 	}
 }

@@ -169,7 +169,7 @@ public class goodsController {
     }
 
     //상품 수정
-    @PutMapping("")
+    @PatchMapping("/form")
     public ResponseEntity<String> updateGoods(@RequestParam("goodsId") int goodsId,
                                               @RequestParam("goodsTitle") String goodsTitle,
                                               @RequestParam("goodsBrand") String goodsBrand,
@@ -189,7 +189,7 @@ public class goodsController {
         String originalFilename = originalEncodingFilename;
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFilename = uuidString + "_" + originalFilename;
-
+        System.out.println("keyword: "+keyword);
         GoodsFile newGoodsFile = new GoodsFile();
         Goods newGoods = new Goods();
 
@@ -199,6 +199,7 @@ public class goodsController {
         newGoodsFile.setGoodsFileSize(goodsFile.getSize());
         newGoodsFile.setGoodsFilePath(url);
 
+        newGoods.setGoodsId(goodsId);
         newGoods.setGoodsName(goodsTitle);
         newGoods.setGoodsBrand(goodsBrand);
         newGoods.setGoodsPrice(Integer.parseInt(goodsPrice));
@@ -210,12 +211,8 @@ public class goodsController {
 //        newFilename = new String(newFilename.getBytes(StandardCharsets.ISO_8859_1),"UTF-8");
         Path realPath = path.resolve(newFilename).normalize();
 
-        //TODO 굿드 파일은 일단 있는거 지우고
-        goodsService.deleteGoodsFile(goodsId);
-        //TODO  다시 파일 넣기
-
         //TODO 수정으로 바꾸기
-        int rowsAffected = goodsService.insertGoods(newGoods, newGoodsFile);
+        int rowsAffected = goodsService.updateGoods(newGoods, newGoodsFile);
         goodsFile.transferTo(realPath);
 
         if (rowsAffected <= 0) {

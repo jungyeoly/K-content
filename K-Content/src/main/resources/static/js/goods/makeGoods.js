@@ -17,9 +17,9 @@ fileInput.addEventListener('change', function (e) {
     }
 })
 
-function removeFile(id){
-   console.log(id);
-   document.getElementById(id).remove();
+function removeFile(id) {
+    console.log(id);
+    document.getElementById(id).remove();
 }
 
 function createGoods() {
@@ -105,14 +105,34 @@ function makeKeyword() {
 }
 
 function updateGoods() {
-    targetGoodsId = document.getElementById("targetGoodsId").val;
+    var keywordDivList = [];
+    var keywordDiv = document.getElementById("keywordList");
+    var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
+    console.log("keywordDivCount: "+keywordDivCount.length);
+    for (i = 0; i < keywordDivCount.length; i++) {
+        var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
+        keywordDivList.push(trimmedStr);
+        console.log("trimmedStr:" +trimmedStr)
+    }
+    const fileInput = document.getElementById('input-file');
+    const selectedFile = fileInput.files[0];
+
+    var formData = new FormData();
+    formData.append("goodsId", $("#goodsId").val());
+    formData.append("goodsTitle", $("#name").val());
+    formData.append("goodsBrand", $("#brand").val());
+    formData.append("goodsURL", $("#link").val());
+    formData.append("goodsPrice", $("#price").val());
+    formData.append("keywordList", keywordDivList);
+    formData.append("goodsFile", selectedFile);
+    console.log("formData: "+formData)
 
     $.ajax({
-        url: '/cs/goods',
-        type: 'PUT', //TODO 이거 put으로 하면 안될듯 patch로 합시다
-        data: {
-            targetGoodsId: targetGoodsId
-        },
+        url: '/cs/goods/form',
+        type: 'patch',
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function () {
             alert("상품이 수정되었습니다!")
         }, error: function (error) {
@@ -122,10 +142,11 @@ function updateGoods() {
 
 }
 
-function cancle(){
+function cancle() {
     console.log("상품 리스트 화면으로 화면 바꾸기");
 }
-function delGoodsFile(key){
+
+function delGoodsFile(key) {
     // if (confirm('상품사진을 삭제하시겠습니까?')) {
     //     $.ajax({
     //         url: '/cs/goods/file',

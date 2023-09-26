@@ -18,6 +18,7 @@
         ]]>
 	</select>
 
+    
 	<select id="selectPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
@@ -27,13 +28,33 @@
                commu_regist_date,
                commu_update_date,
                commu_read_cnt,
-      
                commu_cate_code,
                commu_mber_id
         from tb_commu
       	where commu_id =#{commuId}
         ]]>
 	</select>
+
+	<select id="selectPostListByCategory" parameterType="hashmap"
+		resultType="com.example.myapp.user.commu.model.Commu">
+	SELECT a.commu_id, 
+	       a.commu_title,
+	       a.commu_regist_date,
+	       a.commu_read_cnt,
+	       a.commu_cate_code,
+	       a.commu_mber_id,
+	       b.common_code_val
+	FROM tb_commu a
+	JOIN tb_common_code b 
+	on a.commu_cate_code = b.common_code
+	WHERE a.commu_status != 'Y'  
+	<if test="commonCodeVal != 'All'">
+	AND b.common_code_val = #{commuCateCode}
+	</if>
+	ORDER BY commu_id DESC
+</select>
+	
+
 
 	<select id="selectFilesByPostId"
 		resultType="com.example.myapp.user.commu.model.CommuFile">
@@ -162,8 +183,9 @@ where commu_file_id=#{commuFileId}
     WHERE commu_file_id = #{commuFileId}
 ]]>
 	</delete>
-	
-	<select id="getAllFilesByCommuId" resultType="com.example.myapp.user.commu.model.CommuFile">
+
+	<select id="getAllFilesByCommuId"
+		resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
    select commu_file_id,
 			   commu_file_name,
@@ -176,5 +198,5 @@ where commu_file_id=#{commuFileId}
 			   from tb_commu_file
 			  where commu_file_commu_id=#{commuId} 
 		  ]]>
-	</select> 
+	</select>
 </mapper>

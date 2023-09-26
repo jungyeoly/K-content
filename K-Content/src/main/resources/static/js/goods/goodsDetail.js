@@ -25,12 +25,12 @@ function updateGoods() {
 
     const formHtml = `
                     <form id="updateGoods" action="/cs/goods/modify-form" method="get">
-                        <input  id="targetGoodsIdF" name="targetGoodsIdF"  />
+                        <input  id="goodsIdf" name="goodsId"  />
                     </form>`;
 
     const doc = new DOMParser().parseFromString(formHtml, 'text/html');
     const form = doc.body.firstChild;
     document.body.append(form);
-    document.getElementById("targetGoodsIdF").value = goodsID;
+    document.getElementById("goodsIdf").value = goodsID;
     document.getElementById('updateGoods').submit();
 }

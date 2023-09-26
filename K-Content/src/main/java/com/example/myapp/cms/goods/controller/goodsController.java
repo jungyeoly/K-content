@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -144,11 +145,91 @@ public class goodsController {
 
 
     }
+
+    //상품 수정 폼
+    @GetMapping("modify-form")
+    public String updateGoods(@RequestParam(value = "goodsId") int goodsId, Model model) {
+
+        Goods goods = goodsService.getGoodsJFileByGoodsId(goodsId);
+
+        model.addAttribute("goods", goods);
+        //키워드
+        List<String> keywordList = Arrays.stream(goods.getGoodsKwrd().split(",")).toList();
+        model.addAttribute("keywordList", keywordList);
+
+        return "cms/goods/makeGoodsInNav";
+    }
+
+    //상품삭제
     @PatchMapping("")
-    public String createGoods(@RequestParam("goodsId") int goodsId){
+    public String createGoods(@RequestParam("goodsId") int goodsId) {
         System.out.println(goodsId);
         goodsService.updateDelYnGoods(goodsId);
         return "cms/goods/goodsListMain";
     }
 
+    //상품 수정
+    @PutMapping("")
+    public ResponseEntity<String> updateGoods(@RequestParam("goodsId") int goodsId,
+                                              @RequestParam("goodsTitle") String goodsTitle,
+                                              @RequestParam("goodsBrand") String goodsBrand,
+                                              @RequestParam("goodsURL") String goodsURL,
+                                              @RequestParam("goodsPrice") String goodsPrice,
+                                              @RequestParam("keywordList") List<String> keywordListJson,
+                                              @RequestParam("goodsFile") MultipartFile goodsFile) throws IOException {
+
+//        try {
+
+        String keywordlist = keywordListJson.toString();
+
+        String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
+        String originalEncodingFilename = Normalizer.normalize(goodsFile.getOriginalFilename(), Normalizer.Form.NFC);
+        UUID uuid = UUID.randomUUID();
+        String uuidString = uuid.toString();
+        String originalFilename = originalEncodingFilename;
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String newFilename = uuidString + "_" + originalFilename;
+
+        GoodsFile newGoodsFile = new GoodsFile();
+        Goods newGoods = new Goods();
+
+        newGoodsFile.setGoodsFileID(newFilename);
+        newGoodsFile.setGoodsFileName(originalFilename);
+        newGoodsFile.setGoodsFileExt(fileExtension);
+        newGoodsFile.setGoodsFileSize(goodsFile.getSize());
+        newGoodsFile.setGoodsFilePath(url);
+
+        newGoods.setGoodsName(goodsTitle);
+        newGoods.setGoodsBrand(goodsBrand);
+        newGoods.setGoodsPrice(Integer.parseInt(goodsPrice));
+        newGoods.setGoodsPurchsLink(goodsURL);
+        newGoods.setGoodsKwrd(keyword);
+
+        Path path = Paths.get(uploadPath + url).toAbsolutePath().normalize();
+
+//        newFilename = new String(newFilename.getBytes(StandardCharsets.ISO_8859_1),"UTF-8");
+        Path realPath = path.resolve(newFilename).normalize();
+
+        //TODO 굿드 파일은 일단 있는거 지우고
+        goodsService.deleteGoodsFile(goodsId);
+        //TODO  다시 파일 넣기
+
+        //TODO 수정으로 바꾸기
+        int rowsAffected = goodsService.insertGoods(newGoods, newGoodsFile);
+        goodsFile.transferTo(realPath);
+
+        if (rowsAffected <= 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("goods 업로드 실패");
+        }
+        return ResponseEntity.ok("goods 업로드 및 처리 완료");
+//TODO try catch 문 작성
+
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("굿즈 업로드 실패");
+//        }    // JSON 문자열을 객체로 변환 (keywordListJson)
+
+
+    }
 }

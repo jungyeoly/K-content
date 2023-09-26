@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>답글쓰기</title>
-<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"	crossorigin="anonymous"></script>
-	<script src="https://kit.fontawesome.com/44d20d6c0e.js"	crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<title>답글쓰기</title>
+	<head th:insert="~{/include/admin-header :: adminHeader}"></head>
+	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/inqury/inqry-common.css}">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+	<script src="https://kit.fontawesome.com/44d20d6c0e.js"></script>
 </head>
 <body>
+<div class="page">
+    <header class="header">
+        <h1 class="website-title">k-spectrum</h1>
+        <form class="search-form" id="search-form">
+            <input type="search" id="search-input">
+            <input id="search-button" onclick="searchButton()" type="button" value="찾기">
+        </form>
+    </header>
+
+    <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">
+    </aside>
+    
 	<div class="container">
-		<div class="menu fw-bold">문의사항 글 생성</div>
+		<div class="inqry-menu fw-bold">문의사항 글 생성</div>
 		<form th:action="@{/cs/inqry/write}" method="post" enctype="multipart/form-data" class="inqry-form">
 			<ul class=tb-lst>
 				<li class="tit-row">
 					<div class="inqry-label">
-						<label>문의내용</label>
+						<label>문의제목</label>
 					</div>
 					<div class="inqry-cntnt">
-						RE:[[${inqry.inqryCntnt}]]
+						RE:[[${inqry.inqryTitle}]]
 					</div>
 				</li>
 				
 				<li class="tit-row">
 					<div class="inqry-label">
-						<label for="title">제목</label>
+						<label for="cntnt">문의내용</label>
 					</div>
 					<div class="inqry-cntnt">
-						<input type="text" id="title" name="inqryTitle" placeholder="제목을 입력하세요.">
+						[[${inqry.inqryCntnt}]]
 					</div>
 				</li>
 				
+				<li th:if="${inqry.inqryFileId}" class="tit-row">
+					<div class="inqry-label">
+						<label for="image">첨부파일</label>
+					</div>
+					<div class="inqry-cntnt">
+						<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}" id="inqry-img">
+					</div>
+				</li>
+					
+				
 				<li class="tit-row">
 					<div class="inqry-label">
-						<label for="cntnt">내용</label>
+						<label>답변</label>
 					</div>
 					<div class="inqry-cntnt">
 						<textarea id="cntnt" name="inqryCntnt"></textarea>
@@ -52,5 +75,7 @@
 			</div>
 		</form>
 	</div>
+	
+</div>
 </body>
 </html>

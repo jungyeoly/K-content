@@ -11,8 +11,14 @@ import com.example.myapp.cms.inqry.model.CmsInqry;
 @Repository
 @Mapper
 public interface ICmsInqryRepository {
-	List<CmsInqry> selectCmsInqryList(@Param("start") int start, @Param("end") int end);
-	CmsInqry selectCmsInqry(int inqryId);
-	void writeCmsInqry(CmsInqry cmsInqry);
-	int countInqry(int inqryRefId);
+	List<CmsInqry> selectCmsInqryList(@Param("start") int start, @Param("end") int end);	// 조회
+	CmsInqry selectCmsInqry(int inqryId);	// 상세조회
+	
+	void writeCmsInqry(CmsInqry cmsInqry);	// 답글 쓰기 
+	
+	int countInqry(int inqryRefId);	// 답글 달린 글 여부 확인
+	
+	void updateCmsInqry(CmsInqry inqry);	// 수정
+
+	void deleteCmsInqry(int inqryId);	// 삭제
 }

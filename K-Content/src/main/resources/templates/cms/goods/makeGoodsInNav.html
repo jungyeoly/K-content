@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 생성</title>
+    <link rel="stylesheet" href="/css/content/default.css">
+    <link rel="stylesheet" href="/css/content/ui-ie.css">
+    <link rel="stylesheet" href="/css/goods/makeGoodsInNav.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+</head>
+<body>
+
+<div class="page">
+    <div class="header">
+        <h2>상품 생성</h2>
+    </div>
+    <aside class="secondary secondary-a" th:include="~{/include/admin-sideBar :: adminSideBar}">
+    </aside>
+    <!--    값이 있는거 수정할 때-->
+    <div th:if="${not #strings.isEmpty(goods)}">
+
+
+        <div class="img" id="pictures">
+            <!--            <button style="z-index: 10; position: sticky !important;"-->
+            <!--                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"-->
+            <!--                    th:key="${goods.goodsFileId}"-->
+            <!--                    onclick="delGoodsFile(this.getAttribute('key'))">X-->
+            <!--            </button>-->
+
+            <img th:src="@{'/img/goods/' + ${goods.goodsFileId}}" th:goodsId="${goods.goodsFileId}"
+                 th:id="${goods.goodsFileId}" alt="" class="photoFrame"
+                 onclick="removeFile(this.getAttribute('goodsId'))">
+
+        </div>
+        사진을 클릭하면 삭제됩니다!
+        <div class="input-group mb-3 file-append-box">
+            <input type="file" class="form-control" id="input-file" name="files" multiple="multiple">
+            <label class="input-group-text" for="input-file">Upload</label>
+        </div>
+        <div class="table">
+            <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
+            <table class="table caption-top">
+                <caption>상품 상세 정보</caption>
+                <tbody>
+                <tr>
+                    <th scope="row">상품 이름</th>
+                    <td><input id="name" name="name" type="text" th:value="${goods.getGoodsName()}" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 브랜드</th>
+                    <td><input id="brand" name="brand" type="text" th:value="${goods.getGoodsBrand()}" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 가격(원)</th>
+                    <td><input id="price" name="price" type="text" th:value="${goods.getGoodsPrice()}" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 구매링크</th>
+                    <td><input id="link" name="link" type="text" th:value="${goods.getGoodsPurchsLink()}" required></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="newKeyword">
+            <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}">
+
+                <button type="button" style="margin-left: 10px"
+                        class="btn btn-primary position-relative keywordButton"
+                        th:text="${keyword}">
+                </button>
+                <button style="z-index: 10; position: sticky !important;"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        th:key="${keyword}"
+                        onclick="delKeyword(this.getAttribute('key'))">X
+                </button>
+
+                <!--                    <h2 th:text="${keyword}"></h2>-->
+            </div>
+        </div>
+        <div class="item keyword" id="keywordList">
+            <div class="keywordInput">
+                <input type="text" id="inputKeyword" placeholder="키워드 입력">
+            </div>
+            <button onclick="makeKeyword()">키워드 추가</button>
+        </div>
+
+        <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
+        <div class="button-box">
+            <button onclick="updateGoods()">상품 수정</button>
+            <button onclick="cancle()">취소</button>
+        </div>
+    </div>
+
+
+    <!--    값이 없는거 생성할때-->
+    <div th:if="${#strings.isEmpty(goods)}">
+        <div class="img" id="pictures">
+        </div>
+        <div class="input-group mb-3 file-append-box">
+            <input type="file" class="form-control" id="input-file" name="files" multiple="multiple">
+            <label class="input-group-text" for="input-file">Upload</label>
+        </div>
+
+        <div class="table">
+            <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
+            <table class="table caption-top">
+                <caption>상품 상세 정보</caption>
+                <tbody>
+                <tr>
+                    <th scope="row">상품 이름</th>
+                    <td><input id="name" name="name" type="text" placeholder="상품 이름을 입력하세요" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 브랜드</th>
+                    <td><input id="brand" name="brand" type="text" placeholder="상품 브랜드를 입력하세요" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 가격(원)</th>
+                    <td><input id="price" name="price" type="text" placeholder="상품 가격을 입력하세요" required></td>
+                </tr>
+                <tr>
+                    <th scope="row">상품 구매링크</th>
+                    <td><input id="link" name="link" type="text" placeholder="상품 구매링크를 입력하세요" required></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="newKeyword">
+        </div>
+
+        <div class="item keyword" id="keywordList">
+            <div class="keywordInput">
+                <input type="text" id="inputKeyword" placeholder="키워드 입력">
+            </div>
+            <button onclick="makeKeyword()">키워드 추가</button>
+        </div>
+
+        <div class="button-box">
+            <button onclick="createGoods()">상품 생성</button>
+        </div>
+
+
+    </div>
+
+
+</div>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/goods/makeGoods.js"></script>
+</body>
+</html>

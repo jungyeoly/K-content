@@ -17,6 +17,7 @@
                goods_delete_yn
 
         FROM tb_goods
+        where goods_delete_yn = 'N'
         ]]>
     </select>
     <select id="getAGoods" resultType="com.example.myapp.cms.goods.model.Goods">
@@ -33,6 +34,7 @@
 
         FROM tb_goods
         WHERE goods_id = #{goodsId}
+          and goods_delete_yn = 'N'
         ]]>
     </select>
     <insert id="insertGoods" parameterType="com.example.myapp.cms.goods.model.Goods" useGeneratedKeys="true"
@@ -59,5 +61,26 @@
         ]]>
     </insert>
 
+    <update id="updateDelYnGoods" parameterType="int">
+  <![CDATA[
+        UPDATE tb_goods
+        SET goods_delete_yn   = 'Y',
+            goods_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE goods_id = #{goodsId}
+        ]]>
 
+    </update>
+    <update id="updateGoods" parameterType="com.example.myapp.cms.goods.model.Goods" useGeneratedKeys="true"
+            keyColumn="goods_id" keyProperty="goodsId">
+        <![CDATA[
+        UPDATE tb_goods
+        SET goods_name        = #{goodsName},
+            goods_brand       = #{goodsBrand},
+            goods_price= #{goodsPrice},
+            goods_purchs_link= #{goodsPurchsLink},
+            goods_kwrd= #{goodsKwrd},
+            goods_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE goods_id = #{goodsId}
+        ]]>
+    </update>
 </mapper>

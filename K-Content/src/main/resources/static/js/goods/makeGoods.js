@@ -1,4 +1,4 @@
-var fileInput = document.getElementById("fileInput");
+var fileInput = document.getElementById("input-file");
 //값이 변경될때 호출 되는 이벤트 리스너
 
 var file;
@@ -6,19 +6,21 @@ fileInput.addEventListener('change', function (e) {
     file = e.target.files[0]; //선택된 파일
     var reader = new FileReader();
     reader.readAsDataURL(file); //파일을 읽는 메서드
-    console.log("ㄴㅇㄹ호ㅓ"+e.target.files);
     reader.onload = function () {
         var photoFrame = document.createElement("img");
         photoFrame.src = `${reader.result}`;
         photoFrame.className = "photoFrame";
         document.getElementById("pictures").appendChild(photoFrame);
-
         photoFrame.addEventListener("click", function () {
             document.getElementById("pictures").removeChild(photoFrame);
         })
     }
 })
 
+function removeFile(id){
+   console.log(id);
+   document.getElementById(id).remove();
+}
 
 function createGoods() {
     var keywordDivList = [];
@@ -74,6 +76,7 @@ function delKeyword(key) {
     const div = document.getElementById(key);
     div.remove();
 }
+
 function makeKeyword() {
     word = document.getElementById("inputKeyword").value;
 
@@ -87,16 +90,54 @@ function makeKeyword() {
                         >
                      ${word}
                 </button>
-                <button style="z-index: 10; margin-left: -10px"
+                <button style="z-index: 10; position: sticky !important;"
                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             key="${word}"
                         onclick="delKeyword(this.getAttribute('key'))">X
                 </button>
         </div>`;
 
-        thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
+        thisDiv.insertAdjacentHTML("beforeend", innerHtml);
         document.getElementById("inputKeyword").value = '';
     }
 
 
+}
+
+function updateGoods() {
+    targetGoodsId = document.getElementById("targetGoodsId").val;
+
+    $.ajax({
+        url: '/cs/goods',
+        type: 'PUT', //TODO 이거 put으로 하면 안될듯 patch로 합시다
+        data: {
+            targetGoodsId: targetGoodsId
+        },
+        success: function () {
+            alert("상품이 수정되었습니다!")
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+
+}
+
+function cancle(){
+    console.log("상품 리스트 화면으로 화면 바꾸기");
+}
+function delGoodsFile(key){
+    // if (confirm('상품사진을 삭제하시겠습니까?')) {
+    //     $.ajax({
+    //         url: '/cs/goods/file',
+    //         type: 'delete',
+    //         data: {
+    //             key: key
+    //         },
+    //         success: function () {
+    //             alert("사진이 삭제되었습니다!")
+    //         }, error: function (error) {
+    //             console.error('에러 발생: ', error);
+    //         }
+    //     });
+    // }
 }

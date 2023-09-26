@@ -142,8 +142,6 @@ public class contentUserController {
 //                    goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
 
         }
-        System.out.println(goodsJFileJBklkList.get(0));
-        System.out.println(goodsJFileJBklkList.get(1));
 
         model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);
 

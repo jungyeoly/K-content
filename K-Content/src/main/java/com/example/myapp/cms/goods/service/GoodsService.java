@@ -51,4 +51,24 @@ public class GoodsService implements IGoodsService {
         return rowsAffected;
     }
 
+    @Override
+    public void updateDelYnGoods(int goodsId) {
+        goodsRepository.updateDelYnGoods(goodsId);
+    }
+
+    @Override
+    public void deleteGoodsFile(int goodsId) {
+        goodsRepository.deleteGoodsFile(goodsId);
+    }
+    @Override
+    @Transactional
+    public int updateGoods(Goods goods, GoodsFile goodsFile) {
+
+        goodsRepository.updateGoods(goods);
+        int goodsId = goods.getGoodsId();
+        goodsFile.setGoodsFileGoodsId(goodsId);
+        int rowsAffected = goodsRepository.insertGoodsFile(goodsFile);
+
+        return rowsAffected;
+    }
 }

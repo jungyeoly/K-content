@@ -4,40 +4,45 @@
 	padding: .5em;
 }
 
-.img-div {
-	padding: 1.5em;
+.inqry-sub {
+	border-top: 3px solid black;
+	padding : 0px
 }
 
-.cntnt-div {
-	padding: 1.5em;
+.inqry-sub-cntnt {
+	display: table-cell;
+	padding: 15px;
+	vertical-align: top;
+} 
+
+.label {
+	width : 200px;
+	border-right: 1px solid #e4e4e4;
 }
 
-.container{
-	border-bottom: 1px solid black;
+.inqry-cntnt {
+	width : 85%;
 }
 
-img {
-	width: auto;
-	height: 300px;
+.inqry-sub-li {
+	height: auto;
+	border-bottom: 1px solid #e4e4e4;
 }
 
-.btn-div {
-	position: relative;
+#write {
+	width: 250px;
 }
 
-.list-link {
-	position: absolute;
-	top: 1em;
-	left: 40%;
+#inqry-img {
+	width: 10em;
 }
 
-.btns{
-	display: flex;
-	position: absolute;
-	top: 1em;
-	right: 0;
+#registDate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.detail-cntnt {
-	min-height: 400px;	
+.border-left {
+	border-left: 1px solid #e4e4e4; 
 }

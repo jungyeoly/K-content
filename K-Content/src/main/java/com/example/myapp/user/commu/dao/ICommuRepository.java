@@ -42,5 +42,6 @@ public interface ICommuRepository {
 	
 	 List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일
 	 
+	 void reportPost(int commuId); //게시글 신고
 
 }

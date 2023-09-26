@@ -1,3 +1,28 @@
+function showReportConfirmModal() {
+    const modal = document.getElementById('commonModal');
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalBody = modal.querySelector('.modal-body');
+
+    modalTitle.textContent = "신고 확인";
+    modalBody.textContent = "정말로 게시글을 신고하겠습니까?";
+    
+    // Bootstrap 5의 모달을 수동으로 표시하는 코드
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+    
+    // '확인' 버튼에 리스너 추가
+    document.getElementById('confirmBtn').addEventListener('click', function() {
+        const reportForm = document.querySelector('form[method="post"][th\\:action*="report"]');
+        if(reportForm) {
+            reportForm.submit();
+        }
+    });
+}
+
+
+
+
+
 // '확인' 버튼에 한 번만 이벤트 리스너 추가
 document.getElementById('confirmBtn').addEventListener('click', function() {
     const deleteForm = document.querySelector('form[method="post"]');

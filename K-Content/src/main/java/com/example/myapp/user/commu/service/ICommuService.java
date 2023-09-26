@@ -32,4 +32,6 @@ public interface ICommuService {
 	List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일 
 
 	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
+	
+	 void reportPost(int commuId); //게시글 신고
 }

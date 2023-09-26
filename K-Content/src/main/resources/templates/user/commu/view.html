@@ -55,7 +55,11 @@
 			</ul>
 		</div>
 
-
+<div th:if="${#authentication.principal.username} != ${commu.commuMberId}">
+    <form th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}" method="post">
+        <button type="button" class="btn report" onclick="showReportConfirmModal()">신고하기</button>
+    </form>
+</div>
 
 
 		<div class="d-flex btn-div">
@@ -70,9 +74,8 @@
 					th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
 					method="post">
 					<input type="hidden" name="commuId" th:value="${commu.commuId}">
-				<button type="button" class="btn delete" onclick="showDeleteConfirmModal()">삭제</button>
-
-
+					<button type="button" class="btn delete"
+						onclick="showDeleteConfirmModal()">삭제</button>
 				</form>
 
 				<div class="comment-list">

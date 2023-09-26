@@ -63,11 +63,9 @@
 	<insert id="writeCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
 		<![CDATA[
 			INSERT INTO tb_inqry
-				(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date,
-			 	inqry_update_date, inqry_delete_yn, inqry_mber_id)
-			VALUES
-				(inqry_seq.nextval, #{inqryRefId}, #{inqryGroupOrd}, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd},
-				to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
+        		(inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date, inqry_update_date, inqry_delete_yn, inqry_mber_id)
+	        VALUES 
+	        	(inqry_seq.nextval, #{inqryRefId}, 1, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd}, to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
 		]]>
 	</insert>
 	
@@ -78,4 +76,21 @@
 			WHERE inqry_ref_id = #{inqryRefId}
 		]]>
 	</select>
+	
+	<update id="updateCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			UPDATE tb_inqry
+	        SET inqry_cntnt       = #{inqryCntnt},
+	            inqry_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi')
+	        WHERE inqry_id = #{inqryId}
+		]]>
+	</update>
+	
+	
+	<delete id="deleteCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			DELETE FROM tb_inqry
+			WHERE inqry_id = #{inqryId}
+		]]>
+	</delete>
 </mapper>

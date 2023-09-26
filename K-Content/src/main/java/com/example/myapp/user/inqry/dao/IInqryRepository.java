@@ -30,5 +30,7 @@ public interface IInqryRepository {
 	
 	void deleteInqry(int inqryId);
 	
+	void deleteInqryFile(String inqryFileId);
+	
 	String getInqryFileId(int inqryId);
 }

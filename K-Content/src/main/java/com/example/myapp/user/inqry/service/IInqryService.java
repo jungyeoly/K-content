@@ -21,4 +21,5 @@ public interface IInqryService {
 	String getInqryFileId(int inqryId);
 	
 	void deleteInqry(int inqryId);
+	void deleteInqry(int inqryId, String inqryFileId);
 }

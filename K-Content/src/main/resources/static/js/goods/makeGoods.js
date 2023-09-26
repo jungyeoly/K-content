@@ -6,7 +6,6 @@ fileInput.addEventListener('change', function (e) {
     file = e.target.files[0]; //선택된 파일
     var reader = new FileReader();
     reader.readAsDataURL(file); //파일을 읽는 메서드
-    console.log("ㄴㅇㄹ호ㅓ" + e.target.files);
     reader.onload = function () {
         var photoFrame = document.createElement("img");
         photoFrame.src = `${reader.result}`;
@@ -18,6 +17,10 @@ fileInput.addEventListener('change', function (e) {
     }
 })
 
+function removeFile(id){
+   console.log(id);
+   document.getElementById(id).remove();
+}
 
 function createGoods() {
     var keywordDivList = [];
@@ -94,9 +97,47 @@ function makeKeyword() {
                 </button>
         </div>`;
 
-        thisDiv.insertAdjacentHTML("afterbegin", innerHtml);
+        thisDiv.insertAdjacentHTML("beforeend", innerHtml);
         document.getElementById("inputKeyword").value = '';
     }
 
 
+}
+
+function updateGoods() {
+    targetGoodsId = document.getElementById("targetGoodsId").val;
+
+    $.ajax({
+        url: '/cs/goods',
+        type: 'PUT', //TODO 이거 put으로 하면 안될듯 patch로 합시다
+        data: {
+            targetGoodsId: targetGoodsId
+        },
+        success: function () {
+            alert("상품이 수정되었습니다!")
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+
+}
+
+function cancle(){
+    console.log("상품 리스트 화면으로 화면 바꾸기");
+}
+function delGoodsFile(key){
+    // if (confirm('상품사진을 삭제하시겠습니까?')) {
+    //     $.ajax({
+    //         url: '/cs/goods/file',
+    //         type: 'delete',
+    //         data: {
+    //             key: key
+    //         },
+    //         success: function () {
+    //             alert("사진이 삭제되었습니다!")
+    //         }, error: function (error) {
+    //             console.error('에러 발생: ', error);
+    //         }
+    //     });
+    // }
 }

@@ -70,4 +70,17 @@
         ]]>
 
     </update>
+    <update id="updateGoods" parameterType="com.example.myapp.cms.goods.model.Goods" useGeneratedKeys="true"
+            keyColumn="goods_id" keyProperty="goodsId">
+        <![CDATA[
+        UPDATE tb_goods
+        SET goods_name        = #{goodsName},
+            goods_brand       = #{goodsBrand},
+            goods_price= #{goodsPrice},
+            goods_purchs_link= #{goodsPurchsLink},
+            goods_kwrd= #{goodsKwrd},
+            goods_update_date = to_char(sysdate, 'yyyy.mm.dd hh24:mi:ss')
+        WHERE goods_id = #{goodsId}
+        ]]>
+    </update>
 </mapper>

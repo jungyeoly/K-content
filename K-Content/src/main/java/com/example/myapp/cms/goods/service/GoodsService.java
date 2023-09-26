@@ -56,14 +56,14 @@ public class GoodsService implements IGoodsService {
         goodsRepository.updateDelYnGoods(goodsId);
     }
 
-    @Override
-    public void deleteGoodsFile(int goodsId) {
-        goodsRepository.deleteGoodsFile(goodsId);
-    }
+
+//    public void deleteGoodsFile(int goodsId) {
+//
+//    }
     @Override
     @Transactional
     public int updateGoods(Goods goods, GoodsFile goodsFile) {
-
+        goodsRepository.deleteGoodsFile(goods.getGoodsId());
         goodsRepository.updateGoods(goods);
         int goodsId = goods.getGoodsId();
         goodsFile.setGoodsFileGoodsId(goodsId);

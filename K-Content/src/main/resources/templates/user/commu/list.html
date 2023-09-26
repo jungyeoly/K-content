@@ -34,6 +34,8 @@
 						th:text="${code.commonCodeVal}" style="font-weight: bold">카테고리명</span>
 
 					</td>
+				
+					
 					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
@@ -43,7 +45,6 @@
 
 			</tbody>
 		</table>
-
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>
 
@@ -61,7 +62,6 @@
 			</div>
 		</div>
 	</div>
-
-
 </body>
+<script th:src="@{/js/commu/commulist.js}"></script>
 </html>

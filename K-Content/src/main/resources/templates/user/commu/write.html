@@ -60,10 +60,7 @@
 					<div class="commu-File">
 
 						<input type="file" id="attachment" name="commuUploadFiles"
-							multiple onchange="appendFileList()" style="display: none;">
-						<button id="fileSelectButton"
-							onclick="document.getElementById('attachment').click();">파일
-							선택</button>
+							multiple onchange="appendFileList()">
 						<ul id="fileList"></ul>
 					</div>
 				</li>
@@ -74,7 +71,7 @@
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
 					sec:authorize="isAuthenticated()">
-				<button type="button" class="btn me-2 cancel-btn" data-action="cancel">취소</button>
+				<input type="reset" class="btn me-2 cancel-btn" data-action="cancel" value="취소">
 				<input type="submit" class="btn commuBtn"  data-action="confirm" value="등록">
 			</div>
 		</form>

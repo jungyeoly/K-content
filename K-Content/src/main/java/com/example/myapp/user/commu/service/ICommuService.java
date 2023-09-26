@@ -15,8 +15,6 @@ public interface ICommuService {
 
 	List<CommuFile> selectFilesByPostId(int commuId); // 커뮤니티 게시글 첨부파일 상세조회
 
-	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, int page); // 카테고리에 따른 게시글 상세조회
-
 	void insertPost(Commu commu); // 커뮤니티 글쓰기
 	
 	void insertPostwithFiles(Commu commu, List<CommuFile> files); // 커뮤니티 글쓰기에 첨부파일
@@ -33,4 +31,5 @@ public interface ICommuService {
 	
 	List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일 
 
+	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
 }

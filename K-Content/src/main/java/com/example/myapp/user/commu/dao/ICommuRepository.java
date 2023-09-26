@@ -27,7 +27,7 @@ public interface ICommuRepository {
 	
 	List<CommuFile> selectFilesByPostId(int commuId); //커뮤니티 게시글 첨부파일 상세조회
 	
-	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, @Param("start") int start, @Param("end") int end);  //카테고리에 따른 게시글 상세조회
+	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
 
 	CommuFile getFile(String commuFileId);
 
@@ -41,5 +41,6 @@ public interface ICommuRepository {
 	void deleteFileById(String commuFileId); // 첨부파일의 ID를 기반으로 특정 첨부파일 삭제
 	
 	 List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일
+	 
 
 }

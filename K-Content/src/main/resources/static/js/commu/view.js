@@ -1,3 +1,35 @@
+// '확인' 버튼에 한 번만 이벤트 리스너 추가
+document.getElementById('confirmBtn').addEventListener('click', function() {
+    const deleteForm = document.querySelector('form[method="post"]');
+    if(deleteForm) {
+        deleteForm.submit();
+    }
+});
+
+function showDeleteConfirmModal() {
+    const modal = document.getElementById('commonModal');
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalBody = modal.querySelector('.modal-body');
+    
+    modalTitle.textContent = "삭제 확인";
+    modalBody.textContent = "정말로 삭제하시겠습니까?";
+    
+    // Bootstrap 5의 모달을 수동으로 표시하는 코드
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+}
+
+function showConfirmModal(event, actionType) {
+    event.preventDefault(); // form 제출을 방지
+
+    // 모달 내용 변경
+    document.querySelector(".modal-body").textContent = "정말로 삭제하시겠습니까?";
+    
+    // actionType에 따라 data-action 설정 (필요한 경우)
+    document.getElementById('commonModal').dataset.action = actionType;
+}
+
+
 $(document).ready(function() {
 
 	// 댓글 작성

@@ -3,6 +3,7 @@ package com.example.myapp.user.mber.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.ibatis.javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,13 +194,17 @@ public class MberController {
 		String currentMberId = auth.getName();
 
 		Mber mber = mberService.selectMberbyId(currentMberId);
+
+		if (mber == null) {
+			return "redirect:/mber/signin";
+		}
 		
-	    // 검증이 실패한 경우 다른 페이지로 리다이렉트
-	    if (session.getAttribute("pwdVerificationSuccess") != "Y") {
-	        session.removeAttribute("pwdVerificationFailed"); // 플래그 제거
-	        return "redirect:/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
-	    }
-	    
+		// 검증이 실패한 경우 다른 페이지로 리다이렉트
+		if (session.getAttribute("pwdVerificationSuccess") != "Y") {
+			session.removeAttribute("pwdVerificationFailed"); // 플래그 제거
+			return "redirect:/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
+		}
+
 		model.addAttribute(mber);
 		boolean isAdmin = false;
 		for (GrantedAuthority authority : auth.getAuthorities()) {
@@ -219,8 +224,11 @@ public class MberController {
 
 		Mber mber = mberService.selectMberbyId(currentMberId);
 
+		if(mber == null) {
+			return "redirect:/mber/signin";
+		}
 		model.addAttribute(mber);
-
+		
 		boolean isAdmin = false;
 		for (GrantedAuthority authority : auth.getAuthorities()) {
 			if (authority.getAuthority().equals("ROLE_ADMIN")) {
@@ -255,6 +263,12 @@ public class MberController {
 
 	@GetMapping(value = "/mber/verifypwd")
 	public String verifyPwd(Model model, Authentication auth) {
+		String currentMberId = auth.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+
+		if (mber == null) {
+			return "redirect:/mber/signin";
+		}
 		return "user/mber/verifypwd";
 	}
 
@@ -262,98 +276,126 @@ public class MberController {
 	public String verifyPwd(String mberPwd, Model model, Authentication auth, HttpSession session) {
 		String currentMberId = auth.getName();
 		Mber mber = mberService.selectMberbyId(currentMberId);
-	
-		logger.info(mber.toString());
-		if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
-	        session.setAttribute("pwdVerificationSuccess", "Y");
+
+		if (mber == null) {
+			return "redirect:/mber/signin";
+		} else if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
+			session.setAttribute("pwdVerificationSuccess", "Y");
 			return "redirect:/mber/mypage";
 		}
 		return "user/mber/verifypwd";
 	}
-	
+
+	@GetMapping(value = "/mber/deletember")
+	public String deleteMber(Model model, Authentication auth) {
+		String currentMberId = auth.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		if (mber == null) {
+			return "redirect:/mber/signin";
+		}
+
+		return "user/mber/deletember";
+	}
+
+	@PostMapping(value = "/mber/deletember")
+	public String deleteMber(String mberPwd, HttpSession session, Model model, Authentication auth) throws NotFoundException {
+		String currentMberId = auth.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		if(mber == null) {
+			return "redirect:/mber/signin";
+		} else if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
+			
+			mberService.deleteMber(currentMberId);
+		} else {
+			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
+		}
+		
+		return "user/mber/deletember";
+	}
+
 	// ID 유효성 검증
 	@RequestMapping(value = "/mber/checkid", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkId(String mberId) {		
-		
-		boolean check = false;	
+	public boolean checkId(String mberId) {
+
+		boolean check = false;
 
 		String checkId = "^[a-zA-Z][a-zA-Z0-9_]*[0-9][a-zA-Z0-9_]*$";
-				
-		Pattern patternSymbol = Pattern.compile(checkId);		
-		Matcher matcherSymbol = patternSymbol.matcher(mberId);		
-		
-		if(matcherSymbol.find()) {	
+
+		Pattern patternSymbol = Pattern.compile(checkId);
+		Matcher matcherSymbol = patternSymbol.matcher(mberId);
+
+		if (matcherSymbol.find()) {
 			check = true;
-		}		
+		}
 		return check;
 	}
-	
+
 	@RequestMapping(value = "/mber/checkpwd", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkPwd(String mberPwd) {		
-		
-		boolean check = false;	
+	public boolean checkPwd(String mberPwd) {
+
+		boolean check = false;
 
 		String checkPwd = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$";
-		Pattern patternSymbol = Pattern.compile(checkPwd);		
-		Matcher matcherSymbol = patternSymbol.matcher(mberPwd);		
-		
-		if(matcherSymbol.find()) {	
+		Pattern patternSymbol = Pattern.compile(checkPwd);
+		Matcher matcherSymbol = patternSymbol.matcher(mberPwd);
+
+		if (matcherSymbol.find()) {
 			check = true;
-		}		
-		
+		}
+
 		return check;
 	}
-	
+
 	@RequestMapping(value = "/mber/checkname", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkName(String mberName) {		
-		
-		boolean check = false;	
+	public boolean checkName(String mberName) {
+
+		boolean check = false;
 
 		String checkName = "^[a-zA-Z가-힣\\s]+$";
-		Pattern patternSymbol = Pattern.compile(checkName);		
-		Matcher matcherSymbol = patternSymbol.matcher(mberName);		
-		
-		if(matcherSymbol.find()) {	
+		Pattern patternSymbol = Pattern.compile(checkName);
+		Matcher matcherSymbol = patternSymbol.matcher(mberName);
+
+		if (matcherSymbol.find()) {
 			check = true;
-		}		
-		
+		}
+
 		return check;
 	}
-	
+
 	@RequestMapping(value = "/mber/checkemail", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkEmail(String mberEmail) {		
-		
-		boolean check = false;	
+	public boolean checkEmail(String mberEmail) {
+
+		boolean check = false;
 
 		String checkEmail = "\\\\w+@\\\\w+\\\\.\\\\w+(\\\\.\\\\w+)?";
-		Pattern patternSymbol = Pattern.compile(checkEmail);		
-		Matcher matcherSymbol = patternSymbol.matcher(mberEmail);		
-		
-		if(matcherSymbol.find()) {	
+		Pattern patternSymbol = Pattern.compile(checkEmail);
+		Matcher matcherSymbol = patternSymbol.matcher(mberEmail);
+
+		if (matcherSymbol.find() ) {
 			check = true;
-		}		
-		
+		}
+
 		return check;
 	}
-	
+
 	@RequestMapping(value = "/mber/checkphone", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean checkPhone(String mberPhone) {		
-		
-		boolean check = false;	
+	public boolean checkPhone(String mberPhone) {
+
+		boolean check = false;
 
 		String checkPhone = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
-		Pattern patternSymbol = Pattern.compile(checkPhone);		
-		Matcher matcherSymbol = patternSymbol.matcher(mberPhone);		
-		
-		if(matcherSymbol.find()) {	
+		Pattern patternSymbol = Pattern.compile(checkPhone);
+		Matcher matcherSymbol = patternSymbol.matcher(mberPhone);
+
+		if (matcherSymbol.find()) {
 			check = true;
-		}		
-		
+		}
+
 		return check;
 	}
 }

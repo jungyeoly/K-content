@@ -50,7 +50,7 @@ img, a {
 	-khtml-user-drag: none;
 	-moz-user-drag: none;
 	-o-user-drag: none;
-	user-drag: none;
+	-user-drag: none;
 }
 
 .btn {
@@ -135,4 +135,44 @@ img, a {
 	color: red !important;
 	border: 1px solid red !important;
 	background-color: white !important;
+}
+
+.delete1 {
+	color: white !important;
+	border: 1px solid #dc143c !important;
+	background-color: #dc143c !important;
+}
+
+.alert-delete-btn {
+	background-color: #dc143c !important;
+}
+.alert-btn {
+	background-color: var(--color-main); 
+	border-radius: 7px;
+    font-size: 16px;
+    letter-spacing: 0;
+    height: 50px;
+    line-height: 22.5px;
+    font-weight: 600;
+    transition: all 200ms linear;
+    margin: 15px;
+    display: inline-flex;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    text-align: center;
+    border: none;
+    color: white;
+    background-color: var(--color-main);
+    box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
+    white-space: nowrap;
+}
+button:hover{
+    color: white;
+    background-color: #1f2029 !important;
+    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
 }

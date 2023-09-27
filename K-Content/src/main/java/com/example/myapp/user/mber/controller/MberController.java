@@ -215,7 +215,7 @@ public class MberController {
 
 		// 검증이 실패한 경우 다른 페이지로 리다이렉트
 		if (session.getAttribute("pwdVerificationSuccess") != "Y") {
-			session.removeAttribute("pwdVerificationFailed"); // 플래그 제거
+			session.removeAttribute("pwdVerificationSuccess"); // 플래그 제거
 			model.addAttribute("message", "비밀번호 확인이 필요합니다.");
 			return "redirect:/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
 		}
@@ -295,21 +295,28 @@ public class MberController {
 
 		if (mber == null) {
 			model.addAttribute("message", "인증 정보가 없습니다. 다시 로그인해주세요.");
+			session.setAttribute("pwdVerificationSuccess", "N");
 			return "redirect:/mber/signin";
 		} else if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
 			session.setAttribute("pwdVerificationSuccess", "Y");
 			return "redirect:/mber/mypage";
 		}
+		session.setAttribute("pwdVerificationSuccess", "N");
 		model.addAttribute("message", "비밀번호가 일치하지 않습니다. ");
 		return "user/mber/verifypwd";
 	}
 
 	@GetMapping(value = "/mber/deletember")
-	public String deleteMber(Model model, Authentication auth) {
+	public String deleteMber(Model model, HttpSession session,Authentication auth) {
 		String currentMberId = auth.getName();
 		Mber mber = mberService.selectMberbyId(currentMberId);
 		if (mber == null) {
+			model.addAttribute("exception", "계정 정보가 없습니다. 로그인 해주세요.");
 			return "redirect:/mber/signin";
+		} else if (session.getAttribute("pwdVerificationSuccess") != "Y") {
+			session.removeAttribute("pwdVerificationSuccess"); // 플래그 제거
+			model.addAttribute("message", "비밀번호 확인이 필요합니다.");
+			return "user/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
 		}
 
 		return "user/mber/deletember";

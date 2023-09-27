@@ -117,7 +117,7 @@ public class MberController {
 	public String sendEmailAuth(@RequestParam String mberEmail, HttpSession session) throws Exception {
 		String authNum = emailService.sendAuthNum(mberEmail);
 		session.setAttribute("authNum", authNum);
-		
+
 		return authNum;
 	}
 
@@ -216,6 +216,7 @@ public class MberController {
 		// 검증이 실패한 경우 다른 페이지로 리다이렉트
 		if (session.getAttribute("pwdVerificationSuccess") != "Y") {
 			session.removeAttribute("pwdVerificationFailed"); // 플래그 제거
+			model.addAttribute("message", "비밀번호 확인이 필요합니다.");
 			return "redirect:/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
 		}
 
@@ -281,6 +282,7 @@ public class MberController {
 		Mber mber = mberService.selectMberbyId(currentMberId);
 
 		if (mber == null) {
+
 			return "redirect:/mber/signin";
 		}
 		return "user/mber/verifypwd";
@@ -292,11 +294,13 @@ public class MberController {
 		Mber mber = mberService.selectMberbyId(currentMberId);
 
 		if (mber == null) {
+			model.addAttribute("message", "인증 정보가 없습니다. 다시 로그인해주세요.");
 			return "redirect:/mber/signin";
 		} else if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
 			session.setAttribute("pwdVerificationSuccess", "Y");
 			return "redirect:/mber/mypage";
 		}
+		model.addAttribute("message", "비밀번호가 일치하지 않습니다. ");
 		return "user/mber/verifypwd";
 	}
 
@@ -317,10 +321,13 @@ public class MberController {
 		String currentMberId = auth.getName();
 		Mber mber = mberService.selectMberbyId(currentMberId);
 		if (mber == null) {
+			model.addAttribute("message", "인증 정보가 없습니다. 다시 로그인해주세요.");
 			return "redirect:/mber/signin";
 		} else if (passwordEncoder.matches(mberPwd, mber.getMberPwd())) {
-
 			mberService.deleteMber(currentMberId);
+			SecurityContextHolder.clearContext();
+			session.invalidate(); // 세션 무효화
+			return "redirect:/";
 		} else {
 			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
 		}
@@ -350,14 +357,13 @@ public class MberController {
 	@ResponseBody
 	public boolean checkName(String mberName) {
 
-		  String nameRegExp = "^[a-zA-Z가-힣\\s]+$";
-		    return mberName.matches(nameRegExp);
+		String nameRegExp = "^[a-zA-Z가-힣\\s]+$";
+		return mberName.matches(nameRegExp);
 	}
 
 	@RequestMapping(value = "/mber/checkemail", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean checkEmail(String mberEmail) {
-
 
 		boolean check = mberService.isMberEmail(mberEmail);
 
@@ -368,7 +374,7 @@ public class MberController {
 	@ResponseBody
 	public boolean checkPhone(String mberPhone) {
 
-	    String phoneRegExp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
-	    return mberPhone.matches(phoneRegExp);
+		String phoneRegExp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
+		return mberPhone.matches(phoneRegExp);
 	}
 }

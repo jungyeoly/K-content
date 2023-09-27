@@ -105,7 +105,7 @@ public class EmailService implements IEmailService {
 		msg += "<p style=\"font-size: 15px; line-height: 1.5; color: #333333; margin-bottom: 35px;\">안녕하세요!<br> 다양한 분야 많은 컨텐츠, K-Spectrum를 이용해 주셔서 감사드립니다.</p>";
 		msg += "<p style=\"font-size: 15px; line-height: 1.5; color: #333333; margin-bottom: 35px;\">K-Spectrum 회원가입 이메일 인증 메일 전달드립니다.<br>";
 		msg += "</div>";
-		msg += "<table style=\"width: 620px; height: 170px; border-top: 2px solid #0092d3; border-collapse: collapse; border-spacing: 0;\">";
+		msg += "<table style=\"width: 620px; height: 170px; border-top: 2px solid #14dbc8; border-collapse: collapse; border-spacing: 0;\">";
 		msg += "<tbody><tr style=\"border-bottom: 1px solid #eeeeee;\"><td style=\"background-color: #f6f6f6; padding-left: 24px; width: 30%; color: #111111; font-weight: bold;\">인증번호</td><td style=\"height: 56px; padding-left: 24px;font-size: 16px;\">";
 		msg += authNum;
 		msg += "</td></tr>";

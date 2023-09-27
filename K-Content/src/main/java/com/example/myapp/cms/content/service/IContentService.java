@@ -4,7 +4,7 @@ import com.example.myapp.cms.content.model.CmsContent;
 import java.util.List;
 
 public interface IContentService {
-    List<CmsContent> getAllContent();
+    List<CmsContent> getAllContent(int page);
 
     CmsContent getAContent(int id);
 
@@ -15,6 +15,7 @@ public interface IContentService {
     List<CmsContent> getContentByKeyword(List<String> keywordList);
 
     void updateDelStat(int cntntId);
-
+    
+    int totalCntnt();
 }
 

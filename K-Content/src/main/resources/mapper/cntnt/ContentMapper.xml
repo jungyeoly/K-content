@@ -6,16 +6,33 @@
 
     <select id="getAllContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
-        SELECT cntnt_id,
-               cntnt_cate_code,
-               cntnt_title,
-               cntnt_kwrd,
-               cntnt_url,
-               cntnt_regist_date,
-               cntnt_update_date,
-               cntnt_delete_yn
-        FROM tb_cntnt
-        where cntnt_delete_yn = 'N'
+	        SELECT cntnt_id,
+			       cntnt_cate_code,
+			       cntnt_title,
+			       cntnt_kwrd,
+			       cntnt_url,
+			       cntnt_regist_date,
+			       cntnt_update_date,
+			       cntnt_delete_yn
+			FROM
+			    (SELECT rownum rn,
+			            cntnt_id,
+			            cntnt_cate_code,
+			            cntnt_title,
+			            cntnt_kwrd,
+			            cntnt_url,
+			            cntnt_regist_date,
+			            cntnt_update_date,
+			            cntnt_delete_yn
+			    FROM
+			        (SELECT *
+			        FROM tb_cntnt
+			        WHERE cntnt_delete_yn = 'N'
+			        ORDER BY cntnt_id desc
+			        )
+			    )
+			WHERE rn between #{start} AND #{end}
+			ORDER BY rn desc
         ]]>
     </select>
     <select id="getAContent" resultType="com.example.myapp.cms.content.model.CmsContent">
@@ -62,6 +79,11 @@
             )
         </if>)
 
+    </select>
+    <select id="totalContent" resultType="int">
+    	select count(*)
+    	from tb_cntnt
+    	where cntnt_delete_yn = 'N'
     </select>
     <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
             keyColumn="cntnt_id" keyProperty="cntntId">

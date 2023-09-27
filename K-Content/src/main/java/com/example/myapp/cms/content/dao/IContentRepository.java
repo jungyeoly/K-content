@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface IContentRepository {
-    List<CmsContent> getAllContent();
+    List<CmsContent> getAllContent(@Param("start") int start, @Param("end") int end);
 
     CmsContent getAContent(@Param("cntntId") int cntntId);
 
@@ -25,5 +25,6 @@ public interface IContentRepository {
     List<CmsContent> getContentByKeyword(@Param("keywordList") List<String> keywordList);
 
     void updateDelStat(@Param("cntntId") int cntntId);
-
+    
+    int totalContent();
 }

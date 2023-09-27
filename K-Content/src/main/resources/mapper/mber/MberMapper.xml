@@ -22,8 +22,7 @@
 				ON A.mber_stat_code = B1.common_code
 				JOIN tb_common_code B2
 				ON A.mber_role_code = B2.common_code
-				WHERE A.mber_id = #{mberId}
-            
+				WHERE A.mber_id = #{mberId}            
 		]]>
 	</select>
 
@@ -97,7 +96,7 @@
 
 
 	
-	<insert id="insertMber" parameterType="String">
+	<insert id="insertMber" parameterType="com.example.myapp.user.mber.model.Mber">
 	    <![CDATA[
 		INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
 							 mber_update_date, mber_gender_code, mber_stat_code, mber_role_code)

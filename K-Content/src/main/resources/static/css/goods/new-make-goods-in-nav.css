@@ -1,0 +1,92 @@
+@media (min-width: 1024px) {
+    .page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        gap: 20px;
+    }
+
+    .img-side {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+
+    .info-side {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+}
+
+@media (max-width: 1023px) {
+    /*세로로 어떻게 바꾸지? 플랙스 랩*/
+    .page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .img-side {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+
+    .info-side {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+}
+
+.photoFrame {
+    height: 280px;
+    text-align: center;
+}
+
+.keyword {
+    display: flex;
+}
+
+.button-box {
+    display: flex;
+    justify-content: flex-end;
+    margin: auto;
+}
+
+.file-append-box {
+    padding-top: 10px;
+    height: fit-content;
+    width: fit-content !important;
+    margin-left: auto;
+    padding-right: 20px;
+}
+
+img {
+    /*background: rgb(225, 198, 24);*/
+    border-radius: 20px;
+    margin: auto;
+    display: block;
+}
+
+.img {
+    /*width: fit-content;*/
+    height: 300px;
+    background-color: rgba(224, 222, 222, 0.63);
+    border-radius: 8%;
+    width: 600px;
+    margin: auto;
+}
+
+.newKeyword {
+    display: flex;
+}
+
+.input-group {
+    border-top: 0px !important;
+}
+
+.btn {
+    /*margin: inherit;*/
+}
+
+/*.page{
+    padding-right: 20px;
+    padding-left: 20px;
+}*/

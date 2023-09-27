@@ -1,78 +1,91 @@
 @media (min-width: 1024px) {
     .page {
-        display: -ms-grid;
         display: grid;
-        -ms-grid-columns: 16% 3fr;
-        grid-template-columns: 16%  3fr;
+        grid-template-columns: 13%  3fr;
     }
 
     .header {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 1 / 3;
-        -ms-grid-row: 1;
         grid-row: 1 / 2;
     }
 
     .secondary-a {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 1 / 2;
-        -ms-grid-row: 2;
         grid-row: 2 / 7;
     }
 
     .table {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
         grid-row: 4 / 5;
     }
 
     .img {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
         grid-row: 2 / 3;
     }
 
     .file-append-box {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
         grid-row: 3 / 4;
     }
 
     .newKeyword {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
         grid-row: 5 / 6;
     }
 
     .keyword {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
         grid-row: 6 / 7;
     }
 
     .button-box {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 3;
         grid-column: 2 / 3;
-        -ms-grid-row: 2;
+        grid-row: 6 / 7;
+    }
+}
+
+@media (max-width: 1023px) {
+    .page {
+        display: grid;
+    }
+
+    .header {
+        grid-row: 1 / 2;
+    }
+
+    .secondary-a {
+        display: none;
+    }
+
+    .table {
+        grid-row: 4 / 5;
+    }
+
+    .img {
+        grid-row: 2 / 3;
+    }
+
+    .file-append-box {
+        grid-row: 3 / 4;
+    }
+
+    .newKeyword {
+        grid-row: 5 / 6;
+    }
+
+    .keyword {
+        grid-row: 6 / 7;
+    }
+
+    .button-box {
         grid-row: 6 / 7;
     }
 }
 
 .photoFrame {
-    height: 300px;
+    height: 280px;
+    text-align: center;
 }
 
 .keyword {
@@ -110,9 +123,26 @@ img {
     margin: auto;
     display: block;
 }
-.img{
-    width: fit-content;
+
+.img {
+    /*width: fit-content;*/
+    height: 300px;
+    background-color: rgba(224, 222, 222, 0.63);
+    border-radius: 8%;
+    width: 600px;
+    margin: auto;
 }
-.newKeyword{
+
+.newKeyword {
     display: flex;
+}
+.input-group{
+    border-top: 0px !important;
+}
+.btn{
+    /*margin: inherit;*/
+}
+
+.main{
+    padding-right: 20px;
 }

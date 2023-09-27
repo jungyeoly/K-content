@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+</head>
+
+<body>
+<header th:fragment="adminNavBar">
+    <div class="logo">
+        <a th:href="@{/}"><img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고"></a>
+
+        <ul class="icons">
+            <li class="myPage"><a th:href="@{/mber/verifypwd}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
+            <li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}"><i
+                    class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> LOGIN</a></li>
+            <li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}"><i
+                    class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> LOGOUT</a></li>
+        </ul>
+    </div>
+
+    <ul class="contents">
+        <!--			TODO 어드민 페이지로 만들기-->
+        <li id="mainMain" class="content"><a th:href="@{/cs/test}">Cntnt</a></li>
+        <li id="goods" class="content"><a th:href="@{/cs/test/goods}">Goods</a></li>
+        <li id="mber" class="content"><a th:href="@{/cs/test/mber}">Mber</a></li>
+        <li id="comm" class="content"><a th:href="@{/cs/test/comm}">Comm</a></li>
+        <li id="inqury" class="content"><a th:href="@{/cs/test/inqury}">Inqury</a></li>
+        <li id="stats" class="content"><a th:href="@{/cs/test/stats}">Stats</a></li>
+
+        <li class="cms content" sec:authorize="!hasRole('ADMIN')">&nbsp;</li>
+        <li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/}">User Display</a></li>
+
+    </ul>
+    <div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+        <form id="searchForm" class="input-group">
+            <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">
+            <button type="submit" class="btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+    <div id="main-cate" class="categories-nav">
+        <ul class="categories">
+            <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
+        </ul>
+    </div>
+
+</header>
+</body>
+
+</html>

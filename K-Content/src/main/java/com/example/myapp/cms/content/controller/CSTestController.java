@@ -9,9 +9,7 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
-
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +23,8 @@ import java.net.URL;
 import java.util.*;
 
 @Controller
-@RequestMapping("/cs")
-public class CSController {
+@RequestMapping("/cs/test")
+public class CSTestController {
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired
@@ -70,85 +68,72 @@ public class CSController {
         return result;
     }
 
+    //디자인 테스트
+    @GetMapping("")
+    public String test(Model model, HttpSession session) {
+        int page = 1;
+        int bbsCount = contentService.totalCntnt();
+
+        int totalPage = 0;
+
+        if(bbsCount > 0) {
+            totalPage= (int)Math.ceil(bbsCount/10.0);
+        }
+        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+        int nowPageBlock = (int) Math.ceil(page/10.0);
+        int startPage = (nowPageBlock-1)*10 + 1;
+        int endPage = 0;
+        if(totalPage > nowPageBlock*10) {
+            endPage = nowPageBlock*10;
+        }else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        session.setAttribute("nowPage", page);
+        return "cms/cntnt/new-admin-main-content";
+    }
+    @GetMapping("/goods")
+    public String testGoods() {
+        return "cms/goods/new-goods-main";
+    }
+
+
+
+
+
+
+
+
+
+
 
     //콘텐츠 리스트 페이지
     @GetMapping("/content-manage")
-    public String getContentManage(Model model, HttpSession session) {
-    	int page = 1;
-    	int bbsCount = contentService.totalCntnt();
-
- 		int totalPage = 0;
-
- 		if(bbsCount > 0) {
- 			totalPage= (int)Math.ceil(bbsCount/10.0);
- 		}
- 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
- 		int nowPageBlock = (int) Math.ceil(page/10.0);
- 		int startPage = (nowPageBlock-1)*10 + 1;
- 		int endPage = 0;
- 		if(totalPage > nowPageBlock*10) {
- 			endPage = nowPageBlock*10;
- 		}else {
- 			endPage = totalPage;
- 		}
- 		model.addAttribute("totalPageCount", totalPage);
- 		model.addAttribute("nowPage", page);
- 		model.addAttribute("totalPageBlock", totalPageBlock);
- 		model.addAttribute("nowPageBlock", nowPageBlock);
- 		model.addAttribute("startPage", startPage);
- 		model.addAttribute("endPage", endPage);
-
- 		session.setAttribute("nowPage", page);
-
+    public String getContentManage() {
         return "cms/cntnt/contentManage";
     }
 
-    @GetMapping("/contents/{page}")
-    @ResponseBody
-    public List<CmsContent> getallcntnt(@RequestParam("page")int page, Model model, HttpSession session) {
-    	List<CmsContent> result = contentService.getAllContent(page);
-
-        for (int i = 0; i < result.size(); i++) {
-            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
-            String partOfUrl = contentUrlSplit.get(3);
-            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
-            String restultCode = partOfUrl2.get(1);
-            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
-
-        }
-        
-        int bbsCount = contentService.totalCntnt();
-
- 		int totalPage = 0;
-
- 		if(bbsCount > 0) {
- 			totalPage= (int)Math.ceil(bbsCount/10.0);
- 		}
- 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
- 		int nowPageBlock = (int) Math.ceil(page/10.0);
- 		int startPage = (nowPageBlock-1)*10 + 1;
- 		int endPage = 0;
- 		if(totalPage > nowPageBlock*10) {
- 			endPage = nowPageBlock*10;
- 		}else {
- 			endPage = totalPage;
- 		}
- 		model.addAttribute("totalPageCount", totalPage);
- 		model.addAttribute("nowPage", page);
- 		model.addAttribute("totalPageBlock", totalPageBlock);
- 		model.addAttribute("nowPageBlock", nowPageBlock);
- 		model.addAttribute("startPage", startPage);
- 		model.addAttribute("endPage", endPage);
-
- 		session.setAttribute("nowPage", page);
- 		
- 		System.out.println("=============================");
- 		System.out.println("page : " + page);
- 		System.out.println("=============================");
- 		
-        return result;
-     
-    }
+//    @GetMapping("/contents")
+//    @ResponseBody
+//    public List<CmsContent> getallcntnt() {
+//        List<CmsContent> result = contentService.getAllContent();
+//
+//        for (int i = 0; i < result.size(); i++) {
+//            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
+//            String partOfUrl = contentUrlSplit.get(3);
+//            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+//            String restultCode = partOfUrl2.get(1);
+//            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
+//
+//        }
+//        return result;
+//    }
 
 
     //콘텐츠 상세 페이지 출력

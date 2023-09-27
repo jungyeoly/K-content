@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
@@ -23,8 +22,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/cs/goods")
-public class goodsController {
+@RequestMapping("/cs/test/goods")
+public class goodsTestController {
     @Autowired
     IGoodsService goodsService;
     @Value("${part4.upload.path}")
@@ -38,10 +37,10 @@ public class goodsController {
         return "cms/goods/goodsListMain";
     }
 
-    @GetMapping("")
-    public String getPages() {
-        return "cms/goods/goodsList";
-    }
+//    @GetMapping("")
+//    public String getPages() {
+//        return "cms/goods/goodsList";
+//    }
 
     // 상품 상세 화면 보여주기
     @GetMapping("/detail")
@@ -84,7 +83,7 @@ public class goodsController {
     @GetMapping("/form")
     public String getMakeGoodsForm() {
 
-        return "cms/goods/makeGoodsInNav";
+        return "cms/goods/new-make-goods-in-nav";
     }
 
     // 상품 생성

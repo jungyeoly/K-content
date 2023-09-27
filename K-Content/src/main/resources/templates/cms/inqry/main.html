@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/include/admin-header :: adminHeader}"></head>
+<head th:insert="~{/include/admin-head :: adminHead}"></head>
 <link rel="stylesheet" th:href="@{/css/inqury/inqury.css}">
 <link rel="stylesheet" th:href="@{/css/inqury/main.css}">
 <link rel="stylesheet" th:href="@{/css/inqury/cmsInquryDetail.css}">
@@ -24,7 +24,7 @@
 
     <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">
     </aside>
-		
+
     <section class="primary">
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">

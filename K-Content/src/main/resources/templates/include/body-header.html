@@ -20,7 +20,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 		<ul class="contents">
 			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
 
-			<li id="comm" class="content"><a th:href="@{/commu}(page=${nowPage})}">Comm</a></li>
+			<li id="comm" class="content"><a th:href="@{/commu/1}">Comm</a></li>
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
 			<li class="cms content" sec:authorize="!hasRole('ADMIN')">&nbsp;</li>

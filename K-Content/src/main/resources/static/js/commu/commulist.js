@@ -1,24 +1,22 @@
 // 페이지 번호 클릭 이벤트
-$(document).on('click', '.page-btn a', function(e) {
+$(document).on('click', '.page-link', function(e) {
     e.preventDefault();  // 기존의 페이지 이동을 막음
 
-    const selectedPage = $(this).data('page');
-    currentPage = selectedPage; // 선택한 페이지 번호를 'currentPage' 변수에 할당
+    const selectedPage = $(this).data('selpage');  // "selpage" 데이터 속성을 사용
     fetchPostsForPage(selectedPage);
 });
 
 let commuCateCode = null; // 현재 선택된 카테고리를 저장할 전역 변수
 function fetchPostsForPage(page) {
-	let url = `/commu/data?page=${page}`;
-	if (commuCateCode) {
-		 url =  `/commu/commucatecode/${commuCateCode}?page=${page}`,
-	
+  let url = `/commu/commucatecode/${commuCateCode}?page=${page}`;
+
+
     $.ajax({
-        url: url, // 변경된 엔드포인트
+        url: url,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            updatePostList(response.commulist || response.posts); // 엔드포인트에서 반환되는 JSON 키에 맞게 수정해야 할 수도 있습니다.
+            updatePostList(response.commulist || response.posts);
             updatePagination(response.totalPages, page);
         },
         error: function(error) {
@@ -26,23 +24,29 @@ function fetchPostsForPage(page) {
         }
     });
 }
-}
+
 
 
 
 
 let currentPage = 1;  // 현재 페이지 초기값 설정
-
+var page = $('page-link selpage').prop("data-selpage");
 $(document).on('click', '.cate', function() {
     const commuCateCode = $(this).data('maincate-value');
     
     $.ajax({
-        url: `/commu/commucatecode/${commuCateCode}?page=${currentPage}`,
+        url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
         type: 'GET',
-        dataType: 'json',
+        //dataType: 'json',
+		dataType: {
+			commuCateCode:commuCateCode // 좌:우 기준으로 좌==컨트롤러에서 받을 이름, 우==ajax를 요청할 때 컨트롤러에 넘겨줄 값
+			,page:page
+		},
         success: function(response) {
-            updatePostList(response.posts);
-            updatePagination(response.totalPages);
+			var postList = response.posts//<<< posts라는 이름으로 넣었던 오브젝트는?? List<Commu>
+			//게시글 테이블 생성패서 뿌려주면 됨
+            updatePostList(postList);
+            updatePagination(response.totalPageCount);
         },
         error: function(error) {
             console.error("Error fetching posts by category:", error);

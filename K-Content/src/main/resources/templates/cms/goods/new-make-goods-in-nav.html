@@ -9,11 +9,13 @@
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
-<div >
+<div>
     <!--    값이 있는거 수정할 때-->
-    <div th:if="${not #strings.isEmpty(goods)}" class="page">
+    <div th:if="${not #strings.isEmpty(goods)}" class="page container">
         <input type="hidden" id="goodsId" th:value="${goods.getGoodsId()}">
         <div class="img-side">
+            <h3 style="text-align: center">상품사진</h3>
+            <hr>
             <div class="img" id="pictures">
                 <!--            <button style="z-index: 10; position: sticky !important;"-->
                 <!--                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"-->
@@ -33,6 +35,8 @@
             </div>
         </div>
         <div class="info-side">
+            <h3 style="text-align: center">상품정보</h3>
+            <hr>
             <div class="table">
                 <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
                 <table class="table caption-top">
@@ -146,6 +150,7 @@
                 </div>
 
                 <div class="input-group mb-3">
+                    <form id="searchForm" class="input-group">
                     <div class="keywordInput">
                         <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
                     </div>
@@ -153,6 +158,7 @@
                         키워드
                         추가
                     </button>
+                    </form>
                 </div>
 
             </div>

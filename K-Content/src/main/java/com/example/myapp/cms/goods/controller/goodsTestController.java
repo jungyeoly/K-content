@@ -50,7 +50,7 @@ public class goodsTestController {
 
         model.addAttribute("goods", goods);
 
-        return "cms/goods/goodsDetail";
+        return "cms/goods/new-goods-detail";
     }
 
     //모든 상품 리스트 가져오기
@@ -156,7 +156,7 @@ public class goodsTestController {
         List<String> keywordList = Arrays.stream(goods.getGoodsKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
 
-        return "cms/goods/makeGoodsInNav";
+        return "cms/goods/new-make-goods-in-nav";
     }
 
     //상품삭제

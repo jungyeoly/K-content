@@ -27,12 +27,16 @@
     </header>
     <!--    main-->
     <div class="main-content">
+        <h3 style="text-align: center">상품사진</h3>
+        <hr>
         <div class="goods-img">
             <img style="width: 300px; margin:auto; display: block"
                  th:src="@{/img/goods/{goods}(goods=${goods.getGoodsFileId()})}" alt="">
         </div>
 
         <div class="info-table">
+            <h3 style="text-align: center">상품정보</h3>
+            <hr>
             <table class="table caption-top">
                 <caption>상품 상세 정보</caption>
                 <tbody>

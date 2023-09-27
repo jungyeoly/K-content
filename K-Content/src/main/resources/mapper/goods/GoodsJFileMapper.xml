@@ -87,10 +87,10 @@
         FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
                                  ON g.goods_id = f.goods_file_goods_id
-        WHERE g.goods_kwrd LIKE ('%' || #{search} || '%')
-           OR g.goods_brand LIKE ('%' || #{search} || '%')
-           OR g.goods_name LIKE ('%' || #{search} || '%')
-            and g.goods_delete_yn = 'N'
+        WHERE g.goods_delete_yn = 'N'
+          and (g.goods_kwrd LIKE ('%' || #{search} || '%')
+            OR g.goods_brand LIKE ('%' || #{search} || '%')
+            OR g.goods_name LIKE ('%' || #{search} || '%'))
         ]]>
     </select>
 </mapper>

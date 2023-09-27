@@ -50,9 +50,9 @@ header ul.icons:hover {
 header ul.contents {
   display: flex;
   padding: 0px 0px 0px 35px;
-  margin: 0px;
+  /*margin: 0px;*/
   font-weight: 900;
-  font-size: 38px;
+  font-size: 30px;
   justify-content: auto;
   font-family: 'Lexend Deca', sans-serif;
   flex-wrap: wrap;

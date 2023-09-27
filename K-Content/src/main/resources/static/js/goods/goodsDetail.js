@@ -24,7 +24,7 @@ function updateGoods() {
     goodsID = document.getElementById('goodsId').value;
 
     const formHtml = `
-                    <form id="updateGoods" action="/cs/goods/modify-form" method="get">
+                    <form id="updateGoods" action="/cs/test/goods/modify-form" method="get">
                         <input  id="goodsIdf" name="goodsId"  />
                     </form>`;
 

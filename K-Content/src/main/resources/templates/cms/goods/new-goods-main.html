@@ -11,20 +11,10 @@
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
 <div class="layout">
-
-    <!--TODO 서치 버튼에 함수 다시 걸어야함-->
-
-    <!--    <header class="header">-->
-    <!--      <h1 class="website-title">k-spectrum</h1>-->
-    <!--      <form class="search-form" id="search-form">-->
-    <!--        <input type="search" id="search-input">-->
-    <!--        <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">-->
-    <!--      </form>-->
-    <!--    </header>-->
-    <div class="search" >
+    <div class="search">
         <form id="searchForm" class="input-group">
             <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
-            <button class="btn"  id="search-button" onclick="searchKeyword()" type="button" value="찾기">
+            <button class="btn" id="search-button" onclick="searchKeyword()" type="button" value="찾기">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
@@ -37,12 +27,12 @@
     </section>
 
     <div class="new-button container">
-        <a href="/cs/test/goods/form" type="button"  class="new-button btn btn-primary">생성</a>
+        <a href="/cs/test/goods/form" type="button" class="new-button btn btn-primary">생성</a>
     </div>
 
-<!--    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">-->
+    <!--    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">-->
 
-<!--    </footer>-->
+    <!--    </footer>-->
 
 
 </div>

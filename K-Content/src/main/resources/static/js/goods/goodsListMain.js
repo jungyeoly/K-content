@@ -65,7 +65,7 @@ function searchKeyword() {
 function detail(goodsId) {
     // 상품 상세 화면 보여주기
     const formHtml = `
-                    <form id="goodsDetail" action="/cs/goods/detail" method="get">
+                    <form id="goodsDetail" action="/cs/test/goods/detail" method="get">
                         <input  id="goodsId" name="goodsId"  />
                     </form>`;
 

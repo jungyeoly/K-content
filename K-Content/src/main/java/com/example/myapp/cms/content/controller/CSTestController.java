@@ -22,8 +22,8 @@ import java.net.URL;
 import java.util.*;
 
 @Controller
-@RequestMapping("/cs")
-public class CSController {
+@RequestMapping("/cs/test")
+public class CSTestController {
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired
@@ -66,6 +66,25 @@ public class CSController {
 
         return result;
     }
+
+    //디자인 테스트
+    @GetMapping("")
+    public String test() {
+        return "cms/cntnt/new-admin-main-content";
+    }
+    @GetMapping("/goods")
+    public String testGoods() {
+        return "cms/goods/new-goods-main";
+    }
+
+
+
+
+
+
+
+
+
 
 
     //콘텐츠 리스트 페이지

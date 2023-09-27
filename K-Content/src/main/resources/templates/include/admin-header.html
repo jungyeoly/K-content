@@ -1,27 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="adminHeader">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>상품 추천</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/content/default.css">
-    <link rel="stylesheet" href="/css/content/ui-ie.css">
-    <link rel="stylesheet" href="/css/content/ui-page-ie.css">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <link href="/css/goods/goodsList.css" rel="stylesheet" type="text/css">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
 </head>
+
+<body>
+<header th:fragment="adminHeader">
+    <div class="logo">
+        <a th:href="@{/}"><img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고"></a>
+        <ul class="icons">
+            <li class="myPage"><a th:href="@{/mber/verifypwd}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
+            <li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}"><i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> LOGIN</a></li>
+            <li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}"><i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> LOGOUT</a></li>
+        </ul>
+    </div>
+
+<!--    <ul class="contents">-->
+<!--        <li id="main" class="content"><a th:href="@{/}">Main</a></li>-->
+
+<!--        <li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>-->
+<!--        <li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>-->
+
+<!--        <li class="cms content" sec:authorize="!hasRole('ADMIN')">&nbsp;</li>-->
+<!--        <li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/content-manage}">CMS</a></li>-->
+<!--        <li class="search">-->
+<!--            <form id="searchForm" class="input-group">-->
+<!--                <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">-->
+<!--                <button type="submit" class="btn">-->
+<!--                    <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </li>-->
+<!--    </ul>-->
+
+<!--    <div id="main-cate" class="categories-nav">-->
+<!--        <ul class="categories">-->
+<!--            <li th:each= "cate : ${cateList}"  class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+</header>
+</body>
+
 </html>

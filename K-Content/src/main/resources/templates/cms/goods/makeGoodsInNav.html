@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>상품 생성</title>
     <link rel="stylesheet" href="/css/content/default.css">
     <link rel="stylesheet" href="/css/content/ui-ie.css">
     <link rel="stylesheet" href="/css/goods/makeGoodsInNav.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet"
@@ -20,7 +21,7 @@
     <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">
     </aside>
     <!--    값이 있는거 수정할 때-->
-    <div th:if="${not #strings.isEmpty(goods)}">
+    <div th:if="${not #strings.isEmpty(goods)}" class="main">
         <input type="hidden" id="goodsId" th:value="${goods.getGoodsId()}">
         <div class="img" id="pictures">
             <!--            <button style="z-index: 10; position: sticky !important;"-->
@@ -87,49 +88,55 @@
             <div class="keywordInput">
                 <input type="text" id="inputKeyword" placeholder="키워드 입력">
             </div>
-            <button onclick="makeKeyword()">키워드 추가</button>
+            <button type="button" class="btn btn-outline-dark" onclick="makeKeyword()">키워드 추가</button>
         </div>
 
         <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
         <div class="button-box">
-            <button onclick="updateGoods()">상품 수정</button>
-            <button onclick="cancle()">취소</button>
+            <button type="button" class="btn btn-primary" onclick="updateGoods()">상품 수정</button>
+            <button type="button" class="btn danger" onclick="cancle()">취소</button>
         </div>
     </div>
 
 
     <!--    값이 없는거 생성할때-->
-    <div th:if="${#strings.isEmpty(goods)}">
-        <div class="img" id="pictures">
+    <div th:if="${#strings.isEmpty(goods)}" class="main">
+        <h3 style="text-align: center">상품사진</h3>
+        <hr>
+        <div class="img" id="pictures" >
         </div>
         <div class="input-group mb-3 file-append-box">
             <input type="file" class="form-control" id="input-file" name="files" multiple="multiple">
             <label class="input-group-text" for="input-file">Upload</label>
         </div>
-
+        <h3 style="text-align: center">상품정보</h3>
+        <hr>
         <div class="table">
-            <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
-            <table class="table caption-top">
-                <caption>상품 상세 정보</caption>
-                <tbody>
-                <tr>
-                    <th scope="row">상품 이름</th>
-                    <td><input id="name" name="name" type="text" placeholder="상품 이름을 입력하세요" required></td>
-                </tr>
-                <tr>
-                    <th scope="row">상품 브랜드</th>
-                    <td><input id="brand" name="brand" type="text" placeholder="상품 브랜드를 입력하세요" required></td>
-                </tr>
-                <tr>
-                    <th scope="row">상품 가격(원)</th>
-                    <td><input id="price" name="price" type="text" placeholder="상품 가격을 입력하세요" required></td>
-                </tr>
-                <tr>
-                    <th scope="row">상품 구매링크</th>
-                    <td><input id="link" name="link" type="text" placeholder="상품 구매링크를 입력하세요" required></td>
-                </tr>
-                </tbody>
-            </table>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 이름</span>
+                <input type="text" id="name" name="name" class="form-control" placeholder="상품 이름을 입력하세요"
+                       required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 브랜드</span>
+                <input type="text" id="brand" name="brand" class="form-control" placeholder="상품 브랜드를 입력하세요"
+                       required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 가격(원)</span>
+                <input type="text" id="price" name="price" class="form-control" placeholder="상품 가격을 입력하세요"
+                       required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 구매링크</span>
+                <input type="text" id="link" name="link" class="form-control" placeholder="상품 구매링크를 입력하세요"
+                        required>
+            </div>
+
         </div>
 
 
@@ -138,14 +145,21 @@
 
             </div>
 
-            <div class="keywordInput">
-                <input type="text" id="inputKeyword" placeholder="키워드 입력">
+            <div class="input-group mb-3">
+                <div class="keywordInput">
+                <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요" >
+                </div>
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2"  onclick="makeKeyword()">키워드 추가</button>
             </div>
-            <button onclick="makeKeyword()">키워드 추가</button>
+
         </div>
 
+
+
+
+
         <div class="button-box">
-            <button onclick="createGoods()">상품 생성</button>
+            <button type="button" class="btn btn-primary" onclick="createGoods()">상품 생성</button>
         </div>
 
 

@@ -64,7 +64,10 @@ function createGoods() {
         processData: false,
         contentType: false,
         success: function () {
-            alert("상품이 등록되었습니다!")
+            alert("상품이 등록되었습니다!");
+            location.href = 'main';
+
+
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }
@@ -108,11 +111,11 @@ function updateGoods() {
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
-    console.log("keywordDivCount: "+keywordDivCount.length);
+    console.log("keywordDivCount: " + keywordDivCount.length);
     for (i = 0; i < keywordDivCount.length; i++) {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
-        console.log("trimmedStr:" +trimmedStr)
+        console.log("trimmedStr:" + trimmedStr)
     }
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
@@ -125,7 +128,7 @@ function updateGoods() {
     formData.append("goodsPrice", $("#price").val());
     formData.append("keywordList", keywordDivList);
     formData.append("goodsFile", selectedFile);
-    console.log("formData: "+formData)
+    console.log("formData: " + formData)
 
     $.ajax({
         url: '/cs/goods/form',

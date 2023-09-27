@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+  <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
+  <link rel="stylesheet" th:href="@{/css/content/content.css}">
+</head>
+<body>
+<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+
+<div class="layout">
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script th:src="@{/js/body-header.js}"></script>
+<script th:src="@{/js/content/content.js}"></script>
+<script th:src="@{/js/content/scroll.js}"></script>
+
+
+</body>
+</html>

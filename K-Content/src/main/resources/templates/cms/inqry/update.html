@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/include/admin-header :: adminHeader}"></head>
+<head th:insert="~{/include/admin-head :: adminHead}"></head>
 <link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/inqury/inqry-common.css}">
@@ -18,7 +18,7 @@
 	            <input id="search-button" onclick="searchButton()" type="button" value="찾기">
 	        </form>
 	    </header>
-	
+
 	    <aside class="secondary secondary-a" th:insert="~{/include/admin-sideBar :: adminSideBar}">
 	    </aside>
 		<div class="container">
@@ -33,7 +33,7 @@
 							RE:[[${inqry.inqryCntnt}]]
 						</div>
 					</li>
-					
+
 					<li class="tit-row">
 						<div class="inqry-label">
 							<label for="cntnt">내용</label>
@@ -43,7 +43,7 @@
 						</div>
 					</li>
 				</ul>
-				
+
 				<div class="d-flex justify-content-center">
 					<!-- <input type="hidden" name="inqryId" th:value="${inqry.inqryId}"> -->
 					<a type="reset" class="btn me-2" th:href="@{/cs/inqry}">취소</a>

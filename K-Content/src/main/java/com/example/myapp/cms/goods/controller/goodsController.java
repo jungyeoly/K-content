@@ -189,7 +189,7 @@ public class goodsController {
         String originalFilename = originalEncodingFilename;
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFilename = uuidString + "_" + originalFilename;
-        System.out.println("keyword: "+keyword);
+        System.out.println("keyword: " + keyword);
         GoodsFile newGoodsFile = new GoodsFile();
         Goods newGoods = new Goods();
 

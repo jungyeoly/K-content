@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
 
 a, a:visited {
-	 text-decoration: none;
-	 color: #5D5D5D;
+	 text-decoration: none !important;
+	 color: #0f4c81;
 }
 
 header {
@@ -14,6 +14,7 @@ header {
 
 header div.logo {
   display: flex;
+  margin-right: 10px;
 }
 
 header div.logo img {
@@ -35,7 +36,7 @@ header ul.icons li, header ul.icons li a{
   padding: 0px 18px 0px 5px;
   margin-left: auto;
   margin-top: 5px;
-  color: #5D5D5D;
+  color: #0f4c81;
 }
 
 header ul.icons li a >i, header ul.icons li >i {
@@ -49,10 +50,9 @@ header ul.icons:hover {
 
 header ul.contents {
   display: flex;
-  padding: 0px 0px 0px 35px;
-  /*margin: 0px;*/
+  margin: 0px 55px 0px 55px;
   font-weight: 900;
-  font-size: 30px;
+  font-size: 38px;
   justify-content: auto;
   font-family: 'Lexend Deca', sans-serif;
   flex-wrap: wrap;

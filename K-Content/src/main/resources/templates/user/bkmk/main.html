@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 	<th:block th:replace="~{/include/header :: header}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/content/content.css}">
+	<link rel="stylesheet" th:href="@{/css/bkmk/bkmk.css}">
 </head>
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
@@ -13,6 +13,48 @@
 		<p>[[${cntnt.cntntTitle}]]</p>
 		<p>[[${cntnt.cntntUrl}]]</p>
 	</div>
+	
+	<div id="container">
+		<ul class="tab">
+			<li class="on" data-tab="menu1"><a href="#">menu1</a></li>
+			<li data-tab="menu2"><a href="#">menu2</a></li>
+			<li data-tab="menu3"><a href="#">menu3</a></li>
+			<li data-tab="menu4"><a href="#">menu4</a></li>
+		</ul>
+
+		<div id="menu1" class="tabcont on">
+			<h3>menu1</h3>
+			<p> This is menu1 content</p>
+		</div>
+
+		<div id="menu2" class="tabcont">
+			<h3>menu2</h3>
+			<p> This is menu2 content</p>
+		</div>
+
+		<div id="menu3" class="tabcont">
+			<h3>menu3</h3>
+			<p> This is menu3 content</p>
+		</div>
+
+		<div id="menu4" class="tabcont">
+			<h3>menu4</h3>
+			<p> This is menu4 content</p>
+		</div>
+	</div>
+
+	<script src="../js/jquery.js"></script>
+	<script>
+		$(function() {
+			$('ul.tab li').click(function() {
+				var activeTab = $(this).attr('data-tab');
+				$('ul.tab li').removeClass('on');
+				$('.tabcont').removeClass('on');
+				$(this).addClass('on');
+				$('#' + activeTab).addClass('on');
+			})
+		});
+	</script>
 
 </body>
 </html>

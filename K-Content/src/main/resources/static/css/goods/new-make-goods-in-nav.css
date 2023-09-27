@@ -93,3 +93,13 @@ img {
 th{
     white-space: nowrap;
 }
+#button-addon2{
+    width: 130px;
+}
+#inputKeyword{
+    height: 50px;
+    border-radius: 10px 0px 0px 10px;
+}
+.keywordButton{
+    padding: 5px 20px;
+}

@@ -84,10 +84,18 @@
                 </div>
 
 
-                <div class="keywordInput">
-                    <input type="text" id="inputKeyword" placeholder="키워드 입력">
+                <div class="input-group mb-3">
+                    <form id="searchForm" class="input-group">
+                        <div class="keywordInput">
+                            <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
+                        </div>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                onclick="makeKeyword()">
+                            키워드
+                            추가
+                        </button>
+                    </form>
                 </div>
-                <button type="button" class="btn btn-outline-dark" onclick="makeKeyword()">키워드 추가</button>
             </div>
             <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
             <div class="button-box">
@@ -151,13 +159,14 @@
 
                 <div class="input-group mb-3">
                     <form id="searchForm" class="input-group">
-                    <div class="keywordInput">
-                        <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
-                    </div>
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="makeKeyword()">
-                        키워드
-                        추가
-                    </button>
+                        <div class="keywordInput">
+                            <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
+                        </div>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                onclick="makeKeyword()">
+                            키워드
+                            추가
+                        </button>
                     </form>
                 </div>
 

@@ -65,7 +65,7 @@ function createGoods() {
         contentType: false,
         success: function () {
             alert("상품이 등록되었습니다!");
-            location.href = 'main';
+            location.href = '/cs/test/goods';
 
 
         }, error: function (error) {

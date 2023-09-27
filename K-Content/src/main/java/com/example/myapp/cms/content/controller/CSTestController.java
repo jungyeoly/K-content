@@ -105,14 +105,6 @@ public class CSTestController {
 
 
 
-
-
-
-
-
-
-
-
     //콘텐츠 리스트 페이지
     @GetMapping("/content-manage")
     public String getContentManage() {
@@ -206,7 +198,7 @@ public class CSTestController {
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성 페이지 form 유튜브

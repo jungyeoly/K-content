@@ -20,19 +20,19 @@ public class CommuCommentService implements ICommuCommentService {
 	// 댓글 쓰기
 	@Override
 	@Transactional
-	public void insertCommuComment(CommuComment commucomment) {
-		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		if (commucomment.getCommuCommentRegistDate() == null) {
-			commucomment.setCommuCommentRegistDate(currentTimestamp);
-			// 필요에 따라 순서 업데이트
-		//	updateCommuCommentId(commucomment.getCommuCommentRefId(), commucomment.getCommuCommentDepth(),
-		//			commucomment.getCommuCommentOrder());
-			System.out.println(commucomment);
+	public CommuComment insertCommuComment(CommuComment commucomment) {
+	    String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    if (commucomment.getCommuCommentRegistDate() == null) {
+	        commucomment.setCommuCommentRegistDate(currentTimestamp);
+	        
+	        // 댓글 삽입
+	        commucommentRepository.insertCommuComment(commucomment);
+	        System.out.println(commucomment);
+	    }
 
-			// 댓글 삽입
-			commucommentRepository.insertCommuComment(commucomment);
-		}
+	    return commucomment;
 	}
+
 
 	@Transactional
 	public void updateCommuComment(CommuComment commucomment) {
@@ -42,9 +42,11 @@ public class CommuCommentService implements ICommuCommentService {
 	}
 
 	@Override
-	public void deleteCommuCommentByCommuCommentRefId(int commuCommentRefId) {
-		// 댓글 삭제
-		commucommentRepository.deleteCommuCommentByCommuCommentRefId(commuCommentRefId);
+	public void deleteCommuCommentAndComments(int commuCommentId) {
+		  // 먼저 대댓글들을 삭제
+	    commucommentRepository.deleteCommuCommentByCommuCommentRefId(commuCommentId);
+	    // 그 다음 원본 댓글 삭제
+	    commucommentRepository.deleteCommuCommentByCommuCommentId(commuCommentId);	 
 	}
 
 	@Transactional

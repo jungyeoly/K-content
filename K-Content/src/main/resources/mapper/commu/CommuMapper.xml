@@ -6,19 +6,56 @@
 	<select id="selectAllPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
-        select commu_id,
-               commu_title,
-               commu_regist_date,
-               commu_read_cnt,
-               commu_cate_code,
-               commu_mber_id
-        from tb_commu
-        where  commu_status != 'Y'  and commu_status != 'R'
-        order by commu_id desc
-        ]]>
+        select a.commu_id,
+               a.commu_title,
+               a.commu_regist_date,
+               a.commu_read_cnt,
+               a.commu_cate_code,
+               a.commu_mber_id,
+               a.rn
+        from (
+            select rownum rn,
+                   commu_id, 
+                   commu_title,
+                   commu_regist_date,
+                   commu_read_cnt,
+                   commu_cate_code,
+                   commu_mber_id,
+                   commu_status
+            from (
+                select tb_commu.*
+                from tb_commu
+             	where
+                 commu_status = 'N'
+                order by commu_id desc
+            )
+        ) a
+        WHERE a.rn BETWEEN #{start} AND #{end}
+        AND a.commu_status != 'Y' 
+        AND a.commu_status != 'R'
+        ORDER BY a.commu_id desc
+]]>
 	</select>
 
-    
+	<select id="totalCommu" resultType="int">
+	<![CDATA[
+	select count(*)
+	from tb_commu
+	 where commu_status = 'N'
+  ]]>
+	</select>
+	
+	<select id="totalCommuByCategory" resultType="int">
+	<![CDATA[
+	select count(*)
+	from tb_commu
+	 where commu_status = 'N'
+	 and common_cate_code= #{commuCateCode}
+	 ]]>
+	</select>
+
+
+
 	<select id="selectPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
@@ -37,23 +74,23 @@
 
 	<select id="selectPostListByCategory" parameterType="hashmap"
 		resultType="com.example.myapp.user.commu.model.Commu">
-	SELECT a.commu_id, 
-	       a.commu_title,
-	       a.commu_regist_date,
-	       a.commu_read_cnt,
-	       a.commu_cate_code,
-	       a.commu_mber_id,
-	       b.common_code_val
-	FROM tb_commu a
-	JOIN tb_common_code b 
-	on a.commu_cate_code = b.common_code
-	WHERE a.commu_status != 'Y'  
-	<if test="commuCateCode!= 'All'">
-	AND b.common_code_val = #{commuCateCode}
-	</if>
-	ORDER BY commu_id DESC
-</select>
-	
+		SELECT a.commu_id,
+		a.commu_title,
+		a.commu_regist_date,
+		a.commu_read_cnt,
+		a.commu_cate_code,
+		a.commu_mber_id,
+		b.common_code_val
+		FROM tb_commu a
+		JOIN tb_common_code b
+		on a.commu_cate_code = b.common_code
+		WHERE a.commu_status != 'Y'
+		<if test="commuCateCode!= 'All'">
+			AND b.common_code_val = #{commuCateCode}
+		</if>
+		ORDER BY commu_id DESC
+	</select>
+
 
 
 	<select id="selectFilesByPostId"
@@ -199,7 +236,7 @@ where commu_file_id=#{commuFileId}
 			  where commu_file_commu_id=#{commuId} 
 		  ]]>
 	</select>
-	
+
 	<update id="reportPost" parameterType="int">
 	<![CDATA[
 	update tb_commu

@@ -5,7 +5,9 @@
         display: flex;
     align-items: center;
 }
-
+.reply {
+	margin-left:30px; /* //들여쓰기 효과 */
+}
 
 .username, .registdate, .separator {
     margin: 0 5px;

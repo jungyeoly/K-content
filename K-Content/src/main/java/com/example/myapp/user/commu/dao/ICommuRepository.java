@@ -12,6 +12,9 @@ import com.example.myapp.user.commu.model.CommuFile;
 @Repository
 @Mapper
 public interface ICommuRepository {
+	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
+	
+	int totalCommu(); //총 게시물 개수
 
 	int selectMaxPost(); // 가장 최근 게시판글
 
@@ -21,13 +24,13 @@ public interface ICommuRepository {
 
 	void insertFileData(CommuFile file); // 커뮤니티 글쓰기에 첨부파일
 	
-	List<Commu> selectAllPost(); // 커뮤니티 전체글 다 보기
+	List<Commu> selectAllPost(@Param("start") int start, @Param("end") int end); // 커뮤니티 전체글 다 보기
 
 	Commu selectPost(int commuId); // 커뮤니티 게시글 상세조회
 	
 	List<CommuFile> selectFilesByPostId(int commuId); //커뮤니티 게시글 첨부파일 상세조회
 	
-	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
+	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, @Param("start") int start, @Param("end") int end);  //카테고리별 게시글 조회
 
 	CommuFile getFile(String commuFileId);
 

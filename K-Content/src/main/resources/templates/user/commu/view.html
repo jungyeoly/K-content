@@ -55,11 +55,15 @@
 			</ul>
 		</div>
 
-<div th:if="${#authentication.principal.username} != ${commu.commuMberId}">
-    <form th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}" method="post">
-        <button type="button" class="btn report" onclick="showReportConfirmModal()">신고하기</button>
-    </form>
-</div>
+		<div
+			th:if="${#authentication.principal.username} != ${commu.commuMberId}">
+			<form
+				th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
+				method="post">
+				<button type="button" class="btn report"
+					onclick="showReportConfirmModal()">신고하기</button>
+			</form>
+		</div>
 
 
 		<div class="d-flex btn-div">
@@ -77,19 +81,43 @@
 					<button type="button" class="btn delete"
 						onclick="showDeleteConfirmModal()">삭제</button>
 				</form>
+			</div>
+			<!-- 댓글 리스트 영역 시작 -->
+			<div class="comment-list-section">
+				<h3>
+					댓글 <span th:text="${#lists.size(comments)}">(0)</span>
+				</h3>
+				<!-- 댓글 수 표시 -->
 
-				<div class="comment-list">
-					<th:block th:each="commucomment : ${comments}">
+				<th:block th:each="commucomment : ${comments}">
+					<div class="single-comment"
+						th:data-id="${commucomment.commuCommentId}">
+						<strong th:text="${commucomment.commuCommentMberId}">UserName</strong>
 
-						<div class="single-comment"
-							th:data-id="${commucomment.commuCommentId}">
-							<strong th:text="${commucomment.commuCommentMberId}">UserName</strong>
+						<div class="comment-content">
 							<p th:text="${commucomment.commuCommentCntnt}">CommuCommentCntnt</p>
+							<textarea class="update-comment-textarea hidden"></textarea>
+						</div>
 
-							<div class="comment-date"
-								th:text="${commucomment.commuCommentRegistDate}">Date</div>
+						<div class="comment-date"
+							th:text="${commucomment.commuCommentRegistDate}">Date</div>
 
-							<!--  댓글 작성자만 수정, 삭제 버튼을 보도록 설정 -->
+						<!-- 답글, 수정, 삭제 버튼 영역 -->
+						<div class="comment-buttons">
+							<button class="reply-to-comment">답글 달기</button>
+
+							<!-- 대댓글 입력 영역 -->
+							<div class="reply-section">
+								<form class="replyForm">
+									<input type="hidden" name="commuCommentRefId"
+										th:value="${commucomment.commuCommentId}">
+									<textarea name="commuCommentCntnt" rows="2"
+										placeholder="답글을 입력하세요."></textarea>
+									<button type="button" class="post-reply">등록</button>
+								</form>
+							</div>
+
+							<!-- 댓글 작성자만 수정, 삭제 버튼을 보도록 설정 -->
 							<div
 								th:if="${#authentication.principal.username} == ${commucomment.commuCommentMberId}">
 								<button class="update-comment"
@@ -98,32 +126,38 @@
 									th:data-id="${commucomment.commuCommentId}">삭제</button>
 							</div>
 						</div>
+					</div>
+				</th:block>
+			</div>
+			<!-- 댓글 리스트 영역 끝 -->
+
+			<!-- 댓글 작성 영역 시작 -->
+			<div th:if="${#authentication.principal}">
+				<div class="comment-section">
+					<form id="commentForm" th:action="@{/commu/comment}" method="post">
+						<input type="hidden" name="commuCommentMberId"
+							th:value="${#authentication.principal.username}"> <input
+							type="hidden" name="commuCommentCommuId"
+							th:value="${commu.commuId}">
+
+						<textarea name="commuCommentCntnt" rows="4"
+							placeholder="댓글을 입력하세요."></textarea>
+						<button type="button">등록</button>
+					</form>
 				</div>
 			</div>
-		</div>
-		</th:block>
-	</div>
-	<div th:if="${#authentication.principal}">
-		<div class="comment-section">
-			<form id="commentForm" th:action="@{/commu/comment}" method="post">
-				<input type="hidden" name="commuCommentMberId"
-					th:value="${#authentication.principal.username}"> <input
-					type="hidden" name="commuCommentCommuId"
-					th:value="${commu.commuId}">
-				<textarea name="commuCommentCntnt" rows="4" placeholder="댓글을 입력하세요."></textarea>
-				<button type="button">댓글 작성</button>
-			</form>
-		</div>
-	</div>
 
-	<div th:unless="${#authentication.principal}">
-		<p>
-			댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
-		</p>
-	</div>
+			<div th:unless="${#authentication.principal}">
+				<p>
+					댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
+				</p>
+			</div>
+		</div>
+		<!-- 댓글 작성 영역 끝 -->
 
-	<div th:insert="~{include/common-modal :: commonmodal}"></div>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-	<script th:src="@{/js/commu/view.js}"></script>
+
+		<div th:insert="~{include/common-modal :: commonmodal}"></div>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+		<script th:src="@{/js/commu/view.js}"></script>
 </body>
 </html>

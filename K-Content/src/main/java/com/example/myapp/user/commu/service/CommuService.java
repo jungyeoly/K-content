@@ -19,9 +19,9 @@ public class CommuService implements ICommuService {
 	ICommuRepository commuRepository;
 
 	@Override
-	public List<Commu> selectAllPost() {
-		List<Commu> commuList = commuRepository.selectAllPost();
-		return commuList;
+	public List<Commu> selectAllPost(int page) {
+		int start = (page - 1) * 10 + 1;
+		return commuRepository.selectAllPost(start, start + 9);
 	}
 
 	@Transactional
@@ -112,10 +112,6 @@ public class CommuService implements ICommuService {
 
 	}
 
-	@Override
-	public List<Commu> selectPostListByCategory(String commuCateCode) {
-		return commuRepository.selectPostListByCategory(commuCateCode);
-	}
 
 	@Override
 	public List<CommuFile> selectFilesByPostId(int commuId) {
@@ -144,19 +140,35 @@ public class CommuService implements ICommuService {
 
 	}
 
-	 @Override
-	    public List<CommuFile> getAllFilesByCommuId(int commuId){
-	        return commuRepository.getAllFilesByCommuId(commuId);
-	    }
-
-	 @Transactional
-	public void reportPost(int commuId) {
-		 Commu commu = commuRepository.selectPost(commuId);
-		 if(commu == null) {
-			  throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
-		    }
-		    
-		    commuRepository.reportPost(commuId);
-		}
-		
+	@Override
+	public List<CommuFile> getAllFilesByCommuId(int commuId) {
+		return commuRepository.getAllFilesByCommuId(commuId);
 	}
+
+	@Transactional
+	public void reportPost(int commuId) {
+		Commu commu = commuRepository.selectPost(commuId);
+		if (commu == null) {
+			throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+		}
+
+		commuRepository.reportPost(commuId);
+	}
+
+	@Override
+	public int totalCommu() {
+		return commuRepository.totalCommu();
+	}
+
+	@Override
+	public int totalCommuByCategory(String commuCateCode) {
+		return commuRepository.totalCommuByCategory(commuCateCode);
+	}
+
+	@Override
+	public List<Commu> selectPostListByCategory(String commuCateCode, int page) {
+		int start = (page - 1) * 10 + 1;
+		return commuRepository.selectPostListByCategory(commuCateCode, start, start+9);
+	}
+
+}

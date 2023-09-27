@@ -19,8 +19,9 @@ public class ContentService implements IContentService {
     ICntntGoodsMappingRepository cntntGoodsMappingRepository;
 
     @Override
-    public List<CmsContent> getAllContent() {
-        return contentRepository.getAllContent();
+    public List<CmsContent> getAllContent(int page) {
+    	int start = (page-1)*10 + 1;
+        return contentRepository.getAllContent(start, start+8);
     }
 
     @Override
@@ -98,6 +99,11 @@ public class ContentService implements IContentService {
     public void updateDelStat(int cntntId) {
          contentRepository.updateDelStat(cntntId);
     }
+
+	@Override
+	public int totalCntnt() {
+		return contentRepository.totalContent();
+	}
 
 
 }

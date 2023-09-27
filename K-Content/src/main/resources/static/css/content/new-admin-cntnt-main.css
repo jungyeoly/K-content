@@ -1,4 +1,14 @@
 
+.search{
+    padding-bottom: 30px;
+}
+.button-box{
+    width: auto !important;
+
+}
+.btn{
+    height: auto;
+}
 /* card list */
 .card-item {
     display: flex;

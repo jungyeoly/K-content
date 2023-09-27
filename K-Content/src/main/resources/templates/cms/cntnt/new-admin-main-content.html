@@ -13,44 +13,53 @@
 
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+<div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+    <form id="searchForm" class="input-group">
+        <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
+        <button type="submit" class="btn" onclick="searchButton()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </form>
+</div>
 
 <section class="primary container">
     <ul class="card-list" id="card-list">
 
     </ul>
-<div class="position-relative">
-    <nav aria-label="Page navigation" class="d-flex justify-content-center">
-        <ul class="pagination">
-            <li class="page-item" th:if="${nowPageBlock>1}">
-                <a class="page-link prepage" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
+    <div class="position-relative">
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" th:if="${nowPageBlock>1}">
+                    <a class="page-link prepage" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
 
-            <li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${i==nowPage}?active" th:id="${i}">
-                <a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
-            </li>
+                <li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${i==nowPage}?active" th:id="${i}">
+                    <a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
+                </li>
 
-            <li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-                <a class="page-link nexpage" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+                <li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+                    <a class="page-link nexpage" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <div class="col-2 position-absolute top-0 end-0">
-        <a class="btn border" href="content/new">생성</a>
-        <a class="btn border" type="button" href="recomm">추천</a>
+        <div class="col-2 position-absolute top-0 end-0 button-box">
+            <a class="btn border" href="content/new">생성</a>
+            <a class="btn border" type="button" href="recomm">추천</a>
+        </div>
     </div>
-</div>
 
 </section>
 
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
 <script th:src="@{/js/content/content.js}"></script>
+<script th:src="@{/js/cntnt/cntntManagement.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {

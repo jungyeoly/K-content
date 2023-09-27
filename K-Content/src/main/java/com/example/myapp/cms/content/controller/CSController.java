@@ -9,6 +9,9 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,14 +73,40 @@ public class CSController {
 
     //콘텐츠 리스트 페이지
     @GetMapping("/content-manage")
-    public String getContentManage() {
+    public String getContentManage(Model model, HttpSession session) {
+    	int page = 1;
+    	int bbsCount = contentService.totalCntnt();
+
+ 		int totalPage = 0;
+
+ 		if(bbsCount > 0) {
+ 			totalPage= (int)Math.ceil(bbsCount/10.0);
+ 		}
+ 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+ 		int nowPageBlock = (int) Math.ceil(page/10.0);
+ 		int startPage = (nowPageBlock-1)*10 + 1;
+ 		int endPage = 0;
+ 		if(totalPage > nowPageBlock*10) {
+ 			endPage = nowPageBlock*10;
+ 		}else {
+ 			endPage = totalPage;
+ 		}
+ 		model.addAttribute("totalPageCount", totalPage);
+ 		model.addAttribute("nowPage", page);
+ 		model.addAttribute("totalPageBlock", totalPageBlock);
+ 		model.addAttribute("nowPageBlock", nowPageBlock);
+ 		model.addAttribute("startPage", startPage);
+ 		model.addAttribute("endPage", endPage);
+
+ 		session.setAttribute("nowPage", page);
+
         return "cms/cntnt/contentManage";
     }
 
-    @GetMapping("/contents")
+    @GetMapping("/contents/{page}")
     @ResponseBody
-    public List<CmsContent> getallcntnt() {
-        List<CmsContent> result = contentService.getAllContent();
+    public List<CmsContent> getallcntnt(@RequestParam("page")int page, Model model, HttpSession session) {
+    	List<CmsContent> result = contentService.getAllContent(page);
 
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
@@ -87,7 +116,38 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
 
         }
+        
+        int bbsCount = contentService.totalCntnt();
+
+ 		int totalPage = 0;
+
+ 		if(bbsCount > 0) {
+ 			totalPage= (int)Math.ceil(bbsCount/10.0);
+ 		}
+ 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+ 		int nowPageBlock = (int) Math.ceil(page/10.0);
+ 		int startPage = (nowPageBlock-1)*10 + 1;
+ 		int endPage = 0;
+ 		if(totalPage > nowPageBlock*10) {
+ 			endPage = nowPageBlock*10;
+ 		}else {
+ 			endPage = totalPage;
+ 		}
+ 		model.addAttribute("totalPageCount", totalPage);
+ 		model.addAttribute("nowPage", page);
+ 		model.addAttribute("totalPageBlock", totalPageBlock);
+ 		model.addAttribute("nowPageBlock", nowPageBlock);
+ 		model.addAttribute("startPage", startPage);
+ 		model.addAttribute("endPage", endPage);
+
+ 		session.setAttribute("nowPage", page);
+ 		
+ 		System.out.println("=============================");
+ 		System.out.println("page : " + page);
+ 		System.out.println("=============================");
+ 		
         return result;
+     
     }
 
 

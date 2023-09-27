@@ -149,4 +149,14 @@ public class CommuService implements ICommuService {
 	        return commuRepository.getAllFilesByCommuId(commuId);
 	    }
 
-}
+	 @Transactional
+	public void reportPost(int commuId) {
+		 Commu commu = commuRepository.selectPost(commuId);
+		 if(commu == null) {
+			  throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+		    }
+		    
+		    commuRepository.reportPost(commuId);
+		}
+		
+	}

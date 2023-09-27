@@ -5,10 +5,10 @@
     <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
     <link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
+
 </head>
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-
 
 <div class="layout">
 
@@ -25,10 +25,12 @@
     <section class="primary">
         <ul class="card-list" id="card-list">
         </ul>
+
     </section>
 
     <div class="new-button">
-        <a href="/cs/goods/form" type="button" class="new-button btn btn-primary">생성</a>
+        <a href="/cs/test/goods/form" type="button" class="new-button btn btn-primary">생성</a>
+        <a type="button" href="recomm">추천</a>
     </div>
 
     <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">

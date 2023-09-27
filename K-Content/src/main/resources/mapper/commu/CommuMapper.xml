@@ -13,7 +13,7 @@
                commu_cate_code,
                commu_mber_id
         from tb_commu
-        where  commu_status != 'Y'
+        where  commu_status != 'Y'  and commu_status != 'R'
         order by commu_id desc
         ]]>
 	</select>
@@ -48,7 +48,7 @@
 	JOIN tb_common_code b 
 	on a.commu_cate_code = b.common_code
 	WHERE a.commu_status != 'Y'  
-	<if test="commonCodeVal != 'All'">
+	<if test="commuCateCode!= 'All'">
 	AND b.common_code_val = #{commuCateCode}
 	</if>
 	ORDER BY commu_id DESC
@@ -199,4 +199,12 @@ where commu_file_id=#{commuFileId}
 			  where commu_file_commu_id=#{commuId} 
 		  ]]>
 	</select>
+	
+	<update id="reportPost" parameterType="int">
+	<![CDATA[
+	update tb_commu
+	set commu_status='R'
+	where commu_id=#{commuId}
+		  ]]>
+	</update>
 </mapper>

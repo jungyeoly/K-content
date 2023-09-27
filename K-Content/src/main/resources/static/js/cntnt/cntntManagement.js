@@ -1,27 +1,3 @@
-$.ajax({
-    url: '/cs/contents', type: 'GET',
-    success: function (contentList) {
-        const element = document.getElementById('card-list');
-
-        for (i = 0; i < contentList.length; i++) {
-            inHtml = `
-            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
-                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-                    <img src=${contentList[i].cntntThumnail} >
-                </figure>
-                <div class="card-desc">
-                   ${contentList[i].cntntTitle}
-                </div>
-            </li>`;
-            element.insertAdjacentHTML("afterbegin", inHtml);
-
-        }
-    }, error: function (error) {
-        console.error('에러 발생: ', error);
-    }
-});
-
-
 function searchButton() {
     var requestData = {
         searchKeyword: document.getElementById('search-input').value

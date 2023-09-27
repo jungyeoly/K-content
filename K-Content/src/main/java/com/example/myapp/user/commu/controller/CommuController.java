@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
+import com.example.myapp.user.commu.status.CommuStatus;
+
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -97,6 +99,8 @@ public class CommuController {
 		model.addAttribute("commulist", commulist);
 		return "user/commu/list";
 	}
+
+
 	//카테고리별 게시글 조회
 	@GetMapping("/commu/commucatecode/{commuCateCode}")
 	public ResponseEntity<Map<String, Object>> getPostsByCategory(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu, @PathVariable String commuCateCode, Model model, HttpSession session) {
@@ -481,4 +485,18 @@ public class CommuController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-}
+	
+	//게시글 신고
+	@PostMapping("/commu/report/{commuId}")
+	public String reportCommu(@PathVariable int commuId, RedirectAttributes redirectAttributes) {
+		Commu commu = commuService.selectPost(commuId);
+		if(commu != null) {
+			commuService.reportPost(commuId);
+			   redirectAttributes.addFlashAttribute("message", "게시글이 신고되었습니다.");
+	    } else {
+	        redirectAttributes.addFlashAttribute("error", "해당 게시글을 찾을 수 없습니다.");
+	    }
+	    return "redirect:/commu";
+	}
+
+	}

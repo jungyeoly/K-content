@@ -21,21 +21,28 @@
     <!--        <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">-->
     <!--      </form>-->
     <!--    </header>-->
+    <div class="search" >
+        <form id="searchForm" class="input-group">
+            <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
+            <button class="btn"  id="search-button" onclick="searchKeyword()" type="button" value="찾기">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
 
     <section class="primary">
         <ul class="card-list" id="card-list">
-        </ul>
 
+        </ul>
     </section>
 
-    <div class="new-button">
-        <a href="/cs/test/goods/form" type="button" class="new-button btn btn-primary">생성</a>
-        <a type="button" href="recomm">추천</a>
+    <div class="new-button container">
+        <a href="/cs/test/goods/form" type="button"  class="new-button btn btn-primary">생성</a>
     </div>
 
-    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">
+<!--    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">-->
 
-    </footer>
+<!--    </footer>-->
 
 
 </div>

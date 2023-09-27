@@ -37,6 +37,7 @@ function searchKeyword() {
         type: 'GET',
         data: requestData,
         success: function (data) {
+            console.log(data.length)
             const element = document.getElementById('card-list');
             element.innerHTML = "";
             for (var i = 0; i < data.length; i++) {

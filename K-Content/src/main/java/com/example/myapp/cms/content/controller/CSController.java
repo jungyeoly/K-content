@@ -13,6 +13,8 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,39 +76,39 @@ public class CSController {
     //콘텐츠 리스트 페이지
     @GetMapping("/content-manage")
     public String getContentManage(Model model, HttpSession session) {
-    	int page = 1;
-    	int bbsCount = contentService.totalCntnt();
+        int page = 1;
+        int bbsCount = contentService.totalCntnt();
 
- 		int totalPage = 0;
+        int totalPage = 0;
 
- 		if(bbsCount > 0) {
- 			totalPage= (int)Math.ceil(bbsCount/10.0);
- 		}
- 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
- 		int nowPageBlock = (int) Math.ceil(page/10.0);
- 		int startPage = (nowPageBlock-1)*10 + 1;
- 		int endPage = 0;
- 		if(totalPage > nowPageBlock*10) {
- 			endPage = nowPageBlock*10;
- 		}else {
- 			endPage = totalPage;
- 		}
- 		model.addAttribute("totalPageCount", totalPage);
- 		model.addAttribute("nowPage", page);
- 		model.addAttribute("totalPageBlock", totalPageBlock);
- 		model.addAttribute("nowPageBlock", nowPageBlock);
- 		model.addAttribute("startPage", startPage);
- 		model.addAttribute("endPage", endPage);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
- 		session.setAttribute("nowPage", page);
+        session.setAttribute("nowPage", page);
 
         return "cms/cntnt/contentManage";
     }
 
     @GetMapping("/contents/{page}")
     @ResponseBody
-    public List<CmsContent> getallcntnt(@RequestParam("page")int page, Model model, HttpSession session) {
-    	List<CmsContent> result = contentService.getAllContent(page);
+    public List<CmsContent> getallcntnt(@RequestParam("page") int page, Model model, HttpSession session) {
+        List<CmsContent> result = contentService.getAllContent(page);
 
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
@@ -116,38 +118,38 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
 
         }
-        
+
         int bbsCount = contentService.totalCntnt();
 
- 		int totalPage = 0;
+        int totalPage = 0;
 
- 		if(bbsCount > 0) {
- 			totalPage= (int)Math.ceil(bbsCount/10.0);
- 		}
- 		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
- 		int nowPageBlock = (int) Math.ceil(page/10.0);
- 		int startPage = (nowPageBlock-1)*10 + 1;
- 		int endPage = 0;
- 		if(totalPage > nowPageBlock*10) {
- 			endPage = nowPageBlock*10;
- 		}else {
- 			endPage = totalPage;
- 		}
- 		model.addAttribute("totalPageCount", totalPage);
- 		model.addAttribute("nowPage", page);
- 		model.addAttribute("totalPageBlock", totalPageBlock);
- 		model.addAttribute("nowPageBlock", nowPageBlock);
- 		model.addAttribute("startPage", startPage);
- 		model.addAttribute("endPage", endPage);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
- 		session.setAttribute("nowPage", page);
- 		
- 		System.out.println("=============================");
- 		System.out.println("page : " + page);
- 		System.out.println("=============================");
- 		
+        session.setAttribute("nowPage", page);
+
+        System.out.println("=============================");
+        System.out.println("page : " + page);
+        System.out.println("=============================");
+
         return result;
-     
+
     }
 
 
@@ -195,25 +197,32 @@ public class CSController {
     //콘텐츠 상세 페이지인스타 크롤링
     @GetMapping("/insta-img")
     @ResponseBody
-    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
-        instagram_Selenium.instagram_Selenium();
+    public List<String> getInstaImg(Authentication authentication, @RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            List<String> realImg = new ArrayList<>();
+            return realImg;
+        } else {
+            instagram_Selenium.instagram_Selenium();
 
-        List<String> realImg = new ArrayList<>();
-        for (int i = 0; i < trendQueryList.size(); i++) {
-            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-            //TODO 예외처리
-            URL urlInput = new URL(oneUrl);
-            BufferedImage urlImg = ImageIO.read(urlInput);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(urlImg, "jpg", bos);
-            Base64.Encoder encoder = Base64.getEncoder();
-            String encodedString = encoder.encodeToString(bos.toByteArray());
-            //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
-            realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+            List<String> realImg = new ArrayList<>();
+            for (int i = 0; i < trendQueryList.size(); i++) {
+                String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+                //TODO 예외처리
+                URL urlInput = new URL(oneUrl);
+                BufferedImage urlImg = ImageIO.read(urlInput);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(urlImg, "jpg", bos);
+                Base64.Encoder encoder = Base64.getEncoder();
+                String encodedString = encoder.encodeToString(bos.toByteArray());
+                //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+                realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
 
+            }
+            instagram_Selenium.chromeExit();
+            return realImg;
         }
-        instagram_Selenium.chromeExit();
-        return realImg;
+
+
     }
 
     //콘텐츠 생성 페이지

@@ -6,17 +6,40 @@
 
     <select id="selectCntntBkmkList" resultType="com.example.myapp.user.bkmk.model.CntntBkmk">
 		<![CDATA[
-        SELECT b.mber_id,
-               c.cntnt_title,
-               c.cntnt_url
-        FROM tb_cntnt_bkmk a
-                 join tb_mber b
-                      on a.cntnt_bkmk_mber_id = b.mber_id
-                 join tb_cntnt c
-                      on a.cntnt_bkmk_cntnt_id = c.cntnt_id
-        WHERE c.cntnt_delete_yn = 'N'
-          AND mber_id = #{mberId}
+	        SELECT b.mber_id,
+					c.cntnt_id,
+					c.cntnt_title,
+					c.cntnt_url
+	        FROM tb_cntnt_bkmk a
+	                 join tb_mber b
+	                      on a.cntnt_bkmk_mber_id = b.mber_id
+	                 join tb_cntnt c
+	                      on a.cntnt_bkmk_cntnt_id = c.cntnt_id
+	        WHERE c.cntnt_delete_yn = 'N'
+	        AND mber_id = #{mberId}
+	        ORDER BY a.cntnt_bkmk_regist_date desc
         ]]>
+	</select>
+	<select id="selectGoodsBkmkList" resultType="com.example.myapp.user.bkmk.model.GoodsJFileJBklkList">
+		<![CDATA[
+			SELECT 
+				b.goods_id,
+			    b.goods_name,
+			    b.goods_brand,
+			    b.goods_price,
+			    b.goods_purchs_link,
+			    d.goods_file_id
+			FROM tb_goods_bkmk a
+			JOIN tb_goods b
+			ON a.goods_bkmk_goods_id = b.goods_id
+			JOIN tb_mber c 
+			ON a.goods_bkmk_mber_id = c.mber_id
+			JOIN tb_goods_file d
+			ON b.goods_id = d.goods_file_goods_id
+			WHERE a.goods_bkmk_mber_id='wook1123'
+			AND b.goods_delete_yn = 'N'
+			ORDER BY a.goods_bkmk_regist_date DESC
+		]]>
 	</select>
     <insert id="insertCntntBkmk">
         <![CDATA[

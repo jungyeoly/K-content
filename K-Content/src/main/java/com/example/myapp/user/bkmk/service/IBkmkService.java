@@ -7,6 +7,7 @@ import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
 
 public interface IBkmkService {
 	List<CntntBkmk> selectCntntBkmkList(String mberId);
+	List<GoodsJFileJBklkList> selectGoodsBkmkList(String mberId);
 	void insertCntntBkmk(String mberId, int cntntId);
 	void deleteCntntBkmk(String mberId, int cntntId);
 	int selectCntntBkmk(String mberId, int cntntId);

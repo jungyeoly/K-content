@@ -4,6 +4,7 @@
 <head>
     <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
+    <link rel="stylesheet" th:href="@{/css/content/new-admin-cntnt-main.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
@@ -13,9 +14,10 @@
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
-<div class="layout">
+<section class="primary container">
+    <ul class="card-list" id="card-list">
 
-</div>
+    </ul>
 <div class="position-relative">
     <nav aria-label="Page navigation" class="d-flex justify-content-center">
         <ul class="pagination">
@@ -43,31 +45,13 @@
         <a class="btn border" type="button" href="recomm">추천</a>
     </div>
 </div>
-<div th:if="${session.isTempPwd != null}" class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive"
-         aria-atomic="true" style="display: hidden">
-        <div class="toast-header fw-bold">
-            <img src="/img/icon.png" width="30px" height="30px"
-                 class="rounded me-2" alt="..."> <strong class="me-auto">K-Spectrum</strong>
-            <small>알림</small>
 
-            <button type="button" class="btn-close" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-        </div>
-        <div class="toast-body fw-bold">임시 비밀번호로 로그인하셨네요. 보안을 위해 변경하시러
-            가시겠어요?
-        </div>
-        <a th:href="@{/mber/mypage}">
-            <button type="button" class="toast-btn">변경하러 가기</button>
-        </a>
-    </div>
-</div>
+</section>
 
-
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
 <script th:src="@{/js/content/content.js}"></script>
-<script th:src="@{/js/content/scroll.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         let page = "[[${session.page}]]";

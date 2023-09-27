@@ -25,7 +25,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			 	<tr th:each="commu : ${commulist}" class="commu-row"
+				<tr th:each="commu : ${commulist}" class="commu-row"
 					th:attr="data-commu-id=${commu.commuId}">
 
 					<td th:text="${commu.commuId}"></td>
@@ -34,8 +34,8 @@
 						th:text="${code.commonCodeVal}" style="font-weight: bold">카테고리명</span>
 
 					</td>
-				
-					
+
+
 					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
@@ -46,20 +46,26 @@
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>
+		<nav aria-label="Page navigation"
+			class="d-flex justify-content-center">
+			<ul class="pagination">
+				<!-- 페이지 목록 출력 -->
+				<li class="page-item" th:if="${nowPageBlock>1}"><a
+					class="page-link prepage" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
 
-		<div class="pagination">
-			<!-- 페이지 목록 출력 -->
-			<div
-				th:with="share=${currentPage > 1 ? @objectUtil.divideAndGetQuotient(currentPage - 1, 10) : 0}">
-				<div class="page-btn"
-					th:each="page : ${#numbers.sequence(1, totalPage)}"
-					th:if="${page >= share * 10 + 1 and page <= (share + 1) * 10}">
-					<a th:href="@{/commu(currentPage=${page})}" th:text="${page}"
-						class="page-btn"
-						th:classappend="${currentPage == page ? 'selected' : ''}"></a>
-				</div>
-			</div>
-		</div>
+				<li class="page-item"
+					th:each="i: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${i==nowPage}?active"><a
+					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+					class="page-link nexpage" aria-label="Next"> <span
+						aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
 	</div>
 </body>
 <script th:src="@{/js/commu/commulist.js}"></script>

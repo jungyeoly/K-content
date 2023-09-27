@@ -23,7 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.commu.status.CommuStatus;
+import com.example.myapp.user.commucomment.model.CommuComment;
+import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
@@ -50,8 +51,6 @@ import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
-import com.google.common.collect.Lists;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -67,62 +66,83 @@ public class CommuController {
 	ICommuService commuService;
 	
 	@Autowired
+	ICommuCommentService commuCommentService;
+	
+	@Autowired
 	private ICommonCodeService commonCodeService;
 
+	
 
-@GetMapping("/commu") // 커뮤니티 메인
-	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
-			Model model, HttpSession session) {
-		List<Commu> commulist = commuService.selectAllPost();
+	
+	@GetMapping("/commu/{page}") // 커뮤니티 메인
+	public String selectAllPost(@PathVariable int page, @ModelAttribute("commu") Commu commu,
+	        Model model, HttpSession session) {
+		session.setAttribute("page", page);
+	    
+		List<Commu> commulist= commuService.selectAllPost(page);
+		model.addAttribute("commulist",commulist);
 		List<String> cateList = commonCodeService.cateList("C03");
-		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		model.addAttribute("commuCateCodeList", commuCateCodeList);
-		model.addAttribute("cateList", cateList);
+	    List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+	    model.addAttribute("commuCateCodeList", commuCateCodeList);
+	    model.addAttribute("cateList", cateList);
 
+		int ccsCount = commuService.totalCommu();
 		int totalPage = 0;
-		int totalCommu = 0;
-
-		// 검색결과가 있는 경우 paging처리
-		if (commulist != null && !commulist.isEmpty()) {
-
-			totalCommu = commulist.size();
-			int partitionSize = 10;
-			List<List<Commu>> partitionedList = Lists.partition(commulist, partitionSize);
-			totalPage = partitionedList.size();
-			commulist = partitionedList.get(currentPage - 1);
+		
+		if(ccsCount > 0) {
+			totalPage=(int)Math.ceil(ccsCount/10.0);
 		}
+		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+		int nowPageBlock = (int) Math.ceil(page/10.0);
+		int startPage = (nowPageBlock-1)*10 + 1;
+		int endPage = 0;
+		if(totalPage > nowPageBlock*10) {
+			endPage = nowPageBlock*10;
+		}else {
+			endPage = totalPage;
+		}
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("nowPage", page);
+		model.addAttribute("totalPageBlock", totalPageBlock);
+		model.addAttribute("nowPageBlock", nowPageBlock);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+	
 
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("currentPage", currentPage);
+		session.setAttribute("nowPage", page);
 
-		model.addAttribute("totalCommu", totalCommu);
-		model.addAttribute("commulist", commulist);
 		return "user/commu/list";
 	}
-
-
-	//카테고리별 게시글 조회
-	@GetMapping("/commu/commucatecode/{commuCateCode}")
-	public ResponseEntity<Map<String, Object>> getPostsByCategory(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu, @PathVariable String commuCateCode, Model model, HttpSession session) {
-		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode);
-		for (Commu post : posts) {
-			System.out.println("1:" + post.getCommonCodeVal());
-		}
 		
-		int totalPage = 0;
-	    // 검색결과가 있는 경우 paging처리
-	    if (posts != null && !posts.isEmpty()) {
-	        int partitionSize = 10;
-	        List<List<Commu>> partitionedList = Lists.partition(posts, partitionSize);
-	        totalPage = partitionedList.size();
-	        posts = partitionedList.get(currentPage - 1);
+	 //카테고리별 게시글 조회
+	@GetMapping("/commu/commucatecode/{commuCateCode}")
+	public ResponseEntity<Map<String, Object>> getPostsByCategory(@PathVariable int page, @ModelAttribute("commu") Commu commu, @PathVariable String commuCateCode, Model model, HttpSession session) {
+	    // 게시글 조회
+	    List<Commu> posts = commuService.selectPostListByCategory(commuCateCode,page);
+	    
+	    // 카테고리별 게시글 총 수
+	    int ddsCount = commuService.totalCommuByCategory(commuCateCode);
+	    
+	    // 페이징 로직
+	    int totalPage = 0;
+	    if(ddsCount > 0) {
+	        totalPage=(int)Math.ceil(ddsCount/10.0);
 	    }
-
+	    int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+	    int nowPageBlock = (int) Math.ceil(page/10.0);
+	    int startPage = (nowPageBlock-1)*10 + 1;
+	    int endPage = totalPage > nowPageBlock*10 ? nowPageBlock*10 : totalPage;
+	    
+	    // 결과 맵 생성
 	    Map<String, Object> response = new HashMap<>();
-		response.put("totalCommu", commu);
 	    response.put("posts", posts);
-	    response.put("totalPages", totalPage);
-	    response.put("currentPage", currentPage);
+	    response.put("totalPageCount", totalPage);
+	    response.put("nowPage", page);
+	    response.put("totalPageBlock", totalPageBlock);
+	    response.put("nowPageBlock", nowPageBlock);
+	    response.put("startPage", startPage);
+	    response.put("endPage", endPage);
+
 	    return ResponseEntity.ok(response);
 	}
 
@@ -138,6 +158,11 @@ public class CommuController {
 		model.addAttribute("commu", commu);
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
+		// 게시글에 연결된 댓글 정보 조회 
+		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
+		System.out.println("Retrieved comments: " + comments);
+		System.out.println("===============================");
+		model.addAttribute("comments", comments);
 		return "user/commu/view";
 	}
 
@@ -154,11 +179,8 @@ public class CommuController {
 			model.addAttribute("commuId", commu.getCommuId());
 			logger.info("getCommuDetails" + commu.toString());
 			
-			/*
-			 * // 게시글에 연결된 댓글 정보 조회 List<CommuComment> comments =
-			 * commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
-			 * model.addAttribute("comments", comments);
-			 */
+			
+		
 			return "user/commu/view";
 		}
 		

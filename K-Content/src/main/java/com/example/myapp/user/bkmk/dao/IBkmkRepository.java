@@ -8,11 +8,13 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.myapp.user.bkmk.model.CntntBkmk;
+import com.example.myapp.user.bkmk.model.GoodsBkmk;
 
 @Repository
 @Mapper
 public interface IBkmkRepository {
     List<CntntBkmk> selectCntntBkmkList(@Param("mberId") String mberId);
+    List<GoodsJFileJBklkList> selectGoodsBkmkList(@Param("mberId") String mberId);
 
     void insertCntntBkmk(@Param("mberId") String mberId, @Param("cntntId") int cntntId);
 

@@ -21,7 +21,7 @@
 			<div class="d-flex justify-content-center">
 				<form action="#" method="post"
 					class="validation-form" id="verifyPwdForm" novalidate>
-					<div class="mb-5 row">
+					<div class="mb-2 row">
 
 						<div class="col-md-8">
 							<span class="input-group-text"> <input type="password"
@@ -31,9 +31,15 @@
 								required><i class="fa fa-eye" id=see_pwd></i></span>
 						</div>
 						<div class="col-md-2">
-							<button type="submit" tabindex="-1" class="btn delete1 form-control"
+							<button type="button" tabindex="-1" class="btn delete1 form-control"
 								id="delete-btn">확인
 							</button>
+						</div>
+					</div>
+						<div class="row mb-5 justify-content-center">
+						<div class="col-md-12">
+							<div th:if="${message != null}" class="password-feedback fw-bold"
+								role="alert" th:text="${message}"></div>
 						</div>
 					</div>
 				</form>
@@ -95,42 +101,38 @@
 				  }
 				})
 			}); */
-		/* 	$("#delete-btn").click(function () {
-			const swalWithBootstrapButtons = Swal.mixin({
-				  customClass: {
-				    confirmButton: 'alert-btn alert-delete-btn',
-				    cancelButton: 'alert-btn'
-				  },
-				  buttonsStyling: false
-				})
+			   $("#delete-btn").click(function () {
+			        // SweetAlert2 알림
+			        Swal.fire({
+			            title: '정말로 회원님의 계정을 탈퇴하시겠습니까?',
+			            text: '다시 되돌릴 수 없습니다. 신중하세요.',
+			            icon: 'warning',
+			            showCancelButton: true,
+			            confirmButtonText: '계정 탈퇴',
+			            cancelButtonText: '탈퇴 취소',
+			            reverseButtons: true
+			        }).then((result) => {
+			            if (result.isConfirmed) {
+			                // 탈퇴 처리 완료 알림
+			                Swal.fire(
+			                    '계정 탈퇴 처리 완료',
+			                    '회원님의 계정은 탈퇴 처리 되었습니다. 이용해주셔서 감사합니다! 또 다시 만나요.',
+			                    'success'
+			                ).then(() => {
+			                    // 폼 제출
+			                    document.getElementById('verifyPwdForm').submit();
+			                });
+			            } else if (result.dismiss === Swal.DismissReason.cancel) {
+			                // 탈퇴 취소 알림
+			                Swal.fire(
+			                    '계정 탈퇴 취소',
+			                    '아쉬웠었는데 다시 뵙게 되니 반가워요!',
+			                    'error'
+			                );
+			            }
+			        });
+			    });
+			</script>
 
-				swalWithBootstrapButtons.fire({
-				  title: '정말로 회원님의 계정을<br>탈퇴하시겠습니까?',
-				  text: "다시 되돌릴 수 없습니다. 신중하세요.",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonText: '계정 탈퇴',
-				  cancelButtonText: '탈퇴 취소',
-				  reverseButtons: true
-				}).then((result) => {
-				  if (result.isConfirmed) {
-				    swalWithBootstrapButtons.fire(
-				      '계정 탈퇴 처리 완료',
-				      '회원님의 계정은 탈퇴처리 되었습니다.<br><br>이용해주셔서 감사합니다! 또 다시 만나요.',
-				      'success'
-				    )
-					  document.getElementById('verifyPwdForm').submit();
-				  } else if (
-				    result.dismiss === Swal.DismissReason.cancel
-				  ) {
-				    swalWithBootstrapButtons.fire(
-				      '계정 탈퇴 취소',
-				      '다시 뵙게 되어 반갑네요!',
-				      'error'
-				    )
-				  }
-				})
-			}) */
-		</script>
 </body>
 </html>

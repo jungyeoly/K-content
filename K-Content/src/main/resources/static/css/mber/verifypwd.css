@@ -12,6 +12,13 @@
 	transition: all 200ms linear;
 }
 
+.password-feedback {
+    color: #dc3545;
+    width: 100%;
+    font-size: 0.8em;
+    padding: 2px;
+}
+
 .enter.form-bid {
 	background-color: #f8f9fa
 }

@@ -4,9 +4,7 @@ $(document).ready(function() {
 	// 페이지 번호 클릭 이벤트 (이전/다음 버튼 제외)
 	$(document).on('click', '.page-link.selpage', function(e) {
 		e.preventDefault();
-		console.log("Page link clicked");
 		const selectedPage = $(this).data('selpage');
-		console.log("Selected page:", selectedPage);
 		loadPage(selectedPage);
 	});
 
@@ -87,7 +85,7 @@ function updatePagination(nowPage, totalPageCount) {
 			return; // Exit the function early
 		}
 
-		console.log(posts)
+		
 
 		let postListHtml = '';
 		posts.forEach(commu => {

@@ -1,5 +1,25 @@
 @charset "UTF-8";
 
+.page-link {
+  color: #000 !important;
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+}
+ 
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+ 
+}
 .commuBtn {
     position: absolute !important;
     right: 1rem !important;
@@ -8,26 +28,17 @@
     float: right !important;
 }
 
+
 .container {
     position: relative;
     margin-left: 3rem;
 }
 
 .pagination {
-    justify-content: center;
+    cursor: pointer;
 }
-
-.page-btn {
-    display: inline-block;
-    margin: 0;
-}
-
-.page-btn a {
-    color: #000;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 6px 12px;
-    text-decoration: none;
+.hidden {
+	display: none;
 }
 
 .page-btn a:hover, .page-btn a:focus {
@@ -36,22 +47,6 @@
     border-color: #ccc;
 }
 
-.page-btn a:active {
-    background-color: #c0c0c0;
-    z-index: 1;
-    color: #555;
-    font-weight: bold;
-    background-color: #f1f1f1;
-    border-color: #ccc;
-}
-
-.page-btn a.selected {
-    z-index: 1;
-    color: #555;
-    font-weight: bold;
-    background-color: #f1f1f1;
-    border-color: #ccc;
-}
 
 t/* 제목에 대한 CSS 수정 */
 table th:nth-child(3), table td:nth-child(3) {

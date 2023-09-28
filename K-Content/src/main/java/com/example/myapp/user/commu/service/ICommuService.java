@@ -9,8 +9,10 @@ import com.example.myapp.user.commu.model.CommuFile;
 
 public interface ICommuService {
 	
-	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
+	
 	int totalCommu(); //총 게시물 개수
+	
+	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
 
 	List<Commu> selectAllPost(int page); // 커뮤니티 전체글 다 보기
 

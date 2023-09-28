@@ -110,42 +110,40 @@ public class CommuController {
 
 		return "user/commu/list";
 	}
-	
-	@GetMapping("/commu/ajax/{page}")
-	public ResponseEntity<Map<String, Object>>  loadMainPosts(@PathVariable int page) {
-	    List<Commu> commulist = commuService.selectAllPost(page);
-	    System.out.println(commulist);
 
-	    int commuCount = commuService.totalCommu();
-	    int totalPage = 0;
-	    if (commuCount > 0) {
-	        totalPage = (int) Math.ceil(commuCount / 10.0);
-	    }
-	    int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
-	    int nowPageBlock = (int) Math.ceil(page / 10.0);
-	    int startPage = (nowPageBlock - 1) * 10 + 1;
-	    int endPage = 0;
-	    if(totalPage > nowPageBlock*10) {
-			endPage = nowPageBlock*10;
-		}else {
+	@GetMapping("/commu/ajax/{page}")
+	public ResponseEntity<Map<String, Object>> loadMainPosts(@PathVariable int page) {
+		List<Commu> commulist = commuService.selectAllPost(page);
+		System.out.println(commulist);
+
+		int commuCount = commuService.totalCommu();
+		int totalPage = 0;
+		if (commuCount > 0) {
+			totalPage = (int) Math.ceil(commuCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
 			endPage = totalPage;
 		}
 
+		Map<String, Object> response = new HashMap<>();
+		response.put("commulist", commulist);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
 
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("commulist", commulist);
-	    response.put("totalPageCount", totalPage);
-	    response.put("nowPage", page);
-	    response.put("totalPageBlock", totalPageBlock);
-	    response.put("nowPageBlock", nowPageBlock);
-	    response.put("startPage", startPage);
-	    response.put("endPage", endPage);
-
-	    return ResponseEntity.ok(response);
+		return ResponseEntity.ok(response);
 	}
 
-
-	//카테고리별 게시글 조회
+	// 카테고리별 게시글 조회
 	@GetMapping("/commu/commucatecode/{commuCateCode}")
 	public ResponseEntity<Map<String, Object>> getPostsByCategory(
 	    @PathVariable String commuCateCode,
@@ -155,19 +153,68 @@ public class CommuController {
 	    List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
 	    int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
 	    int totalPage = 0;
-	    if (commuCategoryCount> 0) {
-	        totalPage = (int) Math.ceil(commuCategoryCount / 10.0); // 
-	    }
+	    if (commuCategoryCount > 0) {
+			totalPage = (int) Math.ceil(commuCategoryCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
 
+		Map<String, Object> response = new HashMap<>();
+		response.put("posts", posts);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
 
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("posts", posts);
-	    response.put("nowPage", page);
-
-	    return ResponseEntity.ok(response);
+		return ResponseEntity.ok(response);
 	}
 
-	
+
+	// 커뮤니티 게시글 검색
+	@GetMapping("/board/search/{page}")
+	public ResponseEntity<Map<String, Object>> search(@RequestParam(required = false, defaultValue = "") String keyword,
+			@PathVariable int page) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			List<Commu> commuList = commuService.searchListByContentKeyword(keyword, page);
+			int postsearchCount = commuService.selectTotalPostCountByKeyword(keyword);
+			int totalPage = 0;
+			if (postsearchCount > 0) {
+				totalPage = (int) Math.ceil(postsearchCount / 10.0);
+			}
+			int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+			int nowPageBlock = (int) Math.ceil(page / 10.0);
+			int startPage = (nowPageBlock - 1) * 10 + 1;
+			int endPage = 0;
+			if (totalPage > nowPageBlock * 10) {
+				endPage = nowPageBlock * 10;
+			} else {
+				endPage = totalPage;
+			}
+
+			response.put("commuList", commuList);
+			response.put("keyword", keyword);
+			response.put("totalPageCount", totalPage);
+			response.put("nowPage", page);
+			response.put("totalPageBlock", totalPageBlock);
+			response.put("nowPageBlock", nowPageBlock);
+			response.put("startPage", startPage);
+			response.put("endPage", endPage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(response);
+	}
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
 	@GetMapping("/commu/detail/{commuId}")

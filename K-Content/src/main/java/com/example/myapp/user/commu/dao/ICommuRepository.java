@@ -47,5 +47,9 @@ public interface ICommuRepository {
 	 List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일
 	 
 	 void reportPost(int commuId); //게시글 신고
+	 
+	 int selectTotalPostCountByKeyWord(String Keyword); //키워드와 관련된 총 게시물 수
+	 
+	 List<Commu> searchListByContentKeyword(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end); //관련된 게시물 목록 검색
 
 }

@@ -12,7 +12,8 @@
                a.commu_read_cnt,
                a.commu_cate_code,
                a.commu_mber_id,
-               a.rn
+               a.rn,
+               b.common_code_val 
         from (
             select rownum rn,
                    commu_id, 
@@ -25,17 +26,19 @@
             from (
                 select tb_commu.*
                 from tb_commu
-             	where
+                where
                  commu_status = 'N'
                 order by commu_id desc
             )
         ) a
+        JOIN tb_common_code b ON a.commu_cate_code = b.common_code 
         WHERE a.rn BETWEEN #{start} AND #{end}
         AND a.commu_status != 'Y' 
         AND a.commu_status != 'R'
         ORDER BY a.commu_id desc
 ]]>
 	</select>
+
 
 	<select id="totalCommu" resultType="int">
 	<![CDATA[
@@ -44,15 +47,48 @@
 	 where commu_status = 'N'
   ]]>
 	</select>
-	
+
 	<select id="totalCommuByCategory" resultType="int">
 	<![CDATA[
 	select count(*)
 	from tb_commu
 	 where commu_status = 'N'
-	 and common_cate_code= #{commuCateCode}
+	 and commu_cate_code= #{commuCateCode}
 	 ]]>
 	</select>
+
+	<select id="selectPostListByCategory" parameterType="hashmap"
+		resultType="com.example.myapp.user.commu.model.Commu">
+    SELECT a.commu_id,
+           a.commu_title,
+           a.commu_regist_date,
+           a.commu_read_cnt,
+           a.commu_cate_code,
+           a.commu_mber_id,
+           a.rn,
+           tb_common_code.common_code_val
+    FROM (
+        SELECT tb_commu.*,
+               rownum rn
+        FROM (
+            SELECT *
+            FROM tb_commu
+            WHERE commu_status = 'N'
+            <if test="commuCateCode != 'All'">
+                AND commu_cate_code = (
+                    SELECT common_code
+                    FROM tb_common_code
+                    WHERE common_code_val = #{commuCateCode}
+                )
+            </if>
+            ORDER BY commu_id DESC
+        ) tb_commu
+    ) a
+    JOIN tb_common_code ON a.commu_cate_code = tb_common_code.common_code
+    WHERE a.rn BETWEEN #{start} AND #{end}
+     ORDER BY commu_id DESC
+</select>
+
 
 
 
@@ -72,24 +108,9 @@
         ]]>
 	</select>
 
-	<select id="selectPostListByCategory" parameterType="hashmap"
-		resultType="com.example.myapp.user.commu.model.Commu">
-		SELECT a.commu_id,
-		a.commu_title,
-		a.commu_regist_date,
-		a.commu_read_cnt,
-		a.commu_cate_code,
-		a.commu_mber_id,
-		b.common_code_val
-		FROM tb_commu a
-		JOIN tb_common_code b
-		on a.commu_cate_code = b.common_code
-		WHERE a.commu_status != 'Y'
-		<if test="commuCateCode!= 'All'">
-			AND b.common_code_val = #{commuCateCode}
-		</if>
-		ORDER BY commu_id DESC
-	</select>
+
+
+
 
 
 
@@ -244,4 +265,5 @@ where commu_file_id=#{commuFileId}
 	where commu_id=#{commuId}
 		  ]]>
 	</update>
+
 </mapper>

@@ -110,49 +110,67 @@ public class CommuController {
 
 		return "user/commu/list";
 	}
+	
+	@GetMapping("/commu/ajax/{page}")
+	public ResponseEntity<Map<String, Object>>  loadMainPosts(@PathVariable int page) {
+	    List<Commu> commulist = commuService.selectAllPost(page);
+	    System.out.println(commulist);
 
-	// 카테고리별 게시글 조회
-	@GetMapping("/commu/commucatecode/{commuCateCode}") // {}이거는 무조건 pathVariable임
-
-	public ResponseEntity<Map<String, Object>> getPostsByCategory(//
-			@PathVariable String commuCateCode, @RequestParam(required = false) int page, HttpSession session) {// ajax
-																												// 에선
-																												// model을
-																												// 쓸 수
-																												// 없읍니다(외우세요)
-
-		// 게시글 조회
-		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);// <<<이거 조회 결과 안 나옴(왜??)
-
-		// 카테고리별 게시글 총 수
-		// int ddsCount = commuService.totalCommuByCategory(commuCateCode);
-		int ddsCount = posts.size();
-
-		// 페이징 로직
-		int totalPage = 0;
-		if (ddsCount > 0) {
-			totalPage = (int) Math.ceil(ddsCount / 10.0);
+	    int commuCount = commuService.totalCommu();
+	    int totalPage = 0;
+	    if (commuCount > 0) {
+	        totalPage = (int) Math.ceil(commuCount / 10.0);
+	    }
+	    int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+	    int nowPageBlock = (int) Math.ceil(page / 10.0);
+	    int startPage = (nowPageBlock - 1) * 10 + 1;
+	    int endPage = 0;
+	    if(totalPage > nowPageBlock*10) {
+			endPage = nowPageBlock*10;
+		}else {
+			endPage = totalPage;
 		}
-		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
-		int nowPageBlock = (int) Math.ceil(page / 10.0);
-		int startPage = (nowPageBlock - 1) * 10 + 1;
-		int endPage = totalPage > nowPageBlock * 10 ? nowPageBlock * 10 : totalPage;
 
-		// 결과 맵 생성
-		Map<String, Object> response = new HashMap<>();
-		response.put("posts", posts);
-		response.put("totalPageCount", totalPage);
-		response.put("nowPage", page);
-		response.put("totalPageBlock", totalPageBlock);
-		response.put("nowPageBlock", nowPageBlock);
-		response.put("startPage", startPage);
-		response.put("endPage", endPage);
 
-		return ResponseEntity.ok(response);
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("commulist", commulist);
+	    response.put("totalPageCount", totalPage);
+	    response.put("nowPage", page);
+	    response.put("totalPageBlock", totalPageBlock);
+	    response.put("nowPageBlock", nowPageBlock);
+	    response.put("startPage", startPage);
+	    response.put("endPage", endPage);
+
+	    return ResponseEntity.ok(response);
 	}
 
+
+	//카테고리별 게시글 조회
+	@GetMapping("/commu/commucatecode/{commuCateCode}")
+	public ResponseEntity<Map<String, Object>> getPostsByCategory(
+	    @PathVariable String commuCateCode,
+	    @RequestParam(required = false) int page,
+	    HttpSession session
+	) {
+	    List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
+	    int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
+	    int totalPage = 0;
+	    if (commuCategoryCount> 0) {
+	        totalPage = (int) Math.ceil(commuCategoryCount / 10.0); // 
+	    }
+
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("posts", posts);
+	    response.put("nowPage", page);
+
+	    return ResponseEntity.ok(response);
+	}
+
+	
+
 	// 커뮤니티 게시글 제목 누르면 상세보기
-	@GetMapping("/commu/details/{commuId}")
+	@GetMapping("/commu/detail/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);

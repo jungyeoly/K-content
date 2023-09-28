@@ -36,7 +36,7 @@
 					</td>
 
 
-					<td><a th:href="@{/commu/{id}(id=${commu.commuId})}"
+					<td><a th:href="@{/commu/detail/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
@@ -61,7 +61,7 @@
 					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
 
 				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
-					class="page-link nexpage" aria-label="Next"> <span
+					class="page-link nextpage" aria-label="Next"> <span
 						aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>

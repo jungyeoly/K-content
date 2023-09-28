@@ -67,7 +67,7 @@
 
 
 		<div class="d-flex btn-div">
-			<a th:href="@{/commu}" class="list-link btn">목록</a>
+			<a th:href="@{/commu/1}" class="list-link btn">목록</a>
 			<div
 				th:if="${#authentication.principal.username} == ${commu.commuMberId}"
 				class="btns">
@@ -81,6 +81,7 @@
 					<button type="button" class="btn delete"
 						onclick="showDeleteConfirmModal()">삭제</button>
 				</form>
+			</div>
 			</div>
 			<!-- 댓글 리스트 영역 시작 -->
 			<div class="comment-list-section">

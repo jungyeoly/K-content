@@ -1,90 +1,112 @@
-// 페이지 번호 클릭 이벤트
-$(document).on('click', '.page-link', function(e) {
-    e.preventDefault();  // 기존의 페이지 이동을 막음
+$(document).ready(function() {
+	let currentPage = 1; // 페이지 초기화
 
-    const selectedPage = $(this).data('selpage');  // "selpage" 데이터 속성을 사용
-    fetchPostsForPage(selectedPage);
+	// 페이지 번호 클릭 이벤트 (이전/다음 버튼 제외)
+	$(document).on('click', '.page-link.selpage', function(e) {
+		e.preventDefault();
+		console.log("Page link clicked");
+		const selectedPage = $(this).data('selpage');
+		console.log("Selected page:", selectedPage);
+		loadPage(selectedPage);
+	});
+
+	// 이전 페이지 버튼 클릭 이벤트
+	$(document).on('click', '.page-link.prepage', function(e) {
+		e.preventDefault();
+		loadPage(currentPage - 1);
+	});
+
+	// 다음 페이지 버튼 클릭 이벤트
+	$(document).on('click', '.page-link.nextpage', function(e) {
+		e.preventDefault();
+		loadPage(currentPage + 1);
+	});
+
+	// 메인 페이지
+	function loadPage(page) {
+		$.ajax({
+			url: `/commu/ajax/${page}`,
+			method: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(response) {
+				updatePostList(response.commulist);
+				updatePagination(response.nowPage, response.totalPageCount);
+				currentPage = page; // 현재 페이지 업데이트
+			},
+			error: function(error) {
+				console.error("Failed to load posts:", error);
+			}
+		});
+	}
+
+	// 카테고리 클릭 이벤트
+$(document).on('click', '.cate', function() {
+    const commuCateCode = $(this).data('maincate-value');
+    loadCategoryPosts(commuCateCode, 1); // 페이지를 1페이지로 초기화하여 로드
 });
 
-let commuCateCode = null; // 현재 선택된 카테고리를 저장할 전역 변수
-function fetchPostsForPage(page) {
-  let url = `/commu/commucatecode/${commuCateCode}?page=${page}`;
+	// "All" 카테고리 선택
+	$(document).on('click', '.all-cate', function() {
+		loadPage(1); // 페이지 초기화하여 첫 번째 페이지를 로드
+	});
 
-
-    $.ajax({
-        url: url,
+	function loadCategoryPosts(commuCateCode, page) {
+		 $.ajax({
+        url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            updatePostList(response.commulist || response.posts);
-            updatePagination(response.totalPages, page);
-        },
-        error: function(error) {
-            console.error("Error fetching posts:", error);
-        }
-    });
-}
-
-
-
-
-
-let currentPage = 1;  // 현재 페이지 초기값 설정
-var page = $('page-link selpage').prop("data-selpage");
-$(document).on('click', '.cate', function() {
-    const commuCateCode = $(this).data('maincate-value');
-    
-    $.ajax({
-        url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
-        type: 'GET',
-        //dataType: 'json',
-		dataType: {
-			commuCateCode:commuCateCode // 좌:우 기준으로 좌==컨트롤러에서 받을 이름, 우==ajax를 요청할 때 컨트롤러에 넘겨줄 값
-			,page:page
-		},
-        success: function(response) {
-			var postList = response.posts//<<< posts라는 이름으로 넣었던 오브젝트는?? List<Commu>
-			//게시글 테이블 생성패서 뿌려주면 됨
-            updatePostList(postList);
-            updatePagination(response.totalPageCount);
+            updatePostList(response.posts);
+            // 클라이언트 측에서 페이지 번호 계산 및 업데이트
+            updatePagination(page, Math.ceil(response.posts.length / 10));
         },
         error: function(error) {
             console.error("Error fetching posts by category:", error);
         }
     });
-});
+}
+// 페이지 목록을 동적으로 생성하는 함수
+function updatePagination(nowPage, totalPageCount) {
+    let paginationHtml = '';
 
-function updatePostList(posts) {
-	
-    if (!Array.isArray(posts)) {
-       console.error('Provided posts data is not an array:', posts);
-        return; // Exit the function early
+    for (let i = 1; i <= totalPageCount; i++) {
+        if (i === nowPage) {
+            paginationHtml += `<li class="page-item active"><a class="page-link selpage" data-selpage="${i}">${i}</a></li>`;
+        } else {
+            paginationHtml += `<li class="page-item"><a class="page-link selpage" data-selpage="${i}">${i}</a></li>`;
+        }
     }
 
-	console.log(posts)
+    $('.pagination').html(paginationHtml);
+}
 
-    let postListHtml = '';
-    posts.forEach(commu => {
-        postListHtml += `
+	function updatePostList(posts) {
+		if (!Array.isArray(posts)) {
+			console.error('Provided posts data is not an array:', posts);
+			return; // Exit the function early
+		}
+
+		console.log(posts)
+
+		let postListHtml = '';
+		posts.forEach(commu => {
+			postListHtml += `
             <tr class="commu-row" data-commu-id="${commu.commuId}">
                 <td>${commu.commuId}</td>
-                <td>${commu.commonCodeVal}</td> 
-                <td><a href="/commu/${commu.commuId}">${commu.commuTitle}</a></td>
+                <td>${commu.commonCodeVal}</td>
+                <td><a href="/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
                 <td>${commu.commuMberId}</td>
                 <td>${commu.commuReadCnt}</td>
                 <td>${commu.commuRegistDate}</td>
             </tr>
         `;
-    });
+		});
 
-    $('tbody').html(postListHtml);
-}
+		// 이전에 표시된 게시물 목록을 지우고 새로운 목록으로 대체합니다.
+		$('tbody').empty().append(postListHtml);
+	}
 
-function updatePagination(totalPages, currentPage) {
-    let paginationHtml = '';
-     for(let i=1; i<=totalPages; i++) {
-        let isSelected = i === Number(currentPage) ? 'selected' : ''; // 문자열을 숫자로 변환하여 비교
-        paginationHtml += `<div class="page-btn ${isSelected}"><a href="/commu?page=${i}" data-page="${i}">${i}</a></div>`;
-    }
-    $('.pagination').html(paginationHtml);
-}
+	
+
+});

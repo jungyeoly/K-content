@@ -12,10 +12,11 @@ import com.example.myapp.user.commu.model.CommuFile;
 @Repository
 @Mapper
 public interface ICommuRepository {
-	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
 	
 	int totalCommu(); //총 게시물 개수
-
+	
+	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
+	
 	int selectMaxPost(); // 가장 최근 게시판글
 
 	int selectMaxCommuFileCommuId(); // 가장 최근 첨부파일이 있는 게시글 번호

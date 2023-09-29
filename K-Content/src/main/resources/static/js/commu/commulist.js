@@ -1,12 +1,44 @@
-
 $(document).ready(function() {
 	let currentPage = 1; // 페이지 초기화
 	let loading = false; // 페이지 로딩 중 여부를 나타내는 플래그
 	let commuCateCode = null;  // 현재 선택된 카테고리 저장 변수
-
+	let currentKeyWord = null; // 현재 선택 검색 상태 저장 변수
 
 
 	loadPage(currentPage);
+
+// 검색 폼 제출 이벤트 리스너 추가
+$('#searchForm').submit(function(event) {
+    event.preventDefault(); // 폼의 기본 제출 동작을 막음
+    let keyword = $('#searchInput').val();
+
+    if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
+		currentKeyWord = keyword; //검색 상태 저장        
+searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
+        $('#searchInput').val(''); // 검색창의 내용을 비움
+    } else {
+	currentKeyWord = null; //검색어가 비어있으면 검색 상태 해제
+	}
+});
+
+function searchPosts(keyword, page) {
+    $.ajax({
+        url: `/commu/search/${page}`,
+        type: 'GET',
+        data: {
+            keyword: keyword
+        },
+        dataType: 'json',
+        success: function(response) {
+            updatePostList(response.commuList); // 기존의 게시글 목록 업데이트 함수를 사용하여 검색 결과를 화면에 표시
+            updatePagination(response.nowPage, response.totalPageCount); // 페이징 업데이트
+            currentPage = page;
+        },
+        error: function(error) {
+            console.error("Error fetching search results:", error);
+        }
+    });
+}
 
 	// 페이지 번호 클릭 이벤트
 	$(document).on('click', '.page-link', function(e) {
@@ -14,14 +46,21 @@ $(document).ready(function() {
 		if (!loading) {
 			const selectedPage = $(this).data('page');
 			if (selectedPage !== currentPage) {
-				if (commuCateCode) {
-					loadCategoryPosts(commuCateCode, selectedPage);
-				} else {
-					loadPage(selectedPage);
-				}
-			}
-		}
-	});
+				 // 검색 상태인 경우
+            if (currentKeyWord) {
+                searchPosts(currentKeyWord, selectedPage);
+            } 
+				 // 카테고리 상태인 경우
+            else if (commuCateCode) {
+                loadCategoryPosts(commuCateCode, selectedPage);
+            } 
+            // 그 외 (일반 상태)
+            else {
+                loadPage(selectedPage);
+            }
+        }
+    }
+});
 
 
 	// 이전 페이지 버튼 클릭 이벤트

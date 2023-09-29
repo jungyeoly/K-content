@@ -174,11 +174,11 @@ public class CommuService implements ICommuService {
 	@Override
 	public List<Commu> searchListByContentKeyword(String keyword, int page) {
 		int start = (page-1)*10 +1;
-		return commuRepository.searchListByContentKeyword("%"+keyword+"%", start, start+9);
+		return commuRepository.searchListByContentKeyWord("%"+keyword+"%", start, start+9);
 	}
 
 	@Override
-	public int selectTotalPostCountByKeyword(String keyword) {
+	public int selectTotalPostCountByKeyWord(String keyword) {
 		return commuRepository.selectTotalPostCountByKeyWord("%"+keyword+"%");
 	}
 

@@ -41,5 +41,5 @@ public interface ICommuService {
 	 void reportPost(int commuId); //게시글 신고
 	 
 	List<Commu> searchListByContentKeyword(String keyword, int page); //관련된 게시물 목록 검색
-	int selectTotalPostCountByKeyword(String keyword); //키워드와 관련된 총 게시물 수
+	int selectTotalPostCountByKeyWord(String keyword); //키워드와 관련된 총 게시물 수
 }

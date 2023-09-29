@@ -50,6 +50,6 @@ public interface ICommuRepository {
 	 
 	 int selectTotalPostCountByKeyWord(String Keyword); //키워드와 관련된 총 게시물 수
 	 
-	 List<Commu> searchListByContentKeyword(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end); //관련된 게시물 목록 검색
+	 List<Commu> searchListByContentKeyWord(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end); //관련된 게시물 목록 검색
 
 }

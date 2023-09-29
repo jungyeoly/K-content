@@ -285,13 +285,14 @@ where commu_file_id=#{commuFileId}
 	</select>
 
 	<!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
-	<select id="searchListByContentKeyword" parameterType="hashmap"
+	<select id="searchListByContentKeyWord" parameterType="hashmap"
 		resultType="com.example.myapp.user.commu.model.Commu">
     <![CDATA[
     SELECT
         c.commu_id AS "commuId",
         c.commu_title AS "commuTitle",
         c.commu_cntnt AS "commuCntnt",
+       c.commu_regist_date AS "commuRegistDate",
         c.commu_read_cnt AS "commuReadCnt",
         c.commu_cate_code AS "commuCateCode",
         c.commu_mber_id AS "commuMberId",
@@ -302,6 +303,7 @@ where commu_file_id=#{commuFileId}
             commu_id,
             commu_title,
             commu_cntnt,
+            commu_regist_date,
             commu_read_cnt,
             commu_cate_code,
             commu_mber_id,

@@ -224,9 +224,8 @@ public class CommuController {
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
 		// 게시글에 연결된 댓글 정보 조회
-		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
+		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
 		System.out.println("Retrieved comments: " + comments);
-		System.out.println("===============================");
 		model.addAttribute("comments", comments);
 		return "user/commu/view";
 	}
@@ -518,7 +517,7 @@ public class CommuController {
 			commuService.deletePost(commuId);
 
 			redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일이 성공적으로 삭제되었습니다.");
-			return "redirect:/commu"; // 게시글 목록 페이지로 리다이렉트
+			return "redirect:/commu/1"; // 게시글 목록 페이지로 리다이렉트
 
 		} catch (Exception e) {
 			logger.error("Error during deletion:", e);

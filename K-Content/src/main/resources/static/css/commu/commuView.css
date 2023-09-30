@@ -5,10 +5,18 @@
         display: flex;
     align-items: center;
 }
-
+.reply {
+	margin-left:30px; /* //들여쓰기 효과 */
+}
 
 .username, .registdate, .separator {
     margin: 0 5px;
+}
+
+.btn.report {
+	color: red !important;
+    border: 1px solid red !important;
+    background-color: white !important;
 }
 
 .registdate {

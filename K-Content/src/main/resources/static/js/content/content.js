@@ -56,7 +56,5 @@ function cntntDetail(cntntId) {
 	document.body.append(form);
 	document.getElementById("targetContentIdF").value = cntntId;
 	document.getElementById('contentDetail').submit();
-
-
 }
 

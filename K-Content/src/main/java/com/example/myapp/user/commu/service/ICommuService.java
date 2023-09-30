@@ -8,8 +8,13 @@ import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 
 public interface ICommuService {
+	
+	
+	int totalCommu(); //총 게시물 개수
+	
+	int totalCommuByCategory(String commuCateCode); //총 카테고리별 게시글 개수
 
-	List<Commu> selectAllPost(); // 커뮤니티 전체글 다 보기
+	List<Commu> selectAllPost(int page); // 커뮤니티 전체글 다 보기
 
 	Commu selectPost(int commuId); // 커뮤니티 게시글 상세조회
 
@@ -31,7 +36,10 @@ public interface ICommuService {
 	
 	List<CommuFile> getAllFilesByCommuId(int commuId); //모든 첨부파일 
 
-	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
+	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode, int page);  //카테고리별 게시글 조회
 	
 	 void reportPost(int commuId); //게시글 신고
+	 
+	List<Commu> searchListByContentKeyword(String keyword, int page); //관련된 게시물 목록 검색
+	int selectTotalPostCountByKeyWord(String keyword); //키워드와 관련된 총 게시물 수
 }

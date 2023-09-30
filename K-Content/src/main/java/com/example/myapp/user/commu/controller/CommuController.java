@@ -1,5 +1,6 @@
 
 package com.example.myapp.user.commu.controller;
+
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.commu.status.CommuStatus;
+import com.example.myapp.user.commucomment.model.CommuComment;
+import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
@@ -50,8 +52,6 @@ import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
-import com.google.common.collect.Lists;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -65,71 +65,156 @@ public class CommuController {
 
 	@Autowired
 	ICommuService commuService;
-	
+
+	@Autowired
+	ICommuCommentService commuCommentService;
+
 	@Autowired
 	private ICommonCodeService commonCodeService;
 
+	@GetMapping("/commu/{page}") // 커뮤니티 메인
+	public String selectAllPost(@PathVariable int page, @ModelAttribute("commu") Commu commu, Model model,
+			HttpSession session) {
+		session.setAttribute("page", page);
 
-@GetMapping("/commu") // 커뮤니티 메인
-	public String main(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu,
-			Model model, HttpSession session) {
-		List<Commu> commulist = commuService.selectAllPost();
+		List<Commu> commulist = commuService.selectAllPost(page);
+		model.addAttribute("commulist", commulist);
 		List<String> cateList = commonCodeService.cateList("C03");
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		model.addAttribute("cateList", cateList);
 
+		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
-		int totalCommu = 0;
 
-		// 검색결과가 있는 경우 paging처리
-		if (commulist != null && !commulist.isEmpty()) {
-
-			totalCommu = commulist.size();
-			int partitionSize = 10;
-			List<List<Commu>> partitionedList = Lists.partition(commulist, partitionSize);
-			totalPage = partitionedList.size();
-			commulist = partitionedList.get(currentPage - 1);
+		if (commuCount > 0) {
+			totalPage = (int) Math.ceil(commuCount / 10.0);
 		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("nowPage", page);
+		model.addAttribute("totalPageBlock", totalPageBlock);
+		model.addAttribute("nowPageBlock", nowPageBlock);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("currentPage", currentPage);
+		session.setAttribute("nowPage", page);
 
-		model.addAttribute("totalCommu", totalCommu);
-		model.addAttribute("commulist", commulist);
 		return "user/commu/list";
 	}
 
+	@GetMapping("/commu/ajax/{page}")
+	public ResponseEntity<Map<String, Object>> loadMainPosts(@PathVariable int page) {
+		List<Commu> commulist = commuService.selectAllPost(page);
+		System.out.println(commulist);
 
-	//카테고리별 게시글 조회
-	@GetMapping("/commu/commucatecode/{commuCateCode}")
-	public ResponseEntity<Map<String, Object>> getPostsByCategory(@RequestParam(defaultValue = "1") int currentPage, @ModelAttribute("commu") Commu commu, @PathVariable String commuCateCode, Model model, HttpSession session) {
-		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode);
-		for (Commu post : posts) {
-			System.out.println("1:" + post.getCommonCodeVal());
-		}
-		
+		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
-	    // 검색결과가 있는 경우 paging처리
-	    if (posts != null && !posts.isEmpty()) {
-	        int partitionSize = 10;
-	        List<List<Commu>> partitionedList = Lists.partition(posts, partitionSize);
-	        totalPage = partitionedList.size();
-	        posts = partitionedList.get(currentPage - 1);
-	    }
+		if (commuCount > 0) {
+			totalPage = (int) Math.ceil(commuCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
 
-	    Map<String, Object> response = new HashMap<>();
-		response.put("totalCommu", commu);
-	    response.put("posts", posts);
-	    response.put("totalPages", totalPage);
-	    response.put("currentPage", currentPage);
-	    return ResponseEntity.ok(response);
+		Map<String, Object> response = new HashMap<>();
+		response.put("commulist", commulist);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
+
+		return ResponseEntity.ok(response);
 	}
 
+	// 카테고리별 게시글 조회
+	@GetMapping("/commu/commucatecode/{commuCateCode}")
+	public ResponseEntity<Map<String, Object>> getPostsByCategory(@PathVariable String commuCateCode,
+			@RequestParam(required = false) int page, HttpSession session) {
+		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
+		int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
+		int totalPage = 0;
+		if (commuCategoryCount > 0) {
+			totalPage = (int) Math.ceil(commuCategoryCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
 
+		Map<String, Object> response = new HashMap<>();
+		response.put("posts", posts);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
+
+		return ResponseEntity.ok(response);
+	}
+
+	// 커뮤니티 게시글 검색
+	@GetMapping("/commu/search/{page}")
+	public ResponseEntity<Map<String,Object>> search(@RequestParam(required = false, defaultValue = "") String keyword,
+													 @PathVariable int page) {
+	Map<String, Object> response = new HashMap<>();
+	 
+	  try { List<Commu> commuList =
+	  commuService.searchListByContentKeyword(keyword, page);
+	  System.out.println(commuList);
+	  int postsearchCount =commuService.selectTotalPostCountByKeyWord(keyword);
+	  int totalPage = 0;
+	  if (postsearchCount > 0) {
+		  totalPage = (int) Math.ceil(postsearchCount / 10.0);
+		  }
+	  int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+	  int nowPageBlock   = (int) Math.ceil(page / 10.0);
+	  int startPage = (nowPageBlock - 1) * 10 + 1;
+	  int endPage = 0;
+	  if (totalPage > nowPageBlock * 10)
+	  {
+		  endPage = nowPageBlock * 10;
+		  }
+	  else { 
+		  endPage = totalPage;
+		  }
+	  
+	  response.put("commuList", commuList); response.put("keyword", keyword);
+	  response.put("totalPageCount", totalPage); response.put("nowPage", page);
+	  response.put("totalPageBlock", totalPageBlock); response.put("nowPageBlock",  nowPageBlock);
+	  response.put("startPage", startPage);
+	  response.put("endPage",endPage);
+	  } catch (Exception e) 
+	  {
+		  e.printStackTrace();
+		  }
+	  return ResponseEntity.ok(response);
+	  }
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
-	@GetMapping("/commu/{commuId}")
+	@GetMapping("/commu/detail/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
@@ -138,110 +223,106 @@ public class CommuController {
 		model.addAttribute("commu", commu);
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
+		// 게시글에 연결된 댓글 정보 조회
+		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
+		System.out.println("Retrieved comments: " + comments);
+		System.out.println("===============================");
+		model.addAttribute("comments", comments);
 		return "user/commu/view";
 	}
 
 	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기
-		@GetMapping("/commu/{commuCateCode}/{commuId}")
-		public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
-			List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-			model.addAttribute("commuCateCodeList", commuCateCodeList);
-			Commu commu = commuService.selectPost(commuId);
-			List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
-			model.addAttribute("commu", commu);
-			model.addAttribute("commuFiles", commuFiles);
-			model.addAttribute("commuCateCode", commu.getCommuCateCode());
-			model.addAttribute("commuId", commu.getCommuId());
-			logger.info("getCommuDetails" + commu.toString());
-			
-			/*
-			 * // 게시글에 연결된 댓글 정보 조회 List<CommuComment> comments =
-			 * commuCommentService.selectCommuCommentsByCommuCommentId(commuId);
-			 * model.addAttribute("comments", comments);
-			 */
-			return "user/commu/view";
+	@GetMapping("/commu/{commuCateCode}/{commuId}")
+	public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
+		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+		model.addAttribute("commuCateCodeList", commuCateCodeList);
+		Commu commu = commuService.selectPost(commuId);
+		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
+		model.addAttribute("commu", commu);
+		model.addAttribute("commuFiles", commuFiles);
+		model.addAttribute("commuCateCode", commu.getCommuCateCode());
+		model.addAttribute("commuId", commu.getCommuId());
+		logger.info("getCommuDetails" + commu.toString());
+
+		return "user/commu/view";
+	}
+
+	// 게시글에 있는 첨부파일 단일 다운로드
+	@GetMapping("/download/{commuFileId}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable String commuFileId) {
+		try {
+			CommuFile commuFile = commuService.getFile(commuFileId);
+
+			// 파일이 DB에 존재하지 않는 경우
+			if (commuFile == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(new ByteArrayResource("지정된 파일이 데이터베이스에 존재하지 않습니다.".getBytes()));
+			}
+
+			// 파일의 저장 경로에서 파일 데이터를 읽습니다.
+			Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
+			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+
+			// 파일 이름 인코딩
+			String originalName = commuFile.getCommuFileName();
+			String encodedFileName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
+
+			return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+					.body(resource);
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes()));
 		}
-		
-		//게시글에 있는 첨부파일 단일 다운로드
-		@GetMapping("/download/{commuFileId}")
-		public ResponseEntity<Resource> downloadFile(@PathVariable String commuFileId) {
-		    try {
-		        CommuFile commuFile = commuService.getFile(commuFileId);
-		        
-		        // 파일이 DB에 존재하지 않는 경우
-		        if (commuFile == null) {
-		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-		                    .body(new ByteArrayResource("지정된 파일이 데이터베이스에 존재하지 않습니다.".getBytes()));
-		        }
-		        
-		        // 파일의 저장 경로에서 파일 데이터를 읽습니다.
-		        Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
-		        Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-		        
-		        // 파일 이름 인코딩
-		        String originalName = commuFile.getCommuFileName();
-		        String encodedFileName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
-		        
-		        return ResponseEntity.ok()
-		                .contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
-		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
-		                .body(resource);
-		    } catch (IOException e) {
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-		                .body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes()));
-		    }
+	}
+
+	// 게시글 첨부파일 zip으로 한번에 다운받기
+	@GetMapping("/download-all-images/{commuId}")
+	public ResponseEntity<Resource> downloadAllImages(@PathVariable int commuId) {
+		try {
+			List<CommuFile> commuFiles = commuService.getAllFilesByCommuId(commuId);
+
+			// 파일이 하나도 없다면 적절한 응답을 반환
+			if (commuFiles.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(new ByteArrayResource("첨부된 파일이 없습니다.".getBytes(StandardCharsets.UTF_8)));
+			}
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try (ZipOutputStream zos = new ZipOutputStream(baos, StandardCharsets.UTF_8)) {
+				for (CommuFile commuFile : commuFiles) {
+					Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
+					if (!Files.exists(filePath))
+						continue; // 파일이 존재하지 않으면 다음 파일로 넘어갑니다.
+
+					ZipEntry entry = new ZipEntry(commuFile.getCommuFileName());
+					zos.putNextEntry(entry);
+					byte[] bytes = Files.readAllBytes(filePath);
+					zos.write(bytes, 0, bytes.length);
+					zos.closeEntry();
+				}
+			}
+
+			byte[] zipBytes = baos.toByteArray();
+			ByteArrayResource resource = new ByteArrayResource(zipBytes);
+
+			String encodedFileName = URLEncoder.encode("all-images.zip", StandardCharsets.UTF_8);
+
+			return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+					.body(resource);
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes(StandardCharsets.UTF_8)));
 		}
-		
-		//게시글 첨부파일 zip으로 한번에 다운받기
-		@GetMapping("/download-all-images/{commuId}")
-		public ResponseEntity<Resource> downloadAllImages(@PathVariable int commuId) {
-		    try {
-		    	List<CommuFile> commuFiles = commuService.getAllFilesByCommuId(commuId);
-		        
-		        // 파일이 하나도 없다면 적절한 응답을 반환
-		        if (commuFiles.isEmpty()) {
-		            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-		                    .body(new ByteArrayResource("첨부된 파일이 없습니다.".getBytes(StandardCharsets.UTF_8)));
-		        }
-
-		        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		        try (ZipOutputStream zos = new ZipOutputStream(baos, StandardCharsets.UTF_8)) {
-		            for (CommuFile commuFile : commuFiles) {
-		                Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
-		                if (!Files.exists(filePath)) continue; // 파일이 존재하지 않으면 다음 파일로 넘어갑니다.
-
-		                ZipEntry entry = new ZipEntry(commuFile.getCommuFileName());
-		                zos.putNextEntry(entry);
-		                byte[] bytes = Files.readAllBytes(filePath);
-		                zos.write(bytes, 0, bytes.length);
-		                zos.closeEntry();
-		            }
-		        }
-
-		        byte[] zipBytes = baos.toByteArray();
-		        ByteArrayResource resource = new ByteArrayResource(zipBytes);
-		        
-		        String encodedFileName = URLEncoder.encode("all-images.zip", StandardCharsets.UTF_8);
-
-		        return ResponseEntity.ok()
-		                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
-		                .body(resource);
-		    } catch (IOException e) {
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-		                .body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes(StandardCharsets.UTF_8)));
-		    }
-		}
-
-	
-
+	}
 
 	// 카테고리별 커뮤니티 글쓰기
 	@GetMapping("/commu/write")
 	public String writePost(Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
-	    model.addAttribute("isCommunWritePage", true);
+		model.addAttribute("isCommunWritePage", true);
 		logger.info("Fetched commuCateCodeList: " + commuCateCodeList);// 실제 데이터 확인
 
 		return "user/commu/write";
@@ -485,18 +566,18 @@ public class CommuController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
-	//게시글 신고
+
+	// 게시글 신고
 	@PostMapping("/commu/report/{commuId}")
 	public String reportCommu(@PathVariable int commuId, RedirectAttributes redirectAttributes) {
 		Commu commu = commuService.selectPost(commuId);
-		if(commu != null) {
+		if (commu != null) {
 			commuService.reportPost(commuId);
-			   redirectAttributes.addFlashAttribute("message", "게시글이 신고되었습니다.");
-	    } else {
-	        redirectAttributes.addFlashAttribute("error", "해당 게시글을 찾을 수 없습니다.");
-	    }
-	    return "redirect:/commu";
+			redirectAttributes.addFlashAttribute("message", "게시글이 신고되었습니다.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "해당 게시글을 찾을 수 없습니다.");
+		}
+		return "redirect:/commu";
 	}
 
-	}
+}

@@ -6,19 +6,100 @@
 	<select id="selectAllPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
-        select commu_id,
-               commu_title,
-               commu_regist_date,
-               commu_read_cnt,
-               commu_cate_code,
-               commu_mber_id
-        from tb_commu
-        where  commu_status != 'Y'  and commu_status != 'R'
-        order by commu_id desc
-        ]]>
+        select a.commu_id,
+               a.commu_title,
+               a.commu_regist_date,
+               a.commu_read_cnt,
+               a.commu_cate_code,
+               a.commu_mber_id,
+               a.rn,
+               b.common_code_val 
+        from (
+            select rownum rn,
+                   commu_id, 
+                   commu_title,
+                   commu_regist_date,
+                   commu_read_cnt,
+                   commu_cate_code,
+                   commu_mber_id,
+                   commu_status
+            from (
+                select tb_commu.*
+                from tb_commu
+                where
+                 commu_status = 'N'
+                order by commu_id desc
+            )
+        ) a
+        JOIN tb_common_code b ON a.commu_cate_code = b.common_code 
+        WHERE a.rn BETWEEN #{start} AND #{end}
+        AND a.commu_status != 'Y' 
+        AND a.commu_status != 'R'
+        ORDER BY a.commu_id desc
+]]>
 	</select>
 
-    
+
+	<select id="totalCommu" resultType="int">
+	<![CDATA[
+	select count(*)
+	from tb_commu
+	 where commu_status = 'N'
+  ]]>
+	</select>
+
+	<select id="totalCommuByCategory" parameterType="string"
+		resultType="int">
+	<![CDATA[
+	SELECT count(*)
+	FROM tb_commu a
+	LEFT JOIN tb_common_code b ON a.commu_cate_code = b.common_code
+	WHERE commu_status = 'N' 
+	AND (#{commu_cate_code} = 'All' OR b.common_code_val = #{commu_cate_code})
+	]]>
+	</select>
+
+
+
+	<select id="selectPostListByCategory" parameterType="hashmap"
+		resultType="com.example.myapp.user.commu.model.Commu">
+		SELECT a.commu_id,
+		a.commu_title,
+		a.commu_regist_date,
+		a.commu_read_cnt,
+		a.commu_cate_code,
+		a.commu_mber_id,
+		a.rn,
+		tb_common_code.common_code_val
+		FROM (
+		SELECT tb_commu.*,
+		rownum rn
+		FROM (
+		SELECT *
+		FROM tb_commu
+		WHERE
+		commu_status = 'N'
+		<if test="commuCateCode != 'All'">
+			AND commu_cate_code = (
+			SELECT common_code
+			FROM
+			tb_common_code
+			WHERE common_code_val = #{commuCateCode}
+			)
+		</if>
+		ORDER BY commu_id DESC
+		) tb_commu
+		) a
+		JOIN tb_common_code ON
+		a.commu_cate_code = tb_common_code.common_code
+		WHERE a.rn BETWEEN
+		#{start} AND #{end}
+		ORDER BY commu_id DESC
+	</select>
+
+
+
+
 	<select id="selectPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
@@ -35,25 +116,10 @@
         ]]>
 	</select>
 
-	<select id="selectPostListByCategory" parameterType="hashmap"
-		resultType="com.example.myapp.user.commu.model.Commu">
-	SELECT a.commu_id, 
-	       a.commu_title,
-	       a.commu_regist_date,
-	       a.commu_read_cnt,
-	       a.commu_cate_code,
-	       a.commu_mber_id,
-	       b.common_code_val
-	FROM tb_commu a
-	JOIN tb_common_code b 
-	on a.commu_cate_code = b.common_code
-	WHERE a.commu_status != 'Y'  
-	<if test="commuCateCode!= 'All'">
-	AND b.common_code_val = #{commuCateCode}
-	</if>
-	ORDER BY commu_id DESC
-</select>
-	
+
+
+
+
 
 
 	<select id="selectFilesByPostId"
@@ -199,7 +265,7 @@ where commu_file_id=#{commuFileId}
 			  where commu_file_commu_id=#{commuId} 
 		  ]]>
 	</select>
-	
+
 	<update id="reportPost" parameterType="int">
 	<![CDATA[
 	update tb_commu
@@ -207,4 +273,48 @@ where commu_file_id=#{commuFileId}
 	where commu_id=#{commuId}
 		  ]]>
 	</update>
+
+	<!-- 키워드와 일치하는 게시물의 총 수를 반환 -->
+	<select id="selectTotalPostCountByKeyWord"
+		parameterType="string" resultType="int">
+    <![CDATA[
+    SELECT COUNT(*) 
+    FROM tb_commu
+    WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+    ]]>
+	</select>
+
+	<!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
+	<select id="searchListByContentKeyWord" parameterType="hashmap"
+		resultType="com.example.myapp.user.commu.model.Commu">
+    <![CDATA[
+    SELECT
+        c.commu_id AS "commuId",
+        c.commu_title AS "commuTitle",
+        c.commu_cntnt AS "commuCntnt",
+       c.commu_regist_date AS "commuRegistDate",
+        c.commu_read_cnt AS "commuReadCnt",
+        c.commu_cate_code AS "commuCateCode",
+        c.commu_mber_id AS "commuMberId",
+        c.rn,
+        cc.common_code_val
+    FROM (
+        SELECT
+            commu_id,
+            commu_title,
+            commu_cntnt,
+            commu_regist_date,
+            commu_read_cnt,
+            commu_cate_code,
+            commu_mber_id,
+            ROW_NUMBER() OVER(ORDER BY commu_id) AS rn
+        FROM tb_commu
+        WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+    ) c
+    JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
+    WHERE c.rn BETWEEN #{start} AND #{end}
+    ]]>
+	</select>
+
+
 </mapper>

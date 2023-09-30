@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.myapp.user.bkmk.model.CntntBkmk;
+import com.example.myapp.user.bkmk.model.GoodsBkmk;
+import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
 import com.example.myapp.user.bkmk.service.IBkmkService;
 
 
@@ -27,8 +29,24 @@ public class BkmkController {
     public String selectBkmkList(Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
+        
         List<CntntBkmk> selectCntntBkmkList = bkmkService.selectCntntBkmkList(userId);
+        List<GoodsJFileJBklkList> selectGoodsMkmkList = bkmkService.selectGoodsBkmkList(userId);
+        
+        for (int i = 0; i < selectCntntBkmkList.size(); i++) {
+            List<String> contentUrlSplit = List.of(selectCntntBkmkList.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String resultCode = partOfUrl2.get(1);
+            selectCntntBkmkList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
+        }
+
         model.addAttribute("cntntList", selectCntntBkmkList);
+        model.addAttribute("goodsList", selectGoodsMkmkList);
+        
+        logger.info(selectCntntBkmkList.toString());
+        logger.info(selectGoodsMkmkList.toString());
+        
         return "user/bkmk/main";
     }
     //콘텐츠 좋아요
@@ -48,7 +66,10 @@ public class BkmkController {
     public String deleteCntntBkmk(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
-
+        System.out.println("=========================");
+        System.out.println(userId);
+        System.out.println(cntntId);
+        System.out.println("=========================");
         bkmkService.deleteCntntBkmk(userId, cntntId);
         return "ok";
     }

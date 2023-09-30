@@ -1,57 +1,137 @@
-.info-container {
+.hidden {
+	display:none;
+}
+
+
+/* 댓글 리스트 영역 스타일링 */
+.comment-list-section {
+    padding: 20px 0;
+    border-top: 1px solid #e1e1e1;
+}
+
+/* 댓글 제목 영역 스타일링 */
+.comment-list-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 각 댓글 스타일링 */
+.single-comment {
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.single-comment.reply {
+    margin-left: 30px;
+    background-color: #f5f5f5; 
+}
+
+.comment-content {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between; /* 내용과 버튼을 양쪽 끝으로 배치 */
+    align-items: center; /* 내용과 버튼을 중앙으로 정렬 */
+}
+
+/* 댓글 내용 스타일링 */
+.comment-content p {
+    flex: 1; /* 댓글 내용을 가능한 한 넓게 확장 */
+    margin-right: 10px; /* 내용과 버튼 사이의 간격을 조정 */
+}
+
+
+/* 댓글 날짜 스타일링 */
+.comment-date {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+/* 답글 및 수정, 삭제 버튼 영역 스타일링 */
+.comment-buttons {
     display: flex;
     align-items: center;
-    padding: .5em;
-        display: flex;
-    align-items: center;
+    gap: 5px;
 }
-.reply {
-	margin-left:30px; /* //들여쓰기 효과 */
+
+/* 답글 입력 영역 스타일링 */
+.replyForm {
+    margin-top: 10px;
+}
+
+/* 댓글 작성 영역 스타일링 */
+.comment-section {
+    margin-top: 20px;
+}
+
+.comment-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    resize: none;
+}
+
+.comment-section button {
+    display: block;
+    margin-top: 10px;
+    background-color: #00BFFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.info-container {
+	display: flex;
+	padding: .5em;
+	display: flex;
+	align-items: center;
 }
 
 .username, .registdate, .separator {
-    margin: 0 5px;
+	margin: 0 5px;
 }
 
 .btn.report {
 	color: red !important;
-    border: 1px solid red !important;
-    background-color: white !important;
+	border: 1px solid red !important;
+	background-color: white !important;
 }
 
 .registdate {
-    margin-left: 10px; 
+	margin-left: 10px;
 }
 
 .readcnt {
-    margin-left: auto;
-    padding-right: .5em; 
+	margin-left: auto;
+	padding-right: .5em;
 }
 
 .separator {
-    border-bottom: 1px solid #ccc;
-     margin-bottom: 0; 
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 0;
 }
 
 .registdate, .readcnt {
-	font-weight:600;
-	    color: #333;
+	font-weight: 600;
+	color: #333;
 }
- 
- 
- 
- .commu-header {
+
+.commu-header {
 	border-top: 3px solid black;
 	padding: .5em;
-	font-size:20px;
-	resize:none;
+	font-size: 20px;
+	resize: none;
 }
 
 .img-div {
 	padding: 1.5em;
-	  display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .cntnt-div {
@@ -59,43 +139,42 @@
 }
 
 .file-download-section {
-    border: 1px solid #d5d5d5;
-   
+	border: 1px solid #d5d5d5;
 }
+
 .file-links li a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
-
-
 
 .zip-file-download {
-	font-size:17px;
-	resize:none;
+	font-size: 17px;
+	resize: none;
 }
 
 .file-links {
-    text-align: left;
-    display:flex;
-    padding:1px;
+	text-align: left;
+	display: flex;
+	padding: 1px;
 }
 
 .download-container {
-    display: flex;
-    align-items: center; 
+	display: flex;
+	align-items: center;
 }
 
 .download-link:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
+
 .download-container .btn.file-download {
-     padding:5px 5px;
-     height:30px;
-     resize:none;
+	padding: 5px 5px;
+	height: 30px;
+	resize: none;
 }
 
 .file-links li span {
-    padding-right: 5px;
-    resize:none;
+	padding-right: 5px;
+	resize: none;
 }
 
 img {
@@ -104,7 +183,11 @@ img {
 }
 
 .btn-div {
-	position: relative;
+	  display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+	  position: relative;
 }
 
 .list-link {
@@ -118,8 +201,13 @@ img {
 	position: absolute;
 	top: 1em;
 	right: 100px;
+	gap:10px;
 }
-
+.btns > div, 
+.btns > form {
+    display: flex; 
+    align-items: center;  
+}
 .detail-cntnt {
 	min-height: 400px;
 }

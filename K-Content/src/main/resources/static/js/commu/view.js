@@ -1,3 +1,21 @@
+function maskUserId(userId) {
+	if (userId.length <= 4) {
+		return userId;
+	}
+	return userId.substring(0, 4) + '*'.repeat(userId.length - 4);
+}
+
+$(document).ready(function() {
+	$('.single-comment strong').each(function() {
+		var originalId = $(this).text();
+		var maskedId = maskUserId(originalId);
+		$(this).text(maskedId);
+	});
+});
+
+
+
+
 //게시글 신고 기능
 function showReportConfirmModal() {
 	const modal = document.getElementById('commonModal');
@@ -106,16 +124,18 @@ $(document).ready(function() {
 		});
 	});
 	// 답글 입력 영역 초기에 숨기기
-	$(".reply-section").hide();
+	$(".replyForm").hide();
 
 	// 답글 달기 버튼 클릭 시 답글 입력 영역 표시/숨기기 토글
 	$(".comment-list-section").on("click", ".reply-to-comment", function() {
-		$(this).siblings(".reply-section").toggle();
+		$(this).closest(".single-comment").find(".replyForm").toggle();
 	});
 
 	// 대댓글 등록
 	$(".comment-list-section").on("click", ".post-reply", function() {
 		var $replyForm = $(this).closest(".replyForm");
+		var $closestComment = $(this).closest(".single-comment");
+		
 		var formData = {
 			commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
 			commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
@@ -129,21 +149,31 @@ $(document).ready(function() {
 			data: JSON.stringify(formData),
 			contentType: 'application/json',
 			dataType: 'json',
-			success: function(reply) {
+			success: function(response) {
+				console.log(response);
+				// 새로운 답글 생성
+				var commucomment = response.comment;
 				var newReply = `
-        <div class="single-comment reply" data-id="${reply.commuCommentId}">
-            <strong>${reply.commuCommentMberId}</strong>
-            <p>${reply.commuCommentCntnt}</p>
-            <div class="comment-date">${reply.commuCommentRegistDate}</div>
-            <button class="update-comment" data-id="${reply.commuCommentId}">수정</button>
-            <button class="delete-comment" data-id="${reply.commuCommentId}">삭제</button>
-        </div>
-    `;
-				$replyForm.closest(".single-comment").append(newReply); // 원본 댓글 내부에 추가
+                <div class="single-comment" data-id="${commucomment.commuCommentId}">
+                    <strong>${commucomment.commuCommentMberId}</strong>
+                    <p>${commucomment.commuCommentCntnt}</p>
+                    <div class="comment-date">${commucomment.commuCommentRegistDate}</div>
+                    <button class="update-comment" data-id="${commucomment.commuCommentId}">수정</button>
+                    <button class="delete-comment" data-id="${commucomment.commuCommentId}">삭제</button>
+                </div>
+            `;
+
+				// 상위 댓글의 replies div에 답글 추가
+			$closestComment.find(".replies").append(newReply);
+
+				// 답글 폼 초기화
+				$replyForm.find("form")[0].reset();
+
+
 			},
 			error: function(err) {
 				console.log(err);
-				alert("대댓글 작성 중 오류 발생");
+				alert("답글 작성 중 오류 발생");
 			}
 		});
 	});

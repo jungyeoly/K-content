@@ -3,6 +3,7 @@ package com.example.myapp.user.mber.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.myapp.user.mber.model.Mber;
@@ -16,7 +17,9 @@ public interface IMberRepository {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberAllList();
+	List<Mber> selectMberList(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+	
+	int getMberTotalCount();
 
 	void insertMber(Mber mber);
 

@@ -307,7 +307,7 @@ public class MberController {
 	}
 
 	@GetMapping(value = "/mber/deletember")
-	public String deleteMber(Model model, HttpSession session,Authentication auth) {
+	public String deleteMber(Model model, HttpSession session, Authentication auth) {
 		String currentMberId = auth.getName();
 		Mber mber = mberService.selectMberbyId(currentMberId);
 		if (mber == null) {
@@ -334,7 +334,7 @@ public class MberController {
 			mberService.deleteMber(currentMberId);
 			SecurityContextHolder.clearContext();
 			session.invalidate(); // 세션 무효화
-			return "redirect:/";
+			return "redirect:/mber/signin";
 		} else {
 			model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
 		}
@@ -384,4 +384,13 @@ public class MberController {
 		String phoneRegExp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		return mberPhone.matches(phoneRegExp);
 	}
+
+	@RequestMapping(value = "/mber/checkdbpwd", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkDBPwd(String mberPwd, Authentication authentication) {
+			String currentMberId = authentication.getName();
+			Mber mber = mberService.selectMberbyId(currentMberId);
+			return passwordEncoder.matches(mberPwd, mber.getMberPwd());
+	}
+
 }

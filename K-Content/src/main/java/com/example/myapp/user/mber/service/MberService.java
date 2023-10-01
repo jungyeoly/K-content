@@ -32,8 +32,13 @@ public class MberService implements IMberService {
 	}
 
 	@Override
-	public List<Mber> selectMberAllList() {
-		return mberRepository.selectMberAllList();
+	public List<Mber> selectMberList(int startIndex, int pageSize) {
+		return mberRepository.selectMberList(startIndex, pageSize);
+	}
+
+	@Override
+	public int getMberTotalCount() {
+		return mberRepository.getMberTotalCount();
 	}
 
 	@Override
@@ -69,7 +74,7 @@ public class MberService implements IMberService {
 	public boolean isMberId(String mberId) {
 		return mberRepository.isMberId(mberId);
 	}
-	
+
 	@Override
 	public boolean isMberEmail(String mberEmail) {
 		return mberRepository.isMberEmail(mberEmail);

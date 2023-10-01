@@ -13,7 +13,9 @@ public interface IMberService {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberAllList();
+	List<Mber> selectMberList(int startIndex, int pageSize);
+	
+	int getMberTotalCount();
 
 	void insertMber(Mber mber);
 

@@ -72,7 +72,7 @@
 		]]>
 	</select>
 
-	<select id="selectMberAllList"
+	<select id="selectMberList"
 		resultType="com.example.myapp.user.mber.model.Mber">
 		<![CDATA[
 		  SELECT A.mber_id,
@@ -83,20 +83,29 @@
 			       A.mber_phone,
 			       A.mber_regist_date,
 			       A.mber_update_date,
-			       A.mber_gender_code,
-			       B1.common_code_dscr AS mber_stat,
-			       B2.common_code_val AS mber_role
+                   B1.common_code_dscr AS mber_gender_code, 
+			       B2.common_code_dscr AS mber_stat,
+			       B3.common_code_dscr AS mber_role
 				FROM tb_mber A
-				JOIN tb_common_code B1
-				ON A.mber_stat_code = B1.common_code
+                JOIN tb_common_code B1
+				ON A.mber_gender_code = B1.common_code
 				JOIN tb_common_code B2
-				ON A.mber_role_code = B2.common_code
+				ON A.mber_stat_code = B2.common_code
+				JOIN tb_common_code B3
+				ON A.mber_role_code = B3.common_code
+				LIMIT #{startIndex}, #{pageSize}
 		]]>
 	</select>
 
+	<select id="getMberTotalCount"
+		resultType="int">
+		<![CDATA[
+		 	SELECT COUNT(*) FROM tb_mber
+		]]>
+	</select>
 
-	
-	<insert id="insertMber" parameterType="com.example.myapp.user.mber.model.Mber">
+	<insert id="insertMber"
+		parameterType="com.example.myapp.user.mber.model.Mber">
 	    <![CDATA[
 		INSERT INTO tb_mber (mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date,
 							 mber_update_date, mber_gender_code, mber_stat_code, mber_role_code)
@@ -128,7 +137,7 @@
 		WHERE mber_id = #{mberId}
 		]]>
 	</update>
-	
+
 	<select id="maskMberId" parameterType="String"
 		resultType="String">
     <![CDATA[
@@ -137,7 +146,7 @@
 		WHERE mber_email = #{mberEmail}
 		]]>
 	</select>
-	
+
 	<select id="isMberId" parameterType="String"
 		resultType="boolean">
     <![CDATA[
@@ -146,7 +155,7 @@
 		WHERE mber_id = #{mberId}
 		]]>
 	</select>
-	
+
 	<select id="isMberEmail" parameterType="String"
 		resultType="boolean">
     <![CDATA[
@@ -155,5 +164,5 @@
 		WHERE mber_email = #{mberEmail}
 		]]>
 	</select>
-	
+
 </mapper>

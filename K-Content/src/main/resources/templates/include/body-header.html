@@ -25,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 			<li id="comm" class="content"><a th:href="@{/commu}">Comm</a></li>
 			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
 
-			<li class="cms content" sec:authorize="!hasRole('ADMIN')">&nbsp;</li>
+			<li class="cms content" sec:authorize="!hasRole('ADMIN')"></li>
 			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/test}">CMS</a></li>
 			<li class="search">
 				<form id="searchForm" class="input-group">

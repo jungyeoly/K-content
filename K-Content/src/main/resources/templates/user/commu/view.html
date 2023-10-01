@@ -82,14 +82,14 @@
 				</form>
 			</div>
 		</div>
-		<!-- Comment List Section -->
 		<div class="comment-list-section">
 			<h3>
 				댓글 <span th:text="${comments != null ? comments.size() : 0}">(0)</span>
 			</h3>
 
 			<!-- Original Comments -->
-			<th:block th:each="commucomment : ${comments}" th:if="${commucomment.commuCommentDepth == 0}">
+			<th:block th:each="commucomment : ${comments}"
+				th:if="${commucomment.commuCommentDepth == 0}">
 				<div class="single-comment original-comment"
 					th:data-id="${commucomment.commuCommentId}">
 					<!-- Common Comment Structure -->
@@ -112,7 +112,7 @@
 					</div>
 
 					<!-- Reply Form for Original Comment -->
-					<div class="original-replyForm" th:data-id="${commucomment.commuCommentId}">
+					<div class="original-replyForm"data-id="${commucomment.commuCommentId}">
 						<form>
 							<input type="hidden" name="commuCommentRefId"
 								th:value="${commucomment.commuCommentId}">
@@ -150,8 +150,7 @@
 								</div>
 
 								<!-- Reply Form for this Reply -->
-								<div class="replyForm-for-reply"
-									th:data-id="${reply.commuCommentId}">
+								<div class="replyForm-for-reply" th:data-id="${reply.commuCommentId}">
 									<form>
 										<input type="hidden" name="commuCommentRefId"
 											th:value="${reply.commuCommentId}">

@@ -17,7 +17,7 @@ public interface IMberRepository {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberList(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+	List<Mber> selectMberList();
 	
 	int getMberTotalCount();
 
@@ -35,4 +35,5 @@ public interface IMberRepository {
 
 	boolean isMberEmail(String mberEmail);
 
+	void changeMberStatus(String mberId, String newStatus);
 }

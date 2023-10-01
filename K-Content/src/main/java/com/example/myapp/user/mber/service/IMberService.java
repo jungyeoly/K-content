@@ -13,7 +13,7 @@ public interface IMberService {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberList(int startIndex, int pageSize);
+	List<Mber> selectMberList();
 	
 	int getMberTotalCount();
 
@@ -28,5 +28,6 @@ public interface IMberService {
 	boolean isMberId(String mberId);
 
 	boolean isMberEmail(String mberEmail);
-
+	
+	void changeMberStatus(String mberId, String newStatus);
 }

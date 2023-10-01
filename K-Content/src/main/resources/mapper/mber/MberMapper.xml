@@ -72,29 +72,27 @@
 		]]>
 	</select>
 
-	<select id="selectMberList"
-		resultType="com.example.myapp.user.mber.model.Mber">
-		<![CDATA[
-		  SELECT A.mber_id,
-			       A.mber_email,
-			       A.mber_pwd,
-			       A.mber_name,
-			       A.mber_birth,
-			       A.mber_phone,
-			       A.mber_regist_date,
-			       A.mber_update_date,
-                   B1.common_code_dscr AS mber_gender_code, 
-			       B2.common_code_dscr AS mber_stat,
-			       B3.common_code_dscr AS mber_role
-				FROM tb_mber A
-                JOIN tb_common_code B1
-				ON A.mber_gender_code = B1.common_code
-				JOIN tb_common_code B2
-				ON A.mber_stat_code = B2.common_code
-				JOIN tb_common_code B3
-				ON A.mber_role_code = B3.common_code
-				LIMIT #{startIndex}, #{pageSize}
-		]]>
+	<select id="selectMberList" resultType="com.example.myapp.user.mber.model.Mber">
+	  <![CDATA[
+		SELECT A.mber_id,
+				       A.mber_email,
+				       A.mber_pwd,
+				       A.mber_name,
+				       A.mber_birth,
+				       A.mber_phone,
+				       A.mber_regist_date,
+				       A.mber_update_date,
+	                   B1.common_code_dscr AS mber_gender_code, 
+				       B2.common_code_dscr AS mber_stat,
+				       B3.common_code_dscr AS mber_role
+					FROM tb_mber A
+	                JOIN tb_common_code B1
+					ON A.mber_gender_code = B1.common_code
+					JOIN tb_common_code B2
+					ON A.mber_stat_code = B2.common_code
+					JOIN tb_common_code B3
+					ON A.mber_role_code = B3.common_code
+	  ]]>
 	</select>
 
 	<select id="getMberTotalCount"
@@ -164,5 +162,13 @@
 		WHERE mber_email = #{mberEmail}
 		]]>
 	</select>
+
+	<update id="changeMberStatus" parameterType="map">
+    <![CDATA[
+	    UPDATE tb_mber
+        SET mber_stat_code = #{newStatus}
+        WHERE mber_id = #{mberId}
+		]]>
+	</update>
 
 </mapper>

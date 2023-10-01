@@ -32,8 +32,8 @@ public class MberService implements IMberService {
 	}
 
 	@Override
-	public List<Mber> selectMberList(int startIndex, int pageSize) {
-		return mberRepository.selectMberList(startIndex, pageSize);
+	public List<Mber> selectMberList() {
+		return mberRepository.selectMberList();
 	}
 
 	@Override
@@ -78,5 +78,10 @@ public class MberService implements IMberService {
 	@Override
 	public boolean isMberEmail(String mberEmail) {
 		return mberRepository.isMberEmail(mberEmail);
+	}
+	
+	@Override
+	 public void changeMberStatus(String mberId, String newStatus) {
+		mberRepository.changeMberStatus(mberId, newStatus);
 	}
 }

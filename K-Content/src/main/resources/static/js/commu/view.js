@@ -147,7 +147,7 @@ $(".comment-list-section").on("click", ".reply-to-comment", function() {
 		var $replyForm = $(this).closest(".replyForm, .replyForm-for-reply"); 
 		var $closestComment = $(this).closest(".single-comment");
 
-		var commuCommentRefId = $replyForm.data("id");
+		var commuCommentRefId = $replyForm.attr("data-id");
 
 		var formData = {
 			commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),

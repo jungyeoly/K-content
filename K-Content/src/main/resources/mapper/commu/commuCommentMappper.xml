@@ -75,9 +75,9 @@
 		FROM TB_COMMU_COMMENT
 		WHERE COMMU_COMMENT_COMMU_ID =
 		#{commuId}
-		 ORDER BY COALESCE(COMMU_COMMENT_UPDATE_DATE, COMMU_COMMENT_REGIST_DATE) DESC, 
-    COMMU_COMMENT_ORDER DESC
-
+		ORDER BY
+		COALESCE(COMMU_COMMENT_REF_ID, COMMU_COMMENT_ID) ASC,
+		COALESCE(COMMU_COMMENT_UPDATE_DATE, COMMU_COMMENT_REGIST_DATE) DESC
 	</select>
 
 	<!--특정 ID를 가진 댓글의 정보를 조회 -->
@@ -85,14 +85,16 @@
 		resultType="com.example.myapp.user.commucomment.model.CommuComment">
 		SELECT *
 		FROM TB_COMMU_COMMENT
-		WHERE COMMU_COMMENT_ID = #{commuCommentId}
+		WHERE COMMU_COMMENT_ID =
+		#{commuCommentId}
 	</select>
 
 	<!-- 게시글의 마지막 댓글 순서를 가져오기 -->
 	<select id="getLastCommuCommentOrder" resultType="int"
 		parameterType="int">
 		SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
-		FROM TB_COMMU_COMMENT
+		FROM
+		TB_COMMU_COMMENT
 		WHERE COMMU_COMMENT_COMMU_ID = #{commuCommentCommuId}
 	</select>
 
@@ -100,7 +102,8 @@
 	<select id="getLastReplyOrder" resultType="int"
 		parameterType="int">
 		SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
-		FROM TB_COMMU_COMMENT
+		FROM
+		TB_COMMU_COMMENT
 		WHERE COMMU_COMMENT_REF_ID = #{commuCommentRefId}
 	</select>
 

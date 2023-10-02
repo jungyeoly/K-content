@@ -32,8 +32,9 @@ public class MberService implements IMberService {
 	}
 
 	@Override
-	public List<Mber> selectMberList() {
-		return mberRepository.selectMberList();
+	public List<Mber> selectMberList(int page) {
+		int start = (page-1)*10 + 1;
+		return mberRepository.selectMberList(start, start+9);
 	}
 
 	@Override

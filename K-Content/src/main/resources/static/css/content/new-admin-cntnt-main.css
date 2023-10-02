@@ -30,6 +30,9 @@
     flex: 1 1 auto;
     padding: 1em;
     background: white;
+    white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 

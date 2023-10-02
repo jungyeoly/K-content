@@ -82,17 +82,19 @@
 				</form>
 			</div>
 		</div>
+		<!-- 댓글 리스트 영역 시작 -->
 		<div class="comment-list-section">
 			<h3>
 				댓글 <span th:text="${comments != null ? comments.size() : 0}">(0)</span>
 			</h3>
 
-			<!-- Original Comments -->
-			<th:block th:each="commucomment : ${comments}"
-				th:if="${commucomment.commuCommentDepth == 0}">
-				<div class="single-comment original-comment"
-					th:data-id="${commucomment.commuCommentId}">
-					<!-- Common Comment Structure -->
+			<th:block th:each="commucomment : ${comments}">
+
+				<!-- 원본 댓글 -->
+				<div class="single-comment"
+					th:if="${commucomment.commuCommentRefId == 0}"
+					th:style="'margin-left:' + (${commucomment.commuCommentDepth} * 20) + 'px'"
+					th:data-id="${commucomment.commuCommentId != null ? commucomment.commuCommentId : ''}">
 					<strong th:text="${commucomment.commuCommentMberId}">UserName</strong>
 					<div class="comment-content">
 						<p th:text="${commucomment.commuCommentCntnt}">CommuCommentCntnt</p>
@@ -101,7 +103,7 @@
 					<div class="comment-date"
 						th:text="${commucomment.commuCommentRegistDate}">Date</div>
 					<div class="comment-buttons">
-						<button class="reply-to-comment">답글</button>
+						<button class="reply-to-comment">답글 달기</button>
 						<div
 							th:if="${#authentication.principal.username} == ${commucomment.commuCommentMberId}">
 							<button class="update-comment"
@@ -110,9 +112,8 @@
 								th:data-id="${commucomment.commuCommentId}">삭제</button>
 						</div>
 					</div>
-
-					<!-- Reply Form for Original Comment -->
-					<div class="original-replyForm"data-id="${commucomment.commuCommentId}">
+					<!-- 대댓글 입력 영역 -->
+					<div class="replyForm" th:data-id="${commucomment.commuCommentId}">
 						<form>
 							<input type="hidden" name="commuCommentRefId"
 								th:value="${commucomment.commuCommentId}">
@@ -122,7 +123,9 @@
 						</form>
 					</div>
 
-					<!-- Replies for this Comment -->
+
+					<!-- 답글들이 추가될 위치 -->
+
 					<div class="replies">
 						<th:block th:each="reply : ${comments}"
 							th:if="${reply.commuCommentRefId == commucomment.commuCommentId}">
@@ -149,8 +152,9 @@
 									</div>
 								</div>
 
-								<!-- Reply Form for this Reply -->
-								<div class="replyForm-for-reply" th:data-id="${reply.commuCommentId}">
+								<!-- 대댓글의 답글 입력 영역 -->
+								<div class="replyForm-for-reply"
+									th:data-id="${reply.commuCommentId}">
 									<form>
 										<input type="hidden" name="commuCommentRefId"
 											th:value="${reply.commuCommentId}">
@@ -159,15 +163,19 @@
 										<button type="button" class="post-reply">등록</button>
 									</form>
 								</div>
+								
+								
 							</div>
 						</th:block>
 					</div>
-
 				</div>
 			</th:block>
 		</div>
 
-		<!-- Comment Input Section -->
+
+		<!-- 댓글 리스트 영역 끝 -->
+
+		<!-- 댓글 작성 영역 시작 -->
 		<div th:if="${#authentication.principal}">
 			<div class="comment-section">
 				<form id="commentForm" th:action="@{/commu/comment}" method="post">
@@ -181,11 +189,14 @@
 				</form>
 			</div>
 		</div>
+
 		<div th:unless="${#authentication.principal}">
 			<p>
 				댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
 			</p>
 		</div>
+		<!-- 댓글 작성 영역 끝 -->
+
 		<div th:insert="~{include/common-modal :: commonmodal}"></div>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		<script th:src="@{/js/commu/view.js}"></script>

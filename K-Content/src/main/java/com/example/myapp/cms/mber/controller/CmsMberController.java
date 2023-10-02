@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,14 +33,66 @@ public class CmsMberController {
 
 	@GetMapping("/cs/mber")
 	public String mberManage(Model model) {
+		int page = 1;
+		int mberCount = mberService.getMberTotalCount();
+		int totalPage = 0;
 
-		List<Mber> mber = mberService.selectMberList();
+		if(mberCount > 0) {
+			totalPage= (int)Math.ceil(mberCount/10.0);
+		}
+		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+		int nowPageBlock = (int) Math.ceil(page/10.0);
+		int startPage = (nowPageBlock-1)*10 + 1;
+		int endPage = 0;
+		if(totalPage > nowPageBlock*10) {
+			endPage = nowPageBlock*10;
+		}else {
+			endPage = totalPage;
+		}
 
-		model.addAttribute("mber", mber);
-
-		return "cms/mber/mber";
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("nowPage", page);
+		model.addAttribute("totalPageBlock", totalPageBlock);
+		model.addAttribute("nowPageBlock", nowPageBlock);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("totalPage", totalPage);
+		return "cms/mber/list";
 	}
 
+    @GetMapping("/cs/mber/list/{page}")
+    @ResponseBody // HTML을 직접 반환
+    public List<Mber> getMberList(@PathVariable int page, Model model) {
+        List<Mber> mber = mberService.selectMberList(page);
+        
+
+		int mberCount = mberService.getMberTotalCount();
+	
+		int totalPage = 0;
+
+		if(mberCount > 0) {
+			totalPage= (int)Math.ceil(mberCount/10.0);
+		}
+		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+		int nowPageBlock = (int) Math.ceil(page/10.0);
+		int startPage = (nowPageBlock-1)*10 + 1;
+		int endPage = 0;
+		if(totalPage > nowPageBlock*10) {
+			endPage = nowPageBlock*10;
+		}else {
+			endPage = totalPage;
+		}
+		
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("nowPage", page);
+		model.addAttribute("totalPageBlock", totalPageBlock);
+		model.addAttribute("nowPageBlock", nowPageBlock);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+
+        return mber;
+    }
+    
 	@PostMapping("/mber/changestat")
 	@ResponseBody
 	public Map<String, Object> changeMberStatus(@RequestParam String mberId, @RequestParam String newStatus) {

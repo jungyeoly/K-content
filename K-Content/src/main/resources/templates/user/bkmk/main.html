@@ -15,7 +15,7 @@
 		</ul>
 
 		<div id="menu1" class="tabcont on">
-			<div class="d-flex flex-wrap justify-content-around">
+			<div class="d-flex flex-wrap justify-content-center">
 				<div th:each="cntnt : ${cntntList}" class="card mx-3 my-3 position-relative"
 					th:cntntId="${cntnt.cntntId}" onclick="cntntDetail(this.getAttribute('cntntId'))">
 					<i class="fa-solid fa-x position-absolute text-danger cntntI fw-bold end-0 top-0 p-1"></i>
@@ -28,7 +28,7 @@
 		</div>
 		
 		<div id="menu2" class="tabcont">
-			<div class="d-flex flex-wrap justify-content-around">
+			<div class="d-flex flex-wrap justify-content-center">
 				<div th:each="goods : ${goodsList}" class="card mx-3 my-3 position-relative" th:goodsId="${goods.goodsId}">
 					<i class="fa-solid fa-x position-absolute text-danger goodsI fw-bold end-0 top-0 p-1"></i>
 					<img class="card-img-top" 

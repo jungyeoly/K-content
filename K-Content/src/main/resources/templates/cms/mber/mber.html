@@ -41,11 +41,11 @@ table {
 	padding-right: 1em !important;
 }
 
-.order-table {
+.mber-table {
 	position: relative;
 }
 
-.order-table:after, .order-table:before {
+.mber-table:after, .mber-table:before {
 	content: "";
 	position: absolute;
 	top: 0px;
@@ -54,45 +54,42 @@ table {
 	background: #e8e9ef;
 }
 
-.order-table:after {
+.mber-table:after {
 	right: -1px;
 }
 
-.order-table:before {
+.mber-table:before {
 	left: -1px;
 }
 
-.order-table tr th {
+.mber-table tr th {
 	background: #e8e9ef;
 }
 
-.order-table tr td:last-child, .order-table tr th:last-child {
+.mber-table tr td:last-child, .mber-table tr th:last-child {
 	text-align: center;
 }
 
-.order-table tr:last-child td {
+.mber-table tr:last-child td {
 	border: none;
 }
 
-.order-table .badge {
+.mber-table .badge {
 	color: white;
 	padding: 10px;
 	font-weight: normal;
 }
 
-.order-table .badge-complete {
+.mber-table .badge-complete {
 	background: #00c292;
 }
 
-.order-table .badge-pending {
+.mber-table .badge-pending {
 	background: #fb9678;
 }
-/* Stats Table */
-.table-stats table {
-	font-family: 'Open Sans';
-}
 
-.table-stats table th, .table-stats table td {
+
+.table-layout table th, .table-layout table td {
 	border: none;
 	border-bottom: 1px solid #e8e9ef;
 	color: #868e96;
@@ -103,37 +100,35 @@ table {
 	white-space: nowrap;
 }
 
-.table-stats table th img, .table-stats table td img {
+.table-layout table th img, .table-layout table td img {
 	margin-right: 10px;
 	max-width: 45px;
 }
 
-.table-stats table th .name, .table-stats table td .name {
+.table-layout table th .name, .table-layout table td .name {
 	color: #343a40;
 	font-size: 14px;
 }
 
-.table-stats table td {
+.table-layout table td {
 	color: #343a40;
 	font-size: 10px;
 	font-weight: 600;
 	vertical-align: middle;
 }
 
-/* Timeline */
 </style>
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	<div class="content">
-		<div class="animated fadeIn">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
-							<strong class="card-title">사용자 관리</strong>
+							<strong class="card-title">회원 관리</strong>
 						</div>
-						<div class="table-stats order-table ov-h">
+						<div class="table-layout mber-table ov-h">
 							<table class="table">
 								<thead>
 									<tr>
@@ -196,13 +191,9 @@ table {
                                 </ul>
                             </div> -->
 						</div>
-						<!-- /.table-stats -->
 					</div>
 				</div>
-				<!-- .animated -->
 			</div>
-			<!-- .content -->
-		</div>
 	</div>
 <script>
 function changeStatus(mberId, newStatus) {
@@ -215,10 +206,10 @@ function changeStatus(mberId, newStatus) {
         },
         success: function(response) {
             if (response.success) {
-                // 성공적으로 상태가 변경된 경우 페이지를 새로 고침합니다.
+                 alert('상태 변경되었습니다.');
                 location.reload();
             } else {
-                alert('상태 변경에 실패했습니다.');
+                alert('상태 변경 실패했습니다.');
             }
         },
         error: function() {

@@ -30,10 +30,14 @@ public class GoodsService implements IGoodsService {
     }
 
     @Override
-    public List<Goods> getAllGoodsJFile() {
-        return goodsRepository.getAllGoodsJFile();
+    public List<Goods> getAllGoodsJFile(int page) {
+        int start = (page-1)*10 + 1;
+        return goodsRepository.getAllGoodsJFile(start, start+9);
     }
-
+    @Override
+    public int totalGoods() {
+        return goodsRepository.totalGoods();
+    }
     @Override
     public List<Goods> getSearchGoodsJFile(String search) {
         return goodsRepository.getSearchGoodsJFile(search);
@@ -70,5 +74,10 @@ public class GoodsService implements IGoodsService {
         int rowsAffected = goodsRepository.insertGoodsFile(goodsFile);
 
         return rowsAffected;
+    }
+
+    @Override
+    public void updateGoods(Goods goods) {
+        goodsRepository.updateGoods(goods);
     }
 }

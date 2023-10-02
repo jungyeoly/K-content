@@ -30,7 +30,7 @@
             </div>
             사진을 클릭하면 삭제됩니다!
             <div class="input-group mb-3 file-append-box">
-                <input type="file" class="form-control" id="input-file" name="files" multiple="multiple">
+                <input type="file" class="form-control" id="input-file" name="files"  accept="image/*"  >[[${goods.goodsFileId}]]
                 <label class="input-group-text" for="input-file">Upload</label>
             </div>
         </div>
@@ -83,7 +83,6 @@
                     </div>
                 </div>
 
-
                 <div class="input-group mb-3">
                     <form id="searchForm" class="input-group">
                         <div class="keywordInput">
@@ -99,7 +98,7 @@
             </div>
             <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
             <div class="button-box">
-                <button type="button" class="btn btn-primary" onclick="updateGoods()">상품 수정</button>
+                <button type="button" class="btn btn-primary" onclick="updateGoodsIf()">상품 수정</button>
                 <button type="button" class="btn danger" onclick="cancle()">취소</button>
             </div>
         </div>
@@ -116,7 +115,7 @@
             <div class="img" id="pictures">
             </div>
             <div class="input-group mb-3 file-append-box">
-                <input type="file" class="form-control" id="input-file" name="files" multiple="multiple">
+                <input type="file" class="form-control" id="input-file" name="files" required >
                 <label class="input-group-text" for="input-file">Upload</label>
             </div>
         </div>
@@ -151,7 +150,6 @@
 
             </div>
 
-
             <div class="item keyword" id="keywordList">
                 <div class="newKeyword">
 
@@ -175,11 +173,7 @@
                 <button type="button" class="btn btn-primary" onclick="createGoods()">상품 생성</button>
             </div>
         </div>
-
-
     </div>
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>

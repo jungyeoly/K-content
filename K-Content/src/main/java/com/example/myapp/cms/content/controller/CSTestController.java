@@ -98,10 +98,10 @@ public class CSTestController {
         session.setAttribute("nowPage", page);
         return "cms/cntnt/new-admin-main-content";
     }
-    @GetMapping("/goods")
-    public String testGoods() {
-        return "cms/goods/new-goods-main";
-    }
+//    @GetMapping("/goods")
+//    public String testGoods() {
+//        return "cms/goods/new-goods-main";
+//    }
 
 
 

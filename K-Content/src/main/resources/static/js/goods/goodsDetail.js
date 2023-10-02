@@ -8,9 +8,9 @@ function deleteGoods() {
             }, // 데이터 객체 전달
             success: function (data2) {
                 if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/goods/main");
+                    window.location.replace("/cs/test/goods");
                 } else {
-                    window.location.replace("/cs/goods/main");
+                    window.location.replace("/cs/test/goods");
                 }
             }, error: function (error) {
                 console.error('에러 발생: ', error);

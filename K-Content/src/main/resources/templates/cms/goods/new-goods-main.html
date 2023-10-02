@@ -1,44 +1,36 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
-<head>
-    <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
-    <link rel="stylesheet" th:href="@{/css/content/content.css}">
-    <link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
+<div class="pad">
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+    <head>
+        <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
+        <link rel="stylesheet" th:href="@{/css/content/content.css}">
+        <link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
 
-</head>
-<body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+    </head>
+    <body>
+    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
-<div class="layout">
-    <div class="search">
-        <form id="searchForm" class="input-group">
-            <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
-            <button class="btn" id="search-button" onclick="searchKeyword()" type="button" value="찾기">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+    <div class="layout d-flex justify-content-center mb-5" id="layout">
+
     </div>
 
-    <section class="primary">
-        <ul class="card-list" id="card-list">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
 
-        </ul>
-    </section>
+            $.ajax({
+                url: "/cs/test/goods/" + 1,
+                type: "GET",
+                success: function(data) {
+                    var layout = $(".layout");
+                    layout.append(data);
+                }
+            })
+        })
+    </script>
+    <script src="/js/goods/goodsListMain.js" defer></script>
 
-    <div class="new-button container">
-        <a href="/cs/test/goods/form" type="button" class="new-button btn btn-primary">생성</a>
-    </div>
-
-    <!--    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">-->
-
-    <!--    </footer>-->
-
-
+    </body>
+    </html>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script src="/js/goods/goodsListMain.js" defer></script>
-
-</body>
-</html>

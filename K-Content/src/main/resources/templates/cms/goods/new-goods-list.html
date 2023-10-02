@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="menu fw-bold">상품관리</div>
+    <header class="header">
+        <form class="search-form" id="search-form">
+            <input type="search" id="search-input">
+            <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">
+        </form>
+    </header>
+
+    <section class="primary">
+        <ul class="card-list" id="card-list">
+            <div th:each="goods : ${goodsList}" id="goods">
+                <div class="col-xl-3 col-lg-6">
+                    <div class="single-category mb-30"
+                         th:goodsId="${goods.goodsId}"
+                         onclick="detail(this.getAttribute('goodsId'))">
+                        <div class="category-img">
+
+                            <img style="width: 300px; height: 300px; margin:auto; display: block"
+                                 th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" alt="">
+                            <div class="category-caption">
+                                <h6 style="text-align: center;" th:text="${goods.goodsName}"></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </ul>
+    </section>
+
+    <div class="new-button">
+        <a href="/cs/goods/form" type="button" class="new-button btn btn-primary">생성</a>
+    </div>
+
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item" th:if="${nowPageBlock>1}">
+                <a class="page-link prepage" id="prepage" onclick="prePageF()" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+
+            <li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${i==nowPage}?active">
+                <a class="page-link selpage" id="selpage"
+                   th:pageNum="${i}"
+                   onclick="selPageF(this.getAttribute('pageNum'))" th:data-selpage="${i}">[[${i}]]</a>
+            </li>
+
+            <li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+                <a class="page-link nexpage" id="nexpage" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!--    <footer class="footer" th:replace="~{/include/admin-footer :: admin-footer}">-->
+
+    <!--    </footer>-->
+
+</div>
+<script th:src="@{/js/goods/goodsListMain.js}"></script>

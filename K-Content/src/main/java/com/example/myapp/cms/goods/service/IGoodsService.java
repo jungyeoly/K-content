@@ -13,13 +13,17 @@ public interface IGoodsService {
     //일단 굿즈 파일이 하나라고 가정..
     Goods getGoodsJFileByGoodsId(int goodsId);
 
-    List<Goods> getAllGoodsJFile();
+    List<Goods> getAllGoodsJFile(int page);
 
     List<Goods> getSearchGoodsJFile(String search);
+
+    int totalGoods();
 
     int insertGoods(Goods goods, GoodsFile goodsFile);
 
     void updateDelYnGoods(int goodsId);
 
     int updateGoods(Goods goods, GoodsFile goodsFile);
+
+    void updateGoods(Goods goods);
 }

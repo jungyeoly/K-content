@@ -3,27 +3,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.myapp.cms.goods.dao.IGoodsRepository">
-
+    <select id="totalGoods" resultType="int">
+		<![CDATA[
+        SELECT count(*)
+        FROM tb_goods
+        WHERE goods_delete_yn = 'N'
+        ]]>
+	</select>
     <select id="getAllGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id,
-               g.goods_name,
-               g.goods_brand,
-               g.goods_price,
-               g.goods_purchs_link,
-               g.goods_kwrd,
-               g.goods_regist_date,
-               g.goods_update_date,
-               g.goods_delete_yn,
+        SELECT goods_id,
+               goods_name,
+               goods_brand,
+               goods_price,
+               goods_purchs_link,
+               goods_kwrd,
+               goods_regist_date,
+               goods_update_date,
+               goods_delete_yn,
                f.goods_file_id,
                f.goods_file_path,
                f.goods_file_name
+        FROM (SELECT g.*, ROWNUM AS RNUM, COUNT(*) OVER () AS TOTCNT
+              FROM (SELECT goods_id,
+                           goods_name,
+                           goods_brand,
+                           goods_price,
+                           goods_purchs_link,
+                           goods_kwrd,
+                           goods_regist_date,
+                           goods_update_date,
+                           goods_delete_yn
+                    FROM tb_goods
+                    ORDER BY goods_id desc) g)
 
-        FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
-                                 ON g.goods_id = f.goods_file_goods_id
-        where g.goods_delete_yn = 'N'
+                                 ON goods_id = f.goods_file_goods_id
+        WHERE RNUM > #{start}
+          AND RNUM <= #{end}
         ]]>
+
     </select>
     <select id="getGoodsJFileByGoodsId" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[

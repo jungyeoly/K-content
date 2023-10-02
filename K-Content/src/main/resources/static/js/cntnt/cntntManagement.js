@@ -9,9 +9,10 @@ function searchButton() {
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');
-            element.innerHTML='';
-            for (i = 0; i < contentList.length; i++) {
-                inHtml = `
+            element.innerHTML = '';
+            if (contentList.length != 0) {
+                for (i = 0; i < contentList.length; i++) {
+                    inHtml = `
             <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
                 <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} >
@@ -20,9 +21,18 @@ function searchButton() {
                    ${contentList[i].cntntTitle}
                 </div>
             </li>`;
-                element.insertAdjacentHTML("afterbegin", inHtml);
+                    element.insertAdjacentHTML("afterbegin", inHtml);
 
+                }
+            } else {
+                inHtml = `
+            <div>
+            관련 콘텐츠가 존재하지 않습니다.
+            </div>`;
+                element.insertAdjacentHTML("afterbegin", inHtml);
             }
+
+
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }

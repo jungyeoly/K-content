@@ -101,18 +101,10 @@ public class CSTestController {
         session.setAttribute("nowPage", page);
         return "cms/cntnt/new-admin-main-content";
     }
-    @GetMapping("/goods")
-    public String testGoods() {
-        return "cms/goods/new-goods-main";
-    }
-
-
-
-
-
-
-
-
+//    @GetMapping("/goods")
+//    public String testGoods() {
+//        return "cms/goods/new-goods-main";
+//    }
 
 
 
@@ -209,7 +201,7 @@ public class CSTestController {
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성 페이지 form 유튜브

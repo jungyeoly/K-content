@@ -33,13 +33,20 @@ public class CmsMberController {
 	@GetMapping("/cs/mber")
 	public String mberManage(Model model) {
 
-		List<Mber> mber = mberService.selectMberList();
+	
 
-		model.addAttribute("mber", mber);
-
-		return "cms/mber/mber";
+		return "cms/mber/list";
 	}
 
+    @GetMapping("/cs/mber/list")
+    @ResponseBody // HTML을 직접 반환
+    public List<Mber> getMberList(Model model) {
+        List<Mber> mber = mberService.selectMberList();
+
+        model.addAttribute("mber", mber);
+        return mber;
+    }
+    
 	@PostMapping("/mber/changestat")
 	@ResponseBody
 	public Map<String, Object> changeMberStatus(@RequestParam String mberId, @RequestParam String newStatus) {

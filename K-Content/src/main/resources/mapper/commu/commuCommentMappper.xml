@@ -77,8 +77,11 @@
 		#{commuId}
 		ORDER BY
 		COALESCE(COMMU_COMMENT_REF_ID, COMMU_COMMENT_ID) ASC,
-		COALESCE(COMMU_COMMENT_UPDATE_DATE, COMMU_COMMENT_REGIST_DATE) DESC
+		COMMU_COMMENT_DEPTH ASC,
+		COMMU_COMMENT_REGIST_DATE DESC
+
 	</select>
+
 
 	<!--특정 ID를 가진 댓글의 정보를 조회 -->
 	<select id="selectCommuCommentById" parameterType="int"

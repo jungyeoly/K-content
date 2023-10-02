@@ -84,6 +84,8 @@ $(document).ready(function() {
 			commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
 			commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
 			commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
+
+
 		};
 
 		$.ajax({
@@ -95,31 +97,21 @@ $(document).ready(function() {
 			success: function(response) {
 				console.log(response);
 				var commucomment = response.comment;
-
 				// 댓글 수 업데이트
 				var commentCountElement = $(".comment-list-section h3 span");
 				var currentCount = parseInt(commentCountElement.text());
 				commentCountElement.text(currentCount + 1);
 
 				var newComment = `
-            <div class="single-comment" data-id="${commucomment.commuCommentId}">
-        <strong>${commucomment.commuCommentMberId}</strong>
-        <p>${commucomment.commuCommentCntnt}</p>
-        <div class="comment-date">${commucomment.commuCommentRegistDate}</div>
-        <button class="reply-to-comment">답글</button>
-        <button class="update-comment" data-id="${commucomment.commuCommentId}">수정</button>
-        <button class="delete-comment" data-id="${commucomment.commuCommentId}">삭제</button>
-       <div class="original-replyForm" style="display: none;">
-            <form>
-                <input type="hidden" name="commuCommentRefId" value="${commucomment.commuCommentId}">
-                <textarea name="commuCommentCntnt" rows="2" placeholder="답글을 입력하세요."></textarea>
-                <button type="button" class="post-reply">등록</button>
-            </form>
+        <div class="single-comment" data-id="${commucomment.commuCommentId}">
+            <strong>${commucomment.commuCommentMberId}</strong>
+            <p>${commucomment.commuCommentCntnt}</p>
+            <div class="comment-date">${commucomment.commuCommentRegistDate}</div>
+            <button class="update-comment" data-id="${commucomment.commuCommentId}">수정</button>
+            <button class="delete-comment" data-id="${commucomment.commuCommentId}">삭제</button>
         </div>
-    </div>`;
-
+    `;
 				$(".comment-list-section").append(newComment);
-
 
 				// 댓글 폼 리셋
 				$("#commentForm")[0].reset();
@@ -130,30 +122,26 @@ $(document).ready(function() {
 			}
 		});
 	});
-
 	// 답글 입력 영역 초기에 숨기기
-	$(".original-replyForm, .replyForm-for-reply").hide();
+	$(".replyForm, .replyForm-for-reply").hide();
 
 
 	// 답글 달기 버튼 클릭 시 답글 입력 영역 표시/숨기기 토글
-$(".comment-list-section").on("click", ".reply-to-comment", function() {
-    $(this).closest(".single-comment").find(".original-replyForm, .replyForm-for-reply").toggle();
-});
-
+	$(".comment-list-section").on("click", ".reply-to-comment", function() {
+		$(this).closest(".single-comment").find(".replyForm, .replyForm-for-reply").toggle();
+	});
 
 
 	// 대댓글 등록
 	$(".comment-list-section").on("click", ".post-reply", function() {
-		var $replyForm = $(this).closest(".replyForm, .replyForm-for-reply"); 
-		var $closestComment = $(this).closest(".single-comment");
-
-		var commuCommentRefId = $replyForm.attr("data-id");
+		var $replyForm = $(this).closest(".replyForm, .replyForm-for-reply");
+		var refId = $replyForm.find("[name='commuCommentRefId']").val();
 
 		var formData = {
 			commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
 			commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
 			commuCommentCntnt: $replyForm.find("[name='commuCommentCntnt']").val(),
-			commuCommentRefId: commuCommentRefId
+			commuCommentRefId: $replyForm.find("[name='commuCommentRefId']").val()
 		};
 
 		$.ajax({
@@ -164,29 +152,33 @@ $(".comment-list-section").on("click", ".reply-to-comment", function() {
 			dataType: 'json',
 			success: function(response) {
 				console.log(response);
-				// 새로운 답글 생성
 				var commucomment = response.comment;
 				var newReply = `
-                <div class="single-comment" data-id="${commucomment.commuCommentId}" data-ref-id="${commucomment.commuCommentRefId}">
+               <div class="single-comment reply-comment" data-id="${commucomment.commuCommentId}">
                     <strong>${commucomment.commuCommentMberId}</strong>
                     <p>${commucomment.commuCommentCntnt}</p>
                     <div class="comment-date">${commucomment.commuCommentRegistDate}</div>
                     <button class="update-comment" data-id="${commucomment.commuCommentId}">수정</button>
                     <button class="delete-comment" data-id="${commucomment.commuCommentId}">삭제</button>
+                    <div class="replies"></div>  <!-- 대댓글을 위한 추가된 영역 -->
+                    <div class="replyForm">
+                        <form>
+                            <input type="hidden" name="commuCommentRefId" th:value="${commucomment.commuCommentId}">
+                            <textarea name="commuCommentCntnt" rows="2" placeholder="답글을 입력하세요."></textarea>
+                            <button type="button" class="post-reply">등록</button>
+                        </form>
+                    </div>
                 </div>
             `;
+				var targetRepliesDiv = $(".single-comment[data-id='" + refId + "']").find("> .replies");
+				targetRepliesDiv.append(newReply);
 
-				// 상위 댓글의 replies div에 답글 추가
-				$closestComment.find(".replies").append(newReply);
-
-				// 답글 폼 초기화
-				$replyForm.find("form")[0].reset();
-
-				$replyForm.hide();
+				$replyForm.toggle();
+				$replyForm.find("[name='commuCommentCntnt']").val("");
 			},
 			error: function(err) {
 				console.log(err);
-				alert("답글 작성 중 오류 발생");
+				alert("댓글 작성 중 오류 발생");
 			}
 		});
 	});
@@ -260,4 +252,4 @@ $(".comment-list-section").on("click", ".reply-to-comment", function() {
 			});
 		}
 	});
-})
+}) 

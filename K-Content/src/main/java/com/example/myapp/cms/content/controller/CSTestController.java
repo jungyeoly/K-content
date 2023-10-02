@@ -40,10 +40,10 @@ public class CSTestController {
     @Autowired
     ICommonCodeService commonCodeService;
 
-    @GetMapping("/dashboard")
-    public String getDashBoard() {
-        return "cms/dashBoard";
-    }
+	@GetMapping("/")
+	public String csMain(Model model) {
+		return "cms/index";
+	}
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")

@@ -128,7 +128,7 @@ table {
 						<div class="card-header">
 							<strong class="card-title">회원 관리</strong>
 						</div>
-						<div class="table-layout mber-table ov-h">
+						<div id="mberTable" class="table-layout mber-table">
 							<table class="table">
 								<thead>
 									<tr>
@@ -195,6 +195,69 @@ table {
 				</div>
 			</div>
 	</div>
+	<script>
+$(document).ready(function() {
+    // 페이지 로딩 시 초기 데이터 가져오기
+    loadMberData();
+
+    // 버튼 클릭 시 데이터 다시 가져오기
+    $("#refresh-Btn").click(function() {
+        loadMberData();
+    });
+});
+
+function loadMberData() {
+    $.ajax({
+        type: 'GET',
+        url: '/cs/mber/list', // 컨트롤러 엔드포인트
+        dataType: 'json',
+        success: function(data) {
+            // 회원 정보를 표시할 HTML을 생성
+            var html = '';
+            data.forEach(function(mber, index) {
+                html += '<tr>';
+                html += '<td>' + (index + 1) + '</td>';
+                html += '<td>' + mber.mberRole + '</td>';
+                html += '<td>' + mber.mberId + '</td>';
+                html += '<td>' + mber.mberName + '</td>';
+                html += '<td>' + mber.mberEmail + '</td>';
+                html += '<td>' + mber.mberGenderCode + '</td>';
+                if (mber.mberBirth == null) {
+                    html += '<td>-</td>';
+                } else {
+                    html += '<td>' + mber.mberBirth + '</td>';
+                }
+                if (mber.mberPhone == null) {
+                    html += '<td>-</td>';
+                } else {
+                    html += '<td>' + mber.mberPhone + '</td>';
+                }
+                html += '<td>' + mber.mberRegistDate + '</td>';
+                if (mber.mberUpdateDate == null) {
+                    html += '<td>-</td>';
+                } else {
+                    html += '<td>' + mber.mberUpdateDate + '</td>';
+                }
+                html += '<td>' + mber.mberStat + '</td>';
+                html += '<td>';
+                if (mber.mberStat == '활성화') {
+                    html += '<button class="badge badge-pending" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
+                } else if (mber.mberStat == '비활성화') {
+                    html += '<button class="badge badge-complete" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
+                }
+                html += '</td>';
+                html += '</tr>';
+            });
+
+            // 회원 리스트 테이블 업데이트
+            $('#mberTable tbody').html(html);
+        },
+        error: function() {
+            alert('데이터를 불러오는데 실패했습니다.');
+        }
+    });
+}
+</script>
 <script>
 function changeStatus(mberId, newStatus) {
     $.ajax({
@@ -206,8 +269,7 @@ function changeStatus(mberId, newStatus) {
         },
         success: function(response) {
             if (response.success) {
-                 alert('상태 변경되었습니다.');
-                location.reload();
+                 loadMberData();
             } else {
                 alert('상태 변경 실패했습니다.');
             }

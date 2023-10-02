@@ -22,16 +22,31 @@ public class CommuCommentService implements ICommuCommentService {
 	@Transactional
 	public CommuComment insertCommuComment(CommuComment commucomment) {
 	    String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    
 	    if (commucomment.getCommuCommentRegistDate() == null) {
 	        commucomment.setCommuCommentRegistDate(currentTimestamp);
-	        
-	        // 댓글 삽입
-	        commucommentRepository.insertCommuComment(commucomment);
-	        System.out.println(commucomment);
 	    }
+
+	    // 원본 댓글인 경우
+	    if(commucomment.getCommuCommentRefId() == 0) {
+	        int lastOrder = commucommentRepository.getLastCommuCommentOrder(commucomment.getCommuCommentCommuId());
+	        commucomment.setCommuCommentOrder(lastOrder + 1);
+	        commucomment.setCommuCommentDepth(0); 
+	    }
+	    // 대댓글인 경우
+	    else {
+	        int lastOrderForReply = commucommentRepository.getLastReplyOrder(commucomment.getCommuCommentRefId());
+	        commucomment.setCommuCommentOrder(lastOrderForReply + 1);
+	        CommuComment parentComment = commucommentRepository.selectCommuCommentById(commucomment.getCommuCommentRefId());
+	        commucomment.setCommuCommentDepth(parentComment.getCommuCommentDepth() + 1);
+	    }
+	    
+	    commucommentRepository.insertCommuComment(commucomment);
+	    System.out.println(commucomment);
 
 	    return commucomment;
 	}
+
 
 
 	@Transactional
@@ -41,7 +56,7 @@ public class CommuCommentService implements ICommuCommentService {
 		commucommentRepository.updateCommuComment(commucomment);
 	}
 
-	@Override
+	@Transactional
 	public void deleteCommuCommentAndComments(int commuCommentId) {
 		  // 먼저 대댓글들을 삭제
 	    commucommentRepository.deleteCommuCommentByCommuCommentRefId(commuCommentId);
@@ -51,11 +66,12 @@ public class CommuCommentService implements ICommuCommentService {
 
 	@Transactional
 	public void updateCommuCommentId(int commuCommentRefId, int commuCommentDepth, int commuCommentOrder) {
-		commucommentRepository.updateCommuCommentId(commuCommentRefId, commuCommentDepth, commuCommentOrder);
+		commucommentRepository.updateCommuCommentOrderAndDepth(commuCommentRefId, commuCommentDepth, commuCommentOrder);
 	}
 	
 	@Override
-	public List<CommuComment> selectCommuCommentsByCommuCommentId(int commuCommentId) {
-		return commucommentRepository.selectCommuCommentsByCommuCommentId(commuCommentId);
+	public List<CommuComment> selectCommuCommentsByCommuCommentCommuId(int commuCommentId) {
+		return commucommentRepository.selectCommuCommentsByCommuCommentCommuId(commuCommentId);
 	}
+
 }

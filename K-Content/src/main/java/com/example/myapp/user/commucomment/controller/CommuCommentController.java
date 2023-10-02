@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.example.myapp.user.commucomment.model.CommuComment;
 import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
@@ -23,28 +22,28 @@ public class CommuCommentController {
 	ICommuCommentService commucommentService;
 	
 	
-	
 	// 댓글 쓰기
-	@PostMapping("/commu/comment")
-	public ResponseEntity<Map<String, Object>> insertcommucomment(@RequestBody CommuComment commucomment) {
-	    logger.info("Received request to post a comment: " + commucomment.toString());
-	    System.out.println(commucomment);
+		@PostMapping("/commu/comment")
+		public ResponseEntity<Map<String, Object>> insertcommucomment(@RequestBody CommuComment commucomment) {
+		    logger.info("Received request to post a comment: " + commucomment.toString());
+		    System.out.println(commucomment);
 
-	    Map<String, Object> response = new HashMap<>();
+		    Map<String, Object> response = new HashMap<>();
 
-	    try {
-	        CommuComment savedCommuComment = commucommentService.insertCommuComment(commucomment);
+		    try {
+		        CommuComment savedCommuComment = commucommentService.insertCommuComment(commucomment);
 
-	        response.put("message", "Comment successfully saved.");
-	        response.put("comment", savedCommuComment);
-	        return ResponseEntity.ok(response);
-	        
-	    } catch (Exception e) {
-	        logger.error("Error during posting a comment:", e);
-	        response.put("message", "Error during posting a comment.");
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-	    }
-	}
+		        response.put("message", "Comment successfully saved.");
+		        response.put("comment", savedCommuComment);
+		        return ResponseEntity.ok(response);
+		        
+		    } catch (Exception e) {
+		        logger.error("Error during posting a comment:", e);
+		        response.put("message", "Error during posting a comment.");
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		    }
+		}
+
 
 
 

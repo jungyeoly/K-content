@@ -14,13 +14,14 @@
 			class="border-bottom border-top border-2 fw-bold border-dark mb-3 text-center align-self-center">
 			<div class="mt-5 mb-3 row">
 				<div class="col-md-12">
-					정말 계정 <span class="fw-bold text-danger">탈퇴</span>하시겠습니까? 다시 한번 확인해주세요. 
- 						<br><span class="fw-bold text-danger">탈퇴</span>를 원하시면 비밀번호를 입력해주세요.
+					정말 계정 <span class="fw-bold text-danger">탈퇴</span>하시겠습니까? 다시 한번
+					확인해주세요. <br>
+					<span class="fw-bold text-danger">탈퇴</span>를 원하시면 비밀번호를 입력해주세요.
 				</div>
 			</div>
 			<div class="d-flex justify-content-center">
-				<form action="#" method="post"
-					class="validation-form" id="verifyPwdForm" novalidate>
+				<form action="#" method="post" class="validation-form"
+					id="verifyPwdForm" onsubmit="return false" novalidate>
 					<div class="mb-2 row">
 
 						<div class="col-md-8">
@@ -31,12 +32,11 @@
 								required><i class="fa fa-eye" id=see_pwd></i></span>
 						</div>
 						<div class="col-md-2">
-							<button type="button" tabindex="-1" class="btn delete1 form-control"
-								id="delete-btn">확인
-							</button>
+							<button type="button" tabindex="-1"
+								class="btn delete1 form-control" id="delete-btn">확인</button>
 						</div>
 					</div>
-						<div class="row mb-5 justify-content-center">
+					<div class="row mb-5 justify-content-center">
 						<div class="col-md-12">
 							<div th:if="${message != null}" class="password-feedback fw-bold"
 								role="alert" th:text="${message}"></div>
@@ -66,73 +66,72 @@
 			});
 			
 			
-		/* 	$("#delete-btn").click(function () {
-			Swal.fire({
-				  title: 'Submit your Github username',
-				  input: 'text',
-				  inputAttributes: {
-				    autocapitalize: 'off'
-				  },
-				  showCancelButton: true,
-				  confirmButtonText: '계정 탈퇴',
-				  cancelButtonText: '탈퇴 취소',
-				  showLoaderOnConfirm: true,
-				  preConfirm: (login) => {
-				    return fetch(`//api.github.com/users/${login}`)
-				      .then(response => {
-				        if (!response.ok) {
-				          throw new Error(response.statusText)
-				        }
-				        return response.json()
-				      })
-				      .catch(error => {
-				        Swal.showValidationMessage(
-				          `Request failed: ${error}`
-				        )
-				      })
-				  },
-				  allowOutsideClick: () => !Swal.isLoading()
-				}).then((result) => {
-				  if (result.isConfirmed) {
-				    Swal.fire({
-				      title: `${result.value.login}'s avatar`,
-				      imageUrl: result.value.avatar_url
-				    })
-				  }
-				})
-			}); */
-			   $("#delete-btn").click(function () {
-			        // SweetAlert2 알림
-			        Swal.fire({
-			            title: '정말로 회원님의 계정을 탈퇴하시겠습니까?',
-			            text: '다시 되돌릴 수 없습니다. 신중하세요.',
-			            icon: 'warning',
-			            showCancelButton: true,
-			            confirmButtonText: '계정 탈퇴',
-			            cancelButtonText: '탈퇴 취소',
-			            reverseButtons: true
-			        }).then((result) => {
-			            if (result.isConfirmed) {
-			                // 탈퇴 처리 완료 알림
-			                Swal.fire(
-			                    '계정 탈퇴 처리 완료',
-			                    '회원님의 계정은 탈퇴 처리 되었습니다. 이용해주셔서 감사합니다! 또 다시 만나요.',
-			                    'success'
-			                ).then(() => {
-			                    // 폼 제출
-			                    document.getElementById('verifyPwdForm').submit();
-			                });
-			            } else if (result.dismiss === Swal.DismissReason.cancel) {
-			                // 탈퇴 취소 알림
-			                Swal.fire(
-			                    '계정 탈퇴 취소',
-			                    '아쉬웠었는데 다시 뵙게 되니 반가워요!',
-			                    'error'
-			                );
-			            }
-			        });
-			    });
-			</script>
+			$("#delete-btn").click(function () {
+			    // 사용자가 입력한 비밀번호
+			    var enteredPwd = $('#mber_pwd').val();
 
+			    // 비밀번호 확인 요청
+			    $.ajax({
+			        type: 'POST',
+			        url: '/mber/checkdbpwd', // 비밀번호 확인을 수행하는 컨트롤러 엔드포인트
+			        data: { mberPwd: enteredPwd },
+			        success: function (data) {
+			            if (data === true) {
+			                // SweetAlert2 알림을 표시하고, 확인 버튼을 누르면 폼을 제출
+			                Swal.fire({
+			                    title: '정말로 회원님의 계정을 탈퇴하시겠습니까?',
+			                    text: '다시 되돌릴 수 없습니다. 신중하세요.',
+			                    icon: 'warning',
+			                    showCancelButton: true,
+			                    confirmButtonText: '계정 탈퇴',
+			                    confirmButtonColor: '#14dbc8',
+			                    cancelButtonText: '탈퇴 취소',
+			                    reverseButtons: true
+			                }).then((result) => {
+			                    if (result.isConfirmed) {
+			                        // 탈퇴 처리 완료 알림 추가
+			                        Swal.fire({
+			                            title: '계정 탈퇴 처리 완료',
+			                            text: '회원님의 계정은 탈퇴 처리 되었습니다. 이용해주셔서 감사합니다! 또 다시 만나요.',
+			                            icon: 'success',
+			                            confirmButtonText: '확인',
+			                            confirmButtonColor: '#14dbc8',
+			                        }).then((result) => {
+			                            if (result.isConfirmed) {
+			                                // 폼 제출
+			                                document.getElementById('verifyPwdForm').submit();
+			                            }
+			                        });
+			                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+			                        // 탈퇴 취소 알림
+			                        Swal.fire({
+			                            confirmButtonText: '확인',
+			                            confirmButtonColor: '#14dbc8',
+			                            title: '계정 탈퇴 취소',
+			                            text: '더 많은 컨텐츠의 장, K-Spectrum이 되도록 하겠습니다.',
+			                            icon: 'error'
+			                        });
+			                    }
+			                });
+			            } else {
+			                // 비밀번호가 일치하지 않을 경우 SweetAlert2 알림 표시
+			                Swal.fire({
+			                    title: '비밀번호가 일치하지 않습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인'
+			                });
+			            }
+			        },
+			        error: function () {
+			            // 비밀번호 확인 요청에 실패한 경우 SweetAlert2 알림 표시
+			            Swal.fire({
+			                title: '비밀번호 확인 중 오류가 발생했습니다.',
+			                icon: 'error',
+			                confirmButtonText: '확인'
+			            });
+			        }
+			    });
+			});
+			</script>
 </body>
 </html>

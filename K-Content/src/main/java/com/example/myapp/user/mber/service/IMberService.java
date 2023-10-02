@@ -13,7 +13,9 @@ public interface IMberService {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberAllList();
+	List<Mber> selectMberList();
+	
+	int getMberTotalCount();
 
 	void insertMber(Mber mber);
 
@@ -26,5 +28,6 @@ public interface IMberService {
 	boolean isMberId(String mberId);
 
 	boolean isMberEmail(String mberEmail);
-
+	
+	void changeMberStatus(String mberId, String newStatus);
 }

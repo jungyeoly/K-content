@@ -17,7 +17,7 @@ public interface IMberRepository {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberList();
+	List<Mber> selectMberList(@Param("start") int start, @Param("end") int end);
 	
 	int getMberTotalCount();
 

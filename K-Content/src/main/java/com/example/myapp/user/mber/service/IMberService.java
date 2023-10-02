@@ -13,7 +13,7 @@ public interface IMberService {
 
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
-	List<Mber> selectMberList();
+	List<Mber> selectMberList(int page);
 	
 	int getMberTotalCount();
 

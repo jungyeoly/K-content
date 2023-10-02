@@ -5,6 +5,9 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 
 <style>
+body {
+overflow-x:hidden;
+}
 table {
 	border-collapse: collapse
 }
@@ -45,22 +48,8 @@ table {
 	position: relative;
 }
 
-.mber-table:after, .mber-table:before {
-	content: "";
-	position: absolute;
-	top: 0px;
-	height: 37px;
-	width: 10px;
-	background: #e8e9ef;
-}
 
-.mber-table:after {
-	right: -1px;
-}
 
-.mber-table:before {
-	left: -1px;
-}
 
 .mber-table tr th {
 	background: #e8e9ef;
@@ -78,6 +67,7 @@ table {
 	color: white;
 	padding: 10px;
 	font-weight: normal;
+	width: 60px;
 }
 
 .mber-table .badge-complete {
@@ -88,14 +78,11 @@ table {
 	background: #fb9678;
 }
 
-
 .table-layout table th, .table-layout table td {
 	border: none;
-	border-bottom: 1px solid #e8e9ef;
 	color: #868e96;
 	font-size: 12px;
 	font-weight: normal;
-	padding: .75em 1.25em;
 	text-align: center;
 	white-space: nowrap;
 }
@@ -114,20 +101,41 @@ table {
 	color: #343a40;
 	font-size: 10px;
 	font-weight: 600;
+	height: 49px;
 	vertical-align: middle;
 }
 
+.page-link {
+	color: #000;
+	background-color: #fff;
+	border: 1px solid #ccc;
+}
+
+.page-item.active .page-link {
+	z-index: 1;
+	color: #555;
+	font-weight: bold;
+	background-color: #f1f1f1;
+	border-color: #ccc;
+}
+
+.page-link:focus, .page-link:hover {
+	color: #000;
+	background-color: #fafafa;
+	border-color: #ccc;
+}
 </style>
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div class="content">
+		<div class="content">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
 							<strong class="card-title">회원 관리</strong>
 						</div>
+						
 						<div id="mberTable" class="table-layout mber-table">
 							<table class="table">
 								<thead>
@@ -142,143 +150,168 @@ table {
 										<th>전화번호</th>
 										<th>가입일시</th>
 										<th>수정일시</th>
-										<th>상태</th>
+										<th>계정상태</th>
 										<th>상태수정</th>
-										<!--<th>ID</th>-->
-										<!--<th>Product</th>-->
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="mber, rowStat : ${mber}">
-										<td th:text="${rowStat.index + 1}"></td>
-										<td th:text="${mber.mberRole}"></td>
-										<td th:text="${mber.mberId}"></td>
-										<td th:text="${mber.mberName}"></td>
-										<td th:text="${mber.mberEmail}"></td>
-										<td th:text="${mber.mberGenderCode}"></td>
-										<td th:if="${mber.mberBirth} == null">-</td>
-										<td th:unless="${mber.mberBirth} == null" th:text="${mber.mberBirth}"></td>
-										<td th:if="${mber.mberPhone} == null">-</td>
-										<td th:unless="${mber.mberPhone} == null" th:text="${mber.mberPhone}"></td>
-										<td th:text="${mber.mberRegistDate}"></td>
-										<td th:if="${mber.mberUpdateDate} == null">-</td>
-										<td th:unless="${mber.mberUpdateDate} == null"
-											th:text="${mber.mberUpdateDate}"></td>
-										<td th:text="${mber.mberStat}"></td>
-										<td>
-											<button class="badge badge-pending"
-												th:if="${mber.mberStat == '활성화'}" th:data-mber-id="${mber.mberId}"
-												onclick="changeStatus(this.getAttribute('data-mber-id'), 'C0201')">비활성화</button>
-											<button class="badge badge-complete"
-												th:if="${mber.mberStat == '비활성화'}"    th:data-mber-id="${mber.mberId}"
-												onclick="changeStatus(this.getAttribute('data-mber-id'), 'C0202')">활성화</button>
-										</td>
-									</tr>
+
 								</tbody>
 							</table>
-							<!-- 페이징 처리 -->
-							<!--     <div class="pagination">
-                                <ul>
-                                    <li th:if="${pageInfo.pageNum > 1}">
-                                        <a th:href="@{/manager/user_manager(pageNum=${pageInfo.pageNum - 1})}" th:text="'&laquo;'"></a>
-                                    </li>
-                                    <li th:each="page : ${#numbers.sequence(1, pageInfo.totalPages)}" th:class="${page == pageInfo.pageNum} ? active" th:if="${page != 0}">
-                                        <a th:href="@{/manager/user_manager(pageNum=${page})}" th:text="${page}"></a>
-                                    </li>
-                                    <li th:if="${pageInfo.pageNum < pageInfo.totalPages}">
-                                        <a th:href="@{/manager/user_manager(pageNum=${pageInfo.pageNum + 1})}" th:text="'&raquo;'"></a>
-                                    </li>
-                                </ul>
-                            </div> -->
+
+							<nav aria-label="Page navigation"
+								class="d-flex justify-content-center">
+								<ul class="pagination">
+									<li class="page-item" th:if="${nowPageBlock>1}"><a
+										class="page-link" th:href="@{/mber/list/__${startPage-1}__}"
+										aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+										<a class="page-link prepage" aria-label="Previous"> <span
+											aria-hidden="true">&laquo;</span>
+									</a></li>
+
+									<li class="page-item"
+										th:each="i: ${#numbers.sequence(startPage, endPage)}"
+										th:classappend="${i==nowPage}?active"><a
+										class="page-link" th:href="@{/mber/list/__${i}__}">[[${i}]]</a></li>
+
+									<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+										<a class="page-link" th:href="@{/mber/list/__${endPage+1}__}"
+										aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+										<a class="page-link nexpage" aria-label="Next"> <span
+											aria-hidden="true">&raquo;</span>
+									</a>
+									</li>
+								</ul>
+							</nav>
 						</div>
 					</div>
 				</div>
 			</div>
-	</div>
+		</div>
 	<script>
-$(document).ready(function() {
-    // 페이지 로딩 시 초기 데이터 가져오기
-    loadMberData();
+		// 현재 페이지를 저장할 변수 추가
+		var currentPage = "[[${nowPage}]]";
+		var totalPageBlock = "[[${totalPage}]]";
+		$(document).ready(function() {
+			// 페이지 로딩 시 초기 데이터 가져오기
+			loadMberData(currentPage);
 
-    // 버튼 클릭 시 데이터 다시 가져오기
-    $("#refresh-Btn").click(function() {
-        loadMberData();
-    });
-});
+			// 버튼 클릭 시 데이터 다시 가져오기
+			$("#refresh-Btn").click(function() {
+				loadMberData(currentPage);
+			});
+		});
+		// 페이지네이션 링크 클릭 시 데이터 다시 가져오기
+		$(".pagination").on("click", "a", function(event) {
+			event.preventDefault(); // 기본 이벤트 취소 (페이지 이동 방지)
+			var page = $(this).attr("href").split("/").pop(); // 클릭한 링크의 페이지 번호 가져오기
+			loadMberData(page); // 데이터 비동기로 가져오기
+		});
 
-function loadMberData() {
-    $.ajax({
-        type: 'GET',
-        url: '/cs/mber/list', // 컨트롤러 엔드포인트
-        dataType: 'json',
-        success: function(data) {
-            // 회원 정보를 표시할 HTML을 생성
-            var html = '';
-            data.forEach(function(mber, index) {
-                html += '<tr>';
-                html += '<td>' + (index + 1) + '</td>';
-                html += '<td>' + mber.mberRole + '</td>';
-                html += '<td>' + mber.mberId + '</td>';
-                html += '<td>' + mber.mberName + '</td>';
-                html += '<td>' + mber.mberEmail + '</td>';
-                html += '<td>' + mber.mberGenderCode + '</td>';
-                if (mber.mberBirth == null) {
-                    html += '<td>-</td>';
-                } else {
-                    html += '<td>' + mber.mberBirth + '</td>';
-                }
-                if (mber.mberPhone == null) {
-                    html += '<td>-</td>';
-                } else {
-                    html += '<td>' + mber.mberPhone + '</td>';
-                }
-                html += '<td>' + mber.mberRegistDate + '</td>';
-                if (mber.mberUpdateDate == null) {
-                    html += '<td>-</td>';
-                } else {
-                    html += '<td>' + mber.mberUpdateDate + '</td>';
-                }
-                html += '<td>' + mber.mberStat + '</td>';
-                html += '<td>';
-                if (mber.mberStat == '활성화') {
-                    html += '<button class="badge badge-pending" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
-                } else if (mber.mberStat == '비활성화') {
-                    html += '<button class="badge badge-complete" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
-                }
-                html += '</td>';
-                html += '</tr>';
-            });
+		function loadMberData(page) {
+			currentPage = page; // 현재 페이지 업데이트
+			$
+					.ajax({
+						type : 'GET',
+						url : '/cs/mber/list/' + page,
+						dataType : 'json',
+						success : function(data) {
+							// 회원 정보를 표시할 HTML을 생성
+							var html = '';
+							data
+									.forEach(function(mber, index) {
+										var rownum = (page - 1) * 10 + index
+												+ 1;
+										html += '<tr>';
+										html += '<td>' + rownum++ + '</td>';
+										html += '<td>' + mber.mberRole
+												+ '</td>';
+										html += '<td>' + mber.mberId + '</td>';
+										html += '<td>' + mber.mberName
+												+ '</td>';
+										html += '<td>' + mber.mberEmail
+												+ '</td>';
+										html += '<td>' + mber.mberGenderCode
+												+ '</td>';
+										if (mber.mberBirth == null) {
+											html += '<td>-</td>';
+										} else {
+											html += '<td>' + mber.mberBirth
+													+ '</td>';
+										}
+										if (mber.mberPhone == null) {
+											html += '<td>-</td>';
+										} else {
+											html += '<td>' + mber.mberPhone
+													+ '</td>';
+										}
+										html += '<td>' + mber.mberRegistDate
+												+ '</td>';
+										if (mber.mberUpdateDate == null) {
+											html += '<td>-</td>';
+										} else {
+											html += '<td>'
+													+ mber.mberUpdateDate
+													+ '</td>';
+										}
+										html += '<td>' + mber.mberStat
+												+ '</td>';
+										html += '<td>';
+							             if (mber.mberStat == '활성화') {
+							                    html += '<button class="badge badge-pending" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
+							                } else if (mber.mberStat == '비활성화') {
+							                    html += '<button class="badge badge-complete" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
+							                }
+										html += '</td>';
+										html += '</tr>';
+									});
 
-            // 회원 리스트 테이블 업데이트
-            $('#mberTable tbody').html(html);
-        },
-        error: function() {
-            alert('데이터를 불러오는데 실패했습니다.');
-        }
-    });
-}
-</script>
-<script>
-function changeStatus(mberId, newStatus) {
-    $.ajax({
-        type: 'POST',
-        url: '/mber/changestat',
-        data: {
-            mberId: mberId,
-            newStatus: newStatus
-        },
-        success: function(response) {
-            if (response.success) {
-                 loadMberData();
-            } else {
-                alert('상태 변경 실패했습니다.');
-            }
-        },
-        error: function() {
-            alert('서버 오류로 인해 상태 변경에 실패했습니다.');
-        }
-    });
-}
-</script>
+							// 회원 리스트 테이블 업데이트
+							$('#mberTable tbody').html(html);
+
+						},
+						error : function() {
+							alert('데이터를 불러오는데 실패했습니다.');
+						}
+					});
+		}
+		function updatePagination() {
+			// 기존 페이지네이션 링크 지우기
+			$(".pagination").empty();
+
+			// totalPageBlock을 기반으로 페이지네이션 링크 추가
+			for (var i = startPage; i <= endPage; i++) { // 수정된 부분
+				var pageLink = $('<a>');
+				pageLink.text(i);
+				pageLink.attr('href', '/cs/mber/list/' + i);
+				if (currentPage === i) {
+					pageLink.addClass('active');
+				}
+				$(".pagination").append($('<li>').append(pageLink));
+			}
+		}
+	</script>
+	<script>
+		function changeStatus(mberId, newStatus) {
+			$.ajax({
+				type : 'POST',
+				url : '/mber/changestat',
+				data : {
+					mberId : mberId,
+					newStatus : newStatus
+				},
+				success : function(response) {
+					if (response.success) {
+						loadMberData(currentPage);
+					} else {
+						alert('상태 변경 실패했습니다.');
+					}
+				},
+				error : function() {
+					alert('서버 오류로 인해 상태 변경에 실패했습니다.');
+				}
+			});
+		}
+	</script>
 </body>
 </html>

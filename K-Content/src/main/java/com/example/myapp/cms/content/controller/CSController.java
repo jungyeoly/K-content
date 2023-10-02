@@ -12,6 +12,8 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,6 +46,8 @@ public class CSController {
     @Autowired
     ICommonCodeService commonCodeService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/dashboard")
     public String getDashBoard() {
         return "cms/dashBoard";
@@ -75,9 +79,9 @@ public class CSController {
 
     //콘텐츠 리스트 페이지
     @GetMapping("/content-manage")
-    public String getContentManage(Model model, HttpSession session) {
+    public String getContentManage(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
         int page = 1;
-        int bbsCount = contentService.totalCntnt();
+        int bbsCount = contentService.totalCntnt(cate);
 
         int totalPage = 0;
 
@@ -107,20 +111,19 @@ public class CSController {
 
     @GetMapping("/contents/{page}")
     @ResponseBody
-    public List<CmsContent> getallcntnt(@RequestParam("page") int page, Model model, HttpSession session) {
-        List<CmsContent> result = contentService.getAllContent(page);
-
+    public List<CmsContent> getallcntnt(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+    	List<CmsContent> result = contentService.getAllContent(cate, page);
+        model.addAttribute("cate", cate);
+        
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
             List<String> partOfUrl2 = List.of(partOfUrl.split("="));
             String restultCode = partOfUrl2.get(1);
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
-
         }
 
-        int bbsCount = contentService.totalCntnt();
-
+        int bbsCount = contentService.totalCntnt(cate);
         int totalPage = 0;
 
         if (bbsCount > 0) {
@@ -141,15 +144,41 @@ public class CSController {
         model.addAttribute("nowPageBlock", nowPageBlock);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
         session.setAttribute("nowPage", page);
-
-        System.out.println("=============================");
-        System.out.println("page : " + page);
-        System.out.println("=============================");
 
         return result;
 
+    }
+    
+    @GetMapping("paging")
+    public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+    	int bbsCount = contentService.totalCntnt(cate);
+        int totalPage = 0;
+
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+            if (endPage == 0) {
+                endPage = 1;
+            }
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        session.setAttribute("nowPage", page);
+
+    	return "cms/cntnt/paging";
     }
 
 

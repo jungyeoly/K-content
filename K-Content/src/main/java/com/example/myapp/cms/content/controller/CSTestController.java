@@ -70,9 +70,12 @@ public class CSTestController {
 
     //디자인 테스트
     @GetMapping("")
-    public String test(Model model, HttpSession session) {
-        int page = 1;
-        int bbsCount = contentService.totalCntnt();
+    public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
+    	List<String> cateList = commonCodeService.cateList("C03");
+    	model.addAttribute("cateList", cateList);
+    	
+    	int page = 1;
+        int bbsCount = contentService.totalCntnt(cate);
 
         int totalPage = 0;
 

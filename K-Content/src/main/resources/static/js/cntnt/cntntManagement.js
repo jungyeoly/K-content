@@ -4,7 +4,8 @@ function searchButton() {
     };
 
     $.ajax({
-        url: '/cs/contents/search', type: 'GET',
+        url: '/cs/contents/search', 
+		type: 'GET',
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');

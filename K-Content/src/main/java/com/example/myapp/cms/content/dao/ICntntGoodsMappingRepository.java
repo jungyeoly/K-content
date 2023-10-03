@@ -16,4 +16,6 @@ public interface ICntntGoodsMappingRepository {
 
     //TODO 이거 수정
     int delMappingDate(@Param("contentId") int contentId);
+
+    void delMappingByGoodsId(@Param("goodsId") int goodsId);
 }

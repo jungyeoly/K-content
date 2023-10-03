@@ -10,6 +10,7 @@
                goods_id
         FROM tb_cntnt_goods_mapping
         WHERE cntnt_id = #{cntntId}
+
         ]]>
     </select>
 
@@ -30,4 +31,11 @@
         ]]>
     </delete>
 
+    <delete id="delMappingByGoodsId" parameterType="int">
+       <![CDATA[
+        delete
+        from tb_cntnt_goods_mapping
+        where goods_id = #{goodsId}
+        ]]>
+    </delete>
 </mapper>

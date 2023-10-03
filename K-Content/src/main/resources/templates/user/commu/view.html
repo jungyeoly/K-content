@@ -84,98 +84,63 @@
 		</div>
 		<!-- 댓글 리스트 영역 시작 -->
 		<div class="comment-list-section">
-			<h3>
-				댓글 <span th:text="${comments != null ? comments.size() : 0}">(0)</span>
-			</h3>
+			<h3>댓글 <span th:text="${comments != null ? comments.size() + '개' : '0개'}"></span></h3>
 
-			<th:block th:each="commucomment : ${comments}">
+			<!-- 댓글 및 답글 출력 -->
+			<div th:each="commucomment : ${comments}"
+				th:if="${commucomment.commuCommentRefId == 0}">
+				<th:block th:replace="~{::commentFragment(comment=${commucomment})}"></th:block>
+			</div>
 
-				<!-- 원본 댓글 -->
-				<div class="single-comment"
-					th:if="${commucomment.commuCommentRefId == 0}"
-					th:style="'margin-left:' + (${commucomment.commuCommentDepth} * 20) + 'px'"
-					th:data-id="${commucomment.commuCommentId != null ? commucomment.commuCommentId : ''}">
-					<strong th:text="${commucomment.commuCommentMberId}">UserName</strong>
-					<div class="comment-content">
-						<p th:text="${commucomment.commuCommentCntnt}">CommuCommentCntnt</p>
-						<textarea class="update-comment-textarea hidden"></textarea>
-					</div>
-					<div class="comment-date"
-						th:text="${commucomment.commuCommentRegistDate}">Date</div>
-					<div class="comment-buttons">
-						<button class="reply-to-comment">답글 달기</button>
-						<div
-							th:if="${#authentication.principal.username} == ${commucomment.commuCommentMberId}">
-							<button class="update-comment"
-								th:data-id="${commucomment.commuCommentId}">수정</button>
-							<button class="delete-comment"
-								th:data-id="${commucomment.commuCommentId}">삭제</button>
-						</div>
-					</div>
-					<!-- 대댓글 입력 영역 -->
-					<div class="replyForm" th:data-id="${commucomment.commuCommentId}">
-						<form>
-							<input type="hidden" name="commuCommentRefId"
-								th:value="${commucomment.commuCommentId}">
-							<textarea name="commuCommentCntnt" rows="2"
-								placeholder="답글을 입력하세요."></textarea>
-							<button type="button" class="post-reply">등록</button>
-						</form>
-					</div>
-
-
-					<!-- 답글들이 추가될 위치 -->
-
-					<div class="replies">
-						<th:block th:each="reply : ${comments}"
-							th:if="${reply.commuCommentRefId == commucomment.commuCommentId}">
-							<div class="single-comment reply-comment"
-								th:data-id="${reply.commuCommentId}"
-								th:data-ref-id="${reply.commuCommentRefId}">
-
-								<!-- Common Comment Structure for Replies (Same as Original Comments) -->
-								<strong th:text="${reply.commuCommentMberId}">ReplyUserName</strong>
-								<div class="comment-content">
-									<p th:text="${reply.commuCommentCntnt}">ReplyCommuCommentCntnt</p>
-									<textarea class="update-comment-textarea hidden"></textarea>
-								</div>
-								<div class="comment-date"
-									th:text="${reply.commuCommentRegistDate}">ReplyDate</div>
-								<div class="comment-buttons">
-									<button class="reply-to-comment">답글</button>
-									<div
-										th:if="${#authentication.principal.username} == ${reply.commuCommentMberId}">
-										<button class="update-comment"
-											th:data-id="${reply.commuCommentId}">수정</button>
-										<button class="delete-comment"
-											th:data-id="${reply.commuCommentId}">삭제</button>
-									</div>
-								</div>
-
-								<!-- 대댓글의 답글 입력 영역 -->
-								<div class="replyForm-for-reply"
-									th:data-id="${reply.commuCommentId}">
-									<form>
-										<input type="hidden" name="commuCommentRefId"
-											th:value="${reply.commuCommentId}">
-										<textarea name="commuCommentCntnt" rows="2"
-											placeholder="답글을 입력하세요."></textarea>
-										<button type="button" class="post-reply">등록</button>
-									</form>
-								</div>
-								
-								
-							</div>
-						</th:block>
-					</div>
-				</div>
-			</th:block>
 		</div>
 
+		<!-- Comment Fragment -->
+		<th:block th:fragment="commentFragment(comment)">
+		
+			<div th:if="${comment != null}" class="single-comment"
+				th:style="'margin-left:' + (${comment.commuCommentDepth} * 20) + 'px'"
+				th:data-id="${comment.commuCommentId}">
 
-		<!-- 댓글 리스트 영역 끝 -->
+				<strong th:text="${comment.commuCommentMberId}">UserName</strong>
+				<div class="comment-content">
+					<p th:text="${comment.commuCommentCntnt}">CommuCommentCntnt</p>
+					<textarea class="update-comment-textarea hidden"></textarea>
+				</div>
+				<div class="comment-date"
+					th:text="${comment.commuCommentRegistDate}">Date</div>
+				<div class="comment-buttons">
+				      <button class="view-replies-btn">답글(<span class="reply-count">0개</span>)</button>
+					<button class="reply-to-comment">답글</button>
+					<div
+						th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
+						<button class="update-comment"
+							th:data-id="${comment.commuCommentId}">수정</button>
+						<button class="delete-comment"
+							th:data-id="${comment.commuCommentId}">삭제</button>
+					</div>
+				</div>
+				<div class="replyForm" th:data-id="${comment.commuCommentId}">
+					<form>
+						<input type="hidden" name="commuCommentRefId"
+							th:value="${comment.commuCommentId}">
+						<textarea name="commuCommentCntnt" rows="2"
+							placeholder="답글을 입력하세요."></textarea>
+						<button type="button" class="post-reply">등록</button>
+					</form>
+				</div>
+				<!-- 재귀적으로 답글 출력 -->
+				<div
+					th:if="${comment.replies != null and comment.replies.size() > 0}"
+					class="replies">
+					<th:block th:each="reply : ${comment.replies}">
+						<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
+					</th:block>
+				</div>
+			</div>
+		</th:block>
 
-		<!-- 댓글 작성 영역 시작 -->
+
+		<!-- 댓글 작성 영역 -->
 		<div th:if="${#authentication.principal}">
 			<div class="comment-section">
 				<form id="commentForm" th:action="@{/commu/comment}" method="post">
@@ -195,7 +160,7 @@
 				댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
 			</p>
 		</div>
-		<!-- 댓글 작성 영역 끝 -->
+
 
 		<div th:insert="~{include/common-modal :: commonmodal}"></div>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

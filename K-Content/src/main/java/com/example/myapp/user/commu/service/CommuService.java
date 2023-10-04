@@ -155,11 +155,7 @@ public class CommuService implements ICommuService {
 		commuRepository.reportPost(commuId);
 	}
 
-	@Override
-	public List<Commu> selectRecentNotice() {
-		return commuRepository.selectRecentNotice();
-
-	}
+	
 
 	public int totalCommu() {
 		return commuRepository.totalCommu();

@@ -40,21 +40,26 @@
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>
-		<nav aria-label="Page navigation">
+		<nav aria-label="Page navigation"
+			class="d-flex justify-content-center">
 			<ul class="pagination">
-				<li th:if="${nowPageBlock>1}">
-					<a th:href="@{/cms/commu/__${startPage-1}__ (commonCodeVal ='All')}" aria-label="Previous">◀</a>
-				</li>
-			
-				<li th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
-					<a th:href="@{/cms/commu/__${i}__ (commonCodeVal ='All')}">[[${i}]]</a>		
-				</li>
-				
-				<li th:if="${nowPageBlock<totalPageBlock}">
-					<a th:href="@{/cms/commu/__${endPage+1}__ (commonCodeVal ='All')}" aria-label="Next">▶</a>
-				</li>
+				<!-- 페이지 목록 출력 -->
+				<li class="page-item" th:if="${nowPageBlock>1}"><a
+					class="page-link prepage" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
+
+				<li class="page-item"
+					th:each="i: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${i==nowPage}?active"><a
+					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+					class="page-link nextpage" aria-label="Next"> <span
+						aria-hidden="true">&raquo;</span>
+				</a></li>
 			</ul>
-			</nav>
+		</nav>
 	</div>
 
 
@@ -64,5 +69,5 @@
 
 
 </body>
-<script th:src="@{/js/commu/commulist.js}"></script>
+<script th:src="@{/js/commu/admincommulist.js}"></script>
 </html>

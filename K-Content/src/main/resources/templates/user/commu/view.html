@@ -3,6 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
+<link rel="stylesheet" href="/css/common.css">
 <meta charset="UTF-8">
 </head>
 <body>
@@ -148,7 +149,7 @@
 						th:value="${commu.commuId}">
 					<textarea name="commuCommentCntnt" rows="4"
 						placeholder="댓글을 입력하세요."></textarea>
-					<button type="button">등록</button>
+					<button type="button"  id="submitComment">등록</button>
 				</form>
 			</div>
 		</div>

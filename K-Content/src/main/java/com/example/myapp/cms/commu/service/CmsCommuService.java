@@ -1,5 +1,7 @@
 package com.example.myapp.cms.commu.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,16 @@ public class CmsCommuService implements ICmsCommuService {
 	public CmsCommu selectUserPost(int commuId) {
 		return cmsCommuRepository.selectUserPost(commuId);
 		
+	}
+
+	@Override
+	public void insertAdminPost(CmsCommu cmsCommu) {
+		String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		if (cmsCommu.getCommuRegistDate() == null) {
+			cmsCommu.setCommuRegistDate(currentTimestamp);
+		}
+
+		cmsCommuRepository.insertAdminPost(cmsCommu);
 	}
 	
 	

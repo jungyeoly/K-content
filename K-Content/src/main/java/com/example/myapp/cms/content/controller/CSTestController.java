@@ -47,7 +47,8 @@ public class CSTestController {
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String showYouTube() {
+    public String showYouTube()
+    {
         return "cms/cntnt/newcontentRecom";
     }
 
@@ -73,7 +74,7 @@ public class CSTestController {
     public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
-    	
+
     	int page = 1;
         int bbsCount = contentService.totalCntnt(cate);
 
@@ -233,7 +234,10 @@ public class CSTestController {
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
             //일단 파일이 하나라고 가정....
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-        }
+           }
+
+        System.out.println("goodsJFileList: "+goodsJFileList);
+        // 삭제 된 굿즈는 아예 안뽑는건지? 알아봐야함
         model.addAttribute("goodsJFileList", goodsJFileList);
 
         //카테고리
@@ -246,7 +250,8 @@ public class CSTestController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/newcontentMakeForm";
+//        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성/수정

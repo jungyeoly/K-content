@@ -101,7 +101,7 @@ function updateCntnt(cntntId) {
     cntntId = document.getElementById('cntntId').value;
     // console.log(cntntId);
     const formHtml = `
-                    <form id="updateCntnt" action="/cs/content/modify-form" method="get">
+                    <form id="updateCntnt" action="/cs/test/content/modify-form" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 

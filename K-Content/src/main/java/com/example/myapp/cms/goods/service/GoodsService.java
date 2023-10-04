@@ -1,5 +1,6 @@
 package com.example.myapp.cms.goods.service;
 
+import com.example.myapp.cms.content.dao.ICntntGoodsMappingRepository;
 import com.example.myapp.cms.goods.dao.IGoodsRepository;
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.model.GoodsFile;
@@ -13,7 +14,8 @@ import java.util.List;
 public class GoodsService implements IGoodsService {
     @Autowired
     IGoodsRepository goodsRepository;
-
+    @Autowired
+    ICntntGoodsMappingRepository mappingRepository;
     @Override
     public Goods getAGoods(int goodsId) {
         return goodsRepository.getAGoods(goodsId);
@@ -56,10 +58,11 @@ public class GoodsService implements IGoodsService {
     }
 
     @Override
+    @Transactional
     public void updateDelYnGoods(int goodsId) {
         goodsRepository.updateDelYnGoods(goodsId);
+        mappingRepository.delMappingByGoodsId(goodsId);
     }
-
 
 //    public void deleteGoodsFile(int goodsId) {
 //

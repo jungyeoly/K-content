@@ -41,6 +41,7 @@
                                  ON goods_id = f.goods_file_goods_id
         WHERE RNUM > #{start}
           AND RNUM <= #{end}
+          and goods_delete_yn = 'N'
         ]]>
 
     </select>

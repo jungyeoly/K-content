@@ -1,6 +1,6 @@
 :root {
     /* Color */
-    --color-main: #14dbc8;
+    /*--color-main: #14dbc8;*/
 }
 
 .row {
@@ -161,4 +161,13 @@ p {
 
 .keywordItem:nth-child(10) {
     background-color: #E0F9B5;
+}
+#keywordList{
+    display: flex;
+}
+#url{
+    width: 90%;
+}
+.keyword{
+margin-bottom: 1em !important;
 }

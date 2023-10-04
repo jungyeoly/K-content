@@ -47,7 +47,8 @@ public class CSTestController {
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String showYouTube() {
+    public String showYouTube()
+    {
         return "cms/cntnt/newcontentRecom";
     }
 
@@ -249,7 +250,8 @@ public class CSTestController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/newcontentMakeForm";
+//        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성/수정

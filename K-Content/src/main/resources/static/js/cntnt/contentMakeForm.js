@@ -57,7 +57,7 @@ window.name = "goods_parent";
 
 //굿즈 검색 팝업 생성
 function goodsNewPage() {
-    window.open("/cs/goods", "/cs/goods", "width=1200, height=800");
+    window.open("/cs/test/goods/cntnt", "/cs/test/goods/cntnt", "width=1200, height=800");
 }
 
 // 굿즈 검색 팝업에서 클릭한 상품 콘텐츠 생성 페이지로 보내기
@@ -83,11 +83,11 @@ function selectGoods(receivedData) {
         sendData: str
     };
     $.ajax({
-        url: '/cs/goods/item',
+        url: '/cs/test/goods/item',
         type: 'GET',
         data: requestData,
         success: function (data) {
-            console.log("data: goodsData  "+data)
+            console.log("data: goodsData  " + data)
             const element = document.getElementById('goodsList');
 
             for (var i = 0; i < data.length; i++) {
@@ -177,6 +177,7 @@ function createContent() {
         contentType: 'application/json',
         success: function (data) {
             alert("컨텐츠가 등록되었습니다!")
+            location.href = '/cs/test';
         },
         error: function (error) {
             console.error('에러 발생: ', error);

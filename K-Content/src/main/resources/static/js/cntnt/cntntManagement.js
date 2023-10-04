@@ -4,7 +4,7 @@ function searchButton() {
     };
 
     $.ajax({
-        url: '/cs/contents/search', 
+        url: '/cs/test/contents/search',
 		type: 'GET',
         data: requestData,
         success: function (contentList) {

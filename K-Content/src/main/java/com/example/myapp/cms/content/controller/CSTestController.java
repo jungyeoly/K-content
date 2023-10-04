@@ -64,7 +64,7 @@ public class CSTestController {
         return result;
     }
 
-    //디자인 테스트
+    //관리자 컨텐츠 메인화면
     @GetMapping("")
     public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
     	List<String> cateList = commonCodeService.cateList("C03");
@@ -102,13 +102,52 @@ public class CSTestController {
 //        return "cms/goods/new-goods-main";
 //    }
 
+    @GetMapping("/contents/{page}")
+    @ResponseBody
+    public List<CmsContent> getallcntnt(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+        List<CmsContent> result = contentService.getAllContent(cate, page);
+        model.addAttribute("cate", cate);
 
+        for (int i = 0; i < result.size(); i++) {
+            List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
+            String partOfUrl = contentUrlSplit.get(3);
+            List<String> partOfUrl2 = List.of(partOfUrl.split("="));
+            String restultCode = partOfUrl2.get(1);
+            result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
+        }
+
+        int bbsCount = contentService.totalCntnt(cate);
+        int totalPage = 0;
+
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        session.setAttribute("nowPage", page);
+
+        return result;
+
+    }
 
     //콘텐츠 리스트 페이지
-    @GetMapping("/content-manage")
-    public String getContentManage() {
-        return "cms/cntnt/contentManage";
-    }
+//    @GetMapping("/content-manage")
+//    public String getContentManage() {
+//        return "cms/cntnt/contentManage";
+//    }
 
 //    @GetMapping("/contents")
 //    @ResponseBody
@@ -127,35 +166,35 @@ public class CSTestController {
 //    }
 
 
-    //콘텐츠 상세 페이지 출력
-    @GetMapping("/content/detail")
-    public String getAContent(int targetContentIdF, Model model) {
-
-        CmsContent content = contentService.getAContent(targetContentIdF);
-        model.addAttribute("content", content);
-
-        CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
-        model.addAttribute("category", commonCodes);
-
-        List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
-        model.addAttribute("keywordList", keywordList);
-
-        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-        List<Goods> goodsJFileList = new ArrayList<Goods>();
-        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            //일단 파일이 하나라고 가정....
-            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-        }
-        model.addAttribute("goodsJFileList", goodsJFileList);
-        // 쿼리 앞에 키워드 가져와서 뽑기
-        List<String> trendQueryList = new ArrayList<>();
-
-        for (int i = 0; i < keywordList.size(); i++) {
-            trendQueryList.add(keywordList.get(i));
-        }
-        model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/contentDetail";
-    }
+//    콘텐츠 상세 페이지 출력
+//    @GetMapping("/content/detail")
+//    public String getAContent(int targetContentIdF, Model model) {
+//
+//        CmsContent content = contentService.getAContent(targetContentIdF);
+//        model.addAttribute("content", content);
+//
+//        CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
+//        model.addAttribute("category", commonCodes);
+//
+//        List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
+//        model.addAttribute("keywordList", keywordList);
+//
+//        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
+//        List<Goods> goodsJFileList = new ArrayList<Goods>();
+//        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
+//            //일단 파일이 하나라고 가정....
+//            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+//        }
+//        model.addAttribute("goodsJFileList", goodsJFileList);
+//        // 쿼리 앞에 키워드 가져와서 뽑기
+//        List<String> trendQueryList = new ArrayList<>();
+//
+//        for (int i = 0; i < keywordList.size(); i++) {
+//            trendQueryList.add(keywordList.get(i));
+//        }
+//        model.addAttribute("trendQueryList", trendQueryList);
+//        return "cms/cntnt/contentDetail";
+//    }
 
     //콘텐츠 상세페이지의 유튜브 영상 호출
     @GetMapping("/youtube/iframe")
@@ -275,7 +314,36 @@ public class CSTestController {
 
         // 성공 여부 리턴
     }
+    @GetMapping("paging")
+    public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+        int bbsCount = contentService.totalCntnt(cate);
+        int totalPage = 0;
 
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+            if (endPage == 0) {
+                endPage = 1;
+            }
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        session.setAttribute("nowPage", page);
+
+        return "cms/cntnt/paging";
+    }
     //콘텐츠 상세 콘텐츠 추천
     @GetMapping("/content/keyword")
     @ResponseBody
@@ -323,28 +391,5 @@ public class CSTestController {
         contentService.updateDelStat(cntntId);
         return "cms/cntnt/contentManage";
     }
-
-    @GetMapping("/ma")
-    public String getAllds() {
-        return "include/admin-sideBar";
-    }
-
-
-    @GetMapping("/usermanage")
-    public String getUserManage() {
-        return "cms/userManage";
-    }
-
-    @GetMapping("/commu")
-    public String getCommu() {
-        return "cms/commu";
-    }
-
-
-    @GetMapping("/charts")
-    public String getCharts() {
-        return "cms/charts";
-    }
-
 
 }

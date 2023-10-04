@@ -11,4 +11,5 @@ public interface ICmsInqryService {
 	int countInqry(int inqryRefId);
 	void updateCmsInqry(CmsInqry cmsInqry);
 	void deleteCmsInqry(int inqryId);
+	List<CmsInqry> selectRecentInqry();
 }

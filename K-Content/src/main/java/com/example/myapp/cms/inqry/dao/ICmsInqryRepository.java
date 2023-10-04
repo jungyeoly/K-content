@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.myapp.cms.inqry.model.CmsInqry;
+import com.example.myapp.user.commu.model.Commu;
 
 @Repository
 @Mapper
@@ -21,4 +22,6 @@ public interface ICmsInqryRepository {
 	void updateCmsInqry(CmsInqry inqry);	// 수정
 
 	void deleteCmsInqry(int inqryId);	// 삭제
+	
+	List<CmsInqry> selectRecentInqry();
 }

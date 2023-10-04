@@ -46,4 +46,9 @@ public class CmsInqryService implements ICmsInqryService{
 		cmsInqryRepository.deleteCmsInqry(inqryId);
 	}
 
+	@Override
+	public List<CmsInqry> selectRecentInqry() {
+		return cmsInqryRepository.selectRecentInqry();
+	}
+	
 }

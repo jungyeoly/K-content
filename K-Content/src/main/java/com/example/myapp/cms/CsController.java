@@ -9,15 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.myapp.user.commu.model.Commu;
-import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.mber.model.Mber;
+import com.example.myapp.cms.commu.model.CmsCommu;
+import com.example.myapp.cms.commu.service.ICmsCommuService;
 
 @Controller
 public class CsController {
 
 	@Autowired
-	ICommuService commuService;
+	ICmsCommuService cmsCommuService;
 	
 	@GetMapping("/cs/test/")
 	public String csMain(Model model) {
@@ -27,9 +26,9 @@ public class CsController {
 	
 	@GetMapping("/cs/recent-notice")
 	@ResponseBody
-	public List<Commu> commuList(Model model) {
-		List<Commu> commu = commuService.selectRecentNotice();
+	public List<CmsCommu> commuList(Model model) {
+		List<CmsCommu> cmsCommu = cmsCommuService.selectRecentNotice();
 		
-		return commu;
+		return cmsCommu;
 	}
 }

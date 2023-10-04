@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.myapp.cms.commu.dao.ICmsCommuRepository;
 import com.example.myapp.cms.commu.model.CmsCommu;
+import com.example.myapp.user.commu.model.Commu;
 
 @Service
 public class CmsCommuService implements ICmsCommuService {
@@ -37,7 +38,12 @@ public class CmsCommuService implements ICmsCommuService {
 
 		cmsCommuRepository.insertAdminPost(cmsCommu);
 	}
-	
+
+	@Override
+	public  List<CmsCommu> selectRecentNotice() {
+		return cmsCommuRepository.selectRecentNotice();
+
+	}
 	
 
 }

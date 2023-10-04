@@ -12,4 +12,6 @@ public interface ICmsCommuService {
 	CmsCommu selectUserPost(int commuId); // 커뮤니티 게시글 상세조회
 	
 	void insertAdminPost(CmsCommu cmsCommu); //커뮤니티 글쓰기
+	
+	 List<CmsCommu> selectRecentNotice();
 }

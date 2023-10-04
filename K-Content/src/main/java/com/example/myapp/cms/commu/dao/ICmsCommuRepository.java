@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.myapp.cms.commu.model.CmsCommu;
+import com.example.myapp.user.commu.model.Commu;
 
 @Repository
 @Mapper
@@ -16,5 +17,7 @@ public interface ICmsCommuRepository {
 	CmsCommu selectUserPost(int commuId); // 커뮤니티 게시글 상세조회
 	
 	void insertAdminPost(CmsCommu cmsCommu); //커뮤니티 글쓰기
+	
+	 List<CmsCommu> selectRecentNotice();
 
 }

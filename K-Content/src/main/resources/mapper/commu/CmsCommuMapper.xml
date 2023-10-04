@@ -73,6 +73,28 @@ VALUES
    'N', 'N', 0)
 	]]>
 	</insert>
+	
+	<select id="selectRecentNotice"
+		resultType="com.example.myapp.cms.commu.model.CmsCommu">
+	<![CDATA[
+					SELECT *
+				FROM (
+				    SELECT c.commu_id,
+				           c.commu_title,
+				           c.commu_cntnt,
+				           c.commu_regist_date,
+				           c.commu_update_date,
+				           c.commu_read_cnt,
+				           c.commu_cate_code,
+				           c.commu_mber_id
+				    FROM tb_commu c
+				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
+				    WHERE m.MBER_ROLE_CODE = 'C0402'
+				    ORDER BY c.commu_regist_date DESC
+				) 
+				WHERE ROWNUM <= 5
+	        ]]>
+	</select>
 
 
 

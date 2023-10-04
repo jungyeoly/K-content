@@ -30,7 +30,7 @@
 				
 				<div class="col">
 					<div class="inqry-sub-cntnt label border-left">
-						<label>작성일</label>
+						<label>등록일시</label>
 					</div>
 					<div class="inqry-sub-cntnt cntnt" id="registDate">
 						[[${inqry.inqryRegistDate}]]
@@ -72,14 +72,12 @@
 		
 		<!-- 버튼 -->
 		<div class="text-center position-relative">
-			<a th:href="@{/cs/inqry}" class="btn">목록</a>
+			<a th:href="@{/cs/inqry}" class="btn p-2">목록</a>
 			
 			<div class="position-absolute end-0 top-0">
 	 			<div class="btns d-flex">
-	 				<span th:if="${reply} != null">
-						<a th:if="${#authentication.name} == ${reply.inqryMberId}" th:href="@{/cs/inqry/update/{inqryId}(inqryId=${reply.inqryId})}" class="btn me-2">수정</a>
-					</span>
-					<div th:if="${reply} != null">
+					<div th:if="${reply} != null" class="d-flex">
+						<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${reply.inqryId})}" class="btn me-2">수정</a>
 						<form th:action="@{/cs/inqry/delete/{inqryId}(inqryId=${reply.inqryId})}" method="post">
 							<input type="submit" class="btn delete" value="삭제">
 						</form>

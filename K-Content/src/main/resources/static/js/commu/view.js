@@ -123,7 +123,6 @@ $(document).ready(function() {
 				if (isReply) {
 					// 답글을 해당 댓글의 "replies" 영역에 추가
 					$(".single-comment[data-id='" + formData.commuCommentRefId + "'] > .replies").append(newComment);
- console.log("Target Element:", targetElement); 
 					// 답글 입력 폼을 초기화하고 숨깁니다.
 					$(".replyForm:visible").find("[name='commuCommentCntnt']").val('');
 					$(".replyForm:visible").hide();

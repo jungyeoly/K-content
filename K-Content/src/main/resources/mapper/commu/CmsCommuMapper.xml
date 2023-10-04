@@ -60,6 +60,19 @@
       	where commu_id =#{commuId}
         ]]>
 	</select>
+	
+	<insert id="insertAdminPost"
+		parameterType="com.example.myapp.cms.commu.model.CmsCommu"
+		useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
+	<![CDATA[
+	insert into tb_commu
+  (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
+   commu_status, commu_type, commu_read_cnt)
+VALUES
+  (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
+   'N', 'N', 0)
+	]]>
+	</insert>
 
 
 

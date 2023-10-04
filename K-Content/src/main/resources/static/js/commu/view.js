@@ -161,7 +161,7 @@ $(document).ready(function() {
 		$(this).find(".replyForm").first().show();
 	});
 
-	/*$("#commentForm button").on("click", function(e) {
+	$("#commentForm button").on("click", function(e) {
 		e.preventDefault();
 
 		var commuCommentId = $(this).data("id");
@@ -190,7 +190,7 @@ $(document).ready(function() {
 				alert("댓글 및 대댓글 조회 중 오류 발생");
 			}
 		});
-	});*/
+	});
 
 	$(".comment-list-section").on("click", ".reply-to-comment", function(e) {
 		e.stopPropagation();
@@ -202,7 +202,7 @@ $(document).ready(function() {
 	});
 
 	// 댓글 등록
-	$("#commentForm button").on("click", function(e) {
+	$("#submitComment").on("click", function(e)  {
 		e.preventDefault();
 
 		var formData = {

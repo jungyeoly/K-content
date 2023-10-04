@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+<link rel="stylesheet" href="/css/commu/commuList.css">
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/admin-body-header.css">
+<meta charset="UTF-8">
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+</head>
+<body>
+<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+<div class="page"></div>
+<div class="container">
+		<div class="menu fw-bold">커뮤니티</div>
+		<table class="table table-hover text-center table-group-divider">
+			<thead>
+				<tr>
+					<th scope="col">번호</th>
+					<th scope="col">카테고리</th>
+					<th scope="col">제목</th>
+					<th scope="col">작성자</th>
+					<th scope="col">조회</th>
+					<th scope="col">작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="commu : ${cmscommulist}" class="commu-row"
+					th:attr="data-commu-id=${commu.commuId}">
+
+					<td th:text="${commu.commuId}"></td>
+					<td>[[${commu.commonCodeVal}]]
+					</td>
+
+
+					<td><a th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
+						th:text="${commu.commuTitle}"></a></td>
+					<td th:text="${commu.commuMberId}"></td>
+					<td th:text="${commu.commuReadCnt}"></td>
+					<td th:text="${commu.commuRegistDate}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
+			th:href="@{/commu/write}">글쓰기</a>
+		<nav aria-label="Page navigation"
+			class="d-flex justify-content-center">
+			<ul class="pagination">
+				<!-- 페이지 목록 출력 -->
+				<li class="page-item" th:if="${nowPageBlock>1}"><a
+					class="page-link prepage" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
+
+				<li class="page-item"
+					th:each="i: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${i==nowPage}?active"><a
+					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+					class="page-link nextpage" aria-label="Next"> <span
+						aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
+	</div>
+
+
+
+
+
+
+
+</body>
+<script th:src="@{/js/commu/admincommulist.js}"></script>
+</html>

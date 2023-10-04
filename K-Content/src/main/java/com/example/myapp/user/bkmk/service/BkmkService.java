@@ -19,6 +19,12 @@ public class BkmkService implements IBkmkService {
     public List<CntntBkmk> selectCntntBkmkList(String mberId) {
         return bkmkRepository.selectCntntBkmkList(mberId);
     }
+    
+	@Override
+	public List<GoodsJFileJBklkList> selectGoodsBkmkList(String mberId) {
+		return bkmkRepository.selectGoodsBkmkList(mberId);
+	}
+
 
     @Override
     public void insertCntntBkmk(String mberId, int cntntId) {

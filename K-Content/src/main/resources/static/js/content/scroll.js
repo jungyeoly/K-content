@@ -18,12 +18,14 @@
 		divEl.setAttribute("onclick", "cntntDetail(this.getAttribute('cntntId'))");
 		divEl.innerHTML = scroll;
 		document.querySelector("#contentsList").appendChild(divEl);
-		console.log(document.querySelector("#contentsList"));
 		}
 }
 	$(document).ready(function() {
 		var start = 1;
 		var end = 15;
+		
+		var cate = "[[${cate}]]";
+		
 		
 		$(window).scroll(function() {
 			if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {

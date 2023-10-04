@@ -42,8 +42,9 @@ public class CSTestController {
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String showYouTube() {
-        return "cms/cntnt/newcontentRecom";
+    public String showYouTube()
+    {
+        return "cms/cntnt/new-cntnt-recom";
     }
 
     //    @GetMapping("/recomm/main")
@@ -65,9 +66,12 @@ public class CSTestController {
 
     //디자인 테스트
     @GetMapping("")
-    public String test(Model model, HttpSession session) {
-        int page = 1;
-        int bbsCount = contentService.totalCntnt();
+    public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
+    	List<String> cateList = commonCodeService.cateList("C03");
+    	model.addAttribute("cateList", cateList);
+
+    	int page = 1;
+        int bbsCount = contentService.totalCntnt(cate);
 
         int totalPage = 0;
 
@@ -93,18 +97,10 @@ public class CSTestController {
         session.setAttribute("nowPage", page);
         return "cms/cntnt/new-admin-main-content";
     }
-    @GetMapping("/goods")
-    public String testGoods() {
-        return "cms/goods/new-goods-main";
-    }
-
-
-
-
-
-
-
-
+//    @GetMapping("/goods")
+//    public String testGoods() {
+//        return "cms/goods/new-goods-main";
+//    }
 
 
 
@@ -201,7 +197,7 @@ public class CSTestController {
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성 페이지 form 유튜브
@@ -213,7 +209,7 @@ public class CSTestController {
         model.addAttribute("content", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     // 기존 콘텐츠 수정 form
@@ -233,7 +229,10 @@ public class CSTestController {
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
             //일단 파일이 하나라고 가정....
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-        }
+           }
+
+        System.out.println("goodsJFileList: "+goodsJFileList);
+        // 삭제 된 굿즈는 아예 안뽑는건지? 알아봐야함
         model.addAttribute("goodsJFileList", goodsJFileList);
 
         //카테고리
@@ -246,7 +245,8 @@ public class CSTestController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/newcontentMakeForm";
+//        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성/수정

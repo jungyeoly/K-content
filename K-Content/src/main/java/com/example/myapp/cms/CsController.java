@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.myapp.cms.commu.model.CmsCommu;
+import com.example.myapp.cms.commu.service.ICmsCommuService;
 import com.example.myapp.cms.inqry.model.CmsInqry;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
-import com.example.myapp.user.commu.model.Commu;
-import com.example.myapp.user.commu.service.ICommuService;
 
 @Controller
 @RequestMapping("/cs")
 public class CsController {
 
 	@Autowired
-	ICommuService commuService;
+	ICmsCommuService cmsCommuService;
 	
 	@Autowired
 	ICmsInqryService cmsInqryService;
@@ -33,10 +33,11 @@ public class CsController {
 	
 	@GetMapping("/recent-notice")
 	@ResponseBody
-	public List<Commu> commuList() {
-		List<Commu> commu = commuService.selectRecentNotice();
+
+	public List<CmsCommu> commuList(Model model) {
+		List<CmsCommu> cmsCommu = cmsCommuService.selectRecentNotice();
 		
-		return commu;
+		return cmsCommu;
 	}
 	
 	@GetMapping("/recent-inqry")

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CntntBkmk {
 	private String mberId;
+	private String cntntId;
 	private String cntntTitle;
 	private String cntntUrl;
+	private String cntntThumnail;
 }

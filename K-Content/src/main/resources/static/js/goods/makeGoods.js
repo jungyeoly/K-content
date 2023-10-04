@@ -13,6 +13,7 @@ fileInput.addEventListener('change', function (e) {
         document.getElementById("pictures").appendChild(photoFrame);
         photoFrame.addEventListener("click", function () {
             document.getElementById("pictures").removeChild(photoFrame);
+
         })
     }
 })
@@ -32,7 +33,8 @@ function createGoods() {
     }
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
-
+    console.log(file);
+    fileInput.setAttribute(file[0],file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -58,14 +60,14 @@ function createGoods() {
     console.log(formData);
 
     $.ajax({
-        url: '/cs/goods',
+        url: '/cs/test/goods',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         success: function () {
             alert("상품이 등록되었습니다!");
-            location.href = 'main';
+            location.href = '/cs/test/goods';
 
 
         }, error: function (error) {
@@ -107,6 +109,55 @@ function makeKeyword() {
 
 }
 
+function updateGoodsIf(){
+    const fileInput = document.getElementById('input-file');
+    const selectedFile = fileInput.files[0];
+
+    if(selectedFile == null){
+        updateGoodsNoFile();
+    }else{
+        updateGoods();
+    }
+}
+
+function updateGoodsNoFile() {
+    console.log("없는거 호출");
+    var keywordDivList = [];
+    var keywordDiv = document.getElementById("keywordList");
+    var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
+    console.log("keywordDivCount: " + keywordDivCount.length);
+    for (i = 0; i < keywordDivCount.length; i++) {
+        var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
+        keywordDivList.push(trimmedStr);
+        console.log("trimmedStr:" + trimmedStr)
+    }
+
+    var formData = new FormData();
+    formData.append("goodsId", $("#goodsId").val());
+    formData.append("goodsTitle", $("#name").val());
+    formData.append("goodsBrand", $("#brand").val());
+    formData.append("goodsURL", $("#link").val());
+    formData.append("goodsPrice", $("#price").val());
+    formData.append("keywordList", keywordDivList);
+
+    console.log("formData: " + formData)
+
+    $.ajax({
+        url: '/cs/test/goods/form/nofile',
+        type: 'patch',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function () {
+            alert("상품이 수정되었습니다!")
+            location.href = '/cs/test/goods';
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+
+}
+
 function updateGoods() {
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
@@ -138,6 +189,7 @@ function updateGoods() {
         contentType: false,
         success: function () {
             alert("상품이 수정되었습니다!")
+            location.href = '/cs/test/goods';
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }

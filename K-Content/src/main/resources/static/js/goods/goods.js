@@ -33,6 +33,7 @@ clickGoodsList = [];
 function selectEnd(){
     const openerWindow = window.opener;
     window.opener.postMessage(clickGoodsList, "*");
+
     window.close();
 }
 

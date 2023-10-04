@@ -45,7 +45,7 @@
 .goods-box{
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;fl
+    flex-wrap: wrap;
 }
 .secondary-b {
     color: white;
@@ -176,4 +176,7 @@ label[for="modal-switch"]:before {
     .secondary {
         /*width: 300px;*/
     }
+}
+#keywordList{
+
 }

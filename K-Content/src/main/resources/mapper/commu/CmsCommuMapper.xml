@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.example.myapp.cms.commu.dao.ICmsCommuRepository">
+
+
+	<select id="selectAllUserPost"
+		resultType="com.example.myapp.cms.commu.model.CmsCommu">
+
+		select commu_id,
+		commu_title,
+		commu_regist_date,
+		commu_read_cnt,
+		commu_cate_code,
+		commu_mber_id,
+		rn,
+		common_code_val
+		from (
+		select rownum rn,
+		commu_id,
+		commu_title,
+		commu_regist_date,
+		commu_read_cnt,
+		commu_cate_code,
+		commu_mber_id,
+		commu_status,
+		common_code_val
+		from (
+		select *
+		from tb_commu a
+		join tb_common_code b
+		on a.commu_cate_code = b.common_code
+		where commu_status = 'N'
+		<if test="commonCodeVal != 'All'">
+			and b.common_code_val = #{commonCodeVal}
+		</if>
+		order by commu_id desc
+		)
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
+		AND commu_status != 'Y'
+		AND commu_status != 'R'
+		ORDER BY commu_id desc
+
+	</select>
+	
+	
+<select id="selectUserPost"
+		resultType="com.example.myapp.cms.commu.model.CmsCommu">
+<![CDATA[
+        select commu_id,
+               commu_title,
+               commu_cntnt,
+               commu_regist_date,
+               commu_update_date,
+               commu_read_cnt,
+               commu_cate_code,
+               commu_mber_id
+        from tb_commu
+      	where commu_id =#{commuId}
+        ]]>
+	</select>
+	
+	<insert id="insertAdminPost"
+		parameterType="com.example.myapp.cms.commu.model.CmsCommu"
+		useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
+	<![CDATA[
+	insert into tb_commu
+  (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
+   commu_status, commu_type, commu_read_cnt)
+VALUES
+  (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
+   'N', 'N', 0)
+	]]>
+	</insert>
+	
+	<select id="selectRecentNotice"
+		resultType="com.example.myapp.cms.commu.model.CmsCommu">
+	<![CDATA[
+					SELECT *
+				FROM (
+				    SELECT c.commu_id,
+				           c.commu_title,
+				           c.commu_cntnt,
+				           c.commu_regist_date,
+				           c.commu_update_date,
+				           c.commu_read_cnt,
+				           c.commu_cate_code,
+				           c.commu_mber_id
+				    FROM tb_commu c
+				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
+				    WHERE m.MBER_ROLE_CODE = 'C0402'
+				    ORDER BY c.commu_regist_date DESC
+				) 
+				WHERE ROWNUM <= 5
+	        ]]>
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

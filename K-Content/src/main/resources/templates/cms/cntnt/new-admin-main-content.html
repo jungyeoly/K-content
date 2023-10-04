@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-    <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
     <link rel="stylesheet" th:href="@{/css/content/new-admin-cntnt-main.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,11 +23,19 @@
 </div>
 
 <section class="primary container">
+
+    <div id="main-cate" class="categories-nav">
+        <ul class="categories">
+            <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
+        </ul>
+    </div>
+
     <ul class="card-list" id="card-list">
 
     </ul>
+
     <div class="position-relative">
-        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+        <nav aria-label="Page navigation" class="d-flex justify-content-center" id="page">
             <ul class="pagination">
                 <li class="page-item" th:if="${nowPageBlock>1}">
                     <a class="page-link prepage" aria-label="Previous">
@@ -36,7 +44,7 @@
                 </li>
 
                 <li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
-                    th:classappend="${i==nowPage}?active" th:id="${i}">
+                    th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
                     <a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
                 </li>
 
@@ -49,8 +57,8 @@
         </nav>
 
         <div class="col-2 position-absolute top-0 end-0 button-box">
-            <a class="btn border" href="content/new">생성</a>
-            <a class="btn border" type="button" href="recomm">추천</a>
+            <a class="btn border" href="test/content/new">생성</a>
+            <a class="btn border" type="button" href="test/recomm">추천</a>
         </div>
     </div>
 
@@ -58,36 +66,39 @@
 
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script th:src="@{/js/body-header.js}"></script>
-<script th:src="@{/js/content/content.js}"></script>
 <script th:src="@{/js/cntnt/cntntManagement.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
-        let page = "[[${session.page}]]";
+        var page = "[[${session.page}]]";
+        var cate = [[${session.cate}]];
 
         if (page == 'null') {
             page = 1;
         }
 
+        if (cate == 'null') {
+            cate = 'All';
+        }
+
         $.ajax({
             url: '/cs/contents/' + page,
             type: 'GET',
-            data: {'page': page},
+            data: {'page': page, 'cate': cate},
             success: function (contentList) {
                 const element = document.getElementById('card-list');
 
-                for (i = 0; i < contentList.length; i++) {
+                for (var i = contentList.length - 1; i >= 0; i--) {
                     inHtml = `
-	            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
-	                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-	                    <img src=${contentList[i].cntntThumnail} >
-	                </figure>
-	                <div class="card-desc">
-	                   ${contentList[i].cntntTitle}
-	                </div>
-	            </li>`;
+                        <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+                            <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+                                <img src=${contentList[i].cntntThumnail} >
+                            </figure>
+                            <div class="card-desc">
+                               ${contentList[i].cntntTitle}
+                            </div>
+                        </li>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
-
                 }
 
             }, error: function (error) {
@@ -95,27 +106,77 @@
             }
         })
 
-        $(".selpage").click(function () {
+        $(".cate").click(function () {
+            cate = this.getAttribute('data-maincate-value');
+            var page = 1;
+
+            $.ajax({
+                url: '/cs/contents/' + page,
+                type: 'GET',
+                data: {'page': page, 'cate': cate},
+                success: function (contentList) {
+                    const element = $('#card-list');
+                    element.empty();
+
+                    console.log(contentList.length);
+
+                    if (contentList.length == 0) {
+                        inHtml = `
+	                   	<div class="container text-center mt-5">
+	                		<img alt="" src="/img/fail.png">
+	                	</div>`
+                        element.append(inHtml);
+                    } else {
+                        for (i = 0; i < contentList.length; i++) {
+                            inHtml = `
+			            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+			                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+			                    <img src=${contentList[i].cntntThumnail} >
+			                </figure>
+			                <div class="card-desc">
+			                   ${contentList[i].cntntTitle}
+			                </div>
+			            </li>`;
+                            element.append(inHtml);
+                        }
+                    }
+
+                    const pageNav = $('#page');
+                    pageNav.empty();
+
+                    $.ajax({
+                        url: '/cs/paging',
+                        type: 'GET',
+                        data: {'page': page, 'cate': cate},
+                        success: function (data) {
+                            pageNav.append(data);
+                        }
+                    })
+
+                }
+            })
+        })
+
+        $(document).on("click", ".selpage", function () {
             var nowPage = $(this).data("selpage");
 
             $.ajax({
                 url: "/cs/contents/" + nowPage,
                 method: "get",
-                data: {page: nowPage},
+                data: {'page': nowPage, 'cate': cate},
                 success: function (contentList) {
                     const element = $('#card-list');
                     element.empty();
 
                     for (i = 0; i < contentList.length; i++) {
-                        inHtml = `
-		            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
-		                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-		                    <img src=${contentList[i].cntntThumnail} >
-		                </figure>
-		                <div class="card-desc">
-		                   ${contentList[i].cntntTitle}
-		                </div>
-		            </li>`;
+                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+						                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+						                    <img src=${contentList[i].cntntThumnail} >
+						                </figure>
+						                <div class="card-desc">
+						                   ${contentList[i].cntntTitle}
+						                </div>
+						            </li>`;
                         element.append(inHtml);
                     }
                     $(".page-item").removeClass("active");

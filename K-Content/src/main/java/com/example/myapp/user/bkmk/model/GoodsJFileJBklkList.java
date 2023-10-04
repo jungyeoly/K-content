@@ -1,12 +1,12 @@
 package com.example.myapp.user.bkmk.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GoodsJFileJBklkList {
     private int goodsId;
     private String goodsName;

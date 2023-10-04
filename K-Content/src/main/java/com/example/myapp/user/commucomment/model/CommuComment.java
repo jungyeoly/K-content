@@ -1,5 +1,7 @@
 package com.example.myapp.user.commucomment.model;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,6 @@ public class CommuComment {
 	private String commuCommentMberId; // 댓글 작성한 회원 ID
 	private int commuCommentRefId; //대댓글의 경우 참조하는 댓글의 ID
 	
-
+	private List<CommuComment> replies;// 대댓글 목록		
 }
 

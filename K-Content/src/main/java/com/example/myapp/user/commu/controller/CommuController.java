@@ -224,12 +224,17 @@ public class CommuController {
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
 		// 게시글에 연결된 댓글 정보 조회
-		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
-		System.out.println("Retrieved comments: " + comments);
-		model.addAttribute("comments", comments);
-		return "user/commu/view";
-	}
+		List<CommuComment> commentsWithReplies = new ArrayList<>();
 
+	    List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
+	    for (CommuComment comment : comments) {
+	        CommuComment fullComment = commuCommentService.getCommuCommentWithReplies(comment.getCommuCommentId());
+	        commentsWithReplies.add(fullComment);
+	    }
+	    model.addAttribute("comments", commentsWithReplies);
+
+	    return "user/commu/view";
+	}
 	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기
 	@GetMapping("/commu/{commuCateCode}/{commuId}")
 	public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {

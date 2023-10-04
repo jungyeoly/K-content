@@ -40,11 +40,6 @@ public class CSTestController {
     @Autowired
     ICommonCodeService commonCodeService;
 
-	@GetMapping("/")
-	public String csMain(Model model) {
-		return "cms/index";
-	}
-
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
     public String showYouTube()

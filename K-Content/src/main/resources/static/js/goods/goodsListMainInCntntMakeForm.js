@@ -1,6 +1,6 @@
 function searchKeyword() {
     $.ajax({
-        url: '/cs/test/goods/cntnt/search',
+        url: '/cs/test/goods/search',
         type: 'GET',
         data: {
             search: document.getElementById("search-input").value
@@ -11,7 +11,7 @@ function searchKeyword() {
             if (data.length != 0) {
                 for (var i = 0; i < data.length; i++) {
                     inHtml = `<div class="col-xl-4 col-lg-6">
-                        <div class="single-category mb-30"  onclick="detail(${data[i].goodsId})">
+                        <div class="single-category mb-30"  onclick="addList(${data[i].goodsId})">
                             <div class="category-img">
                                 <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
                                 <div class="category-caption">

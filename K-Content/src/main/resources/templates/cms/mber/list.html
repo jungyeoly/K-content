@@ -253,14 +253,16 @@ table {
 										html += '<td>' + mber.mberStat
 												+ '</td>';
 										html += '<td>';
-										if (mber.mberStat == '활성화') {
-											html += '<button class="badge badge-pending" data-mber-id="'
-													+ mber.mberId
-													+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
-										} else if (mber.mberStat == '비활성화') {
-											html += '<button class="badge badge-complete" data-mber-id="'
-													+ mber.mberId
-													+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
+										if (mber.mberRole != '관리자') {
+											if (mber.mberStat == '활성화') {
+												html += '<button class="badge badge-pending" data-mber-id="'
+														+ mber.mberId
+														+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
+											} else if (mber.mberStat == '비활성화') {
+												html += '<button class="badge badge-complete" data-mber-id="'
+														+ mber.mberId
+														+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
+											}
 										}
 										html += '</td>';
 										html += '</tr>';

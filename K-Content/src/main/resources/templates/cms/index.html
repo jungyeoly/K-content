@@ -88,7 +88,7 @@
 				<h4 class="fw-bold">고객센터 미답변 문의글</h4>
 				<p class="h6">※고객센터 미답변 문의글은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서
 					확인해주세요.</p>
-				<table class="board-table">
+				<table class="board-table" id="inqry-table">
 					<thead>
 						<tr>
 							<th scope="col" class="th-num">번호</th>
@@ -97,23 +97,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>3</td>
-							<th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
-							<td>2017.07.13</td>
-						</tr>
-
-						<tr>
-							<td>2</td>
-							<th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-							<td>2017.06.15</td>
-						</tr>
-
-						<tr>
-							<td>1</td>
-							<th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-							<td>2017.06.15</td>
-						</tr>
+		
 					</tbody>
 				</table>
 			</div>
@@ -131,23 +115,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>3</td>
-							<th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
-							<td>2017.07.13</td>
-						</tr>
-
-						<tr>
-							<td>2</td>
-							<th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-							<td>2017.06.15</td>
-						</tr>
-
-						<tr>
-							<td>1</td>
-							<th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-							<td>2017.06.15</td>
-						</tr>
+					
 					</tbody>
 				</table>
 			</div>
@@ -158,6 +126,7 @@
 
 		$(document).ready(function() {
 			loadNoticeData();
+			loadInqryData();
 		});
 		function loadNoticeData() {
 			$.ajax({
@@ -184,6 +153,33 @@
 				}
 			});
 		}
+		
+		function loadInqryData() {
+			$.ajax({
+				type : 'GET',
+				url : '/cs/recent-inqry',
+				dataType : 'json',
+				success : function(data) {
+					// 회원 정보를 표시할 HTML을 생성
+					var html = '';
+					data.forEach(function(inqry) {
+						html += '<tr>';
+						html += '<td>' + inqry.inqryId + '</td>';
+						  html += '<th><a href="/inqury/detail/' + inqry.inqryId + '">' + inqry.inqryTitle + '</a></th>';
+						html += '<td>' + inqry.inqryRegistDate + '</td>';
+
+						html += '</tr>';
+					});
+					// 최근공지사항 리스트 테이블 업데이트
+					$('#inqry-table tbody').html(html);
+
+				},
+				error : function() {
+					alert('최근 미답변 문의글을 불러오는데 실패했습니다.');
+				}
+			});
+		} 
+		
 	</script>
 </body>
 </html>

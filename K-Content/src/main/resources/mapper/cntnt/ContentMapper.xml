@@ -5,36 +5,40 @@
 <mapper namespace="com.example.myapp.cms.content.dao.IContentRepository">
 
     <select id="getAllContent" resultType="com.example.myapp.cms.content.model.CmsContent">
-        <![CDATA[
-	        SELECT cntnt_id,
-			       cntnt_cate_code,
-			       cntnt_title,
-			       cntnt_kwrd,
-			       cntnt_url,
-			       cntnt_regist_date,
-			       cntnt_update_date,
-			       cntnt_delete_yn
-			FROM
-			    (SELECT rownum rn,
-			            cntnt_id,
-			            cntnt_cate_code,
-			            cntnt_title,
-			            cntnt_kwrd,
-			            cntnt_url,
-			            cntnt_regist_date,
-			            cntnt_update_date,
-			            cntnt_delete_yn
-			    FROM
-			        (SELECT *
-			        FROM tb_cntnt
-			        WHERE cntnt_delete_yn = 'N'
-			        ORDER BY cntnt_id desc
-			        )
-			    )
-			WHERE rn between #{start} AND #{end}
-			ORDER BY rn desc
-        ]]>
+        SELECT cntnt_id,
+		       cntnt_cate_code,
+		       cntnt_title,
+		       cntnt_kwrd,
+		       cntnt_url,
+		       cntnt_regist_date,
+		       cntnt_update_date,
+		       cntnt_delete_yn
+		FROM
+		    (SELECT rownum rn,
+		            cntnt_id,
+		            cntnt_cate_code,
+		            cntnt_title,
+		            cntnt_kwrd,
+		            cntnt_url,
+		            cntnt_regist_date,
+		            cntnt_update_date,
+		            cntnt_delete_yn
+		    FROM
+		        (SELECT *
+		        FROM tb_cntnt a
+		        JOIN tb_common_code b
+		        ON a.cntnt_cate_code = b.common_code
+		        WHERE cntnt_delete_yn = 'N'
+		        <if test="commonCodeVal != 'All'">
+		        	AND common_code_val = #{commonCodeVal}
+		        </if>
+		        ORDER BY cntnt_id desc
+		        )
+		    )
+		WHERE rn between #{start} AND #{end}
+		ORDER BY rn
     </select>
+    
     <select id="getAContent" resultType="com.example.myapp.cms.content.model.CmsContent">
         <![CDATA[
         SELECT cntnt_id,
@@ -81,9 +85,14 @@
 
     </select>
     <select id="totalContent" resultType="int">
-    	select count(*)
-    	from tb_cntnt
-    	where cntnt_delete_yn = 'N'
+    	SELECT count(*)
+		FROM tb_cntnt a
+		JOIN tb_common_code b
+		ON a.cntnt_cate_code = b.common_code
+		WHERE cntnt_delete_yn = 'N'
+		<if test="commonCodeVal != 'All'">
+			AND b.common_code_val = #{commonCodeVal}
+		</if>
     </select>
     <insert id="insertAContent" parameterType="com.example.myapp.cms.content.model.CmsContent" useGeneratedKeys="true"
             keyColumn="cntnt_id" keyProperty="cntntId">

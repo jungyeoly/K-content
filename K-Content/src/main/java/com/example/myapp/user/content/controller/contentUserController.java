@@ -1,9 +1,5 @@
 package com.example.myapp.user.content.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 import com.example.myapp.cms.content.model.CmsContent;
@@ -32,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.myapp.user.content.model.Content;
 import com.example.myapp.user.content.service.IContentUserService;
 
+import jakarta.servlet.http.HttpSession;
+
 import javax.imageio.ImageIO;
 
 
@@ -54,9 +52,8 @@ public class contentUserController {
     IBkmkService bkmkService;
 
     @GetMapping("/user/content")
-    public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model) {
+    public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model, HttpSession session) {
         // 카테고리 별 조회
-
         List<Content> contentList = contentService.selectUserContent(cate, start, end);
 
         for (int i = 0; i < contentList.size(); i++) {
@@ -67,7 +64,8 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-
+        
+        session.setAttribute("cate", cate);
         model.addAttribute("contentList", contentList);
 
         return "user/content/list";
@@ -86,7 +84,8 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-
+        
+        
         model.addAttribute("contentList", contentList);
 
         return "user/content/list";
@@ -95,7 +94,9 @@ public class contentUserController {
     @GetMapping("/content/scroll")
     public @ResponseBody Map<String, Object> show(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam int start, @RequestParam int end, Model model) {
         List<Content> contentList = contentService.selectUserContent(cate, start, end);
-
+        for (Content c : contentList) {
+        	System.out.println(c.getCntntCateCode());
+        }
         for (int i = 0; i < contentList.size(); i++) {
             // 유튜뷰 영상 썸네일 추출
             List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));

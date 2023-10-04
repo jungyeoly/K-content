@@ -8,42 +8,41 @@
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	
-	<div th:each="cntnt : ${cntntList}">
-		<p>[[${cntnt.mberId}]]</p>
-		<p>[[${cntnt.cntntTitle}]]</p>
-		<p>[[${cntnt.cntntUrl}]]</p>
-	</div>
-	
-	<div id="container">
-		<ul class="tab">
-			<li class="on" data-tab="menu1"><a href="#">menu1</a></li>
-			<li data-tab="menu2"><a href="#">menu2</a></li>
-			<li data-tab="menu3"><a href="#">menu3</a></li>
-			<li data-tab="menu4"><a href="#">menu4</a></li>
+	<div id="container" class="container">
+		<ul class="tab d-flex justify-content-around text-white">
+			<li class="on" data-tab="menu1">콘텐츠 즐겨찾기</li>
+			<li data-tab="menu2">상품 즐겨찾기</li>
 		</ul>
 
 		<div id="menu1" class="tabcont on">
-			<h3>menu1</h3>
-			<p> This is menu1 content</p>
+			<div class="d-flex flex-wrap justify-content-center">
+				<div th:each="cntnt : ${cntntList}" class="card mx-3 my-3 position-relative"
+					th:cntntId="${cntnt.cntntId}" onclick="cntntDetail(this.getAttribute('cntntId'))">
+					<i class="fa-solid fa-x position-absolute text-danger cntntI fw-bold end-0 top-0 p-1"></i>
+					<img th:src="${cntnt.CntntThumnail}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">[[${cntnt.cntntTitle}]]</p>
+					</div>
+				</div>
+			</div>
 		</div>
-
+		
 		<div id="menu2" class="tabcont">
-			<h3>menu2</h3>
-			<p> This is menu2 content</p>
-		</div>
-
-		<div id="menu3" class="tabcont">
-			<h3>menu3</h3>
-			<p> This is menu3 content</p>
-		</div>
-
-		<div id="menu4" class="tabcont">
-			<h3>menu4</h3>
-			<p> This is menu4 content</p>
+			<div class="d-flex flex-wrap justify-content-center">
+				<div th:each="goods : ${goodsList}" class="card mx-3 my-3 position-relative" th:goodsId="${goods.goodsId}">
+					<i class="fa-solid fa-x position-absolute text-danger goodsI fw-bold end-0 top-0 p-1"></i>
+					<img class="card-img-top" 
+						th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}">
+					<div class="card-body">
+						<p class="card-text my-1">[[${goods.goodsName}]]</p>
+						<p class="card-text my-1">[[${goods.goodsBrand}]]</p>
+						<p class="card-text my-1">[[${goods.goodsPrice}]]</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<script src="../js/jquery.js"></script>
 	<script>
 		$(function() {
 			$('ul.tab li').click(function() {
@@ -53,7 +52,50 @@
 				$(this).addClass('on');
 				$('#' + activeTab).addClass('on');
 			})
+			
+			$('.cntntI').click(function() {
+				event.stopPropagation(); 
+				const cntntId = $(this).parent().attr('cntntId');
+				
+				$.ajax({
+					url: '/bkmk',
+					type: 'DELETE',
+					data: {contentId : cntntId},
+					success: function() {
+						alert("삭제되었습니다.");
+						window.location.reload();
+					}
+				})
+			})
+			
+			$('.goodsI').click(function() {
+				event.stopPropagation(); 
+				const goodsId = $(this).parent().attr('goodsId');
+				console.log(goodsId);
+				$.ajax({
+					url: '/bkmk/goods',
+					type: 'DELETE',
+					data: {goodsId : goodsId},
+					success: function() {
+						alert("삭제되었습니다.");
+						window.location.reload();
+					}
+				})
+			})
 		});
+		
+		function cntntDetail(cntntId) {
+			const formHtml = `<form id="contentDetail" action="/user/content/detail" method="get">
+									<input  id="targetContentIdF" name="targetContentIdF"  />
+								</form>`;
+
+			const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+			const form = doc.body.firstChild;
+			document.body.append(form);
+			document.getElementById("targetContentIdF").value = cntntId;
+			document.getElementById('contentDetail').submit();
+		}
+
 	</script>
 
 </body>

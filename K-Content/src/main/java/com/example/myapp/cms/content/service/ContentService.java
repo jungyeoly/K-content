@@ -19,9 +19,9 @@ public class ContentService implements IContentService {
     ICntntGoodsMappingRepository cntntGoodsMappingRepository;
 
     @Override
-    public List<CmsContent> getAllContent(int page) {
+    public List<CmsContent> getAllContent(String commonCodeVal, int page) {
     	int start = (page-1)*10 + 1;
-        return contentRepository.getAllContent(start, start+8);
+        return contentRepository.getAllContent(commonCodeVal, start, start+8);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class ContentService implements IContentService {
     }
 
 	@Override
-	public int totalCntnt() {
-		return contentRepository.totalContent();
+	public int totalCntnt(String commonCodeVal) {
+		return contentRepository.totalContent(commonCodeVal);
 	}
 
 

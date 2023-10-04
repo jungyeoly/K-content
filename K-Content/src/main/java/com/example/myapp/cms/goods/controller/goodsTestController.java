@@ -3,6 +3,8 @@ package com.example.myapp.cms.goods.controller;
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.model.GoodsFile;
 import com.example.myapp.cms.goods.service.IGoodsService;
+import com.example.myapp.user.inqry.model.Inqry;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,15 +34,48 @@ public class goodsTestController {
     private String url;
 
     // admin side-bar 상품 리스트 접근
-    @GetMapping("/main")
-    public String getGoodsPages() {
-        return "cms/goods/goodsListMain";
+    @GetMapping("/{page}")
+    public String getGoodsPages(@PathVariable int page, HttpSession session, Model model) {
+
+        session.removeAttribute("message");
+        session.setAttribute("page", page);
+
+        List<Goods> goodsList = goodsService.getAllGoodsJFile(page);
+        model.addAttribute("goodsList", goodsList);
+
+        int bbsCount = goodsService.totalGoods();
+        int totalPage = 0;
+        System.out.println("bbsCount: " + bbsCount);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
+        }
+        System.out.println("totalPage: " + totalPage);
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        session.setAttribute("nowPage", page);
+
+
+        return "cms/goods/new-goods-list";
     }
 
-//    @GetMapping("")
-//    public String getPages() {
-//        return "cms/goods/goodsList";
-//    }
+    @GetMapping("")
+    public String selectGoodsList() {
+        return "cms/goods/new-goods-main";
+    }
 
     // 상품 상세 화면 보여주기
     @GetMapping("/detail")
@@ -53,13 +88,6 @@ public class goodsTestController {
         return "cms/goods/new-goods-detail";
     }
 
-    //모든 상품 리스트 가져오기
-    @GetMapping("/list")
-    @ResponseBody
-    public List<Goods> getAllGoods() {
-        List<Goods> goodsList = goodsService.getAllGoodsJFile();
-        return goodsList;
-    }
 
     // 상품 검색 결과 출력
     @GetMapping("/search")
@@ -150,7 +178,6 @@ public class goodsTestController {
     public String updateGoods(@RequestParam(value = "goodsId") int goodsId, Model model) {
 
         Goods goods = goodsService.getGoodsJFileByGoodsId(goodsId);
-
         model.addAttribute("goods", goods);
         //키워드
         List<String> keywordList = Arrays.stream(goods.getGoodsKwrd().split(",")).toList();
@@ -167,7 +194,7 @@ public class goodsTestController {
         return "cms/goods/goodsListMain";
     }
 
-    //상품 수정
+    //상품 수정 파일 있음
     @PatchMapping("/form")
     public ResponseEntity<String> updateGoods(@RequestParam("goodsId") int goodsId,
                                               @RequestParam("goodsTitle") String goodsTitle,
@@ -228,4 +255,88 @@ public class goodsTestController {
 
 
     }
+
+
+    //상품 수정 파일 없음
+    @PatchMapping("/form/nofile")
+    public ResponseEntity<String> updateGoodsnoFile(@RequestParam("goodsId") int goodsId,
+                                                    @RequestParam("goodsTitle") String goodsTitle,
+                                                    @RequestParam("goodsBrand") String goodsBrand,
+                                                    @RequestParam("goodsURL") String goodsURL,
+                                                    @RequestParam("goodsPrice") String goodsPrice,
+                                                    @RequestParam("keywordList") List<String> keywordListJson
+    ) {
+//        try {
+
+        String keywordlist = keywordListJson.toString();
+
+        String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
+
+        Goods newGoods = new Goods();
+
+
+        newGoods.setGoodsId(goodsId);
+        newGoods.setGoodsName(goodsTitle);
+        newGoods.setGoodsBrand(goodsBrand);
+        newGoods.setGoodsPrice(Integer.parseInt(goodsPrice));
+        newGoods.setGoodsPurchsLink(goodsURL);
+        newGoods.setGoodsKwrd(keyword);
+
+
+        //TODO 수정으로 바꾸기
+        goodsService.updateGoods(newGoods);
+
+
+        return ResponseEntity.ok("goods 업로드 및 처리 완료");
+//TODO try catch 문 작성
+
+
+    }
+
+    // 컨텐츠 생성 폼에서 굿즈 리스트
+    @GetMapping("/cntnt")
+    public String selectGoodsListInMakeCntnt() {
+        System.out.println("sdfsdfs");
+        return "cms/goods/new-goods-main-in-cntnt-make-form";
+    }
+
+    @GetMapping("/cntnt/{page}")
+    public String getGoodsPagesInMakeCntnt(@PathVariable int page, HttpSession session, Model model) {
+
+        session.removeAttribute("message");
+        session.setAttribute("page", page);
+
+        List<Goods> goodsList = goodsService.getAllGoodsJFile(page);
+        model.addAttribute("goodsList", goodsList);
+
+        int bbsCount = goodsService.totalGoods();
+        int totalPage = 0;
+
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        session.setAttribute("nowPage", page);
+
+
+        return "cms/goods/new-goods-list-in-cntnt-make-form";
+    }
+
+
 }
+

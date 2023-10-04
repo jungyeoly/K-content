@@ -15,7 +15,7 @@ public interface IGoodsRepository {
 
     Goods getAGoods(@Param("goodsId") int goodsId);
 
-    List<Goods> getAllGoodsJFile();
+    List<Goods> getAllGoodsJFile(@Param("start") int start, @Param("end") int end);
 
     Goods getGoodsJFileByGoodsId(@Param("goodsId") int goodsId);
 
@@ -25,10 +25,14 @@ public interface IGoodsRepository {
 
     int insertGoods(Goods goods);
 
+    int totalGoods();
+
     int insertGoodsFile(@Param("goodsFile") GoodsFile goodsFile);
 
     void updateDelYnGoods(@Param("goodsId") int goodsId);
+
     void deleteGoodsFile(@Param("goodsId") int goodsId);
+
     int updateGoods(Goods goods);
 
 }

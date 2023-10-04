@@ -160,3 +160,6 @@ p {
 .keywordItem:nth-child(10) {
     background-color: #E0F9B5;
 }
+.admin-button{
+    float: right;
+}

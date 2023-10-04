@@ -59,7 +59,7 @@
 
 
 .primary {
-    margin-right: 4%;
+    /*margin-right: 4%;*/
 }
 
 .footer {
@@ -76,9 +76,18 @@
     width: 50%;
     margin: auto;
     padding-top: 30px;
-    height: 80%;
+    /*height: 80%;*/
     padding-bottom: 60px;
 }
 .new-button{
-    margin-top: 30px;
+    /*margin-top: 30px;*/
+}
+#goodsBox{
+    padding: inherit;
+    margin: 30px;
+}
+
+ul{
+    padding: 0px !important;
+    justify-content: center;
 }

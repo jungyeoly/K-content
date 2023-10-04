@@ -1,0 +1,18 @@
+<ul class="pagination">
+	<li class="page-item" th:if="${nowPageBlock>1}">
+		<a class="page-link prepage" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+		</a>
+	</li>
+	
+	<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
+	    th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
+		<a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
+	</li>
+
+	<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+		<a class="page-link nexpage" aria-label="Next">
+			<span aria-hidden="true">&raquo;</span>
+		</a>
+	</li>
+ </ul>

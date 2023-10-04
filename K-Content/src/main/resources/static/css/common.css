@@ -8,7 +8,7 @@
 	;
 
 :root {
-	/* Color */ 
+	/* Color */
 	--color-main: #14dbc8;
 }
 
@@ -74,6 +74,7 @@ img, a {
     border: none;
     color: white;
     background-color: var(--color-main);
+    /*background-color: rgba(255, 0, 0, 0.0);*/
     box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
     white-space: nowrap;
 }
@@ -86,7 +87,7 @@ img, a {
     line-height: 22.5px;
     font-weight: 600;
     transition: all 200ms linear;
-    padding: 0 126px; 
+    padding: 0 126px;
     display: inline-flex;
     -moz-align-items: center;
     -ms-align-items: center;
@@ -147,7 +148,7 @@ img, a {
 	background-color: #dc143c !important;
 }
 .alert-btn {
-	background-color: var(--color-main); 
+	background-color: var(--color-main);
 	border-radius: 7px;
     font-size: 16px;
     letter-spacing: 0;

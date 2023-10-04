@@ -1,0 +1,173 @@
+:root {
+    /* Color */
+    /*--color-main: #14dbc8;*/
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+#iframe {
+    text-align: center;
+}
+
+/* iframe 크기 조정 */
+iframe {
+    width: 70%;
+    height: 30em;
+
+}
+.ifrmae{
+
+    height: 30em;
+    margin: auto;
+}
+.title-box{
+    padding-top: 2em;
+}
+.keyword{
+    padding-top: 1em;
+}
+.goods-box{
+    display: flex;
+    justify-content: space-evenly;
+    /*overflow: hidden;*/
+    padding-bottom: 100px;
+
+}
+figure{
+    margin: revert !important;
+    /*display: contents;*/
+    /*border: 4px solid #8c8c8c;*/
+}
+img{
+
+}
+.goodsBkmk{
+    padding: 7px 6px;
+}
+
+
+
+i {
+    cursor: pointer;
+}
+
+/* 제목 옆 카테고리 */
+.categori {
+    height: 25px;
+    background: var(--color-main);
+    color: white;
+    border-radius: 10%;
+}
+
+p {
+    margin: 0px !important;
+}
+
+.keywordItem {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.goods-box {
+    width: 100%;
+}
+
+/* 한줄에 3개씩 들어가게 */
+.goods {
+    width: 30%;
+}
+
+/* 제목 길면 아래줄로 넘어가기 */
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+.card-image {
+    height: 0;
+    padding-bottom: 60%;
+    background-color: lightgray;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.card-desc {
+    flex: 1 1 auto;
+    padding: 1em;
+    background: white;
+}
+@media (min-width: 600px) {
+    .card-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -1rem;
+    }
+    .card-item {
+        width: 50%;
+        padding: 0 1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-item {
+        width: 33.33333%;
+    }
+}
+/* 카테고리 색 */
+.keywordItem:nth-child(1) {
+    background-color: #FBF0B2;
+}
+
+.keywordItem:nth-child(2) {
+    background-color: #FFC7EA;
+}
+
+.keywordItem:nth-child(3) {
+    background-color: #D8B4F8;
+}
+
+.keywordItem:nth-child(4) {
+    background-color: #CAEDFF;
+}
+
+.keywordItem:nth-child(5) {
+    background-color: #FFC7C7;
+}
+
+.keywordItem:nth-child(6) {
+    background-color: #FFE2E2;
+}
+
+.keywordItem:nth-child(7) {
+    background-color: #F6F6F6;
+}
+
+.keywordItem:nth-child(8) {
+    background-color: #8785A2;
+}
+
+.keywordItem:nth-child(9) {
+    background-color: #DCD6F7;
+}
+
+.keywordItem:nth-child(10) {
+    background-color: #E0F9B5;
+}
+#keywordList{
+    display: flex;
+}
+#url{
+    width: 90%;
+}
+.keyword{
+margin-bottom: 1em !important;
+}

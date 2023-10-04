@@ -5,21 +5,25 @@
 
 	<!-- 댓글 입력 -->
 	<insert id="insertCommuComment"
-		parameterType="com.example.myapp.user.commucomment.model.CommuComment">
+		parameterType="com.example.myapp.user.commucomment.model.CommuComment"
+		useGeneratedKeys="true" keyProperty="commuCommentId"
+		keyColumn="COMMU_COMMENT_ID">
 		INSERT INTO TB_COMMU_COMMENT
 		(COMMU_COMMENT_ID,
 		COMMU_COMMENT_COMMU_ID, COMMU_COMMENT_CNTNT,
 		COMMU_COMMENT_REGIST_DATE,
-		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER, COMMU_COMMENT_MBER_ID,
+		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER,
+		COMMU_COMMENT_MBER_ID,
 		COMMU_COMMENT_REF_ID)
 		VALUES
 		(TB_COMMU_COMMENT_SEQ.NEXTVAL, #{commuCommentCommuId},
 		#{commuCommentCntnt},
 		#{commuCommentRegistDate},
-		#{commuCommentDepth}, #{commuCommentOrder},
+		#{commuCommentDepth},
+		#{commuCommentOrder},
 		#{commuCommentMberId},
 		#{commuCommentRefId})
-		
+
 	</insert>
 
 	<!-- 댓글 수정 -->
@@ -30,20 +34,29 @@
 		COMMU_COMMENT_CNTNT =
 		#{commuCommentCntnt},
 		COMMU_COMMENT_UPDATE_DATE =
-		#{commuCommentUpdateDate},
+		#{commuCommentUpdateDate}
 		WHERE COMMU_COMMENT_ID =
 		#{commuCommentId}
 	</update>
 
-	<!-- 댓글 삭제 -->
-	<delete id="deleteCommuCommentByCommuCommentRefId">
+	<!-- 대댓글 삭제 -->
+	<delete id="deleteCommuCommentByCommuCommentRefId"
+		parameterType="int">
 		DELETE FROM TB_COMMU_COMMENT WHERE
 		COMMU_COMMENT_REF_ID =
 		#{commuCommentRefId}
 	</delete>
 
+	<!-- 원본 댓글 삭제 -->
+	<delete id="deleteCommuCommentByCommuCommentId"
+		parameterType="int">
+		DELETE FROM TB_COMMU_COMMENT
+		WHERE COMMU_COMMENT_ID
+		=#{commuCommentId}
+	</delete>
+
 	<!-- 댓글 순서 업데이트 -->
-	<update id="updateCommuCommentId">
+	<update id="updateCommuCommentOrderAndDepth">
 		UPDATE TB_COMMU_COMMENT
 		SET
 		COMMU_COMMENT_DEPTH =
@@ -53,12 +66,50 @@
 		COMMU_COMMENT_REF_ID = #{commuCommentRefId}
 	</update>
 
-<!--게시글 ID에 따른 댓글 조회-->
+	<!--게시글 ID에 따른 댓글 조회 -->
 
-<select id=" selectCommuCommentsByCommuCommentId" resultType="com.example.myapp.user.commucomment.model.CommuComment">
-        SELECT *
-        FROM TB_COMMU_COMMENT
-      WHERE COMMU_COMMENT_COMMU_ID = #{commuId}
+	<select id="selectCommuCommentsByCommuCommentCommuId"
+		parameterType="int"
+		resultType="com.example.myapp.user.commucomment.model.CommuComment">
+		SELECT DISTINCT *
+		FROM (
+		SELECT *
+		FROM TB_COMMU_COMMENT
+		WHERE COMMU_COMMENT_COMMU_ID = #{COMMUID}
+		START WITH COMMU_COMMENT_REF_ID = 0
+		CONNECT BY NOCYCLE PRIOR COMMU_COMMENT_ID = COMMU_COMMENT_REF_ID
+		ORDER SIBLINGS BY COALESCE(COMMU_COMMENT_REF_ID, COMMU_COMMENT_ID) ASC,
+		COMMU_COMMENT_DEPTH ASC, COMMU_COMMENT_REGIST_DATE DESC
+		) t
+	</select>
 
-    </select>
+
+	<!--특정 ID를 가진 댓글의 정보를 조회 -->
+	<select id="selectCommuCommentById" parameterType="int"
+		resultType="com.example.myapp.user.commucomment.model.CommuComment">
+		SELECT *
+		FROM TB_COMMU_COMMENT
+		WHERE COMMU_COMMENT_ID =
+		#{commuCommentId}
+	</select>
+
+	<!-- 게시글의 마지막 댓글 순서를 가져오기 -->
+	<select id="getLastCommuCommentOrder" resultType="int"
+		parameterType="int">
+		SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
+		FROM
+		TB_COMMU_COMMENT
+		WHERE COMMU_COMMENT_COMMU_ID = #{commuCommentCommuId}
+	</select>
+
+	<!-- 원본 댓글에 대한 마지막 대댓글의 순서를 가져오기 -->
+	<select id="getLastReplyOrder" resultType="int"
+		parameterType="int">
+		SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
+		FROM
+		TB_COMMU_COMMENT
+		WHERE COMMU_COMMENT_REF_ID = #{commuCommentRefId}
+	</select>
+
+
 </mapper>

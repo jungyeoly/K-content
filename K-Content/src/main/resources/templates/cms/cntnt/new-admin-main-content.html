@@ -29,11 +29,11 @@
             <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
         </ul>
     </div>
-    
+
     <ul class="card-list" id="card-list">
 
     </ul>
-    
+
     <div class="position-relative">
         <nav aria-label="Page navigation" class="d-flex justify-content-center" id="page">
             <ul class="pagination">
@@ -58,7 +58,7 @@
 
         <div class="col-2 position-absolute top-0 end-0 button-box">
             <a class="btn border" href="test/content/new">생성</a>
-            <a class="btn border" type="button" href="recomm">추천</a>
+            <a class="btn border" type="button" href="test/recomm">추천</a>
         </div>
     </div>
 
@@ -71,22 +71,22 @@
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         var page = "[[${session.page}]]";
-		var cate = "[[${session.cate}]]";
+        var cate = "[[${session.cate}]]";
         if (page == 'null') {
             page = 1;
         }
-        
+
         if (cate == 'null') {
-        	cate = 'All';
+            cate = 'All';
         }
 
         $.ajax({
             url: '/cs/contents/' + page,
             type: 'GET',
-            data: {'page': page, 'cate' : cate},
+            data: {'page': page, 'cate': cate},
             success: function (contentList) {
                 const element = document.getElementById('card-list');
-				
+
                 for (var i = contentList.length - 1; i >= 0; i--) {
                     inHtml = `
                         <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
@@ -104,32 +104,30 @@
                 console.error('에러 발생: ', error);
             }
         })
-        
-        $(".cate").click(function() {
-        	cate = this.getAttribute('data-maincate-value');
-        	var page = 1;
-        	
-        	$.ajax({
-        		url: '/cs/contents/' + page,
-        		type: 'GET',
-        		data: {'page' : page, 'cate' : cate},
-        		success: function(contentList) {
-        			const element = $('#card-list');
+
+        $(".cate").click(function () {
+            cate = this.getAttribute('data-maincate-value');
+            var page = 1;
+
+            $.ajax({
+                url: '/cs/contents/' + page,
+                type: 'GET',
+                data: {'page': page, 'cate': cate},
+                success: function (contentList) {
+                    const element = $('#card-list');
                     element.empty();
-                    
+
                     console.log(contentList.length);
-                    
-                    if(contentList.length == 0) {
-                    	inHtml = `
+
+                    if (contentList.length == 0) {
+                        inHtml = `
 	                   	<div class="container text-center mt-5">
 	                		<img alt="" src="/img/fail.png">
 	                	</div>`
-                    		element.append(inHtml);
-                    }
-					
-                    else {
-	                    for (i = 0; i < contentList.length; i++) {
-	                        inHtml = `
+                        element.append(inHtml);
+                    } else {
+                        for (i = 0; i < contentList.length; i++) {
+                            inHtml = `
 			            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
 			                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
 			                    <img src=${contentList[i].cntntThumnail} >
@@ -138,33 +136,33 @@
 			                   ${contentList[i].cntntTitle}
 			                </div>
 			            </li>`;
-	                        element.append(inHtml);
-	                    }
+                            element.append(inHtml);
+                        }
                     }
-                    
+
                     const pageNav = $('#page');
                     pageNav.empty();
-                    
+
                     $.ajax({
-                    	url: '/cs/paging',
-                    	type: 'GET',
-                    	data: {'page' : page, 'cate' : cate},
-                    	success: function(data) {
-                    		pageNav.append(data);
-                    	}
-                   	})
-                    
-        		}
-        	})
+                        url: '/cs/paging',
+                        type: 'GET',
+                        data: {'page': page, 'cate': cate},
+                        success: function (data) {
+                            pageNav.append(data);
+                        }
+                    })
+
+                }
+            })
         })
 
         $(document).on("click", ".selpage", function () {
-        	var nowPage = $(this).data("selpage");
-            
+            var nowPage = $(this).data("selpage");
+
             $.ajax({
                 url: "/cs/contents/" + nowPage,
                 method: "get",
-                data: {'page' : nowPage, 'cate' : cate},
+                data: {'page': nowPage, 'cate': cate},
                 success: function (contentList) {
                     const element = $('#card-list');
                     element.empty();

@@ -49,7 +49,7 @@ public class CSTestController {
     @GetMapping("/recomm")
     public String showYouTube()
     {
-        return "cms/cntnt/newcontentRecom";
+        return "cms/cntnt/new-cntnt-recom";
     }
 
     //    @GetMapping("/recomm/main")
@@ -214,7 +214,7 @@ public class CSTestController {
         model.addAttribute("content", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     // 기존 콘텐츠 수정 form

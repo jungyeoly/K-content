@@ -191,7 +191,7 @@ public class goodsTestController {
     public String createGoods(@RequestParam("goodsId") int goodsId) {
         System.out.println(goodsId);
         goodsService.updateDelYnGoods(goodsId);
-        return "cms/goods/goodsListMain";
+        return "cms/goods/new-goods-main";
     }
 
     //상품 수정 파일 있음

@@ -389,7 +389,7 @@ public class CSTestController {
     public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId) {
         //update content
         contentService.updateDelStat(cntntId);
-        return "cms/cntnt/contentManage";
+        return "cms/cntnt/new-admin-main-content";
     }
 
 }

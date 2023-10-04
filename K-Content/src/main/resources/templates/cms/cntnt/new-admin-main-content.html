@@ -70,7 +70,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
-        var page = "[[${session.page}]]";
+        var page = [[${session.page}]];
         var cate = [[${session.cate}]];
 
         if (page == 'null') {
@@ -82,7 +82,7 @@
         }
 
         $.ajax({
-            url: '/cs/contents/' + page,
+            url: '/cs/test/contents/' + page,
             type: 'GET',
             data: {'page': page, 'cate': cate},
             success: function (contentList) {
@@ -111,7 +111,7 @@
             var page = 1;
 
             $.ajax({
-                url: '/cs/contents/' + page,
+                url: '/cs/test/contents/' + page,
                 type: 'GET',
                 data: {'page': page, 'cate': cate},
                 success: function (contentList) {
@@ -145,7 +145,7 @@
                     pageNav.empty();
 
                     $.ajax({
-                        url: '/cs/paging',
+                        url: '/cs/test/paging',
                         type: 'GET',
                         data: {'page': page, 'cate': cate},
                         success: function (data) {
@@ -161,7 +161,7 @@
             var nowPage = $(this).data("selpage");
 
             $.ajax({
-                url: "/cs/contents/" + nowPage,
+                url: "/cs/test/contents/" + nowPage,
                 method: "get",
                 data: {'page': nowPage, 'cate': cate},
                 success: function (contentList) {
@@ -192,7 +192,7 @@
             var prePage = $(this).data("prepage") - 1;
 
             $.ajax({
-                url: "/cs/contents/" + prePage,
+                url: "/cs/test/contents/" + prePage,
                 method: "get",
                 success: function (contentList) {
                     const element = document.getElementById('card-list');
@@ -220,7 +220,7 @@
             var nexPage = $(this).data("nexpage") + 1;
 
             $.ajax({
-                url: "/cs/contents/" + prePage,
+                url: "/cs/test/contents/" + prePage,
                 method: "get",
                 seccess: function (contentList) {
                     console.log(contentList);

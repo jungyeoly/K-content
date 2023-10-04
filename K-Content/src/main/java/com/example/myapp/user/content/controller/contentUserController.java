@@ -94,9 +94,6 @@ public class contentUserController {
     @GetMapping("/content/scroll")
     public @ResponseBody Map<String, Object> show(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam int start, @RequestParam int end, Model model) {
         List<Content> contentList = contentService.selectUserContent(cate, start, end);
-        for (Content c : contentList) {
-        	System.out.println(c.getCntntCateCode());
-        }
         for (int i = 0; i < contentList.size(); i++) {
             // 유튜뷰 영상 썸네일 추출
             List<String> contentUrlSplit = List.of(contentList.get(i).getCntntUrl().split("/"));

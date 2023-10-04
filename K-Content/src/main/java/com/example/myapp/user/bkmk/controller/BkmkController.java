@@ -66,10 +66,6 @@ public class BkmkController {
     public String deleteCntntBkmk(Authentication authentication, @RequestParam(value = "contentId") int cntntId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
-        System.out.println("=========================");
-        System.out.println(userId);
-        System.out.println(cntntId);
-        System.out.println("=========================");
         bkmkService.deleteCntntBkmk(userId, cntntId);
         return "ok";
     }

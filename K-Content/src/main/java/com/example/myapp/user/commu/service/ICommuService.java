@@ -34,4 +34,6 @@ public interface ICommuService {
 	List<Commu> selectPostListByCategory(@Param("commuCateCode") String commuCateCode);  //카테고리별 게시글 조회
 	
 	 void reportPost(int commuId); //게시글 신고
+
+	 List<Commu> selectRecentNotice();
 }

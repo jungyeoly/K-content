@@ -44,4 +44,5 @@ public interface ICommuRepository {
 	 
 	 void reportPost(int commuId); //게시글 신고
 
+	 List<Commu> selectRecentNotice();
 }

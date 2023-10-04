@@ -5,51 +5,52 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <style>
 .board-table {
-  font-size: 13px;
-  width: 100%;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+	font-size: 13px;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 
 .board-table a {
-  color: #333;
-  display: inline-block;
-  line-height: 1.4;
-  word-break: break-all;
-  vertical-align: middle;
+	color: #333;
+	display: inline-block;
+	line-height: 1.4;
+	word-break: break-all;
+	vertical-align: middle;
 }
+
 .board-table a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
+
 .board-table th {
-  text-align: center;
+	text-align: center;
 }
 
 .board-table .th-num {
-  width: 100px;
-  text-align: center;
+	width: 100px;
+	text-align: center;
 }
 
 .board-table .th-date {
-  width: 200px;
+	width: 200px;
 }
 
 .board-table th, .board-table td {
-  padding: 14px 0;
+	padding: 14px 0;
 }
 
 .board-table tbody td {
-  border-top: 1px solid #e7e7e7;
-  text-align: center;
+	border-top: 1px solid #e7e7e7;
+	text-align: center;
 }
 
 .board-table tbody th {
-  padding-left: 28px;
-  padding-right: 14px;
-  border-top: 1px solid #e7e7e7;
-  text-align: left;
+	padding-left: 28px;
+	padding-right: 14px;
+	border-top: 1px solid #e7e7e7;
+	text-align: left;
 }
-
 </style>
 </head>
 <body>
@@ -83,75 +84,106 @@
 			</div>
 		</div>
 		<div class="row justify-content-center mb-3">
-			<!-- Example Notifications Card-->
 			<div class="col-md-12">
-			<h4 class="fw-bold">고객센터 미답변 문의글</h4>
-			<p class="h6">※고객센터 미답변 문의글은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서 확인해주세요.</p>
-		  <table class="board-table">
-                <thead>
-                <tr>
-                    <th scope="col" class="th-num">번호</th>
-                    <th scope="col" class="th-title">제목</th>
-                    <th scope="col" class="th-date">등록일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>3</td>
-                    <th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
-                    <td>2017.07.13</td>
-                </tr>
+				<h4 class="fw-bold">고객센터 미답변 문의글</h4>
+				<p class="h6">※고객센터 미답변 문의글은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서
+					확인해주세요.</p>
+				<table class="board-table">
+					<thead>
+						<tr>
+							<th scope="col" class="th-num">번호</th>
+							<th scope="col" class="th-title">제목</th>
+							<th scope="col" class="th-date">등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>3</td>
+							<th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
+							<td>2017.07.13</td>
+						</tr>
 
-                <tr>
-                    <td>2</td>
-                    <th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-                    <td>2017.06.15</td>
-                </tr>
+						<tr>
+							<td>2</td>
+							<th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+							<td>2017.06.15</td>
+						</tr>
 
-                <tr>
-                    <td>1</td>
-                    <th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-                    <td>2017.06.15</td>
-                </tr>
-                </tbody>
-            </table>
+						<tr>
+							<td>1</td>
+							<th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+							<td>2017.06.15</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
-			<div class="row justify-content-center">
-			<!-- Example Notifications Card-->
+		<div class="row justify-content-center">
 			<div class="col-md-12">
-			<h4 class="fw-bold">최근 공지사항 글</h4>
-			<p class="h6">※공지사항 미답변 문의글은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서 확인해주세요.</p>
-		  <table class="board-table">
-                <thead>
-                <tr>
-                    <th scope="col" class="th-num">번호</th>
-                    <th scope="col" class="th-title">제목</th>
-                    <th scope="col" class="th-date">등록일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>3</td>
-                    <th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
-                    <td>2017.07.13</td>
-                </tr>
+				<h4 class="fw-bold">최근 공지사항 글</h4>
+				<p class="h6">※공지사항은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서 확인해주세요.</p>
+				<table class="board-table" id="notice-table">
+					<thead>
+						<tr>
+							<th scope="col" class="th-num">번호</th>
+							<th scope="col" class="th-title">제목</th>
+							<th scope="col" class="th-date">등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>3</td>
+							<th><a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a></th>
+							<td>2017.07.13</td>
+						</tr>
 
-                <tr>
-                    <td>2</td>
-                    <th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-                    <td>2017.06.15</td>
-                </tr>
+						<tr>
+							<td>2</td>
+							<th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+							<td>2017.06.15</td>
+						</tr>
 
-                <tr>
-                    <td>1</td>
-                    <th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-                    <td>2017.06.15</td>
-                </tr>
-                </tbody>
-            </table>
+						<tr>
+							<td>1</td>
+							<th><a href="#!">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+							<td>2017.06.15</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+	<
+	<script>
+
+		$(document).ready(function() {
+			loadNoticeData();
+		});
+		function loadNoticeData() {
+			$.ajax({
+				type : 'GET',
+				url : '/cs/recent-notice',
+				dataType : 'json',
+				success : function(data) {
+					// 회원 정보를 표시할 HTML을 생성
+					var html = '';
+					data.forEach(function(commu) {
+						html += '<tr>';
+						html += '<td>' + commu.commuId + '</td>';
+						  html += '<th><a href="/commu/' + commu.commuId + '">' + commu.commuTitle + '</a></th>';
+						html += '<td>' + commu.commuRegistDate + '</td>';
+
+						html += '</tr>';
+					});
+					// 최근공지사항 리스트 테이블 업데이트
+					$('#notice-table tbody').html(html);
+
+				},
+				error : function() {
+					alert('최근 공지사항를 불러오는데 실패했습니다.');
+				}
+			});
+		}
+	</script>
 </body>
 </html>

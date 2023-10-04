@@ -6,8 +6,9 @@
 
 <style>
 body {
-overflow-x:hidden;
+	overflow-x: hidden;
 }
+
 table {
 	border-collapse: collapse
 }
@@ -47,9 +48,6 @@ table {
 .mber-table {
 	position: relative;
 }
-
-
-
 
 .mber-table tr th {
 	background: #e8e9ef;
@@ -128,6 +126,7 @@ table {
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<div class="container mb-3">
 		<div class="content">
 			<div class="row">
 				<div class="col-lg-12">
@@ -135,7 +134,7 @@ table {
 						<div class="card-header">
 							<strong class="card-title">회원 관리</strong>
 						</div>
-						
+
 						<div id="mberTable" class="table-layout mber-table">
 							<table class="table">
 								<thead>
@@ -160,7 +159,7 @@ table {
 							</table>
 
 							<nav aria-label="Page navigation"
-								class="d-flex justify-content-center">
+								class="d-flex justify-content-center mb-3">
 								<ul class="pagination">
 									<li class="page-item" th:if="${nowPageBlock>1}"><a
 										class="page-link" th:href="@{/mber/list/__${startPage-1}__}"
@@ -188,6 +187,7 @@ table {
 				</div>
 			</div>
 		</div>
+	</div>
 	<script>
 		// 현재 페이지를 저장할 변수 추가
 		var currentPage = "[[${nowPage}]]";
@@ -196,10 +196,6 @@ table {
 			// 페이지 로딩 시 초기 데이터 가져오기
 			loadMberData(currentPage);
 
-			// 버튼 클릭 시 데이터 다시 가져오기
-			$("#refresh-Btn").click(function() {
-				loadMberData(currentPage);
-			});
 		});
 		// 페이지네이션 링크 클릭 시 데이터 다시 가져오기
 		$(".pagination").on("click", "a", function(event) {
@@ -257,11 +253,15 @@ table {
 										html += '<td>' + mber.mberStat
 												+ '</td>';
 										html += '<td>';
-							             if (mber.mberStat == '활성화') {
-							                    html += '<button class="badge badge-pending" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
-							                } else if (mber.mberStat == '비활성화') {
-							                    html += '<button class="badge badge-complete" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
-							                }
+										if (mber.mberStat == '활성화') {
+											html += '<button class="badge badge-pending" data-mber-id="'
+													+ mber.mberId
+													+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">비활성화</button>';
+										} else if (mber.mberStat == '비활성화') {
+											html += '<button class="badge badge-complete" data-mber-id="'
+													+ mber.mberId
+													+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">활성화</button>';
+										}
 										html += '</td>';
 										html += '</tr>';
 									});

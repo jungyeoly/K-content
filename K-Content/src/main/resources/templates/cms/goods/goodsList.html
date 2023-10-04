@@ -1,110 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
 
-<head th:include="~{/include/admin-head :: adminHead}">
+<!--<head th:include="~{/include/admin-head :: adminHead}">-->
 
 
-</head>
+<!--</head>-->
 
-<body id="page-top">
+<!--<body id="page-top">-->
 
-<!-- Page Wrapper -->
-<div id="wrapper">
+<!--&lt;!&ndash; Page Wrapper &ndash;&gt;-->
+<!--<div id="wrapper">-->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+<!--    &lt;!&ndash; Content Wrapper &ndash;&gt;-->
+<!--    <div id="content-wrapper" class="d-flex flex-column">-->
 
-        <!-- Main Content -->
-        <div id="content">
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<!--        &lt;!&ndash; Main Content &ndash;&gt;-->
+<!--        <div id="content">-->
+<!--            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">-->
 
-                <!-- TODO Topbar Search 비동기로다가 하세욥-->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input id="search" type="text" class="form-control bg-light border-0 small"
-                               placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" onclick="searchKeyword()">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+<!--                &lt;!&ndash; TODO Topbar Search 비동기로다가 하세욥&ndash;&gt;-->
+<!--                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                    <div class="input-group">-->
+<!--                        <input id="search" type="text" class="form-control bg-light border-0 small"-->
+<!--                               placeholder="Search for..."-->
+<!--                               aria-label="Search" aria-describedby="basic-addon2">-->
+<!--                        <div class="input-group-append">-->
+<!--                            <button class="btn btn-primary" type="button" onclick="searchKeyword()">-->
+<!--                                <i class="fas fa-search fa-sm"></i>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
 
-            </nav>
-            <div class="container-fluid">
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">굿즈굿즈</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-download fa-sm text-white-50"></i> 정렬조건</a>
-                </div>
+<!--            </nav>-->
+<!--            <div class="container-fluid">-->
+<!--                <div class="d-sm-flex align-items-center justify-content-between mb-4">-->
+<!--                    <h1 class="h3 mb-0 text-gray-800">굿즈굿즈</h1>-->
+<!--                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+<!--                            class="fas fa-download fa-sm text-white-50"></i> 정렬조건</a>-->
+<!--                </div>-->
 
-                <div class="row item" id="goodsPad">
+<!--                <div class="row item" id="goodsPad">-->
 
-                </div>
-                <div>
-                    <button onclick="selectEnd()">선택</button>
-                    <a href="/cs/goods/form">생성</a>
-                    <!--                    TODO 상품 생성페이지 만들기-->
-                </div>
-            </div>
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; 파워포즈 2023</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-    </div>
-    <!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-<!--이것이 무엇입니까?-->
-<!--&lt;!&ndash; Logout Modal&ndash;&gt;-->
-<!--<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
-<!--     aria-hidden="true">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>-->
-<!--                <button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">×</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>-->
-<!--                <a class="btn btn-primary" href="login.html">Logout</a>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <button onclick="selectEnd()">선택</button>-->
+<!--                    <a href="/cs/goods/form">생성</a>-->
+<!--                    &lt;!&ndash;                    TODO 상품 생성페이지 만들기&ndash;&gt;-->
+<!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
+<!--        &lt;!&ndash; End of Main Content &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Footer &ndash;&gt;-->
+<!--        <footer class="sticky-footer bg-white">-->
+<!--            <div class="container my-auto">-->
+<!--                <div class="copyright text-center my-auto">-->
+<!--                    <span>Copyright &copy; 파워포즈 2023</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </footer>-->
+<!--        &lt;!&ndash; End of Footer &ndash;&gt;-->
 <!--    </div>-->
+<!--    &lt;!&ndash; End of Content Wrapper &ndash;&gt;-->
+
+<!--</div>-->
+<!--&lt;!&ndash; End of Page Wrapper &ndash;&gt;-->
+
+<!--&lt;!&ndash; Scroll to Top Button&ndash;&gt;-->
+<!--<a class="scroll-to-top rounded" href="#page-top">-->
+<!--    <i class="fas fa-angle-up"></i>-->
+<!--</a>-->
+
+<!--&lt;!&ndash;이것이 무엇입니까?&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash; Logout Modal&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"&ndash;&gt;-->
+<!--&lt;!&ndash;     aria-hidden="true">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="modal-dialog" role="document">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="modal-content">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="modal-header">&ndash;&gt;-->
+<!--&lt;!&ndash;                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button class="close" type="button" data-dismiss="modal" aria-label="Close">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span aria-hidden="true">×</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="modal-footer">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                <a class="btn btn-primary" href="login.html">Logout</a>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash; Bootstrap core JavaScript&ndash;&gt;-->
+<!--<script src="/vendor/jquery/jquery.min.js"></script>-->
+<!--<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+
+<!--&lt;!&ndash; Core plugin JavaScript&ndash;&gt;-->
+<!--<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>-->
+
+<!--&lt;!&ndash; Custom scripts for all pages&ndash;&gt;-->
+<!--<script src="/js/sb-admin-2.min.js"></script>-->
+<!--<script src="/js/goods/goods.js"></script>-->
 <!--</div>-->
 
-<!-- Bootstrap core JavaScript-->
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!--</body>-->
 
-<!-- Core plugin JavaScript-->
-<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/js/sb-admin-2.min.js"></script>
-<script src="/js/goods/goods.js"></script>
-</div>
-
-</body>
-
-</html>
+<!--</html>-->

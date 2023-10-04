@@ -1,9 +1,11 @@
 <div class="container">
     <header class="header">
-        <form class="search-form" id="search-form">
-            <input type="search" id="search-input">
-            <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">
-        </form>
+        <div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+            <form id="searchForm" class="input-group">
+                <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
+                <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">
+            </form>
+        </div>
     </header>
 
     <section class="primary">

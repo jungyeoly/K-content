@@ -3,9 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>답글쓰기</title>
-	<head th:insert="~{/include/admin-head :: adminHead}"></head>
+
 	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-    <link rel="stylesheet" th:href="@{/css/content/new-admin-cntnt-main.css}">
 	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
 	<link rel="stylesheet" th:href="@{/css/inqury/inqry-common.css}">
 	<link rel="stylesheet" th:href="@{/css/inqury/cms.css}">
@@ -18,7 +17,7 @@
 </head>
 <body>
 <div class="page">
-    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+  <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
 	<div class="container">
 		<div class="inqry-menu fw-bold">문의사항 글 생성</div>

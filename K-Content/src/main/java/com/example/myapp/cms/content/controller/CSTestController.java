@@ -40,16 +40,11 @@ public class CSTestController {
     @Autowired
     ICommonCodeService commonCodeService;
 
-	@GetMapping("/")
-	public String csMain(Model model) {
-		return "cms/index";
-	}
-
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
     public String showYouTube()
     {
-        return "cms/cntnt/newcontentRecom";
+        return "cms/cntnt/new-cntnt-recom";
     }
 
     //    @GetMapping("/recomm/main")
@@ -214,7 +209,7 @@ public class CSTestController {
         model.addAttribute("content", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     // 기존 콘텐츠 수정 form

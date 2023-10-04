@@ -35,13 +35,13 @@
                            goods_update_date,
                            goods_delete_yn
                     FROM tb_goods
+                    where goods_delete_yn = 'N'
                     ORDER BY goods_id desc) g)
 
                  LEFT OUTER JOIN tb_goods_file f
                                  ON goods_id = f.goods_file_goods_id
-        WHERE RNUM > #{start}
+        WHERE RNUM >= #{start}
           AND RNUM <= #{end}
-          and goods_delete_yn = 'N'
         ]]>
 
     </select>

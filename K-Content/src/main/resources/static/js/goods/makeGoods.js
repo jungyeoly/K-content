@@ -12,7 +12,7 @@ fileInput.addEventListener('change', function (e) {
         photoFrame.className = "photoFrame";
         document.getElementById("pictures").appendChild(photoFrame);
         photoFrame.addEventListener("click", function () {
-            document.getElementById("input-file").removeChild(photoFrame);
+            document.getElementById("pictures").removeChild(photoFrame);
 
         })
     }
@@ -33,7 +33,8 @@ function createGoods() {
     }
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
-    fileInput.setAttribute(file[0])
+    console.log(file);
+    fileInput.setAttribute(file[0],file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -59,7 +60,7 @@ function createGoods() {
     console.log(formData);
 
     $.ajax({
-        url: '/cs/goods',
+        url: '/cs/test/goods',
         type: 'POST',
         data: formData,
         processData: false,

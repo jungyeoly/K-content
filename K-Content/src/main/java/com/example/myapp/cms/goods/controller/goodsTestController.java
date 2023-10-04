@@ -45,17 +45,18 @@ public class goodsTestController {
 
         int bbsCount = goodsService.totalGoods();
         int totalPage = 0;
-
-        if(bbsCount > 0) {
-            totalPage= (int)Math.ceil(bbsCount/10.0);
+        System.out.println("bbsCount: " + bbsCount);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
         }
-        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
-        int nowPageBlock = (int) Math.ceil(page/10.0);
-        int startPage = (nowPageBlock-1)*10 + 1;
+        System.out.println("totalPage: " + totalPage);
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
-        if(totalPage > nowPageBlock*10) {
-            endPage = nowPageBlock*10;
-        }else {
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
             endPage = totalPage;
         }
         model.addAttribute("totalPageCount", totalPage);
@@ -70,6 +71,7 @@ public class goodsTestController {
 
         return "cms/goods/new-goods-list";
     }
+
     @GetMapping("")
     public String selectGoodsList() {
         return "cms/goods/new-goods-main";
@@ -263,7 +265,7 @@ public class goodsTestController {
                                                     @RequestParam("goodsURL") String goodsURL,
                                                     @RequestParam("goodsPrice") String goodsPrice,
                                                     @RequestParam("keywordList") List<String> keywordListJson
-    )  {
+    ) {
 //        try {
 
         String keywordlist = keywordListJson.toString();
@@ -297,6 +299,7 @@ public class goodsTestController {
         System.out.println("sdfsdfs");
         return "cms/goods/new-goods-main-in-cntnt-make-form";
     }
+
     @GetMapping("/cntnt/{page}")
     public String getGoodsPagesInMakeCntnt(@PathVariable int page, HttpSession session, Model model) {
 
@@ -309,16 +312,16 @@ public class goodsTestController {
         int bbsCount = goodsService.totalGoods();
         int totalPage = 0;
 
-        if(bbsCount > 0) {
-            totalPage= (int)Math.ceil(bbsCount/10.0);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
         }
-        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
-        int nowPageBlock = (int) Math.ceil(page/10.0);
-        int startPage = (nowPageBlock-1)*10 + 1;
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
-        if(totalPage > nowPageBlock*10) {
-            endPage = nowPageBlock*10;
-        }else {
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
             endPage = totalPage;
         }
         model.addAttribute("totalPageCount", totalPage);

@@ -156,6 +156,11 @@ public class CommuService implements ICommuService {
 	}
 
 	@Override
+	public List<Commu> selectRecentNotice() {
+		return commuRepository.selectRecentNotice();
+
+	}
+
 	public int totalCommu() {
 		return commuRepository.totalCommu();
 	}
@@ -181,5 +186,6 @@ public class CommuService implements ICommuService {
 	public int selectTotalPostCountByKeyWord(String keyword) {
 		return commuRepository.selectTotalPostCountByKeyWord("%"+keyword+"%");
 	}
+
 
 }

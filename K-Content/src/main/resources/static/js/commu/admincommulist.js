@@ -80,7 +80,7 @@ function searchPosts(keyword, page) {
 	});
 
 	// 메인 페이지
-	/*function loadPage(page) {
+	function loadPage(page) {
 		if (typeof page === 'undefined' || !page) {
 			page = 1;
 		}
@@ -103,7 +103,7 @@ function searchPosts(keyword, page) {
 				loading = false; // 페이지 로딩 완료 시 플래그 해제
 			}
 		});
-	}*/
+	}
 
 
 	// 카테고리 클릭 이벤트
@@ -158,7 +158,7 @@ function searchPosts(keyword, page) {
                 <tr class="commu-row" data-commu-id="${commu.commuId}">
                     <td>${commu.commuId}</td>
                     <td>${commu.commonCodeVal}</td>
-                    <td><a href="/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
+                    <td><a href="/cms/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
                     <td>${commu.commuMberId}</td>
                     <td>${commu.commuReadCnt}</td>
                     <td>${commu.commuRegistDate}</td>

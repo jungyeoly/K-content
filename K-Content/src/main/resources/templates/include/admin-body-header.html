@@ -5,11 +5,16 @@
 </head>
 
 <body>
-<header th:fragment="adminNavBar">
- 		<div class="logo">
-			<a th:href="@{/cs/test}"><img src="/img/mainLogo_blue.png"
+	<header th:fragment="adminNavBar">
+		<div class="logo">
+			<a th:href="@{/cs/test/}"><img src="/img/mainLogo_blue.png"
+
 				class="img-fluid" alt="브랜드 로고"></a>
-<h5><span class="badge text-bg-primary">관리자모드</span></h5>
+			<ul>
+				<h5>
+					<span class="badge text-bg-primary">관리자모드</span>
+				</h5>
+			</ul>
 			<ul class="icons">
 				<li class="myPage"><a th:href="@{/mber/verifypwd}"><i
 						class="fa-solid fa-user"></i> MY PAGE</a></li>
@@ -40,16 +45,16 @@
 
 		</ul>
 
-<!--<div class="container">-->
-<!--    <div id="main-cate" class="categories-nav">-->
-<!--        <ul class="categories">-->
-<!--            <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!-- </div>-->
+		<!--<div class="container">-->
+		<!--    <div id="main-cate" class="categories-nav">-->
+		<!--        <ul class="categories">-->
+		<!--            <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>-->
+		<!--        </ul>-->
+		<!--    </div>-->
+		<!-- </div>-->
 
 
-</header>
+	</header>
 </body>
 
 </html>

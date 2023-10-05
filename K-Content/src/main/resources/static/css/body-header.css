@@ -111,10 +111,6 @@ header ul li.cms {
 
 #searchForm {
   font-weight: 600;
-  font-size: 45px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 header .contents li.content:hover::after, header .contents li.cms:hover::after {

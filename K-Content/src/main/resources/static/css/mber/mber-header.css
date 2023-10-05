@@ -9,18 +9,18 @@
 	right: 0;
 	left: 0;
 	top: 0;
-	height: 80px;
+	height: 120px;
 	color: white;
 	z-index: 999;
-	padding: 0px 50px;
+	padding: 0px 40px 0px 40px;
 	transition: all ease 0.5s 0s;
 }
 
 
 
 .logo-img {
-	filter: invert(100%) sepia(0%) saturate(7488%) hue-rotate(336deg)
-		brightness(113%) contrast(103%);
+    width: 120px;
+    height: 70px;
 }
 
 .header:hover {
@@ -36,14 +36,11 @@
 	color: black;
 }
 
-.header:hover .logo-img {
-	filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(278deg)
-		brightness(97%) contrast(100%);
-}
 
 .header-left, .header-right {
 	display: flex;
 	justify-content: space-between;
+	
 }
 
 .text {

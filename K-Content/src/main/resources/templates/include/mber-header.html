@@ -7,28 +7,28 @@
 
 <body>
 	<header th:fragment="mberNavBar">
-<div class="header">
-            <div class="header-left">
-             		<a th:href="@{/}"><img src="/img/mainLogo.png" width="200px" height="200px" class="img-fluid logo-img" alt="브랜드 로고"></a>
-            </div>
-            <div class="header-middle">
-            
-            </div>
-            <div class="header-right">
-   
-                <div>	
-                    <span id="v-line" class="text v-line" > &#124;</span>
-                </div>
-                <div class="login">
-               		
-              
-                    <a th:href="@{/mber/signin}"><span class="text" sec:authorize="isAnonymous()"><i class="fa-solid fa-door-closed"></i>&nbsp;LOGIN</span></a>
+		<div class="header">
+			<div class="header-left">
+				<a th:href="@{/}"><img src="/img/mainLogo.png" width="200px"
+					height="200px" class="img-fluid logo-img" alt="브랜드 로고"></a>
+			</div>
+			<div class="header-middle"></div>
+			<div class="header-right">
 
-                </div>
-            </div>
-        </div>
-    </div>
-    </header>
+				<div>
+					<span id="v-line" class="text v-line"> &#124;</span>
+				</div>
+				<div class="login">
+
+
+					<a th:href="@{/mber/signin}"><span class="text"
+						sec:authorize="isAnonymous()"><i
+							class="fa-solid fa-door-closed"></i>&nbsp;LOGIN</span></a>
+
+				</div>
+			</div>
+		</div>
+	</header>
 </body>
 
 </html>

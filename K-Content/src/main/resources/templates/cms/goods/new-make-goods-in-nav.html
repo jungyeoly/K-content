@@ -74,8 +74,8 @@
                                 class="btn btn-primary position-relative keywordButton"
                                 th:text="${keyword}">
                         </button>
-                        <button style="z-index: 10; position: sticky !important;"
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        <button style="z-index: 10;"
+                                class="position-absolute  translate-middle badge rounded-pill bg-danger"
                                 th:key="${keyword}"
                                 onclick="delKeyword(this.getAttribute('key'))">X
                         </button>

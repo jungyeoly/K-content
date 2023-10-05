@@ -42,7 +42,7 @@ function makeKeyword() {
                      ${word}
                 </button>
                 <button style="z-index: 10; margin-left: -10px"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        class="position-absolute  translate-middle badge rounded-pill bg-danger"
                             key="${word}"
                         onclick="delKeyword(this.getAttribute('key'))">X
                 </button>

@@ -53,3 +53,7 @@
         width: 33.33333%;
     }
 }
+.categories{
+    display: flex;
+    justify-content: space-around;
+}

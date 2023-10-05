@@ -29,11 +29,52 @@ $(document).ready(function() {
 	})
 
 	$(".cate").click(function() {
+		$(".cate").removeClass("active");
+		$(this).addClass("active");
 		cateValue = this.getAttribute('data-maincate-value');
 		
 		if (cateValue == null) {
 			cateValue = 'All';
 		}
+		
+		switch (cateValue) {
+			case '전체':
+			    cateValue = 'All';
+			    break;
+			case '음악':
+			    cateValue = 'POP';
+			    break;
+			case '연예인':
+			    cateValue = 'Celebrity';
+			    break;
+			case '음식':
+			    cateValue = 'Food';
+			    break;
+			case '영화':
+			    cateValue = 'Movie';
+			    break;
+			case '스포츠':
+			    cateValue = 'Sports';
+			    break;
+			case '패션':
+			    cateValue = 'Fashion';
+			    break;
+			case '미용':
+			    cateValue = 'Beauty';
+			    break;
+			case '드라마':
+			    cateValue = 'Drama';
+			    break;
+			case '여행':
+			    cateValue = 'Travel';
+			    break;
+			case '게임':
+			    cateValue = 'Game';
+			    break;
+		  default:
+		    cateValue = 'All';
+		}
+		
 	    $.ajax({
 	    	url: "/user/content",
 	    	type: "GET",

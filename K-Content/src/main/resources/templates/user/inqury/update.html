@@ -3,10 +3,13 @@
 <head>
 	<th:block th:replace="~{/include/header :: header}"></th:block>
 	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
+	<link rel="stylesheet" href="/css/commu-nav.css">
 </head>
 <body>
 
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	
+	<div th:replace="~{/include/community-center :: inqry-nav}"></div>
 	
 	<div class="container">
 		<div class="menu fw-bold">문의사항 글 수정</div>

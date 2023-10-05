@@ -33,11 +33,11 @@
 	</select>
 	<select id="cateList" parameterType="String" resultType="String">
 		<![CDATA[
-			SELECT
-		    	common_code_val
-			FROM tb_common_code
-			WHERE upper_common_code=#{upperCommonCode}
-			ORDER BY common_order
+		SELECT
+		    common_code_dscr
+		FROM tb_common_code
+		WHERE upper_common_code=#{upperCommonCode}
+		ORDER BY common_order
 		]]>
 	</select>
 

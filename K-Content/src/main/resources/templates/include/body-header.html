@@ -1,45 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
 
 <body>
 	<header th:fragment="userNavBar">
-		<div class="logo">
-			<a th:href="@{/}"><img src="/img/mainLogo.png" class="img-fluid" alt="브랜드 로고"></a>
-
-			<ul class="icons">
-				<li class="myPage"><a th:href="@{/mber/verifypwd}"><i class="fa-solid fa-user"></i> MY PAGE</a></li>
-				<li class="myLike"><a th:href="@{/bkmk}"><i class="fa-solid fa-heart"></i> MY LIKE</a></li>
-				<li class="login" sec:authorize="isAnonymous()"><a th:href="@{/mber/signin}"><i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> LOGIN</a></li>
-				<li class="logout" sec:authorize="isAuthenticated()"><a th:href="@{/mber/signout}"><i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> LOGOUT</a></li>
-			</ul>
+		<div class="d-flex px-5 my-3">
+			<div class="logo d-flex justify-content-center">
+				<a th:href="@{/}"> <img src="/img/icon.png" alt="브랜드 로고">
+				</a>
+			</div>
+			
+			<div class="w-100 d-flex justify-content-between">
+				<div class="navMain">			
+					<ul class="contents">
+						<li id="main" class="content">
+							<a class="iconLInk" th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a>
+							<a class="textLInk" th:href="@{/}">K-콘텐츠</a>
+						</li>
+		
+						<li id="comm" class="content">
+							<a class="iconLInk" th:href="@{/commu/1}"><i class="fa-regular fa-comments"></i></a>
+							<a class="textLInk" th:href="@{/commu/1}">커뮤니티 센터</a>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="searchDiv">
+					<form id="searchForm" class="input-group">
+						<input type="text" id="searchInput" placeholder="검색어를 입력하세요"
+							class="form-control">
+						<button type="submit" class="btn">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
+				</div>
+				
+				<div class="infoDiv">
+					<ul class="d-flex justify-content-end info">
+						<li class="myPage m-3" sec:authorize="isAuthenticated()">
+							<i class="fa-solid fa-user"></i>
+							<a class="infoText" th:href="@{/mber/verifypwd}">내 정보</a>
+						</li>
+						<li class="myLike m-3" sec:authorize="isAuthenticated()">
+							<i class="fa-solid fa-heart"></i> 
+							<a class="infoText" th:href="@{/bkmk}">좋아요</a>
+						</li>
+						<li class="singup m-3" sec:authorize="isAnonymous()">
+							<i class="fa-solid fa-user-plus"></i>
+							<a class="infoText" th:href="@{mber/signup}">회원가입</a>
+						</li>
+						<li class="login m-3" sec:authorize="isAnonymous()">
+							<i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i> 
+							<a class="infoText" th:href="@{/mber/signin}">로그인</a>
+						</li>
+						<li class="logout m-3" sec:authorize="isAuthenticated()">
+							<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i> 
+							<a class="infoText" th:href="@{/mber/signout}">로그아웃</a>
+						</li>
+						<li class="m-3" sec:authorize="hasRole('ADMIN')">
+							<i class="fa-solid fa-gear"></i>
+							<a class="infoText" th:href="@{/cs/test/}">관리자 페이지</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-
-		<ul class="contents">
-			<li id="main" class="content"><a th:href="@{/}">Main</a></li>
-
-			<li id="comm" class="content"><a th:href="@{/commu/1}">Comm</a></li>
-			<li id="cs" class="content"><a th:href="@{/inqury}">CS</a></li>
-
-			<li class="cms content" sec:authorize="!hasRole('ADMIN')"></li>
-			<li class="cms content" sec:authorize="hasRole('ADMIN')"><a th:href="@{/cs/test/}">CMS</a></li>
-			<li class="search">
-				<form id="searchForm" class="input-group">
-				    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="form-control">
-				    <button type="submit" class="btn">
-				      <i class="fa-solid fa-magnifying-glass"></i>
-				    </button>
-				  </form>
-			</li>
-		</ul>
-
-		<div id="main-cate" class="categories-nav">
-			<ul class="categories">
-				<li th:each= "cate : ${cateList}"  class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
-			</ul>
-		</div>
+		
+		<hr class="mb-5 text-main" style="opacity: 1; height: 3px; background: var(--color-main);" >
 
 	</header>
 </body>

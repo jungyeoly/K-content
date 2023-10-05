@@ -10,9 +10,7 @@ header {
   background-color: white;
 }
 
-.badge {
-	    margin: 23px 0px 0px 1140px;
-}
+
 
 header div.logo {
   display: flex;
@@ -32,6 +30,12 @@ header ul.icons {
   margin-top: 20px;
 }
 
+header ul.badge {
+  display: flex;
+  margin-left: auto;
+  margin-right: 40px;
+  margin-top: 20px;
+}
 header ul.icons li, header ul.icons li a{
   font-size: 9px;
   padding: 0px 18px 0px 5px;

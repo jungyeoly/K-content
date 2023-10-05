@@ -4,10 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/commu/commuUpdate.css}">
+<link rel="stylesheet" href="/css/commu-nav.css">
 </head>
 <body>
 	<div th:replace="~{/include/header :: header}"></div>
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	
+	<div th:replace="~{/include/community-center :: commu-nav}"></div>
 
 	<div class="container">
 		<div class="menu fw-bold" id="commuId">[[${commu.commuId}]]</div>

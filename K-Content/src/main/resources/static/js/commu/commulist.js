@@ -108,12 +108,52 @@ function searchPosts(keyword, page) {
 
 	// 카테고리 클릭 이벤트
 	$(document).on('click', '.cate', function() {
+		$(".cate").removeClass("active");
+		$(this).addClass("active");
 		commuCateCode = $(this).data('maincate-value');
 		loadCategoryPosts(commuCateCode, 1); // 페이지를 1페이지로 초기화하여 로드
 	});
 
 	// 카테고리 클릭 이벤트
 	function loadCategoryPosts(commuCateCode, page) {
+		switch (commuCateCode) {
+			case '전체':
+			    commuCateCode = 'All';
+			    break;
+			case '음악':
+			    commuCateCode = 'POP';
+			    break;
+			case '연예인':
+			    commuCateCode = 'Celebrity';
+			    break;
+			case '음식':
+			    commuCateCode = 'Food';
+			    break;
+			case '영화':
+			    commuCateCode = 'Movie';
+			    break;
+			case '스포츠':
+			    commuCateCode = 'Sports';
+			    break;
+			case '패션':
+			    commuCateCode = 'Fashion';
+			    break;
+			case '미용':
+			    commuCateCode = 'Beauty';
+			    break;
+			case '드라마':
+			    commuCateCode = 'Drama';
+			    break;
+			case '여행':
+			    commuCateCode = 'Travel';
+			    break;
+			case '게임':
+			    commuCateCode = 'Game';
+			    break;
+		  default:
+		    commuCateCode = 'All';
+		}
+
 		$.ajax({
 			url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
 			type: 'GET',

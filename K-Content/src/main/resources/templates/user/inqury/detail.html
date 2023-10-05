@@ -3,10 +3,13 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<th:block th:replace="~{/include/header :: header}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/inqury/inquryDetail.css}"> 	
+	<link rel="stylesheet" th:href="@{/css/inqury/inquryDetail.css}">
+	<link rel="stylesheet" href="/css/commu-nav.css"> 	
 </head>
 <body>
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	
+	<div th:replace="~{/include/community-center :: inqry-nav}"></div>
 	
 	<div class="container mb-3">
 		<!-- inqry 번호 -->

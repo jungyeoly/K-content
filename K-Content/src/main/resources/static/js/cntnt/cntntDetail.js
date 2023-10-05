@@ -18,11 +18,11 @@ $(document).ready(function () {
             } else {
                 for (i = 0; i < contentList.length; i++) {
                     inHtml = `
-            <li class="card-item goods-box" onclick="recomCntntDetail(${contentList[i].cntntId})">
-                <figure class="card-image" style="background-image: url(${contentList[i].cntntThumnail})">
+            <li class="rel-box mx-3" onclick="recomCntntDetail(${contentList[i].cntntId})">
+                <figure class="rel-image" style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} alt="일분이" style="display: none">
                 </figure>
-                <div class="card-desc">
+                <div>
                     ${contentList[i].cntntTitle}
                 </div>
             </li> `;

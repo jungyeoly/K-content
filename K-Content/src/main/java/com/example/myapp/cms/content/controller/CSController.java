@@ -333,10 +333,42 @@ public class CSController {
 
     //콘텐츠 삭제 처리
     @PatchMapping("/content")
-    public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId) {
+    public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId, Model model, HttpSession session) {
         //update content
+
         contentService.updateDelStat(cntntId);
+        System.out.println(cntntId+"번 콘텐츠 삭제 처리 ");
+
+        List<String> cateList = commonCodeService.cateList("C03");
+        model.addAttribute("cateList", cateList);
+
+        int page = 1;
+        int bbsCount = contentService.totalCntnt("ALL");
+
+        int totalPage = 0;
+
+        if(bbsCount > 0) {
+            totalPage= (int)Math.ceil(bbsCount/10.0);
+        }
+        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+        int nowPageBlock = (int) Math.ceil(page/10.0);
+        int startPage = (nowPageBlock-1)*10 + 1;
+        int endPage = 0;
+        if(totalPage > nowPageBlock*10) {
+            endPage = nowPageBlock*10;
+        }else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        session.setAttribute("nowPage", page);
         return "cms/cntnt/new-admin-main-content";
+
     }
 
 }

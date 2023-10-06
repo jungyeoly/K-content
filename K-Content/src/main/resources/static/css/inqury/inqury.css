@@ -41,6 +41,20 @@
 }
 
 .pwd {
-	width: 400px;
+	width: 30vw;
 }
 
+.inqry-title {
+    display: inline-block;
+    width: 30vw;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+
+@media screen and (max-width: 765px) {
+  .registDate {
+  	display : none;
+  }
+}

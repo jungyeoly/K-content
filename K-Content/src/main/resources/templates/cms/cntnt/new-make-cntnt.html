@@ -67,7 +67,7 @@
                             th:text="${keyword}">
                     </button>
                     <button style="z-index: 10; margin-left: -10px"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            class="position-absolute  translate-middle badge rounded-pill bg-danger"
                             th:key="${keyword}"
                             onclick="delKeyword(this.getAttribute('key'))">X
                     </button>
@@ -104,7 +104,7 @@
                                 </div>
                                 <input type="hidden" class="goodsList" th:value="${goods.goodsId}">
                                 <button style="z-index: 10; margin-left: -10px"
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        class="position-absolute  translate-middle badge rounded-pill bg-danger"
                                         th:goodsID="${goods.goodsId}"
                                         onclick="delGoods(this.getAttribute('goodsID'))">X
                                 </button>

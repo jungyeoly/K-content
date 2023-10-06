@@ -1,13 +1,11 @@
 <div class="container mx-0">
-	<div class="menu fw-bold">문의사항</div>
-
 	<table class="table table-hover text-center table-group-divider">
 		<thead>
 			<tr>
 				<th scope="col">글번호</th>
 				<th scope="col">제목</th>
 				<th scope="col">작성자</th>
-				<th scope="col">등록일</th>
+				<th scope="col" class="registDate">등록일시</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,14 +16,16 @@
 				<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
 				<td th:if="${inqry.inqryGroupOrd == 1}"></td>
 				<td class="text-start pwd">
-					<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					<span class="me-1">
-						<i th:if="${inqry.inqryPwd} != null" class="fa-solid fa-lock"></i>
-					</span>
-					<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
+					<div class="d-flex">
+						<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span class="me-1">
+							<i th:if="${inqry.inqryPwd} != null" class="fa-solid fa-lock"></i>
+						</span>
+						<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
+					</div>
 				</td>
 				<td>[[${inqry.inqryMberId}]]</td>
-				<td>[[${inqry.inqryRegistDate}]]</td>
+				<td class="registDate">[[${inqry.inqryRegistDate}]]</td>
 				<td class="inqry-pwd" th:text="${inqry.inqryPwd}" hidden></td>
 			</tr>
 		</tbody>
@@ -53,7 +53,7 @@
 		</div>
 	</div>
 
-	<a sec:authrize="isAuthenticated()" class="btn writeBtn" th:href="@{/inqury/insert}">글쓰기</a>
+	<a sec:authrize="isAuthenticated()" class="btn writeBtn text-white" th:href="@{/inqury/insert}">글쓰기</a>
 	
 	<nav aria-label="Page navigation" class="d-flex justify-content-center">
 		<ul class="pagination">

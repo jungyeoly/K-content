@@ -5,10 +5,7 @@
     <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
     <link rel="stylesheet" th:href="@{/css/content/new-admin-cntnt-main.css}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -16,7 +13,7 @@
 <div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
     <form id="searchForm" class="input-group">
         <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
-        <button type="submit" class="btn" onclick="searchButton()">
+        <button type="button" class="btn" onclick="searchButton()">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </form>
@@ -72,6 +69,7 @@
     $(document).ready(function () {
         var page = "[[${session.page}]]";
         var cate = [[${session.cate}]];
+
         if (page == 'null') {
             page = 1;
         }
@@ -81,7 +79,7 @@
         }
 
         $.ajax({
-            url: '/cs/contents/' + page,
+            url: '/cs/test/contents/' + page,
             type: 'GET',
             data: {'page': page, 'cate': cate},
             success: function (contentList) {
@@ -110,7 +108,7 @@
             var page = 1;
 
             $.ajax({
-                url: '/cs/contents/' + page,
+                url: '/cs/test/contents/' + page,
                 type: 'GET',
                 data: {'page': page, 'cate': cate},
                 success: function (contentList) {
@@ -144,7 +142,7 @@
                     pageNav.empty();
 
                     $.ajax({
-                        url: '/cs/paging',
+                        url: '/cs/test/paging',
                         type: 'GET',
                         data: {'page': page, 'cate': cate},
                         success: function (data) {
@@ -160,7 +158,7 @@
             var nowPage = $(this).data("selpage");
 
             $.ajax({
-                url: "/cs/contents/" + nowPage,
+                url: "/cs/test/contents/" + nowPage,
                 method: "get",
                 data: {'page': nowPage, 'cate': cate},
                 success: function (contentList) {
@@ -191,7 +189,7 @@
             var prePage = $(this).data("prepage") - 1;
 
             $.ajax({
-                url: "/cs/contents/" + prePage,
+                url: "/cs/test/contents/" + prePage,
                 method: "get",
                 success: function (contentList) {
                     const element = document.getElementById('card-list');
@@ -219,7 +217,7 @@
             var nexPage = $(this).data("nexpage") + 1;
 
             $.ajax({
-                url: "/cs/contents/" + prePage,
+                url: "/cs/test/contents/" + prePage,
                 method: "get",
                 seccess: function (contentList) {
                     console.log(contentList);
@@ -227,7 +225,46 @@
             })
         })
     });
+    function searchButton() {
+        var requestData = {
+            searchKeyword: document.getElementById('search-input').value
+        };
 
+        $.ajax({
+            url: '/cs/test/contents/search',
+            type: 'GET',
+            data: requestData,
+            success: function (contentList) {
+                const element = document.getElementById('card-list');
+                element.innerHTML = '';
+                if (contentList.length != 0) {
+                    for (i = 0; i < contentList.length; i++) {
+                        inHtml = `
+            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+                    <img src=${contentList[i].cntntThumnail} >
+                </figure>
+                <div class="card-desc">
+                   ${contentList[i].cntntTitle}
+                </div>
+            </li>`;
+                        element.insertAdjacentHTML("afterbegin", inHtml);
+
+                    }
+                } else {
+                    inHtml = `
+            <div>
+            관련 콘텐츠가 존재하지 않습니다.
+            </div>`;
+                    element.insertAdjacentHTML("afterbegin", inHtml);
+                }
+
+
+            }, error: function (error) {
+                console.error('에러 발생: ', error);
+            }
+        });
+    }
 </script>
 <script th:inline="javascript" th:if="${session.isTempPwd != null}">
     function showTempPwdToast() {

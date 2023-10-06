@@ -2,12 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<th:block th:replace="~{/include/header :: header}"></th:block>>
+<th:block th:replace="~{/include/header :: header}"></th:block>
 <link rel="stylesheet" th:href="@{/css/content/content.css}">
 </head>
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
-
+	
+	<div id="main-cate" class="categories-nav mb-5">
+		<ul class="categories">
+			<li th:each= "cate : ${cateList}"  class="cate mx-3" th:data-maincate-value="${cate}">[[${cate}]]</li>
+		</ul>
+	</div>
+	
 	<div class="layout">
 
 	</div>

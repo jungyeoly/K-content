@@ -2,14 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<th:block th:replace="~{/include/header :: header}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/inqury/inqury.css}">
+	<th:block th:replace="~{/include/header :: header}">
+	</th:block>
 	<link rel="stylesheet" th:href="@{/css/inqury/main.css}">
+	<link rel="stylesheet" th:href="@{/css/inqury/inqury.css}">
+	<link rel="stylesheet" href="/css/commu-nav.css">
 </head>
 <body>
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
 	
-	<div class="layout d-flex justify-content-center mb-5"></div>
+	<div th:replace="~{/include/community-center :: inqry-nav}"></div>
+	
+	<div class="layout d-flex justify-content-center my-5"></div>
 		
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	

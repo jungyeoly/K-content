@@ -1,6 +1,8 @@
 package com.example.myapp.user.mber.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map;
 
 import org.apache.ibatis.javassist.NotFoundException;
 
@@ -30,4 +32,6 @@ public interface IMberService {
 	boolean isMberEmail(String mberEmail);
 	
 	void changeMberStatus(String mberId, String newStatus);
+	
+	List<Mber> searchMber(String findType, String findKeyword);
 }

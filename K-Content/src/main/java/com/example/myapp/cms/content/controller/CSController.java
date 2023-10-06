@@ -9,14 +9,8 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
-
 import jakarta.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +23,7 @@ import java.net.URL;
 import java.util.*;
 
 @Controller
-@RequestMapping("/cs")
+@RequestMapping("/cs/test")
 public class CSController {
     @Autowired
     YouTubeApiService youTubeApiService;
@@ -46,17 +40,11 @@ public class CSController {
     @Autowired
     ICommonCodeService commonCodeService;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @GetMapping("/dashboard")
-    public String getDashBoard() {
-        return "cms/dashBoard";
-    }
-
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String showYouTube() {
-        return "cms/cntnt/newcontentRecom";
+    public String showYouTube()
+    {
+        return "cms/cntnt/new-cntnt-recom";
     }
 
     //    @GetMapping("/recomm/main")
@@ -76,25 +64,27 @@ public class CSController {
         return result;
     }
 
+    //관리자 컨텐츠 메인화면
+    @GetMapping("")
+    public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
+        List<String> cateList = commonCodeService.cateList("C03");
+        model.addAttribute("cateList", cateList);
 
-    //콘텐츠 리스트 페이지
-    @GetMapping("/content-manage")
-    public String getContentManage(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
         int page = 1;
         int bbsCount = contentService.totalCntnt(cate);
 
         int totalPage = 0;
 
-        if (bbsCount > 0) {
-            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        if(bbsCount > 0) {
+            totalPage= (int)Math.ceil(bbsCount/10.0);
         }
-        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
-        int nowPageBlock = (int) Math.ceil(page / 10.0);
-        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+        int nowPageBlock = (int) Math.ceil(page/10.0);
+        int startPage = (nowPageBlock-1)*10 + 1;
         int endPage = 0;
-        if (totalPage > nowPageBlock * 10) {
-            endPage = nowPageBlock * 10;
-        } else {
+        if(totalPage > nowPageBlock*10) {
+            endPage = nowPageBlock*10;
+        }else {
             endPage = totalPage;
         }
         model.addAttribute("totalPageCount", totalPage);
@@ -105,16 +95,16 @@ public class CSController {
         model.addAttribute("endPage", endPage);
 
         session.setAttribute("nowPage", page);
-
-        return "cms/cntnt/contentManage";
+        return "cms/cntnt/new-admin-main-content";
     }
+
 
     @GetMapping("/contents/{page}")
     @ResponseBody
     public List<CmsContent> getallcntnt(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
-    	List<CmsContent> result = contentService.getAllContent(cate, page);
+        List<CmsContent> result = contentService.getAllContent(cate, page);
         model.addAttribute("cate", cate);
-        
+
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
@@ -149,68 +139,9 @@ public class CSController {
         return result;
 
     }
-    
-    @GetMapping("paging")
-    public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
-    	int bbsCount = contentService.totalCntnt(cate);
-        int totalPage = 0;
-
-        if (bbsCount > 0) {
-            totalPage = (int) Math.ceil(bbsCount / 10.0);
-        }
-        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
-        int nowPageBlock = (int) Math.ceil(page / 10.0);
-        int startPage = (nowPageBlock - 1) * 10 + 1;
-        int endPage = 0;
-        if (totalPage > nowPageBlock * 10) {
-            endPage = nowPageBlock * 10;
-        } else {
-            endPage = totalPage;
-            if (endPage == 0) {
-                endPage = 1;
-            }
-        }
-        model.addAttribute("totalPageCount", totalPage);
-        model.addAttribute("nowPage", page);
-        model.addAttribute("totalPageBlock", totalPageBlock);
-        model.addAttribute("nowPageBlock", nowPageBlock);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        session.setAttribute("nowPage", page);
-
-    	return "cms/cntnt/paging";
-    }
 
 
-    //콘텐츠 상세 페이지 출력
-    @GetMapping("/content/detail")
-    public String getAContent(int targetContentIdF, Model model) {
 
-        CmsContent content = contentService.getAContent(targetContentIdF);
-        model.addAttribute("content", content);
-
-        CommonCode commonCodes = commonCodeService.findByCommonCode(content.getCntntCateCode());
-        model.addAttribute("category", commonCodes);
-
-        List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
-        model.addAttribute("keywordList", keywordList);
-
-        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-        List<Goods> goodsJFileList = new ArrayList<Goods>();
-        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            //일단 파일이 하나라고 가정....
-            goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-        }
-        model.addAttribute("goodsJFileList", goodsJFileList);
-        // 쿼리 앞에 키워드 가져와서 뽑기
-        List<String> trendQueryList = new ArrayList<>();
-
-        for (int i = 0; i < keywordList.size(); i++) {
-            trendQueryList.add(keywordList.get(i));
-        }
-        model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/contentDetail";
-    }
 
     //콘텐츠 상세페이지의 유튜브 영상 호출
     @GetMapping("/youtube/iframe")
@@ -226,32 +157,25 @@ public class CSController {
     //콘텐츠 상세 페이지인스타 크롤링
     @GetMapping("/insta-img")
     @ResponseBody
-    public List<String> getInstaImg(Authentication authentication, @RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
-        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-            List<String> realImg = new ArrayList<>();
-            return realImg;
-        } else {
-            instagram_Selenium.instagram_Selenium();
+    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
+        instagram_Selenium.instagram_Selenium();
 
-            List<String> realImg = new ArrayList<>();
-            for (int i = 0; i < trendQueryList.size(); i++) {
-                String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-                //TODO 예외처리
-                URL urlInput = new URL(oneUrl);
-                BufferedImage urlImg = ImageIO.read(urlInput);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ImageIO.write(urlImg, "jpg", bos);
-                Base64.Encoder encoder = Base64.getEncoder();
-                String encodedString = encoder.encodeToString(bos.toByteArray());
-                //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
-                realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+        List<String> realImg = new ArrayList<>();
+        for (int i = 0; i < trendQueryList.size(); i++) {
+            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+            //TODO 예외처리
+            URL urlInput = new URL(oneUrl);
+            BufferedImage urlImg = ImageIO.read(urlInput);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(urlImg, "jpg", bos);
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encodedString = encoder.encodeToString(bos.toByteArray());
+            //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+            realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
 
-            }
-            instagram_Selenium.chromeExit();
-            return realImg;
         }
-
-
+        instagram_Selenium.chromeExit();
+        return realImg;
     }
 
     //콘텐츠 생성 페이지
@@ -259,7 +183,7 @@ public class CSController {
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성 페이지 form 유튜브
@@ -271,7 +195,7 @@ public class CSController {
         model.addAttribute("content", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
-        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     // 기존 콘텐츠 수정 form
@@ -292,6 +216,9 @@ public class CSController {
             //일단 파일이 하나라고 가정....
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
+
+        System.out.println("goodsJFileList: "+goodsJFileList);
+        // 삭제 된 굿즈는 아예 안뽑는건지? 알아봐야함
         model.addAttribute("goodsJFileList", goodsJFileList);
 
         //카테고리
@@ -304,7 +231,8 @@ public class CSController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-        return "cms/cntnt/newcontentMakeForm";
+//        return "cms/cntnt/newcontentMakeForm";
+        return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성/수정
@@ -333,7 +261,36 @@ public class CSController {
 
         // 성공 여부 리턴
     }
+    @GetMapping("paging")
+    public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+        int bbsCount = contentService.totalCntnt(cate);
+        int totalPage = 0;
 
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+            if (endPage == 0) {
+                endPage = 1;
+            }
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        session.setAttribute("nowPage", page);
+
+        return "cms/cntnt/paging";
+    }
     //콘텐츠 상세 콘텐츠 추천
     @GetMapping("/content/keyword")
     @ResponseBody
@@ -376,33 +333,42 @@ public class CSController {
 
     //콘텐츠 삭제 처리
     @PatchMapping("/content")
-    public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId) {
+    public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId, Model model, HttpSession session) {
         //update content
+
         contentService.updateDelStat(cntntId);
-        return "cms/cntnt/contentManage";
+        System.out.println(cntntId+"번 콘텐츠 삭제 처리 ");
+
+        List<String> cateList = commonCodeService.cateList("C03");
+        model.addAttribute("cateList", cateList);
+
+        int page = 1;
+        int bbsCount = contentService.totalCntnt("ALL");
+
+        int totalPage = 0;
+
+        if(bbsCount > 0) {
+            totalPage= (int)Math.ceil(bbsCount/10.0);
+        }
+        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+        int nowPageBlock = (int) Math.ceil(page/10.0);
+        int startPage = (nowPageBlock-1)*10 + 1;
+        int endPage = 0;
+        if(totalPage > nowPageBlock*10) {
+            endPage = nowPageBlock*10;
+        }else {
+            endPage = totalPage;
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        session.setAttribute("nowPage", page);
+        return "cms/cntnt/new-admin-main-content";
+
     }
-
-    @GetMapping("/ma")
-    public String getAllds() {
-        return "include/admin-sideBar";
-    }
-
-
-    @GetMapping("/usermanage")
-    public String getUserManage() {
-        return "cms/userManage";
-    }
-
-    @GetMapping("/commu")
-    public String getCommu() {
-        return "cms/commu";
-    }
-
-
-    @GetMapping("/charts")
-    public String getCharts() {
-        return "cms/charts";
-    }
-
 
 }

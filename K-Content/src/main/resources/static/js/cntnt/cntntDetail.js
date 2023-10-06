@@ -5,7 +5,7 @@ $(document).ready(function () {
     };
     // 추천 콘텐츠
     $.ajax({
-        url: '/cs/content/keyword', type: 'GET',
+        url: '/cs/test/content/keyword', type: 'GET',
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');
@@ -18,11 +18,11 @@ $(document).ready(function () {
             } else {
                 for (i = 0; i < contentList.length; i++) {
                     inHtml = `
-            <li class="card-item goods-box" onclick="recomCntntDetail(${contentList[i].cntntId})">
-                <figure class="card-image" style="background-image: url(${contentList[i].cntntThumnail})">
+            <li class="rel-box m-3" onclick="recomCntntDetail(${contentList[i].cntntId})">
+                <figure class="rel-image" style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} alt="일분이" style="display: none">
                 </figure>
-                <div class="card-desc">
+                <div class="rel-title">
                     ${contentList[i].cntntTitle}
                 </div>
             </li> `;
@@ -69,7 +69,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-        url: '/cs/youtube/iframe', type: 'GET', data: requestData, // 데이터 객체 전달
+        url: '/cs/test/youtube/iframe', type: 'GET', data: requestData, // 데이터 객체 전달
         success: function (data2) {
             // 서버에서 받은 데이터를 result 요소에 추가합니다.
             const element = document.getElementById('iframe');
@@ -116,15 +116,15 @@ function updateCntnt(cntntId) {
 function deleteCntnt() {
     if (confirm('컨텐츠를 삭제하시겠습니까?')) {
         $.ajax({
-            url: '/cs/content', type: 'patch',
+            url: '/cs/test/content', type: 'patch',
             data: {
                 cntntId: document.getElementById("cntntId").value
             }, // 데이터 객체 전달
             success: function (data2) {
                 if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/content-manage");
+                    window.location.replace("/cs/test");
                 } else {
-                    window.location.replace("/cs/content-manage");
+                    window.location.replace("/cs/test");
                 }
             }, error: function (error) {
                 console.error('에러 발생: ', error);

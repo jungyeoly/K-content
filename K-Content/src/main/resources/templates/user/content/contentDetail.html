@@ -1,137 +1,152 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-
-    <div th:replace="~{/include/header :: header}"></div>
-    <link rel="stylesheet" th:href="@{/css/content/content.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <link rel="stylesheet" th:href="@{/css/content/userContentDetail.css}">
+	<th:block th:replace="~{/include/header :: header}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/content/content.css}">
+	<link rel="stylesheet" th:href="@{/css/content/userContentDetail.css}">
 </head>
 <body>
 
-<div th:replace="~{/include/admin-header :: adminHeader }"></div>
-<!-- <input type="checkbox" id="modal-switch"> -->
+	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 
-<!--    main-->
-<div class="container mx-5">
-    <div class="row">
-        <div class="col-11">
-            <input id="cntntId" type="hidden" th:value="${content.cntntId}">
+	<!--    main-->
+	<div class="container">
+		<input id="cntntId" type="hidden" th:value="${content.cntntId}">
 
-            <!-- 영상 -->
-            <div id="iframe" th:src="${content.cntntUrl}"></div>
+		<!-- 영상 -->
+		<div id="iframe" th:src="${content.cntntUrl}"></div>
 
-            <!-- 제목 -->
-            <div class="d-flex justify-content-between title-box">
-                <div class="d-flex">
-                    <span class="me-2 categori px-2">[[${category.getCommonCodeVal()}]]</span>
-                    <h3 class="text-center" th:text="${content.cntntTitle}"></h3>
-                </div>
-                <div>
+		<!-- 제목 -->
+		<div class="d-flex justify-content-between title-box">
+			<div class="d-flex">
+				<span class="me-2 categori px-2">[[${category.getCommonCodeVal()}]]</span>
+				<h3 class="cntnt-title text-center" th:text="${content.cntntTitle}"></h3>
+			</div>
+			<div>
 
-                    <i id="cntntBkmk"  sec:authorize="!hasRole('ADMIN')" th:if="${isCntntBklk <=0 }" class="fa-regular fa-heart fs-3 me-2"></i>
-                    <i id="cntntBkmk"  sec:authorize="!hasRole('ADMIN')" th:if="${isCntntBklk > 0}" class="fa-heart fs-3 me-2 fa-solid"
-                       style="color: #14dbc8"></i>
-                    <!--                    <i id="cntntBkmk" th:if="${'isCntntBklk'}" class="fa-regular fa-heart fs-3 me-2"></i>-->
+				<i id="cntntBkmk" sec:authorize="!hasRole('ADMIN')"
+					th:if="${isCntntBklk <=0 }" class="fa-regular fa-heart fs-3 me-2"></i>
+				<i id="cntntBkmk" sec:authorize="!hasRole('ADMIN')"
+					th:if="${isCntntBklk > 0}" class="fa-heart fs-3 me-2 fa-solid"
+					style="color: #14dbc8"></i>
+				<!--                    <i id="cntntBkmk" th:if="${'isCntntBklk'}" class="fa-regular fa-heart fs-3 me-2"></i>-->
 
-                    <i class="fa-brands fa-instagram fs-3"  sec:authorize="!hasRole('ADMIN')" data-bs-toggle="offcanvas"
-                       data-bs-target="#offcanvasScrolling"
-                       aria-controls="offcanvasScrolling"></i>
-                </div>
-            </div>
+				<i class="fa-brands fa-instagram fs-3"
+					sec:authorize="!hasRole('ADMIN')" data-bs-toggle="offcanvas"
+					data-bs-target="#offcanvasScrolling"
+					aria-controls="offcanvasScrolling"></i>
+			</div>
+		</div>
 
-            <!-- 키워드 -->
-            <div class="item keyword d-flex mb-5">
-                <div class="keywordItem me-2" th:each="keyword : ${keywordList}">
-                    <p class="fw-bold" th:text="${keyword}"></p>
-                </div>
-            </div>
-            <div class="admin-button">
-                <button onclick="updateCntnt()">수정</button>
-                <button onclick="deleteCntnt()">삭제</button>
-            </div>
-            <hr>
-            <!-- 상품 -->
-            <h3 class="text-center fw-bold">관련 상품</h3>
-            <section class="goods-box">
-                <!--                값이 있을때-->
-                <ul class="card-list" th:if="${GoodsJFileJBklkList.size()} != 0">
-                    <li class="item goods-box card-item" th:each="goods : ${GoodsJFileJBklkList}"
-                        style="margin: auto; padding-bottom: 100px">
-                        <div id="goods" class="goods">
+		<!-- 키워드 -->
+		<div class="d-flex justify-content-between">
+			<div class="item keyword d-flex mb-5">
+				<div class="keywordItem me-2" th:each="keyword : ${keywordList}">
+					<p class="fw-bold" th:text="${keyword}"></p>
+				</div>
+			</div>
 
-                            <div class="card " style="width: 18rem; height: 240px">
-                                <a th:href="${goods.getGoodsPurchsLink()}">
-                                    <figure class="card-image" style="width:18rem; height:140px"
-                                            th:style="'background-image:url('+ @{/img/goods/{image}(image=${goods.goodsFileId})} +');'">
-                                        <img class="card-img-top" style="width:100%; height:100%"
-                                             th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}"
-                                             alt="...">
-                                    </figure>
-                                </a>
-                                <div class="card-desc" style="width:18rem; height:100px;border:1px solid">
-                                    <h5 class="text-center card-title px-3" th:text="${goods.goodsName}">Card
-                                        title</h5>
-                                    <p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
-                                    <p class="text-center" th:text="${goods.goodsBrand}"></p>
-                                </div>
+			<div class="admin-button">
+				<button sec:authorize="hasRole('ADMIN')" class="btn" onclick="updateCntnt()">수정</button>
+				<button sec:authorize="hasRole('ADMIN')" class="btn" onclick="deleteCntnt()">삭제</button>
+			</div>
+		</div>
 
-                                <i th:id="${goods.goodsId}" th:if="${not #strings.isEmpty(goods.goodsBkmkRegistDate)}"
-                                   sec:authorize="!hasRole('ADMIN')" class="goodsBkmk fa-heart position-absolute top-0 end-0 fs-3 fa-solid"
-                                   style="color: #14dbc8"
-                                   th:goodsId="${goods.goodsId}"
-                                   onclick="clickGoods(this.getAttribute('goodsId'))"></i>
-                                <i th:id="${goods.goodsId}" th:if="${ #strings.isEmpty(goods.goodsBkmkRegistDate)}"
-                                   sec:authorize="!hasRole('ADMIN')" class="goodsBkmk fa-regular fa-heart position-absolute top-0 end-0 fs-3"
-                                   th:goodsId="${goods.goodsId}"
-                                   onclick="clickGoods(this.getAttribute('goodsId'))"></i>
-                            </div>
+		<hr>
 
-                        </div>
-                    </li>
-                </ul>
-                <div th:if="${GoodsJFileJBklkList.size()} == 0">
-                    <h3>
-                        관련 상품이 존재하지 않습니다.
-                    </h3>
-                </div>
-            </section>
-            <!-- end 상품 -->
-        </div>
+		<!-- 상품 -->
+		<h3 class="text-center fw-bold my-4">
+			<span class="main-border">관련 상품</span>
+		</h3>
 
-        <!-- sns 크롤링한 데이터 넣는 곳! -->
-        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-             id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel">트랜드</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body ">
-                <div class="item trend" id="trend">
+		<div>
+			<!-- 값이 있을때-->
+			<ul class="card-list d-flex flex-wrap justify-content-around rel-pro"
+				th:if="${GoodsJFileJBklkList.size()} != 0">
+				<li class="item goods-box card-item m-3 "
+					th:each="goods : ${GoodsJFileJBklkList}">
+					<div id="goods" class="goods">
 
-                </div>
-            </div>
-        </div>
+						<div class="card" style="width: 25rem; height: auto">
+							<a th:href="${goods.getGoodsPurchsLink()}">
+								<figure class="card-image figure"
+									style="width: 30%; height: auto"
+									th:style="'background-image:url('+ @{/img/goods/{image}(image=${goods.goodsFileId})} +');'">
+									<img class="card-img-top" style="width: 80%; height: 100%"
+										th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}"
+										alt="...">
+								</figure>
+							</a>
+							<div class="card-desc"
+								style="width: 25rem; height: 100px; border: 1px solid">
+								<h5 class="text-center card-title px-3"
+									th:text="${goods.goodsName}">Card title</h5>
+								<p class="text-center" th:text="${goods.goodsPrice} + ' 원'"></p>
+								<p class="text-center" th:text="${goods.goodsBrand}"></p>
+							</div>
 
-        <!--        TODO 문제있어-->
-        <hr>
-        <section class="recommand">
-            <ul class="card-list" id="card-list">
-            </ul>
-        </section>
-    </div>
-</div>
+							<i th:id="${goods.goodsId}"
+								th:if="${not #strings.isEmpty(goods.goodsBkmkRegistDate)}"
+								sec:authorize="!hasRole('ADMIN')"
+								class="goodsBkmk fa-heart position-absolute top-0 end-0 fs-3 fa-solid"
+								style="color: #14dbc8" th:goodsId="${goods.goodsId}"
+								onclick="clickGoods(this.getAttribute('goodsId'))"></i> <i
+								th:id="${goods.goodsId}"
+								th:if="${ #strings.isEmpty(goods.goodsBkmkRegistDate)}"
+								sec:authorize="!hasRole('ADMIN')"
+								class="goodsBkmk fa-regular fa-heart position-absolute top-0 end-0 fs-3"
+								th:goodsId="${goods.goodsId}"
+								onclick="clickGoods(this.getAttribute('goodsId'))"></i>
+						</div>
+
+					</div>
+				</li>
+			</ul>
+			<div th:if="${GoodsJFileJBklkList.size()} == 0">
+				<h3>관련 상품이 존재하지 않습니다.</h3>
+			</div>
+		</div>
+		<!-- end 상품 -->
+
+		<!--        TODO 문제있어-->
+		<hr>
+		<section class="recommand">
+			<h3 class="text-center fw-bold my-4">
+				<span class="main-border">키워드 관련 영상</span>
+			</h3>
+			<ul class="card-list d-flex justify-content-center flex-wrap"
+				id="card-list">
+			</ul>
+		</section>
+
+	</div>
 
 
-<input class="item" id="trendQueryList" type="hidden" th:value="${trendQueryList}"
-       style="display: none">
-<input type="hidden" id="contentId" th:name="${targetContentIdF}" th:value="${content.getCntntUrl()}">
 
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/js/cntnt/cntntDetail.js" defer></script>
-<script src="/js/cntnt/userCntntDetail.js"></script>
+	<!-- sns 크롤링한 데이터 넣는 곳! -->
+	<div class=" offcanvas offcanvas-end" data-bs-scroll="true"
+		data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling"
+		aria-labelledby="offcanvasScrollingLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel">트랜드</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+				aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body ">
+			<div class="item trend" id="trend"></div>
+		</div>
+	</div>
+
+
+	<input class="item" id="trendQueryList" type="hidden"
+		th:value="${trendQueryList}" style="display: none">
+	<input type="hidden" id="contentId" th:name="${targetContentIdF}"
+		th:value="${content.getCntntUrl()}">
+
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/js/cntnt/cntntDetail.js" defer></script>
+	<script src="/js/cntnt/userCntntDetail.js"></script>
 
 </body>
 

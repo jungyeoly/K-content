@@ -113,7 +113,11 @@ public class goodsTestController {
 
         return "cms/goods/new-make-goods-in-nav";
     }
+    @GetMapping("/cntnt/form")
+    public String getMakeGoodsFormInMakeCntnt() {
 
+        return "cms/goods/new-make-goods-in-cntnt-make-form";
+    }
     // 상품 생성
     @PostMapping("")
     public ResponseEntity<String> createGoods(@RequestParam("goodsTitle") String goodsTitle,
@@ -191,7 +195,7 @@ public class goodsTestController {
     public String createGoods(@RequestParam("goodsId") int goodsId) {
         System.out.println(goodsId);
         goodsService.updateDelYnGoods(goodsId);
-        return "cms/goods/goodsListMain";
+        return "cms/goods/new-goods-main";
     }
 
     //상품 수정 파일 있음

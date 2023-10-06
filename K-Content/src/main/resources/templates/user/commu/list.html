@@ -5,14 +5,26 @@
 <link rel="stylesheet" href="/css/commu/commuList.css">
 <link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/css/body-header.css">
+<link rel="stylesheet" href="/css/commu-nav.css">
 <meta charset="UTF-8">
 </head>
 <body>
-	<div th:replace="~{/include/header :: header}"></div>
+	<th:block th:replace="~{/include/header :: header}"></th:block>
 	<div th:replace="~{/include/body-header :: header }"></div>
 
 	<div class="container">
-		<div class="menu fw-bold">커뮤니티</div>
+		<div th:replace="~{/include/community-center :: commu-nav}" class="mb-5"></div>
+		
+		<div class="commuDropdown">
+			<button class="dropbtn position-relative">
+				카테고리
+				<span class="position-absolute end-0 pe-3"><i class="fa-solid fa-angle-down"></i></span>
+			</button>
+			<div class="dropdown-content">
+				<div th:each= "cate : ${cateList}"  class="cate mx-3" th:data-maincate-value="${cate}">[[${cate}]]</div>
+			</div>
+		</div>
+		
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
 				<tr>

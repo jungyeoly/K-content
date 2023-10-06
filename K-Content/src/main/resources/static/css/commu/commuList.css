@@ -1,4 +1,27 @@
-@charset "UTF-8";
+.cate {
+	font-size: 1em !important;
+}
+
+.cate.active {
+  border-bottom: 3px solid var(--color-main);
+}
+
+.categories li {
+  font-size: 14px;
+  font-weight: 900;
+  float: left;
+  position: relative;
+  cursor: pointer;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+  padding: 0px;
+  text-align: center;
+}
 
 .page-link {
   color: #000 !important;
@@ -83,3 +106,41 @@ table {
     table-layout: fixed;  /* 열 너비가 내용에 따라 변경되지 않도록 고정 */
 }
 
+/* Dropdown Button */
+.dropbtn {
+	background-color: #04AA6D;
+	color: white;
+	font-size: 16px;
+	border: none;
+	width: 200px;
+	text-align: center;
+	background-color: black;
+	color: white;
+	font-size: 1.2rem;
+	height: 40px;
+}
+
+.commuDropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content div {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content div:hover {background-color: #ddd;}
+
+.commuDropdown:hover .dropdown-content {display: block;}

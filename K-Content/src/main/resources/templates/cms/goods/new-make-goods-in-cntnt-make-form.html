@@ -4,10 +4,9 @@
 <head>
     <div th:insert="~{/include/new-admin-head :: newAdminHead}"></div>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
-    <link rel="stylesheet" th:href="@{/css/goods/new-make-goods-in-nav.css}">
+    <link rel="stylesheet" th:href="@{/css/goods/new-make-goods-in-cntnt-make-form.css}">
 </head>
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
 <div>
     <!--    값이 있는거 수정할 때-->
@@ -170,7 +169,7 @@
 
             </div>
             <div class="button-box">
-                <button type="button" class="btn btn-primary" onclick="createGoods()">상품 생성</button>
+                <button type="button" class="btn btn-primary" onclick="createGoodsInCntnt()">상품 생성</button>
             </div>
         </div>
     </div>

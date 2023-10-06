@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
 
 a, a:visited {
-	 text-decoration: none !important;
-	 color: #0f4c81;
+	 text-decoration: none;
+	 color: #5D5D5D;
 }
 
 header {
@@ -14,23 +14,28 @@ header {
 
 header div.logo {
   display: flex;
-  margin-right: 10px;
 }
 
 header div.logo img {
-    width: 300px;
-    height: 100px;
+    width: 160px;
+    height: 90px;
     margin: 0 0 8px;
-    padding: 20px 0px 0px 50px
+    padding: 20px 0px 0px 40px
 }
 
 header ul.icons {
   display: flex;
   margin-left: auto;
-  margin-right: 30px;
-  margin-top: 80px;
+  margin-right: 40px;
+  margin-top: 20px;
 }
 
+header ul.badge {
+  display: flex;
+  margin-left: auto;
+  margin-right: 40px;
+  margin-top: 20px;
+}
 header ul.icons li, header ul.icons li a{
   font-size: 9px;
   padding: 0px 18px 0px 5px;
@@ -41,7 +46,7 @@ header ul.icons li, header ul.icons li a{
 
 header ul.icons li a >i, header ul.icons li >i {
   font-size: large;
-  color: #1e52ad;
+  color: #0f4c81;
 }
 
 header ul.icons:hover {
@@ -50,12 +55,12 @@ header ul.icons:hover {
 
 header ul.contents {
   display: flex;
-  margin: 0px 55px 0px 55px;
+  padding: 0px 0px 0px 35px;
+  margin: 0px;
   font-weight: 900;
   font-size: 38px;
   justify-content: auto;
   font-family: 'Lexend Deca', sans-serif;
-  flex-wrap: wrap;
 }
 
 header ul.contents li {
@@ -66,10 +71,11 @@ header ul.contents li {
 
 header ul li.cms {
   margin-left: auto;
+  margin-right: 75px;
 }
 
 header ul li.search {
-  padding-right: 30px;
+  padding-right: 55px;
   font-weight: 900;
   font-size: 45px;
 }
@@ -79,7 +85,7 @@ header .contents li.content:hover::after, header .contents li.cms:hover::after {
   display: block;
   width: 100%;
   height: 6px;
-  background-color: #1e52ad;
+  background-color: black;
   position: absolute;
   bottom: 7px;
 }
@@ -113,7 +119,7 @@ header .categories li:hover::after {
   display: block;
   width: 100%;
   height: 4px;
-  background-color: #1e52ad;
+  background-color: black;
   position: absolute;
   bottom: -3px;
 }
@@ -124,5 +130,5 @@ ul, il, ol {
 
 .content a,.cms a {
 	text-decoration: none;
-	color: #1e52ad;
+	color: #0f4c81;
 }

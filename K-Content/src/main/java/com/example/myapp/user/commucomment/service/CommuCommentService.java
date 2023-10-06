@@ -114,5 +114,10 @@ public class CommuCommentService implements ICommuCommentService {
 	    // 필터링된 직접적인 대댓글들을 parentComment의 replies 리스트에 설정
 	    parentComment.setReplies(directReplies);
 	}
+	//대댓글 개별 삭제
+	public void deleteSingleCommuComment(int commuCommentId) {
+	    commucommentRepository.deleteCommuCommentByCommuCommentId(commuCommentId);
+	}
+
 
 }

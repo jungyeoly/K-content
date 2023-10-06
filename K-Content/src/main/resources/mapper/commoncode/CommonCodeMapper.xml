@@ -17,6 +17,22 @@
                 where upper_common_code = #{upperCommonCode}
             ]]>
 	</select>
+	
+	<select id ="findByCommonCodeVal"
+		resultType="com.example.myapp.commoncode.model.CommonCode">
+		
+		 <![CDATA[
+                SELECT common_code,
+                       upper_common_code,
+                       common_code_val,
+                       common_code_dscr,
+                       common_update_date,
+                       common_delete_yn,
+                       common_order
+                from tb_common_code
+                where common_code_val = #{commonCodeVal}
+            ]]>
+	</select>
 	<select id="findByCommonCode"
 			resultType="com.example.myapp.commoncode.model.CommonCode">
         <![CDATA[

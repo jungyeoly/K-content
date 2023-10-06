@@ -17,7 +17,7 @@ public class Commu {
 	private String commuRegistDate; // 등록일시
 	private String commuUpdateDate; // 수정일시
 	private CommuStatus commuStatus; //게시글 상태 NO:신고 안한거 YES:사용자가 삭제, REPORT:사용자가 신고, KILL:관리자가 신고된거 삭제처리
-	private CommuType commuType; // 글종류 (NORMAL:일반글, ANNOUNCEMENT:공지글
+	private CommuType commuType; // 글종류 General:일반글, NOTICE:공지글
 	private int commuReadCnt; //조회수
 	private String commuCateCode; // 게시판 카테고리 코드 (공통코드)
 	private String commuMberId; //회원 ID 

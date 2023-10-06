@@ -43,5 +43,7 @@ public interface ICommuService {
 	 
 	List<Commu> searchListByContentKeyword(String keyword, int page); //관련된 게시물 목록 검색
 	int selectTotalPostCountByKeyWord(String keyword); //키워드와 관련된 총 게시물 수
+	
+	List<Commu> selectRecentNotice(); //공지사항
 
 }

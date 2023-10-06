@@ -172,7 +172,7 @@
    commu_status, commu_type, commu_read_cnt)
 VALUES
   (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
-   'N', 'N', 0)
+   'N', 'G', 0)
 	]]>
 	</insert>
 
@@ -314,6 +314,28 @@ where commu_file_id=#{commuFileId}
     JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
     WHERE c.rn BETWEEN #{start} AND #{end}
     ]]>
+	</select>
+	
+	<select id="selectRecentNotice"
+		resultType="com.example.myapp.user.commu.model.Commu">
+	<![CDATA[
+					SELECT *
+				FROM (
+				    SELECT c.commu_id,
+				           c.commu_title,
+				           c.commu_cntnt,
+				           c.commu_regist_date,
+				           c.commu_update_date,
+				           c.commu_read_cnt,
+				           c.commu_cate_code,
+				           c.commu_mber_id
+				    FROM tb_commu c
+				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
+				    WHERE m.MBER_ROLE_CODE = 'C0402'
+				    ORDER BY c.commu_regist_date DESC
+				) 
+				WHERE ROWNUM <= 5
+	        ]]>
 	</select>
 
 

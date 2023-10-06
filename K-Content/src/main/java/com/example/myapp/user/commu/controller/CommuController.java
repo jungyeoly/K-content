@@ -217,6 +217,8 @@ public class CommuController {
 	@GetMapping("/commu/detail/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+		List<CommonCode> commonCodeVal = commonCodeService.findByCommonCodeVal("공지사항");
+		model.addAttribute("commonCodeVal", commonCodeVal);
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		Commu commu = commuService.selectPost(commuId);
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);

@@ -1,3 +1,7 @@
+
+
+
+
 $(document).ready(function() {
 	let currentPage = 1; // 페이지 초기화
 	let loading = false; // 페이지 로딩 중 여부를 나타내는 플래그
@@ -79,31 +83,37 @@ function searchPosts(keyword, page) {
 		}
 	});
 
-	// 메인 페이지
-	function loadPage(page) {
-		if (typeof page === 'undefined' || !page) {
-			page = 1;
-		}
+let isAdmin = false;
+// 메인 페이지
+function loadPage(page) {
+    if (typeof page === 'undefined' || !page) {
+        page = 1;
+    }
+    
+    let requestURL = `/commu/ajax/${page}`;
+    if (isAdmin) {  // 관리자인 경우 URL 앞에 'cms' 추가
+        requestURL = `/cms${requestURL}`;
+    }
 
-		loading = true; // 페이지 로딩 중 플래그 설정
-		$.ajax({
-			url: `/commu/ajax/${page}`,
-			method: 'GET',
-			dataType: 'json',
-			cache: false,
-			success: function(response) {
-				updatePostList(response.commulist);
-				updatePagination(response.nowPage, response.totalPageCount);
-				currentPage = page;
-			},
-			error: function(error) {
-				console.error("Failed to load posts:", error);
-			},
-			complete: function() {
-				loading = false; // 페이지 로딩 완료 시 플래그 해제
-			}
-		});
-	}
+    loading = true; // 페이지 로딩 중 플래그 설정
+    $.ajax({
+        url: requestURL,  // 수정된 부분
+        method: 'GET',
+        dataType: 'json',
+        cache: false,
+        success: function(response) {
+            updatePostList(response.commulist);
+            updatePagination(response.nowPage, response.totalPageCount);
+            currentPage = page;
+        },
+        error: function(error) {
+            console.error("Failed to load posts:", error);
+        },
+        complete: function() {
+            loading = false; // 페이지 로딩 완료 시 플래그 해제
+        }
+    });
+}
 
 
 	// 카테고리 클릭 이벤트

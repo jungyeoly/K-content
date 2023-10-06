@@ -13,7 +13,7 @@ function appendFileList() {
 }
 // selectedFiles 배열에 있는 모든 파일을 목록 형태로 표시하는 함수를 정의합니다. 삭제 버튼도 추가되며, 버튼을 클릭하면 해당 파일이 배열에서 제거
 function displayFileList() {
-	const fileList = document.getElementById('fileList');
+	const fileList = document.getElementById('admin-fileList');
 	if (!fileList) return;
 	fileList.innerHTML = '';
 	selectedFiles.forEach((file, index) => {
@@ -33,9 +33,10 @@ function displayFileList() {
 }
 //양식의 유효성을 검사하는 함수를 정의합니다. 만약 양식이 유효하지 않으면, 모달을 표시하여 사용자에게 알림
 async function validateForm() {
-	const titleElem = document.getElementById('title');
-	const categoryElem = document.getElementById('category');
-	const cntntElem = document.getElementById('cntnt');
+	const titleElem = document.getElementById('admin-admintitle');
+	const categoryElem = document.getElementById('category');  // 'category'의 경우 제공된 HTML에서 찾을 수 없습니다. 수정이 필요할 수 있습니다.
+	const cntntElem = document.getElementById('admin-cntnt');
+
 
 	const title = titleElem ? titleElem.value : "";
 	const category = categoryElem ? categoryElem.value : "";
@@ -68,14 +69,15 @@ function showModal(title, content) {
 	commonModal.show();
 }
 //파일 선택 버튼이 클릭되면, 파일 입력 요소를 클릭하는 이벤트 핸들러를 추가
-const fileSelectButton = document.getElementById('fileSelectButton');
+const fileSelectButton = document.getElementById('admin-fileSelectButton');
 if (fileSelectButton) {
 	fileSelectButton.onclick = function(event) {
 		event.preventDefault();
-		const attachmentElem = document.getElementById('attachment');
+		const attachmentElem = document.getElementById('admin-attachment');
 		if (attachmentElem) attachmentElem.click();
 	};
 }
+
 //카테고리 선택 요소에 이벤트 핸들러를 추가하여, 카테고리가 변경되면 폼의 액션 URL을 업데이트
 const categoryElem = document.getElementById('category');
 if (categoryElem) {
@@ -88,7 +90,7 @@ if (categoryElem) {
 	});
 }
 //파일 목록에서 특정 파일을 클릭하면 그 파일을 목록에서 제거하는 이벤트 핸들러를 추가
-const commuFileElem = document.querySelector('.commu-File');
+const commuFileElem = document.querySelector('.admin-commu-File');
 if (commuFileElem) {
 	commuFileElem.addEventListener('click', function(event) {
 		if (event.target && event.target.getAttribute('data-filename')) {

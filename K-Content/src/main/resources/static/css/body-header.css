@@ -1,4 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
+:root {
+	/* Color */
+	--color-main: #14dbc8;
+}
+
+.text-main {
+	color : var(--color-main) !important;
+}
+
+body{
+	font-family: 'Lexend Deca', sans-serif;
+	font-family: 'Nanum Pen Script', cursive;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+ol, ul {
+    padding-left: 0;
+}
+
+.logo-name {
+	color: black;
+	font-weight: 900;
+}
 
 a, a:visited {
 	 text-decoration: none;
@@ -6,34 +28,31 @@ a, a:visited {
 }
 
 header {
-  font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
   background-color: white;
 }
 
 
-
 header div.logo {
   display: flex;
+  width: 150px;
 }
 
 header div.logo img {
-    width: 160px;
-    height: 90px;
-    margin: 0 0 8px;
-    padding: 20px 0px 0px 40px
+    width: 100px;
+    height: auto;	
 }
 
 header ul.icons {
-  display: flex;
-  margin-left: auto;
-  margin-right: 40px;
-  margin-top: 20px;
+	background: black;
+	height: 40px;
+	line-height: 40px;
+	display: flex;
+	margin-left: auto;
 }
 
 header ul.icons li, header ul.icons li a{
   font-size: 9px;
   padding: 0px 18px 0px 5px;
-  margin-left: auto;
   margin-top: 5px;
   color: #5D5D5D;
 }
@@ -49,36 +68,57 @@ header ul.icons:hover {
 
 header ul.contents {
   display: flex;
-  padding: 0px 0px 0px 35px;
   margin: 0px;
-  font-weight: 900;
-  font-size: 38px;
+  font-weight: 600;
+  font-size: 25px;
   justify-content: auto;
   font-family: 'Lexend Deca', sans-serif;
 }
 
 header ul.contents li {
-  margin: 4px 20px 2px 15px;
+  margin: 15px;
+  padding: 10px;
   position: relative;
   cursor: pointer;
+  line-height: 2em;
+}
+
+.infoDiv {
+	align-self: center;
+    width: 33%;
+}
+
+.textLInk {
+	font-size: 1em !important;
+}
+
+.info {
+	margin-bottom: 0px !important;
+}
+
+.navMain {
+    width: 25%;
 }
 
 header ul li.cms {
   margin-left: auto;
 }
 
-header ul li.search {
-  padding-right: 55px;
-  font-weight: 900;
-  font-size: 45px;
+.searchDiv {
+    width: 30%;
+    align-self: center;
+}
+
+#searchForm {
+  font-weight: 600;
 }
 
 header .contents li.content:hover::after, header .contents li.cms:hover::after {
   content: "";
   display: block;
-  width: 100%;
+  width: 90%;
   height: 6px;
-  background-color: black;
+  background-color: var(--color-main);
   position: absolute;
   bottom: 7px;
 }
@@ -124,4 +164,31 @@ ul, il, ol {
 .content a,.cms a {
 	text-decoration: none;
 	color: black;
+}
+
+@media screen and (max-width: 860px) {
+  .iconLInk {
+    display: block;
+  }
+  .textLInk {
+    display: none;
+  }
+  .searchDiv {
+  	display: none;
+  }
+  .navMain {
+  	width: 100%;
+  }
+  .contents {
+  	justify-content: center;
+  }
+  .infoText {
+  	display: none;
+  }
+}
+
+@media screen and (min-width: 861px) {
+   .iconLInk {
+    display: none;
+  }
 }

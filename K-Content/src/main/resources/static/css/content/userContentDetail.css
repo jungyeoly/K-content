@@ -3,6 +3,10 @@
     --color-main: #14dbc8;
 }
 
+.main-border {
+	border-bottom: 3px solid var(--color-main)
+}
+
 .row {
     display: flex;
     justify-content: center;
@@ -14,9 +18,8 @@
 
 /* iframe 크기 조정 */
 iframe {
-    width: 70%;
-    height: 30em;
-
+    width: 100%;
+    height: 700px;
 }
 .title-box{
     padding-top: 2em;
@@ -24,21 +27,16 @@ iframe {
 .keyword{
     padding-top: 1em;
 }
-.goods-box{
-    display: flex;
-    justify-content: space-evenly;
-    /*overflow: hidden;*/
-    padding-bottom: 100px;
 
+figure {
+    width: 15rem;
+    height: 15rem;
 }
-figure{
+
+.figure{
     margin: revert !important;
-    /*display: contents;*/
-    /*border: 4px solid #8c8c8c;*/
 }
-img{
 
-}
 .goodsBkmk{
     padding: 7px 6px;
 }
@@ -50,6 +48,11 @@ img{
 
 i {
     cursor: pointer;
+}
+
+.trend img {
+    margin: 10px;
+    width: 80% !important;
 }
 
 /* 제목 옆 카테고리 */
@@ -69,33 +72,32 @@ p {
     border-radius: 10px;
 }
 
-.goods-box {
-    width: 100%;
-}
-
-/* 한줄에 3개씩 들어가게 */
-.goods {
-    width: 30%;
-}
-
 /* 제목 길면 아래줄로 넘어가기 */
 .card-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.card-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-}
+
 .card-image {
     height: 0;
     padding-bottom: 60%;
+    width: 80% !important;
     background-color: lightgray;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+}
+
+.rel-image {
+	background-color: lightgray;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.rel-box {
+	width: 20%;
 }
 
 .card-desc {
@@ -103,23 +105,7 @@ p {
     padding: 1em;
     background: white;
 }
-@media (min-width: 600px) {
-    .card-list {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -1rem;
-    }
-    .card-item {
-        width: 50%;
-        padding: 0 1rem;
-    }
-}
 
-@media (min-width: 1200px) {
-    .card-item {
-        width: 33.33333%;
-    }
-}
 /* 카테고리 색 */
 .keywordItem:nth-child(1) {
     background-color: #FBF0B2;

@@ -67,7 +67,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
-        var page = [[${session.page}]];
+        var page = "[[${session.page}]]";
         var cate = [[${session.cate}]];
 
         if (page == 'null') {

@@ -1,7 +1,7 @@
 package com.example.myapp.user;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class MainCon {
 
     @GetMapping("/")
     public String getCate(Model model) {
-    	// 공통코드를 이용한 content의 카테고리 조회
+    	// 공통코드를 이용한 content의 카테고리 조회    	
     	List<String> cateList = commonCodeService.cateList("C03");
     	model.addAttribute("cateList", cateList);
     

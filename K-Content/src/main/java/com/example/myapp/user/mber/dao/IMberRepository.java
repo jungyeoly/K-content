@@ -1,6 +1,7 @@
 package com.example.myapp.user.mber.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +37,6 @@ public interface IMberRepository {
 	boolean isMberEmail(String mberEmail);
 
 	void changeMberStatus(String mberId, String newStatus);
+	
+	 List<Mber> searchMber(@Param("findType") String findType, @Param("findKeyword") String findKeyword);
 }

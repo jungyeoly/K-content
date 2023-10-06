@@ -179,4 +179,35 @@ FROM (
 		]]>
 	</update>
 
+	<select id="searchMber" parameterType="String" resultType="com.example.myapp.user.mber.model.Mber">
+	    <![CDATA[
+	    SELECT
+	        A.mber_id,
+	        A.mber_email,
+	        A.mber_pwd,
+	        A.mber_name,
+	        A.mber_birth,
+	        A.mber_phone,
+	        A.mber_regist_date,
+	        A.mber_update_date,
+	        B1.common_code_dscr AS mber_gender_code,
+	        B2.common_code_dscr AS mber_stat,
+	        B3.common_code_dscr AS mber_role
+	    FROM tb_mber A
+	    JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
+	    JOIN tb_common_code B2 ON A.mber_stat_code = B2.common_code
+	    JOIN tb_common_code B3 ON A.mber_role_code = B3.common_code
+	    WHERE 
+	        (
+	            (#{findType} IS NULL) OR
+	            (
+	                (#{findType} = '1' AND INSTR(A.mber_name, #{findKeyword}) > 0) OR
+	                (#{findType} = '2' AND INSTR(A.mber_id, #{findKeyword}) > 0) OR
+	                (#{findType} = '3' AND INSTR(A.mber_email, #{findKeyword}) > 0) OR
+	                (#{findType} = '4' AND INSTR(A.mber_phone, #{findKeyword}) > 0)
+	            )
+	        )
+	    ORDER BY mber_role, A.mber_regist_date DESC, A.mber_id
+	    ]]>
+	</select>
 </mapper>

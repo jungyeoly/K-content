@@ -1,6 +1,8 @@
 package com.example.myapp.user.mber.service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,8 @@ public class MberService implements IMberService {
 
 	@Override
 	public List<Mber> selectMberList(int page) {
-		int start = (page-1)*10 + 1;
-		return mberRepository.selectMberList(start, start+9);
+		int start = (page - 1) * 10 + 1;
+		return mberRepository.selectMberList(start, start + 9);
 	}
 
 	@Override
@@ -80,9 +82,14 @@ public class MberService implements IMberService {
 	public boolean isMberEmail(String mberEmail) {
 		return mberRepository.isMberEmail(mberEmail);
 	}
-	
+
 	@Override
-	 public void changeMberStatus(String mberId, String newStatus) {
+	public void changeMberStatus(String mberId, String newStatus) {
 		mberRepository.changeMberStatus(mberId, newStatus);
+	}
+
+	@Override
+	public List<Mber> searchMber(String findType, String findKeyword) {
+		return mberRepository.searchMber(findType, findKeyword);
 	}
 }

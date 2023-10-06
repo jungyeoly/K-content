@@ -33,7 +33,7 @@
 						</div>
 						<div class="col-md-2">
 							<button type="button" tabindex="-1"
-								class="btn delete1 form-control" id="delete-btn">확인</button>
+								class="btn delete form-control" id="delete-btn">확인</button>
 						</div>
 					</div>
 					<div class="row mb-5 justify-content-center">
@@ -84,7 +84,7 @@
 			                    icon: 'warning',
 			                    showCancelButton: true,
 			                    confirmButtonText: '계정 탈퇴',
-			                    confirmButtonColor: '#14dbc8',
+			                    confirmButtonColor: '#e66767',
 			                    cancelButtonText: '탈퇴 취소',
 			                    reverseButtons: true
 			                }).then((result) => {
@@ -118,7 +118,8 @@
 			                Swal.fire({
 			                    title: '비밀번호가 일치하지 않습니다.',
 			                    icon: 'error',
-			                    confirmButtonText: '확인'
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
 			                });
 			            }
 			        },

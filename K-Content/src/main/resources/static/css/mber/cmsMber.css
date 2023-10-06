@@ -1,0 +1,63 @@
+.mber-table .badge {
+	color: white;
+	padding: 10px;
+	font-weight: normal;
+}
+
+.table-layout table th, .table-layout table td {
+	border: none;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.table>:not(caption)>*>* {
+	background-color: unset;
+}
+
+button .fa-magnifying-glass {
+	color: white;
+}
+
+#search-btn {
+	height: auto;
+	background-color: #14dbc8;
+}
+
+.mber-table td .btn {
+	height: 20px;
+	border: 1px solid #14dbc8;
+	padding: 16px 12px;
+}
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+.page-item:first-child .page-link {
+    border-top-left-radius: 0.375 rem;
+    border-bottom-left-radius: 0.375 rem;
+}
+
+.page-link.active {
+	background-color: #f1f1f1;
+	color: #000;
+	border-color: #ccc;
+	font-weight: bold;
+	z-index: 1;
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}

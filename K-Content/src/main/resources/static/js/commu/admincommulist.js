@@ -87,7 +87,7 @@ function loadPage(page) {
         page = 1;
     }
   
-    let requestURL = `/commu/ajax/${page}`;
+    let requestURL = `/cms/commu/ajax/${page}`;
 
     loading = true; // 페이지 로딩 중 플래그 설정
     $.ajax({
@@ -97,6 +97,9 @@ function loadPage(page) {
         cache: false,
         success: function(response) {
             updatePostList(response.commulist);
+
+			console.log("test: " + response.commulist[0]);
+
             updatePagination(response.nowPage, response.totalPageCount);
             currentPage = page;
         },
@@ -159,7 +162,7 @@ function loadPage(page) {
 		}
 
 		$.ajax({
-			url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
+			url: `/cms/commu/commucatecode/${commuCateCode}?page=${page}`,
 			type: 'GET',
 			dataType: 'json',
 			success: function(response) {
@@ -202,7 +205,7 @@ function loadPage(page) {
                 <tr class="commu-row" data-commu-id="${commu.commuId}">
                     <td>${commu.commuId}</td>
                     <td>${commu.commonCodeVal}</td>
-                    <td><a href="/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
+                    <td><a href="/cms/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
                     <td>${commu.commuMberId}</td>
                     <td>${commu.commuReadCnt}</td>
                     <td>${commu.commuRegistDate}</td>

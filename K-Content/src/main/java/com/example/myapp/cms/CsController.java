@@ -14,7 +14,6 @@ import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.service.ICommuService;
 
 
-import com.example.myapp.cms.commu.service.ICmsCommuService;
 import com.example.myapp.cms.inqry.model.CmsInqry;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 
@@ -36,7 +35,7 @@ public class CsController {
 	}
 
 
-	@GetMapping("/cs/recent-notice")
+	@GetMapping("/recent-notice")
 	@ResponseBody
 	public List<Commu> commuList() {
 		List<Commu> commu = commuService.selectRecentNotice();

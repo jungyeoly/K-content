@@ -1,44 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
 
 <body>
-<header th:fragment="userNavBar">
-	<div class="d-flex px-5 my-3">
-		<div class="logo d-flex justify-content-center">
-			<a th:href="@{/}"> <img src="/img/mainLogo.png" alt="브랜드 로고">
-			</a>
-		</div>
-
-		<div class="w-100 d-flex justify-content-between">
-			<div class="navMain">
-				<ul class="contents">
-					<li id="main" class="content">
-						<a class="iconLInk" th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a>
-						<a class="textLInk" th:href="@{/}">K-콘텐츠</a>
-					</li>
-
-					<li id="comm" class="content">
-						<a class="iconLInk" th:href="@{/commu/1}"><i class="fa-regular fa-comments"></i></a>
-						<a class="textLInk" th:href="@{/commu/1}">커뮤니티 센터</a>
-					</li>
-				</ul>
+	<header th:fragment="userNavBar">
+		<div class="d-flex px-5 my-3">
+			<div class="logo d-flex justify-content-center">
+				<a th:href="@{/}"> <img src="/img/mainLogo.png" alt="브랜드 로고">
+				</a>
 			</div>
 
 			<div class="w-100 d-flex justify-content-between">
 				<div class="navMain">
 					<ul class="contents">
-						<li id="main" class="content"><a class="iconLInk"
-							th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a> <a
-							class="textLInk" th:href="@{/}">K-콘텐츠</a></li>
+						<li id="main" class="content">
+							<a class="iconLInk" th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a> 
+							<a class="textLInk" th:href="@{/}">K-콘텐츠</a>
+						</li>
 
-						<li id="comm" class="content"><a class="iconLInk"
-							th:href="@{/commu/1}"><i class="fa-regular fa-comments"></i></a>
-							<a class="textLInk" th:href="@{/commu/1}">커뮤니티 센터</a></li>
+						<li id="comm" class="content">
+							<a class="iconLInk"	th:href="@{/commu/1}"><i class="fa-regular fa-comments"></i></a>
+							<a class="textLInk" th:href="@{/commu/1}">커뮤니티 센터</a>
+						</li>
 					</ul>
 				</div>
+
 
 				<div class="searchDiv">
 					<form id="searchForm" class="input-group">
@@ -73,70 +61,36 @@
 					</ul>
 
 					<div class="dropdown">
-						<button class="btn btn-secondary dropdown-toggle" type="button"	data-bs-toggle="dropdown" aria-expanded="false">메뉴</button>
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">메뉴</button>
 						<ul class="dropdown-menu">
-							<li class="myPage m-3" sec:authorize="isAuthenticated()">
-								<a class="dropdown-item infoText" th:href="@{/mber/verifypwd}">내 정보</a>
+							<li class="myPage m-3" sec:authorize="isAuthenticated()"><a
+								class="dropdown-item infoText" th:href="@{/mber/verifypwd}">내
+									정보</a></li>
+							<li class="myLike m-3" sec:authorize="isAuthenticated()"><a
+								class="dropdown-item infoText" th:href="@{/bkmk}">좋아요</a></li>
+							<li class="singup m-3" sec:authorize="isAnonymous()"><a
+								class="dropdown-item infoText" th:href="@{mber/signup}">회원가입</a>
 							</li>
-							<li class="myLike m-3" sec:authorize="isAuthenticated()">
-								<a class="dropdown-item infoText" th:href="@{/bkmk}">좋아요</a>
+							<li class="login m-3" sec:authorize="isAnonymous()"><a
+								class="dropdown-item infoText" th:href="@{/mber/signin}">로그인</a>
 							</li>
-							<li class="singup m-3" sec:authorize="isAnonymous()">
-								<a class="dropdown-item infoText" th:href="@{mber/signup}">회원가입</a>
+							<li class="logout m-3" sec:authorize="isAuthenticated()"><a
+								class="dropdown-item infoText" th:href="@{/mber/signout}">로그아웃</a>
 							</li>
-							<li class="login m-3" sec:authorize="isAnonymous()">
-								<a class="dropdown-item infoText" th:href="@{/mber/signin}">로그인</a>
-							</li>
-							<li class="logout m-3" sec:authorize="isAuthenticated()">
-								<a class="dropdown-item infoText" th:href="@{/mber/signout}">로그아웃</a>
-							</li>
-							<li class="m-3" sec:authorize="hasRole('ADMIN')">
-								<a class="dropdown-item infoText" th:href="@{/cs/}">관리자 페이지</a>
-							</li>
+							<li class="m-3" sec:authorize="hasRole('ADMIN')"><a
+								class="dropdown-item infoText" th:href="@{/cs/}">관리자 페이지</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 
-			<div class="infoDiv">
-				<ul class="d-flex justify-content-end info">
-					<li class="myPage m-3" sec:authorize="isAuthenticated()">
-						<i class="fa-solid fa-user"></i>
-						<a class="infoText" th:href="@{/mber/verifypwd}">내 정보</a>
-					</li>
-					<li class="myLike m-3" sec:authorize="isAuthenticated()">
-						<i class="fa-solid fa-heart"></i>
-						<a class="infoText" th:href="@{/bkmk}">좋아요</a>
-					</li>
-					<li class="singup m-3" sec:authorize="isAnonymous()">
-						<i class="fa-solid fa-user-plus"></i>
-						<a class="infoText" th:href="@{mber/signup}">회원가입</a>
-					</li>
-					<li class="login m-3" sec:authorize="isAnonymous()">
-						<i class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i>
-						<a class="infoText" th:href="@{/mber/signin}">로그인</a>
-					</li>
-					<li class="logout m-3" sec:authorize="isAuthenticated()">
-						<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>
-						<a class="infoText" th:href="@{/mber/signout}">로그아웃</a>
-					</li>
-					<li class="m-3" sec:authorize="hasRole('ADMIN')">
-						<i class="fa-solid fa-gear"></i>
-						<a class="infoText" th:href="@{/cs/test/}">관리자 페이지</a>
-					</li>
-				</ul>
-			</div>
 		</div>
 
 		<hr class="mb-5 text-main"
 			style="opacity: 1; height: 3px; background: var(- -color-main);">
 
-
-	</div>
-
-	<hr class="mb-5 text-main" style="opacity: 1; height: 3px; background: var(--color-main);" >
-
-</header>
+	</header>
 </body>
 
 </html>

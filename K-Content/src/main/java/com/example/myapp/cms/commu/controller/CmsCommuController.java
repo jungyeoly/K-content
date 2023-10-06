@@ -112,7 +112,39 @@ public class CmsCommuController {
 
 		session.setAttribute("nowPage", page);
 
-		return "cms/commu/list";
+		return "/cms/commu/list";
+	}
+
+	@GetMapping("/commu/ajax/{page}")
+	public ResponseEntity<Map<String, Object>> loadadminPosts(@PathVariable int page) {
+		List<Commu> commulist = commuService.selectAllPost(page);
+		System.out.println(commulist);
+
+		int commuCount = commuService.totalCommu();
+		int totalPage = 0;
+		if (commuCount > 0) {
+			totalPage = (int) Math.ceil(commuCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("commulist", commulist);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
+
+		return ResponseEntity.ok(response);
 	}
 
 	// 커뮤니티 게시글 제목 누르면 상세보기
@@ -137,7 +169,7 @@ public class CmsCommuController {
 		}
 		model.addAttribute("comments", commentsWithReplies);
 
-		return "cms/commu/view";
+		return "/cms/commu/view";
 	}
 
 	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기

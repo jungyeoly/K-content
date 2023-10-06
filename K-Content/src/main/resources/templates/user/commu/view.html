@@ -12,7 +12,7 @@
 
 	<div class="container mb-3">
 		<div class="commu-no menu fw-bold">
-			<span th:each="code : ${commuCateCodeList}"
+			<span th:each="code : ${commuCateCodeList}"  
 				th:if="${code.commonCode} == ${commu.commuCateCode}"
 				th:text="${code.commonCodeVal}">카테고리명</span>
 		</div>
@@ -77,15 +77,18 @@
 				<form
 					th:if="${#authentication.principal.username} != ${commu.commuMberId}"
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
-					method="post">
-					<button type="button" class="btn report"
+					method="post">  
+					<button type="button" class="btn report" th:if="${commonCodeVal != '공지사항'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
 			</div>
 		</div>
 		<!-- 댓글 리스트 영역 시작 -->
 		<div class="comment-list-section">
-			<h3>댓글 <span th:text="${comments != null ? comments.size() + '개' : '0개'}"></span></h3>
+			<h3>
+				댓글 <span
+					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
+			</h3>
 
 			<!-- 댓글 및 답글 출력 -->
 			<div th:each="commucomment : ${comments}"
@@ -97,9 +100,8 @@
 
 		<!-- Comment Fragment -->
 		<th:block th:fragment="commentFragment(comment)">
-		
+
 			<div th:if="${comment != null}" class="single-comment"
-				th:style="'margin-left:' + (${comment.commuCommentDepth} * 20) + 'px'"
 				th:data-id="${comment.commuCommentId}">
 
 				<strong th:text="${comment.commuCommentMberId}">UserName</strong>
@@ -110,15 +112,26 @@
 				<div class="comment-date"
 					th:text="${comment.commuCommentRegistDate}">Date</div>
 				<div class="comment-buttons">
-				      <button class="view-replies-btn">답글(<span class="reply-count">0개</span>)</button>
 					<button class="reply-to-comment">답글</button>
 					<div
 						th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
-						<button class="update-comment"
+						<button class="update-comment"  value!="[공지사항]"
 							th:data-id="${comment.commuCommentId}">수정</button>
-						<button class="delete-comment"
+						<button class="delete-comment"   value!="[공지사항]"
 							th:data-id="${comment.commuCommentId}">삭제</button>
 					</div>
+					<button class="view-replies-btn">
+						답글(<span class="reply-count"
+							th:text="${comment.replies != null ? comment.replies.size() + '개' : '0개'}"></span>)
+					</button>
+					<!-- 재귀적으로 답글 출력 -->
+					<div class="replies">
+						<th:block th:each="reply : ${comment.replies}">
+							<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
+						</th:block>
+					</div>
+
+
 				</div>
 				<div class="replyForm" th:data-id="${comment.commuCommentId}">
 					<form>
@@ -129,12 +142,7 @@
 						<button type="button" class="post-reply">등록</button>
 					</form>
 				</div>
-				<!-- 재귀적으로 답글 출력 -->
-				<div class="replies">
-					<th:block th:each="reply : ${comment.replies}">
-						<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
-					</th:block>
-				</div>
+
 			</div>
 		</th:block>
 
@@ -149,14 +157,14 @@
 						th:value="${commu.commuId}">
 					<textarea name="commuCommentCntnt" rows="4"
 						placeholder="댓글을 입력하세요."></textarea>
-					<button type="button"  id="submitComment">등록</button>
+					<button type="button" id="submitComment">등록</button>
 				</form>
 			</div>
 		</div>
 
 		<div th:unless="${#authentication.principal}">
 			<p>
-				댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
+				댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
 			</p>
 		</div>
 

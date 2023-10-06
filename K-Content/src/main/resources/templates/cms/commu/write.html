@@ -3,34 +3,30 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <meta charset="UTF-8">
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
-<link rel="stylesheet" href="/css/commu-nav.css">
 </head>
 <body>
-
-	<div th:replace="~{/include/header :: header}"></div>
-	<header th:replace="~{include/body-header :: userNavBar}"></header>
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	
-	<div th:replace="~{/include/community-center :: commu-nav}"></div>
-
 	<div class="container">
 		<div class="menu fw-bold">커뮤니티 글쓰기</div>
-		<form th:action="@{/commu/write/${commu.commuCateCode}}" method="post"
+		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}" method="post"
 			enctype="multipart/form-data" onsubmit="return validateForm()">
 
 			<ul class=tb-lst>
 				<li class="tit-row">
+					<div class="commu-label">
+						<label for="category">카테고리 <span class="required">*</span></label>
+					</div>
 					<div class="commu-category">
 						<select id="category" name="commuCateCode">
 							<option value="">카테고리를 선택해주세요.</option>
-							<option th:each="code : ${commuCateCodeList}"
-								th:if="${code != null}" th:value="${code.commonCode}"
-								th:text="${code.commonCodeVal}"
-								th:selected="${code.commonCodeVal == 'NOTICE'}">카테고리명</option>
+							<option th:each="commonCodeVal : ${commonCodeVal}"
+								th:if="${commonCodeVal != null}" th:value="${commonCodeVal.commonCode}"
+								th:text="${commonCodeVal.commonCodeVal}">카테고리명</option>
 						</select>
 					</div>
-
-
 
 				</li>
 
@@ -72,10 +68,9 @@
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
-					sec:authorize="isAuthenticated()"> <input type="reset"
-					class="btn me-2 cancel-btn" data-action="cancel" value="취소">
-				<input type="submit" class="btn commuBtn" data-action="confirm"
-					value="등록">
+					sec:authorize="isAuthenticated()">
+				<input type="reset" class="btn me-2 cancel-btn" data-action="cancel" value="취소">
+				<input type="submit" class="btn commuBtn"  data-action="confirm" value="등록">
 			</div>
 		</form>
 	</div>

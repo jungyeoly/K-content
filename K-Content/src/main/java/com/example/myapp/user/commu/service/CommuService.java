@@ -183,5 +183,10 @@ public class CommuService implements ICommuService {
 		return commuRepository.selectTotalPostCountByKeyWord("%"+keyword+"%");
 	}
 
+	@Override
+	public List<Commu> selectRecentNotice() {
+		return commuRepository.selectRecentNotice();
+	}
+
 
 }

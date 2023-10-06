@@ -96,22 +96,28 @@ public class CommuCommentController {
 
 	@GetMapping("/commu/comment/{commuCommentId}")
 	public ResponseEntity<Map<String, Object>> getCommuCommentWithReplies(@PathVariable int commuCommentId) {
-		Map<String, Object> response = new HashMap<>();
-		logger.info("Received request to get a comment with replies for ID: " + commuCommentId);
+	    Map<String, Object> response = new HashMap<>();
+	    System.out.println("Started: getCommuCommentWithReplies"); // <-- 추가
+	    logger.info("Received request to get a comment with replies for ID: " + commuCommentId);
 
-		try {
-			// getCommuCommentWithReplies 메서드를 호출하여 댓글과 대댓글을 함께 조회
-			CommuComment commuCommentWithReplies = commucommentService.getCommuCommentWithReplies(commuCommentId);
+	    try {
+	        System.out.println("Trying to fetch comment with replies for ID: " + commuCommentId); // <-- 추가
+	        // getCommuCommentWithReplies 메서드를 호출하여 댓글과 대댓글을 함께 조회
+	        CommuComment commuCommentWithReplies = commucommentService.getCommuCommentWithReplies(commuCommentId);
+	        
+	        System.out.println("Successfully fetched comment with replies for ID: " + commuCommentId); // <-- 추가
 
-			response.put("status", "success");
-			response.put("message", "댓글 및 대댓글 조회 성공.");
-			response.put("commuCommentWithReplies", commuCommentWithReplies);
-			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-			logger.error("Error during getting a comment with replies:", e);
-			response.put("status", "error");
-			response.put("message", "댓글 및 대댓글 조회 중 오류가 발생하였습니다.");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-		}
+	        response.put("status", "success");
+	        response.put("message", "댓글 및 대댓글 조회 성공.");
+	        response.put("commuCommentWithReplies", commuCommentWithReplies);
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        System.out.println("Error while fetching comment with replies for ID: " + commuCommentId); // <-- 추가
+	        logger.error("Error during getting a comment with replies:", e);
+	        response.put("status", "error");
+	        response.put("message", "댓글 및 대댓글 조회 중 오류가 발생하였습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	    }
 	}
+
 }

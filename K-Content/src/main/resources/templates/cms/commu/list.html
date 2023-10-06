@@ -9,9 +9,8 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-<div class="page"></div>
-<div class="container">
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<div class="container">
 		<div class="menu fw-bold">커뮤니티</div>
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
@@ -25,15 +24,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${cmscommulist}" class="commu-row"
+				<tr th:each="commu : ${commulist}" class="commu-row"
 					th:attr="data-commu-id=${commu.commuId}">
-
 					<td th:text="${commu.commuId}"></td>
-					<td>[[${commu.commonCodeVal}]]
-					</td>
+					<td
+						th:if="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
+						NOTICE</td>
+					<td
+						th:unless="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
+						[[${commu.commonCodeVal}]]</td>
 
-
-					<td><a th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
+					<td><a
+						th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
@@ -42,7 +44,7 @@
 			</tbody>
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
-			th:href="@{/commu/write}">글쓰기</a>
+			th:href="@{/cms/commu/write}">글쓰기</a>
 		<nav aria-label="Page navigation"
 			class="d-flex justify-content-center">
 			<ul class="pagination">
@@ -72,5 +74,5 @@
 
 
 </body>
-<script th:src="@{/js/commu/admincommulist.js}"></script>
+<script th:src="@{/js/commu/commulist.js}"></script>
 </html>

@@ -20,5 +20,7 @@ public interface ICommonCodeRepository {
 
 	String mberGenderByCode(String mberId);
 	CommonCode findByCommonCode(String commonCode);
+	
+	List<CommonCode> findByCommonCodeVal(String CommonCodeVal);
 
 }

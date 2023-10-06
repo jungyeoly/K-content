@@ -75,7 +75,44 @@ function createGoods() {
         }
     });
 }
+// 굿즈 생성, 컨텐츠 생성에서
+function createGoodsInCntnt(){
+    var keywordDivList = [];
+    var keywordDiv = document.getElementById("keywordList");
+    var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
+    for (i = 0; i < keywordDivCount.length; i++) {
+        var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
+        keywordDivList.push(trimmedStr);
+    }
+    const fileInput = document.getElementById('input-file');
+    const selectedFile = fileInput.files[0];
+    console.log(file);
+    fileInput.setAttribute(file[0],file[1])
 
+    var formData = new FormData();
+    formData.append("goodsTitle", $("#name").val());
+    formData.append("goodsBrand", $("#brand").val());
+    formData.append("goodsURL", $("#link").val());
+    formData.append("goodsPrice", $("#price").val());
+    formData.append("keywordList", keywordDivList);
+    formData.append("goodsFile", selectedFile);
+
+    $.ajax({
+        url: '/cs/test/goods',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function () {
+            alert("상품이 등록되었습니다!");
+            location.href = '/cs/test/goods/cntnt'; //이걸 으데로 이동시켜야?
+
+
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
+}
 // 키워드 삭제
 function delKeyword(key) {
     const div = document.getElementById(key);
@@ -95,8 +132,8 @@ function makeKeyword() {
                         >
                      ${word}
                 </button>
-                <button style="z-index: 10; position: sticky !important;"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                <button style="z-index: 10; "
+                        class="position-absolute translate-middle badge rounded-pill bg-danger"
                             key="${word}"
                         onclick="delKeyword(this.getAttribute('key'))">X
                 </button>

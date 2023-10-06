@@ -113,7 +113,11 @@ public class goodsTestController {
 
         return "cms/goods/new-make-goods-in-nav";
     }
+    @GetMapping("/cntnt/form")
+    public String getMakeGoodsFormInMakeCntnt() {
 
+        return "cms/goods/new-make-goods-in-cntnt-make-form";
+    }
     // 상품 생성
     @PostMapping("")
     public ResponseEntity<String> createGoods(@RequestParam("goodsTitle") String goodsTitle,

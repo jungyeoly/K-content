@@ -122,9 +122,9 @@ function deleteCntnt() {
             }, // 데이터 객체 전달
             success: function (data2) {
                 if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/test/content-manage");
+                    window.location.replace("/cs/test");
                 } else {
-                    window.location.replace("/cs/test/content-manage");
+                    window.location.replace("/cs/test");
                 }
             }, error: function (error) {
                 console.error('에러 발생: ', error);

@@ -120,7 +120,7 @@ table {
 	height: 40px;
 }
 
-.dropdown {
+.commuDropdown {
 	position: relative;
 	display: inline-block;
 }
@@ -143,4 +143,4 @@ table {
 
 .dropdown-content div:hover {background-color: #ddd;}
 
-.dropdown:hover .dropdown-content {display: block;}
+.commuDropdown:hover .dropdown-content {display: block;}

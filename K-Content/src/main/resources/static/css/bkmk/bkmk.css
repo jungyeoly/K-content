@@ -44,9 +44,27 @@ ul.tab li.on{
 }
 
 .card{
-	width: 30%;
+	width: 285px;
 }
 
 .card img{
 	height: 200px;
+}
+
+@media screen and (max-width: 1370px) {
+  .card {
+  	width: 240px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .card {
+  	width: 300px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+  	width: 100%;
+  }
 }

@@ -34,7 +34,7 @@
 						th:unless="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
 						[[${commu.commonCodeVal}]]</td>
 
-					<td id="adminUrl"><a
+					<td><a
 						th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
@@ -74,5 +74,5 @@
 
 
 </body>
- <script th:src="@{/js/commu/admincommulist.js}"></script> 
+<script th:src="@{/js/commu/admincommulist.js}"></script>
 </html>

@@ -1,10 +1,7 @@
 package com.example.myapp.cms.commu.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,9 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -23,12 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -178,7 +167,6 @@ public class CmsCommuController {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
 		model.addAttribute("CodeVal", CodeVal);
-		System.out.println(commonCodeService.findByCommonCodeVal("NOTICE"));
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		Commu commu = commuService.selectPost(commuId);
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
@@ -189,76 +177,6 @@ public class CmsCommuController {
 		logger.info("getCommuDetails" + commu.toString());
 
 		return "cms/commu/view";
-	}
-
-	// 게시글에 있는 첨부파일 단일 다운로드
-	@GetMapping("/download/{commuFileId}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String commuFileId) {
-		try {
-			CommuFile commuFile = commuService.getFile(commuFileId);
-
-			// 파일이 DB에 존재하지 않는 경우
-			if (commuFile == null) {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body(new ByteArrayResource("지정된 파일이 데이터베이스에 존재하지 않습니다.".getBytes()));
-			}
-
-			// 파일의 저장 경로에서 파일 데이터를 읽습니다.
-			Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
-			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-
-			// 파일 이름 인코딩
-			String originalName = commuFile.getCommuFileName();
-			String encodedFileName = URLEncoder.encode(originalName, StandardCharsets.UTF_8);
-
-			return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
-					.body(resource);
-		} catch (IOException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes()));
-		}
-	}
-
-	// 게시글 첨부파일 zip으로 한번에 다운받기
-	@GetMapping("/download-all-images/{commuId}")
-	public ResponseEntity<Resource> downloadAllImages(@PathVariable int commuId) {
-		try {
-			List<CommuFile> commuFiles = commuService.getAllFilesByCommuId(commuId);
-
-			// 파일이 하나도 없다면 적절한 응답을 반환
-			if (commuFiles.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body(new ByteArrayResource("첨부된 파일이 없습니다.".getBytes(StandardCharsets.UTF_8)));
-			}
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			try (ZipOutputStream zos = new ZipOutputStream(baos, StandardCharsets.UTF_8)) {
-				for (CommuFile commuFile : commuFiles) {
-					Path filePath = Paths.get(uploadPath + commuFile.getCommuFilePath());
-					if (!Files.exists(filePath))
-						continue; // 파일이 존재하지 않으면 다음 파일로 넘어갑니다.
-
-					ZipEntry entry = new ZipEntry(commuFile.getCommuFileName());
-					zos.putNextEntry(entry);
-					byte[] bytes = Files.readAllBytes(filePath);
-					zos.write(bytes, 0, bytes.length);
-					zos.closeEntry();
-				}
-			}
-
-			byte[] zipBytes = baos.toByteArray();
-			ByteArrayResource resource = new ByteArrayResource(zipBytes);
-
-			String encodedFileName = URLEncoder.encode("all-images.zip", StandardCharsets.UTF_8);
-
-			return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
-					.body(resource);
-		} catch (IOException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new ByteArrayResource("파일을 읽는 동안 오류가 발생했습니다.".getBytes(StandardCharsets.UTF_8)));
-		}
 	}
 
 	// 카테고리별 커뮤니티 글쓰기
@@ -353,17 +271,18 @@ public class CmsCommuController {
 
 	}
 
-	// 게시글 수정하기(기존 게시글 정보 가져오기)
+	// 공지사항 게시글 수정하기(기존 게시글 정보 가져오기)
 
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
 		Commu commu = commuService.selectPost(commuId);
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-
+		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
+		model.addAttribute("CodeVal", CodeVal);
 		model.addAttribute("commu", commu);
-		model.addAttribute("commuFiles", commuFiles);
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
+		model.addAttribute("commuFiles", commuFiles);
 		logger.info("Editing Commu: " + commu.toString());
 
 		return "cms/commu/update";
@@ -374,6 +293,7 @@ public class CmsCommuController {
 	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
 			RedirectAttributes redirectAttrs) {
+		logger.info("updatePostAndFiles method started.");
 
 		// 게시물 정보 로깅
 		logger.info("/cms/commu/update : " + commu.toString());
@@ -438,6 +358,7 @@ public class CmsCommuController {
 		} catch (Exception e) {
 			logger.error("Error during update:", e);
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
+			logger.info("updatePostAndFiles method completed.");
 			return "redirect:/cms/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정
 																										// 페이지로
 			// 리다이렉트
@@ -464,7 +385,7 @@ public class CmsCommuController {
 			commuService.deletePost(commuId);
 
 			redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일이 성공적으로 삭제되었습니다.");
-			return "redirect:/cms/commu/1"; // 게시글 목록 페이지로 리다이렉트
+			return "redirect:/cms/commu/1?commonCodeVal=All"; // 게시글 목록 페이지로 리다이렉트
 
 		} catch (Exception e) {
 			logger.error("Error during deletion:", e);

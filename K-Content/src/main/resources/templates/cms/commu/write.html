@@ -8,9 +8,9 @@
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	
+
 	<div class="container">
-		<div class="menu fw-bold">커뮤니티 글쓰기</div>
+		<div class="menu fw-bold">공지사항 글쓰기</div>
 		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}" method="post"
 			enctype="multipart/form-data" onsubmit="return validateForm()">
 
@@ -21,12 +21,14 @@
 					</div>
 					<div class="commu-category">
 						<select id="category" name="commuCateCode">
-							<option value="">카테고리를 선택해주세요.</option>
 							<option th:each="commonCodeVal : ${commonCodeVal}"
-								th:if="${commonCodeVal != null}" th:value="${commonCodeVal.commonCode}"
-								th:text="${commonCodeVal.commonCodeVal}">카테고리명</option>
+								th:if="${commonCodeVal != null}"
+								th:value="${commonCodeVal.commonCode}"
+								th:text="${commonCodeVal.commonCodeVal}"
+								th:selected="${commonCodeVal.commonCodeVal == 'NOTICE'}">카테고리명</option>
 						</select>
 					</div>
+
 
 				</li>
 
@@ -68,9 +70,10 @@
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
-					sec:authorize="isAuthenticated()">
-				<input type="reset" class="btn me-2 cancel-btn" data-action="cancel" value="취소">
-				<input type="submit" class="btn commuBtn"  data-action="confirm" value="등록">
+					sec:authorize="isAuthenticated()"> <input type="reset"
+					class="btn me-2 cancel-btn" data-action="cancel" value="취소">
+				<input type="submit" class="btn commuBtn" data-action="confirm"
+					value="등록">
 			</div>
 		</form>
 	</div>

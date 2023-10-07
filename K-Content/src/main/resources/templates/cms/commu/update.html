@@ -9,78 +9,92 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div class="admin-container">
-	<div class="admin-menu fw-bold" id="admin-commuId">공지사항([[${cmsCommu.commuId}]])</div>
-	<form
-		th:action="@{/cms/commu/update/{commuCateCode}/{commuId}(commuCateCode=${cmsCommu.commuCateCode}, commuId=${cmsCommu.commuId})}"
-		method="post" enctype="multipart/form-data"
-		onsubmit="return validateForm()">
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<div class="container">
+		<div class="menu fw-bold" id="commuId">공지사항([[${commu.commuId}]])</div>
+		<form
+			th:action="@{/cms/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+			method="post" enctype="multipart/form-data"
+			onsubmit="return validateForm()">
 
-		<ul class="admin-tb-lst">
-			<li class="admin-tit-row">
-				<div class="admin-commu-label">
-					<label for="admin-admintitle">제목</label>
-				</div>
-				<div class="admin-commu-title">
-					<input type="text" id="admin-admintitle" name="commuTitle"  value="[공지사항]"
-						th:value="${cmsCommu.commuTitle}" placeholder="제목을 입력하세요.">
-				</div>
-			</li>
+			<ul class=tb-lst>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="title">제목</label>
+					</div>
+					<div class="commu-title">
+						<input type="text" id="title" name="commuTitle"
+							th:value="${commu.commuTitle}" placeholder="제목을 입력하세요.">
+					</div>
+				</li>
 
-			<li class="admin-tit-row">
-				<div class="admin-commu-label">
-					<label for="admin-cntnt">내용</label>
-				</div>
-				<div class="admin-commu-cntnt">
-					<textarea id="admin-cntnt" name="commuCntnt"
-						th:text="${cmsCommu.commuCntnt}"></textarea>
-				</div>
-			</li>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="category">카테고리</label>
+					</div>
+				<div class="commu-category">
+						<select id="category" name="commuCateCode">
+							<option th:each="code : ${CodeVal}"
+								th:if="${code != null}" th:value="${code.commonCode}"
+								th:text="${code.commonCodeVal}"
+								th:selected="${code.commonCodeVal == 'NOTICE'}">카테고리명</option>
+						</select>
+					</div>
 
-			<li class="admin-tit-row">
-				<div class="admin-commu-label">
-					<label for="admin-attachment">첨부파일</label>
-				</div>
+				</li>
 
-				<div class="admin-commu-File">
-					<input type="file" id="admin-attachment" name="CmsCommuUploadFiles"
-						multiple onchange="appendFileList()" style="display: none;">
-					<button id="admin-fileSelectButton"
-						onclick="document.getElementById('admin-attachment').click();">파일
-						선택</button>
-					<!-- 기존 첨부파일 목록 -->
-					<ul>
-						<li data-type="existing" th:each="file : ${cmsCommuFiles}"><span
-							th:text="${file.commuFileName}"></span>
-							<button th:data-filename="${file.commuFileName}"
-								th:data-fileId="${file.commuFileId}"
-								onclick="removeFileFromDisplayList(event, this)">삭제</button></li>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="cntnt">내용</label>
+					</div>
+					<div class="commu-cntnt">
+						<textarea id="cntnt" name="commuCntnt"
+							th:text="${commu.commuCntnt}"></textarea>
+					</div>
+				</li>
 
-					</ul>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="attachment">첨부파일</label>
 
-					<!-- 새로 추가할 파일들의 목록 -->
-					<ul id="admin-fileList"></ul>
-				</div>
-		</ul>
+					</div>
 
-		<div class="d-flex admin-justify-content-center">
-			<input type="hidden" name="commuMberId"
-				th:value="${#authentication.principal.username}"
-				sec:authorize="isAuthenticated()"> 
-			<a type="reset"
-				class="btn me-2 admin-cancel-btn" th:href="@{/cms/commu/1 (commonCodeVal ='All')}">취소</a> 
-			<input
-				type="submit" class="btn admin-saveBtn" value="저장"> 
-			<input
-				type="hidden" name="filesToDelete" id="admin-filesToDelete">
-		</div>
-	</form>
-</div>
-	
+					<div class="commu-File">
+						<input type="file" id="attachment" name="commuUploadFiles"
+							multiple onchange="appendFileList()" style="display: none;">
+						<button id="fileSelectButton"
+							onclick="document.getElementById('attachment').click();">파일
+							선택</button>
+						<!-- 기존 첨부파일 목록 -->
+						<ul>
+							<li data-type="existing" th:each="file : ${commuFiles}"><span
+								th:text="${file.commuFileName}"></span>
+								<button th:data-filename="${file.commuFileName}"
+									th:data-fileId="${file.commuFileId}"
+									onclick="removeFileFromDisplayList(event, this)">삭제</button></li>
+
+						</ul>
+
+						<!-- 새로 추가할 파일들의 목록 -->
+						<ul id="fileList"></ul>
+					</div>
+			</ul>
+
+
+			<div class="d-flex justify-content-center">
+				<input type="hidden" name="commuMberId"
+					th:value="${#authentication.principal.username}"
+					sec:authorize="isAuthenticated()"> <a type="reset"
+					class="btn me-2 cancel-btn" th:href="@{/cms/commu/1 (commonCodeVal ='All')}">취소</a> 
+					<input	type="submit" class="btn saveBtn" value="저장"> <input
+					type="hidden" name="filesToDelete" id="filesToDelete">
+
+			</div>
+		</form>
+	</div>
 	<div th:insert="~{include/common-modal :: commonmodal}"></div>
 	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
 
-	<script th:src="@{/js/commu/adminupdate.js}"></script>
+	<script th:src="@{/js/commu/update.js}"></script>
 </body>
 </html>

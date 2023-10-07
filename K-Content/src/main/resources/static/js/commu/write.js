@@ -1,26 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
+	const titleInput = document.getElementById('title');
+
+	// 현재 페이지의 경로가 '/cms/commu/write'인지 확인
+	if (window.location.pathname === '/cms/commu/write') {
+		// localStorage에서 제목 값을 가져옵니다.
+		const savedTitle = localStorage.getItem('titleValue');
+
+		// 저장된 제목 값이 있으면 그 값을 사용하고, 없으면 기본값을 사용합니다.
+		titleInput.value = savedTitle ? savedTitle : "[공지]";
+
+		// 입력 필드에서 키를 누를 때마다 이 함수를 호출
+		titleInput.addEventListener('input', function() {
+			// "[공지]" 텍스트가 제목 시작 부분에 없으면 추가
+			if (!this.value.startsWith("[공지]")) {
+				this.value = "[공지] " + this.value;
+			}
+
+			// 사용자가 입력한 값을 localStorage에 저장합니다.
+			localStorage.setItem('titleValue', this.value);
+		});
+	}
+});
+
+document.querySelector('.cancel-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // 취소 버튼의 기본 동작을 막습니다.
+    
     const titleInput = document.getElementById('title');
-
-    // 현재 페이지의 경로가 '/cms/commu/write'인지 확인
-    if (window.location.pathname === '/cms/commu/write') {
-        // localStorage에서 제목 값을 가져옵니다.
-        const savedTitle = localStorage.getItem('titleValue');
-
-        // 저장된 제목 값이 있으면 그 값을 사용하고, 없으면 기본값을 사용합니다.
-        titleInput.value = savedTitle ? savedTitle : "[공지사항]";
-        
-        // 입력 필드에서 키를 누를 때마다 이 함수를 호출
-        titleInput.addEventListener('input', function() {
-            // "[공지사항]" 텍스트가 제목 시작 부분에 없으면 추가
-            if (!this.value.startsWith("[공지사항]")) {
-                this.value = "[공지사항] " + this.value;
-            }
-
-            // 사용자가 입력한 값을 localStorage에 저장합니다.
-            localStorage.setItem('titleValue', this.value);
-        });
+    titleInput.value = "[공지]"; // 제목 필드의 값을 "[공지]"로 설정합니다.
+    
+    // 페이지의 나머지 input 필드의 값을 초기화
+    const formElements = event.target.form.elements;
+    for (let i = 0; i < formElements.length; i++) {
+        if (formElements[i].type === "text" && formElements[i].id !== 'title') {
+            formElements[i].value = ''; // input 필드 값을 초기화
+        }
     }
 });
+
 
 let selectedFiles = [];
 
@@ -57,9 +73,9 @@ function validateForm() {
 	var category = document.getElementById('category').value;
 	var cntnt = document.getElementById('cntnt').value;
 
-    // /cms/commu/write 페이지에서만 [공지사항] 텍스트를 제외하고 제목을 검사
+	// /cms/commu/write 페이지에서만 [공지] 텍스트를 제외하고 제목을 검사
 	if (window.location.pathname === '/cms/commu/write') {
-		title = title.replace("[공지사항]", "").trim();
+		title = title.replace("[공지]", "").trim();
 	}
 
 	if (!category || category.trim() === "") {
@@ -80,12 +96,12 @@ function validateForm() {
 }
 
 document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
-    
-    // validateForm 함수를 호출하고, 결과가 true이면 폼 제출
-    if (validateForm()) {
-        this.submit();
-    }
+	event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+
+	// validateForm 함수를 호출하고, 결과가 true이면 폼 제출
+	if (validateForm()) {
+		this.submit();
+	}
 });
 
 
@@ -94,8 +110,8 @@ function showModal(title, content, callback) {
 	document.querySelector('.modal-body').textContent = content;
 	var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
 
-	
-	
+
+
 
 	const confirmButton = document.querySelector('.modal-footer .btn-confirm');
 	if (confirmButton) {
@@ -117,30 +133,31 @@ function showModal(title, content, callback) {
 
 
 document.getElementById('category').addEventListener('change', function() {
-    let commuCateCode = this.value;
-    let form = document.querySelector('form');
-	  // URL이 '/cms'로 시작하는지 확인
-    if (window.location.pathname.startsWith('/cms')) {
-        form.setAttribute('action', "/cms/commu/write/" + commuCateCode);
-    } else {
-        form.setAttribute('action', "/commu/write/" + commuCateCode);
-    }
+	let commuCateCode = this.value;
+	let form = document.querySelector('form');
+	// URL이 '/cms'로 시작하는지 확인
+	if (window.location.pathname.startsWith('/cms')) {
+		form.setAttribute('action', "/cms/commu/write/" + commuCateCode);
+	} else {
+		form.setAttribute('action', "/commu/write/" + commuCateCode);
+	}
 });
 document.addEventListener('DOMContentLoaded', function() {
-    // 현재 페이지의 경로가 '/cms/commu/write'인지 확인
-    if (window.location.pathname === '/cms/commu/write') {
-        const titleInput = document.getElementById('title');
-        
-        // 페이지 로드 시 제목 필드에 기본값 설정
-        titleInput.value = "[공지사항]";
-        
-        // 입력 필드에서 키를 누를 때마다 이 함수를 호출
-        titleInput.addEventListener('input', function() {
-            // "[공지사항]" 텍스트가 제목 시작 부분에 없으면 추가
-            if (!this.value.startsWith("[공지사항]")) {
-                this.value = "[공지사항] " + this.value;
-            }
-        });
-    }
+	// 현재 페이지의 경로가 '/cms/commu/write'인지 확인
+	if (window.location.pathname === '/cms/commu/write') {
+		const titleInput = document.getElementById('title');
+
+		// 페이지 로드 시 제목 필드에 기본값 설정
+		titleInput.value = "[공지]";
+
+		// 입력 필드에서 키를 누를 때마다 이 함수를 호출
+		titleInput.addEventListener('input', function() {
+			// "[공지]" 텍스트가 제목 시작 부분에 없으면 추가
+			if (!this.value.startsWith("[공지]")) {
+				this.value = "[공지] " + this.value;
+			}
+		});
+	}
 
 });
+

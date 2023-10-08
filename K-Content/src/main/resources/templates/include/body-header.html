@@ -89,7 +89,23 @@
 
 		<hr class="mb-5 text-main"
 			style="opacity: 1; height: 3px; background: var(- -color-main);">
-
+	
+		<script>
+			$("#searchForm").submit(function(event) {
+				event.preventDefault();
+	
+				var keyword = $("#searchInput").val();
+				console.log(keyword);
+				$.ajax({
+					url: "/user/content",
+					type: "POST",
+					data: { keyword : keyword },
+					success: function(data) {
+						location.href = "/?keyword=" + encodeURIComponent(keyword);
+					}
+				})
+			});
+		</script>
 	</header>
 </body>
 

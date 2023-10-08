@@ -1,14 +1,34 @@
 $(document).ready(function() {
-	var cateValue = 'All'; // 초기값 설정
+	// URL에서 쿼리 문자열을 가져옴
+	var queryString = window.location.search;
 	
-	$.ajax({
-		url: "/user/content",
-		type: "GET",
-		success: function(result) {
-			var layout = $(".layout");
-			layout.append(result);
-		}
-	})
+	// 쿼리 문자열에서 특정 매개변수 추출 (예: keyword)
+	var searchParams = new URLSearchParams(queryString);
+	var keyword = searchParams.get("keyword");
+	
+	if (keyword) {
+	    $.ajax({
+			url: "/user/content",
+			type: "POST",
+			data: { keyword : keyword },
+			success: function(data) {
+				let layout = $(".layout");
+				layout.find(".container").remove();
+				layout.append(data);
+			}
+		})
+	} else {
+	    var cateValue = 'All'; // 초기값 설정
+	
+		$.ajax({
+			url: "/user/content",
+			type: "GET",
+			success: function(result) {
+				var layout = $(".layout");
+				layout.append(result);
+			}
+		})
+	}
 	
 	var start = 1;
 	var end = 15;		

@@ -280,19 +280,20 @@ where commu_file_id=#{commuFileId}
     <![CDATA[
     SELECT COUNT(*) 
     FROM tb_commu
-    WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+    WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
+    AND commu_status = 'N'
     ]]>
 	</select>
 
 	<!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
 	<select id="searchListByContentKeyWord" parameterType="hashmap"
 		resultType="com.example.myapp.user.commu.model.Commu">
-    <![CDATA[
+      <![CDATA[
     SELECT
         c.commu_id AS "commuId",
         c.commu_title AS "commuTitle",
         c.commu_cntnt AS "commuCntnt",
-       c.commu_regist_date AS "commuRegistDate",
+        c.commu_regist_date AS "commuRegistDate",
         c.commu_read_cnt AS "commuReadCnt",
         c.commu_cate_code AS "commuCateCode",
         c.commu_mber_id AS "commuMberId",
@@ -309,13 +310,14 @@ where commu_file_id=#{commuFileId}
             commu_mber_id,
             ROW_NUMBER() OVER(ORDER BY commu_id) AS rn
         FROM tb_commu
-        WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+        WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
+        AND commu_status = 'N'
     ) c
     JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
     WHERE c.rn BETWEEN #{start} AND #{end}
     ]]>
 	</select>
-	
+
 	<select id="selectRecentNotice"
 		resultType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[

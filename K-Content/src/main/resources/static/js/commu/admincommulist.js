@@ -24,7 +24,7 @@ searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
 
 function searchPosts(keyword, page) {
     $.ajax({
-        url: `/commu/search/${page}`,
+        url: `/cms/commu/search/${page}`,
         type: 'GET',
         data: {
             keyword: keyword

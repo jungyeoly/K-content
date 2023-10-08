@@ -71,12 +71,13 @@ public class CmsCommuController {
 		for (Commu cmscommu : commulist) {
 			System.out.println(cmscommu.getCommonCodeVal());
 		}
-
+		List<String> cateList = commonCodeService.cateList("C03");
 		model.addAttribute("commulist", commulist);
 		List<CommonCode> maincommonCodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
 		model.addAttribute("maincommonCodeVal", maincommonCodeVal);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
+		model.addAttribute("cateList", cateList);
 		int cmscommuCount = commuService.totalCommu();
 		int totalPage = 0;
 
@@ -133,6 +134,76 @@ public class CmsCommuController {
 		response.put("startPage", startPage);
 		response.put("endPage", endPage);
 
+		return ResponseEntity.ok(response);
+	}
+
+	// 카테고리별 게시글 조회
+	@GetMapping("/commu/commucatecode/{commuCateCode}")
+	public ResponseEntity<Map<String, Object>> getPostsByCategory(@PathVariable String commuCateCode,
+			@RequestParam(required = false) int page, HttpSession session) {
+		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
+		int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
+		int totalPage = 0;
+		if (commuCategoryCount > 0) {
+			totalPage = (int) Math.ceil(commuCategoryCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("posts", posts);
+		response.put("totalPageCount", totalPage);
+		response.put("nowPage", page);
+		response.put("totalPageBlock", totalPageBlock);
+		response.put("nowPageBlock", nowPageBlock);
+		response.put("startPage", startPage);
+		response.put("endPage", endPage);
+
+		return ResponseEntity.ok(response);
+	}
+
+	// 커뮤니티 게시글 검색
+	@GetMapping("/commu/search/{page}")
+	public ResponseEntity<Map<String, Object>> search(@RequestParam(required = false, defaultValue = "") String keyword,
+			@PathVariable int page) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			List<Commu> commuList = commuService.searchListByContentKeyword(keyword, page);
+			System.out.println(commuList);
+			int postsearchCount = commuService.selectTotalPostCountByKeyWord(keyword);
+			int totalPage = 0;
+			if (postsearchCount > 0) {
+				totalPage = (int) Math.ceil(postsearchCount / 10.0);
+			}
+			int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+			int nowPageBlock = (int) Math.ceil(page / 10.0);
+			int startPage = (nowPageBlock - 1) * 10 + 1;
+			int endPage = 0;
+			if (totalPage > nowPageBlock * 10) {
+				endPage = nowPageBlock * 10;
+			} else {
+				endPage = totalPage;
+			}
+
+			response.put("commuList", commuList);
+			response.put("keyword", keyword);
+			response.put("totalPageCount", totalPage);
+			response.put("nowPage", page);
+			response.put("totalPageBlock", totalPageBlock);
+			response.put("nowPageBlock", nowPageBlock);
+			response.put("startPage", startPage);
+			response.put("endPage", endPage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return ResponseEntity.ok(response);
 	}
 

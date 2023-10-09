@@ -115,7 +115,7 @@ public class CommuCommentService implements ICommuCommentService {
 	    parentComment.setReplies(directReplies);
 	}
 	//대댓글 개별 삭제
-	public void deleteSingleCommuComment(int commuCommentId) {
+	public void deleteCommuCommentByCommuCommentId(int commuCommentId) {
 	    commucommentRepository.deleteCommuCommentByCommuCommentId(commuCommentId);
 	}
 

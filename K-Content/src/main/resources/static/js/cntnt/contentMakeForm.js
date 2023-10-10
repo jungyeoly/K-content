@@ -87,12 +87,11 @@ function selectGoods(receivedData) {
         type: 'GET',
         data: requestData,
         success: function (data) {
-            console.log("data: goodsData  " + data)
             const element = document.getElementById('goodsList');
 
             for (var i = 0; i < data.length; i++) {
                 goodsID = data[i].goodsId;
-                inHtml = `<div id="${goodsID}" >
+                inHtml = `<div id="${goodsID}" class="goodsItem" >
                     <a th:href="${data[i].goodsPurchsLink}">
                              <div class="card" style="width: 18rem; height: 240px">
                                 <div style="width:18rem; height:140px">
@@ -208,3 +207,34 @@ function printIframe() {
     });
 }
 
+
+
+
+const targetDiv = document.getElementById("goodsList");
+
+const observer = new MutationObserver((mutationsList, observer) => {
+
+// goodsListDiv의 자식 div 요소들을 모두 선택합니다.
+    const childDivs = targetDiv.querySelectorAll(".goodsItem");
+    const goodsSet = new Set();
+// 각 자식 div 요소의 id를 Set에 추가합니다.
+    childDivs.forEach((div) => {
+        const id = div.id;
+        if (id) {
+            goodsSet.add(id);
+        }
+    });
+    console.log(goodsSet);
+});
+
+
+
+
+// MutationObserver가 관찰할 변경 유형과 대상 요소를 설정합니다.
+const config = {attributes: true, childList: true, subtree: true};
+
+// MutationObserver를 시작합니다.
+observer.observe(targetDiv, config);
+
+// 변경 사항을 멈추려면 다음과 같이 호출합니다.
+// observer.disconnect();

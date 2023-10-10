@@ -31,6 +31,7 @@ iframe {
 }
 .goods-box{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     /*overflow: hidden;*/
     padding-bottom: 100px;
@@ -74,7 +75,9 @@ p {
 .goods-box {
     width: 100%;
 }
-
+.goodsItem{
+    margin: 40px;
+}
 /* 한줄에 3개씩 들어가게 */
 .goods {
     width: 30%;

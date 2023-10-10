@@ -1,57 +1,57 @@
 @import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
 
 @import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
+url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
 
 :root {
-	/* Color */
-	--color-main: #14dbc8;
+    /* Color */
+    --color-main: #14dbc8;
 }
 
 @font-face {
-	font-family: 'NEXON Lv1 Gothic OTF Light';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'NEXON Lv1 Gothic OTF Light';
+    src:
+            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
+            format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-	font-family: 'NEXON Lv1 Gothic OTF';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src:
+            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+            format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-	font-family: 'NEXON Lv2 Gothic Bold';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'NEXON Lv2 Gothic Bold';
+    src:
+            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
+            format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 
 a, a:visited {
-	 text-decoration: none;
-	 color: #5D5D5D;
+    text-decoration: none;
+    color: #5D5D5D;
 }
 
 header {
-  font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
-  background-color: white;
+    font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
+    background-color: white;
 }
 
 
 
 header div.logo {
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }
 
 header div.logo img {
@@ -62,163 +62,163 @@ header div.logo img {
 }
 
 header ul.icons {
-  padding: 0px;
-  margin: 0px;
+    padding: 0px;
+    margin: 0px;
 }
 
 header ul.badge {
-  display: flex;
-  margin-left: auto;
-  margin-right: 40px;
-  margin-top: 20px;
+    display: flex;
+    margin-left: auto;
+    margin-right: 40px;
+    margin-top: 20px;
 }
 
 .badge {
-	width: 100%;
+    width: 100%;
 }
 
 h6 {
-	margin: 0px;
+    margin: 0px;
 }
 
 header ul.icons li, header ul.icons li a{
-  font-size: 9px;
-  padding: 0px 18px 0px 5px;
-  margin-left: auto;
-  margin-top: 5px;
-  color: black;
+    font-size: 9px;
+    padding: 0px 18px 0px 5px;
+    margin-left: auto;
+    margin-top: 5px;
+    color: black;
 }
 
 header ul.icons li a >i, header ul.icons li >i {
-  font-size: large;
-  color: #0f4c81;
+    font-size: large;
+    color: #0f4c81;
 }
 
 header ul.icons:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 header ul.contents {
-  display: flex;
-  margin: 0px;
-  padding: 0px;
-  font-weight: 900;
-  font-size: 2em;
-  justify-content: space-around;
-  font-family: 'Lexend Deca', sans-serif;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 900;
+    font-size: 2em;
+    justify-content: space-around;
+    font-family: 'Lexend Deca', sans-serif;
 }
 
 header ul.contents li {
-	margin: 4px 20px 2px 15px;
-	position: relative;
-	cursor: pointer;
-	align-self: center;
+    margin: 4px 20px 2px 15px;
+    position: relative;
+    cursor: pointer;
+    align-self: center;
 }
 
 
 header ul li.search {
-  padding-right: 55px;
-  font-weight: 900;
-  font-size: 45px;
+    padding-right: 55px;
+    font-weight: 900;
+    font-size: 45px;
 }
 
 header .contents li.content:hover::after, header .contents li.cms:hover::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 6px;
-  background-color: black;
-  position: absolute;
-  bottom: 7px;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background-color: black;
+    position: absolute;
+    bottom: 7px;
 }
 
 header .categories-nav {
-  padding: 0px 50px 50px 50px;
+    padding: 0px 50px 50px 50px;
 }
 
 .contents .main a:hover ~ #main-cate{
-	display: block !important;
+    display: block !important;
 }
 
 header .categories {
-  display: block;
-  margin: 0px;
-  padding: 0px;
+    display: block;
+    margin: 0px;
+    padding: 0px;
 }
 
 header .categories li {
-  padding: 6px 0px 6px 0px;
-  margin: 0px 22px 4px 0px;
-  font-size: 14px;
-  font-weight: 900;
-  float: left;
-  position: relative;
-  cursor: pointer;
+    padding: 6px 0px 6px 0px;
+    margin: 0px 22px 4px 0px;
+    font-size: 14px;
+    font-weight: 900;
+    float: left;
+    position: relative;
+    cursor: pointer;
 }
 
 header .categories li:hover::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 4px;
-  background-color: black;
-  position: absolute;
-  bottom: -3px;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    position: absolute;
+    bottom: -3px;
 }
 
 ul, il, ol {
-	list-style: none;
+    list-style: none;
 }
 
 .content a,.cms a {
-	text-decoration: none;
-	color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .board-table {
-	font-size: 13px;
-	width: 100%;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+    font-size: 13px;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .board-table a {
-	color: #333;
-	display: inline-block;
-	line-height: 1.4;
-	word-break: break-all;
-	vertical-align: middle;
+    color: #333;
+    display: inline-block;
+    line-height: 1.4;
+    word-break: break-all;
+    vertical-align: middle;
 }
 
 .board-table a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .board-table th {
-	text-align: center;
+    text-align: center;
 }
 
 .board-table .th-num {
-	width: 100px;
-	text-align: center;
+    width: 100px;
+    text-align: center;
 }
 
 .board-table .th-date {
-	width: 200px;
+    width: 200px;
 }
 
 .board-table th, .board-table td {
-	padding: 14px 0;
+    padding: 14px 0;
 }
 
 .board-table tbody td {
-	border-top: 1px solid #e7e7e7;
-	text-align: center;
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
 }
 
 .board-table tbody th {
-	padding-left: 28px;
-	padding-right: 14px;
-	border-top: 1px solid #e7e7e7;
-	text-align: left;
+    padding-left: 28px;
+    padding-right: 14px;
+    border-top: 1px solid #e7e7e7;
+    text-align: left;
 }

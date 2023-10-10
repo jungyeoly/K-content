@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 </head>
 
 <body>
-	<header th:fragment="adminNavBar">
+<header th:fragment="adminNavBar">
 
-		<div class="badge text-bg-dark text-white position-relative">
-			<h6>관리자모드</h6>
+	<div class="badge text-bg-dark text-white position-relative">
+		<h6>관리자모드</h6>
 
 
-			<a class="position-absolute end-0 top-0 py-2 px-3 text-white " th:href="@{/mber/signout}" sec:authorize="isAuthenticated()">
-				<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>
-				LOGOUT
-			</a>
-		</div>
-		
-		<div class="logo my-3">
-			<ul class="contents">
-				<!--			TODO 어드민 페이지로 만들기-->
-				<li id="main" class="content">
-					<a th:href="@{/cs}">메인</a>
-				</li>
-				<li id="mainMain" class="content">
-					<a th:href="@{/cs/test}">콘텐츠</a>
-				</li>
-				<li id="goods" class="content">
-					<a th:href="@{/cs/test/goods}">상품</a>
-				</li>
-				<li id="mber" class="content">
-					<a th:href="@{/cs/mber}">회원</a>
-				</li>
-				<li id="comm" class="content">
-					<a th:href="@{/cms/commu/1 (commonCodeVal ='All')}">커뮤니티</a>
-				</li>
-				<li id="inqury" class="content">
-					<a th:href="@{/cs/inqry}">문의사항</a>
-				</li>
-				<li id="stats" class="content">
-					<a th:href="@{/cs/test/stats}">통계</a>
-				</li>
-				<li class="cms content" sec:authorize="hasRole('ADMIN')">
-					<a th:href="@{/}">사용자 화면</a>
-				</li>
-			</ul>
-		</div>
+		<a class="position-absolute end-0 top-0 py-2 px-3 text-white " th:href="@{/mber/signout}" sec:authorize="isAuthenticated()">
+			<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>
+			LOGOUT
+		</a>
+	</div>
 
-	</header>
+	<div class="logo my-3">
+		<ul class="contents">
+			<!--         TODO 어드민 페이지로 만들기-->
+			<li id="main" class="content">
+				<a th:href="@{/cs}">메인</a>
+			</li>
+			<li id="mainMain" class="content">
+				<a th:href="@{/cs/test}">콘텐츠</a>
+			</li>
+			<li id="goods" class="content">
+				<a th:href="@{/cs/test/goods}">상품</a>
+			</li>
+			<li id="mber" class="content">
+				<a th:href="@{/cs/mber}">회원</a>
+			</li>
+			<li id="comm" class="content">
+				<a th:href="@{/cms/commu/1 (commonCodeVal ='All')}">커뮤니티</a>
+			</li>
+			<li id="inqury" class="content">
+				<a th:href="@{/cs/inqry}">문의사항</a>
+			</li>
+			<li id="stats" class="content">
+				<a th:href="@{/cs/test/stats}">통계</a>
+			</li>
+			<li class="cms content" sec:authorize="hasRole('ADMIN')">
+				<a th:href="@{/}">사용자 화면</a>
+			</li>
+		</ul>
+	</div>
+
+</header>
 </body>
 
 </html>

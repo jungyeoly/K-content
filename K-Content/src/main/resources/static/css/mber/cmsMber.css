@@ -7,7 +7,7 @@
 .table-layout table th, .table-layout table td {
 	border: none;
 	text-align: center;
-	white-space: nowrap;
+	white-space: break-word;
 }
 
 .table>:not(caption)>*>* {
@@ -61,3 +61,8 @@ button .fa-magnifying-glass {
   background-color: #fafafa; 
   border-color: #ccc;
 }
+
+.pagination {
+	display: flex !important;
+}
+	

@@ -66,19 +66,22 @@
 			<div class="mb-3 row">
 				<label for="mber_birth" class="col-sm-2 col-form-label">생년월일</label>
 				<div class="col-md-4">
-							<input type="text" readonly class="form-control-plaintext"
-						id="mber_birth" th:if="${mber.mberBirth}==null"  value="-" tabindex="-1">
 					<input type="text" readonly class="form-control-plaintext"
-						id="mber_birth" th:if="${mber.mberBirth}!=null" th:value="${mber.mberBirth}" tabindex="-1">
+						id="mber_birth" th:if="${mber.mberBirth}==null" value="-"
+						tabindex="-1"> <input type="text" readonly
+						class="form-control-plaintext" id="mber_birth"
+						th:if="${mber.mberBirth}!=null" th:value="${mber.mberBirth}"
+						tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="mber_phone" class="col-sm-2 col-form-label">전화번호</label>
 				<div class="col-md-4">
-				<input type="text" readonly class="form-control-plaintext"
-						th:if="${mber.mberPhone}==null" value="-" id="mber_phone" tabindex="-1">
 					<input type="text" readonly class="form-control-plaintext"
-						th:if="${mber.mberPhone}!=null" th:value="${mber.mberPhone}" id="mber_phone" tabindex="-1">
+						th:if="${mber.mberPhone}==null" value="-" id="mber_phone"
+						tabindex="-1"> <input type="text" readonly
+						class="form-control-plaintext" th:if="${mber.mberPhone}!=null"
+						th:value="${mber.mberPhone}" id="mber_phone" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
@@ -91,7 +94,8 @@
 				<div class="col-md-2">
 					<a th:href="@{/mber/deletember}"><button type="button"
 							tabindex="-1" id="mail-check-btn" class="btn delete form-control">
-							<span id="fw-bold">계정탈퇴</span></button></a>
+							<span id="fw-bold">계정탈퇴</span>
+						</button></a>
 				</div>
 			</div>
 
@@ -103,7 +107,7 @@
 						tabindex="-1" class="btn form-control" id="edit-btn">수정하기</button></a>
 			</div>
 		</div>
-	</div> 
-
+	</div>
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 </body>
 </html>

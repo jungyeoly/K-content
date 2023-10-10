@@ -61,26 +61,28 @@
 				</tr>
 			</tbody>
 		</table>
-		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
-			th:href="@{/cms/commu/write}">글쓰기</a>
+		
+		<a sec:authorize="isAuthenticated()" class="btn commuBtn" th:href="@{/cms/commu/write}">글쓰기</a>
+		
 		<nav aria-label="Page navigation"
 			class="d-flex justify-content-center">
 			<ul class="pagination">
 				<!-- 페이지 목록 출력 -->
-				<li class="page-item" th:if="${nowPageBlock>1}"><a
-					class="page-link prepage" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
+				<li class="page-item" th:if="${nowPageBlock>1}">
+					<a class="page-link prepage" aria-label="Previous"> 
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
 
-				<li class="page-item"
-					th:each="i: ${#numbers.sequence(startPage, endPage)}"
-					th:classappend="${i==nowPage}?active"><a
-					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+				<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
+					<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
+				</li>
 
-				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
-					class="page-link nextpage" aria-label="Next"> <span
-						aria-hidden="true">&raquo;</span>
-				</a></li>
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+					<a class="page-link nextpage" aria-label="Next"> 
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

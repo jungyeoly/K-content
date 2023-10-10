@@ -9,16 +9,15 @@
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div class="container mb-3">
+	<div class="container mb-3 mt-5">
 		<div class="content">
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="menu fw-bold">회원관리</div>
 					<div id="mberTable"
 						class="table-layout mber-table table table-group-divider">
 
-						<div class="search">
+						<div class="search my-3">
 							<form name="findMber" onsubmit="searchMber(); return false;">
 								<div class="row justify-content-center">
 									<div class="col-md-2">

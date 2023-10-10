@@ -108,6 +108,8 @@ header ul li.cms {
 .searchDiv {
     width: 25vw;
     align-self: center;
+    padding: 0;
+    height: fit-content;
 }
 
 #searchForm {

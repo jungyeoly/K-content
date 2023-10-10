@@ -2,62 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-<style>
-.board-table {
-	font-size: 13px;
-	width: 100%;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-}
-
-.board-table a {
-	color: #333;
-	display: inline-block;
-	line-height: 1.4;
-	word-break: break-all;
-	vertical-align: middle;
-}
-
-.board-table a:hover {
-	text-decoration: underline;
-}
-
-.board-table th {
-	text-align: center;
-}
-
-.board-table .th-num {
-	width: 100px;
-	text-align: center;
-}
-
-.board-table .th-date {
-	width: 200px;
-}
-
-.board-table th, .board-table td {
-	padding: 14px 0;
-}
-
-.board-table tbody td {
-	border-top: 1px solid #e7e7e7;
-	text-align: center;
-}
-
-.board-table tbody th {
-	padding-left: 28px;
-	padding-right: 14px;
-	border-top: 1px solid #e7e7e7;
-	text-align: left;
-}
-</style>
+	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div class="container">
-		<div class="row justify-content-center">
+	<div class="container mt-5">
+		<div class="row justify-content-center mb-5">
 			<div class="col-md-4">
 				<div class="card mb-3">
 					<div class="card-header">
@@ -83,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row justify-content-center mb-3">
+		<div class="row justify-content-center mb-5">
 			<div class="col-md-12">
 				<h4 class="fw-bold">고객센터 미답변 문의글</h4>
 				<p class="h6">※고객센터 미답변 문의글은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서
@@ -97,12 +47,16 @@
 						</tr>
 					</thead>
 					<tbody>
-		
+						<tr th:each="inqry : ${inqryList}">
+							<td>[[${inqry.inqryId}]]</td>
+							<th><a th:href="@{/cs/inqry}">[[${inqry.inqryTitle}]]</a></th>
+							<td>[[${inqry.inqryRegistDate}]]</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div class="row justify-content-center">
+		<div class="row justify-content-center mb-5">
 			<div class="col-md-12">
 				<h4 class="fw-bold">최근 공지사항 글</h4>
 				<p class="h6">※공지사항은 최근글 5개까지만 표시됩니다. 이외의 글은 문의사항에서 확인해주세요.</p>
@@ -115,13 +69,12 @@
 						</tr>
 					</thead>
 					<tbody>
-					
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-	<
+
 	<script>
 
 		$(document).ready(function() {
@@ -153,32 +106,6 @@
 				}
 			});
 		}
-		
-		function loadInqryData() {
-			$.ajax({
-				type : 'GET',
-				url : '/cs/recent-inqry',
-				dataType : 'json',
-				success : function(data) {
-					// 회원 정보를 표시할 HTML을 생성
-					var html = '';
-					data.forEach(function(inqry) {
-						html += '<tr>';
-						html += '<td>' + inqry.inqryId + '</td>';
-						  html += '<th><a href="/inqury/detail/' + inqry.inqryId + '">' + inqry.inqryTitle + '</a></th>';
-						html += '<td>' + inqry.inqryRegistDate + '</td>';
-
-						html += '</tr>';
-					});
-					// 최근공지사항 리스트 테이블 업데이트
-					$('#inqry-table tbody').html(html);
-
-				},
-				error : function() {
-					alert('최근 미답변 문의글을 불러오는데 실패했습니다.');
-				}
-			});
-		} 
 		
 	</script>
 </body>

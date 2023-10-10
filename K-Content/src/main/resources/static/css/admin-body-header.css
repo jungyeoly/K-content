@@ -1,4 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700&display=swap');
+@import
+	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+
+@import
+	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
+
+:root {
+	/* Color */
+	--color-main: #14dbc8;
+}
+
+@font-face {
+	font-family: 'NEXON Lv1 Gothic OTF Light';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NEXON Lv1 Gothic OTF';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic Bold';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
 
 a, a:visited {
 	 text-decoration: none;
@@ -14,20 +51,19 @@ header {
 
 header div.logo {
   display: flex;
+  justify-content: space-around;
 }
 
 header div.logo img {
     width: 160px;
     height: 90px;
-    margin: 0 0 8px;
-    padding: 20px 0px 0px 40px
+    margin: 0;
+    padding: 0x
 }
 
 header ul.icons {
-  display: flex;
-  margin-left: auto;
-  margin-right: 40px;
-  margin-top: 20px;
+  padding: 0px;
+  margin: 0px;
 }
 
 header ul.badge {
@@ -36,12 +72,21 @@ header ul.badge {
   margin-right: 40px;
   margin-top: 20px;
 }
+
+.badge {
+	width: 100%;
+}
+
+h6 {
+	margin: 0px;
+}
+
 header ul.icons li, header ul.icons li a{
   font-size: 9px;
   padding: 0px 18px 0px 5px;
   margin-left: auto;
   margin-top: 5px;
-  color: #0f4c81;
+  color: black;
 }
 
 header ul.icons li a >i, header ul.icons li >i {
@@ -55,24 +100,21 @@ header ul.icons:hover {
 
 header ul.contents {
   display: flex;
-  padding: 0px 0px 0px 35px;
   margin: 0px;
+  padding: 0px;
   font-weight: 900;
-  font-size: 38px;
-  justify-content: auto;
+  font-size: 2em;
+  justify-content: space-around;
   font-family: 'Lexend Deca', sans-serif;
 }
 
 header ul.contents li {
-  margin: 4px 20px 2px 15px;
-  position: relative;
-  cursor: pointer;
+	margin: 4px 20px 2px 15px;
+	position: relative;
+	cursor: pointer;
+	align-self: center;
 }
 
-header ul li.cms {
-  margin-left: auto;
-  margin-right: 75px;
-}
 
 header ul li.search {
   padding-right: 55px;
@@ -130,5 +172,53 @@ ul, il, ol {
 
 .content a,.cms a {
 	text-decoration: none;
-	color: #0f4c81;
+	color: black;
+}
+
+.board-table {
+	font-size: 13px;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.board-table a {
+	color: #333;
+	display: inline-block;
+	line-height: 1.4;
+	word-break: break-all;
+	vertical-align: middle;
+}
+
+.board-table a:hover {
+	text-decoration: underline;
+}
+
+.board-table th {
+	text-align: center;
+}
+
+.board-table .th-num {
+	width: 100px;
+	text-align: center;
+}
+
+.board-table .th-date {
+	width: 200px;
+}
+
+.board-table th, .board-table td {
+	padding: 14px 0;
+}
+
+.board-table tbody td {
+	border-top: 1px solid #e7e7e7;
+	text-align: center;
+}
+
+.board-table tbody th {
+	padding-left: 28px;
+	padding-right: 14px;
+	border-top: 1px solid #e7e7e7;
+	text-align: left;
 }

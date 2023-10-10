@@ -1,34 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+          
 <div class="container">
-    <div class="menu fw-bold">상품관리</div>
     <header class="header">
-        <div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+        <div class="search" style=" width: 65%; height: 80%;">
             <form id="searchForm" class="input-group">
                 <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
-                <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">
+                <input id="search-button" class="btn" onclick="searchKeyword()" type="button" value="찾기">
             </form>
         </div>
-        <!--        <form class="search-form" id="search-form">-->
-        <!--            <input type="search" id="search-input">-->
-        <!--            <input id="search-button" onclick="searchKeyword()" type="button" value="찾기">-->
-        <!--        </form>-->
     </header>
 
     <section class="primary">
         <ul class="card-list" id="card-list">
-            <div th:each="goods : ${goodsList}" id="goodsBox">
-                <div class="col-xl-3 col-lg-6">
+            <div th:each="goods : ${goodsList}" id="goodsBox" class="border">
+
                     <div class="single-category mb-30"
                          th:goodsId="${goods.goodsId}"
                          onclick="detail(this.getAttribute('goodsId'))">
                         <div class="category-img">
                             <img style="width: 300px; height: 300px; margin:auto; display: block"
                                  th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" alt="">
-                            <div class="category-caption">
+                            <div class="category-caption p-2">
                                 <h6 style="text-align: center;" th:text="${goods.goodsName}"></h6>
                             </div>
                         </div>
                     </div>
-                </div>
 
             </div>
         </ul>

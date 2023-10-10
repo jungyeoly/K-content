@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 
-    <div th:replace="~{/include/header :: header}"></div>
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
@@ -11,13 +11,13 @@
 </head>
 <body>
 
-<div th:replace="~{/include/admin-header :: adminHeader }"></div>
+<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 <!-- <input type="checkbox" id="modal-switch"> -->
 
 <!--    main-->
 
 <!--값이 있을 때-->
-<div th:if="${not #strings.isEmpty(content)}" class="container mx-5">
+<div th:if="${not #strings.isEmpty(content)}" class="container my-5">
     <input type="hidden" id="insertOrModify" value="수정">
     <input type="hidden" id="contentURL" th:value="${content.cntntUrl}">
     <input type="hidden" id="url" th:value="${content.cntntUrl}">
@@ -126,7 +126,7 @@
 
 
 <!--새로 생성 값이 없을 -->
-<div th:if="${#strings.isEmpty(content)}" class="container mx-5">
+<div th:if="${#strings.isEmpty(content)}" class="container my-5">
     <input type="hidden" id="insertOrModify" value="생성">
     <div class="row">
         <div class="col-11">
@@ -142,9 +142,9 @@
                 ></option>
             </select>
             </p>
-            <div class="item category-caption iframe-url ">
-                URL: <input id="url" style="text-align: center; ">
-                <button id="print-iframe" onclick="printIframe()" type="button">출력</button>
+            <div class="item category-caption iframe-url d-flex ">
+                URL: <input id="url" class="mx-3" style="text-align: center;">
+                <button id="print-iframe" onclick="printIframe()" type="button" class="btn" style="height: 30px;">출력</button>
             </div>
 
 
@@ -155,14 +155,6 @@
                        aria-describedby="basic-addon1">
             </div>
 
-
-            <!-- 키워드 -->
-            <!--            <div class="item keyword d-flex mb-5">-->
-            <!--                <div class="keywordItem me-2" th:each="keyword : ${keywordList}">-->
-            <!--                    <p class="fw-bold" th:text="${keyword}"></p>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
             <div class="item keyword d-flex mb-5" id="keywordList">
                 <div class="newKeyword" style="display: flex">
 
@@ -171,7 +163,7 @@
             </div>
             <div class="keywordInput">
                 <input type="text" id="inputKeyword" placeholder="키워드 입력">
-                <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
+                <button onclick="makeKeyword()" style="margin: auto; height: 30px;" class="btn">키워드 추가</button>
             </div>
             <hr>
             <!-- 상품 -->
@@ -182,8 +174,8 @@
         </div>
 
         <div class="button-box">
-            <button onclick="goodsNewPage()">상품 추가</button>
-            <button onclick="createContent()">저장</button>
+            <button onclick="goodsNewPage()" class="btn" style="height: 30px;">상품 추가</button>
+            <button onclick="createContent()" class="btn" style="height: 30px;">저장</button>
         </div>
 
     </div>

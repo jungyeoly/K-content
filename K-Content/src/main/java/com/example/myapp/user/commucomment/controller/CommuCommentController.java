@@ -100,6 +100,33 @@ public class CommuCommentController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	    }
 	}
+	/*
+	 * @PostMapping("/commu/comment/delete/{commucommentId}") public
+	 * ResponseEntity<Map<String, Object>> deleteCommuComment(@PathVariable int
+	 * commucommentId, @RequestBody Map<String, Boolean> requestBody) {
+	 * 
+	 * Boolean isSingleReply = requestBody.get("isSingleReply");
+	 * 
+	 * Map<String, Object> response = new HashMap<>();
+	 * logger.info("Received request to delete a comment with commucommentId: " +
+	 * commucommentId);
+	 * 
+	 * try { if (isSingleReply) { // 단일 대댓글 삭제
+	 * commucommentService.deleteCommuCommentByCommuCommentId(commucommentId); }
+	 * else { // 원본 댓글과 그에 해당하는 모든 대댓글들을 재귀적으로 삭제
+	 * commucommentService.deleteCommuCommentwithhreplies(commucommentId);
+	 * 
+	 * } logger.info("Comment deleted successfully.");
+	 * 
+	 * response.put("status", "success"); response.put("message",
+	 * "댓글이 성공적으로 삭제되었습니다."); return ResponseEntity.ok(response);
+	 * 
+	 * } catch (Exception e) { logger.error("Error during deleting a comment:", e);
+	 * response.put("status", "error"); response.put("message",
+	 * "댓글 삭제 중 오류가 발생하였습니다."); return
+	 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); } }
+	 */
+
 
 
 	@GetMapping("/commu/comment/{commuCommentId}")

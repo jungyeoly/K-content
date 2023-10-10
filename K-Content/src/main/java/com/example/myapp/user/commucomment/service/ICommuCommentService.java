@@ -19,4 +19,8 @@ public interface ICommuCommentService {
 	List<CommuComment> selectCommuCommentsByCommuCommentCommuId(int commuCommentCommuId); //게시글에 따른 댓글 조회
 	
 	CommuComment getCommuCommentWithReplies(int commuCommentId); ; // 댓글과 대댓글을 함께 조회
-}
+	
+	/*
+	 * void deleteCommuCommentwithhreplies(int commuCommentId); //재귀적 댓글 삭제
+	 */
+	}

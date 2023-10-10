@@ -4,6 +4,7 @@
 <head>
 <th:block th:replace="~{/include/header :: header}"></th:block>
 <link rel="stylesheet" th:href="@{/css/content/content.css}">
+<link href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@4.0.8/css/line.min.css" rel="stylesheet">
 </head>
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
@@ -36,11 +37,17 @@
 			</a>
 		</div>
 	</div>
-
+	<div class="progress-wrap">
+  <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+  <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+  </svg>
+</div>
+  	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	<script th:src="@{/js/body-header.js}"></script>
 	<script th:src="@{/js/content/content.js}"></script>
+	<script th:src="@{/js/scroll-to-top.js}"></script>	
 	<!-- <script th:inline="javascript" th:src="@{/js/content/scroll.js}"></script> -->
 	<script th:inline="javascript" th:if="${session.isTempPwd != null}">
 	    function showTempPwdToast() {
@@ -56,6 +63,7 @@
 	
 	    // 콘텐츠 클릭 시 디테일 페이지 보여주기
 	</script>
+
 
 </body>
 </html>

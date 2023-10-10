@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.beust.jcommander.internal.Console;
 import com.example.myapp.user.commucomment.dao.ICommuCommentRepository;
 import com.example.myapp.user.commucomment.model.CommuComment;
 
@@ -77,6 +78,22 @@ public class CommuCommentService implements ICommuCommentService {
 	public List<CommuComment> selectCommuCommentsByCommuCommentCommuId(int commuCommentId) {
 		return commucommentRepository.selectCommuCommentsByCommuCommentCommuId(commuCommentId);
 	}
+	
+	/*
+	 * @Transactional public void deleteCommuCommentwithhreplies(int commuCommentId)
+	 * { // 1. 주어진 commuCommentId에 해당하는 댓글 아래의 직접적인 대댓글들을 찾습니다. List<CommuComment>
+	 * directReplies =
+	 * commucommentRepository.selectCommuCommentsByCommuCommentCommuId(
+	 * commuCommentId);
+	 * System.out.println(commucommentRepository.selectCommuCommentById(
+	 * commuCommentId)); // 2. 각 직접적인 대댓글에 대해서 재귀적으로 해당 메서드를 호출하여 그 아래의 모든 대댓글들을
+	 * 삭제합니다. for (CommuComment reply : directReplies) {
+	 * deleteCommuCommentwithhreplies(reply.getCommuCommentId());
+	 * System.out.println(reply.getCommuCommentCommuId()); }
+	 * 
+	 * // 3. 모든 대댓글들을 삭제한 후 주어진 commuCommentId에 해당하는 댓글을 삭제합니다.
+	 * commucommentRepository.deleteCommuCommentByCommuCommentId(commuCommentId); }
+	 */
 
 
 

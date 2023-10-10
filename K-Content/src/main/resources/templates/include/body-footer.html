@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+
+</head>
+<body>
+		<div class="section footer background-blue-dark over-hide mt-5" th:fragment="userFooter">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-8 align-self-stretch background-black py-3">
+						<div class="row justify-content-center py-lg-5">
+							<div class="col-md-6 col-lg-4 col-xl-3 text-center text-lg-left">
+								<a th:href="@{/}"
+									class="link-dark animsition-link stick-cursor size-15 weight-300">K-컨텐츠</a>
+								<div class="clearfix mt-2"></div>
+								<a th:href="@{/commu/1}"
+									class="link-dark animsition-link stick-cursor size-15 weight-300">커뮤니티</a>
+								<div class="clearfix mt-2"></div>
+								<a th:href="@{/inqury}"
+									class="link-dark animsition-link stick-cursor size-15 weight-300">문의사항</a>
+								<div class="clearfix mt-2"></div>
+							</div>
+							<div
+								class="col-md-6 col-lg-3 text-center text-lg-left mb-4 mb-lg-0">
+								<a th:href="@{/mber/verifypwd}"
+									class="link-dark animsition-link stick-cursor size-15 weight-300">내
+									정보</a>
+								<div class="clearfix mt-2"></div>
+								<a th:href="@{/mber/bkmk}"
+									class="link-dark animsition-link stick-cursor size-15 weight-300">좋아요</a>
+								<div class="clearfix mt-2"></div>
+
+							</div>
+							<div class="col-lg-4 col-xl-3 text-center text-lg-left">
+								<h6 class="color-blue-light mb-3">Drop us a line</h6>
+								<p class="color-blue-light mb-0 size-15 weight-300">kspectrumkorea@gmail.com</p>
+								<h6 class="color-blue-light mt-4 mb-3">We are social</h6>
+								<a href="#" class="btn btn-footer-social mr-1 stick-cursor"
+									target="_blank"><i class="uil uil-facebook-f size-22"></i></a>
+								<a href="#" class="btn btn-footer-social mr-1 stick-cursor"
+									target="_blank"><i class="uil uil-instagram size-22"></i></a> <a
+									href="#" class="btn btn-footer-social mr-1 stick-cursor"
+									target="_blank"><i class="uil uil-twitter size-22"></i></a> <a
+									href="#"
+									class="btn btn-footer-social kakao-social stick-cursor"
+									target="_blank"></a>
+							</div>
+						</div>
+					</div>
+					<div
+						class="col-lg-4 order-lg-first align-self-stretch background-green footer-background py-5">
+						<div class="row justify-content-center py-lg-2">
+							<div class="col-lg-9 col-xl-8 text-center text-lg-end">
+								<a th:href=@{/} class="animsition-link stick-cursor">
+									<div class="logo-footer">
+										<img th:src="@{/img/mainLogo.png}" width="20%" height="20%"
+											alt="">
+									</div>
+								</a>
+								<p
+									class="color-blue-light size-13 weight-300 mt-4 mt-lg-5 pt-3 mb-0">
+									© 2023 K-Spectrum. All Rights Reserved.<br> (03077) 주소
+									서울특별시 종로구 창경궁로 254<br> (주)K-Spectrum | 대표이사 : PowerPose<br>
+									사업자등록번호 : 202-30-83332 <br> 통신판매업신고 : 서울종로-1234<br>
+									전화 : 1833-2546 | FAX : 070-1234-5678
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>s

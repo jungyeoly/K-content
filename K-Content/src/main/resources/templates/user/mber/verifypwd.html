@@ -2,55 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<th:block th:replace="~{/include/header :: header}"></th:block>
 <link rel="stylesheet" th:href="@{/css/mber/verifypwd.css}">
-</head>
-<body>
+<th:block th:replace="~{/include/header :: header}"></th:block>
 
+</head>
+
+<body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
-	<div class="container">
+	<div class="container-md">
 		<div class="menu fw-bold">마이페이지</div>
 		<div
-			class="border-bottom border-top border-2 fw-bold border-dark mb-3 text-center align-self-center">
-
-			<div class="mt-5 mb-3 row">
-				<div class="col-md-12 mb-3">
-					마이페이지는 회원님의 소중한 개인정보가 있는 공간입니다. <br>접근을 위해서는 비밀번호를 입력해주세요.
+			class="border-bottom border-top border-2 fw-bold border-dark mb-5 text-center p-5">
+			<div class="mt-5 row">
+				<div class="col-md-12">
+					마이페이지는 회원님의 소중한 개인정보가 있는 공간입니다. <br>
 				</div>
 			</div>
-			<div class="d-flex justify-content-center">
-				<form th:action="@{/mber/verifypwd}" method="post"
-					class="validation-form" id="verifyPwdForm" novalidate>
-					<div class="row mb-2">
-						<div class="col-md-8">
-							<span class="input-group-text"> <input type="password"
-								class="enter form-bid" id="mber_pwd" name="mberPwd"
-								placeholder="비밀번호 입력"
-								pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
-								required><i class="fa fa-eye" id=see_pwd></i></span>
-						</div>
-						<div class="col-md-2">
-							<button type="submit" tabindex="-1" class="btn form-control"
-								id="edit-btn">
-								확인
-								<div
-									class="spinner-border text-info spinner-border-sm ms-2 d-none"
-									role="status" id="mail-check-spinner"></div>
-							</button>
-						</div>
-					</div>
-					<div class="row mb-5 justify-content-center">
-						<div class="col-md-12">
-							<div th:if="${message != null}" class="password-feedback fw-bold"
-								role="alert" th:text="${message}"></div>
-						</div>
-					</div>
-				</form>
+			<div class="mb-5 row">
+				<div class="col-md-12">접근을 위해서는 비밀번호를 입력해주세요.</div>
 			</div>
+
+
+			<form th:action="@{/mber/verifypwd}" method="post"
+				class="validation-form" id="verifyPwdForm" novalidate>
+				<div class="mb-3 row justify-content-center">
+					<div class="col-md-3">
+						<span class="input-group-text"> <input type="password"
+							class="enter form-bid" id="mber_pwd" name="mberPwd"
+							placeholder="비밀번호 입력"
+							pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
+							required><i class="fa fa-eye" id=see_pwd></i></span>
+					</div>
+					<div class="col-md-2">
+						<button type="submit" tabindex="-1" class="btn form-control"
+							id="edit-btn">확인</button>
+					</div>
+				</div>
+				<div class="mb-5 row justify-content-center">
+					<div class="col-md-4">
+						<div th:if="${message != null}" class="password-feedback fw-bold"
+							role="alert" th:text="${message}"></div>
+					</div>
+				</div>
+			</form>
 		</div>
 
 	</div>
-
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script>
 		$(document).ready(function() {
 			$('#see_pwd').on('click', function() {

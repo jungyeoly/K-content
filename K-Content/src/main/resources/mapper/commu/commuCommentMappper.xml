@@ -4,7 +4,7 @@
 	namespace="com.example.myapp.user.commucomment.dao.ICommuCommentRepository">
 
 	<!-- 댓글 입력 -->
-	<insert id="insertCommuComment"
+<insert id="insertCommuComment"
 		parameterType="com.example.myapp.user.commucomment.model.CommuComment"
 		useGeneratedKeys="true" keyProperty="commuCommentId"
 		keyColumn="COMMU_COMMENT_ID">
@@ -14,7 +14,8 @@
 		COMMU_COMMENT_REGIST_DATE,
 		COMMU_COMMENT_DEPTH, COMMU_COMMENT_ORDER,
 		COMMU_COMMENT_MBER_ID,
-		COMMU_COMMENT_REF_ID)
+		COMMU_COMMENT_REF_ID,
+		COMMU_COMMENT_MAIN_REF_ID)
 		VALUES
 		(TB_COMMU_COMMENT_SEQ.NEXTVAL, #{commuCommentCommuId},
 		#{commuCommentCntnt},
@@ -22,9 +23,14 @@
 		#{commuCommentDepth},
 		#{commuCommentOrder},
 		#{commuCommentMberId},
-		#{commuCommentRefId})
+		#{commuCommentRefId},
+		CASE 
+           WHEN #{commuCommentRefId} = 0 THEN TB_COMMU_COMMENT_SEQ.CURRVAL
+           ELSE (SELECT COMMU_COMMENT_MAIN_REF_ID FROM TB_COMMU_COMMENT WHERE COMMU_COMMENT_ID = #{commuCommentRefId})
+           END)
+</insert>
 
-	</insert>
+
 
 	<!-- 댓글 수정 -->
 	<update id="updateCommuComment"
@@ -39,6 +45,14 @@
 		#{commuCommentId}
 	</update>
 
+	<!-- 원본 댓글 및 그에 따른 답글들 삭제 -->
+	<delete id="deleteCommuCommentAndRepliesByMainRefId"
+		parameterType="int">
+		DELETE FROM TB_COMMU_COMMENT WHERE COMMU_COMMENT_MAIN_REF_ID =
+		#{commuCommentMainRefId}
+	</delete>
+
+
 	<!-- 대댓글 삭제 -->
 	<delete id="deleteCommuCommentByCommuCommentRefId"
 		parameterType="int">
@@ -47,7 +61,7 @@
 		#{commuCommentRefId}
 	</delete>
 
-	<!-- 원본 댓글 삭제 -->
+	<!-- 원본 댓글 및 개별답글 삭제 -->
 	<delete id="deleteCommuCommentByCommuCommentId"
 		parameterType="int">
 		DELETE FROM TB_COMMU_COMMENT
@@ -75,10 +89,12 @@
 		FROM (
 		SELECT *
 		FROM TB_COMMU_COMMENT
-		WHERE COMMU_COMMENT_COMMU_ID = #{COMMUID}
+		WHERE
+		COMMU_COMMENT_COMMU_ID = #{COMMUID}
 		START WITH COMMU_COMMENT_REF_ID = 0
 		CONNECT BY NOCYCLE PRIOR COMMU_COMMENT_ID = COMMU_COMMENT_REF_ID
-		ORDER SIBLINGS BY COALESCE(COMMU_COMMENT_REF_ID, COMMU_COMMENT_ID) ASC,
+		ORDER
+		SIBLINGS BY COALESCE(COMMU_COMMENT_REF_ID, COMMU_COMMENT_ID) ASC,
 		COMMU_COMMENT_DEPTH ASC, COMMU_COMMENT_REGIST_DATE DESC
 		) t
 	</select>
@@ -110,6 +126,9 @@
 		TB_COMMU_COMMENT
 		WHERE COMMU_COMMENT_REF_ID = #{commuCommentRefId}
 	</select>
+
+
+
 
 
 </mapper>

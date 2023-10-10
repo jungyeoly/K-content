@@ -1,0 +1,249 @@
+.color-blue-light {
+    color: #f4f3f9;
+}
+.over-hide {
+    overflow: hidden;
+}
+
+footer {
+    position: block;
+    width: 100%;
+    bottom: 0;
+}
+
+.link-normal {
+    position: relative;
+    color: #1f2029;
+    display: inline-block;
+    transition: all 200ms linear;
+}
+
+.link-normal:hover {
+    color: #14dbc8;
+}
+
+.link-dark {
+    position: relative;
+    color: #f4f3f9 !important;
+    display: inline-block;
+    line-height: 2;
+    padding-left: 24px;
+    transition: all 200ms linear;
+}
+
+.link-dark.link-light {
+    color: #1f2029;
+}
+
+.link-dark.link-light:hover {
+    color: #14dbc8;
+}
+
+.link-dark:hover {
+    color: #f4f3f9 !important;
+    padding-left: 14px;
+    padding-right: 10px;
+}
+
+.link-dark:before {
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+    height: 2px;
+    border-radius: 1px;
+    width: 0;
+    content: '';
+    z-index: 1;
+    background: linear-gradient(93.58deg, #14dbc8, #228179);
+    transition: all 200ms linear;
+}
+
+.link-dark:hover:before {
+    width: calc(100% - 24px);
+}
+
+.link-dark:after {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 4px;
+    border-radius: 1px;
+    width: 14px;
+    margin-top: -2px;
+    content: '';
+    z-index: 1;
+    background: linear-gradient(93.58deg, #14dbc8, #228179);
+    transition: all 200ms linear;
+}
+
+.link-dark:hover:after {
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+}
+
+.footer-background {
+	/* background-image: url('../img/logo-back-footer.png');*/
+	background-size: 100%;
+	background-position: right bottom;
+	background-repeat: no-repeat;
+}
+
+.logo-footer {
+	display: inline-block;
+	margin-left: auto;
+}
+
+.logo-footer img {
+	width: 120px;
+	height: auto;
+	display: block;
+}
+
+.btn-footer-social {
+	padding: 0;
+	border-radius: 2px;
+	height: 36px;
+	width: 36px;
+	background-color: #f4f3f9;
+	color: #14dbc8 !important;
+	font-size: 18px;
+}
+
+.btn-footer-social:hover {
+	background-color: #14dbc8;
+	color: #ffffff !important;
+}
+
+.btn-footer-social.kakao-social {
+	background-image: url('/../img/kakao2.png');
+	background-size: 22px auto;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.btn-footer-social.kakao-social:hover {
+	background-image: url('/../img/kakao1.png');
+}
+
+.color-white {
+	color: #ffffff;
+}
+
+.color-yellow {
+	color: #eac913;
+}
+
+.color-green {
+	color: #14dbc8;
+}
+
+.color-red {
+	color: #e66767;
+}
+
+.color-paragraph {
+	color: #57585f;
+}
+
+.color-grey {
+	color: #b3b4cb;
+}
+
+.background-black {
+	background-color: black;
+}
+
+.background-white {
+	background-color: white;
+}
+
+.background-green {
+	background-color: #14dbc8;
+}
+
+.background-blue-dark {
+	background-color: #1f2029;
+}
+
+.background-blue-dark-2 {
+	background-color: #2a2b38;
+}
+
+.background-blue-light {
+	background-color: #f4f3f9;
+}
+
+.background-pattern {
+	background-image: url('/../img/pat.svg');
+	background-position: bottom center;
+	background-repeat: repeat;
+	background-size: 10%;
+}
+
+.background-cover {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.weight-600 {
+    font-weight: 600;
+}
+
+.weight-700 {
+    font-weight: 700;
+}
+
+.size-13 {
+    font-size: 13px;
+}
+
+.size-14 {
+    font-size: 14px;
+}
+
+.size-15 {
+    font-size: 15px;
+}
+
+.size-16 {
+    font-size: 16px;
+}
+
+.size-17 {
+    font-size: 17px;
+}
+.size-18 {
+	font-size: 18px;
+}
+
+.size-20 {
+    font-size: 20px;
+}
+
+.size-22 {
+    font-size: 22px;
+}
+
+.size-24 {
+    font-size: 24px;
+}
+
+.size-40 {
+    font-size: 40px;
+}
+
+.size-60 {
+    font-size: 60px;
+}
+.uil-twitter:before {
+    content: '\ec06';
+}
+.uil-facebook-f:before {
+    content: '\e9d3';
+}
+
+.m-6 {
+    margin: 4rem!important;
+}

@@ -52,6 +52,27 @@ img, a {
 	-user-drag: none;
 }
 
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
 .btn {
 	border-radius: 7px;
     height: 50px;
@@ -167,4 +188,93 @@ button:hover{
     color: white;
     background-color: #1f2029 !important;
     box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* scroll to top 버튼 */
+.progress-wrap {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  height: 46px;
+  width: 46px;
+  cursor: pointer;
+  display: block;
+  border-radius: 50px;
+  box-shadow: inset  0 0 0 2px rgba(255,255,255,0.2);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+.progress-wrap.active-progress {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.progress-wrap::after {
+  position: absolute;
+  content: '↑';
+  text-align: center;
+  line-height: 46px;
+  font-size: 24px;
+  color: #14dbc8;
+  left: 0;
+  top: 0;
+  height: 46px;
+  width: 46px;
+  cursor: pointer;
+  display: block;
+  z-index: 1;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+.progress-wrap:hover::after {
+  opacity: 0;
+}
+
+.progress-wrap::before {
+  position: absolute;
+  content: '↑';
+  text-align: center;
+  line-height: 46px;
+  font-size: 24px;
+  opacity: 0;
+  background-image: linear-gradient(298deg, #14dbc8, #14dbc8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  left: 0;
+  top: 0;
+  height: 46px;
+  width: 46px;
+  cursor: pointer;
+  display: block;
+  z-index: 2;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+.progress-wrap:hover::before {
+  opacity: 1;
+}
+
+.progress-wrap svg path { 
+  fill: none; 
+}
+
+.progress-wrap svg.progress-circle path {
+  stroke: #14dbc8;
+  stroke-width: 4;
+  box-sizing:border-box;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+#see_pwd {
+	cursor: pointer;
 }

@@ -1,20 +1,20 @@
-<div class="pad">
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org"
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
           xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
-    <head>
-        <div th:replace="~{/include/new-admin-head :: newAdminHead}"></div>
-        <link rel="stylesheet" th:href="@{/css/content/content.css}">
-        <link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
+<head>
+	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/content/content.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
+</head>
 
-    </head>
-    <body>
+<body>
     <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-
-    <div class="layout d-flex justify-content-center mb-5" id="layout">
-
-    </div>
-
+	<div class="pad">
+	
+	    <div class="layout d-flex justify-content-center mb-5" id="layout">
+	
+	    </div>
+	</div>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function() {
@@ -32,5 +32,4 @@
     <script src="/js/goods/goodsListMain.js" defer></script>
 
     </body>
-    </html>
-</div>
+</html>

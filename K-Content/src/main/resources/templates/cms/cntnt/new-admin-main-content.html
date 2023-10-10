@@ -10,6 +10,7 @@
 
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+
 <div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
     <form id="searchForm" class="input-group">
         <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
@@ -77,7 +78,7 @@
         if (cate == 'null') {
             cate = 'All';
         }
-
+        
         $.ajax({
             url: '/cs/test/contents/' + page,
             type: 'GET',
@@ -106,6 +107,44 @@
         $(".cate").click(function () {
             cate = this.getAttribute('data-maincate-value');
             var page = 1;
+            
+            switch (cate) {
+				case '전체':
+				    cate = 'All';
+				    break;
+				case '음악':
+				    cate = 'POP';
+				    break;
+				case '연예인':
+				    cate = 'Celebrity';
+				    break;
+				case '음식':
+				    cate = 'Food';
+				    break;
+				case '영화':
+				    cate = 'Movie';
+				    break;
+				case '스포츠':
+				    cate = 'Sports';
+				    break;
+				case '패션':
+				    cate = 'Fashion';
+				    break;
+				case '미용':
+				    cate = 'Beauty';
+				    break;
+				case '드라마':
+				    cate = 'Drama';
+				    break;
+				case '여행':
+				    cate = 'Travel';
+				    break;
+				case '게임':
+				    cate = 'Game';
+				    break;
+			  default:
+			    cate = 'All';
+			}
 
             $.ajax({
                 url: '/cs/test/contents/' + page,

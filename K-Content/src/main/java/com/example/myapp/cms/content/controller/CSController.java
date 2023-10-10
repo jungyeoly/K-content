@@ -11,6 +11,7 @@ import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,7 @@ public class CSController {
 
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
-    public String showYouTube()
-    {
+    public String showYouTube() {
         return "cms/cntnt/new-cntnt-recom";
     }
 
@@ -75,16 +75,16 @@ public class CSController {
 
         int totalPage = 0;
 
-        if(bbsCount > 0) {
-            totalPage= (int)Math.ceil(bbsCount/10.0);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
         }
-        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
-        int nowPageBlock = (int) Math.ceil(page/10.0);
-        int startPage = (nowPageBlock-1)*10 + 1;
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
-        if(totalPage > nowPageBlock*10) {
-            endPage = nowPageBlock*10;
-        }else {
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
             endPage = totalPage;
         }
         model.addAttribute("totalPageCount", totalPage);
@@ -141,8 +141,6 @@ public class CSController {
     }
 
 
-
-
     //콘텐츠 상세페이지의 유튜브 영상 호출
     @GetMapping("/youtube/iframe")
     @ResponseBody
@@ -157,25 +155,32 @@ public class CSController {
     //콘텐츠 상세 페이지인스타 크롤링
     @GetMapping("/insta-img")
     @ResponseBody
-    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
-        instagram_Selenium.instagram_Selenium();
+    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList, Authentication authentication) throws IOException {
 
         List<String> realImg = new ArrayList<>();
-        for (int i = 0; i < trendQueryList.size(); i++) {
-            String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-            //TODO 예외처리
-            URL urlInput = new URL(oneUrl);
-            BufferedImage urlImg = ImageIO.read(urlInput);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(urlImg, "jpg", bos);
-            Base64.Encoder encoder = Base64.getEncoder();
-            String encodedString = encoder.encodeToString(bos.toByteArray());
-            //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
-            realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+        String role = authentication.getAuthorities().toString();
+        if (role.equals("[ROLE_ADMIN]")) {
+            return realImg;
+        } else {
+            instagram_Selenium.instagram_Selenium();
+            for (int i = 0; i < trendQueryList.size(); i++) {
+                String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+                //TODO 예외처리
+                URL urlInput = new URL(oneUrl);
+                BufferedImage urlImg = ImageIO.read(urlInput);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(urlImg, "jpg", bos);
+                Base64.Encoder encoder = Base64.getEncoder();
+                String encodedString = encoder.encodeToString(bos.toByteArray());
+                //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+                realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
 
+            }
+            instagram_Selenium.chromeExit();
+            return realImg;
         }
-        instagram_Selenium.chromeExit();
-        return realImg;
+
+
     }
 
     //콘텐츠 생성 페이지
@@ -217,7 +222,7 @@ public class CSController {
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
 
-        System.out.println("goodsJFileList: "+goodsJFileList);
+        System.out.println("goodsJFileList: " + goodsJFileList);
         // 삭제 된 굿즈는 아예 안뽑는건지? 알아봐야함
         model.addAttribute("goodsJFileList", goodsJFileList);
 
@@ -261,6 +266,7 @@ public class CSController {
 
         // 성공 여부 리턴
     }
+
     @GetMapping("paging")
     public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
         int bbsCount = contentService.totalCntnt(cate);
@@ -291,6 +297,7 @@ public class CSController {
 
         return "cms/cntnt/paging";
     }
+
     //콘텐츠 상세 콘텐츠 추천
     @GetMapping("/content/keyword")
     @ResponseBody
@@ -337,7 +344,7 @@ public class CSController {
         //update content
 
         contentService.updateDelStat(cntntId);
-        System.out.println(cntntId+"번 콘텐츠 삭제 처리 ");
+        System.out.println(cntntId + "번 콘텐츠 삭제 처리 ");
 
         List<String> cateList = commonCodeService.cateList("C03");
         model.addAttribute("cateList", cateList);
@@ -347,16 +354,16 @@ public class CSController {
 
         int totalPage = 0;
 
-        if(bbsCount > 0) {
-            totalPage= (int)Math.ceil(bbsCount/10.0);
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
         }
-        int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
-        int nowPageBlock = (int) Math.ceil(page/10.0);
-        int startPage = (nowPageBlock-1)*10 + 1;
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
-        if(totalPage > nowPageBlock*10) {
-            endPage = nowPageBlock*10;
-        }else {
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
             endPage = totalPage;
         }
         model.addAttribute("totalPageCount", totalPage);

@@ -16,4 +16,6 @@ public interface ICommonCodeService {
 	String mberRoleByCode(String mberId);
 
 	String mberGenderByCode(String mberId);
+	
+	List<CommonCode> findByCommonCodeVal(String CommonCodeVal);
 }

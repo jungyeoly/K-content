@@ -41,4 +41,9 @@ public class CommonCodeService implements ICommonCodeService {
 	public String mberGenderByCode(String mberId) {
 		return commonCodeRepository.mberGenderByCode(mberId);
 	}
+
+	@Override
+	public List<CommonCode> findByCommonCodeVal(String CommonCodeVal) {
+		return commonCodeRepository.findByCommonCodeVal(CommonCodeVal);
+	}
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+<link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
+</head>
+<body>
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+
+	<div class="container">
+		<div class="menu fw-bold">공지사항 글쓰기</div>
+		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}" method="post"
+			enctype="multipart/form-data" onsubmit="return validateForm()">
+
+			<ul class=tb-lst>
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="category">카테고리 <span class="required">*</span></label>
+					</div>
+					<div class="commu-category">
+						<select id="category" name="commuCateCode">
+							<option th:each="commonCodeVal : ${commonCodeVal}"
+								th:if="${commonCodeVal != null}"
+								th:value="${commonCodeVal.commonCode}"
+								th:text="${commonCodeVal.commonCodeVal}"
+								th:selected="${commonCodeVal.commonCodeVal == 'NOTICE'}">카테고리명</option>
+						</select>
+					</div>
+
+
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="title">제목 <span class="required">*</span></label>
+					</div>
+					<div class="commu-title">
+						<input type="text" id="title" name="commuTitle"
+							placeholder="제목을 입력하세요.">
+					</div>
+
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="cntnt">내용 <span class="required">*</span></label>
+					</div>
+					<div class="commu-cntnt">
+						<textarea id="cntnt" name="commuCntnt" placeholder="내용을 입력하세요."></textarea>
+					</div>
+				</li>
+
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="attachment">첨부파일</label>
+					</div>
+
+					<div class="commu-File">
+
+						<input type="file" id="attachment" name="commuUploadFiles"
+							multiple onchange="appendFileList()">
+						<ul id="fileList"></ul>
+					</div>
+				</li>
+			</ul>
+
+
+			<div class="d-flex justify-content-center">
+				<input type="hidden" name="commuMberId"
+					th:value="${#authentication.principal.username}"
+					sec:authorize="isAuthenticated()"> <input type="reset"
+					class="btn me-2 cancel-btn" data-action="cancel" value="취소">
+				<input type="submit" class="btn commuBtn" data-action="confirm"
+					value="등록">
+			</div>
+		</form>
+	</div>
+	<div th:insert="~{include/common-modal :: commonmodal}"></div>
+	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
+</body>
+<script th:src="@{/js/commu/write.js}"></script>
+</html>

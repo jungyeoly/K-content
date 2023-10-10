@@ -52,5 +52,6 @@ public interface ICommuRepository {
 	 
 	 List<Commu> searchListByContentKeyWord(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end); //관련된 게시물 목록 검색
 
+	 List<Commu> selectRecentNotice(); // 가장 최근 공지사항
 	
 }

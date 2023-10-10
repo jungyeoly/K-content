@@ -19,11 +19,9 @@
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	
 	<script th:inline="javascript">
-		$(document).ready(function() {
+		$(document).ready(function() {			
 			let page = "[[${session.page}]]";
 			let message = `[[${session.message}]]`;
-			
-			console.log(message);
 			
 			if (message != 'null') {
 				alert("비밀번호가 틀렸습니다.");
@@ -40,7 +38,8 @@
 				var layout = $(".layout");
 				layout.append(data);
 				}
-			})
+			})			
+			
 		})
 	</script>
 	

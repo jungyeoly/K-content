@@ -57,7 +57,7 @@
 							<a class="infoText" th:href="@{/mber/signout}">로그아웃</a></li>
 						<li class="m-3" sec:authorize="hasRole('ADMIN')"><i
 							class="fa-solid fa-gear"></i> <a class="infoText"
-							th:href="@{/cs/}">관리자 페이지</a></li>
+							th:href="@{/cs}">관리자 페이지</a></li>
 					</ul>
 
 					<div class="dropdown">
@@ -79,7 +79,7 @@
 								class="dropdown-item infoText" th:href="@{/mber/signout}">로그아웃</a>
 							</li>
 							<li class="m-3" sec:authorize="hasRole('ADMIN')"><a
-								class="dropdown-item infoText" th:href="@{/cs/}">관리자 페이지</a></li>
+								class="dropdown-item infoText" th:href="@{/cs}">관리자 페이지</a></li>
 						</ul>
 					</div>
 				</div>
@@ -89,7 +89,23 @@
 
 		<hr class="mb-5 text-main"
 			style="opacity: 1; height: 3px; background: var(- -color-main);">
-
+	
+		<script>
+			$("#searchForm").submit(function(event) {
+				event.preventDefault();
+	
+				var keyword = $("#searchInput").val();
+				console.log(keyword);
+				$.ajax({
+					url: "/user/content",
+					type: "POST",
+					data: { keyword : keyword },
+					success: function(data) {
+						location.href = "/?keyword=" + encodeURIComponent(keyword);
+					}
+				})
+			});
+		</script>
 	</header>
 </body>
 

@@ -9,10 +9,27 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-<div class="page"></div>
-<div class="container">
-		<div class="menu fw-bold">커뮤니티</div>
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<div class="container">
+		<div class="searchDiv">
+					<form id="searchForm" class="input-group">
+						<input type="text" id="searchInput" placeholder="검색어를 입력하세요"
+							class="form-control">
+						<button type="submit" class="btn">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
+				</div>
+		<div class="commuDropdown">
+			<button class="dropbtn position-relative">
+				카테고리
+				<span class="position-absolute end-0 pe-3"><i class="fa-solid fa-angle-down"></i></span>
+			</button>
+			<div class="dropdown-content">
+				<div th:each= "cate : ${cateList}"  class="cate mx-3" th:data-maincate-value="${cate}">[[${cate}]]</div>
+			</div>
+		</div>
+	
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
 				<tr>
@@ -25,15 +42,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${cmscommulist}" class="commu-row"
+				<tr th:each="commu : ${commulist}" class="commu-row"
 					th:attr="data-commu-id=${commu.commuId}">
-
 					<td th:text="${commu.commuId}"></td>
-					<td>[[${commu.commonCodeVal}]]
-					</td>
+					<td
+						th:if="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
+						NOTICE</td>
+					<td
+						th:unless="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
+						[[${commu.commonCodeVal}]]</td>
 
-
-					<td><a th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
+					<td><a
+						th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
 						th:text="${commu.commuTitle}"></a></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
@@ -41,26 +61,28 @@
 				</tr>
 			</tbody>
 		</table>
-		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
-			th:href="@{/commu/write}">글쓰기</a>
+		
+		<a sec:authorize="isAuthenticated()" class="btn commuBtn" th:href="@{/cms/commu/write}">글쓰기</a>
+		
 		<nav aria-label="Page navigation"
 			class="d-flex justify-content-center">
 			<ul class="pagination">
 				<!-- 페이지 목록 출력 -->
-				<li class="page-item" th:if="${nowPageBlock>1}"><a
-					class="page-link prepage" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
+				<li class="page-item" th:if="${nowPageBlock>1}">
+					<a class="page-link prepage" aria-label="Previous"> 
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
 
-				<li class="page-item"
-					th:each="i: ${#numbers.sequence(startPage, endPage)}"
-					th:classappend="${i==nowPage}?active"><a
-					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+				<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
+					<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
+				</li>
 
-				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
-					class="page-link nextpage" aria-label="Next"> <span
-						aria-hidden="true">&raquo;</span>
-				</a></li>
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+					<a class="page-link nextpage" aria-label="Next"> 
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

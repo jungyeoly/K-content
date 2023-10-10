@@ -13,7 +13,7 @@ public interface ICommuCommentRepository {
 	void insertCommuComment(CommuComment commucomment);  //댓글 작성
 	
 	void updateCommuComment(CommuComment commucomment); // 댓글 수정
-
+	
 	void deleteCommuCommentByCommuCommentRefId(int commuCommentRefId); //게시글의 달린 대댓글 삭제
 	
 	void deleteCommuCommentByCommuCommentId(int commuCommentId); //게시글 원본댓글 삭제 

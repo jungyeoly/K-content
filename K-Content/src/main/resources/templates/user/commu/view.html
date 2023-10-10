@@ -96,27 +96,27 @@
 				댓글 <span
 					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
 			</h3>
-				<!-- 댓글 작성 영역 -->
-		<div th:if="${#authentication.principal}"
-			th:unless="${commu.commuCateCode} == 'C06'">
-			<div class="comment-section">
-				<form id="commentForm" th:action="@{/commu/comment}" method="post">
-					<input type="hidden" name="commuCommentMberId"
-						th:value="${#authentication.principal.username}"> <input
-						type="hidden" name="commuCommentCommuId"
-						th:value="${commu.commuId}">
-					<textarea name="commuCommentCntnt" rows="4"
-						placeholder="댓글을 입력하세요."></textarea>
-					<button type="button" id="submitComment">등록</button>
-				</form>
+			<!-- 댓글 작성 영역 -->
+			<div th:if="${#authentication.principal}"
+				th:unless="${commu.commuCateCode} == 'C06'">
+				<div class="comment-section">
+					<form id="commentForm" th:action="@{/commu/comment}" method="post">
+						<input type="hidden" name="commuCommentMberId"
+							th:value="${#authentication.principal.username}"> <input
+							type="hidden" name="commuCommentCommuId"
+							th:value="${commu.commuId}">
+						<textarea name="commuCommentCntnt" rows="4"
+							placeholder="댓글을 입력하세요."></textarea>
+						<button type="button" id="submitComment">등록</button>
+					</form>
+				</div>
 			</div>
-		</div>
 
-		<div th:unless="${#authentication.principal}">
-			<p>
-				댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
-			</p>
-		</div>
+			<div th:unless="${#authentication.principal}">
+				<p>
+					댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
+				</p>
+			</div>
 
 			<!-- 댓글 및 답글 출력 -->
 			<div th:each="commucomment : ${comments}"
@@ -130,7 +130,8 @@
 		<th:block th:fragment="commentFragment(comment)">
 
 			<div th:if="${comment != null}" class="single-comment"
-				th:data-id="${comment.commuCommentId}"  th:data-is-origin="${comment.commuCommentRefId == 0 ? 'true' : 'false'}"> 
+				th:data-id="${comment.commuCommentId}"
+				th:data-is-origin="${comment.commuCommentRefId == 0 ? 'true' : 'false'}">
 
 				<strong th:text="${comment.commuCommentMberId}">UserName</strong>
 				<div class="comment-content">
@@ -146,25 +147,26 @@
 						<button class="update-comment"
 							th:data-id="${comment.commuCommentId}">수정</button>
 						<button class="delete-comment"
-							th:data-id="${comment.commuCommentId}">삭제</button>
-					<button class="view-replies-btn"
-					 th:if="${comment.commuCommentRefId == 0}"
-					 th:style="${comment.replies != null && comment.replies.size() > 0 ? '' : 'display: none;'}">
-						답글(<span class="reply-count"
-							th:text="${comment.replies != null ? comment.replies.size() + '개' : '0개'}"></span>)
-					</button>
+							th:data-id="${comment.commuCommentId}"
+							th:data-main-ref-id="${comment.commuCommentMainRefId}">삭제</button>
+						<button class="view-replies-btn"
+							th:if="${comment.commuCommentRefId == 0}"
+							th:style="${comment.replies != null && comment.replies.size() > 0 ? '' : 'display: none;'}">
+							답글(<span class="reply-count"
+								th:text="${comment.replies != null ? comment.replies.size() + '개' : '0개'}"></span>)
+						</button>
 					</div>
-					   
+
 					<div class="replyForm" th:data-id="${comment.commuCommentId}">
-					<form>
-						<input type="hidden" name="commuCommentRefId"
-							th:value="${comment.commuCommentId}">
-						<textarea name="commuCommentCntnt" rows="2"
-							placeholder="답글을 입력하세요."></textarea>
+						<form>
+							<input type="hidden" name="commuCommentRefId"
+								th:value="${comment.commuCommentId}">
+							<textarea name="commuCommentCntnt" rows="2"
+								placeholder="답글을 입력하세요."></textarea>
 							<button type="button" class="cancel-reply">취소</button>
-						<button type="button" class="post-reply">등록</button>
-					</form>
-				</div>
+							<button type="button" class="post-reply">등록</button>
+						</form>
+					</div>
 
 
 					<!-- 재귀적으로 답글 출력 -->
@@ -176,13 +178,13 @@
 
 
 				</div>
-				
+
 
 			</div>
 		</th:block>
 
 
-	
+
 
 
 		<div th:insert="~{include/common-modal :: commonmodal}"></div>

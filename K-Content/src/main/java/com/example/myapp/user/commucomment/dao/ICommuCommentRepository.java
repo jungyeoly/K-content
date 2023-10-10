@@ -1,14 +1,21 @@
 package com.example.myapp.user.commucomment.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.myapp.user.commucomment.model.CommuComment;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface ICommuCommentRepository {
-	
-	void insertcommuComment(CommuComment commuComment);
-	
+
+	void insertCommuComment(@Param("commuComment") CommuComment cc);
+	List<CommuComment> selectCommuCommentsByCommuCommentCommuId(int commuId);
+	CommuComment selectCommuCommentById(int commuId);
+
+	void deleteCommuComment(int commuId);
+	void deleteCommuCommentRefAll(int commuId);
 }

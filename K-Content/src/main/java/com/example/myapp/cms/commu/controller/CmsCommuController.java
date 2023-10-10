@@ -222,12 +222,12 @@ public class CmsCommuController {
 		// 게시글에 연결된 댓글 정보 조회
 		List<CommuComment> commentsWithReplies = new ArrayList<>();
 
-		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
-		for (CommuComment comment : comments) {
-			CommuComment fullComment = commuCommentService.getCommuCommentWithReplies(comment.getCommuCommentId());
-			commentsWithReplies.add(fullComment);
-		}
-		model.addAttribute("comments", commentsWithReplies);
+//		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
+//		for (CommuComment comment : comments) {
+//			CommuComment fullComment = commuCommentService.getCommuCommentWithReplies(comment.getCommuCommentId());
+//			commentsWithReplies.add(fullComment);
+//		}
+//		model.addAttribute("comments", commentsWithReplies);
 
 		return "/cms/commu/view";
 	}

@@ -1,86 +1,69 @@
-function maskUserId(userId) {
-    if (userId.length <= 4) {
-        return userId;
-    }
-    return userId.substring(0, 4) + '*'.repeat(userId.length - 4);
-}
-
-$(document).ready(function () {
-    $('.single-comment strong').each(function () {
-        var originalId = $(this).text();
-        var maskedId = maskUserId(originalId);
-        $(this).text(maskedId);
-    });
-    //페이지 로딩 시 댓글 페이지 들고오기
+function postComment() {
+    // registerEventHandlers();
     $.ajax({
         url: "/commu/detail/comment",
-        type: "GET",
-        data: {commuId: document.getElementById("commuId").value},
-        success: function (data) {
-            let layout = $("#comment-Box");
-            layout.find("#comment-Box").remove();
-            layout.append(data);
+        type: "POST",
+        data: {
+            commuCommentCommuId: document.getElementById("commuId").value,
+            commuCommentCntnt: document.getElementById("cntnt").value
+        },
+        success: function (response) {
+
+            // 답글 추가 후 원본 댓글의 답글 수 업데이트
+            // updateReplyCount(formData.commuCommentRefId);
+            // console.log("dsf")
+
+        },
+        error: function (err) {
+            console.log(err);
+            alert("댓글 작성 중 오류 발생");
         }
-    })
+    });
+}
+function postReply(commentID) {
+    $.ajax({
+        url: "/commu/detail/reply",
+        type: "POST",
+        data: {
+            commuCommentCommuId: document.getElementById("commuId").value,
+            commuCommentCntnt: document.getElementById("commuCommentCntnt").value,
+            commuCommentRefId: commentID
+        },
+        success: function (response) {
 
+            // 답글 추가 후 원본 댓글의 답글 수 업데이트
+            // updateReplyCount(formData.commuCommentRefId);
+            // console.log("dsf")
 
-});
-
-
-//게시글 신고 기능
-function showReportConfirmModal() {
-    const modal = document.getElementById('commonModal');
-    const modalTitle = modal.querySelector('.modal-title');
-    const modalBody = modal.querySelector('.modal-body');
-
-    modalTitle.textContent = "신고 확인";
-    modalBody.textContent = "정말로 게시글을 신고하겠습니까?";
-
-    // Bootstrap 5의 모달을 수동으로 표시하는 코드
-    const bsModal = new bootstrap.Modal(modal);
-    bsModal.show();
-
-    // '확인' 버튼에 리스너 추가
-    document.getElementById('confirmBtn').addEventListener('click', function () {
-        const reportForm = document.querySelector('form[method="post"][th\\:action*="report"]');
-        if (reportForm) {
-            reportForm.submit();
+        },
+        error: function (err) {
+            console.log(err);
+            alert("댓글 작성 중 오류 발생");
         }
     });
 }
 
+function deleteComment(commentID,refID){
+    $.ajax({
+        url: "/commu/detail/delete",
+        type: "POST",
+        data: {
+            commuCommentId: commentID,
+            commuCommentRefId: refID
+        },
+        success: function (response) {
 
-// '확인' 버튼에 한 번만 이벤트 리스너 추가
-document.getElementById('confirmBtn').addEventListener('click', function () {
-    const deleteForm = document.querySelector('form[method="post"]');
-    if (deleteForm) {
-        deleteForm.submit();
-    }
-});
+            // 답글 추가 후 원본 댓글의 답글 수 업데이트
+            // updateReplyCount(formData.commuCommentRefId);
+            // console.log("dsf")
 
-function showDeleteConfirmModal() {
-    const modal = document.getElementById('commonModal');
-    const modalTitle = modal.querySelector('.modal-title');
-    const modalBody = modal.querySelector('.modal-body');
-
-    modalTitle.textContent = "삭제 확인";
-    modalBody.textContent = "정말로 삭제하시겠습니까?";
-
-    // Bootstrap 5의 모달을 수동으로 표시하는 코드
-    const bsModal = new bootstrap.Modal(modal);
-    bsModal.show();
+        },
+        error: function (err) {
+            console.log(err);
+            alert("댓글 작성 중 오류 발생");
+        }
+    });
 }
-
-function showConfirmModal(event, actionType) {
-    event.preventDefault(); // form 제출을 방지
-
-    // 모달 내용 변경
-    document.querySelector(".modal-body").textContent = "정말로 삭제하시겠습니까?";
-
-    // actionType에 따라 data-action 설정 (필요한 경우)
-    document.getElementById('commonModal').dataset.action = actionType;
-}
-
 
 $(document).ready(function () {
     // 페이지 로딩 시 댓글과 답글 관련 초기 설정
@@ -162,29 +145,6 @@ $(document).ready(function () {
     updateCommentCount();
 
 
-    function postComment(formData) {
-        $.ajax({
-            url: "/commu/comment",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (response) {
-                console.log("Server Response:", response);
-                var commucomment = response.comment;
-                var newComment = createCommentHTML(commucomment);
-
-                // 답글 추가 후 원본 댓글의 답글 수 업데이트
-                updateReplyCount(formData.commuCommentRefId);
-
-
-            },
-            error: function (err) {
-                console.log(err);
-                alert("댓글 작성 중 오류 발생");
-            }
-        });
-    }
 
     function registerEventHandlers() {
         $(".comment-list-section").on("click", ".view-replies-btn", function (e) {
@@ -230,24 +190,23 @@ $(document).ready(function () {
             });
         });
         // 답글 등록
-        $(".comment-list-section").on("click", ".post-reply", function () {
-            var $replyForm = $(this).closest(".replyForm");
-
-            var formData = {
-                commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
-                commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
-                commuCommentCntnt: $replyForm.find("[name='commuCommentCntnt']").val(),
-                commuCommentRefId: $replyForm.find("[name='commuCommentRefId']").val()
-            };
-
-            postComment(formData, true, function () {
-                // 답글을 추가한 후 원본 댓글의 답글 수를 업데이트합니다.
-                updateReplyCount(formData.commuCommentRefId);
-
-                // 전체 댓글 수를 업데이트합니다.
-                updateCommentCount();
-            });
-        });
+        // $(".comment-list-section").on("click", ".post-reply", function () {
+        //     var $replyForm = $(this).closest(".replyForm");
+        //
+        //     var formData = {
+        //         commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
+        //         commuCommentCntnt: $replyForm.find("[name='commuCommentCntnt']").val(),
+        //         commuCommentRefId: $replyForm.find("[name='commuCommentRefId']").val()
+        //     };
+        //
+        //     postComment(formData, true, function () {
+        //         // 답글을 추가한 후 원본 댓글의 답글 수를 업데이트합니다.
+        //         updateReplyCount(formData.commuCommentRefId);
+        //
+        //         // 전체 댓글 수를 업데이트합니다.
+        //         updateCommentCount();
+        //     });
+        // });
         $(".comment-list-section").on("click", ".update-comment-textarea", function (e) {
             e.stopPropagation();  // textarea 클릭시 다른 요소는 클릭되지 않게 함
         });
@@ -286,47 +245,48 @@ $(document).ready(function () {
             }
         });
         // 댓글 삭제
-        $(".comment-list-section").on("click", ".delete-comment", function () {
-            var commuCommentId = $(this).data("id");
-            /*var mainRefId = $(this).data("main-ref-id");*/
-
-            /*	var isOriginComment = commuCommentId === mainRefId; // 원본 댓글인 경우 확인*/
-
-            // 부모 댓글 ID를 초기화합니다.
-            /*	var parentCommentId = $(this).closest('.single-comment').parent().closest('.single-comment').data('id');*/
-
-            var requestUrl = "/commu/comment/delete";
-
-            /*	if (!isOriginComment) { // 원본 댓글이 아닌 경우
-                    requestUrl += "?isSingleReply=true";
-                } else {
-                    requestData.commuCommentMainRefId = mainRefId;
-                }*/
-
-            $.ajax({
-                url: requestUrl,
-                type: "POST",
-                data: JSON.stringify(commuCommentId),// 데이터 전송
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function () {
-                    // 댓글을 삭제합니다.
-                    /*	$(".single-comment[data-id='" + commuCommentId + "']").remove();*/
-
-                    // 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
-                    if (parentCommentId) {
-                        updateReplyCount(parentCommentId);
-                    }
-
-                    // 전체 댓글 개수를 업데이트합니다.
-                    updateCommentCount();
-                },
-                error: function (err) {
-                    console.log(err);
-                    alert("댓글 삭제 중 오류 발생");
-                }
-            });
-        });
+        // $(".comment-list-section").on("click", ".delete-comment", function () {
+        //     var commuCommentId = $(this).data("id");
+        //     /*var mainRefId = $(this).data("main-ref-id");*/
+        //
+        //     /*	var isOriginComment = commuCommentId === mainRefId; // 원본 댓글인 경우 확인*/
+        //
+        //     // 부모 댓글 ID를 초기화합니다.
+        //     /*	var parentCommentId = $(this).closest('.single-comment').parent().closest('.single-comment').data('id');*/
+        //
+        //     var requestUrl = "/commu/comment/delete";
+        //
+        //     /*	if (!isOriginComment) { // 원본 댓글이 아닌 경우
+        //             requestUrl += "?isSingleReply=true";
+        //         } else {
+        //             requestData.commuCommentMainRefId = mainRefId;
+        //         }*/
+        //
+        //     $.ajax({
+        //         url: requestUrl,
+        //         type: "POST",
+        //
+        //         data: JSON.stringify(commuCommentId),// 데이터 전송
+        //         contentType: 'application/json',
+        //         dataType: 'json',
+        //         success: function () {
+        //             // 댓글을 삭제합니다.
+        //             /*	$(".single-comment[data-id='" + commuCommentId + "']").remove();*/
+        //
+        //             // 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
+        //             if (parentCommentId) {
+        //                 updateReplyCount(parentCommentId);
+        //             }
+        //
+        //             // 전체 댓글 개수를 업데이트합니다.
+        //             updateCommentCount();
+        //         },
+        //         error: function (err) {
+        //             console.log(err);
+        //             alert("댓글 삭제 중 오류 발생");
+        //         }
+        //     });
+        // });
 
 
     }

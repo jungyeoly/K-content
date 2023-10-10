@@ -6,6 +6,13 @@
   border-bottom: 3px solid var(--color-main);
 }
 
+.searchDiv {
+	  width: 50%;
+    margin: auto;
+    padding-top: 30px;
+    height: 80%;
+} 
+ 
 .categories li {
   font-size: 14px;
   font-weight: 900;

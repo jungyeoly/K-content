@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 	let currentPage = 1; // 페이지 초기화
 	let loading = false; // 페이지 로딩 중 여부를 나타내는 플래그
@@ -23,7 +24,7 @@ searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
 
 function searchPosts(keyword, page) {
     $.ajax({
-        url: `/commu/search/${page}`,
+        url: `/cms/commu/search/${page}`,
         type: 'GET',
         data: {
             keyword: keyword
@@ -79,43 +80,89 @@ function searchPosts(keyword, page) {
 		}
 	});
 
-	// 메인 페이지
-	function loadPage(page) {
-		if (typeof page === 'undefined' || !page) {
-			page = 1;
-		}
 
-		loading = true; // 페이지 로딩 중 플래그 설정
-		$.ajax({
-			url: `/commu/ajax/${page}`,
-			method: 'GET',
-			dataType: 'json',
-			cache: false,
-			success: function(response) {
-				updatePostList(response.commulist);
-				updatePagination(response.nowPage, response.totalPageCount);
-				currentPage = page;
-			},
-			error: function(error) {
-				console.error("Failed to load posts:", error);
-			},
-			complete: function() {
-				loading = false; // 페이지 로딩 완료 시 플래그 해제
-			}
-		});
-	}
+/// 메인 페이지
+function loadPage(page) {
+    if (typeof page === 'undefined' || !page) {
+        page = 1;
+    }
+  
+    let requestURL = `/cms/commu/ajax/${page}`;
+
+    loading = true; // 페이지 로딩 중 플래그 설정
+    $.ajax({
+        url: requestURL,
+        method: 'GET',
+        dataType: 'json',
+        cache: false,
+        success: function(response) {
+            updatePostList(response.commulist);
+
+			console.log("test: " + response.commulist[0]);
+
+            updatePagination(response.nowPage, response.totalPageCount);
+            currentPage = page;
+        },
+        error: function(error) {
+            console.error("Failed to load posts:", error);
+        },
+        complete: function() {
+            loading = false; // 페이지 로딩 완료 시 플래그 해제
+        }
+    });
+}
 
 
 	// 카테고리 클릭 이벤트
 	$(document).on('click', '.cate', function() {
+		$(".cate").removeClass("active");
+		$(this).addClass("active");
 		commuCateCode = $(this).data('maincate-value');
 		loadCategoryPosts(commuCateCode, 1); // 페이지를 1페이지로 초기화하여 로드
 	});
 
 	// 카테고리 클릭 이벤트
 	function loadCategoryPosts(commuCateCode, page) {
+		switch (commuCateCode) {
+			case '전체':
+			    commuCateCode = 'All';
+			    break;
+			case '음악':
+			    commuCateCode = 'POP';
+			    break;
+			case '연예인':
+			    commuCateCode = 'Celebrity';
+			    break;
+			case '음식':
+			    commuCateCode = 'Food';
+			    break;
+			case '영화':
+			    commuCateCode = 'Movie';
+			    break;
+			case '스포츠':
+			    commuCateCode = 'Sports';
+			    break;
+			case '패션':
+			    commuCateCode = 'Fashion';
+			    break;
+			case '미용':
+			    commuCateCode = 'Beauty';
+			    break;
+			case '드라마':
+			    commuCateCode = 'Drama';
+			    break;
+			case '여행':
+			    commuCateCode = 'Travel';
+			    break;
+			case '게임':
+			    commuCateCode = 'Game';
+			    break;
+		  default:
+		    commuCateCode = 'All';
+		}
+
 		$.ajax({
-			url: `/commu/commucatecode/${commuCateCode}?page=${page}`,
+			url: `/cms/commu/commucatecode/${commuCateCode}?page=${page}`,
 			type: 'GET',
 			dataType: 'json',
 			success: function(response) {

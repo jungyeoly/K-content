@@ -2,20 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/commu/commuUpdate.css}">
-<link rel="stylesheet" href="/css/commu-nav.css">
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/admin-body-header.css">
+<meta charset="UTF-8">
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-	<div th:replace="~{/include/header :: header}"></div>
-	<header th:replace="~{include/body-header :: userNavBar}"></header>
-	
-	<div th:replace="~{/include/community-center :: commu-nav}"></div>
-
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	<div class="container">
-		<div class="menu fw-bold" id="commuId">[[${commu.commuId}]]</div>
+		<div class="menu fw-bold" id="commuId">공지사항([[${commu.commuId}]])</div>
 		<form
-			th:action="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+			th:action="@{/cms/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
 			method="post" enctype="multipart/form-data"
 			onsubmit="return validateForm()">
 
@@ -34,15 +32,15 @@
 					<div class="commu-label">
 						<label for="category">카테고리</label>
 					</div>
-					<div class="commu-category">
+				<div class="commu-category">
 						<select id="category" name="commuCateCode">
-							<option value="">카테고리를 선택해주세요.</option>
-							<option th:each="code : ${commuCateCodeList}"
+							<option th:each="code : ${CodeVal}"
 								th:if="${code != null}" th:value="${code.commonCode}"
-								th:selected="${code.commonCode == commu.commuCateCode}"
-								th:text="${code.commonCodeVal}">카테고리명</option>
+								th:text="${code.commonCodeVal}"
+								th:selected="${code.commonCodeVal == 'NOTICE'}">카테고리명</option>
 						</select>
 					</div>
+
 				</li>
 
 				<li class="tit-row">
@@ -87,8 +85,8 @@
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
 					sec:authorize="isAuthenticated()"> <a type="reset"
-					class="btn me-2 cancel-btn" th:href="@{/commu/1}">취소</a> <input
-					type="submit" class="btn saveBtn" value="저장"> <input
+					class="btn me-2 cancel-btn" th:href="@{/cms/commu/1 (commonCodeVal ='All')}">취소</a> 
+					<input	type="submit" class="btn saveBtn" value="저장"> <input
 					type="hidden" name="filesToDelete" id="filesToDelete">
 
 			</div>

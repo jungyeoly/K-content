@@ -2,16 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
+<link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
+<link rel="stylesheet" href="/css/common.css">
 <meta charset="UTF-8">
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-<div class="container mb-3">
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<div class="container mb-3">
 		<div class="commu-no menu fw-bold">
+			<!-- 일반 카테고리 출력 -->
 			<span th:each="code : ${commuCateCodeList}"
 				th:if="${code.commonCode} == ${commu.commuCateCode}"
 				th:text="${code.commonCodeVal}">카테고리명</span>
+
+			<!-- commu.commuCateCode가 "C06"일 때만 NOTICE 출력 -->
+			<span th:if="${commu.commuCateCode} == 'C06'" th:text="'NOTICE'"></span>
 		</div>
 
 		<div class="commu-header d-flex justify-content-between fw-bold">
@@ -35,35 +41,17 @@
 				<div class="cntnt">[[${commu.commuCntnt}]]</div>
 			</div>
 		</div>
-		<div class="file-download-section"
-			th:if="${#lists.size(commuFiles) > 0}">
-			<div class="download-container">
-				<div class="zip-file-download">
-					원본 첨부파일 (<span th:text="${#lists.size(commuFiles)}">0</span>)
-				</div>
-				<a th:href="@{/download-all-images/{commuId}(commuId=${commuId})}"
-					th:if="${#lists.size(commuFiles) > 1}"
-					class="btn btn-primary file-download">본문 이미지 다운로드</a>
-			</div>
-
-			<ul class="file-links">
-				<li th:each="file : ${commuFiles}"><a
-					th:href="@{'/download/' + ${file.commuFileId}}" download
-					class="download-link"> <span th:text="${file.commuFileName}">FileName</span>
-				</a></li>
-			</ul>
-		</div>
-
+		
 		<div class="d-flex btn-div">
-			<a th:href="@{/commu/1}" class="list-link btn">목록</a>
+			<a th:href="@{/cms/commu/1 (commonCodeVal ='All')}"class="list-link btn">목록</a>
 			<div class="btns">
 				<div
 					th:if="${#authentication.principal.username} == ${commu.commuMberId}">
 					<a
-						th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+						th:href="@{/cms/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
 						class="btn me-2">수정</a>
 					<form
-						th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
+						th:action="@{/cms/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
 						method="post">
 						<input type="hidden" name="commuId" th:value="${commu.commuId}">
 						<button type="button" class="btn delete"
@@ -76,16 +64,20 @@
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 					method="post">
 					<button type="button" class="btn report"
+						th:if="${commu.commuCateCode != 'C06'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
 			</div>
 		</div>
 		<!-- 댓글 리스트 영역 시작 -->
-		<div class="comment-list-section">
-			<h3>댓글 <span th:text="${comments != null ? comments.size() + '개' : '0개'}"></span></h3>
+		<div class="comment-list-section" th:unless="${commu.commuCateCode} == 'C06'">
+			<h3>
+				댓글 <span
+					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
+			</h3>
 
 			<!-- 댓글 및 답글 출력 -->
-			<div th:each="commucomment : ${comments}"
+			<div th:each="commucomment : ${comments}" 
 				th:if="${commucomment.commuCommentRefId == 0}">
 				<th:block th:replace="~{::commentFragment(comment=${commucomment})}"></th:block>
 			</div>
@@ -94,9 +86,8 @@
 
 		<!-- Comment Fragment -->
 		<th:block th:fragment="commentFragment(comment)">
-		
+
 			<div th:if="${comment != null}" class="single-comment"
-				th:style="'margin-left:' + (${comment.commuCommentDepth} * 20) + 'px'"
 				th:data-id="${comment.commuCommentId}">
 
 				<strong th:text="${comment.commuCommentMberId}">UserName</strong>
@@ -107,15 +98,26 @@
 				<div class="comment-date"
 					th:text="${comment.commuCommentRegistDate}">Date</div>
 				<div class="comment-buttons">
-				      <button class="view-replies-btn">답글(<span class="reply-count">0개</span>)</button>
 					<button class="reply-to-comment">답글</button>
 					<div
 						th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
 						<button class="update-comment"
 							th:data-id="${comment.commuCommentId}">수정</button>
-						<button class="delete-comment"
+						<button class="delete-comment" 
 							th:data-id="${comment.commuCommentId}">삭제</button>
 					</div>
+					<button class="view-replies-btn">
+						답글(<span class="reply-count"
+							th:text="${comment.replies != null ? comment.replies.size() + '개' : '0개'}"></span>)
+					</button>
+					<!-- 재귀적으로 답글 출력 -->
+					<div class="replies">
+						<th:block th:each="reply : ${comment.replies}">
+							<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
+						</th:block>
+					</div>
+
+
 				</div>
 				<div class="replyForm" th:data-id="${comment.commuCommentId}">
 					<form>
@@ -126,20 +128,13 @@
 						<button type="button" class="post-reply">등록</button>
 					</form>
 				</div>
-				<!-- 재귀적으로 답글 출력 -->
-				<div
-					th:if="${comment.replies != null and comment.replies.size() > 0}"
-					class="replies">
-					<th:block th:each="reply : ${comment.replies}">
-						<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
-					</th:block>
-				</div>
+
 			</div>
 		</th:block>
 
 
 		<!-- 댓글 작성 영역 -->
-		<div th:if="${#authentication.principal}">
+		<div th:if="${#authentication.principal}"th:unless="${commu.commuCateCode} == 'C06'">
 			<div class="comment-section">
 				<form id="commentForm" th:action="@{/commu/comment}" method="post">
 					<input type="hidden" name="commuCommentMberId"
@@ -148,14 +143,14 @@
 						th:value="${commu.commuId}">
 					<textarea name="commuCommentCntnt" rows="4"
 						placeholder="댓글을 입력하세요."></textarea>
-					<button type="button">등록</button>
+					<button type="button" id="submitComment">등록</button>
 				</form>
 			</div>
 		</div>
 
-		<div th:unless="${#authentication.principal}">
+		<div th:unless="${#authentication.principal} or ${commu.commuCateCode} == 'C06'">
 			<p>
-				댓글을 작성하려면 <a href="/login">로그인</a> 해주세요.
+				댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
 			</p>
 		</div>
 

@@ -172,7 +172,7 @@
    commu_status, commu_type, commu_read_cnt)
 VALUES
   (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
-   'N', 'N', 0)
+   'N', 'G', 0)
 	]]>
 	</insert>
 
@@ -280,19 +280,20 @@ where commu_file_id=#{commuFileId}
     <![CDATA[
     SELECT COUNT(*) 
     FROM tb_commu
-    WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+    WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
+    AND commu_status = 'N'
     ]]>
 	</select>
 
 	<!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
 	<select id="searchListByContentKeyWord" parameterType="hashmap"
 		resultType="com.example.myapp.user.commu.model.Commu">
-    <![CDATA[
+      <![CDATA[
     SELECT
         c.commu_id AS "commuId",
         c.commu_title AS "commuTitle",
         c.commu_cntnt AS "commuCntnt",
-       c.commu_regist_date AS "commuRegistDate",
+        c.commu_regist_date AS "commuRegistDate",
         c.commu_read_cnt AS "commuReadCnt",
         c.commu_cate_code AS "commuCateCode",
         c.commu_mber_id AS "commuMberId",
@@ -309,11 +310,34 @@ where commu_file_id=#{commuFileId}
             commu_mber_id,
             ROW_NUMBER() OVER(ORDER BY commu_id) AS rn
         FROM tb_commu
-        WHERE commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword}
+        WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
+        AND commu_status = 'N'
     ) c
     JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
     WHERE c.rn BETWEEN #{start} AND #{end}
     ]]>
+	</select>
+
+	<select id="selectRecentNotice"
+		resultType="com.example.myapp.user.commu.model.Commu">
+	<![CDATA[
+					SELECT *
+				FROM (
+				    SELECT c.commu_id,
+				           c.commu_title,
+				           c.commu_cntnt,
+				           c.commu_regist_date,
+				           c.commu_update_date,
+				           c.commu_read_cnt,
+				           c.commu_cate_code,
+				           c.commu_mber_id
+				    FROM tb_commu c
+				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
+				    WHERE m.MBER_ROLE_CODE = 'C0402'
+				    ORDER BY c.commu_regist_date DESC
+				) 
+				WHERE ROWNUM <= 5
+	        ]]>
 	</select>
 
 

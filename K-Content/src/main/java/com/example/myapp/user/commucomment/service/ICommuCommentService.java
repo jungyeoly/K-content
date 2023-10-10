@@ -9,6 +9,8 @@ public interface ICommuCommentService {
 	CommuComment insertCommuComment(CommuComment commucomment);  //댓글 작성
 	
 	void updateCommuComment(CommuComment commucomment); // 댓글 수정
+	
+	void deleteCommuCommentByCommuCommentId(int commuCommentId); //게시글 원본댓글 삭제 
 	 
 	void deleteCommuCommentAndComments(int commuCommentId);//원본댓글과 대댓글 모두 삭제시
 	

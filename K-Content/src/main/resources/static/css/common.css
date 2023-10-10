@@ -132,19 +132,11 @@ img, a {
 }
 
 .delete {
-	color: red !important;
-	border: 1px solid red !important;
-	background-color: white !important;
-}
-
-.delete1 {
-	color: white !important;
-	border: 1px solid #dc143c !important;
-	background-color: #dc143c !important;
+	background-color: #e66767;;
 }
 
 .alert-delete-btn {
-	background-color: #dc143c !important;
+	background-color: #e66767 !important;
 }
 .alert-btn {
 	background-color: var(--color-main);

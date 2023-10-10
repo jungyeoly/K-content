@@ -5,53 +5,7 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-<style>
-.mber-table .badge {
-	color: white;
-	padding: 10px;
-	font-weight: normal;
-}
-
-
-
-.table-layout table th, .table-layout table td {
-	border: none;
-	text-align: center;
-	white-space: nowrap;
-}
-
-.page-link {
-	color: #000;
-	background-color: #fff;
-	border: 1px solid #ccc;
-}
-
-.page-item.active .page-link {
-	z-index: 1;
-	color: #555;
-	font-weight: bold;
-	background-color: #f1f1f1;
-	border-color: #ccc;
-}
-
-.page-link:focus, .page-link:hover {
-	color: #000;
-	background-color: #fafafa;
-	border-color: #ccc;
-}
-
-
-
-.table>:not(caption)>*>* {
-	background-color: unset;
-}
-
-.mber-table td .btn {
-	height: 20px;
-	border: 1px solid #14dbc8;
-	padding: 16px 12px;
-}
-</style>
+<link rel="stylesheet" th:href="@{/css/mber/cmsMber.css}">
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
@@ -64,14 +18,30 @@
 					<div id="mberTable"
 						class="table-layout mber-table table table-group-divider">
 
+						<div class="search">
+							<form name="findMber" onsubmit="searchMber(); return false;">
+								<div class="row justify-content-center">
+									<div class="col-md-2">
+										<select name="findType" id="findType" class="form-control form-select mr-2">
+											<option value="1">이름</option>
+											<option value="2">아이디</option>
+											<option value="3">이메일</option>
+											<option value="4">전화번호</option>
+										</select>
+									</div>
+									<div class="col-md-5">
+										<div class="input-group">
+										<input type="text" name="findKeyword" id="findKeyword" placeholder="검색어를 입력하세요"
+											class="form-control mr-2">
+											<button type="submit" class="btn" id="search-btn">
+											<i class="fa-solid fa-magnifying-glass"></i>
+										</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
 
-						<form id="searchForm" class="input-group mt-3 mb-3">
-							<input type="text" id="search-input" placeholder="검색어를 입력하세요"
-								class="form-control">
-							<button type="submit" class="btn" onclick="searchButton()">
-								<i class="fa-solid fa-magnifying-glass"></i>
-							</button>
-						</form>
 						<table class="table">
 							<thead>
 								<tr>
@@ -96,38 +66,32 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<nav aria-label="Page navigation"
-					class="d-flex justify-content-center mb-3">
-					<ul class="pagination">
-						<li class="page-item" th:if="${nowPageBlock>1}"><a
-							class="page-link" th:href="@{/mber/list/__${startPage-1}__}"
-							aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-							<a class="page-link prepage" aria-label="Previous"> <span
-								aria-hidden="true">&laquo;</span>
-						</a></li>
-
-						<li class="page-item"
-							th:each="i: ${#numbers.sequence(startPage, endPage)}"
-							th:classappend="${i==nowPage}?active"><a class="page-link"
-							th:href="@{/mber/list/__${i}__}">[[${i}]]</a></li>
-
-						<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-							<a class="page-link" th:href="@{/mber/list/__${endPage+1}__}"
-							aria-label="Next"><span aria-hidden="true">&raquo;</span></a> <a
-							class="page-link nexpage" aria-label="Next"> <span
-								aria-hidden="true">&raquo;</span>
-						</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-
 		</div>
+		<nav aria-label="Page navigation"
+			class="d-flex justify-content-center">
+			<ul class="pagination">
+				<li class="page-item" th:if="${nowPageBlock>1}"><a
+					class="page-link prepage" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
+
+				<li class="page-item"
+					th:each="i: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${i==nowPage}?active"><a
+					class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
+
+				<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+					class="page-link nexpage" aria-label="Next"> <span
+						aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
 	</div>
 	<script>
 		// 현재 페이지를 저장할 변수 추가
 		var currentPage = "[[${nowPage}]]";
+		var startPage = "[[${startPage}]]";
+		var endPage = "[[${endPage}]]";
 		var totalPageBlock = "[[${totalPage}]]";
 		$(document).ready(function() {
 			// 페이지 로딩 시 초기 데이터 가져오기
@@ -188,32 +152,32 @@
 													+ '</td>';
 										}
 										if (mber.mberStat == '비활성화') {
-										html += '<td class="fw-bold text-danger">' + mber.mberStat
-												+ '</td>';
+											html += '<td class="fw-bold text-danger">'
+													+ mber.mberStat + '</td>';
 										} else {
-											html += '<td class="fw-bold">' + mber.mberStat
-											+ '</td>';
+											html += '<td class="fw-bold">'
+													+ mber.mberStat + '</td>';
 										}
 										html += '<td>';
 
 										if (mber.mberRole != '관리자') {
-										if (mber.mberStat == '비활성화') {
+											if (mber.mberStat == '비활성화') {
 												html += '<button class="btn" data-mber-id="'
 														+ mber.mberId
 														+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">변경</button>';
 											} else if (mber.mberStat == '활성화') {
 												html += '<button class="btn" data-mber-id="'
-													+ mber.mberId
-													+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
-										} 
+														+ mber.mberId
+														+ '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
+											}
 										}
 										html += '</td>';
 										html += '</tr>';
 									});
-
 							// 회원 리스트 테이블 업데이트
 							$('#mberTable tbody').html(html);
-								
+							updatePagination();
+							$(".pagination").hide();
 						},
 						error : function() {
 							alert('데이터를 불러오는데 실패했습니다.');
@@ -225,22 +189,103 @@
 			$(".pagination").empty();
 
 			// totalPageBlock을 기반으로 페이지네이션 링크 추가
-			for (var i = startPage; i <= endPage; i++) { // 수정된 부분
-				var pageLink = $('<a>');
+			for (var i = startPage; i <= endPage; i++) {
+				var pageLink = $('<a class="page-link selpage">');
 				pageLink.text(i);
 				pageLink.attr('href', '/cs/mber/list/' + i);
-				if (currentPage === i) {
+				if (currentPage == i) {
 					pageLink.addClass('active');
 				}
 				$(".pagination").append($('<li>').append(pageLink));
 			}
 		}
+
+		document.getElementById("search-btn").addEventListener("click", function (event) {
+		    event.preventDefault(); // 기본 이벤트 취소 (페이지 새로고침 방지)
+		    
+		    var findType = document.getElementById("findType").value;
+		    var findKeyword = document.getElementById("findKeyword").value;
+	    	console.log(findType);
+	    	console.log(findKeyword);
+
+		    // 검색 결과를 비동기로 가져오는 함수 호출
+		    searchMber(findType, findKeyword);
+		});
+		
+	    function searchMber(findType, findKeyword) {
+		  
+	        $.ajax({
+	            type: 'GET',
+	            url: '/cs/mber/search-mber',
+	            data: {
+	                findType: findType,
+	                findKeyword: findKeyword
+	            },
+	            dataType: 'json',
+	            success: function (data) {
+	                var html = '';
+	                if (data.length === 0) {
+		                // 검색 결과가 없는 경우 알림 표시
+		                html = '<tr><td colspan="12" class="text-center">검색 결과가 없습니다.</td></tr>';
+		            } else {
+	                data.forEach(function (mber, index) {
+	                    var rownum = (currentPage - 1) * 10 + index + 1;
+	                    html += '<tr>';
+	                    html += '<td>' + rownum++ + '</td>';
+	                    html += '<td>' + mber.mberRole + '</td>';
+	                    html += '<td>' + mber.mberId + '</td>';
+	                    html += '<td>' + mber.mberName + '</td>';
+	                    html += '<td>' + mber.mberEmail + '</td>';
+	                    html += '<td>' + mber.mberGenderCode + '</td>';
+	                    if (mber.mberBirth == null) {
+	                        html += '<td>-</td>';
+	                    } else {
+	                        html += '<td>' + mber.mberBirth + '</td>';
+	                    }
+	                    if (mber.mberPhone == null) {
+	                        html += '<td>-</td>';
+	                    } else {
+	                        html += '<td>' + mber.mberPhone + '</td>';
+	                    }
+	                    html += '<td>' + mber.mberRegistDate + '</td>';
+	                    if (mber.mberUpdateDate == null) {
+	                        html += '<td>-</td>';
+	                    } else {
+	                        html += '<td>' + mber.mberUpdateDate + '</td>';
+	                    }
+	                    if (mber.mberStat == '비활성화') {
+	                        html += '<td class="fw-bold text-danger">' + mber.mberStat + '</td>';
+	                    } else {
+	                        html += '<td class="fw-bold">' + mber.mberStat + '</td>';
+	                    }
+	                    html += '<td>';
+	                    if (mber.mberRole != '관리자') {
+	                        if (mber.mberStat == '비활성화') {
+	                            html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">변경</button>';
+	                        } else if (mber.mberStat == '활성화') {
+	                            html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
+	                        }
+	                    }
+	                    html += '</td>';
+	                    html += '</tr>';
+	                });
+		            }
+	                $('#mberTable tbody').html(html); // 검색 결과 업데이트
+	                updatePagination();
+	                
+	            },
+	            error: function () {
+	                alert('검색에 실패했습니다.');
+	            }
+	        });
+	    }
+	    
 	</script>
 	<script>
 		function changeStatus(mberId, newStatus) {
 			$.ajax({
 				type : 'POST',
-				url : '/mber/changestat',
+				url : '/cs/mber/change-stat',
 				data : {
 					mberId : mberId,
 					newStatus : newStatus

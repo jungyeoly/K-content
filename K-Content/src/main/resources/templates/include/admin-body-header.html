@@ -6,8 +6,10 @@
 
 <body>
 	<header th:fragment="adminNavBar">
+
 		<div class="badge text-bg-dark text-white position-relative">
 			<h6>관리자모드</h6>
+
 
 			<a class="position-absolute end-0 top-0 py-2 px-3 text-white " th:href="@{/mber/signout}" sec:authorize="isAuthenticated()">
 				<i class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>

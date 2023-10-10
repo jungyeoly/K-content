@@ -49,20 +49,19 @@ $(document).ready(function () {
         }
     });
 
-    // 키워드로 인스타 크롤링 이거 지금 막아놨습니다. css때문에 리로드 엄청 되는데 매번 오류나서 나중에 붙이겠습ㄴ디ㅏ.
-    // $.ajax({
-    //     url: '/cs/insta-img', type: 'GET',
-    //     data: requestData,
-    //     success: function (data2) {
-    //         const element = document.getElementById('trend');
-    //         data2.slice(1, -1);
-    //         data2.slice(1, -1);
-    //         console.log(data2);
-    //         element.innerHTML = data2
-    //     }, error: function (error) {
-    //         console.error('에러 발생: ', error);
-    //     }
-    // });
+    $.ajax({
+        url: '/cs/test/insta-img', type: 'GET',
+        data: requestData,
+        success: function (data2) {
+            const element = document.getElementById('trend');
+            data2.slice(1, -1);
+            data2.slice(1, -1);
+            console.log(data2);
+            element.innerHTML = data2
+        }, error: function (error) {
+            console.error('에러 발생: ', error);
+        }
+    });
 
     var requestData = {
         targetContentIdF: document.getElementById("contentId").value
@@ -85,7 +84,7 @@ $(document).ready(function () {
 //콘텐츠 상세 화면 출력
 function recomCntntDetail(cntntId) {
     const formHtml = `
-                    <form id="contentDetail" action="/cs/content/detail" method="get">
+                    <form id="contentDetail" action="/user/content/detail" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 

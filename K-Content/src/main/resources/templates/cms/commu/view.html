@@ -64,7 +64,7 @@
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 					method="post">
 					<button type="button" class="btn report"
-						th:if="${commonCodeVal != '공지사항'}"
+						th:if="${commu.commuCateCode != 'C06'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
 			</div>

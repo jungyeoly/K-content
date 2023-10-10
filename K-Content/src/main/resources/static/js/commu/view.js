@@ -157,7 +157,7 @@ $(document).ready(function() {
 
 
 
-	function postComment(formData, isReply, callback) {
+	function postComment(formData) {
 		$.ajax({
 			url: "/commu/comment",
 			type: "POST",
@@ -169,41 +169,11 @@ $(document).ready(function() {
 				var commucomment = response.comment;
 				var newComment = createCommentHTML(commucomment);
 
-				if (isReply) {
-					// 원본 댓글을 찾아냅니다.
-					var $originalComment = $(".single-comment[data-id='" + formData.commuCommentRefId + "']");
-					// 원본 댓글의 직접적인 답글 영역을 찾습니다.
-					var $repliesDiv = $originalComment.find("> .replies").first();
-
-					// 새로운 답글 HTML을 올바른 위치에 삽입합니다.
-					$repliesDiv.append(newComment);
-
-					// 답글 추가 후 원본 댓글의 답글 보기 버튼을 업데이트
-					var $viewRepliesBtn = $originalComment.find(".view-replies-btn");
-					if ($viewRepliesBtn.length === 0) {
-						$originalComment.find(".comment-buttons").append('<button class="view-replies-btn">답글(<span class="reply-count">0개</span>)</button>');
-					} else {
-						$viewRepliesBtn.show();
-					}
-
 					// 답글 추가 후 원본 댓글의 답글 수 업데이트
 					updateReplyCount(formData.commuCommentRefId);
 
 
-					// 답글 입력 폼 초기화 및 숨기기
-					$(".replyForm:visible").find("[name='commuCommentCntnt']").val('');
-					$(".replyForm:visible").hide();
-				} else {
-					// 새 댓글을 댓글 리스트의 가장 아래에 추가
-					$(".comment-list-section").append(newComment);
-				}
-				// 전체 댓글 수 업데이트
-				updateCommentCount();
-
-				// 콜백이 있다면 호출
-				if (callback) callback();
-				// 페이지 맨 아래로 스크롤 이동
-				$("html, body").animate({ scrollTop: $(document).height() }, "slow");
+			
 			},
 			error: function(err) {
 				console.log(err);
@@ -278,7 +248,6 @@ $(document).ready(function() {
 		$("#commentForm button").on("click", function(e) {
 			e.preventDefault();
 			var formData = {
-				commuCommentMberId: $("#commentForm").find("[name='commuCommentMberId']").val(),
 				commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
 				commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
 			};
@@ -346,51 +315,31 @@ $(document).ready(function() {
 		});
 		// 댓글 삭제
 		$(".comment-list-section").on("click", ".delete-comment", function() {
-		var commuCommentId = $(this).data("id");
-		var isOriginComment = $(this).closest('.single-comment').data('is-origin') === 'true';
-
-		// 부모 댓글 ID를 찾습니다.
-		var parentCommentId = $(this).closest('.single-comment').find('.replies').data('parent-id');
-
-		$.ajax({
-			url: "/commu/comment/delete/" + commuCommentId,
-			type: "POST",
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function() {
-				// 댓글을 삭제합니다.
-				$(".single-comment[data-id='" + commuCommentId + "']").remove();
-
-				// 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
-				if (parentCommentId) {
-					updateReplyCount(parentCommentId);
-				}
-
-				// 전체 댓글 개수를 업데이트합니다.
-				updateCommentCount();
-			},
-			error: function(err) {
-				console.log(err);
-				alert("댓글 삭제 중 오류 발생");
-			}
-		});
-	});
-		/*$(".comment-list-section").on("click", ".delete-comment", function() {
 			var commuCommentId = $(this).data("id");
-			var isOriginComment = $(this).closest('.single-comment').data('is-origin') === 'true';
+			/*var mainRefId = $(this).data("main-ref-id");*/
 
-			// 서버로 전송할 데이터 설정
-			var dataToSend = { isSingleReply: !isOriginComment };
+		/*	var isOriginComment = commuCommentId === mainRefId; // 원본 댓글인 경우 확인*/
+
+			// 부모 댓글 ID를 초기화합니다.
+		/*	var parentCommentId = $(this).closest('.single-comment').parent().closest('.single-comment').data('id');*/
+
+			var requestUrl = "/commu/comment/delete";
+
+		/*	if (!isOriginComment) { // 원본 댓글이 아닌 경우
+				requestUrl += "?isSingleReply=true";
+			} else {
+				requestData.commuCommentMainRefId = mainRefId;
+			}*/
 
 			$.ajax({
-				url: "/commu/comment/delete/" + commuCommentId,
+				url: requestUrl,
 				type: "POST",
-				data: dataToSend,
+				data: JSON.stringify(commuCommentId),// 데이터 전송
 				contentType: 'application/json',
 				dataType: 'json',
 				success: function() {
 					// 댓글을 삭제합니다.
-					$(".single-comment[data-id='" + commuCommentId + "']").remove();
+				/*	$(".single-comment[data-id='" + commuCommentId + "']").remove();*/
 
 					// 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
 					if (parentCommentId) {
@@ -405,7 +354,8 @@ $(document).ready(function() {
 					alert("댓글 삭제 중 오류 발생");
 				}
 			});
-		});*/
+		});
+
 
 	}
 }); 

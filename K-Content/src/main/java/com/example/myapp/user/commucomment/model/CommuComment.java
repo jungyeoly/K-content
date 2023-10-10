@@ -18,6 +18,8 @@ public class CommuComment {
 	private String commuCommentMberId; // 댓글 작성한 회원 ID
 	private int commuCommentRefId; //대댓글의 경우 참조하는 댓글의 ID
 	
+	private int commuCommentMainRefId; //원본 댓글 ID 참조(원본 댓글의 경우 자신의 ID) 
+	
 	private List<CommuComment> replies;// 대댓글 목록		
 }
 

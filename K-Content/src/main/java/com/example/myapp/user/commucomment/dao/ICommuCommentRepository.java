@@ -28,5 +28,7 @@ public interface ICommuCommentRepository {
 	
 	int getLastReplyOrder(int commuCommentRefId); // 원본 댓글에 대한 마지막 대댓글의 순서를 가져오기
 	
+	void deleteCommuCommentAndRepliesByMainRefId(int commuCommentMainRefId); //원본 댓글 삭제시 달린 답글 다 삭제
+	
 
 }

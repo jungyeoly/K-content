@@ -6,13 +6,10 @@
   border-bottom: 3px solid var(--color-main);
 }
 
-.searchDiv {
-	  width: 50%;
-    margin: auto;
-    padding-top: 30px;
-    height: 80%;
-} 
- 
+#commubtn {
+	height:40px;
+	background-color:black;
+}
 .categories li {
   font-size: 14px;
   font-weight: 900;

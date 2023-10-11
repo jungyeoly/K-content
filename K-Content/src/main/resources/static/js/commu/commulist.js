@@ -9,14 +9,14 @@ $(document).ready(function() {
 	loadPage(currentPage);
 
 // 검색 폼 제출 이벤트 리스너 추가
-$('#searchForm').submit(function(event) {
+$('#commusearchForm').submit(function(event) {
     event.preventDefault(); // 폼의 기본 제출 동작을 막음
-    let keyword = $('#searchInput').val();
+    let keyword = $('#commusearchInput').val();
 
     if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
 		currentKeyWord = keyword; //검색 상태 저장        
 searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
-        $('#searchInput').val(''); // 검색창의 내용을 비움
+        $('#commusearchInput').val(''); // 검색창의 내용을 비움
     } else {
 	currentKeyWord = null; //검색어가 비어있으면 검색 상태 해제
 	}

@@ -517,5 +517,11 @@ public class CmsCommuController {
 		}
 		return "redirect:/cms/commu";
 	}
-
+	
+	/*
+	 * //공지사항
+	 * 
+	 * @GetMapping("/recent-notice") public String recentnotice(@RequestParam int
+	 * comm)
+	 */
 }

@@ -20,11 +20,9 @@
         <div th:if="${#authentication.principal}"
              th:unless="${commu.commuCateCode} == 'C06'">
             <div class="comment-section">
-                <form id="commentForm" th:action="@{/commu/comment}" method="post">
                     <textarea id="cntnt" name="commuCommentCntnt" rows="4"
                               placeholder="댓글을 입력하세요."></textarea>
-                    <button type="button" onclick="postComment()">등록</button>
-                </form>
+                <button type="button" onclick="postComment()">등록</button>
             </div>
         </div>
 
@@ -56,9 +54,9 @@
                         <button class="update-comment"
                                 th:data-id="${comment.commuCommentId}">수정
                         </button>
-                        <button  th:commentID="${comment.getCommuCommentId()}"
-                                 th:refID="${comment.getCommuCommentRefId()}"
-                                 onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
+                        <button th:commentID="${comment.getCommuCommentId()}"
+                                th:refID="${comment.getCommuCommentRefId()}"
+                                onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                 th:data-id="${comment.commuCommentId}">삭제
                         </button>
                         <button class="view-replies-btn"
@@ -78,7 +76,8 @@
                                     th:commentID="${comment.getCommuCommentId()}"
                                     type="button"
                                     onclick="postReply(this.getAttribute('commentID'))"
-                                    class="post-reply">등록</button>
+                                    class="post-reply">등록
+                            </button>
                         </form>
                     </div>
 

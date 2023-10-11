@@ -67,6 +67,7 @@ public class CommuCommentController {
         return "ok";
     }
 
+    //대댓글
     @PostMapping("/commu/detail/reply")
     @ResponseBody
     public String insertCommureply(@RequestParam("commuCommentCommuId") int commuId,
@@ -81,7 +82,8 @@ public class CommuCommentController {
         commuCommentService.insertCommuComment(cc);
         return "ok";
     }
-//	// 댓글 수정
+
+    //	// 댓글 수정
 //	@PostMapping("/commu/comment/update/{commucommentId}")
 //	public ResponseEntity<Map<String, Object>> updateCommuComment(@PathVariable int commucommentId,
 //			@RequestBody CommuComment commucomment) {
@@ -109,16 +111,17 @@ public class CommuCommentController {
 //	}
 //
 //	// 댓글 삭제
-	@PostMapping("/commu/comment/delete")
-	public void deleteCommuComment(@RequestParam("commuCommentId") int commuCommentId,
-                                   @RequestParam("commuCommentRefId") int commuCommentRefId) {
-		if (commuCommentRefId == 0) {
+    @PostMapping("/commu/comment/delete")
+    @ResponseBody
+    public String deleteCommuComment(@RequestParam("commuCommentId") int commuCommentId,
+                                     @RequestParam("commuCommentRefId") int commuCommentRefId) {
+        if (commuCommentRefId == 0) {
             commuCommentService.deleteCommuCommentAndRepliesByMainRefId(commuCommentId);
-		}else{
+        } else {
             commuCommentService.deleteCommuCommentRepl(commuCommentId);
         }
-
-	}
+        return "ok";
+    }
 //
 //	@GetMapping("/commu/comment/{commuCommentId}")
 //	public ResponseEntity<Map<String, Object>> getCommuCommentWithReplies(@PathVariable int commuCommentId) {

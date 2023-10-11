@@ -35,22 +35,19 @@
     <!--		#{commuCommentId}-->
     <!--	</update>-->
 
-    <!-- 원본 댓글 및 그에 따른 답글들 삭제 -->
-    <!--	<delete id="deleteCommuCommentAndRepliesByMainRefId"-->
-    <!--		parameterType="int">-->
-    <!--		DELETE FROM TB_COMMU_COMMENT WHERE-->
-    <!--		COMMU_COMMENT_MAIN_REF_ID =-->
-    <!--		#{commuCommentMainRefId}-->
-    <!--	</delete>-->
+    <delete id="deleteCommuCommentRefAll"
+            parameterType="int">
+        DELETE
+        FROM TB_COMMU_COMMENT
+        WHERE COMMU_COMMENT_REF_ID = #{commentId}
+    </delete>
 
-
-    <!-- 원본 댓글 및 개별답글 삭제 -->
-    <!--	<delete id="deleteCommuCommentByCommuCommentId"-->
-    <!--		parameterType="int">-->
-    <!--		DELETE FROM TB_COMMU_COMMENT-->
-    <!--		WHERE COMMU_COMMENT_ID-->
-    <!--		=#{commuCommentId}-->
-    <!--	</delete>-->
+    <delete id="deleteCommuComment"
+            parameterType="int">
+        DELETE
+        FROM TB_COMMU_COMMENT
+        WHERE COMMU_COMMENT_ID = #{commentId}
+    </delete>
 
     <!-- 댓글 순서 업데이트 -->
     <!--	<update id="updateCommuCommentOrderAndDepth">-->

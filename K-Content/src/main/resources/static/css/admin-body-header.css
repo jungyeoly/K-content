@@ -1,41 +1,7 @@
-@import
-url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
-
-@import
-url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
-
 :root {
     /* Color */
     --color-main: #14dbc8;
 }
-
-@font-face {
-    font-family: 'NEXON Lv1 Gothic OTF Light';
-    src:
-            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff')
-            format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'NEXON Lv1 Gothic OTF';
-    src:
-            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
-            format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'NEXON Lv2 Gothic Bold';
-    src:
-            url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff')
-            format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 
 a, a:visited {
     text-decoration: none;
@@ -43,7 +9,6 @@ a, a:visited {
 }
 
 header {
-    font-family: 'campton', 'Apple SD Gothic Neo', NanumBarunGothic, '나눔바른고딕', Malgun Gothic, '맑은 고딕', dotum, sans-serif;
     background-color: white;
 }
 
@@ -105,7 +70,6 @@ header ul.contents {
     font-weight: 900;
     font-size: 2em;
     justify-content: space-around;
-    font-family: 'Lexend Deca', sans-serif;
 }
 
 header ul.contents li {

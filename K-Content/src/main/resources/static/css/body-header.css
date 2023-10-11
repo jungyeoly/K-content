@@ -7,12 +7,6 @@
 	color : var(--color-main) !important;
 }
 
-body{
-	font-family: 'Lexend Deca', sans-serif;
-	font-family: 'Nanum Pen Script', cursive;
-	font-family: 'Noto Sans KR', sans-serif;
-}
-
 ol, ul {
     padding-left: 0;
 }
@@ -73,7 +67,6 @@ header ul.contents {
   font-weight: 600;
   font-size: 25px;
   justify-content: space-evenly;
-  font-family: 'Lexend Deca', sans-serif;
 }
 
 header ul.contents li {

@@ -72,18 +72,18 @@
 		
 		<!-- 버튼 -->
 		<div class="text-center position-relative">
-			<a th:href="@{/cs/inqry}" class="btn p-2">목록</a>
+			<a th:href="@{/cs/inqry}" class="btn text-white p-2">목록</a>
 			
 			<div class="position-absolute end-0 top-0">
 	 			<div class="btns d-flex">
 					<div th:if="${reply} != null" class="d-flex">
-						<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${reply.inqryId})}" class="btn me-2">수정</a>
+						<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${reply.inqryId})}" class="btn text-white me-2">수정</a>
 						<form th:action="@{/cs/inqry/delete/{inqryId}(inqryId=${reply.inqryId})}" method="post">
 							<input type="submit" class="btn delete" value="삭제">
 						</form>
 					</div>
 					
-					<a th:if="${cnt == 1}" th:unless="${reply}" th:href="@{/cs/inqry/write}" class="btn">답글달기</a>
+					<a th:if="${cnt == 1}" th:unless="${reply}" th:href="@{/cs/inqry/write}" class="btn text-white">답글달기</a>
 				</div>
 			</div>
 		</div>

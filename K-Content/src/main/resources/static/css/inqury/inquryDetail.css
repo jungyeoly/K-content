@@ -4,6 +4,10 @@
 	padding: .5em;
 }
 
+.btn {
+	border: 0px !important
+}
+
 .inqry-sub {
 	border-top: 3px solid black;
 	padding : 0px

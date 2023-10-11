@@ -51,26 +51,44 @@ public class CommuCommentController {
 //        List<List<Object>> alignmentComments = new ArrayList<>();
         List<Integer> keys = new ArrayList<>();
         List<CommuComment> refComment = new ArrayList<>();
-
+        List<CommuComment> values = new ArrayList<>();
+//계층형 쿼리 쓰면 1번만 써도됨
+//        for (int i = 0; i < comments.size(); i++) {
+//            if (comments.get(i).getCommuCommentRefId() == 0) {
+////                int key = comments.get(i).getCommuCommentId();
+//                keys.add(comments.get(i).getCommuCommentId());
+//            } else {
+//                for (int j = 0; j < keys.size(); j++) {
+//                    if (keys.get(j) == comments.get(i).getCommuCommentRefId()) {
+//                        refComment.add(comments.get(i));
+//                    }
+//                }
+//            }
+//        }
         for (int i = 0; i < comments.size(); i++) {
             if (comments.get(i).getCommuCommentRefId() == 0) {
 //                int key = comments.get(i).getCommuCommentId();
                 keys.add(comments.get(i).getCommuCommentId());
             } else {
-                for (int j = 0; j < keys.size(); j++) {
-                    if (keys.get(j) == comments.get(i).getCommuCommentRefId()) {
-                        refComment.add(comments.get(i));
-                    }
+                values.add(comments.get(i));
+            }
+        }
+
+        for (int i = 0; i < values.size(); i++) {
+            for (int j = 0; j < keys.size(); j++) {
+                if (keys.get(j) == values.get(i).getCommuCommentRefId()) {
+                    refComment.add(values.get(i));
                 }
             }
         }
 
-
         for (int i = 0; i < refComment.size(); i++) {
             System.out.println(refComment.get(i).getCommuCommentId());
         }
-        model.addAttribute("keys", keys);
-        model.addAttribute("refComment", refComment);
+
+
+//        model.addAttribute("keys", keys);
+        model.addAttribute("refComments", refComment);
         model.addAttribute("comments", comments);
 
         return "user/commu/comment";
@@ -86,6 +104,7 @@ public class CommuCommentController {
         cc.setCommuCommentCommuId(commuId);
         cc.setCommuCommentCntnt(cntnt);
         cc.setCommuCommentMberId(principal.getName());
+        cc.setCommuCommentRefId(0);
         commuCommentService.insertCommuComment(cc);
         return "ok";
     }
@@ -94,7 +113,7 @@ public class CommuCommentController {
     @PostMapping("/commu/detail/reply")
     @ResponseBody
     public String insertCommureply(@RequestParam("commuCommentCommuId") int commuId,
-                                   @RequestParam("commuCommentCntnt") String cntnt,
+                                   @RequestParam("coCntnt") String cntnt,
                                    @RequestParam("commuCommentRefId") int replyId,
                                    Principal principal) {
         CommuComment cc = new CommuComment();
@@ -107,32 +126,15 @@ public class CommuCommentController {
     }
 
     //	// 댓글 수정
-//	@PostMapping("/commu/comment/update/{commucommentId}")
-//	public ResponseEntity<Map<String, Object>> updateCommuComment(@PathVariable int commucommentId,
-//			@RequestBody CommuComment commucomment) {
-//		Map<String, Object> response = new HashMap<>();
-//		logger.info("Received request to update a comment: " + commucomment.toString());
-//
-//		try {
-//			commucommentService.updateCommuComment(commucomment);
-//			System.out.println(commucomment);
-//			logger.info("Comment updated successfully.");
-//
-//			response.put("status", "success");
-//			response.put("message", "댓글이 성공적으로 수정되었습니다.");
-//			response.put("updatedComment", commucomment.getCommuCommentCntnt()); // 수정된 댓글 내용
-//			response.put("commuCommentUpdateDate", commucomment.getCommuCommentUpdateDate()); // 수정된 댓글 날짜 업데이트
-//			System.out.println(commucomment);
-//			return ResponseEntity.ok(response);
-//
-//		} catch (Exception e) {
-//			logger.error("Error during updating a reply:", e);
-//			response.put("status", "error");
-//			response.put("message", "댓글 수정 중 오류가 발생하였습니다.");
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-//		}
-//	}
-//
+    @PostMapping("/commu/comment/update")
+    public String updateCommuComment(@RequestParam("commuCommentId") int commuCommentId,
+                                     @RequestParam("commuCommentCntnt") String commuCommentCntnt) {
+        commuCommentService.updateCommuComment(commuCommentId, commuCommentCntnt);
+        return "ok";
+
+    }
+
+    //
 //	// 댓글 삭제
     @PostMapping("/commu/comment/delete")
     @ResponseBody

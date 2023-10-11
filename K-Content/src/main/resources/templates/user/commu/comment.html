@@ -45,7 +45,7 @@
                     <p th:text="${comment.commuCommentCntnt}">CommuCommentCntnt</p>
                     <textarea class="update-comment-textarea hidden"></textarea>
                 </div>
-                글
+
                 <div class="comment-date"
                      th:text="${comment.commuCommentRegistDate}">Date
                 </div>
@@ -53,29 +53,40 @@
                     <button class="reply-to-comment">댓글</button>
                     <div th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
                         <button class="update-comment"
-                                th:data-id="${comment.commuCommentId}">수정
+                                th:data-id="${comment.commuCommentId}" th:text="수정">
                         </button>
                         <button th:commentID="${comment.getCommuCommentId()}"
-                                th:refID="${comment.getCommuCommentRefId()}"
-                                onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
+                                th:id
                                 th:data-id="${comment.commuCommentId}">삭제
                         </button>
-                        <button class="view-replies-btn"
-                                th:if="${comment.commuCommentRefId == 0}">
 
-                        </button>
                     </div>
 
                     <button class="reply-show">대댓글 보기</button>
+                    <div class="replyForm" th:data-id="${comment.commuCommentId}">
+
+                        <input type="hidden" name="commuCommentRefId"
+                               th:value="${comment.commuCommentId}">
+                        <textarea th:id="${comment.getCommuCommentId()}" rows="2"
+                                  placeholder="댓글을 입력하세요."></textarea>
+                        <button type="button" class="cancel-reply">취소</button>
+                        <button th:commentID="${comment.getCommuCommentId()}"
+                                type="button"
+                                onclick="postReply(this.getAttribute('commentID'))"
+                                class="post-reply">등록
+                        </button>
+
+                    </div>
                     <div id="reply-box">
-<!--                        <div class="reply-box" th:each="refComment : ${refComment}"-->
-<!--                             th:if="${refComment.commuCommentRefId != 0} && ( ${comment.commuCommentId} == ${refComment.commuCommentRefId}) ">-->
-                            <div class="reply-box" th:each="refComment : ${refComment}"
-                                 th:if="${refComment.commuCommentRefId != 0}">
-                            <div th:if="${#authentication.principal.username} == ${refComment.commuCommentMberId}">
+                        <div class="reply-box update" th:each="refComment : ${refComments}"
+                             th:if="${refComment.commuCommentRefId == comment.getCommuCommentId()}">
+                            <div  th:class="${refComment.getCommuCommentId()}" th:if="${#authentication.principal.username} == ${refComment.commuCommentMberId}">
                                 <p th:text="${refComment.getCommuCommentCntnt()}"></p>
+                                <textarea class="update-comment-textarea hidden"></textarea>
                                 <button class="update-comment"
-                                        th:data-id="${refComment.commuCommentId}">수정
+                                        th:data-id="${refComment.commuCommentId}"
+                                        th:commentID="${refComment.getCommuCommentId()}"
+                                        onclick="updateComment(this.getAttribute('commentID'))" th:text="수정">
                                 </button>
                                 <button th:commentID="${refComment.getCommuCommentId()}"
                                         th:refID="${refComment.getCommuCommentRefId()}"
@@ -84,22 +95,9 @@
                                 </button>
                             </div>
                         </div>
+
                     </div>
-                    <div class="replyForm" th:data-id="${comment.commuCommentId}">
-                        <form>
-                            <input type="hidden" name="commuCommentRefId"
-                                   th:value="${comment.commuCommentId}">
-                            <textarea id="commuCommentCntnt" name="commuCommentCntnt" rows="2"
-                                      placeholder="댓글을 입력하세요."></textarea>
-                            <button type="button" class="cancel-reply">취소</button>
-                            <button
-                                    th:commentID="${comment.getCommuCommentId()}"
-                                    type="button"
-                                    onclick="postReply(this.getAttribute('commentID'))"
-                                    class="post-reply">등록
-                            </button>
-                        </form>
-                    </div>
+
                 </div>
             </div>
         </div>

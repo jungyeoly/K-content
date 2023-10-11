@@ -39,12 +39,14 @@ function postComment() {
 }
 
 function postReply(commentID) {
+
+
     $.ajax({
         url: "/commu/detail/reply",
         type: "POST",
         data: {
             commuCommentCommuId: document.getElementById("commuId").value,
-            commuCommentCntnt: document.getElementById("commuCommentCntnt").value,
+            coCntnt: document.getElementById(commentID).value,
             commuCommentRefId: commentID
         },
         success: function (response) {
@@ -87,6 +89,30 @@ function deleteComment(commentID, refID) {
 
 
 }
+
+
+// function updateComment(){
+//     $.ajax({
+//         url: "/commu/comment/update/" + commuCommentId,
+//         type: "POST",
+//         data: JSON.stringify({
+//             commuCommentId: commuCommentId,
+//             commuCommentCntnt: updatedCommentText
+//         }),
+//         contentType: 'application/json',
+//         dataType: 'json',
+//         success: function (response) {
+//             $commentDiv.find('p').text(response.updatedComment).show(); // p 태그를 다시 보여주기
+//             $commentDiv.find('.update-comment-textarea').hide(); // textarea 숨기기
+//             $commentDiv.find('.comment-date').text(response.commuCommentUpdateDate);
+//             $commentDiv.find('.update-comment').text("수정");
+//         },
+//         error: function (err) {
+//             console.log(err);
+//             alert("댓글 수정 중 오류 발생");
+//         }
+//     });
+// }
 
 $(document).ready(function () {
     // 페이지 로딩 시 댓글과 답글 관련 초기 설정
@@ -193,7 +219,7 @@ $(document).ready(function () {
             // 모든 답글 폼을 숨깁니다.
             $(".reply-box").hide();
             // 클릭된 "답글" 버튼에 해당하는 답글 폼만 보여줍니다.
-            $(this).closest(".single-comment").find(".reply-box").first().show();
+            $(this).closest(".single-comment").find(".reply-box").show();
         });
         $(".comment-list-section").on("click", ".reply-to-comment", function (e) {
             e.stopPropagation();
@@ -238,7 +264,8 @@ $(document).ready(function () {
         // });
         $(".comment-list-section").on("click", ".update-comment", function (e) {
             e.stopPropagation();  // 다른요소 못건들이게
-            var $commentDiv = $(this).closest('.single-comment');
+            console.log($(this).parent().attr("class"));
+            var $commentDiv = $(this).closest('.update');
             if ($(this).text() === "수정") {
                 var currentCommentText = $commentDiv.find('p').text();
                 $commentDiv.find('p').hide(); // p 태그 숨기기 추가
@@ -249,12 +276,12 @@ $(document).ready(function () {
                 var commuCommentId = $commentDiv.data('id');
 
                 $.ajax({
-                    url: "/commu/comment/update/" + commuCommentId,
+                    url: "/commu/comment/update",
                     type: "POST",
-                    data: JSON.stringify({
+                    data: {
                         commuCommentId: commuCommentId,
                         commuCommentCntnt: updatedCommentText
-                    }),
+                    },
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (response) {

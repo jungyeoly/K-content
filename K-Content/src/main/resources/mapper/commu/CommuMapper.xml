@@ -333,7 +333,7 @@ where commu_file_id=#{commuFileId}
 				           c.commu_mber_id
 				    FROM tb_commu c
 				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
-				    WHERE m.MBER_ROLE_CODE = 'C0402'
+				    WHERE m.MBER_ROLE_CODE = 'C0402' and commu_status ='N' and commu_cate_code ='C06'
 				    ORDER BY c.commu_regist_date DESC
 				) 
 				WHERE ROWNUM <= 5

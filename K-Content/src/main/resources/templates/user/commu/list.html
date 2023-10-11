@@ -13,18 +13,33 @@
 	<div th:replace="~{/include/body-header :: header }"></div>
 
 	<div class="container">
-		<div th:replace="~{/include/community-center :: commu-nav}" class="mb-5"></div>
-		
-		<div class="commuDropdown">
-			<button class="dropbtn position-relative">
-				카테고리
-				<span class="position-absolute end-0 pe-3"><i class="fa-solid fa-angle-down"></i></span>
-			</button>
-			<div class="dropdown-content">
-				<div th:each= "cate : ${cateList}"  class="cate mx-3" th:data-maincate-value="${cate}">[[${cate}]]</div>
+		<div th:replace="~{/include/community-center :: commu-nav}"
+			class="mb-5"></div>
+
+		<div class="d-flex">
+			<div class="commuDropdown">
+				<button class="dropbtn position-relative">
+					카테고리 <span class="position-absolute end-0 pe-3"><i
+						class="fa-solid fa-angle-down"></i></span>
+				</button>
+				<div class="dropdown-content">
+					<div th:each="cate : ${cateList}" class="cate mx-3"
+						th:data-maincate-value="${cate}">[[${cate}]]</div>
+				</div>
+
+			</div>
+			<div class="col-md-4 ms-auto">
+				<div class="commusearchDiv">
+					<form id="commusearchForm" class="input-group">
+						<input type="text" id="commusearchInput" placeholder="검색어를 입력하세요"
+							class="form-control">
+						<button type="submit" class="btn" id="commubtn">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
+				</div>
 			</div>
 		</div>
-		
 		<table class="table table-hover text-center table-group-divider">
 			<thead>
 				<tr>

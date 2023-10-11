@@ -127,9 +127,6 @@ public class CmsInqryController {
 			cmsInqry.setInqryPwd(pwd);			
 		}
 		cmsInqry.setInqryMberId(principal.getName());
-
-		logger.info(cmsInqry.toString());
-
 		cmsInqryService.writeCmsInqry(cmsInqry);
 
 		return "redirect:/cs/inqry";

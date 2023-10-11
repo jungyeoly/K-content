@@ -84,6 +84,7 @@
         </if>)
 
     </select>
+    
     <select id="totalContent" resultType="int">
     	SELECT count(*)
 		FROM tb_cntnt a

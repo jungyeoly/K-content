@@ -12,3 +12,18 @@ window.addEventListener('load', () => {
 		}, false);
 	});
 }, false);
+
+$(document).ready(function() {
+	$('#see_pwd').on('click', function() {
+		var passwordInput = $('#mber_pwd');
+		var eyeIcon = $(this);
+
+		if (passwordInput.attr('type') === 'password') {
+			passwordInput.attr('type', 'text');
+			eyeIcon.attr('class', 'fa fa-eye-slash');
+		} else {
+			passwordInput.attr('type', 'password');
+			eyeIcon.attr('class', 'fa fa-eye');
+		}
+	});
+});

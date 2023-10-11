@@ -15,4 +15,5 @@ public interface ICommuCommentService {
     void deleteCommuCommentAndRepliesByMainRefId(int commuId);
 
     void deleteCommuCommentRepl(int commuId);
+   void updateCommuComment(int commentId, String commCntnt );
 }

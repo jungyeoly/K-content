@@ -18,4 +18,6 @@ public interface ICommuCommentRepository {
 
 	void deleteCommuComment(@Param("commentId") int commentId);
 	void deleteCommuCommentRefAll(@Param("commentId") int commentId);
+	void updateCommuComment(@Param("commentId") int commentId, @Param("commentCntnt") String commCntnt);
+
 }

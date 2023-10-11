@@ -53,9 +53,9 @@ img, a {
 }
 
 .page-link {
-  color: #000; 
+  color: #000;
   background-color: #fff;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }
 
 .page-item.active .page-link {
@@ -64,12 +64,12 @@ img, a {
  font-weight:bold;
  background-color: #f1f1f1;
  border-color: #ccc;
- 
+
 }
 
 .page-link:focus, .page-link:hover {
   color: #000;
-  background-color: #fafafa; 
+  background-color: #fafafa;
   border-color: #ccc;
 }
 
@@ -265,8 +265,8 @@ button:hover{
   opacity: 1;
 }
 
-.progress-wrap svg path { 
-  fill: none; 
+.progress-wrap svg path {
+  fill: none;
 }
 
 .progress-wrap svg.progress-circle path {
@@ -279,4 +279,8 @@ button:hover{
 
 #see_pwd {
 	cursor: pointer;
+}
+#reply-box{
+    margin-left: 50px;
+    margin-top: 30px;
 }

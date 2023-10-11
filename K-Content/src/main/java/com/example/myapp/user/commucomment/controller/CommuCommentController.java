@@ -1,6 +1,7 @@
 package com.example.myapp.user.commucomment.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,29 @@ public class CommuCommentController {
 
         List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
 
+//        List<List<Object>> alignmentComments = new ArrayList<>();
+        List<Integer> keys = new ArrayList<>();
+        List<CommuComment> refComment = new ArrayList<>();
+
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getCommuCommentRefId() == 0) {
+//                int key = comments.get(i).getCommuCommentId();
+                keys.add(comments.get(i).getCommuCommentId());
+            } else {
+                for (int j = 0; j < keys.size(); j++) {
+                    if (keys.get(j) == comments.get(i).getCommuCommentRefId()) {
+                        refComment.add(comments.get(i));
+                    }
+                }
+            }
+        }
+
+
+        for (int i = 0; i < refComment.size(); i++) {
+            System.out.println(refComment.get(i).getCommuCommentId());
+        }
+        model.addAttribute("keys", keys);
+        model.addAttribute("refComment", refComment);
         model.addAttribute("comments", comments);
 
         return "user/commu/comment";
@@ -62,7 +86,6 @@ public class CommuCommentController {
         cc.setCommuCommentCommuId(commuId);
         cc.setCommuCommentCntnt(cntnt);
         cc.setCommuCommentMberId(principal.getName());
-        cc.setCommuCommentRefId(0);
         commuCommentService.insertCommuComment(cc);
         return "ok";
     }

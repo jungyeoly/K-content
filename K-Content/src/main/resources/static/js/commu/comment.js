@@ -162,11 +162,8 @@ $(document).ready(function () {
     //             <div class="replies"></div>
     //         </div>`;
     // }
-
-
     // 초기 댓글 수 업데이트
     updateCommentCount();
-
 
     function registerEventHandlers() {
         $(".comment-list-section").on("click", ".view-replies-btn", function (e) {
@@ -191,6 +188,13 @@ $(document).ready(function () {
         });
 
 
+        $(".comment-list-section").on("click", ".reply-show", function (e) {
+            e.stopPropagation();
+            // 모든 답글 폼을 숨깁니다.
+            $(".reply-box").hide();
+            // 클릭된 "답글" 버튼에 해당하는 답글 폼만 보여줍니다.
+            $(this).closest(".single-comment").find(".reply-box").first().show();
+        });
         $(".comment-list-section").on("click", ".reply-to-comment", function (e) {
             e.stopPropagation();
             // 모든 답글 폼을 숨깁니다.

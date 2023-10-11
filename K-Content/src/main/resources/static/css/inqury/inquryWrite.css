@@ -39,6 +39,12 @@ textarea {
 	width: 100%;
 }
 
+textarea#cntnt {
+    width: 100%;
+    height: 300px;
+    resize: none;
+}
+
 .drag-area {
 	width: 100px;
 	height: 100px;

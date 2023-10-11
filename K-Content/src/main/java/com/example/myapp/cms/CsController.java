@@ -31,10 +31,7 @@ public class CsController {
 	@GetMapping("")
 	public String csMain(Model model) {
 		List<CmsInqry> inqryList = cmsInqryService.selectRecentInqry();
-		for (CmsInqry in : inqryList) {
-			System.out.println("------------------------------------------");
-			System.out.println(in.toString());
-		}
+		
 		model.addAttribute("inqryList", inqryList);
 		return "cms/index";
 	}

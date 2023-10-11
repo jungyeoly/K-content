@@ -37,6 +37,7 @@ $(document).ready(function() {
 		if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
 			start = end + 1;
 			end = start + 4;
+			console.log(cateValue);
 			$.ajax({
 				type: 'GET',
 				url: '/content/scroll',

@@ -26,28 +26,27 @@
 	</table>
 
 
-	<nav aria-label="Page navigation" class="d-flex justify-content-center">
+	<nav aria-label="Page navigation" th:if="(${endPage} != 0)" class="d-flex justify-content-center">
 		<ul class="pagination">
 			<li class="page-item" th:if="${nowPageBlock>1}">
-				<!-- <a class="page-link" th:href="@{/inqury/__${startPage-1}__}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a> -->
 				<a class="page-link prepage" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
 
 			<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
-				<!-- <a class="page-link" th:href="@{/inqury/__${i}__}">[[${i}]]</a> -->
 				<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
 			</li>
 
 			<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-				<!-- <a class="page-link" th:href="@{/inqury/__${endPage+1}__}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a> -->
 				<a class="page-link nexpage" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
 		</ul>
 	</nav>
+	
+	
 </div>
 	
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>

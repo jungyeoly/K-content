@@ -55,7 +55,7 @@
 
 	<a sec:authrize="isAuthenticated()" class="btn writeBtn text-white" th:href="@{/inqury/insert}">글쓰기</a>
 	
-	<nav aria-label="Page navigation" class="d-flex justify-content-center">
+	<nav th:if="(${endPage} != 0)" aria-label="Page navigation" class="d-flex justify-content-center">
 		<ul class="pagination">
 			<li class="page-item" th:if="${nowPageBlock>1}">
 				<a class="page-link prepage" aria-label="Previous">

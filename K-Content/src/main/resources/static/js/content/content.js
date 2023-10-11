@@ -36,7 +36,7 @@ $(document).ready(function() {
 	$(window).scroll(function() {
 		if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
 			start = end + 1;
-			end = start + 4;
+			end = start + 14;
 			console.log(cateValue);
 			$.ajax({
 				type: 'GET',
@@ -94,6 +94,10 @@ $(document).ready(function() {
 			    break;
 		  default:
 		    cateValue = 'All';
+		}
+		
+		if (cateValue == 'All') {
+			location.href = ""
 		}
 		
 	    $.ajax({

@@ -50,11 +50,11 @@
 			</li>
 		
 			<!-- 내용 -->
-			<li class="inqry-sub-li">
-				<div class="inqry-sub-cntnt label">
+			<li class="inqry-sub-li" style="height:300px">
+				<div class="inqry-sub-cntnt label" style="height:300px;">
 					<label>내용</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt">
+				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${inqry.inqryCntnt}]]
 				</div>
 			</li>
@@ -70,11 +70,11 @@
 			</li>
 			
 			<!-- 답글 -->
-			<li th:if="${reply}" class="inqry-sub-li">
-				<div class="inqry-sub-cntnt label">
+			<li th:if="${reply}" class="inqry-sub-li" style="height:300px">
+				<div class="inqry-sub-cntnt label" style="height:300px">
 					<label>답변</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt">
+				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${reply.inqryCntnt}]]
 				</div>
 			</li>

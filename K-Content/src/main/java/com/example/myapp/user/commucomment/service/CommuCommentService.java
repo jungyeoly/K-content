@@ -1,6 +1,7 @@
 package com.example.myapp.user.commucomment.service;
 
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +29,21 @@ public class CommuCommentService implements ICommuCommentService {
     }
 
     @Override
-    public CommuComment selectCommuCommentById(int commuId) {
-
-        return commucommentRepository.selectCommuCommentById(commuId);
+    public CommuComment selectCommuCommentById(int commentId) {
+        return commucommentRepository.selectCommuCommentById(commentId);
     }
 
     //부모 댓글이 삭제
     @Override
     @Transactional
-    public void deleteCommuCommentAndRepliesByMainRefId(int commuId) {
-        commucommentRepository.deleteCommuCommentRefAll(commuId);
-        commucommentRepository.deleteCommuComment(commuId);
+    public void deleteCommuCommentAndRepliesByMainRefId(int commentId) {
+        commucommentRepository.deleteCommuCommentRefAll(commentId);
+        commucommentRepository.deleteCommuComment(commentId);
     }
     // 자식 하나 삭제
     @Override
-    public void deleteCommuCommentRepl(int commuId) {
-
+    public void deleteCommuCommentRepl(int commentId) {
+        commucommentRepository.deleteCommuComment(commentId);
     }
 
 

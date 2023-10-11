@@ -1,3 +1,21 @@
+function pageRe() {
+
+    commentFi = document.getElementById("comment-Box");
+    commentFi.innerHTML = ' '
+
+    $.ajax({
+        url: "/commu/detail/comment",
+        type: "GET",
+        data: {commuId: document.getElementById("commuId").value},
+        success: function (data) {
+            let layout = $("#comment-Box");
+            layout.find("#comment-Box").remove();
+            layout.append(data);
+        }
+    });
+}
+
+
 function postComment() {
     // registerEventHandlers();
     $.ajax({
@@ -8,11 +26,10 @@ function postComment() {
             commuCommentCntnt: document.getElementById("cntnt").value
         },
         success: function (response) {
-
             // 답글 추가 후 원본 댓글의 답글 수 업데이트
             // updateReplyCount(formData.commuCommentRefId);
             // console.log("dsf")
-
+            pageRe();
         },
         error: function (err) {
             console.log(err);
@@ -20,6 +37,7 @@ function postComment() {
         }
     });
 }
+
 function postReply(commentID) {
     $.ajax({
         url: "/commu/detail/reply",
@@ -30,39 +48,44 @@ function postReply(commentID) {
             commuCommentRefId: commentID
         },
         success: function (response) {
-
             // 답글 추가 후 원본 댓글의 답글 수 업데이트
             // updateReplyCount(formData.commuCommentRefId);
             // console.log("dsf")
-
+            pageRe();
         },
         error: function (err) {
             console.log(err);
             alert("댓글 작성 중 오류 발생");
         }
     });
+
 }
 
-function deleteComment(commentID,refID){
-    $.ajax({
-        url: "/commu/detail/delete",
-        type: "POST",
-        data: {
-            commuCommentId: commentID,
-            commuCommentRefId: refID
-        },
-        success: function (response) {
+function deleteComment(commentID, refID) {
 
-            // 답글 추가 후 원본 댓글의 답글 수 업데이트
-            // updateReplyCount(formData.commuCommentRefId);
-            // console.log("dsf")
+    if (confirm('댓글을 삭제하시겠습니까?')) {
+        $.ajax({
+            url: "/commu/comment/delete",
+            type: "POST",
+            data: {
+                commuCommentId: commentID,
+                commuCommentRefId: refID
+            },
+            success: function (response) {
+                // 답글 추가 후 원본 댓글의 답글 수 업데이트
+                // updateReplyCount(formData.commuCommentRefId);
+                // console.log("dsf")
+                pageRe();
+            },
+            error: function (err) {
+                console.log(err);
+                alert("댓글 작성 중 오류 발생");
+            }
+        });
 
-        },
-        error: function (err) {
-            console.log(err);
-            alert("댓글 작성 중 오류 발생");
-        }
-    });
+    }
+
+
 }
 
 $(document).ready(function () {
@@ -115,35 +138,34 @@ $(document).ready(function () {
 
 
     // 새로운 댓글/대댓글 HTML 생성
-    function createCommentHTML(comment) {
-        var replyButtonHTML = comment.commuCommentRefId ? '' : `<button class="view-replies-btn" style="display:none;">답글(<span class="reply-count">0개</span>)</button>`;
-
-        return `
-            <div class="single-comment" data-id="${comment.commuCommentId}">
-                <strong>${comment.commuCommentMberId}</strong>
-                <p>${comment.commuCommentCntnt}</p>
-                <div class="comment-date">${comment.commuCommentRegistDate}</div>
-                <div class="comment-buttons">
-                    <button class="reply-to-comment">답글</button>
-                    <button class="update-comment" data-id="${comment.commuCommentId}">수정</button>
-                    <button class="delete-comment" data-id="${comment.commuCommentId}">삭제</button>
-                    ${replyButtonHTML}
-                    <div class="replyForm">
-                        <form>
-                            <input type="hidden" name="commuCommentRefId" value="${comment.commuCommentId}">
-                            <textarea name="commuCommentCntnt" rows="2" placeholder="답글을 입력하세요."></textarea>
-                            <button type="button" class="cancel-reply">취소</button>
-                            <button type="button" class="post-reply">등록</button>
-                        </form>
-                    </div>
-                <div class="replies"></div>
-            </div>`;
-    }
+    // function createCommentHTML(comment) {
+    //     var replyButtonHTML = comment.commuCommentRefId ? '' : `<button class="view-replies-btn" style="display:none;">답글(<span class="reply-count">0개</span>)</button>`;
+    //
+    //     return `
+    //         <div class="single-comment" data-id="${comment.commuCommentId}">
+    //             <strong>${comment.commuCommentMberId}</strong>
+    //             <p>${comment.commuCommentCntnt}</p>
+    //             <div class="comment-date">${comment.commuCommentRegistDate}</div>
+    //             <div class="comment-buttons">
+    //                 <button class="reply-to-comment">답글</button>
+    //                 <button class="update-comment" data-id="${comment.commuCommentId}">수정</button>
+    //                 <button class="delete-comment" data-id="${comment.commuCommentId}">삭제</button>
+    //                 ${replyButtonHTML}
+    //                 <div class="replyForm">
+    //                     <form>
+    //                         <input type="hidden" name="commuCommentRefId" value="${comment.commuCommentId}">
+    //                         <textarea name="commuCommentCntnt" rows="2" placeholder="답글을 입력하세요."></textarea>
+    //                         <button type="button" class="cancel-reply">취소</button>
+    //                         <button type="button" class="post-reply">등록</button>
+    //                     </form>
+    //                 </div>
+    //             <div class="replies"></div>
+    //         </div>`;
+    // }
 
 
     // 초기 댓글 수 업데이트
     updateCommentCount();
-
 
 
     function registerEventHandlers() {
@@ -207,9 +229,9 @@ $(document).ready(function () {
         //         updateCommentCount();
         //     });
         // });
-        $(".comment-list-section").on("click", ".update-comment-textarea", function (e) {
-            e.stopPropagation();  // textarea 클릭시 다른 요소는 클릭되지 않게 함
-        });
+        // $(".comment-list-section").on("click", ".update-comment-textarea", function (e) {
+        //     e.stopPropagation();  // textarea 클릭시 다른 요소는 클릭되지 않게 함
+        // });
         $(".comment-list-section").on("click", ".update-comment", function (e) {
             e.stopPropagation();  // 다른요소 못건들이게
             var $commentDiv = $(this).closest('.single-comment');

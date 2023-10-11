@@ -21,7 +21,7 @@ $(document).ready(function () {
             layout.find("#comment-Box").remove();
             layout.append(data);
         }
-    })
+    });
 
 
 });
@@ -121,15 +121,6 @@ $(document).ready(function () {
         return directReplies + nestedReplies;
     }
 
-    function updateReplyCount(commuCommentId) {
-        var totalReplies = getTotalRepliesCount(commuCommentId);
-        $(".single-comment[data-id='" + commuCommentId + "']").find(".reply-count").text(totalReplies + '개');
-        var $parentComment = $(".single-comment[data-id='" + commuCommentId + "']").closest('.replies').closest('.single-comment');
-        if ($parentComment.length) {
-            updateReplyCount($parentComment.data('id'));
-        }
-    }
-
 
     // 새로운 댓글/대댓글 HTML 생성
     function createCommentHTML(comment) {
@@ -161,30 +152,6 @@ $(document).ready(function () {
     // 초기 댓글 수 업데이트
     updateCommentCount();
 
-
-    function postComment(formData) {
-        $.ajax({
-            url: "/commu/comment",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (response) {
-                console.log("Server Response:", response);
-                var commucomment = response.comment;
-                var newComment = createCommentHTML(commucomment);
-
-                // 답글 추가 후 원본 댓글의 답글 수 업데이트
-                updateReplyCount(formData.commuCommentRefId);
-
-
-            },
-            error: function (err) {
-                console.log(err);
-                alert("댓글 작성 중 오류 발생");
-            }
-        });
-    }
 
     function registerEventHandlers() {
         $(".comment-list-section").on("click", ".view-replies-btn", function (e) {
@@ -224,10 +191,10 @@ $(document).ready(function () {
                 commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
             };
 
-            postComment(formData, false, function () {
-                $("#commentForm").find("[name='commuCommentCntnt']").val('');  // 댓글 폼 초기화
-                updateCommentCount();
-            });
+            // postComment(formData, false, function () {
+            //     $("#commentForm").find("[name='commuCommentCntnt']").val('');  // 댓글 폼 초기화
+            //     updateCommentCount();
+            // });
         });
         // 답글 등록
         $(".comment-list-section").on("click", ".post-reply", function () {
@@ -240,13 +207,13 @@ $(document).ready(function () {
                 commuCommentRefId: $replyForm.find("[name='commuCommentRefId']").val()
             };
 
-            postComment(formData, true, function () {
-                // 답글을 추가한 후 원본 댓글의 답글 수를 업데이트합니다.
-                updateReplyCount(formData.commuCommentRefId);
-
-                // 전체 댓글 수를 업데이트합니다.
-                updateCommentCount();
-            });
+            // postComment(formData, true, function () {
+            //     // 답글을 추가한 후 원본 댓글의 답글 수를 업데이트합니다.
+            //     updateReplyCount(formData.commuCommentRefId);
+            //
+            //     // 전체 댓글 수를 업데이트합니다.
+            //     updateCommentCount();
+            // });
         });
         $(".comment-list-section").on("click", ".update-comment-textarea", function (e) {
             e.stopPropagation();  // textarea 클릭시 다른 요소는 클릭되지 않게 함

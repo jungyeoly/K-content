@@ -218,6 +218,7 @@ FROM (
 	</select>
 	
 	<select id="cntSeach" resultType="int">
+     <![CDATA[
 		SELECT count(*)
 		FROM tb_mber A
 		JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
@@ -233,5 +234,6 @@ FROM (
 	                (#{findType} = '4' AND INSTR(A.mber_phone, #{findKeyword}) > 0)
 	            )
 		    )
+   ]]>
 	</select>
 </mapper>

@@ -72,7 +72,8 @@
 		]]>
 	</select>
 
-	<select id="selectMberList" resultType="com.example.myapp.user.mber.model.Mber">
+	<select id="selectMberList"
+		resultType="com.example.myapp.user.mber.model.Mber">
 	  <![CDATA[
 SELECT rn, mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date, mber_update_date, mber_gender_code, mber_stat, mber_role
 FROM (
@@ -103,8 +104,7 @@ FROM (
 	  ]]>
 	</select>
 
-	<select id="getMberTotalCount"
-		resultType="int">
+	<select id="getMberTotalCount" resultType="int">
 		<![CDATA[
 		 	SELECT COUNT(*) FROM tb_mber
 		]]>
@@ -179,9 +179,10 @@ FROM (
 		]]>
 	</update>
 
-	<select id="searchMber" parameterType="String" resultType="com.example.myapp.user.mber.model.Mber">
+	<select id="searchMber"
+		resultType="com.example.myapp.user.mber.model.Mber">
 	    <![CDATA[
-	    SELECT
+      	    SELECT
 	        A.mber_id,
 	        A.mber_email,
 	        A.mber_pwd,

@@ -93,6 +93,15 @@ function loadMberData(page) {
 function updatePagination() {
 	// 기존 페이지네이션 링크 지우기
 	$(".pagination").empty();
+	var currentPage = "[[${nowPage}]]";
+	var startPage = "[[${startPage}]]";
+	var endPage = "[[${endPage}]]";
+	var totalPageBlock = "[[${totalPage}]]";
+	
+	console.log(currentPage)
+	console.log(startPage)
+	console.log(endPage)
+	console.log(totalPage)
 
 	// totalPageBlock을 기반으로 페이지네이션 링크 추가
 	for (var i = startPage; i <= endPage; i++) {
@@ -125,7 +134,8 @@ function searchMber(findType, findKeyword) {
 		url: '/cs/mber/search-mber',
 		data: {
 			findType: findType,
-			findKeyword: findKeyword
+			findKeyword: findKeyword,
+			page: 1
 		},
 		dataType: 'json',
 		success: function(data) {

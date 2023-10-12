@@ -33,5 +33,7 @@ public interface IMberService {
 	
 	void changeMberStatus(String mberId, String newStatus);
 	
-	List<Mber> searchMber(String findType, String findKeyword);
+	List<Mber> searchMber(String findType, String findKeyword, int page);
+	
+	int cntSearch(String findType, String findKeyword);
 }

@@ -2,6 +2,13 @@
 	font-size: 1em !important;
 }
 
+
+.cmssearchDiv {
+	width: 25vw;
+    padding: 0;
+    height: fit-content;
+	
+}
 .cate.active {
   border-bottom: 3px solid var(--color-main);
 }

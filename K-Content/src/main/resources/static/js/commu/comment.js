@@ -1,3 +1,9 @@
+$(document).ready(function () {
+
+    // $("#reply-box").hide();
+    // 왜 하나만 가려지는지 찾기
+
+})
 function pageRe() {
 
     commentFi = document.getElementById("comment-Box");

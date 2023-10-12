@@ -8,7 +8,7 @@ $(document).ready(function() {
 	toggleNotice(); //페이지 로딩 시 초기 상태에 따라 게시물 로드하기
 
 	// 체크박스 상태 변경에 따른 이벤트 바인딩
-	$('#noticeCheckbox').on('change', toggleNotice);
+	$('#noticecheckbox').on('change', toggleNotice);
 
 
 	loadPage(currentPage);
@@ -53,10 +53,9 @@ $(document).ready(function() {
 			const selectedPage = $(this).data('page');
 			if (selectedPage !== currentPage) {
 				// 검색 상태인 경우
-				if ($('#noticeCheckbox').prop('checked')) { // 공지사항 체크박스가 체크된 상태인 경우
-					// 공지사항 카테고리 코드를 사용하여 게시물을 가져옵니다.
-					// 예를 들어 "C06"이 공지사항 카테고리 코드라고 가정하면:
-					loadCategoryPosts("C06", selectedPage);
+				if ($('#noticecheckbox').prop('checked')) { // 공지사항 체크박스가 체크된 상태인 경우
+					// 공지사항 카테고리 코드를 사용하여 게시물을 가져옴
+					loadCategoryPosts("NOTICE", selectedPage);
 				} else if (currentKeyWord) { // 검색 상태인 경우
 					searchPosts(currentKeyWord, selectedPage);
 				} else if (commuCateCode) { // 카테고리 상태인 경우
@@ -153,8 +152,8 @@ $(document).ready(function() {
 	}
 
 	function toggleNotice() {
-		if ($('#noticeCheckbox').prop('checked')) {
-			loadPostsUsingCode("Notice", 1);
+		if ($('#noticecheckbox').prop('checked')) {
+			loadPostsUsingCode("NOTICE", 1);
 		} else {
 			loadPage(1);
 		}
@@ -246,8 +245,7 @@ $(document).ready(function() {
 
 
 
-	function updatePostList(posts= [], noticeList = []) {
-		  let list = posts.length ? posts : noticeList;
+	function updatePostList(list) {
 		let postListHtml = '';
 		list.forEach(commu => {
 			console.log(commu.commuId, commu.commonCodeVal, commu.commuTitle, commu.commonMberId, commu.commuRegistDate);

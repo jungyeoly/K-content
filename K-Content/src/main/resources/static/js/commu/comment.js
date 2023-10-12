@@ -1,3 +1,9 @@
+$(document).ready(function () {
+
+    // $("#reply-box").hide();
+    // 왜 하나만 가려지는지 찾기
+
+})
 function pageRe() {
 
     commentFi = document.getElementById("comment-Box");
@@ -284,7 +290,9 @@ $(document).ready(function () {
                 var currentCommentText = $commentDiv.find('p').text();
                 $commentDiv.find('p').hide(); // p 태그 숨기기 추가
                 $commentDiv.find('.update-comment-textarea').val(currentCommentText).show(); // textarea 보여주기
+                $('.update-comment').text("수정");
                 $(this).text("저장");
+
             } else {
                 $.ajax({
                     url: "/commu/comment/update",

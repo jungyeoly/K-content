@@ -40,13 +40,19 @@ function postComment() {
 
 function postReply(commentID) {
 
+    // 해당 버튼 요소를 선택합니다.
+    var replyForm = $('.replyForm');
+
+    var textarea = replyForm.find('.input-reply-textarea');
+
+    inputText = textarea.val();
 
     $.ajax({
         url: "/commu/detail/reply",
         type: "POST",
         data: {
             commuCommentCommuId: document.getElementById("commuId").value,
-            coCntnt: document.getElementById(commentID).value,
+            coCntnt: inputText,
             commuCommentRefId: commentID
         },
         success: function (response) {

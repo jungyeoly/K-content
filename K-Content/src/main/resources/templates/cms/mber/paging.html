@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<ul class="pagination">
+<ul class="pagination" th:if="${endPage} != 0">
 	<li class="page-item" th:if="${nowPageBlock>1}"><a
 		class="page-link prepage" aria-label="Previous"> <span
 			aria-hidden="true">&laquo;</span>

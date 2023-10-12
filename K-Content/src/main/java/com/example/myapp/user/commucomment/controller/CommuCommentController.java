@@ -127,6 +127,7 @@ public class CommuCommentController {
 
     //	// 댓글 수정
     @PostMapping("/commu/comment/update")
+    @ResponseBody
     public String updateCommuComment(@RequestParam("commuCommentId") int commuCommentId,
                                      @RequestParam("commuCommentCntnt") String commuCommentCntnt) {
         commuCommentService.updateCommuComment(commuCommentId, commuCommentCntnt);

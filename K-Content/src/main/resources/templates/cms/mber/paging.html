@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<ul class="pagination">
+	<li class="page-item" th:if="${nowPageBlock>1}"><a
+		class="page-link prepage" aria-label="Previous"> <span
+			aria-hidden="true">&laquo;</span>
+	</a></li>
+
+	<li class="page-item"
+		th:each="i: ${#numbers.sequence(startPage, endPage)}"
+		th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
+		<a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
+	</li>
+
+
+	<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+		class="page-link nexpage" aria-label="Next"> <span
+			aria-hidden="true">&raquo;</span>
+	</a></li>
+</ul>
+
+<script>
+$(".selpage").click(function() {
+	var nowPage = $(this).data("selpage");
+	let findType = document.getElementById("findType").value;
+	let findKeyword = document.getElementById("findKeyword").value;
+	
+	console.log(nowPage);
+	console.log(findType);
+	console.log(findKeyword);
+	
+	$.ajax({
+		type: 'GET',
+		url: '/cs/mber/search-mber',
+		data: {
+			findType: findType,
+			findKeyword: findKeyword,
+			page: nowPage
+		},
+		dataType: 'json',
+		success: function(data) {
+			var html = '';
+			if (data.length === 0) {
+				// 검색 결과가 없는 경우 알림 표시
+				html = '<tr><td colspan="12" class="text-center">검색 결과가 없습니다.</td></tr>';
+			} else {
+				data.forEach(function(mber, index) {
+					var rownum = (currentPage - 1) * 10 + index + 1;
+					html += '<tr>';
+					html += '<td>' + rownum++ + '</td>';
+					html += '<td>' + mber.mberRole + '</td>';
+					html += '<td>' + mber.mberId + '</td>';
+					html += '<td>' + mber.mberName + '</td>';
+					html += '<td>' + mber.mberEmail + '</td>';
+					html += '<td>' + mber.mberGenderCode + '</td>';
+					if (mber.mberBirth == null) {
+						html += '<td>-</td>';
+					} else {
+						html += '<td>' + mber.mberBirth + '</td>';
+					}
+					if (mber.mberPhone == null) {
+						html += '<td>-</td>';
+					} else {
+						html += '<td>' + mber.mberPhone + '</td>';
+					}
+					html += '<td>' + mber.mberRegistDate + '</td>';
+					if (mber.mberUpdateDate == null) {
+						html += '<td>-</td>';
+					} else {
+						html += '<td>' + mber.mberUpdateDate + '</td>';
+					}
+					if (mber.mberStat == '비활성화') {
+						html += '<td class="fw-bold text-danger">' + mber.mberStat + '</td>';
+					} else {
+						html += '<td class="fw-bold">' + mber.mberStat + '</td>';
+					}
+					html += '<td>';
+					if (mber.mberRole != '관리자') {
+						if (mber.mberStat == '비활성화') {
+							html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">변경</button>';
+						} else if (mber.mberStat == '활성화') {
+							html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
+						}
+					}
+					html += '</td>';
+					html += '</tr>';
+				});
+			}
+			$('#mberTable tbody').html(html); // 검색 결과 업데이트
+
+			$.ajax({
+				type: 'GET',
+				url: '/cs/mber/paging',
+				data: {
+					'findType': findType,
+					'findKeyword': findKeyword,
+					'page': nowPage
+				},
+				success: function(data) {
+					$(".pagination").empty();
+					$(".pagination").append(data);
+				}
+			});
+		}
+	});
+});
+
+			
+</script>

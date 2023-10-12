@@ -110,14 +110,43 @@ public class CmsMberController {
 		return response;
 	}
 
-	@GetMapping("/mber/search-mber")
+	@GetMapping("/mber/search-mber" )
 	@ResponseBody
 	public List<Mber> searchMber(@RequestParam(required = false) String findType,
-			@RequestParam(required = false) String findKeyword, Model model) {
+			@RequestParam(required = false) String findKeyword, @RequestParam int page, Model model) {
 		
-		
-		List<Mber> mber = mberService.searchMber(findType, findKeyword);
-
+		List<Mber> mber = mberService.searchMber(findType, findKeyword, page);
 		return mber;
 	}
+	
+	@GetMapping("/mber/paging")
+	public String paging(@RequestParam(required = false) String findType,
+			@RequestParam(required = false) String findKeyword, @RequestParam int page, Model model) {
+		int mberCount = mberService.cntSearch(findType, findKeyword);
+
+		int totalPage = 0;
+
+		if (mberCount > 0) {
+			totalPage = (int) Math.ceil(mberCount / 10.0);
+		}
+		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+		int nowPageBlock = (int) Math.ceil(page / 10.0);
+		int startPage = (nowPageBlock - 1) * 10 + 1;
+		int endPage = 0;
+		if (totalPage > nowPageBlock * 10) {
+			endPage = nowPageBlock * 10;
+		} else {
+			endPage = totalPage;
+		}
+
+		model.addAttribute("totalPageCount", totalPage);
+		model.addAttribute("nowPage", page);
+		model.addAttribute("totalPageBlock", totalPageBlock);
+		model.addAttribute("nowPageBlock", nowPageBlock);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		
+		return "cms/mber/paging";
+	}
+	
 }

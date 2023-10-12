@@ -13,11 +13,13 @@
 	
 	<div class="container">
 		<div class="menu fw-bold">문의사항 글 수정</div>
-		<form th:action="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
+		<form id="userUpdate" th:action="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
 			<ul class=tb-lst>
 				<li class="tit-row">
 					<div class="inqry-label">
-						<label for="title">제목</label>
+						<label for="title">
+							제목<span class="text-danger">*</span>
+						</label>
 					</div>
 					<div class="inqry-cntnt">
 						<input type="text" id="title" name="inqryTitle" placeholder="제목을 입력하세요." th:value="${inqry.inqryTitle}">
@@ -26,7 +28,9 @@
 				
 				<li class="tit-row">
 					<div class="inqry-label">
-						<label for="cntnt">내용</label>
+						<label for="cntnt">
+							내용<span class="text-danger">*</span>
+						</label>
 					</div>
 					<div class="inqry-cntnt">
 						<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
@@ -35,7 +39,9 @@
 				
 				<li class="tit-row img-li">
 					<div class="inqry-label">
-						<label class="control-label" for="file">첨부파일</label>
+						<label class="control-label" for="file">
+							첨부파일 <span class="fs-6 text-danger">(최대 1개)</span>
+						</label>
 					</div>
 				    <div class="inqry-cntnt">
 						<input type="file" id="i_file" name="file">[[${inqry.inqryFileId}]]
@@ -60,6 +66,6 @@
 			</div>
 		</form>
 	</div>
-<script th:src="@{/js/inqury/inquryUpdate.js}"></script>
+	<script th:src="@{/js/inqury/inquryUpdate.js}"></script>
 </body>
 </html>

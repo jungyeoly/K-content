@@ -9,19 +9,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="inqry : ${inqryList}" class="inqry-row" 
-				data-bs-toggle="modal" data-bs-target="#exampleModal" 
-				th:attr="data-inqry-pwd=${inqry.inqryPwd}" th:data-bs-whatever="${inqry.inqryId}">
-				
+			<tr th:each="inqry : ${inqryList}" class="inqry-row"
+				data-bs-toggle="modal" data-bs-target="#exampleModal"
+				th:attr="data-inqry-pwd=${inqry.inqryPwd}"
+				th:data-bs-whatever="${inqry.inqryId}">
+
 				<td th:if="${inqry.inqryGroupOrd == 0}">[[${inqry.inqryId}]]</td>
 				<td th:if="${inqry.inqryGroupOrd == 1}"></td>
 				<td class="text-start pwd">
 					<div class="d-flex">
 						<span th:if="${inqry.inqryGroupOrd}==1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<span class="me-1">
-							<i th:if="${inqry.inqryPwd} != null" class="fa-solid fa-lock"></i>
-						</span>
-						<span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
+						<span class="me-1"> <i th:if="${inqry.inqryPwd} != null"
+							class="fa-solid fa-lock"></i>
+						</span> <span class="inqry-title" th:text="${inqry.inqryTitle}"></span>
 					</div>
 				</td>
 				<td>[[${inqry.inqryMberId}]]</td>
@@ -30,48 +30,51 @@
 			</tr>
 		</tbody>
 	</table>
-	
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 입력</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-					<form class="password-form" th:action="@{/pwdcheck}" method="post">
-						<input type="hidden" name="inqryId">
-						<input type="password" class="password-input me-2 form-control" placeholder="비밀번호" name="inqryPwd">
-						<input type="submit" class="submit-btn btn btn-primary" th:submit="@{/inqury/detail/}+${inqryId}" hidden>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					<button type="submit" class="submit-btn btn btn-primary">확인</button>
-				</div>
+				<form id="userPassword" class="password-form" th:action="@{/pwdcheck}" method="post">
+					<div class="modal-body">
+						<input type="hidden" name="inqryId"> 
+						<input type="password" class="password-input me-2 form-control"	placeholder="비밀번호" name="inqryPwd"> 
+						<input type="submit" class="submit-btn btn btn-primary"	th:submit="@{/inqury/detail/}+${inqryId}" hidden>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						<button type="submit" class="submit-btn btn btn-primary">확인</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 
-	<a sec:authrize="isAuthenticated()" class="btn writeBtn text-white" th:href="@{/inqury/insert}">글쓰기</a>
-	
-	<nav aria-label="Page navigation" class="d-flex justify-content-center">
+	<a sec:authrize="isAuthenticated()" class="btn writeBtn text-white"
+		th:href="@{/inqury/insert}">글쓰기</a>
+
+	<nav th:if="(${endPage} != 0)" aria-label="Page navigation"
+		class="d-flex justify-content-center">
 		<ul class="pagination">
-			<li class="page-item" th:if="${nowPageBlock>1}">
-				<a class="page-link prepage" aria-label="Previous">
-					<span aria-hidden="true">&laquo;</span>
-				</a>
-			</li>
+			<li class="page-item" th:if="${nowPageBlock>1}"><a
+				class="page-link prepage" aria-label="Previous"> <span
+					aria-hidden="true">&laquo;</span>
+			</a></li>
 
-			<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
-				<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
-			</li>
+			<li class="page-item"
+				th:each="i: ${#numbers.sequence(startPage, endPage)}"
+				th:classappend="${i==nowPage}?active"><a
+				class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a></li>
 
-			<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-				<a class="page-link nexpage" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-				</a>
-			</li>
+			<li class="page-item" th:if="${nowPageBlock<totalPageBlock}"><a
+				class="page-link nexpage" aria-label="Next"> <span
+					aria-hidden="true">&raquo;</span>
+			</a></li>
 		</ul>
 	</nav>
 </div>

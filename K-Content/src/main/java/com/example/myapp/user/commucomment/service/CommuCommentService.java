@@ -46,5 +46,10 @@ public class CommuCommentService implements ICommuCommentService {
         commucommentRepository.deleteCommuComment(commentId);
     }
 
+    @Override
+    public void updateCommuComment(int commentId, String commCntnt) {
+        commucommentRepository.updateCommuComment(commentId, commCntnt);
+    }
+
 
 }

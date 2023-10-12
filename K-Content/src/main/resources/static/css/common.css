@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-@import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
-
-@import
-	url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');
-
 :root {
 	/* Color */
 	--color-main: #14dbc8;
@@ -41,6 +35,7 @@
 body {
 	font-family: 'NEXON Lv1 Gothic OTF Light';
 	letter-spacing: 0.1px;
+	font-weight: bold;
 }
 
 /* 이미지 링크 드래그 막기 */
@@ -53,9 +48,9 @@ img, a {
 }
 
 .page-link {
-  color: #000; 
+  color: #000;
   background-color: #fff;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }
 
 .page-item.active .page-link {
@@ -64,12 +59,12 @@ img, a {
  font-weight:bold;
  background-color: #f1f1f1;
  border-color: #ccc;
- 
+
 }
 
 .page-link:focus, .page-link:hover {
   color: #000;
-  background-color: #fafafa; 
+  background-color: #fafafa;
   border-color: #ccc;
 }
 
@@ -265,8 +260,8 @@ button:hover{
   opacity: 1;
 }
 
-.progress-wrap svg path { 
-  fill: none; 
+.progress-wrap svg path {
+  fill: none;
 }
 
 .progress-wrap svg.progress-circle path {
@@ -279,4 +274,8 @@ button:hover{
 
 #see_pwd {
 	cursor: pointer;
+}
+#reply-box{
+    margin-left: 50px;
+    margin-top: 30px;
 }

@@ -1,3 +1,9 @@
+$(document).ready(function () {
+
+    // $("#reply-box").hide();
+    // 왜 하나만 가려지는지 찾기
+
+})
 function pageRe() {
 
     commentFi = document.getElementById("comment-Box");
@@ -39,12 +45,22 @@ function postComment() {
 }
 
 function postReply(commentID) {
+
+    // 해당 버튼 요소를 선택합니다.
+    var replyForm = $('.replyForm').find(`#${commentID}`);
+
+
+    // var textarea = replyForm.find('.input-reply-textarea');
+
+    inputText = replyForm.val();
+    console.log(replyForm.val());
+    // console.log(inputText)
     $.ajax({
         url: "/commu/detail/reply",
         type: "POST",
         data: {
             commuCommentCommuId: document.getElementById("commuId").value,
-            commuCommentCntnt: document.getElementById("commuCommentCntnt").value,
+            coCntnt: inputText,
             commuCommentRefId: commentID
         },
         success: function (response) {
@@ -87,6 +103,30 @@ function deleteComment(commentID, refID) {
 
 
 }
+
+
+// function updateComment(){
+//     $.ajax({
+//         url: "/commu/comment/update/" + commuCommentId,
+//         type: "POST",
+//         data: JSON.stringify({
+//             commuCommentId: commuCommentId,
+//             commuCommentCntnt: updatedCommentText
+//         }),
+//         contentType: 'application/json',
+//         dataType: 'json',
+//         success: function (response) {
+//             $commentDiv.find('p').text(response.updatedComment).show(); // p 태그를 다시 보여주기
+//             $commentDiv.find('.update-comment-textarea').hide(); // textarea 숨기기
+//             $commentDiv.find('.comment-date').text(response.commuCommentUpdateDate);
+//             $commentDiv.find('.update-comment').text("수정");
+//         },
+//         error: function (err) {
+//             console.log(err);
+//             alert("댓글 수정 중 오류 발생");
+//         }
+//     });
+// }
 
 $(document).ready(function () {
     // 페이지 로딩 시 댓글과 답글 관련 초기 설정
@@ -162,11 +202,8 @@ $(document).ready(function () {
     //             <div class="replies"></div>
     //         </div>`;
     // }
-
-
     // 초기 댓글 수 업데이트
     updateCommentCount();
-
 
     function registerEventHandlers() {
         $(".comment-list-section").on("click", ".view-replies-btn", function (e) {
@@ -184,13 +221,18 @@ $(document).ready(function () {
         });
         $(".comment-list-section").on("click", ".single-comment", function (e) {
             e.stopPropagation();
-
-
             // 클릭한 댓글 또는 답글의 답글 폼만 보여줍니다.
             $(this).find(".replyForm").first().show();
         });
 
 
+        $(".comment-list-section").on("click", ".reply-show", function (e) {
+            e.stopPropagation();
+            // 모든 답글 폼을 숨깁니다.
+            $(".reply-box").hide();
+            // 클릭된 "답글" 버튼에 해당하는 답글 폼만 보여줍니다.
+            $(this).closest(".single-comment").find(".reply-box").show();
+        });
         $(".comment-list-section").on("click", ".reply-to-comment", function (e) {
             e.stopPropagation();
             // 모든 답글 폼을 숨깁니다.
@@ -234,30 +276,34 @@ $(document).ready(function () {
         // });
         $(".comment-list-section").on("click", ".update-comment", function (e) {
             e.stopPropagation();  // 다른요소 못건들이게
-            var $commentDiv = $(this).closest('.single-comment');
+            $(".update-comment-textarea").hide();
+            $("p").show();
+
+            var $commentDiv = $(this).closest('.update');
+            commentID = $(this).data("id");
+            console.log("commentID", commentID);
+            parentUpdateDiv = $(this).closest('.update');
+            updateText = parentUpdateDiv.find('textarea').val();
+            console.log("updateText", updateText);
+
             if ($(this).text() === "수정") {
                 var currentCommentText = $commentDiv.find('p').text();
                 $commentDiv.find('p').hide(); // p 태그 숨기기 추가
                 $commentDiv.find('.update-comment-textarea').val(currentCommentText).show(); // textarea 보여주기
+                $('.update-comment').text("수정");
                 $(this).text("저장");
-            } else {
-                var updatedCommentText = $commentDiv.find('.update-comment-textarea').val();
-                var commuCommentId = $commentDiv.data('id');
 
+            } else {
                 $.ajax({
-                    url: "/commu/comment/update/" + commuCommentId,
+                    url: "/commu/comment/update",
                     type: "POST",
-                    data: JSON.stringify({
-                        commuCommentId: commuCommentId,
-                        commuCommentCntnt: updatedCommentText
-                    }),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function (response) {
-                        $commentDiv.find('p').text(response.updatedComment).show(); // p 태그를 다시 보여주기
-                        $commentDiv.find('.update-comment-textarea').hide(); // textarea 숨기기
-                        $commentDiv.find('.comment-date').text(response.commuCommentUpdateDate);
-                        $commentDiv.find('.update-comment').text("수정");
+                    data: {
+                        commuCommentId: commentID,
+                        commuCommentCntnt: updateText
+                    },
+
+                    success: function () {
+                        pageRe();
                     },
                     error: function (err) {
                         console.log(err);
@@ -266,50 +312,5 @@ $(document).ready(function () {
                 });
             }
         });
-        // 댓글 삭제
-        // $(".comment-list-section").on("click", ".delete-comment", function () {
-        //     var commuCommentId = $(this).data("id");
-        //     /*var mainRefId = $(this).data("main-ref-id");*/
-        //
-        //     /*	var isOriginComment = commuCommentId === mainRefId; // 원본 댓글인 경우 확인*/
-        //
-        //     // 부모 댓글 ID를 초기화합니다.
-        //     /*	var parentCommentId = $(this).closest('.single-comment').parent().closest('.single-comment').data('id');*/
-        //
-        //     var requestUrl = "/commu/comment/delete";
-        //
-        //     /*	if (!isOriginComment) { // 원본 댓글이 아닌 경우
-        //             requestUrl += "?isSingleReply=true";
-        //         } else {
-        //             requestData.commuCommentMainRefId = mainRefId;
-        //         }*/
-        //
-        //     $.ajax({
-        //         url: requestUrl,
-        //         type: "POST",
-        //
-        //         data: JSON.stringify(commuCommentId),// 데이터 전송
-        //         contentType: 'application/json',
-        //         dataType: 'json',
-        //         success: function () {
-        //             // 댓글을 삭제합니다.
-        //             /*	$(".single-comment[data-id='" + commuCommentId + "']").remove();*/
-        //
-        //             // 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
-        //             if (parentCommentId) {
-        //                 updateReplyCount(parentCommentId);
-        //             }
-        //
-        //             // 전체 댓글 개수를 업데이트합니다.
-        //             updateCommentCount();
-        //         },
-        //         error: function (err) {
-        //             console.log(err);
-        //             alert("댓글 삭제 중 오류 발생");
-        //         }
-        //     });
-        // });
-
-
     }
 });

@@ -50,11 +50,11 @@
 			</li>
 		
 			<!-- 내용 -->
-			<li class="inqry-sub-li">
-				<div class="inqry-sub-cntnt label">
+			<li class="inqry-sub-li" style="height:300px">
+				<div class="inqry-sub-cntnt label" style="height:300px;">
 					<label>내용</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt">
+				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${inqry.inqryCntnt}]]
 				</div>
 			</li>
@@ -70,11 +70,11 @@
 			</li>
 			
 			<!-- 답글 -->
-			<li th:if="${reply}" class="inqry-sub-li">
-				<div class="inqry-sub-cntnt label">
+			<li th:if="${reply}" class="inqry-sub-li" style="height:300px">
+				<div class="inqry-sub-cntnt label" style="height:300px">
 					<label>답변</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt">
+				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${reply.inqryCntnt}]]
 				</div>
 			</li>
@@ -88,7 +88,7 @@
 			<div th:if="${inqry.inqryGroupOrd} == 0" class="position-absolute end-0 top-0">
 	 			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns d-flex">
 					<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2 text-white">수정</a>
-					<form th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
+					<form id="userDelete" th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
 						<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>
 						<input th:if="${inqry.inqryFileId}" type="hidden" name="inqryFileId" th:value="${inqry.inqryFileId}">
 						<input type="submit" class="btn delete" value="삭제">
@@ -97,5 +97,6 @@
 			</div>
 		</div>
 	</div>
+	<script th:src="@{/js/inqury/inquryDelete.js}"></script>
 </body>
 </html>

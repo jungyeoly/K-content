@@ -21,19 +21,13 @@
 
     </insert>
 
-
-    <!-- 댓글 수정 -->
-    <!--	<update id="updateCommuComment"-->
-    <!--		parameterType="com.example.myapp.user.commucomment.model.CommuComment">-->
-    <!--		UPDATE TB_COMMU_COMMENT-->
-    <!--		SET-->
-    <!--		COMMU_COMMENT_CNTNT =-->
-    <!--		#{commuCommentCntnt},-->
-    <!--		COMMU_COMMENT_UPDATE_DATE =-->
-    <!--		#{commuCommentUpdateDate}-->
-    <!--		WHERE COMMU_COMMENT_ID =-->
-    <!--		#{commuCommentId}-->
-    <!--	</update>-->
+    <update id="updateCommuComment"
+            parameterType="com.example.myapp.user.commucomment.model.CommuComment">
+        UPDATE TB_COMMU_COMMENT
+        SET COMMU_COMMENT_CNTNT       = #{commentCntnt},
+            COMMU_COMMENT_UPDATE_DATE = to_char(sysdate, 'yyyy.mm.dd hh24:mi')
+        WHERE COMMU_COMMENT_ID = #{commentId}
+    </update>
 
     <delete id="deleteCommuCommentRefAll"
             parameterType="int">

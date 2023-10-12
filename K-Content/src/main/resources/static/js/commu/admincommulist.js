@@ -4,42 +4,47 @@ $(document).ready(function() {
 	let loading = false; // 페이지 로딩 중 여부를 나타내는 플래그
 	let commuCateCode = null;  // 현재 선택된 카테고리 저장 변수
 	let currentKeyWord = null; // 현재 선택 검색 상태 저장 변수
+		
+	toggleNotice(); //페이지 로딩 시 초기 상태에 따라 게시물 로드하기
+
+	// 체크박스 상태 변경에 따른 이벤트 바인딩
+	$('#noticeCheckbox').on('change', toggleNotice);
 
 
 	loadPage(currentPage);
 
-// 검색 폼 제출 이벤트 리스너 추가
-$('#searchForm').submit(function(event) {
-    event.preventDefault(); // 폼의 기본 제출 동작을 막음
-    let keyword = $('#searchInput').val();
+	// 검색 폼 제출 이벤트 리스너 추가
+	$('#searchForm').submit(function(event) {
+		event.preventDefault(); // 폼의 기본 제출 동작을 막음
+		let keyword = $('#searchInput').val();
 
-    if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
-		currentKeyWord = keyword; //검색 상태 저장        
-searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
-        $('#searchInput').val(''); // 검색창의 내용을 비움
-    } else {
-	currentKeyWord = null; //검색어가 비어있으면 검색 상태 해제
+		if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
+			currentKeyWord = keyword; //검색 상태 저장        
+			searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
+			$('#searchInput').val(''); // 검색창의 내용을 비움
+		} else {
+			currentKeyWord = null; //검색어가 비어있으면 검색 상태 해제
+		}
+	});
+
+	function searchPosts(keyword, page) {
+		$.ajax({
+			url: `/cms/commu/search/${page}`,
+			type: 'GET',
+			data: {
+				keyword: keyword
+			},
+			dataType: 'json',
+			success: function(response) {
+				updatePostList(response.commuList); // 기존의 게시글 목록 업데이트 함수를 사용하여 검색 결과를 화면에 표시
+				updatePagination(response.nowPage, response.totalPageCount); // 페이징 업데이트
+				currentPage = page;
+			},
+			error: function(error) {
+				console.error("Error fetching search results:", error);
+			}
+		});
 	}
-});
-
-function searchPosts(keyword, page) {
-    $.ajax({
-        url: `/cms/commu/search/${page}`,
-        type: 'GET',
-        data: {
-            keyword: keyword
-        },
-        dataType: 'json',
-        success: function(response) {
-            updatePostList(response.commuList); // 기존의 게시글 목록 업데이트 함수를 사용하여 검색 결과를 화면에 표시
-            updatePagination(response.nowPage, response.totalPageCount); // 페이징 업데이트
-            currentPage = page;
-        },
-        error: function(error) {
-            console.error("Error fetching search results:", error);
-        }
-    });
-}
 
 	// 페이지 번호 클릭 이벤트
 	$(document).on('click', '.page-link', function(e) {
@@ -47,22 +52,21 @@ function searchPosts(keyword, page) {
 		if (!loading) {
 			const selectedPage = $(this).data('page');
 			if (selectedPage !== currentPage) {
-				 // 검색 상태인 경우
-            if (currentKeyWord) {
-                searchPosts(currentKeyWord, selectedPage);
-            } 
-				 // 카테고리 상태인 경우
-            else if (commuCateCode) {
-                loadCategoryPosts(commuCateCode, selectedPage);
-            } 
-            // 그 외 (일반 상태)
-            else {
-                loadPage(selectedPage);
-            }
-        }
-    }
-});
-
+				// 검색 상태인 경우
+				if ($('#noticeCheckbox').prop('checked')) { // 공지사항 체크박스가 체크된 상태인 경우
+					// 공지사항 카테고리 코드를 사용하여 게시물을 가져옵니다.
+					// 예를 들어 "C06"이 공지사항 카테고리 코드라고 가정하면:
+					loadCategoryPosts("C06", selectedPage);
+				} else if (currentKeyWord) { // 검색 상태인 경우
+					searchPosts(currentKeyWord, selectedPage);
+				} else if (commuCateCode) { // 카테고리 상태인 경우
+					loadCategoryPosts(commuCateCode, selectedPage);
+				} else { // 그 외 (일반 상태)
+					loadPage(selectedPage);
+				}
+			}
+		}
+	});
 
 	// 이전 페이지 버튼 클릭 이벤트
 	$(document).on('click', '.page-link.prepage', function(e) {
@@ -81,36 +85,80 @@ function searchPosts(keyword, page) {
 	});
 
 
-/// 메인 페이지
-function loadPage(page) {
-    if (typeof page === 'undefined' || !page) {
-        page = 1;
-    }
-  
-    let requestURL = `/cms/commu/ajax/${page}`;
+	/// 메인 페이지
+	function loadPage(page) {
+		if (typeof page === 'undefined' || !page) {
+			page = 1;
+		}
 
-    loading = true; // 페이지 로딩 중 플래그 설정
-    $.ajax({
-        url: requestURL,
-        method: 'GET',
-        dataType: 'json',
-        cache: false,
-        success: function(response) {
-            updatePostList(response.commulist);
+		let requestURL = `/cms/commu/ajax/${page}`;
 
-			console.log("test: " + response.commulist[0]);
+		loading = true; // 페이지 로딩 중 플래그 설정
+		$.ajax({
+			url: requestURL,
+			method: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(response) {
+				updatePostList(response.commulist);
 
-            updatePagination(response.nowPage, response.totalPageCount);
-            currentPage = page;
-        },
-        error: function(error) {
-            console.error("Failed to load posts:", error);
-        },
-        complete: function() {
-            loading = false; // 페이지 로딩 완료 시 플래그 해제
-        }
-    });
-}
+				console.log("test: " + response.commulist[0]);
+
+				updatePagination(response.nowPage, response.totalPageCount);
+				currentPage = page;
+			},
+			error: function(error) {
+				console.error("Failed to load posts:", error);
+			},
+			complete: function() {
+				loading = false; // 페이지 로딩 완료 시 플래그 해제
+			}
+		});
+	}
+
+	function loadPostsUsingCode(commuCateCode, page) {
+
+		let requestURL = `/cms/commu/commucatecode/${commuCateCode}?page=${page}`;
+
+		console.log(commuCateCode);
+		console.log(page);
+		
+		loading = true; // 페이지 로딩 중 플래그 설정
+		$.ajax({
+			url: requestURL,
+			method: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(response) {
+				if (response.noticeList) {
+					// 'noticeList'를 사용한 공지사항 처리
+					updatePostList([], response.noticeList);
+					console.log(response.noticeList);
+				} else {
+					// 'posts' 또는 'commulist'를 사용한 일반 게시물 처리
+					updatePostList(response.posts || response.commulist);
+					console.log(response.posts);
+				}
+
+				updatePagination(response.nowPage, response.totalPageCount);
+				currentPage = page;
+			},
+			error: function(error) {
+				console.error("Failed to load category posts:", error);
+			},
+			complete: function() {
+				loading = false; // 페이지 로딩 완료 시 플래그 해제
+			}
+		});
+	}
+
+	function toggleNotice() {
+		if ($('#noticeCheckbox').prop('checked')) {
+			loadPostsUsingCode("Notice", 1);
+		} else {
+			loadPage(1);
+		}
+	}
 
 
 	// 카테고리 클릭 이벤트
@@ -125,40 +173,40 @@ function loadPage(page) {
 	function loadCategoryPosts(commuCateCode, page) {
 		switch (commuCateCode) {
 			case '전체':
-			    commuCateCode = 'All';
-			    break;
+				commuCateCode = 'All';
+				break;
 			case '음악':
-			    commuCateCode = 'POP';
-			    break;
+				commuCateCode = 'POP';
+				break;
 			case '연예인':
-			    commuCateCode = 'Celebrity';
-			    break;
+				commuCateCode = 'Celebrity';
+				break;
 			case '음식':
-			    commuCateCode = 'Food';
-			    break;
+				commuCateCode = 'Food';
+				break;
 			case '영화':
-			    commuCateCode = 'Movie';
-			    break;
+				commuCateCode = 'Movie';
+				break;
 			case '스포츠':
-			    commuCateCode = 'Sports';
-			    break;
+				commuCateCode = 'Sports';
+				break;
 			case '패션':
-			    commuCateCode = 'Fashion';
-			    break;
+				commuCateCode = 'Fashion';
+				break;
 			case '미용':
-			    commuCateCode = 'Beauty';
-			    break;
+				commuCateCode = 'Beauty';
+				break;
 			case '드라마':
-			    commuCateCode = 'Drama';
-			    break;
+				commuCateCode = 'Drama';
+				break;
 			case '여행':
-			    commuCateCode = 'Travel';
-			    break;
+				commuCateCode = 'Travel';
+				break;
 			case '게임':
-			    commuCateCode = 'Game';
-			    break;
-		  default:
-		    commuCateCode = 'All';
+				commuCateCode = 'Game';
+				break;
+			default:
+				commuCateCode = 'All';
 		}
 
 		$.ajax({
@@ -198,20 +246,23 @@ function loadPage(page) {
 
 
 
-	function updatePostList(posts) {
+	function updatePostList(posts= [], noticeList = []) {
+		  let list = posts.length ? posts : noticeList;
 		let postListHtml = '';
-		posts.forEach(commu => {
+		list.forEach(commu => {
+			console.log(commu.commuId, commu.commonCodeVal, commu.commuTitle, commu.commonMberId, commu.commuRegistDate);
 			postListHtml += `
-                <tr class="commu-row" data-commu-id="${commu.commuId}">
-                    <td>${commu.commuId}</td>
-                    <td>${commu.commonCodeVal}</td>
-                    <td><a href="/cms/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
-                    <td>${commu.commuMberId}</td>
-                    <td>${commu.commuReadCnt}</td>
-                    <td>${commu.commuRegistDate}</td>
-                </tr>
-            `;
+            <tr class="commu-row" data-commu-id="${commu.commuId}">
+                <td>${commu.commuId}</td>
+                <td>${commu.commonCodeVal}</td>
+                <td><a href="/cms/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
+                <td>${commu.commuMberId}</td>
+                <td>${commu.commuReadCnt}</td>
+                <td>${commu.commuRegistDate}</td>
+            </tr>
+        `;
 		});
 		$('tbody').empty().append(postListHtml);
 	}
+
 });

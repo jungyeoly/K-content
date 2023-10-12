@@ -67,7 +67,7 @@
                     <div class="replyForm" th:data-id="${comment.commuCommentId}">
                         <input type="hidden" name="commuCommentRefId"
                                th:value="${comment.commuCommentId}">
-                        <textarea class="input-reply-textarea" rows="2"
+                        <textarea th:id="${comment.commuCommentId}" class="input-reply-textarea" rows="2"
                                   placeholder="댓글을 입력하세요."></textarea>
                         <button type="button" class="cancel-reply">취소</button>
                         <button th:commentID="${comment.getCommuCommentId()}"

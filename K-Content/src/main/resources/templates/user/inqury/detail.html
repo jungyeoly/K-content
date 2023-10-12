@@ -88,7 +88,7 @@
 			<div th:if="${inqry.inqryGroupOrd} == 0" class="position-absolute end-0 top-0">
 	 			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns d-flex">
 					<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2 text-white">수정</a>
-					<form th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
+					<form id="userDelete" th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
 						<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>
 						<input th:if="${inqry.inqryFileId}" type="hidden" name="inqryFileId" th:value="${inqry.inqryFileId}">
 						<input type="submit" class="btn delete" value="삭제">
@@ -97,5 +97,6 @@
 			</div>
 		</div>
 	</div>
+	<script th:src="@{/js/inqury/inquryDelete.js}"></script>
 </body>
 </html>

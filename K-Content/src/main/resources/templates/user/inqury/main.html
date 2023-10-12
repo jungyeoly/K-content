@@ -16,15 +16,19 @@
 	<div class="layout d-flex justify-content-center my-5"></div>
 	
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>	
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	<script th:inline="javascript">
 		$(document).ready(function() {			
 			let page = "[[${session.page}]]";
 			let message = `[[${session.message}]]`;
 			
 			if (message != 'null') {
-				alert("비밀번호가 틀렸습니다.");
+				Swal.fire({
+					   title: '비밀번호가 일치하지 않습니다.',
+					   icon: 'error',
+					   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+					})
 			}
 			
 			if(page == 'null') {

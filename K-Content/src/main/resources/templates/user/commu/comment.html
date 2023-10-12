@@ -33,7 +33,7 @@
         </div>
 
         <!-- 댓글 및 대댓글 출력 -->
-        <div  th:each="comment : ${comments}"
+        <div th:each="comment : ${comments}"
              th:if="${comment.commuCommentRefId == 0}">
 
             <div th:if="${comment != null}" class="single-comment"
@@ -98,13 +98,9 @@
                                             th:data-id="${refComment.commuCommentId}">삭제
                                     </button>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

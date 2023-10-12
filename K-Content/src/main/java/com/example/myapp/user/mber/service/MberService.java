@@ -89,7 +89,13 @@ public class MberService implements IMberService {
 	}
 
 	@Override
-	public List<Mber> searchMber(String findType, String findKeyword) {
-		return mberRepository.searchMber(findType, findKeyword);
+	public List<Mber> searchMber(String findType, String findKeyword, int page) {
+		int start = (page - 1) * 10 + 1;
+		return mberRepository.searchMber(findType, findKeyword, start, start+9);
+	}
+
+	@Override
+	public int cntSearch(String findType, String findKeyword) {
+		return mberRepository.cntSeach(findType, findKeyword);
 	}
 }

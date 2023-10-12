@@ -170,7 +170,7 @@ function createContent() {
 
     //콘텐츠 생성/수정
     $.ajax({
-        url: '/cs/content',
+        url: '/cs/test/content',
         type: 'POST',
         data: JSON.stringify(sendData),
         contentType: 'application/json',

@@ -49,11 +49,10 @@
                                 th:data-id="${comment.commuCommentId}" th:text="수정">
                         </button>
                         <button th:commentID="${comment.getCommuCommentId()}"
-                                th:id
+                                th:refID="${comment.getCommuCommentRefId()}"
+                                onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                 th:data-id="${comment.commuCommentId}">삭제
                         </button>
-
-
                     </div>
 
                 </div>
@@ -68,7 +67,7 @@
                     <div class="replyForm" th:data-id="${comment.commuCommentId}">
                         <input type="hidden" name="commuCommentRefId"
                                th:value="${comment.commuCommentId}">
-                        <textarea th:id="${comment.getCommuCommentId()}" rows="2"
+                        <textarea th:id="${comment.commuCommentId}" class="input-reply-textarea" rows="2"
                                   placeholder="댓글을 입력하세요."></textarea>
                         <button type="button" class="cancel-reply">취소</button>
                         <button th:commentID="${comment.getCommuCommentId()}"

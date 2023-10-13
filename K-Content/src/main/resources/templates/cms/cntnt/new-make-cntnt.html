@@ -144,7 +144,9 @@
             </select>
             </p>
             <div class="item category-caption iframe-url d-flex ">
-                URL: <input id="url" class="mx-3" style="text-align: center;">
+                URL:
+                <input th:if="${not #strings.isEmpty(yContent)}" id="url" class="mx-3" style="text-align: center;" th:value="${yContent.getCntntUrl()}">
+                <input  th:if="${ #strings.isEmpty(yContent)}" id="url" class="mx-3" style="text-align: center;" >
                 <button id="print-iframe" onclick="printIframe()" type="button" class="btn" style="height: 30px;">출력</button>
             </div>
 
@@ -152,8 +154,10 @@
             <!-- 제목 -->
             <div class="input-group mb-3 d-flex justify-content-between title-box item category-caption iframe-title">
                 <span class="input-group-text" id="basic-addon1">TITLE:</span>
-                <input type="text" id="title" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
-                       aria-describedby="basic-addon1">
+                <input th:if="${not #strings.isEmpty(yContent)}" type="text" id="title" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
+                       aria-describedby="basic-addon1" th:value="${yContent.cntntTitle}">
+                <input th:if="${ #strings.isEmpty(yContent)}" type="text" id="title" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
+                       aria-describedby="basic-addon1" >
             </div>
 
             <div class="item keyword d-flex mb-5" id="keywordList">

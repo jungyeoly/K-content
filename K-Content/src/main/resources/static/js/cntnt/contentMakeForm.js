@@ -2,14 +2,13 @@
 $(document).ready(function () {
     var cntntURL = document.getElementById("contentURL").value;
     console.log("cntntURL" + cntntURL);
-    var requestData = {
-        targetContentIdF: cntntURL
-    };
 
     $.ajax({
-        url: '/cs/youtube/iframe',
+        url: '/cs/test/youtube/iframe',
         type: 'GET',
-        data: requestData, // 데이터 객체 전달
+        data: {
+            targetContentIdF: cntntURL
+        }, // 데이터 객체 전달
         success: function (data2) {
             const element = document.getElementById('iframe');
             const inHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/` + data2 + "\"" +
@@ -167,7 +166,7 @@ function createContent() {
             "cntntCateCode": document.getElementById("category").value
         };
     }
-
+console.log(sendData)
     //콘텐츠 생성/수정
     $.ajax({
         url: '/cs/test/content',

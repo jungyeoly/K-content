@@ -197,7 +197,8 @@ public class CSController {
         CmsContent cntnt = new CmsContent();
         cntnt.setCntntTitle(cntntTitle);
         cntnt.setCntntUrl(cntntURL);
-        model.addAttribute("content", cntnt);
+        //이거 다른이름으로 보내야됨
+        model.addAttribute("yContent", cntnt);
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
         model.addAttribute("category", commonCodes);
         return "cms/cntnt/new-make-cntnt";

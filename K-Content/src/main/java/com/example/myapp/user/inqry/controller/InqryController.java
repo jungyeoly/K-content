@@ -179,7 +179,7 @@ public class InqryController {
 			} else {
 				inqryService.insertInqry(inqry);
 			}
-			return "redirect:/inqury";
+			return "redirect:/inqury/detail/" + inqryId;
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttrs.addFlashAttribute("message", e.getMessage());

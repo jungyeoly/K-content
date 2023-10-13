@@ -5,8 +5,8 @@ $(document).ready(function() {
 	let commuCateCode = null;  // 현재 선택된 카테고리 저장 변수
 	let currentKeyWord = null; // 현재 선택 검색 상태 저장 변수
 
-
 	loadPage(currentPage);
+
 
 // 검색 폼 제출 이벤트 리스너 추가
 $('#commusearchForm').submit(function(event) {
@@ -99,6 +99,7 @@ function loadPage(page) {
             updatePostList(response.commulist);
             updatePagination(response.nowPage, response.totalPageCount);
             currentPage = page;
+			console.log(response);
         },
         error: function(error) {
             console.error("Failed to load posts:", error);
@@ -154,6 +155,9 @@ function loadPage(page) {
 			case '게임':
 			    commuCateCode = 'Game';
 			    break;
+			case '공지사항':
+				commuCateCode = 'NOTICE';
+				break;
 		  default:
 		    commuCateCode = 'All';
 		}

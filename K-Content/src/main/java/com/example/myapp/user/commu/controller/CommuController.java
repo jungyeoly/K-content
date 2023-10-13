@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.commucomment.model.CommuComment;
 import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import org.apache.commons.io.FilenameUtils;
@@ -77,13 +76,14 @@ public class CommuController {
     public String selectAllPost(@PathVariable int page, @ModelAttribute("commu") Commu commu, Model model,
                                 HttpSession session) {
         session.setAttribute("page", page);
-
-        List<Commu> commulist = commuService.selectAllPost(page);
-        model.addAttribute("commulist", commulist);
+    
+        List<Commu> commuList = commuService.selectAllPost(page);
         List<String> cateList = commonCodeService.cateList("C03");
-        List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-        model.addAttribute("commuCateCodeList", commuCateCodeList);
-        model.addAttribute("cateList", cateList);
+        List<String> noticeList = commonCodeService.cateList("C06");
+      
+        
+        System.out.println(cateList);
+        System.out.println(cateList);
 
         int commuCount = commuService.totalCommu();
         int totalPage = 0;
@@ -106,7 +106,10 @@ public class CommuController {
         model.addAttribute("nowPageBlock", nowPageBlock);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
+        model.addAttribute("noticeList", noticeList);
+        model.addAttribute("commuList", commuList);
+        model.addAttribute("cateList", cateList);
+      
         session.setAttribute("nowPage", page);
 
         return "user/commu/list";
@@ -337,10 +340,13 @@ public class CommuController {
     // 카테고리별 커뮤니티 글쓰기
     @GetMapping("/commu/write")
     public String writePost(Model model) {
-        List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-        model.addAttribute("commuCateCodeList", commuCateCodeList);
+     
+        List<String> cateList = commonCodeService.cateList("C03");
+        List<String> noticeList = commonCodeService.cateList("C06");
+        model.addAttribute("cateList", cateList);
+        model.addAttribute("noticeList", noticeList);
         model.addAttribute("isCommunWritePage", true);
-        logger.info("Fetched commuCateCodeList: " + commuCateCodeList);// 실제 데이터 확인
+       
 
         return "user/commu/write";
     }

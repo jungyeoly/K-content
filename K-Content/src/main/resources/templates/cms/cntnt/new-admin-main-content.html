@@ -1,72 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-    <link rel="stylesheet" th:href="@{/css/content/content.css}">
-    <link rel="stylesheet" th:href="@{/css/content/new-admin-cntnt-main.css}">
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+<link rel="stylesheet" th:href="@{/css/content/content.css}">
+<link rel="stylesheet"
+	th:href="@{/css/content/new-admin-cntnt-main.css}">
 
 </head>
 
 <body>
-<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
-<div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
-    <form id="searchForm" class="input-group">
-        <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control">
-        <button type="button" class="btn" onclick="searchButton()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </form>
-</div>
+	<div class="search"
+		style="width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+		<form id="searchForm" class="input-group">
+			<input type="text" id="search-input" placeholder="검색어를 입력하세요"
+				class="form-control">
+			<button type="button" class="btn" onclick="searchButton()">
+				<i class="fa-solid fa-magnifying-glass"></i>
+			</button>
+		</form>
+	</div>
 
-<section class="primary container">
+	<section class="primary container">
 
-    <div id="main-cate" class="categories-nav">
-        <ul class="categories">
-            <li th:each="cate : ${cateList}" class="cate" th:data-maincate-value="${cate}">[[${cate}]]</li>
-        </ul>
-    </div>
+		<div id="main-cate" class="categories-nav">
+			<ul class="categories">
+				<li th:each="cate : ${cateList}" class="cate"
+					th:data-maincate-value="${cate}">[[${cate}]]</li>
+			</ul>
+		</div>
 
-    <ul class="card-list" id="card-list">
+		<ul class="card-list" id="card-list">
 
-    </ul>
+		</ul>
 
-    <div class="position-relative">
-        <nav aria-label="Page navigation" class="d-flex justify-content-center" id="page">
-            <ul class="pagination">
-                <li class="page-item" th:if="${nowPageBlock>1}">
-                    <a class="page-link prepage" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
+		<div class="position-relative">
+			<nav aria-label="Page navigation"
+				class="d-flex justify-content-center" id="page">
+				<ul class="pagination">
+					<li class="page-item" th:if="${nowPageBlock>1}"><a
+						class="page-link prepage" aria-label="Previous"> <span
+							aria-hidden="true">&laquo;</span>
+					</a></li>
 
-                <li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}"
-                    th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
-                    <a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
-                </li>
+					<li class="page-item"
+						th:each="i: ${#numbers.sequence(startPage, endPage)}"
+						th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
+						<a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
+					</li>
 
-                <li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-                    <a class="page-link nexpage" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+					<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+						<a class="page-link nexpage" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a>
+					</li>
+				</ul>
+			</nav>
 
-        <div class="col-2 position-absolute top-0 end-0 button-box">
-            <a class="btn border" href="test/content/new">생성</a>
-            <a class="btn border" type="button" href="test/recomm">추천</a>
-        </div>
-    </div>
+			<div class="col-2 position-absolute top-0 end-0 button-box">
+				<a class="btn border" href="test/content/new">생성</a> <a
+					class="btn border" type="button" href="test/recomm">추천</a>
+			</div>
+		</div>
 
-</section>
+	</section>
 
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script th:src="@{/js/body-header.js}"></script>
-<script th:src="@{/js/cntnt/cntntManagement.js}"></script>
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script th:src="@{/js/cntnt/cntntManagement.js}"></script>
 
-<script type="text/javascript" th:inline="javascript">
+	<script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         var page = "[[${session.page}]]";
         var cate = [[${session.cate}]];
@@ -264,6 +268,7 @@
             })
         })
     });
+    
     function searchButton() {
         var requestData = {
             searchKeyword: document.getElementById('search-input').value
@@ -278,34 +283,45 @@
                 element.innerHTML = '';
                 if (contentList.length != 0) {
                     for (i = 0; i < contentList.length; i++) {
-                        inHtml = `
-            <li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
-                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-                    <img src=${contentList[i].cntntThumnail} >
-                </figure>
-                <div class="card-desc">
-                   ${contentList[i].cntntTitle}
-                </div>
-            </li>`;
-                        element.insertAdjacentHTML("afterbegin", inHtml);
-
+                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+						              <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+											<img src=${contentList[i].cntntThumnail} >
+				               		 </figure>
+						                <div class="card-desc">
+						                   ${contentList[i].cntntTitle}
+						                </div>
+						            </li>`;
+            		element.insertAdjacentHTML("afterbegin", inHtml);
                     }
                 } else {
-                    inHtml = `
-            <div>
-            관련 콘텐츠가 존재하지 않습니다.
-            </div>`;
+	                    inHtml = `<div>
+						            관련 콘텐츠가 존재하지 않습니다.
+						            </div>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
                 }
-
-
-            }, error: function (error) {
+                
+                var nowPage = $(this).data("selpage");
+                var keyword = document.getElementById('search-input').value;
+                
+		        $.ajax({
+					url: "/cs/test/search/paging",
+					type: "GET",
+					data: {'page': nowPage, 'searchKeyword' : keyword },
+					success: function (data) {
+						console.log(data)
+						$("#page").empty();
+						$("#page").append(data);
+					
+					}
+				})
+           	}
+        , error: function (error) {
                 console.error('에러 발생: ', error);
             }
         });
     }
 </script>
-<script th:inline="javascript" th:if="${session.isTempPwd != null}">
+	<script th:inline="javascript" th:if="${session.isTempPwd != null}">
     function showTempPwdToast() {
 
         const toastLiveExample = document.getElementById('liveToast');

@@ -20,7 +20,7 @@ public class ContentService implements IContentService {
 
     @Override
     public List<CmsContent> getAllContent(String commonCodeVal, int page) {
-    	int start = (page-1)*10 + 1;
+    	int start = (page-1)*9 + 1;
         return contentRepository.getAllContent(commonCodeVal, start, start+8);
     }
 
@@ -105,7 +105,16 @@ public class ContentService implements IContentService {
 		return contentRepository.totalContent(commonCodeVal);
 	}
 
+	@Override
+	public int totalSearch(List<String> keywordList) {
+		return contentRepository.totalSearch(keywordList);
+	}
 
+	@Override
+	public List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page) {
+		int start = (page-1)*8 + 1;
+		return contentRepository.getPagingContentBySearch(keywordList, start, start+8);
+	}
 }
 //         contentRepository.insertAContent(contentForm);
 //        int cntntId =content.getCntntId();

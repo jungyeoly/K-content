@@ -5,12 +5,6 @@ $(document).ready(function() {
 	let commuCateCode = null;  // 현재 선택된 카테고리 저장 변수
 	let currentKeyWord = null; // 현재 선택 검색 상태 저장 변수
 		
-	toggleNotice(); //페이지 로딩 시 초기 상태에 따라 게시물 로드하기
-
-	// 체크박스 상태 변경에 따른 이벤트 바인딩
-	$('#noticecheckbox').on('change', toggleNotice);
-
-
 	loadPage(currentPage);
 
 	// 검색 폼 제출 이벤트 리스너 추가
@@ -115,50 +109,7 @@ $(document).ready(function() {
 		});
 	}
 
-	function loadPostsUsingCode(commuCateCode, page) {
-
-		let requestURL = `/cms/commu/commucatecode/${commuCateCode}?page=${page}`;
-
-		console.log(commuCateCode);
-		console.log(page);
-		
-		loading = true; // 페이지 로딩 중 플래그 설정
-		$.ajax({
-			url: requestURL,
-			method: 'GET',
-			dataType: 'json',
-			cache: false,
-			success: function(response) {
-				if (response.noticeList) {
-					// 'noticeList'를 사용한 공지사항 처리
-					updatePostList([], response.noticeList);
-					console.log(response.noticeList);
-				} else {
-					// 'posts' 또는 'commulist'를 사용한 일반 게시물 처리
-					updatePostList(response.posts || response.commulist);
-					console.log(response.posts);
-				}
-
-				updatePagination(response.nowPage, response.totalPageCount);
-				currentPage = page;
-			},
-			error: function(error) {
-				console.error("Failed to load category posts:", error);
-			},
-			complete: function() {
-				loading = false; // 페이지 로딩 완료 시 플래그 해제
-			}
-		});
-	}
-
-	function toggleNotice() {
-		if ($('#noticecheckbox').prop('checked')) {
-			loadPostsUsingCode("NOTICE", 1);
-		} else {
-			loadPage(1);
-		}
-	}
-
+	
 
 	// 카테고리 클릭 이벤트
 	$(document).on('click', '.cate', function() {
@@ -173,6 +124,9 @@ $(document).ready(function() {
 		switch (commuCateCode) {
 			case '전체':
 				commuCateCode = 'All';
+				break;
+			case '공지사항':
+				commuCateCode = 'NOTICE';
 				break;
 			case '음악':
 				commuCateCode = 'POP';

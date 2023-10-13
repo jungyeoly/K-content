@@ -160,7 +160,7 @@ public class CmsCommuController {
 		}
 
 		Map<String, Object> response = new HashMap<>();
-		/* response.put("noticeList", noticeList); */
+		
 		
 		response.put("posts", posts);
 		response.put("totalPageCount", totalPage);
@@ -169,7 +169,7 @@ public class CmsCommuController {
 		response.put("nowPageBlock", nowPageBlock);
 		response.put("startPage", startPage);
 		response.put("endPage", endPage);
-		response.put("cate", "C06");
+		
 
 		return ResponseEntity.ok(response);
 	}

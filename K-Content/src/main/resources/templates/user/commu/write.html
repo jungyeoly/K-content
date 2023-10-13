@@ -10,7 +10,7 @@
 
 	<div th:replace="~{/include/header :: header}"></div>
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
-	
+
 	<div th:replace="~{/include/community-center :: commu-nav}"></div>
 
 	<div class="container">
@@ -19,19 +19,22 @@
 			enctype="multipart/form-data" onsubmit="return validateForm()">
 
 			<ul class=tb-lst>
-			<li class="tit-row">
+				<li class="tit-row">
 					<div class="commu-label">
 						<label for="category">카테고리 <span class="required">*</span></label>
 					</div>
 					<div class="commu-category">
 						<select id="category" name="commuCateCode">
 							<option value="">카테고리를 선택해주세요.</option>
-							<option th:each="code : ${commuCateCodeList}"
-								th:if="${code != null}" th:value="${code.commonCode}"
-								th:text="${code.commonCodeVal}"
-								th:selected="${code.commonCodeVal == 'NOTICE'}">카테고리명</option>
+							<option th:each="code : ${cateList}"
+								th:value="${code.commonCode}" th:text="${code.commonCodeDscr}">카테고리명</option>
+						</select> <select id="noticecategory" name="noticeCateCode">
+							<option value="">카테고리를 선택해주세요.</option>
+							<option th:each="code : ${noticeList}"
+								th:value="${code.commonCode}" th:text="${code.commonCodeDscr}">카테고리명</option>
 						</select>
 					</div>
+
 
 
 

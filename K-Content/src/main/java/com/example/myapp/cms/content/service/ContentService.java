@@ -112,7 +112,7 @@ public class ContentService implements IContentService {
 
 	@Override
 	public List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page) {
-		int start = (page-1)*8 + 1;
+		int start = (page-1)*9 + 1;
 		return contentRepository.getPagingContentBySearch(keywordList, start, start+8);
 	}
 }

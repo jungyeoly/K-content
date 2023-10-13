@@ -68,10 +68,10 @@ public class CmsCommuController {
 		session.setAttribute("page", page);
 
 		List<Commu> commulist = commuService.selectAllPost(page);
-		for (Commu cmscommu : commulist) {
-			System.out.println(cmscommu.getCommonCodeVal());
-		}
+		
 		List<String> cateList = commonCodeService.cateList("C03");
+		List<String> noticeList = commonCodeService.cateList("C06");
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("commulist", commulist);
 		List<CommonCode> maincommonCodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
 		model.addAttribute("maincommonCodeVal", maincommonCodeVal);
@@ -105,10 +105,11 @@ public class CmsCommuController {
 		return "/cms/commu/list";
 	}
 
+	
 	@GetMapping("/commu/ajax/{page}")
 	public ResponseEntity<Map<String, Object>> loadadminPosts(@PathVariable int page) {
 		List<Commu> commulist = commuService.selectAllPost(page);
-		System.out.println(commulist);
+		
 
 		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
@@ -143,6 +144,7 @@ public class CmsCommuController {
 			@RequestParam(required = false) int page, HttpSession session) {
 		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
 		int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
+		
 		int totalPage = 0;
 		if (commuCategoryCount > 0) {
 			totalPage = (int) Math.ceil(commuCategoryCount / 10.0);
@@ -158,6 +160,8 @@ public class CmsCommuController {
 		}
 
 		Map<String, Object> response = new HashMap<>();
+		/* response.put("noticeList", noticeList); */
+		
 		response.put("posts", posts);
 		response.put("totalPageCount", totalPage);
 		response.put("nowPage", page);
@@ -165,10 +169,12 @@ public class CmsCommuController {
 		response.put("nowPageBlock", nowPageBlock);
 		response.put("startPage", startPage);
 		response.put("endPage", endPage);
+		response.put("cate", "C06");
 
 		return ResponseEntity.ok(response);
 	}
-
+	
+	
 	// 커뮤니티 게시글 검색
 	@GetMapping("/commu/search/{page}")
 	public ResponseEntity<Map<String, Object>> search(@RequestParam(required = false, defaultValue = "") String keyword,
@@ -177,7 +183,7 @@ public class CmsCommuController {
 
 		try {
 			List<Commu> commuList = commuService.searchListByContentKeyword(keyword, page);
-			System.out.println(commuList);
+			
 			int postsearchCount = commuService.selectTotalPostCountByKeyWord(keyword);
 			int totalPage = 0;
 			if (postsearchCount > 0) {
@@ -517,11 +523,6 @@ public class CmsCommuController {
 		}
 		return "redirect:/cms/commu";
 	}
+
 	
-	/*
-	 * //공지사항
-	 * 
-	 * @GetMapping("/recent-notice") public String recentnotice(@RequestParam int
-	 * comm)
-	 */
 }

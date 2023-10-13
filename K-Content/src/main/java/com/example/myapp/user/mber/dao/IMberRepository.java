@@ -38,5 +38,7 @@ public interface IMberRepository {
 
 	void changeMberStatus(String mberId, String newStatus);
 	
-	 List<Mber> searchMber(@Param("findType") String findType, @Param("findKeyword") String findKeyword);
+	List<Mber> searchMber(@Param("findType") String findType, @Param("findKeyword") String findKeyword, @Param("start") int start, @Param("end") int end);
+	
+	int cntSeach(@Param("findType") String findType, @Param("findKeyword") String findKeyword);
 }

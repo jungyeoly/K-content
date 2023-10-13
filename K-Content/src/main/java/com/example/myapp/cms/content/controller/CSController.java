@@ -40,7 +40,7 @@ public class CSController {
     Instagram_Selenium instagram_Selenium;
     @Autowired
     ICommonCodeService commonCodeService;
-
+    
     // 콘텐츠 추천 페이지
     @GetMapping("/recomm")
     public String showYouTube() {
@@ -69,40 +69,18 @@ public class CSController {
     public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
         List<String> cateList = commonCodeService.cateList("C03");
         model.addAttribute("cateList", cateList);
-
-        int page = 1;
-        int bbsCount = contentService.totalCntnt(cate);
-
-        int totalPage = 0;
-
-        if (bbsCount > 0) {
-            totalPage = (int) Math.ceil(bbsCount / 10.0);
-        }
-        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
-        int nowPageBlock = (int) Math.ceil(page / 10.0);
-        int startPage = (nowPageBlock - 1) * 10 + 1;
-        int endPage = 0;
-        if (totalPage > nowPageBlock * 10) {
-            endPage = nowPageBlock * 10;
-        } else {
-            endPage = totalPage;
-        }
-        model.addAttribute("totalPageCount", totalPage);
-        model.addAttribute("nowPage", page);
-        model.addAttribute("totalPageBlock", totalPageBlock);
-        model.addAttribute("nowPageBlock", nowPageBlock);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        session.setAttribute("nowPage", page);
+        model.addAttribute("cate", cate);
         return "cms/cntnt/new-admin-main-content";
     }
 
 
     @GetMapping("/contents/{page}")
     @ResponseBody
-    public List<CmsContent> getallcntnt(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
-        List<CmsContent> result = contentService.getAllContent(cate, page);
+    public List<CmsContent> getallcntnt(
+    		@RequestParam(required = false, defaultValue = "All") String cate, 
+    		@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
+        
+    	List<CmsContent> result = contentService.getAllContent(cate, page);
         model.addAttribute("cate", cate);
 
         for (int i = 0; i < result.size(); i++) {
@@ -134,7 +112,6 @@ public class CSController {
         model.addAttribute("nowPageBlock", nowPageBlock);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        session.setAttribute("nowPage", page);
 
         return result;
 
@@ -269,7 +246,10 @@ public class CSController {
     }
 
     @GetMapping("paging")
-    public String paging(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam("page") int page, Model model, HttpSession session) {
+    public String paging(
+    		@RequestParam(required = false, defaultValue = "All") String cate, 
+    		@RequestParam("page") int page, Model model, HttpSession session) {
+    	
         int bbsCount = contentService.totalCntnt(cate);
         int totalPage = 0;
 
@@ -330,6 +310,7 @@ public class CSController {
     		@RequestParam(value = "searchKeyword") String searchKeyword,
     		@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
     	
+    	
     	List<CmsContent> result = contentService.getPagingContentBySearch(Collections.singletonList(searchKeyword), page);
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
@@ -338,16 +319,17 @@ public class CSController {
             String restultCode = partOfUrl2.get(1);
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
         }
+
         return result;
     }
     
     @GetMapping("search/paging")
     public String searchPaging(
     		@RequestParam(value = "searchKeyword") String searchKeyword,
-    		@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    		@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
         int bbsCount = contentService.totalSearch(Collections.singletonList(searchKeyword));
         int totalPage = 0;
-
+        
         if (bbsCount > 0) {
             totalPage = (int) Math.ceil(bbsCount / 10.0);
         }
@@ -369,6 +351,7 @@ public class CSController {
         model.addAttribute("nowPageBlock", nowPageBlock);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        
 
         return "cms/cntnt/paging";
     }

@@ -11,7 +11,8 @@
 
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-
+	<div hidden id="myDiv" th:data-cate="${session.cate}"></div>
+	
 	<div class="search"
 		style="width: 50%; margin: auto; padding-top: 30px; height: 80%;">
 		<form id="searchForm" class="input-group">
@@ -39,24 +40,6 @@
 		<div class="position-relative">
 			<nav aria-label="Page navigation"
 				class="d-flex justify-content-center" id="page">
-				<ul class="pagination">
-					<li class="page-item" th:if="${nowPageBlock>1}"><a
-						class="page-link prepage" aria-label="Previous"> <span
-							aria-hidden="true">&laquo;</span>
-					</a></li>
-
-					<li class="page-item"
-						th:each="i: ${#numbers.sequence(startPage, endPage)}"
-						th:classappend="${i==nowPage}?active" th:id="${i}" th:value="${i}">
-						<a class="page-link selpage" th:data-selpage="${i}" th:text="${i}"></a>
-					</li>
-
-					<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
-						<a class="page-link nexpage" aria-label="Next"> <span
-							aria-hidden="true">&raquo;</span>
-					</a>
-					</li>
-				</ul>
 			</nav>
 
 			<div class="col-2 position-absolute top-0 end-0 button-box">
@@ -72,17 +55,9 @@
 
 	<script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
-        var page = "[[${session.page}]]";
-        var cate = [[${session.cate}]];
-
-        if (page == 'null') {
-            page = 1;
-        }
-
-        if (cate == 'null') {
-            cate = 'All';
-        }
-        
+    	var cate = $('#myDiv').data('cate');
+    	var page = 1;
+    	
         $.ajax({
             url: '/cs/test/contents/' + page,
             type: 'GET',
@@ -102,16 +77,18 @@
                         </li>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
                 }
-
+                
+                paging(cate);
             }, error: function (error) {
                 console.error('에러 발생: ', error);
             }
+            
         })
 
         $(".cate").click(function () {
+        	$("#search-input").val("");
             cate = this.getAttribute('data-maincate-value');
-            var page = 1;
-            
+
             switch (cate) {
 				case '전체':
 				    cate = 'All';
@@ -151,7 +128,7 @@
 			}
 
             $.ajax({
-                url: '/cs/test/contents/' + page,
+                url: '/cs/test/contents/' + 1,
                 type: 'GET',
                 data: {'page': page, 'cate': cate},
                 success: function (contentList) {
@@ -199,33 +176,66 @@
 
         $(document).on("click", ".selpage", function () {
             var nowPage = $(this).data("selpage");
-
-            $.ajax({
-                url: "/cs/test/contents/" + nowPage,
-                method: "get",
-                data: {'page': nowPage, 'cate': cate},
-                success: function (contentList) {
-                    const element = $('#card-list');
-                    element.empty();
-
-                    for (i = 0; i < contentList.length; i++) {
-                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
-						                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
-						                    <img src=${contentList[i].cntntThumnail} >
-						                </figure>
-						                <div class="card-desc">
-						                   ${contentList[i].cntntTitle}
-						                </div>
-						            </li>`;
-                        element.append(inHtml);
-                    }
-                    $(".page-item").removeClass("active");
-                    $("#" + nowPage).addClass("active");
-
-                }, error: function (error) {
-                    console.error('에러 발생: ', error);
-                }
-            })
+            if ($("#search-input").val()) {
+            	var keyword = $("#search-input").val();
+            	
+                $.ajax({
+                	url: "/cs/test/contents/search",
+                	method: "get",
+                	data: {
+                		'searchKeyword' : keyword,
+                		'page' : nowPage	
+                	},
+                	success: function (contentList) {
+	                    const element = $('#card-list');
+	                    element.empty();
+	
+	                    for (i = 0; i < contentList.length; i++) {
+	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+							                    <img src=${contentList[i].cntntThumnail} >
+							                </figure>
+							                <div class="card-desc">
+							                   ${contentList[i].cntntTitle}
+							                </div>
+							            </li>`;
+	                        element.append(inHtml);
+	                    }
+	                    $(".page-item").removeClass("active");
+	                    $("#" + nowPage).addClass("active");
+	
+	                }, error: function (error) {
+	                    console.error('에러 발생: ', error);
+	                }
+                })
+            } else {
+	            $.ajax({
+	                url: "/cs/test/contents/" + nowPage,
+	                method: "get",
+	                data: {'page': nowPage, 'cate': cate},
+	                success: function (contentList) {
+	                    const element = $('#card-list');
+	                    element.empty();
+	
+	                    for (i = 0; i < contentList.length; i++) {
+	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
+							                    <img src=${contentList[i].cntntThumnail} >
+							                </figure>
+							                <div class="card-desc">
+							                   ${contentList[i].cntntTitle}
+							                </div>
+							            </li>`;
+	                        element.append(inHtml);
+	                    }
+	                    $(".page-item").removeClass("active");
+	                    $("#" + nowPage).addClass("active");
+	
+	                }, error: function (error) {
+	                    console.error('에러 발생: ', error);
+	                }
+	            })
+            }
         })
 
         $(".prepage").click(function () {
@@ -269,6 +279,18 @@
         })
     });
     
+    function paging(cate) {
+    	var page = 1;
+    	$.ajax({
+        	url: '/cs/test/paging',
+        	type: 'GET',
+        	data: {'page' : page, 'cate' : cate},
+        	success : function (data) {
+        		$("#page").append(data);
+        	}
+        })
+    }
+    
     function searchButton() {
         var requestData = {
             searchKeyword: document.getElementById('search-input').value
@@ -308,10 +330,8 @@
 					type: "GET",
 					data: {'page': nowPage, 'searchKeyword' : keyword },
 					success: function (data) {
-						console.log(data)
 						$("#page").empty();
 						$("#page").append(data);
-					
 					}
 				})
            	}

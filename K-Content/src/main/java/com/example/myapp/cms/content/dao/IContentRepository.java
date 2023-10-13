@@ -23,8 +23,12 @@ public interface IContentRepository {
     int updateAContent(CmsContent contentForm);
 
     List<CmsContent> getContentByKeyword(@Param("keywordList") List<String> keywordList);
+    
+    List<CmsContent> getPagingContentBySearch(@Param("keywordList") List<String> keywordList, @Param("start") int start, @Param("end") int end);
 
     void updateDelStat(@Param("cntntId") int cntntId);
     
     int totalContent(@Param("commonCodeVal") String commonCodeVal);
+    
+    int totalSearch(@Param("keywordList") List<String> keywordList);
 }

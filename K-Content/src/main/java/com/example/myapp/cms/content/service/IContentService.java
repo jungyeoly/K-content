@@ -13,9 +13,13 @@ public interface IContentService {
     boolean updateAContent(CmsContent content, List<Integer> goodsList);
 
     List<CmsContent> getContentByKeyword(List<String> keywordList);
+    
+    List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page);
 
     void updateDelStat(int cntntId);
     
     int totalCntnt(String commonCodeVal);
+    
+    int totalSearch(List<String> keywordList);
 }
 

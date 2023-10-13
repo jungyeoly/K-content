@@ -325,9 +325,11 @@ public class CSController {
     //콘텐츠 검색
     @GetMapping("/contents/search")
     @ResponseBody
-    public List<CmsContent> getContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
-
-        List<CmsContent> result = contentService.getContentByKeyword(Collections.singletonList(searchKeyword));
+    public List<CmsContent> getContentBySearchKeyword(
+    		@RequestParam(value = "searchKeyword") String searchKeyword,
+    		@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    	
+    	List<CmsContent> result = contentService.getPagingContentBySearch(Collections.singletonList(searchKeyword), page);
         for (int i = 0; i < result.size(); i++) {
             List<String> contentUrlSplit = List.of(result.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
@@ -336,6 +338,38 @@ public class CSController {
             result.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + restultCode + "/hqdefault.jpg");
         }
         return result;
+    }
+    
+    @GetMapping("search/paging")
+    public String searchPaging(
+    		@RequestParam(value = "searchKeyword") String searchKeyword,
+    		@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+        int bbsCount = contentService.totalSearch(Collections.singletonList(searchKeyword));
+        int totalPage = 0;
+
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+            if (endPage == 0) {
+                endPage = 1;
+            }
+        }
+        model.addAttribute("totalPageCount", totalPage);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("totalPageBlock", totalPageBlock);
+        model.addAttribute("nowPageBlock", nowPageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "cms/cntnt/paging";
     }
 
     //콘텐츠 삭제 처리

@@ -6,6 +6,9 @@ $(document).ready(function() {
 	var searchParams = new URLSearchParams(queryString);
 	var keyword = searchParams.get("keyword");
 	
+	var start = 1;
+	var end = 15;
+	
 	if (keyword) {
 	    $.ajax({
 			url: "/user/content",
@@ -30,14 +33,11 @@ $(document).ready(function() {
 		})
 	}
 	
-	var start = 1;
-	var end = 15;		
-		
+			
 	$(window).scroll(function() {
 		if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
 			start = end + 1;
 			end = start + 14;
-			console.log(cateValue);
 			$.ajax({
 				type: 'GET',
 				url: '/content/scroll',
@@ -50,6 +50,8 @@ $(document).ready(function() {
 	})
 
 	$(".cate").click(function() {
+		start = 1;
+		end = 15;
 		$(".cate").removeClass("active");
 		$(this).addClass("active");
 		cateValue = this.getAttribute('data-maincate-value');
@@ -94,10 +96,6 @@ $(document).ready(function() {
 			    break;
 		  default:
 		    cateValue = 'All';
-		}
-		
-		if (cateValue == 'All') {
-			location.href = ""
 		}
 		
 	    $.ajax({

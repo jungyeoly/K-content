@@ -60,7 +60,7 @@ function cntntMake(spaArr, url) {
 
 function searchButton() {
     $.ajax({
-        url: '/cs/youtube/keyword', type: 'GET',
+        url: '/cs/test/youtube/keyword', type: 'GET',
         data: {
             searchKeyword: document.getElementById('search-input').value
         },

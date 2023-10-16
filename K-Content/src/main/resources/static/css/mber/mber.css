@@ -40,6 +40,7 @@ body {
     }
 }
 
+
 select {
 	color: #14dbc8 !important;
 	font-weight: 600;
@@ -76,7 +77,9 @@ input[type="checkbox"]:checked+.form-check-label {
 }
 
 .input-group-text {
-	padding: 0 12px 0 0;
+	height: 37px;
+	background-color: white;
+	border: none;
 }
 
 .link-effect:before {
@@ -113,9 +116,16 @@ input[type="checkbox"]:checked+.form-check-label {
 	border-radius: 50%;
 }
 
+.invalid-feedback {
+	font-size: 12px;
+	margin-left: 12px;
+}
+
+
 .input-form {
 	max-width: 680px;
-	margin-top: 110px;
+	margin-top: 120px;
+	min-height: 450px;
 	padding: 25px 32px;
 	background: #f4f3f9;
 	-webkit-border-radius: 10px;
@@ -129,10 +139,6 @@ input[type="checkbox"]:checked+.form-check-label {
 .input-form label {
 	padding: 6px 12px;
 	white-space: nowrap;
-}
-
-.menu-title {
-	font-family: 'S-CoreDream-9Black'
 }
 
 .btn-active, .btn-check {
@@ -155,13 +161,32 @@ input[type="checkbox"]:checked+.form-check-label {
 	margin-right: 20px;
 }
 
+.pwd-input-wrap {
+    position: relative;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid, .form-control.is-valid, .was-validated .form-control:valid {
+    background-position: right 40px top 9px;
+	
+}
+
 .fa-eye, .fa-eye-slash {
+	position: absolute;
+	top: 18px;
+	right: 10px;
+	transform: translateY(-50%);
 	cursor: pointer;
 }
 
 .logo_img {
 	width: 35px;
 	height: 35px;
+}
+
+
+select option:disabled {
+    color: var(--color-main);
+    font-weight: bold;
 }
 
 .form-control {
@@ -191,11 +216,13 @@ input[type="checkbox"]:checked+.form-check-label {
 
 .form-select {
 	font-size: 14px;
-    line-height: 22px;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-    height: 37px;
+	line-height: 22px;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+	height: 37px;
 }
+
+
 
 .row input:-ms-input-placeholder {
 	color: #14dbc8;
@@ -234,7 +261,7 @@ input[type="checkbox"]:checked+.form-check-label {
 	font-weight: 600;
 	transition: all 200ms linear;
 	display: inline-flex;
-	white-space : nowrap;
+	white-space: nowrap;
 	-moz-align-items: center;
 	-ms-align-items: center;
 	align-items: center;
@@ -310,13 +337,12 @@ a:hover, a:active {
 	text-decoration: none !important;
 }
 
-
 .mber-feedback {
-    color: #dc3545;
-    width: 100%;
-    font-size: 0.65em;
-    display: none;
-    padding: 2px;
+	color: #dc3545;
+	width: 100%;
+	font-size: 12px;
+	display: none;
+	margin: 3px 0px -3px 118px;
 }
 
 #email-check-btn:focus {

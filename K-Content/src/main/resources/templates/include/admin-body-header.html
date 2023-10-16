@@ -31,16 +31,15 @@
 			<li id="goods" class="content">
 				<a th:href="@{/cs/test/goods}">상품</a>
 			</li>
-			<li id="mber" class="content">
-				<a th:href="@{/cs/mber}">회원</a>
-			</li>
 			<li id="comm" class="content">
 				<a th:href="@{/cms/commu/1 (commonCodeVal ='All')}">커뮤니티</a>
 			</li>
 			<li id="inqury" class="content">
 				<a th:href="@{/cs/inqry}">문의사항</a>
 			</li>
-
+			<li id="mber" class="content">
+				<a th:href="@{/cs/mber}">회원</a>
+			</li>
 			<li class="cms content" sec:authorize="hasRole('ADMIN')">
 				<a th:href="@{/}">사용자 화면</a>
 			</li>

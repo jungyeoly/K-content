@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.myapp.cms.inqry.model.CmsInqry;
+import com.example.myapp.cms.inqry.service.CmsInqryService;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.inqry.model.Inqry;
@@ -40,38 +42,67 @@ public class CmsInqryController {
 
 	@GetMapping("/inqry/{page}")
 	public String selectCmsInqryList(@PathVariable int page, HttpSession session, Model model) {
-		int inqryPwdId = 0;
-		session.setAttribute("inqryPwdId", inqryPwdId);
 		session.setAttribute("page", page);
 
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
 		model.addAttribute("inqryList", inqryList);
-
-
-		int bbsCount = inqryService.totalInqry();
-		int totalPage = 0;
-
-		if(bbsCount > 0) {
-			totalPage= (int)Math.ceil(bbsCount/10.0);
-		}
-		int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
-		int nowPageBlock = (int) Math.ceil(page/10.0);
-		int startPage = (nowPageBlock-1)*10 + 1;
-		int endPage = 0;
-		if(totalPage > nowPageBlock*10) {
-			endPage = nowPageBlock*10;
-		}else {
-			endPage = totalPage;
-		}
-		model.addAttribute("totalPageCount", totalPage);
-		model.addAttribute("nowPage", page);
-		model.addAttribute("totalPageBlock", totalPageBlock);
-		model.addAttribute("nowPageBlock", nowPageBlock);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
-
-		session.setAttribute("nowPage", page);
+		
+		List<CmsInqry> unansList = cmsInqryService.selectUnansInqryList(page);
+		model.addAttribute("unansList", unansList);
+		
 		return "cms/inqry/list";
+	}
+	
+	@GetMapping("/inqry/paging")
+	public String inqryPaging(@RequestParam(defaultValue = "1") int page, @RequestParam String activeTab, Model model) {
+		if (activeTab.equals("menu1")) {
+			int bbsCount = inqryService.totalInqry();
+			int totalPage = 0;
+	
+			if(bbsCount > 0) {
+				totalPage= (int)Math.ceil(bbsCount/10.0);
+			}
+			int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+			int nowPageBlock = (int) Math.ceil(page/10.0);
+			int startPage = (nowPageBlock-1)*10 + 1;
+			int endPage = 0;
+			if(totalPage > nowPageBlock*10) {
+				endPage = nowPageBlock*10;
+			}else {
+				endPage = totalPage;
+			}
+			model.addAttribute("totalPageCount", totalPage);
+			model.addAttribute("nowPage", page);
+			model.addAttribute("totalPageBlock", totalPageBlock);
+			model.addAttribute("nowPageBlock", nowPageBlock);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			return "cms/inqry/paging";
+
+		} else {
+			int bbsCount = cmsInqryService.countAns();
+			int totalPage = 0;
+
+			if(bbsCount > 0) {
+				totalPage= (int)Math.ceil(bbsCount/10.0);
+			}
+			int totalPageBlock = (int)(Math.ceil(totalPage/10.0));
+			int nowPageBlock = (int) Math.ceil(page/10.0);
+			int startPage = (nowPageBlock-1)*10 + 1;
+			int endPage = 0;
+			if(totalPage > nowPageBlock*10) {
+				endPage = nowPageBlock*10;
+			}else {
+				endPage = totalPage;
+			}
+			model.addAttribute("totalPageCount", totalPage);
+			model.addAttribute("nowPage", page);
+			model.addAttribute("totalPageBlock", totalPageBlock);
+			model.addAttribute("nowPageBlock", nowPageBlock);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			return "cms/inqry/paging";
+		}
 	}
 
 	@GetMapping("/inqry")
@@ -160,8 +191,4 @@ public class CmsInqryController {
 		return "redirect:/cs/inqry";
 	}
 
-	private void alert(String string) {
-		// TODO Auto-generated method stub
-		
-	}
 }

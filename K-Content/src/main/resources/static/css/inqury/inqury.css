@@ -52,6 +52,43 @@
     text-overflow: ellipsis;
 }
 
+.tab {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.tab li {
+	width: 50%;
+	height: 3em;
+	float: left;
+	text-align: center;
+	line-height: 3em;
+}
+
+.tab li a {
+	display: inline;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+}
+
+.tabcont {
+	display: none;
+	padding-top: 0px;
+	color:black;
+}
+ul.tab li.on{
+	background-color: black;
+}
+.tab .on a {
+	color: white;
+}
+
+.tabcont.on {
+	display: block;
+}
 
 @media screen and (max-width: 765px) {
   .registDate {

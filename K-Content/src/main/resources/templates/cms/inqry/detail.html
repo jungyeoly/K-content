@@ -78,7 +78,7 @@
 	 			<div class="btns d-flex">
 					<div th:if="${reply} != null" class="d-flex">
 						<a th:href="@{/cs/inqry/update/{inqryId}(inqryId=${reply.inqryId})}" class="btn text-white me-2">수정</a>
-						<form th:action="@{/cs/inqry/delete/{inqryId}(inqryId=${reply.inqryId})}" method="post">
+						<form th:action="@{/cs/inqry/delete/{inqryId}(inqryId=${reply.inqryId})}" method="post" id="userDelete">
 							<input type="submit" class="btn delete" value="삭제">
 						</form>
 					</div>
@@ -89,4 +89,5 @@
 		</div>
 	</div>
 <script th:src="@{/js/inqury/cmsInquryList.js}"></script>
+<script th:src="@{/js/inqury/inquryDelete.js}"></script>
 </html>

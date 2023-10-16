@@ -50,5 +50,16 @@ public class CmsInqryService implements ICmsInqryService{
 	public List<CmsInqry> selectRecentInqry() {
 		return cmsInqryRepository.selectRecentInqry();
 	}
+
+	@Override
+	public List<CmsInqry> selectUnansInqryList(int page) {
+		int start = (page-1)*10 + 1;
+		return cmsInqryRepository.selectUnansInqryList(start, start+9);
+	}
+
+	@Override
+	public int countAns() {
+		return cmsInqryRepository.countAns();
+	}
 	
 }

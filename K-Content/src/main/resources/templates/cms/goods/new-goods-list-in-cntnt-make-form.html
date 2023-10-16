@@ -17,7 +17,7 @@
                          onclick="addList(this.getAttribute('goodsId'))">
                         <div class="category-img">
 
-                            <img style="width: 300px; height: 300px; margin:auto; display: block"
+                            <img style="width: 300px; height: 300px; margin:auto; display: block" th:id="${goods.goodsId}"
                                  th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" alt="">
                             <div class="category-caption">
                                 <h6 style="text-align: center;" th:text="${goods.goodsName}"></h6>
@@ -64,5 +64,5 @@
     <!--    </footer>-->
 
 </div>
-<script src="/js/goods/goodsListMainInCntntMakeForm.js"></script>
+<script src="/js/goods/goodsListMainInCntntMakeForm.js" defer></script>
 

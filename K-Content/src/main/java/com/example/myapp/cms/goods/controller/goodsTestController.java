@@ -300,7 +300,6 @@ public class goodsTestController {
     // 컨텐츠 생성 폼에서 굿즈 리스트
     @GetMapping("/cntnt")
     public String selectGoodsListInMakeCntnt() {
-        System.out.println("sdfsdfs");
         return "cms/goods/new-goods-main-in-cntnt-make-form";
     }
 

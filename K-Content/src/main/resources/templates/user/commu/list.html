@@ -7,10 +7,12 @@
 <link rel="stylesheet" href="/css/body-header.css">
 <link rel="stylesheet" href="/css/commu-nav.css">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
 </head>
 <body>
 	<th:block th:replace="~{/include/header :: header}"></th:block>
 	<div th:replace="~{/include/body-header :: header }"></div>
+
 
 	<div class="container">
 		<div th:replace="~{/include/community-center :: commu-nav}"
@@ -30,7 +32,6 @@
 							th:data-maincate-value="${cate}">[[${cate}]]</div>
 					</div>
 				</div>
-
 			</div>
 			<div class="col-md-4 ms-auto">
 				<div class="commusearchDiv">
@@ -57,19 +58,16 @@
 			</thead>
 			<tbody>
 				<tr th:each="cate : ${commulist}" class="commu-row"
-					th:attr="data-commu-id=${commu.commuId}">
+					th:attr="data-commu-id=${commu.commuId}" onclick="commuDetail(this)">
 					<td th:text="${commu.commuId}"></td>
-					<td><span th:each="code : ${cateList}"
-						th:if="${code} eq ${commu.commuCateCode}" th:text="${cateList}"
-						style="font-weight: bold">카테고리명</span></td>
+					<td th:text="${commu.commonCodeDscr}" style="font-weight: bold">카테고리명</td>
 					<td th:text="${commu.commuTitle}"></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>
 				</tr>
+
 			</tbody>
-
-
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>

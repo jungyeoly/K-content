@@ -22,7 +22,9 @@
 							<a th:href="@{/}"><img src="/img/mainLogo.png" width="500"
 								height="180" class="img-fluid" alt="K-Spectrum"></a>
 						</p>
+
 						<p class="text-center fw-bold fs-2">안녕하세요. 당신은 누구신가요?</p>
+
 						<div th:if="${param.error != null}"
 							class="alert alert-danger fw-bold" role="alert"
 							th:text="${exception}"></div>

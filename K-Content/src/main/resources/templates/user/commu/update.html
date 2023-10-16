@@ -20,16 +20,7 @@
 			onsubmit="return validateForm()">
 
 			<ul class=tb-lst>
-				<li class="tit-row">
-					<div class="commu-label">
-						<label for="title">제목</label>
-					</div>
-					<div class="commu-title">
-						<input type="text" id="title" name="commuTitle"
-							th:value="${commu.commuTitle}" placeholder="제목을 입력하세요.">
-					</div>
-				</li>
-
+			
 				<li class="tit-row">
 					<div class="commu-label">
 						<label for="category">카테고리</label>
@@ -40,8 +31,18 @@
 							<option th:each="code : ${commuCateCodeList}"
 								th:if="${code != null}" th:value="${code.commonCode}"
 								th:selected="${code.commonCode == commu.commuCateCode}"
-								th:text="${code.commonCodeVal}">카테고리명</option>
+								th:text="${code.commonCodeDscr}">카테고리명</option>
 						</select>
+					</div>
+				</li>
+				
+				<li class="tit-row">
+					<div class="commu-label">
+						<label for="title">제목</label>
+					</div>
+					<div class="commu-title">
+						<input type="text" id="title" name="commuTitle"
+							th:value="${commu.commuTitle}" placeholder="제목을 입력하세요.">
 					</div>
 				</li>
 
@@ -87,7 +88,7 @@
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
 					sec:authorize="isAuthenticated()"> <a type="reset"
-					class="btn me-2 cancel-btn" th:href="@{/commu/1}">취소</a> <input
+					class="btn me-2 cancel-btn" th:href="@{/commu/detail/{commuId}(commuId=${commu.commuId})}">취소</a> <input
 					type="submit" class="btn saveBtn" value="저장"> <input
 					type="hidden" name="filesToDelete" id="filesToDelete">
 

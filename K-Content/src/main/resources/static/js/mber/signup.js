@@ -194,13 +194,14 @@ $(document).ready(function() {
 					if (result == false) {
 						emailFeedback.style.color = '#198754';
 						emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
+						document.getElementById('mber_email').readOnly = true;
 						isEmailExistCheck = true;
 						// 이메일 중복 체크가 성공하면 이메일 인증 요청을 보냅니다.
 						sendEmailAuthRequest();
 					} else if (result == true) {
 						emailFeedback.style.color = '#dc3545';
 						emailFeedback.innerHTML = "이미 존재하는 이메일입니다.";
-						document.getElementById('mber_email').disabled = false;
+						document.getElementById('mber_email').readOnly = false;
 						isEmailExistCheck = false;
 
 					}
@@ -256,12 +257,12 @@ function checkAuthNum(enteredAuthNum) {
 	authNumFeedback.style.display = 'block';
 
 	if (enteredAuthNum.length === 0) {
-		emailFeedback.innerHTML = "";
+		authNumFeedback.innerHTML = "";
 		isAuthNumValid = false;
 		return;
 	} else if (enteredAuthNum.length < 6) {
-		emailFeedback.style.color = '#000000';
-		emailFeedback.innerHTML = "인증번호 확인 중입니다...";
+		authNumFeedback.style.color = '#000000';
+		authNumFeedback.innerHTML = "인증번호 확인 중입니다...";
 		isAuthNumValid = false;
 		return;
 	} else if (enteredAuthNum.length === 6) {
@@ -273,12 +274,12 @@ function checkAuthNum(enteredAuthNum) {
 			data: { enteredAuthNum: enteredAuthNum },
 			success: function(result) {
 				if (result == false) {
-					emailFeedback.style.color = '#dc3545';
-					emailFeedback.innerHTML = "인증 실패";
+					authNumFeedback.style.color = '#dc3545';
+					authNumFeedback.innerHTML = "인증 실패";
 					isAuthNumValid = false;
 				} else if (result == true) {
-					emailFeedback.style.color = '#198754';
-					emailFeedback.innerHTML = "인증 성공";
+					authNumFeedback.style.color = '#198754';
+					authNumFeedback.innerHTML = "인증 성공";
 					isAuthNumValid = true;
 					authCodeInput.disabled = true;
 				}

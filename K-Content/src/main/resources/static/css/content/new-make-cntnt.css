@@ -27,7 +27,7 @@ iframe {
     padding-top: 2em;
 }
 .keyword{
-    padding-top: 1em;
+    /*padding-top: 1em;*/
 }
 .goods-box{
     display: flex;

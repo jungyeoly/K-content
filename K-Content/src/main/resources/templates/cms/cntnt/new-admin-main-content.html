@@ -12,7 +12,7 @@
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	<div hidden id="myDiv" th:data-cate="${session.cate}"></div>
-	
+
 	<div class="search"
 		style="width: 50%; margin: auto; padding-top: 30px; height: 80%;">
 		<form id="searchForm" class="input-group">
@@ -57,7 +57,7 @@
     $(document).ready(function () {
     	var cate = $('#myDiv').data('cate');
     	var page = 1;
-    	
+
         $.ajax({
             url: '/cs/test/contents/' + page,
             type: 'GET',
@@ -77,12 +77,12 @@
                         </li>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
                 }
-                
+
                 paging(cate);
             }, error: function (error) {
                 console.error('에러 발생: ', error);
             }
-            
+
         })
 
         $(".cate").click(function () {
@@ -140,7 +140,7 @@
                     if (contentList.length == 0) {
                         inHtml = `
 	                   	<div class="container text-center mt-5">
-	                		<img alt="" src="/img/fail.png">
+	                		<img alt="" src="/img/fail_cntnt.png">
 	                	</div>`
                         element.append(inHtml);
                     } else {
@@ -178,18 +178,18 @@
             var nowPage = $(this).data("selpage");
             if ($("#search-input").val()) {
             	var keyword = $("#search-input").val();
-            	
+
                 $.ajax({
                 	url: "/cs/test/contents/search",
                 	method: "get",
                 	data: {
                 		'searchKeyword' : keyword,
-                		'page' : nowPage	
+                		'page' : nowPage
                 	},
                 	success: function (contentList) {
 	                    const element = $('#card-list');
 	                    element.empty();
-	
+
 	                    for (i = 0; i < contentList.length; i++) {
 	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
 							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
@@ -203,7 +203,7 @@
 	                    }
 	                    $(".page-item").removeClass("active");
 	                    $("#" + nowPage).addClass("active");
-	
+
 	                }, error: function (error) {
 	                    console.error('에러 발생: ', error);
 	                }
@@ -216,7 +216,7 @@
 	                success: function (contentList) {
 	                    const element = $('#card-list');
 	                    element.empty();
-	
+
 	                    for (i = 0; i < contentList.length; i++) {
 	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
 							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
@@ -230,7 +230,7 @@
 	                    }
 	                    $(".page-item").removeClass("active");
 	                    $("#" + nowPage).addClass("active");
-	
+
 	                }, error: function (error) {
 	                    console.error('에러 발생: ', error);
 	                }
@@ -278,7 +278,7 @@
             })
         })
     });
-    
+
     function paging(cate) {
     	var page = 1;
     	$.ajax({
@@ -290,7 +290,7 @@
         	}
         })
     }
-    
+
     function searchButton() {
         var requestData = {
             searchKeyword: document.getElementById('search-input').value
@@ -316,15 +316,15 @@
             		element.insertAdjacentHTML("afterbegin", inHtml);
                     }
                 } else {
-	                    inHtml = `<div>
-						            관련 콘텐츠가 존재하지 않습니다.
+	                    inHtml = `<div class="container text-center mt-5">
+						         <img alt="" src="/img/fail_cntnt.png">
 						            </div>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
                 }
-                
+
                 var nowPage = $(this).data("selpage");
                 var keyword = document.getElementById('search-input').value;
-                
+
 		        $.ajax({
 					url: "/cs/test/search/paging",
 					type: "GET",

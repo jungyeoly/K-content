@@ -1,3 +1,35 @@
+var section = document.getElementById('layout');
+console.log(section);
+
+
+function addBorder() {
+    console.log("지금 리로드됨");
+    console.log(clickGoodsList.length);
+    for (var i = 0; i < clickGoodsList.length; i++) {
+        // console.log("clickGoodsList: " + clickGoodsList[i]);
+
+        var border = document.getElementById(clickGoodsList[i]);
+        if(border != null){
+            console.log("border: " + border);
+            border.classList.add('selected');
+        }else{
+            continue;
+        }
+
+
+    }
+}
+
+
+// section.addEventListener("change", function () {
+//     console.log("지금 리로드됨");
+//     console.log(clickGoodsList.length);
+//     for (var i = 0; i < clickGoodsList.length; i++) {
+//         var element = document.getElementById(clickGoodsList[i]);
+//         element.classList.add('selected');
+//     }
+// })
+
 function searchKeyword() {
     $.ajax({
         url: '/cs/test/goods/search',
@@ -10,7 +42,7 @@ function searchKeyword() {
             element.innerHTML = "";
             if (data.length != 0) {
                 for (var i = 0; i < data.length; i++) {
-                    inHtml = `<div class="col-xl-4 col-lg-6">
+                    var inHtml = `<div class="col-xl-4 col-lg-6">
                         <div class="single-category mb-30"  onclick="addList(${data[i].goodsId})">
                             <div class="category-img">
                                 <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
@@ -23,8 +55,8 @@ function searchKeyword() {
                     element.insertAdjacentHTML('beforeend', inHtml);
                 }
             } else {
-                inHtml = `<div class="col-xl-4 col-lg-6">
-                        <h3>관련 상품이 존재하지 않습니다.</h3>
+                inHtml = `<div>
+                        <h5>관련 상품이 존재하지 않습니다.</h5>
                     </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }
@@ -38,9 +70,9 @@ function searchKeyword() {
 
 }
 
-clickGoodsList = [];
+var clickGoodsList = [];
 
-function selectEnd(){
+function selectEnd() {
     const openerWindow = window.opener;
     window.opener.postMessage(clickGoodsList, "*");
     // console.log(clickGoodsList);
@@ -53,7 +85,15 @@ function addList(goodsId) {
     } else {
         clickGoodsList.push(goodsId);
     }
+    var element = document.getElementById(goodsId);
+    if (element.classList.contains('selected')) {
+        element.classList.remove('selected');
+    } else {
+        element.classList.add('selected');
+    }
+    console.log(clickGoodsList);
 }
+
 function detail(goodsId) {
     console.log("ehfrhdlTek");
     // 상품 상세 화면 보여주기
@@ -80,6 +120,7 @@ function selPageF(pageNum) {
             const element = document.getElementById('layout');
             element.innerHTML = "";
             element.insertAdjacentHTML('beforeend', data);
+            addBorder();
         }
     })
 }

@@ -7,7 +7,9 @@
 <body>
 <header th:fragment="adminNavBar">
 
-	<div class="badge text-bg-dark text-white position-relative">
+	<div class="badge text-bg-dark text-white position-relative" style="
+    width: -webkit-fill-available;
+">
 		<h6>관리자모드</h6>
 
 
@@ -29,17 +31,14 @@
 			<li id="goods" class="content">
 				<a th:href="@{/cs/test/goods}">상품</a>
 			</li>
-			<li id="mber" class="content">
-				<a th:href="@{/cs/mber}">회원</a>
-			</li>
 			<li id="comm" class="content">
 				<a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}">커뮤니티</a>
 			</li>
 			<li id="inqury" class="content">
 				<a th:href="@{/cs/inqry}">문의사항</a>
 			</li>
-			<li id="stats" class="content">
-				<a th:href="@{/cs/test/stats}">통계</a>
+			<li id="mber" class="content">
+				<a th:href="@{/cs/mber}">회원</a>
 			</li>
 			<li class="cms content" sec:authorize="hasRole('ADMIN')">
 				<a th:href="@{/}">사용자 화면</a>

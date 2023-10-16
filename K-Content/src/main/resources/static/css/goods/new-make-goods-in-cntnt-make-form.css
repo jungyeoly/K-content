@@ -49,6 +49,7 @@ img {
 
 .newKeyword {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .input-group {

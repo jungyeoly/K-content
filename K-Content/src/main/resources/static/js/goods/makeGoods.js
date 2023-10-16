@@ -2,24 +2,31 @@ var fileInput = document.getElementById("input-file");
 //값이 변경될때 호출 되는 이벤트 리스너
 
 var file;
+var photoFrame = document.createElement("img");
 fileInput.addEventListener('change', function (e) {
+
+    var elements = document.getElementsByClassName('photoFrame');
+    while (elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+
     file = e.target.files[0]; //선택된 파일
     var reader = new FileReader();
     reader.readAsDataURL(file); //파일을 읽는 메서드
     reader.onload = function () {
-        var photoFrame = document.createElement("img");
         photoFrame.src = `${reader.result}`;
         photoFrame.className = "photoFrame";
         document.getElementById("pictures").appendChild(photoFrame);
+
         photoFrame.addEventListener("click", function () {
             document.getElementById("pictures").removeChild(photoFrame);
-
+            photoFrame.src = null;
         })
     }
 })
 
+
 function removeFile(id) {
-    console.log(id);
     document.getElementById(id).remove();
 }
 
@@ -34,7 +41,7 @@ function createGoods() {
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
-    fileInput.setAttribute(file[0],file[1])
+    fileInput.setAttribute(file[0], file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -75,8 +82,9 @@ function createGoods() {
         }
     });
 }
+
 // 굿즈 생성, 컨텐츠 생성에서
-function createGoodsInCntnt(){
+function createGoodsInCntnt() {
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -87,7 +95,7 @@ function createGoodsInCntnt(){
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
-    fileInput.setAttribute(file[0],file[1])
+    fileInput.setAttribute(file[0], file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -113,6 +121,7 @@ function createGoodsInCntnt(){
         }
     });
 }
+
 // 키워드 삭제
 function delKeyword(key) {
     const div = document.getElementById(key);
@@ -120,14 +129,15 @@ function delKeyword(key) {
 }
 
 function makeKeyword() {
-    word = document.getElementById("inputKeyword").value;
+    var inputWord = document.getElementById("inputKeyword").value;
 
-    if (word == null || word == '') {
+    var word = inputWord.replace(/(\s*)/g, '');
+    if (word == null || word == '' || word == ' ') {
         alert("키워드를 입력하세요!");
     } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
-          <div id="${word}">
+          <div id="${word}" style="margin-top: 20px">
                 <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
                         >
                      ${word}
@@ -146,13 +156,13 @@ function makeKeyword() {
 
 }
 
-function updateGoodsIf(){
+function updateGoodsIf() {
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
 
-    if(selectedFile == null){
+    if (selectedFile == null) {
         updateGoodsNoFile();
-    }else{
+    } else {
         updateGoods();
     }
 }
@@ -219,7 +229,7 @@ function updateGoods() {
     console.log("formData: " + formData)
 
     $.ajax({
-        url: '/cs/goods/form',
+        url: '/cs/test/goods/form',
         type: 'patch',
         data: formData,
         processData: false,
@@ -235,7 +245,7 @@ function updateGoods() {
 }
 
 function cancle() {
-    console.log("상품 리스트 화면으로 화면 바꾸기");
+    location.href = "/cs/test/goods";
 }
 
 function delGoodsFile(key) {

@@ -69,7 +69,7 @@
 
 
                 <div class="newKeyword">
-                    <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}">
+                    <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}" >
                         <button type="button" style="margin-left: 10px"
                                 class="btn btn-primary position-relative keywordButton"
                                 th:text="${keyword}">
@@ -154,23 +154,22 @@
                 <div class="newKeyword">
 
                 </div>
-
-                <div class="input-group mb-3">
-                    <form id="searchForm" class="input-group">
-                        <div class="keywordInput">
-                            <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
-                        </div>
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                                onclick="makeKeyword()">
-                            키워드
-                            추가
-                        </button>
-                    </form>
-                </div>
-
+            </div>
+            <div class="input-group mb-3">
+                <form id="searchForm" class="input-group">
+                    <div class="keywordInput">
+                        <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
+                    </div>
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                            onclick="makeKeyword()">
+                        키워드
+                        추가
+                    </button>
+                </form>
             </div>
             <div class="button-box">
                 <button type="button" class="btn btn-primary" onclick="createGoods()">상품 생성</button>
+                <button type="button" class="btn btn-primary" onclick="cancle()">취소</button>
             </div>
         </div>
     </div>

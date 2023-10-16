@@ -53,9 +53,9 @@ function searchKeyword() {
                     element.insertAdjacentHTML('beforeend', inHtml);
                 }
             } else {
-                inHtml = `<div class="col-xl-4 col-lg-6">
-                        <h3>관련 상품이 존재하지 않습니다.</h3>
-                    </div>`;
+                inHtml = ` <div class="container text-center mt-5">
+            <img alt="" src="/img/fail_goods.png">
+        </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }
 

@@ -1,4 +1,9 @@
-
+.screen-title{
+    background-color: black;
+    color: white;
+    border-radius: 10px !important;
+    margin-right: 30px;
+}
 .search{
     padding-bottom: 30px;
 }
@@ -8,6 +13,9 @@
 }
 .btn{
 	color: white !important;
+}
+.newKeyword{
+    flex-wrap: wrap;
 }
 /* card list */
 .card-item {

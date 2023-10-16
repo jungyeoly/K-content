@@ -9,7 +9,7 @@
 	    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 		<div class="container">
 			<div class="inqry-menu fw-bold">문의사항 글 수정</div>
-			<form th:action="@{/cs/inqry/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
+			<form id="userUpdate" th:action="@{/cs/inqry/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
 				<ul class=tb-lst>
 					<li class="tit-row">
 						<div class="inqry-label">
@@ -43,5 +43,6 @@
 		</div>
 	</div>
 
+<script th:src="@{/js/inqury/inquryUpdate.js}"></script>
 </body>
 </html>

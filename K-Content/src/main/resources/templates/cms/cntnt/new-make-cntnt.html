@@ -61,7 +61,7 @@
 
             <!--키워드-->
             <div class="item keyword" id="keywordList">
-                <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}">
+                <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}" >
 
                     <button type="button" style="margin-left: 10px"
                             class="btn btn-primary position-relative keywordButton"
@@ -76,7 +76,7 @@
                     <!--                    <h2 th:text="${keyword}"></h2>-->
                 </div>
 
-                <div class="newKeyword">
+                <div class="newKeyword" >
 
                 </div>
                 <div class="keywordInput">
@@ -129,6 +129,7 @@
 <!--새로 생성 값이 없을 -->
 <div th:if="${#strings.isEmpty(content)}" class="container my-5">
     <input type="hidden" id="insertOrModify" value="생성">
+
     <div class="row">
         <div class="col-11">
             <!-- 영상 -->

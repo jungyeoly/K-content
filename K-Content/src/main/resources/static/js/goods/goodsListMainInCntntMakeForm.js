@@ -23,8 +23,8 @@ function searchKeyword() {
                     element.insertAdjacentHTML('beforeend', inHtml);
                 }
             } else {
-                inHtml = `<div class="col-xl-4 col-lg-6">
-                        <h3>관련 상품이 존재하지 않습니다.</h3>
+                inHtml = `<div>
+                        <h5>관련 상품이 존재하지 않습니다.</h5>
                     </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }

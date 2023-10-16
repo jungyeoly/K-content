@@ -135,6 +135,7 @@ img {
 
 .newKeyword {
     display: flex;
+    flex-wrap: wrap;
 }
 .input-group{
     border-top: 0px !important;

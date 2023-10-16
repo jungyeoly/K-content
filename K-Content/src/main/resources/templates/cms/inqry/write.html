@@ -15,7 +15,7 @@
 
 	<div class="container">
 		<div class="inqry-menu fw-bold">문의사항 글 생성</div>
-		<form th:action="@{/cs/inqry/write}" method="post" enctype="multipart/form-data" class="inqry-form">
+		<form th:action="@{/cs/inqry/write}" method="post" enctype="multipart/form-data" class="inqry-form" id="userWrite">
 			<ul class=tb-lst>
 				<li class="tit-row">
 					<div class="inqry-label">
@@ -64,5 +64,7 @@
 	</div>
 
 </div>
+
+<script th:src="@{/js/inqury/inquryWrite.js}"></script>
 </body>
 </html>

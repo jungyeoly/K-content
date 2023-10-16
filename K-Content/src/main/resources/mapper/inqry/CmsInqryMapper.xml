@@ -42,6 +42,52 @@
 		]]>		
 	</select>
 	
+	<select id="selectUnansInqryList" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			SELECT
+			    b.inqry_id,
+			    b.inqry_ref_id,
+			    b.inqry_group_ord,
+			    b.inqry_title,
+			    b.inqry_cntnt,
+			    b.inqry_pwd,
+			    b.inqry_regist_date,
+			    b.inqry_update_date,
+			    b.inqry_delete_yn,
+			    b.inqry_mber_id,
+			    a.rn
+			FROM (
+			        select rownum rn,
+			            inqry_id,
+			            inqry_ref_id,
+			            inqry_group_ord,
+			            inqry_title,
+			            inqry_cntnt,
+			            inqry_pwd,
+			            inqry_regist_date,
+			            inqry_update_date,
+			            inqry_delete_yn,
+			            inqry_mber_id
+			        from 
+			            (SELECT i.*
+			            FROM tb_inqry i
+			            JOIN tb_mber m ON i.inqry_mber_id = m.mber_id
+			            WHERE i.inqry_id IN (
+			                SELECT inqry_ref_id
+			                FROM tb_inqry
+			                GROUP BY inqry_ref_id
+			                HAVING COUNT(*) < 2
+			            )
+			            ORDER BY inqry_id DESC
+			    ) 
+			) A
+			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			WHERE rn BETWEEN #{start} AND #{end}
+			AND a.inqry_delete_yn = 'N'
+			ORDER BY b.inqry_ref_id desc, b.inqry_group_ord
+		]]>
+	</select>
+	
 	<select id="selectCmsInqry" parameterType="int" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
 		<![CDATA[
 			SELECT
@@ -96,6 +142,40 @@
 			FROM tb_inqry 
 			WHERE inqry_ref_id = #{inqryRefId}
 		]]>
+	</select>
+	
+	<select id="countAns" resultType="int">
+		<![CDATA[
+			SELECT
+			    count(*)
+			FROM (
+			        select rownum rn,
+			            inqry_id,
+			            inqry_ref_id,
+			            inqry_group_ord,
+			            inqry_title,
+			            inqry_cntnt,
+			            inqry_pwd,
+			            inqry_regist_date,
+			            inqry_update_date,
+			            inqry_delete_yn,
+			            inqry_mber_id
+			        from 
+			            (SELECT i.*
+			            FROM tb_inqry i
+			            JOIN tb_mber m ON i.inqry_mber_id = m.mber_id
+			            WHERE i.inqry_id IN (
+			                SELECT inqry_ref_id
+			                FROM tb_inqry
+			                GROUP BY inqry_ref_id
+			                HAVING COUNT(*) < 2
+			            )
+			            ORDER BY inqry_id DESC
+			    ) 
+			) A
+			INNER JOIN tb_inqry B on A.inqry_id = B.inqry_ref_id
+			AND a.inqry_delete_yn = 'N'
+			]]>
 	</select>
 	
 	<update id="updateCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">

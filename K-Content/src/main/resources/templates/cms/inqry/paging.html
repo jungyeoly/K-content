@@ -1,0 +1,83 @@
+
+<ul class="pagination">
+	<li class="page-item" th:if="${nowPageBlock>1}">
+		<a class="page-link prepage" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+		</a>
+	</li>
+
+	<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i==nowPage}?active">
+		<a class="page-link selpage" th:data-selpage="${i}">[[${i}]]</a>
+	</li>
+
+	<li class="page-item" th:if="${nowPageBlock<totalPageBlock}">
+		<a class="page-link nexpage" aria-label="Next">
+			<span aria-hidden="true">&raquo;</span>
+		</a>
+	</li>
+</ul>
+
+<script>
+$(".selpage").click(function() {
+    var nowPage = $(this).data("selpage");
+    var selectedValue = $(".tab li.on").data("tab");
+
+    $.ajax({
+        url: "/cs/inqry/" + nowPage,
+        method: "get",
+        success: function(data) {
+        	var layout = $(".layout");
+            layout.find(".container").remove();
+            layout.append(data);
+
+			$('ul.tab li').removeClass('on');
+			$('.tabcont').removeClass('on');
+			$('#' + selectedValue).addClass('on');
+			$('.' + selectedValue).addClass('on');
+			$.ajax({
+				url: "/cs/inqry/paging",
+				method: "get",
+				data: {"page" : nowPage, "activeTab" : selectedValue},
+				success: function(data) {
+					$("#allPage").empty();
+					$("#unPage").empty();
+					
+					if(selectedValue == "menu1") {
+						$("#allPage").append(data);
+					} else {
+						$("#unPage").append(data);
+					}
+				}
+			})
+        }
+    });
+});
+
+$(".prepage").click(function() {
+	var prePage = $(this).data("prepage") - 1;
+	
+	$.ajax({
+		url : "/cs/inqry/" + prePage,
+		method: "get",
+		seccess: function(data) {
+			let layout = $(".layout");
+			layout.find(".container").remove();
+			layout.append(data);
+		}
+	})
+})
+
+$(".nexpage").click(function() {
+	var nexPage = $(this).data("nexpage") + 1;
+	
+	$.ajax({
+		url : "/cs/inqry/" + prePage,
+		method: "get",
+		success: function(data) {
+			let layout = $(".layout");
+			layout.find(".container").remove();
+			layout.append(data);
+		}
+	})
+})
+</script>

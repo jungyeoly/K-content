@@ -34,7 +34,7 @@ function createGoods() {
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
-    fileInput.setAttribute(file[0],file[1])
+    fileInput.setAttribute(file[0], file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -75,8 +75,9 @@ function createGoods() {
         }
     });
 }
+
 // 굿즈 생성, 컨텐츠 생성에서
-function createGoodsInCntnt(){
+function createGoodsInCntnt() {
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -87,7 +88,7 @@ function createGoodsInCntnt(){
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
-    fileInput.setAttribute(file[0],file[1])
+    fileInput.setAttribute(file[0], file[1])
 
     var formData = new FormData();
     formData.append("goodsTitle", $("#name").val());
@@ -113,6 +114,7 @@ function createGoodsInCntnt(){
         }
     });
 }
+
 // 키워드 삭제
 function delKeyword(key) {
     const div = document.getElementById(key);
@@ -120,14 +122,15 @@ function delKeyword(key) {
 }
 
 function makeKeyword() {
-    word = document.getElementById("inputKeyword").value;
+   var inputWord = document.getElementById("inputKeyword").value;
 
-    if (word == null || word == '') {
+    var word = inputWord.replace(/(\s*)/g,'');
+    if (word == null || word == '' || word == ' ') {
         alert("키워드를 입력하세요!");
     } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
-          <div id="${word}">
+          <div id="${word}" style="margin-top: 20px">
                 <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton"
                         >
                      ${word}
@@ -146,13 +149,13 @@ function makeKeyword() {
 
 }
 
-function updateGoodsIf(){
+function updateGoodsIf() {
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
 
-    if(selectedFile == null){
+    if (selectedFile == null) {
         updateGoodsNoFile();
-    }else{
+    } else {
         updateGoods();
     }
 }

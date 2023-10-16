@@ -34,6 +34,9 @@
         grid-row: 1 / 2;
     }
 }
+.keywordItem{
+    margin-top: 20px;
+}
 
 .photoFrame {
     height: 280px;
@@ -77,6 +80,7 @@ img {
 
 .newKeyword {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .input-group {

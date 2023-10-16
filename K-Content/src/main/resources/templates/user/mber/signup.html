@@ -8,77 +8,70 @@
 </head>
 <body>
 	<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
-	<div class="bg p-5">
+	<div class="bg">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
 		</video>
 		<div class="container">
 			<div class="input-form-background row">
 				<div class="input-form col-md-12 mx-auto opacity-95">
-					<div class="d-flex justify-content-center col-md-12 mb-3">
-						<div class="col-md-6 social_circle_btn me-5">
-							<a href="https://www.kakao.com"><img
-								src="/img/mber/kakaologo.png" class="logo_img"></a>
-						</div>
-						<div class="col-md-6 social_circle_btn bg-white">
-							<a href="https://www.google.com"><img
-								src="/img/mber/googlelogo.png" class="logo_img"></a>
-						</div>
-					</div>
 
+					<div class="col-md-12 text-center">
+						<p class="fw-bold fs-2">회원가입</p>
+					</div>
 					<form th:action="@{/mber/signup}" method="post"
 						class="validation-form" id="signupForm" novalidate>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_id" class="fw-bold text-nowrap">아이디<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_id"
 									name="mberId" placeholder="아이디 입력" autocomplete="off"
 									onchange="checkId(this.value)" maxlength="12" required>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-10">
 								<div class="mber-feedback fw-bold" id="check-id-feedback"></div>
 							</div>
 						</div>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_pwd" class="fw-bold text-nowrap">비밀번호<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-4">
-								<span class="input-group-text"><input type="password"
-									class="form-control form-bid" id="mber_pwd" name="mberPwd"
-									placeholder="비밀번호 입력" onchange="checkPwd(this.value)"
-									maxlength="16" required> <i class="fa fa-eye"
-									id=see_pwd></i></span>
+							<div class="col-md-10">
+								<div class="pwd-input-wrap">
+									<input type="password" class="form-control form-bid"
+										id="mber_pwd" name="mberPwd" placeholder="비밀번호" value=""
+										onchange="checkPwd(this.value)" maxlength="16" required><i
+										class="fa fa-eye" id=see_pwd></i>
+								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-10">
 								<div class="mber-feedback fw-bold" id="check-pwd-feedback"></div>
 							</div>
 						</div>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_name" class="fw-bold text-nowrap">이름<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_name"
 									name="mberName" placeholder="이름 입력"
 									onchange="checkName(this.value)" autocomplete="off" required>
 							</div>
-							<div class="col-md-6">
-								<div class="mber-feedback fw-bold" id="check-name-feedback"></div>
-							</div>
+							<div class="mber-feedback fw-bold" id="check-name-feedback"></div>
 						</div>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_birth" class="fw-bold">생년월일</label>
 							</div>
 							<div class="col-md-4">
 								<input type="date" class="form-control form-bid" id="mber_birth"
-									name="mberBirth" value="" autocomplete="off"  onkeydown="return false">
+									name="mberBirth" value="" autocomplete="off"
+									onkeydown="return false">
 							</div>
 							<div class="col-md-2">
 								<label for="mber_gender" class="fw-bold text-nowrap">성별<span
@@ -95,7 +88,7 @@
 							</div>
 						</div>
 
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_email" class="fw-bold">이메일<span
 									style="color: red;">*</span></label>
@@ -115,35 +108,37 @@
 										role="status" id="email-check-spinner"></div>
 								</button>
 							</div>
+							<div class="col-md-12">
+								<div class="mber-feedback" id="check-email-feedback"></div>
+							</div>
 						</div>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="auth-code-input" class="fw-bold">인증번호<span
 									style="color: red;">*</span></label>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-10">
 								<input type="text" id="auth-code-input"
 									class="form-control mail-check-input" placeholder="인증번호 입력"
 									disabled="disabled" maxlength="6"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									onkeyup="checkAuthNum(this.value)">
 							</div>
-							<div class="col-md-6">
-								<div class="mber-feedback" id="check-email-feedback"></div>
+							<div class="col-md-12">
 								<div class="mber-feedback fw-bold" id="check-authnum-feedback"></div>
 							</div>
 						</div>
-						<div class="row mb-3">
+						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_phone" class="fw-bold">전화번호</label>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-10">
 								<input type="text" id="mber_phone" name="mberPhone"
 									class="form-control form-bid" placeholder="전화번호 입력"
 									oninput="oninputPhone(this)" onchange="checkPhone(this.value)"
 									maxlength="13" autocomplete="off">
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="mber-feedback fw-bold" id="check-phone-feedback"></div>
 							</div>
 						</div>
@@ -168,7 +163,7 @@
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/js/mber/signup.js}"></script>		
-	<script th:src="@{/js/mber/mber.js}"></script>		
+	<script th:src="@{/js/mber/signup.js}"></script>
+	<script th:src="@{/js/mber/mber.js}"></script>
 </body>
 </html>

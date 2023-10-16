@@ -11,13 +11,14 @@ $(document).ready(function () {
             const element = document.getElementById('card-list');
             if (contentList.length == 0) {
                 inHtml = `
-            <div> 관련 컨텐츠가 존제히지 않습니다.
+            <div><h5 style="margin-top: 60px"> 관련 컨텐츠가 존재하지 않습니다.</h5>
             </div>
                         `;
                 element.insertAdjacentHTML("afterbegin", inHtml);
             } else {
                 for (i = 0; i < contentList.length; i++) {
                     inHtml = `
+           
             <li class="rel-box m-3" onclick="recomCntntDetail(${contentList[i].cntntId})">
                 <figure class="rel-image" style="background-image: url(${contentList[i].cntntThumnail})">
                     <img src=${contentList[i].cntntThumnail} alt="일분이" style="display: none">
@@ -131,4 +132,11 @@ function deleteCntnt() {
         });
     }
 
+}
+
+//상품클릭시 이동할건지 물어봄
+function moveGoods(goodsUrl) {
+    if (confirm('해당 상품 판매 사이트로 이동하시겠습니까?')) {
+        window.open(goodsUrl);
+    }
 }

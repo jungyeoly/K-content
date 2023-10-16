@@ -13,7 +13,7 @@
                a.commu_cate_code,
                a.commu_mber_id,
                a.rn,
-               b.common_code_val 
+               b.common_code_val
         from (
             select rownum rn,
                    commu_id, 
@@ -35,7 +35,8 @@
         WHERE a.rn BETWEEN #{start} AND #{end}
         AND a.commu_status != 'Y' 
         AND a.commu_status != 'R'
-        ORDER BY a.commu_id desc
+        ORDER BY case when a.commu_cate_code= 'C06' then 0 else 1 end,
+         a.commu_id desc
 ]]>
 	</select>
 

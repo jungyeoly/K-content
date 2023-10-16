@@ -22,9 +22,13 @@
 					카테고리 <span class="position-absolute end-0 pe-3"><i
 						class="fa-solid fa-angle-down"></i></span>
 				</button>
-				<div class="dropdown-content">
-					<div th:each="cate : ${cateList}" class="cate mx-3"
-						th:data-maincate-value="${cate}">[[${cate}]]</div>
+				<div class="d-flex">
+					<div class="dropdown-content">
+						<div th:each="notice : ${noticeList}" class="cate mx-3"
+							th:data-maincate-value="${notice}">[[${notice}]]</div>
+						<div th:each="cate : ${cateList}" class="cate mx-3"
+							th:data-maincate-value="${cate}">[[${cate}]]</div>
+					</div>
 				</div>
 
 			</div>
@@ -52,24 +56,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${commulist}" class="commu-row"
+				<tr th:each="cate : ${commulist}" class="commu-row"
 					th:attr="data-commu-id=${commu.commuId}">
-
 					<td th:text="${commu.commuId}"></td>
-					<td><span th:each="code : ${commuCateCodeList}"
-						th:if="${code.commonCode} eq ${commu.commuCateCode}"
-						th:text="${code.commonCodeVal}" style="font-weight: bold">카테고리명</span>
-
-					</td>
-
-
-					<td><a th:href="@{/commu/detail/{id}(id=${commu.commuId})}"
-						th:text="${commu.commuTitle}"></a></td>
+					<td><span th:each="code : ${cateList}"
+						th:if="${code} eq ${commu.commuCateCode}" th:text="${cateList}"
+						style="font-weight: bold">카테고리명</span></td>
+					<td th:text="${commu.commuTitle}"></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>
 				</tr>
 			</tbody>
+
+
 		</table>
 		<a sec:authorize="isAuthenticated()" class="btn commuBtn"
 			th:href="@{/commu/write}">글쓰기</a>

@@ -58,7 +58,9 @@ figure {
 i {
     cursor: pointer;
 }
-
+li {
+    cursor: pointer;
+}
 .trend img {
     margin: 10px;
     width: 80% !important;

@@ -1,6 +1,6 @@
 // 유튜브 iframe 가져오기
 $(document).ready(function () {
-    var cntntURL = document.getElementById("contentURL").value;
+    var cntntURL = document.getElementById("url").value;
     console.log("cntntURL" + cntntURL);
 
     $.ajax({
@@ -29,15 +29,16 @@ function delKeyword(key) {
 
 // 키워드 생성
 function makeKeyword() {
-    word = document.getElementById("inputKeyword").value;
+    var inputWord = document.getElementById("inputKeyword").value;
 
+    var word = inputWord.replace(/(\s*)/g,'');
     if (word == null || word == '') {
         alert("키워드를 입력하세요!");
     } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
-          <div id="${word}">
-                <button type="button" style="margin-left: 10px" class="btn btn-primary position-relative keywordButton">
+          <div id="${word}" style="margin-top: 20px;">
+                <button type="button" style="margin-left: 10px;" class="btn btn-primary position-relative keywordButton">
                      ${word}
                 </button>
                 <button style="z-index: 10; margin-left: -10px"
@@ -166,7 +167,7 @@ function createContent() {
             "cntntCateCode": document.getElementById("category").value
         };
     }
-console.log(sendData)
+    console.log(sendData)
     //콘텐츠 생성/수정
     $.ajax({
         url: '/cs/test/content',
@@ -174,7 +175,12 @@ console.log(sendData)
         data: JSON.stringify(sendData),
         contentType: 'application/json',
         success: function (data) {
-            alert("컨텐츠가 등록되었습니다!")
+            if(data == '수정'){
+                alert("컨텐츠가 수정되었습니다!")
+            }else{
+                alert("컨텐츠가 생성되었습니다!")
+            }
+
             location.href = '/cs/test';
         },
         error: function (error) {
@@ -207,8 +213,6 @@ function printIframe() {
 }
 
 
-
-
 const targetDiv = document.getElementById("goodsList");
 
 const observer = new MutationObserver((mutationsList, observer) => {
@@ -225,8 +229,6 @@ const observer = new MutationObserver((mutationsList, observer) => {
     });
     console.log(goodsSet);
 });
-
-
 
 
 // MutationObserver가 관찰할 변경 유형과 대상 요소를 설정합니다.

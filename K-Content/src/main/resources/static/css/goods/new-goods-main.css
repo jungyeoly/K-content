@@ -27,7 +27,9 @@
     padding: 1em;
     background: white;
 }
-
+a{
+    cursor: pointer;
+}
 @media (min-width: 600px) {
     .card-list {
         display: flex;

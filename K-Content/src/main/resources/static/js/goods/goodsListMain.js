@@ -54,7 +54,7 @@ function searchKeyword() {
                 }
             } else {
                 inHtml = ` <div class="container text-center mt-5">
-            <img alt="" src="/img/fail.png">
+            <img alt="" src="/img/fail_goods.png">
         </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }

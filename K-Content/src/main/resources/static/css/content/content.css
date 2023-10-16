@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.selected {
+  border: 3px solid red; /* 선택한 요소의 테두리를 빨간색 3px 두껍게 설정 */
+}
+
 h5{
   text-align: center;
   /*margin-top: 60px;*/

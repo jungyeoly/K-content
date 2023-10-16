@@ -48,7 +48,7 @@
                         <button class="update-comment"
                                 th:data-id="${comment.commuCommentId}" th:text="수정">
                         </button>
-                        <button th:commentID="${comment.getCommuCommentId()}"
+                        <button id="delete" th:commentID="${comment.getCommuCommentId()}"
                                 th:refID="${comment.getCommuCommentRefId()}"
                                 onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                 th:data-id="${comment.commuCommentId}">삭제
@@ -92,7 +92,7 @@
                                     <button class="update-comment"
                                             th:data-id="${refComment.commuCommentId}" th:text="수정">
                                     </button>
-                                    <button th:commentID="${refComment.getCommuCommentId()}"
+                                    <button id="delete" th:commentID="${refComment.getCommuCommentId()}"
                                             th:refID="${refComment.getCommuCommentRefId()}"
                                             onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                             th:data-id="${refComment.commuCommentId}">삭제

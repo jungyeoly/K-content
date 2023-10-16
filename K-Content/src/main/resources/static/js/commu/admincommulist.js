@@ -47,19 +47,21 @@ $(document).ready(function() {
 			const selectedPage = $(this).data('page');
 			if (selectedPage !== currentPage) {
 				// 검색 상태인 경우
-				if ($('#noticecheckbox').prop('checked')) { // 공지사항 체크박스가 체크된 상태인 경우
-					// 공지사항 카테고리 코드를 사용하여 게시물을 가져옴
-					loadCategoryPosts("NOTICE", selectedPage);
-				} else if (currentKeyWord) { // 검색 상태인 경우
+				if (currentKeyWord) {
 					searchPosts(currentKeyWord, selectedPage);
-				} else if (commuCateCode) { // 카테고리 상태인 경우
+				}
+				// 카테고리 상태인 경우
+				else if (commuCateCode) {
 					loadCategoryPosts(commuCateCode, selectedPage);
-				} else { // 그 외 (일반 상태)
+				}
+				// 그 외 (일반 상태)
+				else {
 					loadPage(selectedPage);
 				}
 			}
 		}
 	});
+
 
 	// 이전 페이지 버튼 클릭 이벤트
 	$(document).on('click', '.page-link.prepage', function(e) {
@@ -94,9 +96,6 @@ $(document).ready(function() {
 			cache: false,
 			success: function(response) {
 				updatePostList(response.commulist);
-
-				console.log("test: " + response.commulist[0]);
-
 				updatePagination(response.nowPage, response.totalPageCount);
 				currentPage = page;
 			},
@@ -123,44 +122,45 @@ $(document).ready(function() {
 	function loadCategoryPosts(commuCateCode, page) {
 		switch (commuCateCode) {
 			case '전체':
-				commuCateCode = 'All';
-				break;
-			case '공지사항':
-				commuCateCode = 'NOTICE';
+				commuCateCode = '전체';
 				break;
 			case '음악':
-				commuCateCode = 'POP';
+				commuCateCode = '음악';
 				break;
 			case '연예인':
-				commuCateCode = 'Celebrity';
+				commuCateCode = '연예인';
 				break;
 			case '음식':
-				commuCateCode = 'Food';
+				commuCateCode = '음식';
 				break;
 			case '영화':
-				commuCateCode = 'Movie';
+				commuCateCode = '영화';
 				break;
 			case '스포츠':
-				commuCateCode = 'Sports';
+				commuCateCode = '스포츠';
 				break;
 			case '패션':
-				commuCateCode = 'Fashion';
+				commuCateCode = '패션';
 				break;
 			case '미용':
-				commuCateCode = 'Beauty';
+				commuCateCode = '미용';
 				break;
 			case '드라마':
-				commuCateCode = 'Drama';
+				commuCateCode = '드라마';
 				break;
 			case '여행':
-				commuCateCode = 'Travel';
+				commuCateCode = '여행';
 				break;
 			case '게임':
-				commuCateCode = 'Game';
+				commuCateCode = '게임';
+				break;
+			case '공지사항':
+				commuCateCode = '공지사항';
 				break;
 			default:
-				commuCateCode = 'All';
+				commuCateCode = '전체';
 		}
+
 
 		$.ajax({
 			url: `/cms/commu/commucatecode/${commuCateCode}?page=${page}`,
@@ -199,15 +199,14 @@ $(document).ready(function() {
 
 
 
-	function updatePostList(list) {
+	function updatePostList(posts) {
 		let postListHtml = '';
-		list.forEach(commu => {
-			console.log(commu.commuId, commu.commonCodeVal, commu.commuTitle, commu.commonMberId, commu.commuRegistDate);
+		posts.forEach(commu => {
 			postListHtml += `
-            <tr class="commu-row" data-commu-id="${commu.commuId}">
+            <tr class="commu-row" data-commu-id="${commu.commuId}"  onclick="cmsDetail(this)">
                 <td>${commu.commuId}</td>
-                <td>${commu.commonCodeVal}</td>
-                <td><a href="/cms/commu/detail/${commu.commuId}">${commu.commuTitle}</a></td>
+                <td>${commu.commonCodeDscr}</td>
+                <td>${commu.commuTitle}</td>
                 <td>${commu.commuMberId}</td>
                 <td>${commu.commuReadCnt}</td>
                 <td>${commu.commuRegistDate}</td>
@@ -218,3 +217,9 @@ $(document).ready(function() {
 	}
 
 });
+
+function cmsDetail(row) {
+    const commuId = $(row).data('commu-id');
+    const detailUrl = `/cms/commu/detail/${commuId}`;
+    window.location.href = detailUrl;
+}

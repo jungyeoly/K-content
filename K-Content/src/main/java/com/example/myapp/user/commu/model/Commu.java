@@ -21,7 +21,9 @@ public class Commu {
 	private int commuReadCnt; //조회수
 	private String commuCateCode; // 게시판 카테고리 코드 (공통코드)
 	private String commuMberId; //회원 ID 
-	private String commonCodeVal; //게시판 카테고리 값 
+	private String commonCodeVal; //게시판 카테고리 값
+	private String commonCodeDscr; //게시판 한글 카테고리 값
+	
 	
 	private List<CommuFile> commuFiles; //첨부파일 리스트
 }

@@ -107,48 +107,6 @@ $(document).ready(function () {
         $(".comment-list-section h3 span").text(comments + '개');
     }
 
-    function getTotalRepliesCount(commuCommentId) {
-        var $comment = $(".single-comment[data-id='" + commuCommentId + "']");
-        var directReplies = $comment.find(".replies .single-comment").length;
-
-        var nestedReplies = 0;
-        if (directReplies > 0) {
-            $comment.find("> .replies > .single-comment").each(function () {
-                nestedReplies += getTotalRepliesCount($(this).data('id'));
-            });
-        }
-
-        return directReplies + nestedReplies;
-    }
-
-
-    // 새로운 댓글/대댓글 HTML 생성
-    function createCommentHTML(comment) {
-        var replyButtonHTML = comment.commuCommentRefId ? '' : `<button class="view-replies-btn" style="display:none;">답글(<span class="reply-count">0개</span>)</button>`;
-
-        return `
-            <div class="single-comment" data-id="${comment.commuCommentId}">
-                <strong>${comment.commuCommentMberId}</strong>
-                <p>${comment.commuCommentCntnt}</p>
-                <div class="comment-date">${comment.commuCommentRegistDate}</div>
-                <div class="comment-buttons">
-                    <button class="reply-to-comment">답글</button>
-                    <button class="update-comment" data-id="${comment.commuCommentId}">수정</button>
-                    <button class="delete-comment" data-id="${comment.commuCommentId}">삭제</button>
-                    ${replyButtonHTML}
-                    <div class="replyForm">
-                        <form>
-                            <input type="hidden" name="commuCommentRefId" value="${comment.commuCommentId}">
-                            <textarea name="commuCommentCntnt" rows="2" placeholder="답글을 입력하세요."></textarea>
-                            <button type="button" class="cancel-reply">취소</button>
-                            <button type="button" class="post-reply">등록</button>
-                        </form>
-                    </div>
-                <div class="replies"></div>
-            </div>`;
-    }
-
-
     // 초기 댓글 수 업데이트
     updateCommentCount();
 
@@ -191,10 +149,6 @@ $(document).ready(function () {
                 commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
             };
 
-            // postComment(formData, false, function () {
-            //     $("#commentForm").find("[name='commuCommentCntnt']").val('');  // 댓글 폼 초기화
-            //     updateCommentCount();
-            // });
         });
         // 답글 등록
         $(".comment-list-section").on("click", ".post-reply", function () {
@@ -207,13 +161,6 @@ $(document).ready(function () {
                 commuCommentRefId: $replyForm.find("[name='commuCommentRefId']").val()
             };
 
-            // postComment(formData, true, function () {
-            //     // 답글을 추가한 후 원본 댓글의 답글 수를 업데이트합니다.
-            //     updateReplyCount(formData.commuCommentRefId);
-            //
-            //     // 전체 댓글 수를 업데이트합니다.
-            //     updateCommentCount();
-            // });
         });
         $(".comment-list-section").on("click", ".update-comment-textarea", function (e) {
             e.stopPropagation();  // textarea 클릭시 다른 요소는 클릭되지 않게 함
@@ -255,20 +202,11 @@ $(document).ready(function () {
         // 댓글 삭제
         $(".comment-list-section").on("click", ".delete-comment", function () {
             var commuCommentId = $(this).data("id");
-            /*var mainRefId = $(this).data("main-ref-id");*/
-
-            /*	var isOriginComment = commuCommentId === mainRefId; // 원본 댓글인 경우 확인*/
-
-            // 부모 댓글 ID를 초기화합니다.
-            /*	var parentCommentId = $(this).closest('.single-comment').parent().closest('.single-comment').data('id');*/
+          
 
             var requestUrl = "/commu/comment/delete";
 
-            /*	if (!isOriginComment) { // 원본 댓글이 아닌 경우
-                    requestUrl += "?isSingleReply=true";
-                } else {
-                    requestData.commuCommentMainRefId = mainRefId;
-                }*/
+            
 
             $.ajax({
                 url: requestUrl,
@@ -277,9 +215,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function () {
-                    // 댓글을 삭제합니다.
-                    /*	$(".single-comment[data-id='" + commuCommentId + "']").remove();*/
-
+                
                     // 만약 부모 댓글 ID가 존재하면, 해당 댓글의 답글 개수를 업데이트합니다.
                     if (parentCommentId) {
                         updateReplyCount(parentCommentId);

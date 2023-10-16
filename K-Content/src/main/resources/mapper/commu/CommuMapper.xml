@@ -13,7 +13,7 @@
                a.commu_cate_code,
                a.commu_mber_id,
                a.rn,
-               b.common_code_val
+               b.common_code_dscr
         from (
             select rownum rn,
                    commu_id, 
@@ -56,7 +56,8 @@
 	FROM tb_commu a
 	LEFT JOIN tb_common_code b ON a.commu_cate_code = b.common_code
 	WHERE commu_status = 'N' 
-	AND (#{commu_cate_code} = 'All' OR b.common_code_val = #{commu_cate_code})
+	AND (#{commu_cate_code} = '전체' OR b.common_code_dscr = #{commu_cate_code})
+	
 	]]>
 	</select>
 
@@ -71,31 +72,34 @@
 		a.commu_cate_code,
 		a.commu_mber_id,
 		a.rn,
-		tb_common_code.common_code_val
+		tb_common_code.common_code_dscr
 		FROM (
 		SELECT tb_commu.*,
 		rownum rn
 		FROM (
-		SELECT *
+		SELECT tb_commu.*
 		FROM tb_commu
-		WHERE
-		commu_status = 'N'
-		<if test="commuCateCode != 'All'">
-			AND commu_cate_code = (
+		LEFT JOIN tb_common_code ON tb_commu.commu_cate_code =
+		tb_common_code.common_code
+		WHERE commu_status = 'N'
+		<if test="commuCateCode != '전체'">
+			AND tb_commu.commu_cate_code = (
 			SELECT common_code
-			FROM
-			tb_common_code
-			WHERE common_code_val = #{commuCateCode}
+			FROM tb_common_code
+			WHERE common_code_dscr = #{commuCateCode}
 			)
 		</if>
-		ORDER BY commu_id DESC
+		ORDER BY
+		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE 1 END,
+		commu_id DESC
 		) tb_commu
 		) a
-		JOIN tb_common_code ON
-		a.commu_cate_code = tb_common_code.common_code
-		WHERE a.rn BETWEEN
-		#{start} AND #{end}
-		ORDER BY commu_id DESC
+		JOIN tb_common_code ON a.commu_cate_code = tb_common_code.common_code
+		WHERE a.rn BETWEEN #{start} AND #{end}
+		ORDER BY
+		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE 1 END,
+		commu_id DESC
+
 	</select>
 
 
@@ -299,7 +303,7 @@ where commu_file_id=#{commuFileId}
         c.commu_cate_code AS "commuCateCode",
         c.commu_mber_id AS "commuMberId",
         c.rn,
-        cc.common_code_val
+        cc.common_code_dscr
     FROM (
         SELECT
             commu_id,
@@ -309,7 +313,7 @@ where commu_file_id=#{commuFileId}
             commu_read_cnt,
             commu_cate_code,
             commu_mber_id,
-            ROW_NUMBER() OVER(ORDER BY commu_id) AS rn
+          ROW_NUMBER() OVER(ORDER BY commu_id DESC) AS rn
         FROM tb_commu
         WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
         AND commu_status = 'N'

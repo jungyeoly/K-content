@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+.admin-page .admin-row {
+    display: none;
+}
 
 :root {
 	/* Color */

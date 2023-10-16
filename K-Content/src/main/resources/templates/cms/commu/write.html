@@ -6,26 +6,27 @@
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
 </head>
-<body>
+<body class="admin-page">
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
 	<div class="container">
 		<div class="menu fw-bold">공지사항 글쓰기</div>
-		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}" method="post"
-			enctype="multipart/form-data" onsubmit="return validateForm()">
-
+		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}"
+			method="post" enctype="multipart/form-data"
+			onsubmit="return validateForm()">
+<input type="hidden" name="csrfToken" id="csrfToken" th:value="${session.csrfToken}">
 			<ul class=tb-lst>
-				<li class="tit-row">
+				<li class="admin-row">
 					<div class="commu-label">
 						<label for="category">카테고리 <span class="required">*</span></label>
 					</div>
 					<div class="commu-category">
 						<select id="category" name="commuCateCode">
-							<option th:each="commonCodeVal : ${commonCodeVal}"
-								th:if="${commonCodeVal != null}"
-								th:value="${commonCodeVal.commonCode}"
-								th:text="${commonCodeVal.commonCodeVal}"
-								th:selected="${commonCodeVal.commonCodeVal == 'NOTICE'}">카테고리명</option>
+							<option value="">카테고리를 선택해주세요.</option>
+							<option th:each="cms : ${commonCodeList}"
+								th:if="${cms != null}" th:value="${cms.commonCode}"
+								th:text="${cms.commonCodeDscr}"
+								th:selected="${cms.commonCodeVal == 'NOTICE'}">카테고리명</option>
 						</select>
 					</div>
 
@@ -37,7 +38,7 @@
 						<label for="title">제목 <span class="required">*</span></label>
 					</div>
 					<div class="commu-title">
-					
+
 						<input type="text" id="title" name="commuTitle"
 							placeholder="제목을 입력하세요.">
 					</div>
@@ -71,15 +72,12 @@
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
-					sec:authorize="isAuthenticated()"> <input type="reset"
-					class="btn me-2 cancel-btn" data-action="cancel" value="취소">
+					sec:authorize="isAuthenticated()"> <a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}" class="btn me-2 cancel-btn" data-action="cancel">취소</a>
 				<input type="submit" class="btn commuBtn" data-action="confirm"
 					value="등록">
 			</div>
 		</form>
 	</div>
-	<div th:insert="~{include/common-modal :: commonmodal}"></div>
-	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
 </body>
 <script th:src="@{/js/commu/write.js}"></script>
 </html>

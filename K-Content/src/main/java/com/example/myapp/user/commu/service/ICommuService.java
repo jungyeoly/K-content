@@ -16,7 +16,6 @@ public interface ICommuService {
 
 	List<Commu> selectAllPost(int page); // 커뮤니티 전체글 다 보기
 
-	Commu selectPost(int commuId); // 커뮤니티 게시글 상세조회
 
 	List<CommuFile> selectFilesByPostId(int commuId); // 커뮤니티 게시글 첨부파일 상세조회
 
@@ -45,5 +44,9 @@ public interface ICommuService {
 	int selectTotalPostCountByKeyWord(String keyword); //키워드와 관련된 총 게시물 수
 	
 	List<Commu> selectRecentNotice(); //공지사항
+
+	Commu selectPostWithoutIncreasingReadCnt(int commuId);//게시글만 조회
+
+	void increaseReadCnt(int commuId); //조회수 증가
 
 }

@@ -14,7 +14,7 @@ window.addEventListener('load', () => {
 }, false);
 
 $(document).ready(function() {
-	$('#see_pwd').on('click', function() {
+	$('.see-pwd').on('click', function() {
 		var passwordInput = $('#mber_pwd');
 		var eyeIcon = $(this);
 

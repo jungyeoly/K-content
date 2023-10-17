@@ -23,7 +23,7 @@ $(document).ready(function() {
 
 	function searchPosts(keyword, page) {
 		$.ajax({
-			url: `/cms/commu/search/${page}`,
+			url: `/cs/commu/search/${page}`,
 			type: 'GET',
 			data: {
 				keyword: keyword
@@ -86,7 +86,7 @@ $(document).ready(function() {
 			page = 1;
 		}
 
-		let requestURL = `/cms/commu/ajax/${page}`;
+		let requestURL = `/cs/commu/ajax/${page}`;
 
 		loading = true; // 페이지 로딩 중 플래그 설정
 		$.ajax({
@@ -163,7 +163,7 @@ $(document).ready(function() {
 
 
 		$.ajax({
-			url: `/cms/commu/commucatecode/${commuCateCode}?page=${page}`,
+			url: `/cs/commu/commucatecode/${commuCateCode}?page=${page}`,
 			type: 'GET',
 			dataType: 'json',
 			success: function(response) {
@@ -220,6 +220,6 @@ $(document).ready(function() {
 
 function cmsDetail(row) {
     const commuId = $(row).data('commu-id');
-    const detailUrl = `/cms/commu/detail/${commuId}`;
+    const detailUrl = `/cs/commu/detail/${commuId}`;
     window.location.href = detailUrl;
 }

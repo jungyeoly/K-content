@@ -4,13 +4,13 @@ const titleInput = document.getElementById('title');
 const commuCateCode = titleInput.getAttribute('data-commu-cate-code');
 const commuId = titleInput.getAttribute('data-commu-id');
 
-// 현재 페이지의 경로가 /cms로 시작하는지 확인
-var isCmsPage = window.location.pathname.startsWith('/cms');
-console.log("isCmsPage:", isCmsPage);
-// /cms로 시작하는 페이지에서만 실행
-if (isCmsPage) {
-	var updateURL = `/cms/commu/update/${commuCateCode}/${commuId}`;
-	console.log("isCmsPage:", isCmsPage);
+// 현재 페이지의 경로가 /cs로 시작하는지 확인
+var isCsPage = window.location.pathname.startsWith('/cs');
+console.log("isCsPage:", isCsPage);
+// /cs로 시작하는 페이지에서만 실행
+if (isCsPage) {
+	var updateURL = `/cs/commu/update/${commuCateCode}/${commuId}`;
+	console.log("isCsPage:", isCsPage);
 	if (window.location.pathname === updateURL) {
 		// 페이지 로드 시 제목 필드의 기본값을 "[공지]"로 설정
 		if (!titleInput.value.startsWith("[공지]")) {
@@ -31,9 +31,9 @@ if (isCmsPage) {
 		});
 
 		const baseURL = window.location.origin;
-		// 현재 페이지의 경로가 /cms로 시작하는지 확인
-		let newPath = window.location.pathname.startsWith('/cms')
-			? `/cms/commu/update/${commuCateCode}/${commuId}`
+		// 현재 페이지의 경로가 /cs로 시작하는지 확인
+		let newPath = window.location.pathname.startsWith('/cs')
+			? `/cs/commu/update/${commuCateCode}/${commuId}`
 			: `/commu/update/${commuCateCode}/${commuId}`;
 
 		form.setAttribute('action', `${baseURL}${newPath}`);
@@ -147,9 +147,9 @@ if (categoryElem) {
 		// 현재 페이지의 호스트와 포트를 반환합니다 (예: http://localhost:8083)
 		const baseURL = window.location.origin;
 
-		// 현재 경로가 /cms로 시작하는지 확인
-		let newPath = window.location.pathname.startsWith('/cms')
-			? `/cms/commu/update/${commuCateCode}/${commuId}`
+		// 현재 경로가 /cs로 시작하는지 확인
+		let newPath = window.location.pathname.startsWith('/cs')
+			? `/cs/commu/update/${commuCateCode}/${commuId}`
 			: `/commu/update/${commuCateCode}/${commuId}`;
 
 		form.setAttribute('action', `${baseURL}${newPath}`);
@@ -199,9 +199,9 @@ async function deleteFileFromServer(commuFileId) {
 	// window.location.origin은 현재 페이지의 호스트와 포트를 반환합니다 (예: http://localhost:8083)
 	const baseURL = window.location.origin;
 
-	// 현재 페이지의 경로가 '/cms'로 시작하는지 확인
-	let path = window.location.pathname.startsWith('/cms')
-		? `/cms/commu/delete-file`
+	// 현재 페이지의 경로가 '/cs'로 시작하는지 확인
+	let path = window.location.pathname.startsWith('/cs')
+		? `/cs/commu/delete-file`
 		: `/commu/delete-file`;
 
 	// 전체 URL 생성
@@ -236,7 +236,7 @@ function onSubmitForm(event) {
 	const baseURL = window.location.origin;
 	let path = new URL(form.action).pathname;
 
-	let actionURL = path.startsWith('/cms') ? `${baseURL}${path}` : `${baseURL}/cms${path}`;
+	let actionURL = path.startsWith('/cs') ? `${baseURL}${path}` : `${baseURL}/cs${path}`;
 
 	const formData = new FormData(document.querySelector('form'));
 	for (let file of selectedFiles) {

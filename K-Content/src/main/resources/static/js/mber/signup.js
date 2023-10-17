@@ -11,10 +11,11 @@ var authNumFeedback = document.getElementById("check-authnum-feedback");
 
 var isIdValid = false;
 var isPwdValid = false;
+var isPwdConfirmValid = false;
 var isEmailValid = false;
 var isEmailExistCheck = false;
-var isNameValid = false;
 var isAuthNumValid = false;
+var isNameValid = false;
 
 var authCodeInput = document.getElementById("auth-code-input");
 let serverAuthCode = '';
@@ -61,8 +62,7 @@ function checkId(mberId) {
 			}
 
 			if (result == false) {
-				idFeedback.style.color = '#198754';
-				idFeedback.innerHTML = "사용 가능한 아이디입니다.";
+				idFeedback.style.display = 'none';
 				isIdValid = true;
 			} else if (result == true) {
 				idFeedback.style.color = '#dc3545';
@@ -94,8 +94,7 @@ function checkPwd(mberPwd) {
 				return;
 			}
 			if (result == true) {
-				pwdFeedback.style.color = '#198754';
-				pwdFeedback.innerHTML = "보안상으로 좋은 비밀번호예요!";
+				pwdFeedback.style.display = 'none';
 				isPwdValid = true;
 			} else {
 				pwdFeedback.style.color = '#dc3545';
@@ -125,9 +124,7 @@ function checkName(mberName) {
 				return;
 			}
 			if (result == true) {
-				nameFeedback.style.display = 'block';
-				nameFeedback.style.color = '#198754';
-				nameFeedback.innerHTML = "멋진 이름이네요, 기억할게요!";
+				nameFeedback.style.display = 'none';
 				isNameValid = true;
 			} else {
 				nameFeedback.style.display = 'block';
@@ -165,7 +162,7 @@ function checkEmail(mberEmail) {
 
 // ================ 비밀번호 보기 ================ //
 $(document).ready(function() {
-	$('#see_pwd').on('click', function() {
+	$('#see-pwd').on('click', function() {
 		$('input').toggleClass('active');
 		if ($('input').hasClass('active')) {
 			$(this).attr('class', "fa fa-eye-slash")
@@ -175,7 +172,38 @@ $(document).ready(function() {
 				.prev('input').attr('type', 'password');
 		}
 	});
+    $('#see-pwd-confirm').click(function() {
+        const passwordConfirmInput = $('#mber_pwd_confirm');
+        if (passwordConfirmInput.attr('type') === 'password') {
+            passwordConfirmInput.attr('type', 'text');
+            $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordConfirmInput.attr('type', 'password');
+            $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
 });
+
+// ================ 비밀번호, 비밀번호 확인과 일치 ================ //
+function checkPasswordMatch() {
+	
+    var password = document.getElementById("mber_pwd").value;
+    var confirmPassword = document.getElementById("mber_pwd_confirm").value;
+    var feedback = document.getElementById("check-pwd-confirm-feedback");
+
+	feedback.style.display = 'block';
+
+    if (password === confirmPassword) {
+        feedback.style.color = '#198754';
+		feedback.style.display = 'none';
+		isPwdConfirmValid = true;
+} else {
+        feedback.style.color = '#dc3545';
+        feedback.innerHTML = "비밀번호 확인이 일치하지 않습니다.";
+		feedback.style.display = 'block';    
+		isPwdConfirmValid = false;	   
+}
+}
 
 // ================ 이메일 중복 검사 후 인증 메일 ================ //
 $(document).ready(function() {
@@ -234,7 +262,6 @@ $(document).ready(function() {
 						spinner.classList.add('d-none');
 						buttonText.innerText = '메일 인증';
 						serverAuthCode = response.trim();
-						console.log('수신된 검증 코드:', serverAuthCode);
 
 						emailFeedback.innerText = '인증 메일이 발송되었습니다.';
 
@@ -297,27 +324,21 @@ function oninputPhone(target) {
 		.replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
 }
 
-// 유효성 검사 함수
+// 유효성 검사
 function validateForm() {
-	if (isIdValid && isPwdValid && isNameValid && isEmailValid && isAuthNumValid) {
-		// 모든 검사가 성공하면 양식 제출 허용
+	if (isIdValid && isPwdValid && isPwdConfirmValid && isNameValid && isEmailValid && isAuthNumValid) {
+		
 		return true;
 	} else {
-		// 일부 검사가 실패하면 양식 제출 방지하고 알림 메시지 표시
 		alert("모든 필수 항목을 올바르게 작성해주세요.");
 		return false;
 	}
 }
 
-// 제출 버튼에 이벤트 리스너 추가
 document.getElementById("signup-btn").addEventListener("click", function(event) {
 
-	console.log(isIdValid);
-	console.log(isPwdValid);
-	console.log(isNameValid);
-	console.log(isEmailValid);
-	console.log(isAuthNumValid);
+
 	if (!validateForm()) {
-		event.preventDefault(); // 검사 실패 시 양식 제출 방지
+		event.preventDefault();
 	}
 });

@@ -26,13 +26,6 @@
                 <button type="button" onclick="postComment()">등록</button>
             </div>
         </div>
-
-        <div th:unless="${#authentication.principal}">
-            <p>
-                댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
-            </p>
-        </div>
-
         <!-- 댓글 및 대댓글 출력 -->
         <div th:each="comment : ${comments}"
              th:if="${comment.commuCommentRefId == 0}">
@@ -64,7 +57,7 @@
                 <div class="comment-buttons">
                     <button class="reply-to-comment">댓글</button>
 
-                    <button class="reply-show">대댓글 보기</button>
+                    <button class="reply-show" th:data-id="${comment.commuCommentId}">대댓글 보기</button>
                     <div class="replyForm" th:data-id="${comment.commuCommentId}">
                         <input type="hidden" name="commuCommentRefId"
                                th:value="${comment.commuCommentId}">
@@ -78,8 +71,8 @@
                         </button>
                     </div>
 
-                    <div id="reply-box">
-                        <div class="reply-box update" th:each="refComment : ${refComments}"
+                    <div class="reply-box">
+                        <div class="reply-box-update" th:data-id="${comment.commuCommentId}" th:each="refComment : ${refComments}"
                              th:if="${refComment.commuCommentRefId == comment.getCommuCommentId()}">
                             <hr style="margin-bottom: 10px">
                             <div th:class="${refComment.getCommuCommentId()}" style="display: flex">
@@ -93,7 +86,7 @@
                                     <button class="update-comment"
                                             th:data-id="${refComment.commuCommentId}" th:text="수정">
                                     </button>
-                                    <button id="delete" th:commentID="${refComment.getCommuCommentId()}"
+                                    <button id="delete_ref" th:commentID="${refComment.getCommuCommentId()}"
                                             th:refID="${refComment.getCommuCommentRefId()}"
                                             onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                             th:data-id="${refComment.commuCommentId}">삭제

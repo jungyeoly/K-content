@@ -47,16 +47,16 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 		</div>
 
 		<div class="d-flex btn-div" id="buttons">
-			<a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}"
+			<a th:href="@{/cs/commu/1(commonCodeDscr ='전체')}"
 				class="list-link btn">목록</a>
 			<div class="btns">
 				<div
 					th:if="${#authentication.principal.username} == ${commu.commuMberId}">
 					<a
-						th:href="@{/cms/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+						th:href="@{/cs/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
 						class="btn me-2">수정</a>
 					<form
-						th:action="@{/cms/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
+						th:action="@{/cs/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
 						method="post">
 						<input type="hidden" name="commuId" th:value="${commu.commuId}">
 						<button type="button" class="btn delete"

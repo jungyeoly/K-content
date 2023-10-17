@@ -11,7 +11,7 @@
 
 	<div class="container">
 		<div class="menu fw-bold">공지사항 글쓰기</div>
-		<form th:action="@{/cms/commu/write/${commu.commuCateCode}}"
+		<form th:action="@{/cs/commu/write/${commu.commuCateCode}}"
 			method="post" enctype="multipart/form-data"
 			onsubmit="return validateForm()">
 <input type="hidden" name="csrfToken" id="csrfToken" th:value="${session.csrfToken}">
@@ -72,7 +72,7 @@
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
-					sec:authorize="isAuthenticated()"> <a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}" class="btn me-2 cancel-btn" data-action="cancel">취소</a>
+					sec:authorize="isAuthenticated()"> <a th:href="@{/cs/commu/1(commonCodeDscr ='전체')}" class="btn me-2 cancel-btn" data-action="cancel">취소</a>
 				<input type="submit" class="btn commuBtn" data-action="confirm"
 					value="등록">
 			</div>

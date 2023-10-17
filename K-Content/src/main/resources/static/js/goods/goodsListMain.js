@@ -1,33 +1,3 @@
-// $(document).ready(function () {
-//
-//     $.ajax({
-//         url: '/cs/goods/list',
-//         type: 'GET',
-//         success: function (data) {
-//             const element = document.getElementById('card-list');
-//
-//             for (var i = 0; i < data.length; i++) {
-//                 inHtml = `<div class="col-xl-3 col-lg-6" >
-//                         <div class="single-category mb-30" onclick="detail(${data[i].goodsId})">
-//                             <div class="category-img">
-//
-//                                 <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileId}" alt="">
-//
-//                                 <div class="category-caption">
-//                                     <h6 style="text-align: center; " >${data[i].goodsName}</h6>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>`;
-//                 element.insertAdjacentHTML('beforeend', inHtml);
-//             }
-//         },
-//         error: function (error) {
-//             console.error('에러 발생: ', error);
-//         }
-//     });
-// });
-
 function searchKeyword() {
     $.ajax({
         url: '/cs/test/goods/search',
@@ -40,16 +10,19 @@ function searchKeyword() {
             element.innerHTML = "";
             if (data.length != 0) {
                 for (var i = 0; i < data.length; i++) {
-                    inHtml = `<div class="col-xl-4 col-lg-6">
-                        <div class="single-category mb-30"  onclick="detail(${data[i].goodsId})">
-                            <div class="category-img">
-                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
-                                <div class="category-caption">
-                                    <h6 style="text-align: center; " >${data[i].goodsName}</h6>
+                    inHtml = `
+                        <div id="goodsBox" className="border"> 
+                                <div class="single-category mb-30" onclick="detail(${data[i].goodsId})">
+                                    <div class="category-img">
+                                        <img style="width: 300px; height: 400px;margin:auto; display: block"" src="/img/goods/${data[i].goodsFileId}"
+                                             alt="">
+                                            <div class="category-caption p-2">
+                                                <h6 style="text-align: center; ">${data[i].goodsName}</h6>
+                                            </div>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
-                    </div>`;
+                `;
                     element.insertAdjacentHTML('beforeend', inHtml);
                 }
             } else {
@@ -113,15 +86,16 @@ function prePageF(pageNum) {
 
 
 $(".nexpage").click(function () {
-    var nexPage = $(this).data("nexpage") + 1;
+        var nexPage = $(this).data("nexpage") + 1;
 
-    $.ajax({
-        url: "/cs/test/goods/" + nexPage,
-        method: "get",
-        seccess: function (data) {
-            const element = document.getElementById('layout');
-            element.innerHTML = "";
-            element.insertAdjacentHTML('beforeend', data);
-        }
-    })
-})
+        $.ajax({
+            url: "/cs/test/goods/" + nexPage,
+            method: "get",
+            seccess: function (data) {
+                const element = document.getElementById('layout');
+                element.innerHTML = "";
+                element.insertAdjacentHTML('beforeend', data);
+            }
+        })
+    }
+)

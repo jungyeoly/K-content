@@ -1,68 +1,72 @@
 @charset "UTF-8";
 .selected {
-  border: 3px solid red; /* 선택한 요소의 테두리를 빨간색 3px 두껍게 설정 */
+    border: 4px solid red; /* 선택한 요소의 테두리를 빨간색 3px 두껍게 설정 */
 }
 
-h5{
-  text-align: center;
-  /*margin-top: 60px;*/
-  /*margin-bottom: 40px;*/
+h5 {
+    text-align: center;
+    /*margin-top: 60px;*/
+    /*margin-bottom: 40px;*/
 }
+
 .contents {
-	max-width: 100%
+    max-width: 100%
 }
-#searchForm{
-  margin-top: 20px;
+
+#searchForm {
+    margin-top: 20px;
 }
-.newKeyword{
-  flex-wrap: wrap;
-  /*margin-top: 20px;*/
+
+.newKeyword {
+    flex-wrap: wrap;
+    /*margin-top: 20px;*/
 }
+
 .cate.active {
-  border-bottom: 3px solid var(--color-main);
+    border-bottom: 3px solid var(--color-main);
 }
 
 .cate {
-	font-size: 1vw !important;
+    font-size: 1vw !important;
 }
 
 .card {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .card-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .categories {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 10px;
-  padding: 0px;
-  text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+    padding: 0px;
+    text-align: center;
 }
 
 .categories li {
-  font-size: 14px;
-  font-weight: 700;
-  float: left;
-  position: relative;
-  cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    float: left;
+    position: relative;
+    cursor: pointer;
 }
 
 .categories li:hover::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 4px;
-  background-color: var(--color-main);
-  position: absolute;
-  bottom: -3px;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-main);
+    position: absolute;
+    bottom: -3px;
 }
 
 ul, il, ol {
-	list-style: none;
+    list-style: none;
 }

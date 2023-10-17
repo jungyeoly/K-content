@@ -31,7 +31,7 @@ function delKeyword(key) {
 function makeKeyword() {
     var inputWord = document.getElementById("inputKeyword").value;
 
-    var word = inputWord.replace(/(\s*)/g,'');
+    var word = inputWord.replace(/(\s*)/g, '');
     if (word == null || word == '') {
         alert("키워드를 입력하세요!");
     } else {
@@ -57,6 +57,7 @@ window.name = "goods_parent";
 
 //굿즈 검색 팝업 생성
 function goodsNewPage() {
+    // 매개변수 넣을 거임
     window.open("/cs/test/goods/cntnt", "/cs/test/goods/cntnt", "width=1200, height=800");
 }
 
@@ -175,9 +176,9 @@ function createContent() {
         data: JSON.stringify(sendData),
         contentType: 'application/json',
         success: function (data) {
-            if(data == '수정'){
+            if (data == '수정') {
                 alert("컨텐츠가 수정되었습니다!")
-            }else{
+            } else {
                 alert("컨텐츠가 생성되었습니다!")
             }
 

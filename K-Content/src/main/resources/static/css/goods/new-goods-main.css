@@ -1,7 +1,15 @@
 /* card list */
-.card-list {
-	cursor: pointer;
+
+.category-img {
+    width: 300px;
+    height: 400px;
 }
+
+.card-list {
+    cursor: pointer;
+    margin-top: 70px; margin-bottom: 40px;
+}
+
 
 .card-item {
     display: flex;
@@ -27,9 +35,11 @@
     padding: 1em;
     background: white;
 }
-a{
+
+a {
     cursor: pointer;
 }
+
 @media (min-width: 600px) {
     .card-list {
         display: flex;
@@ -84,15 +94,17 @@ a{
     /*height: 80%;*/
     padding-bottom: 60px;
 }
-.new-button{
+
+.new-button {
     /*margin-top: 30px;*/
 }
-#goodsBox{
+
+#goodsBox {
     padding: inherit;
     margin: 30px;
 }
 
-ul{
+ul {
     padding: 0px !important;
     justify-content: center;
 }

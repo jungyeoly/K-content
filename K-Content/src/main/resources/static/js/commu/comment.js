@@ -1,9 +1,7 @@
-
 $(document).ready(function() {
-	// $("#reply-box").hide();
-	// 왜 하나만 가려지는지 찾기
 
 })
+  
 
 function pageRe() {
 
@@ -26,9 +24,9 @@ function pageRe() {
 document.querySelectorAll('.reply-show').forEach(function(button) {
     button.addEventListener('click', function(event) {
         const clickedButton = event.currentTarget;
-
+	console.log(clickedButton);
         const commentId = clickedButton.getAttribute('data-id');
-       
+       console.log(commentId);
 		const parentDiv = clickedButton.closest('.comment-buttons');
 
         const targetReplyBoxes = parentDiv.querySelectorAll(`.reply-box-update[data-id="${commentId}"]`);
@@ -69,8 +67,6 @@ function postReply(commentID) {
 	var replyForm = $('.replyForm').find(`#${commentID}`);
 
 	inputText = replyForm.val();
-	console.log(replyForm.val());
-	// console.log(inputText)
 	$.ajax({
 		url: "/commu/detail/reply",
 		type: "POST",

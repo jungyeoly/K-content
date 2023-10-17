@@ -43,7 +43,7 @@ import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping("/cms")
+@RequestMapping("/cs")
 @Controller
 public class CmsCommuController {
 
@@ -240,12 +240,12 @@ public class CmsCommuController {
 	public String writePost(Commu commu, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
 			RedirectAttributes redirectAttrs, HttpSession session, String csrfToken) {
-		logger.info("/cms/commu/write/{commuCateCode} : " + commu.toString() + csrfToken);
+		logger.info("/cs/commu/write/{commuCateCode} : " + commu.toString() + csrfToken);
 		logger.info("writePost method started.");
 		logger.info("Commu object: " + commu.toString());
 
 		// 게시물 정보 로깅
-		logger.info("/cms/commu/write : " + commu.toString());
+		logger.info("/cs/commu/write : " + commu.toString());
 
 		if (csrfToken == null || "".equals(csrfToken)) {
 			throw new RuntimeException("CSRF 토큰이 없습니다.");
@@ -253,9 +253,7 @@ public class CmsCommuController {
 			throw new RuntimeException("잘못된 접근이 감지되었습니다.");
 		}
 		try {
-
-			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
+			
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
@@ -317,7 +315,7 @@ public class CmsCommuController {
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 		}
 
-		return "redirect:/cms/commu/detail"  + "/" + commu.getCommuId();
+		return "redirect:/cs/commu/detail"  + "/" + commu.getCommuId();
 
 	}
 
@@ -347,7 +345,7 @@ public class CmsCommuController {
 		logger.info("updatePostAndFiles method started.");
 
 		// 게시물 정보 로깅
-		logger.info("/cms/commu/update : " + commu.toString());
+		logger.info("/cs/commu/update : " + commu.toString());
 
 		try {
 			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
@@ -410,12 +408,12 @@ public class CmsCommuController {
 			logger.error("Error during update:", e);
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 			logger.info("updatePostAndFiles method completed.");
-			return "redirect:/cms/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정
+			return "redirect:/cs/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정
 																										// 페이지로
 			// 리다이렉트
 		}
 		redirectAttrs.addFlashAttribute("message", "게시물이 성공적으로 업데이트되었습니다.");
-		return "redirect:/cms/commu/detail"+ "/" + commu.getCommuId();
+		return "redirect:/cs/commu/detail"+ "/" + commu.getCommuId();
 
 	}
 
@@ -436,12 +434,12 @@ public class CmsCommuController {
 			commuService.deletePost(commuId);
 
 			redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일이 성공적으로 삭제되었습니다.");
-			return "redirect:/cms/commu/1?commonCodeVal=All"; // 게시글 목록 페이지로 리다이렉트
+			return "redirect:/cs/commu/1?commonCodeVal=All"; // 게시글 목록 페이지로 리다이렉트
 
 		} catch (Exception e) {
 			logger.error("Error during deletion:", e);
 			redirectAttrs.addFlashAttribute("message", "게시물 및 파일 삭제 중 오류가 발생하였습니다.");
-			return "redirect:/cms/commu/" + commuId; // 게시글 상세 페이지로 리다이렉트
+			return "redirect:/cs/commu/" + commuId; // 게시글 상세 페이지로 리다이렉트
 		}
 	}
 
@@ -495,7 +493,7 @@ public class CmsCommuController {
 		} else {
 			redirectAttributes.addFlashAttribute("error", "해당 게시글을 찾을 수 없습니다.");
 		}
-		return "redirect:/cms/commu";
+		return "redirect:/cs/commu";
 	}
 
 }

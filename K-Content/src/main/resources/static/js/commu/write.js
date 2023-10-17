@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 	const titleInput = document.getElementById('title');
 
-	// 현재 페이지의 경로가 '/cms/commu/write'인지 확인
-	if (window.location.pathname === '/cms/commu/write') {
+	// 현재 페이지의 경로가 '/cs/commu/write'인지 확인
+	if (window.location.pathname === '/cs/commu/write') {
 		// localStorage에서 제목 값을 가져옵니다.
 		const savedTitle = localStorage.getItem('titleValue');
 
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
 document.querySelector('.cancel-btn').addEventListener('click', function() {
     
     const titleInput = document.getElementById('title');
-      // 현재 페이지의 경로가 '/cms/commu/write'인지 확인하여 해당 경로에서만 [공지]를 추가
-    if (window.location.pathname === '/cms/commu/write') {
+      // 현재 페이지의 경로가 '/cs/commu/write'인지 확인하여 해당 경로에서만 [공지]를 추가
+    if (window.location.pathname === '/cs/commu/write') {
         titleInput.value = "[공지]";
 }
 });
@@ -67,8 +67,8 @@ function validateForm() {
 	var category = document.getElementById('category').value;
 	var cntnt = document.getElementById('cntnt').value;
 
-	// /cms/commu/write 페이지에서만 [공지] 텍스트를 제외하고 제목을 검사
-	if (window.location.pathname === '/cms/commu/write') {
+	// /cs/commu/write 페이지에서만 [공지] 텍스트를 제외하고 제목을 검사
+	if (window.location.pathname === '/cs/commu/write') {
 		title = title.replace("[공지]", "").trim();
 	}
 
@@ -128,17 +128,17 @@ document.querySelector('form').addEventListener('submit',async function(event) {
 document.getElementById('category').addEventListener('change', function() {
 	let commuCateCode = this.value;
 	let form = document.querySelector('form');
-	// URL이 '/cms'로 시작하는지 확인
-	if (window.location.pathname.startsWith('/cms')) {
-		form.setAttribute('action', "/cms/commu/write/" + commuCateCode);
+	// URL이 '/cs'로 시작하는지 확인
+	if (window.location.pathname.startsWith('/cs')) {
+		form.setAttribute('action', "/cs/commu/write/" + commuCateCode);
 	} else {
 		form.setAttribute('action', "/commu/write/" + commuCateCode);
 	}
 });
 document.addEventListener('DOMContentLoaded', function() {
 	const titleInput = document.getElementById('title');
-	// 현재 페이지의 경로가 '/cms/commu/write'인지 확인
-	if (window.location.pathname === '/cms/commu/write') {
+	// 현재 페이지의 경로가 '/cs/commu/write'인지 확인
+	if (window.location.pathname === '/cs/commu/write') {
 		
  const savedTitle = localStorage.getItem('titleValue');
 		// 페이지 로드 시 제목 필드에 기본값 설정

@@ -13,6 +13,7 @@ function pageRe() {
 	$.ajax({
 		url: "/commu/detail/comment",
 		type: "GET",
+		async: true,
 		data: { commuId: document.getElementById("commuId").value },
 		success: function(data) {
 			let layout = $("#comment-Box");
@@ -22,19 +23,37 @@ function pageRe() {
 	});
 }
 
+document.querySelectorAll('.reply-show').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        const clickedButton = event.currentTarget;
+
+        const commentId = clickedButton.getAttribute('data-id');
+       
+		const parentDiv = clickedButton.closest('.comment-buttons');
+
+        const targetReplyBoxes = parentDiv.querySelectorAll(`.reply-box-update[data-id="${commentId}"]`);
+        targetReplyBoxes.forEach(function(targetReplyBox) {
+            if (targetReplyBox) {
+                targetReplyBox.style.display = (targetReplyBox.style.display === 'none' || !targetReplyBox.style.display) ? 'block' : 'none';
+            }
+        });
+    });
+});
+
 
 function postComment() {
 	// registerEventHandlers();
 	$.ajax({
 		url: "/commu/detail/comment",
 		type: "POST",
+		async: true,
 		data: {
 			commuCommentCommuId: document.getElementById("commuId").value,
 			commuCommentCntnt: document.getElementById("cntnt").value
 		},
-		success: function(response) {
+		success: function() {
 			// 답글 추가 후 원본 댓글의 답글 수 업데이트
-			// updateReplyCount(formData.commuCommentRefId);
+		//	 updateReplyCount(formData.commuCommentRefId);
 			// console.log("dsf")
 			pageRe();
 		},
@@ -59,12 +78,14 @@ function postReply(commentID) {
 	$.ajax({
 		url: "/commu/detail/reply",
 		type: "POST",
+		async: true,
 		data: {
 			commuCommentCommuId: document.getElementById("commuId").value,
 			coCntnt: inputText,
+			async: true,
 			commuCommentRefId: commentID
 		},
-		success: function(response) {
+		success: function() {
 			// 답글 추가 후 원본 댓글의 답글 수 업데이트
 			// updateReplyCount(formData.commuCommentRefId);
 			// console.log("dsf")
@@ -93,11 +114,12 @@ function deleteComment(commentID, refID) {
 			$.ajax({
 				url: "/commu/comment/delete",
 				type: "POST",
+				async: true,
 				data: {
 					commuCommentId: commentID,
 					commuCommentRefId: refID
 				},
-				success: function(response) {
+				success: function() {
 					pageRe();
 				},
 				error: function(err) {
@@ -155,13 +177,20 @@ $(document).ready(function() {
 	}
 
 	function updateReplyCount(commuCommentId) {
-		var totalReplies = getTotalRepliesCount(commuCommentId);
-		$(".single-comment[data-id='" + commuCommentId + "']").find(".reply-count").text(totalReplies + '개');
-		var $parentComment = $(".single-comment[data-id='" + commuCommentId + "']").closest('.replies').closest('.single-comment');
-		if ($parentComment.length) {
-			updateReplyCount($parentComment.data('id'));
-		}
-	}
+		 var totalReplies = getTotalRepliesCount(commuCommentId);
+
+    // Update the direct count
+    $(".single-comment[data-id='" + commuCommentId + "']").find(".reply-count").text(totalReplies + '개');
+
+    // Update the "보기 버튼" with the reply count
+    $(".single-comment[data-id='" + commuCommentId + "']").find(".view-replies-btn").text("보기 (" + totalReplies + "개)");
+
+    // If the comment is nested inside another comment, update the parent comment's reply count as well.
+    var $parentComment = $(".single-comment[data-id='" + commuCommentId + "']").closest('.replies').closest('.single-comment');
+    if ($parentComment.length) {
+        updateReplyCount($parentComment.data('id'));
+    }
+}
 
 	// 초기 댓글 수 업데이트
 	updateCommentCount();
@@ -238,6 +267,7 @@ $(document).ready(function() {
 				$.ajax({
 					url: "/commu/comment/update",
 					type: "POST",
+					async: true,
 					data: {
 						commuCommentId: commentID,
 						commuCommentCntnt: updateText

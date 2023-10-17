@@ -38,14 +38,14 @@
 						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_pwd" class="fw-bold text-nowrap">비밀번호<span
-									style="color: red;">*</span></label>
+									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
 										id="mber_pwd" name="mberPwd" placeholder="비밀번호" value=""
 										onchange="checkPwd(this.value)" maxlength="16" required><i
-										class="fa fa-eye" id=see_pwd></i>
+										class="fa fa-eye see-pwd" id="see-pwd"></i>
 								</div>
 							</div>
 							<div class="col-md-10">
@@ -54,8 +54,28 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
+								<label for="mber_pwd_confirm"
+									class="fw-bold text-nowrap align-middle">비밀번호 확인<span
+									class="align-middle" style="color: red;">*</span>
+								</label>
+							</div>
+							<div class="col-md-10">
+								<div class="pwd-input-wrap">
+									<input type="password" class="form-control form-bid"
+										id="mber_pwd_confirm"
+										placeholder="비밀번호 확인" onchange="checkPasswordMatch()"
+										maxlength="16" required><i class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
+								</div>
+							</div>
+							<div class="col-md-10">
+								<div class="mber-feedback fw-bold"
+									id="check-pwd-confirm-feedback"></div>
+							</div>
+						</div>
+						<div class="row mb-4">
+							<div class="col-md-2">
 								<label for="mber_name" class="fw-bold text-nowrap">이름<span
-									style="color: red;">*</span></label>
+									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_name"
@@ -75,7 +95,7 @@
 							</div>
 							<div class="col-md-2">
 								<label for="mber_gender" class="fw-bold text-nowrap">성별<span
-									style="color: red;">*</span></label>
+									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-4">
 								<select name="mberGenderCode" class="form-select"
@@ -91,7 +111,7 @@
 						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_email" class="fw-bold">이메일<span
-									style="color: red;">*</span></label>
+									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-7">
 								<input type="email" id="mber_email"
@@ -115,7 +135,7 @@
 						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="auth-code-input" class="fw-bold">인증번호<span
-									style="color: red;">*</span></label>
+									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="auth-code-input"
@@ -135,7 +155,7 @@
 							<div class="col-md-10">
 								<input type="text" id="mber_phone" name="mberPhone"
 									class="form-control form-bid" placeholder="전화번호 입력"
-									oninput="oninputPhone(this)" onchange="checkPhone(this.value)"
+									oninput="oninputPhone(this)"
 									maxlength="13" autocomplete="off">
 							</div>
 							<div class="col-md-12">

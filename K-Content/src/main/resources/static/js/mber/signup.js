@@ -14,8 +14,8 @@ var isPwdValid = false;
 var isPwdConfirmValid = false;
 var isEmailValid = false;
 var isEmailExistCheck = false;
-var isNameValid = false;
 var isAuthNumValid = false;
+var isNameValid = false;
 
 var authCodeInput = document.getElementById("auth-code-input");
 let serverAuthCode = '';
@@ -262,7 +262,6 @@ $(document).ready(function() {
 						spinner.classList.add('d-none');
 						buttonText.innerText = '메일 인증';
 						serverAuthCode = response.trim();
-						console.log('수신된 검증 코드:', serverAuthCode);
 
 						emailFeedback.innerText = '인증 메일이 발송되었습니다.';
 

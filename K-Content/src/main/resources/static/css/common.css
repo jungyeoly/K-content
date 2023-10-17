@@ -272,7 +272,7 @@ button:hover{
   transition: all 200ms linear;
 }
 
-#see_pwd {
+.see-pwd {
 	cursor: pointer;
 }
 #reply-box{

@@ -200,7 +200,6 @@ public class CSController {
             goodsJFileList.add(goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
         }
 
-        System.out.println("goodsJFileList: " + goodsJFileList);
         // 삭제 된 굿즈는 아예 안뽑는건지? 알아봐야함
         model.addAttribute("goodsJFileList", goodsJFileList);
 
@@ -362,7 +361,6 @@ public class CSController {
         //update content
 
         contentService.updateDelStat(cntntId);
-        System.out.println(cntntId + "번 콘텐츠 삭제 처리 ");
 
         List<String> cateList = commonCodeService.cateList("C03");
         model.addAttribute("cateList", cateList);

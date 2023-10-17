@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $.ajax({
-        url: '/cs/goods/list',
+        url: '/cs/test/goods/list',
         type: 'GET',
         success: function (data) {
             const element = document.getElementById('goodsPad');
@@ -50,7 +50,7 @@ function searchKeyword() {
         search: document.getElementById("search").value
     };
     $.ajax({
-        url: '/cs/goods/search',
+        url: '/cs/test/goods/search',
         type: 'GET',
         data: requestData,
         success: function (data) {
@@ -59,8 +59,8 @@ function searchKeyword() {
             for (var i = 0; i < data.length; i++) {
                 inHtml = `<div class="col-xl-4 col-lg-6" >
                         <div class="single-category mb-30"  onclick="addList(${data[i].goodsId})">
-                            <div class="category-img">
-                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
+                            <div class="category-img" style="width: 300px; height: 400px">
+                                <img style="width: 300px; height: 400px" src="/img/goods/${data[i].goodsFileId}"  alt="">
                                 <div class="category-caption">
                                     <h6 style="text-align: center; " >${data[i].goodsName}</h6>
                                 </div>

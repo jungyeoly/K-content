@@ -1,4 +1,6 @@
-
+.card-list{
+    margin-top: 70px;
+}
 .fullContainer {
     display: grid;
     /*grid-template-columns: 1fr 9fr 3fr;*/

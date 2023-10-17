@@ -9,10 +9,10 @@ function addBorder() {
         // console.log("clickGoodsList: " + clickGoodsList[i]);
 
         var border = document.getElementById(clickGoodsList[i]);
-        if(border != null){
+        if (border != null) {
             console.log("border: " + border);
             border.classList.add('selected');
-        }else{
+        } else {
             continue;
         }
 
@@ -44,8 +44,8 @@ function searchKeyword() {
                 for (var i = 0; i < data.length; i++) {
                     var inHtml = `<div class="col-xl-4 col-lg-6">
                         <div class="single-category mb-30"  onclick="addList(${data[i].goodsId})">
-                            <div class="category-img">
-                                <img style="width: 400px; height: 300px" src="/img/goods/${data[i].goodsFileId}"  alt="">
+                            <div class="category-img"  style="width: 300px; height: 400px">
+                                <img style="width: 300px; height: 400px" src="/img/goods/${data[i].goodsFileId}"  alt="">
                                 <div class="category-caption">
                                     <h6 style="text-align: center; " >${data[i].goodsName}</h6>
                                 </div>
@@ -73,10 +73,15 @@ function searchKeyword() {
 var clickGoodsList = [];
 
 function selectEnd() {
-    const openerWindow = window.opener;
-    window.opener.postMessage(clickGoodsList, "*");
-    // console.log(clickGoodsList);
-    window.close();
+
+    if (clickGoodsList.length == 0) {
+        alert("상품을 선택하지 않았습니다.")
+    } else {
+        const openerWindow = window.opener;
+        window.opener.postMessage(clickGoodsList, "*");
+        // console.log(clickGoodsList);
+        window.close();
+    }
 }
 
 function addList(goodsId) {

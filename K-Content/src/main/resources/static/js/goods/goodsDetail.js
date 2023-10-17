@@ -2,7 +2,7 @@
 function deleteGoods() {
     if (confirm('상품을 삭제하시겠습니까?')) {
         $.ajax({
-            url: '/cs/goods', type: 'patch',
+            url: '/cs/test/goods', type: 'patch',
             data: {
                 goodsId: document.getElementById("goodsId").value
             }, // 데이터 객체 전달

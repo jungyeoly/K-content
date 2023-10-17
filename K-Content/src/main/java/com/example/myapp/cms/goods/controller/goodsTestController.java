@@ -45,11 +45,9 @@ public class goodsTestController {
 
         int bbsCount = goodsService.totalGoods();
         int totalPage = 0;
-        System.out.println("bbsCount: " + bbsCount);
         if (bbsCount > 0) {
             totalPage = (int) Math.ceil(bbsCount / 10.0) ;
         }
-        System.out.println("totalPage: " + totalPage);
         int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
         int nowPageBlock = (int) Math.ceil(page / 10.0);
         int startPage = (nowPageBlock - 1) * 10 + 1;
@@ -193,7 +191,6 @@ public class goodsTestController {
     //상품삭제
     @PatchMapping("")
     public String createGoods(@RequestParam("goodsId") int goodsId) {
-        System.out.println(goodsId);
         goodsService.updateDelYnGoods(goodsId);
         return "cms/goods/new-goods-main";
     }
@@ -219,7 +216,6 @@ public class goodsTestController {
         String originalFilename = originalEncodingFilename;
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFilename = uuidString + "_" + originalFilename;
-        System.out.println("keyword: " + keyword);
         GoodsFile newGoodsFile = new GoodsFile();
         Goods newGoods = new Goods();
 

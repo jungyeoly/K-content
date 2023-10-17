@@ -4,6 +4,7 @@
 <head>
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
 <link rel="stylesheet" href="/css/common.css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 </head>
@@ -16,7 +17,7 @@
 	<div class="container mb-3">
 		<div class="commu-no menu fw-bold">
 			<!-- 일반 카테고리 출력 -->
-		<span th:each="code : ${commuCateCodeList}"
+			<span th:each="code : ${commuCateCodeList}"
 				th:if="${code.commonCode} == ${commu.commuCateCode}"
 				th:text="${code.commonCodeDscr}">카테고리명</span>
 
@@ -36,7 +37,7 @@
 		</div>
 
 		<div class="separator"></div>
-		 
+
 
 		<div class="detail-cntnt">
 			<div th:each="file : ${commuFiles}" class="text-center img-div">
@@ -87,7 +88,7 @@
 					th:if="${#authentication.principal.username} != ${commu.commuMberId}"
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 					method="post">
-					<button type="button" class="btn report"
+					<button type="button" id="report" class="btn report"
 						th:if="${commu.commuCateCode != 'C06'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
@@ -98,7 +99,7 @@
 		<div id="comment-Box"></div>
 
 
-		<div th:insert="~{include/common-modal :: commonmodal}"></div>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		<script th:src="@{/js/commu/view.js}" defer></script>
 	</div>

@@ -4,6 +4,11 @@
 <head>
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
 <link rel="stylesheet" href="/css/common.css">
+<link
+	href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
+"
+	rel="stylesheet">
 <meta charset="UTF-8">
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
@@ -31,7 +36,7 @@
 		</div>
 
 		<div class="separator"></div>
-	
+
 		<div class="detail-cntnt">
 			<div th:each="file : ${commuFiles}" class="text-center img-div">
 				<img th:src="@{'/' + ${file.commuFilePath}}">
@@ -40,9 +45,10 @@
 				<div class="cntnt">[[${commu.commuCntnt}]]</div>
 			</div>
 		</div>
-		
+
 		<div class="d-flex btn-div" id="buttons">
-			<a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}"class="list-link btn">목록</a>
+			<a th:href="@{/cms/commu/1(commonCodeDscr ='전체')}"
+				class="list-link btn">목록</a>
 			<div class="btns">
 				<div
 					th:if="${#authentication.principal.username} == ${commu.commuMberId}">
@@ -62,99 +68,17 @@
 					th:if="${#authentication.principal.username} != ${commu.commuMberId}"
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 					method="post">
-					<button type="button" class="btn report"
+					<button type="button" id="report" class="btn report"
 						th:if="${commu.commuCateCode != 'C06'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
 			</div>
 		</div>
-		<!-- 댓글 리스트 영역 시작 -->
-		<div class="comment-list-section" th:unless="${commu.commuCateCode} == 'C06'">
-			<h3>
-				댓글 <span
-					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
-			</h3>
-
-			<!-- 댓글 및 답글 출력 -->
-			<div th:each="commucomment : ${comments}" 
-				th:if="${commucomment.commuCommentRefId == 0}">
-				<th:block th:replace="~{::commentFragment(comment=${commucomment})}"></th:block>
-			</div>
-
-		</div>
-
-		<!-- Comment Fragment -->
-		<th:block th:fragment="commentFragment(comment)">
-
-			<div th:if="${comment != null}" class="single-comment"
-				th:data-id="${comment.commuCommentId}">
-
-				<strong th:text="${comment.commuCommentMberId}">UserName</strong>
-				<div class="comment-content">
-					<p th:text="${comment.commuCommentCntnt}">CommuCommentCntnt</p>
-					<textarea class="update-comment-textarea hidden"></textarea>
-				</div>
-				<div class="comment-date"
-					th:text="${comment.commuCommentRegistDate}">Date</div>
-				<div class="comment-buttons">
-					<button class="reply-to-comment">답글</button>
-					<div
-						th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
-						<button class="update-comment"
-							th:data-id="${comment.commuCommentId}">수정</button>
-						<button class="delete-comment" 
-							th:data-id="${comment.commuCommentId}">삭제</button>
-					</div>
-					<button class="view-replies-btn">
-						답글(<span class="reply-count"
-							th:text="${comment.replies != null ? comment.replies.size() + '개' : '0개'}"></span>)
-					</button>
-					<!-- 재귀적으로 답글 출력 -->
-					<div class="replies">
-						<th:block th:each="reply : ${comment.replies}">
-							<th:block th:replace="~{::commentFragment(comment=${reply})}"></th:block>
-						</th:block>
-					</div>
-
-
-				</div>
-				<div class="replyForm" th:data-id="${comment.commuCommentId}">
-					<form>
-						<input type="hidden" name="commuCommentRefId"
-							th:value="${comment.commuCommentId}">
-						<textarea name="commuCommentCntnt" rows="2"
-							placeholder="답글을 입력하세요."></textarea>
-						<button type="button" class="post-reply">등록</button>
-					</form>
-				</div>
-
-			</div>
-		</th:block>
-
-
-		<!-- 댓글 작성 영역 -->
-		<div th:if="${#authentication.principal}"th:unless="${commu.commuCateCode} == 'C06'">
-			<div class="comment-section">
-				<form id="commentForm" th:action="@{/commu/comment}" method="post">
-					<input type="hidden" name="commuCommentMberId"
-						th:value="${#authentication.principal.username}"> <input
-						type="hidden" name="commuCommentCommuId"
-						th:value="${commu.commuId}">
-					<textarea name="commuCommentCntnt" rows="4"
-						placeholder="댓글을 입력하세요."></textarea>
-					<button type="button" id="submitComment">등록</button>
-				</form>
-			</div>
-		</div>
-
-		<div th:unless="${#authentication.principal} or ${commu.commuCateCode} == 'C06'">
-			<p>
-				댓글을 작성하려면 <a href="/mber/signin">로그인</a> 해주세요.
-			</p>
-		</div>
-
-
-		<div th:insert="~{include/common-modal :: commonmodal}"></div>
+		<div id="comment-Box"></div>
+		<script
+			src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js
+"></script>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		<script th:src="@{/js/commu/view.js}"></script>
 	</div>

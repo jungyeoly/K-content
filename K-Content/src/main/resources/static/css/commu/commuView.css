@@ -2,6 +2,10 @@
 	display: none;
 }
 
+#report {
+	display:none;
+}
+
 #buttons{
 	border-top: 1px solid #e1e1e1;
 }

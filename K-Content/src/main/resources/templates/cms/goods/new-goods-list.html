@@ -12,7 +12,7 @@
     </header>
 
     <section class="primary">
-        <ul th:if="${goodsList !=null}" class="card-list" id="card-list" >
+        <ul th:if="${goodsList !=null}" class="card-list" id="card-list">
             <div th:each="goods : ${goodsList}" id="goodsBox" class="border">
                 <div class="single-category mb-30"
                      th:goodsId="${goods.goodsId}"

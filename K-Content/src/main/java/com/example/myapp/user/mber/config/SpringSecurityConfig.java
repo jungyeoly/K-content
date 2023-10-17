@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -50,12 +52,31 @@ public class SpringSecurityConfig {
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+					/*		.requestMatchers(
+									"/css/**", 
+									"/img/**", 
+									"/js/**",
+									"/",
+									"/content/**"
+							).permitAll()
+						 	.requestMatchers(
+				                    "/mber/signup", // 회원가입
+				                    "/mber/signin" // 로그인
+				            ).anonymous()
+				        	.requestMatchers(
+				        			"/**"
+				            ).hasAnyRole("ADMIN")
+				        	.requestMatchers(
+				        			"/mber/**"
+				            ).hasAnyRole("MBER")
+				            .anyRequest().permitAll()) // 모두 접근 가능
+				    */        
 						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
 								"/mber/mailauth", "/mber/**", "/mber/resetpwd", "/mber/checkpwd")
-						.permitAll().requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**")
+						.permitAll().requestMatchers(HttpMethod.GET, "/mber/mypage", "/cs/**", "/user/**")
 						.hasAnyRole("ADMIN").requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**")
 						.hasAnyRole("USER").anyRequest().authenticated())
-				/* .anyRequest().permitAll()) */
+						/*.anyRequest().permitAll())*/
 				// Form 로그인을 활용하는 경우
 				.formLogin(formLogin -> formLogin.loginPage("/mber/signin").loginProcessingUrl("/mber/signin")
 						.usernameParameter("mberId").passwordParameter("mberPwd").defaultSuccessUrl("/", true)
@@ -68,14 +89,12 @@ public class SpringSecurityConfig {
 								response.sendRedirect("/mber/resetpwd");
 							}
 						}).failureHandler(customFailureHandler).permitAll())
-
 				.logout(logout -> logout // 로그아웃 기능 작동함
 						.logoutUrl("/mber/signout").invalidateHttpSession(true).logoutSuccessUrl("/") // 로그아웃 성공 후
 						// 이동페이지
 						.deleteCookies("JSESSIONID", "remember-me")) // 로그아웃 후 쿠키 삭제
 //					            .addLogoutHandler( ...생략... ) // 로그아웃 핸들러
 //					            .logoutSuccessHandler( ...생략... ) // 로그아웃 성공 후 핸들러
-
 				.rememberMe(rememberMe -> rememberMe // rememberMe 기능 작동함
 						.rememberMeParameter("remember-me") // default: remember-me, checkbox 등의 이름과 맞춰야함
 						.tokenValiditySeconds(3600) // 쿠키의 만료시간 설정(초), default: 14일

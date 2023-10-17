@@ -61,11 +61,6 @@ public class MberController {
 //		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
 //			throw new RuntimeException("CSRF Token Error.");
 //		}
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
 		try {
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());

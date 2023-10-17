@@ -57,7 +57,10 @@
                 <div class="comment-buttons">
                     <button class="reply-to-comment">댓글</button>
 
-                    <button class="reply-show" th:data-id="${comment.commuCommentId}">대댓글 보기</button>
+ <button class="reply-show" 
+        th:if="${comment.commuCommentRefId == 0}" 
+        th:data-id="${comment.commuCommentId}">대댓글 보기</button>
+
                     <div class="replyForm" th:data-id="${comment.commuCommentId}">
                         <input type="hidden" name="commuCommentRefId"
                                th:value="${comment.commuCommentId}">

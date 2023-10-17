@@ -42,7 +42,6 @@ document.querySelectorAll('.reply-show').forEach(function(button) {
 
 
 function postComment() {
-	// registerEventHandlers();
 	$.ajax({
 		url: "/commu/detail/comment",
 		type: "POST",
@@ -68,9 +67,6 @@ function postReply(commentID) {
 
 	// 해당 버튼 요소를 선택합니다.
 	var replyForm = $('.replyForm').find(`#${commentID}`);
-
-
-	// var textarea = replyForm.find('.input-reply-textarea');
 
 	inputText = replyForm.val();
 	console.log(replyForm.val());

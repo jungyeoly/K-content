@@ -68,6 +68,7 @@ function goodsNewPage() {
 
 // 굿즈 검색 팝업에서 클릭한 상품 콘텐츠 생성 페이지로 보내기
 window.addEventListener("message", receiveMessage, false);
+
 function receiveMessage(event) {
     // event.data에 전송된 데이터가 포함됩니다.
     const receivedData = event.data;
@@ -76,9 +77,8 @@ function receiveMessage(event) {
 }
 
 
-
 function selectGoods(receivedData) {
-    console.log("receivedData: "+receivedData.length);
+    console.log("receivedData: " + receivedData.length);
     var str = "";
     for (i = 0; i < receivedData.length; i++) {
         if (receivedData.length == i + 1) {
@@ -87,7 +87,7 @@ function selectGoods(receivedData) {
             str += receivedData[i] + ",";
         }
     }
-    console.log("str: "+str);
+    console.log("str: " + str);
     // console.log("cntntGoodsSet: "+cntntGoodsSet.size);
     /*    receivedData.map((data,index) => {
             console.log(data, index);
@@ -107,14 +107,16 @@ function selectGoods(receivedData) {
                 goodsID = data[i].goodsId;
                 inHtml = `<div id="${goodsID}" class="goodsItem" >
                     <a th:href="${data[i].goodsPurchsLink}">
-                             <div class="card" style="width: 18rem; height: 240px">
-                                <div style="width:18rem; height:140px">
-                                <img style="width: 200px; height: 130px; margin:auto; display: block" src="/img/goods/${data[i].goodsFileId}" alt="">
+                             <div class="card" style="width: 240px; height: 240px">
+                                <div style="width: 240px; height: 260px">
+                                <img style="width: 240px; height: 260px; margin:auto; display: block; border: 1px solid black;" src="/img/goods/${data[i].goodsFileId}" alt="">
                                 </div>
-                                <div style="width:18rem; height:100px;border:1px solid">
+                                <div style="width: 240px; height:120px;border:1px solid">
+                                <div class="text-box" style="margin: 10px">
                                         <h5 class="text-center" >${data[i].goodsName}</h5>
                                         <p class="text-center" >${data[i].goodsPrice} 원</p>
                                         <p class="text-center" >${data[i].goodsBrand}</p>
+                                        </div>
                                 </div>
                               <input type="hidden" class="goodsList" value="${goodsID}">
                               <button style="z-index: 10; margin-left: -10px"
@@ -218,6 +220,7 @@ function createContent() {
         }
     });
 }
+
 
 function printIframe() {
     key = document.getElementById("url").value;

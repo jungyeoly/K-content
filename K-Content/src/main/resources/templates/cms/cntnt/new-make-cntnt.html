@@ -25,24 +25,23 @@
     <div class="row">
         <div class="col-11">
             <!-- 영상 -->
-
             <div class="ifrmae" id="iframe" th:src="${content.cntntUrl}" alt="" style="background-color: #b6b6b6">
             </div>
 
-            </p>
-            <div class="item category-caption iframe-url ">
-                URL: <input id="url" style="text-align: center; " th:value="${content.getCntntUrl()}">
-                <button id="print-iframe" onclick="printIframe()" type="button">출력</button>
-            </div>
-
-            <select name="category" id="category">
+            <select name="category" id="category" style="margin-top: 1rem; margin-bottom: 1rem">
                 <option id="commonCode"
                         th:each="category : ${category}" th:value="${category.getCommonCode()}"
                         th:text="${category.getCommonCodeVal()}"
                         th:selected="${category.getCommonCode()} == ${content.getCntntCateCode()}"
-
                 ></option>
             </select>
+
+            <!--URL-->
+            <div class="input-group mb-3 d-flex justify-content-between title-box item category-caption iframe-title">
+                <span class="input-group-text" id="basic-addon1"> U R L: </span>
+                <input id="url" class="form-control"
+                       placeholder="url을 입력하세요" th:value="${content.getCntntUrl()}" onchange="printIframe()">
+            </div>
 
             <!-- 제목 -->
             <div class="input-group mb-3 d-flex justify-content-between title-box item category-caption iframe-title">
@@ -50,7 +49,6 @@
                 <input type="text" id="title" class="form-control" placeholder="Username" aria-label="Username"
                        aria-describedby="basic-addon1" th:value="${content.cntntTitle}">
             </div>
-
 
             <!-- 키워드 -->
             <!--            <div class="item keyword d-flex mb-5">-->
@@ -60,8 +58,19 @@
             <!--            </div>-->
 
             <!--키워드-->
+            <div class="keywordInput">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">키워드:</span>
+                    <input type="text" id="inputKeyword" class="form-control" placeholder="키워드 입력"
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="makeKeyword()" type="button">키워드 추가</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="item keyword" id="keywordList">
-                <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}" >
+                <div th:each="keyword : ${keywordList}" th:id="${keyword}">
 
                     <button type="button" style="margin-left: 10px"
                             class="btn btn-primary position-relative keywordButton"
@@ -76,13 +85,10 @@
                     <!--                    <h2 th:text="${keyword}"></h2>-->
                 </div>
 
-                <div class="newKeyword" >
+                <div class="newKeyword" style="display: flex">
 
                 </div>
-                <div class="keywordInput">
-                    <input type="text" id="inputKeyword" placeholder="키워드 입력">
-                    <button onclick="makeKeyword()" style="margin: auto">키워드 추가</button>
-                </div>
+
             </div>
 
             <hr>
@@ -116,10 +122,11 @@
             </div>
             <!-- end 상품 -->
         </div>
-
-        <div class="button-box">
-            <button onclick="goodsNewPage()">상품 추가</button>
-            <button onclick="createContent()">저장</button>
+        <div class="position-relative">
+            <div class="col-2 position-absolute top-0 end-0 button-box" style="display: flex; margin-right: 100px">
+                <button class="btn " type="button" onclick="goodsNewPage()">상품 추가</button>
+                <button class="btn " type="button" onclick="createContent()">저장</button>
+            </div>
         </div>
 
     </div>
@@ -129,49 +136,57 @@
 <!--새로 생성 값이 없을 -->
 <div th:if="${#strings.isEmpty(content)}" class="container my-5">
     <input type="hidden" id="insertOrModify" value="생성">
-
     <div class="row">
         <div class="col-11">
             <!-- 영상 -->
-
             <div class="ifrmae" id="iframe" alt="" style="background-color: #b6b6b6">
             </div>
             <select name="category" id="category" style="margin-top: 1rem; margin-bottom: 1rem">
                 <option id="commonCode"
                         th:each="category : ${category}" th:value="${category.getCommonCode()}"
                         th:text="${category.getCommonCodeVal()}"
-
                 ></option>
             </select>
-            </p>
-            <div class="item category-caption iframe-url d-flex ">
-                URL:
-                <input th:if="${not #strings.isEmpty(yContent)}" id="url" class="mx-3" style="text-align: center;" th:value="${yContent.getCntntUrl()}">
-                <input  th:if="${ #strings.isEmpty(yContent)}" id="url" class="mx-3" style="text-align: center;" >
-                <button id="print-iframe" onclick="printIframe()" type="button" class="btn" style="height: 30px;">출력</button>
-            </div>
 
+            <!--URL-->
+            <div class="input-group mb-3 d-flex justify-content-between title-box item category-caption iframe-title">
+                <span class="input-group-text" id="basic-addon1"> U R L: </span>
+                <input th:if="${not #strings.isEmpty(yContent)}" id="url" class="form-control"
+                       onchange="printIframe()"
+                       placeholder="url을 입력하세요" th:value="${yContent.getCntntUrl()}">
+                <input th:if="${ #strings.isEmpty(yContent)}" id="url" class="form-control"
+                       placeholder="url을 입력하세요" onchange="printIframe()">
+            </div>
 
             <!-- 제목 -->
             <div class="input-group mb-3 d-flex justify-content-between title-box item category-caption iframe-title">
                 <span class="input-group-text" id="basic-addon1">TITLE:</span>
-                <input th:if="${not #strings.isEmpty(yContent)}" type="text" id="title" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
+                <input th:if="${not #strings.isEmpty(yContent)}" type="text" id="title" class="form-control"
+                       placeholder="제목을 입력하세요" aria-label="Username"
                        aria-describedby="basic-addon1" th:value="${yContent.cntntTitle}">
-                <input th:if="${ #strings.isEmpty(yContent)}" type="text" id="title" class="form-control" placeholder="제목을 입력하세요" aria-label="Username"
-                       aria-describedby="basic-addon1" >
+                <input th:if="${ #strings.isEmpty(yContent)}" type="text" id="title" class="form-control"
+                       placeholder="제목을 입력하세요" aria-label="Username"
+                       aria-describedby="basic-addon1">
+            </div>
+
+            <div class="keywordInput">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">키워드:</span>
+                    <input type="text" id="inputKeyword" class="form-control" placeholder="키워드 입력"
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="makeKeyword()" type="button">키워드 추가</button>
+                    </div>
+                </div>
             </div>
 
             <div class="item keyword d-flex mb-5" id="keywordList">
                 <div class="newKeyword" style="display: flex">
 
                 </div>
+            </div>
 
-            </div>
-            <div class="keywordInput">
-                <input type="text" id="inputKeyword" placeholder="키워드 입력">
-                <button onclick="makeKeyword()" style="margin: auto; height: 30px;" class="btn">키워드 추가</button>
-            </div>
-            <hr>
+            <hr style="margin-top: 50px;">
             <!-- 상품 -->
             <h3 class="text-center fw-bold">관련 상품</h3>
             <div class="item goods-box" id="goodsList">
@@ -179,9 +194,11 @@
             <!-- end 상품 -->
         </div>
 
-        <div class="button-box">
-            <button onclick="goodsNewPage()" class="btn" style="height: 30px;">상품 추가</button>
-            <button onclick="createContent()" class="btn" style="height: 30px;">저장</button>
+        <div class="position-relative">
+            <div class="col-2 position-absolute top-0 end-0 button-box" style="display: flex; margin-right: 100px">
+                <button class="btn " type="button" onclick="goodsNewPage()">상품 추가</button>
+                <button class="btn " type="button" onclick="createContent()">저장</button>
+            </div>
         </div>
 
     </div>

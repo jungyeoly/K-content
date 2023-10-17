@@ -14,7 +14,7 @@
                                       commu_comment_commu_id)
         values (TB_COMMU_COMMENT_SEQ.NEXTVAL,
                 #{commuComment.commuCommentCntnt},
-                to_char(sysdate, 'yyyy.mm.dd hh24:mi'),
+              to_char(sysdate,'yyyy.mm.dd hh24:mi'),
                 #{commuComment.commuCommentRefId},
                 #{commuComment.commuCommentMberId},
                 #{commuComment.commuCommentCommuId})
@@ -25,7 +25,7 @@
             parameterType="com.example.myapp.user.commucomment.model.CommuComment">
         UPDATE TB_COMMU_COMMENT
         SET COMMU_COMMENT_CNTNT       = #{commentCntnt},
-            COMMU_COMMENT_UPDATE_DATE = to_char(sysdate, 'yyyy.mm.dd hh24:mi')
+            COMMU_COMMENT_UPDATE_DATE =  to_char(sysdate,'yyyy.mm.dd hh24:mi')
         WHERE COMMU_COMMENT_ID = #{commentId}
     </update>
 
@@ -42,17 +42,6 @@
         FROM TB_COMMU_COMMENT
         WHERE COMMU_COMMENT_ID = #{commentId}
     </delete>
-
-    <!-- 댓글 순서 업데이트 -->
-    <!--	<update id="updateCommuCommentOrderAndDepth">-->
-    <!--		UPDATE TB_COMMU_COMMENT-->
-    <!--		SET-->
-    <!--		COMMU_COMMENT_DEPTH =-->
-    <!--		#{commuCommentDepth},-->
-    <!--		COMMU_COMMENT_ORDER = #{commuCommentOrder}-->
-    <!--		WHERE-->
-    <!--		COMMU_COMMENT_REF_ID = #{commuCommentRefId}-->
-    <!--	</update>-->
 
     <!--게시글 ID에 따른 댓글 조회 -->
 
@@ -76,22 +65,4 @@
         WHERE COMMU_COMMENT_ID =
               #{commuCommentId}
     </select>
-
-    <!-- 게시글의 마지막 댓글 순서를 가져오기 -->
-    <select id="getLastCommuCommentOrder" resultType="int"
-            parameterType="int">
-        SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
-        FROM TB_COMMU_COMMENT
-        WHERE COMMU_COMMENT_COMMU_ID = #{commuCommentCommuId}
-    </select>
-
-    <!-- 원본 댓글에 대한 마지막 대댓글의 순서를 가져오기 -->
-    <select id="getLastReplyOrder" resultType="int"
-            parameterType="int">
-        SELECT COALESCE(MAX(COMMU_COMMENT_ORDER), 0)
-        FROM TB_COMMU_COMMENT
-        WHERE COMMU_COMMENT_REF_ID = #{commuCommentRefId}
-    </select>
-
-
 </mapper>

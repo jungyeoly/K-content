@@ -38,9 +38,7 @@ function searchKeyword() {
             console.error('에러 발생: ', error);
         }
     });
-
 }
-
 
 function detail(goodsId) {
     // 상품 상세 화면 보여주기

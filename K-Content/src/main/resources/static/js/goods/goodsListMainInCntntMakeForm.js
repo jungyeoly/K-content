@@ -1,34 +1,27 @@
 var section = document.getElementById('layout');
-console.log(section);
+let clickGoodsSet = new Set();
 
+console.log("돌고있다");
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const parameterValue = urlParams.get('goods');
+const selectedGoodsSet = parameterValue ? new Set(JSON.parse(decodeURIComponent(parameterValue))) : new Set();
+
+for (let item of selectedGoodsSet) {
+    clickGoodsSet.add(item);
+    console.log(document.getElementsByClassName("container"));
+}
+addBorder();
 
 function addBorder() {
-    console.log("지금 리로드됨");
-    console.log(clickGoodsList.length);
-    for (var i = 0; i < clickGoodsList.length; i++) {
-        // console.log("clickGoodsList: " + clickGoodsList[i]);
 
-        var border = document.getElementById(clickGoodsList[i]);
-        if (border != null) {
-            console.log("border: " + border);
+    for (let item of clickGoodsSet) {
+        let border = document.getElementById(item);
+        if (border) {
             border.classList.add('selected');
-        } else {
-            continue;
         }
-
-
     }
 }
-
-
-// section.addEventListener("change", function () {
-//     console.log("지금 리로드됨");
-//     console.log(clickGoodsList.length);
-//     for (var i = 0; i < clickGoodsList.length; i++) {
-//         var element = document.getElementById(clickGoodsList[i]);
-//         element.classList.add('selected');
-//     }
-// })
 
 function searchKeyword() {
     $.ajax({
@@ -60,43 +53,41 @@ function searchKeyword() {
                     </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }
-
-
         },
         error: function (error) {
             console.error('에러 발생: ', error);
         }
     });
-
 }
 
-var clickGoodsList = [];
 
 function selectEnd() {
 
-    if (clickGoodsList.length == 0) {
+    if (clickGoodsSet.size == 0) {
         alert("상품을 선택하지 않았습니다.")
     } else {
-        const openerWindow = window.opener;
-        window.opener.postMessage(clickGoodsList, "*");
-        // console.log(clickGoodsList);
+
+        const selectedGoodsArray = Array.from(clickGoodsSet);
+
+        for (let i = 0; i < selectedGoodsArray.length; i++) {
+
+            console.log(selectedGoodsArray[i]);
+        }
+        window.opener.postMessage(selectedGoodsArray, "*");
+
         window.close();
     }
 }
 
 function addList(goodsId) {
-    if (clickGoodsList.includes(goodsId)) {
-        clickGoodsList.pop(goodsId);
-    } else {
-        clickGoodsList.push(goodsId);
-    }
     var element = document.getElementById(goodsId);
-    if (element.classList.contains('selected')) {
+    if (clickGoodsSet.has(goodsId)) {
+        clickGoodsSet.delete(goodsId);
         element.classList.remove('selected');
     } else {
+        clickGoodsSet.add(goodsId);
         element.classList.add('selected');
     }
-    console.log(clickGoodsList);
 }
 
 function detail(goodsId) {
@@ -140,6 +131,7 @@ function prePageF(pageNum) {
             const element = document.getElementById('layout');
             element.innerHTML = "";
             element.insertAdjacentHTML('beforeend', data);
+            addBorder();
         }
     })
 }
@@ -155,6 +147,7 @@ $(".nexpage").click(function () {
             const element = document.getElementById('layout');
             element.innerHTML = "";
             element.insertAdjacentHTML('beforeend', data);
+            addBorder();
         }
     })
 })

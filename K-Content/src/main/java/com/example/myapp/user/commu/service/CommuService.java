@@ -59,12 +59,16 @@ public class CommuService implements ICommuService {
 	public CommuFile getFile(String commuFileId) {
 		return commuRepository.getFile(commuFileId);
 	}
-
-	@Transactional
-	public Commu selectPost(int commuId) {
-		commuRepository.updateReadCnt(commuId);
-		return commuRepository.selectPost(commuId);
-	}
+	
+	//게시글만 조회
+		public Commu selectPostWithoutIncreasingReadCnt(int commuId) {
+		    return commuRepository.selectPost(commuId);
+		}
+		//조회수 증가
+		@Transactional
+		public void increaseReadCnt(int commuId) {
+		    commuRepository.updateReadCnt(commuId);
+		}
 
 	@Transactional
 	public void updatePost(Commu commu) {
@@ -187,6 +191,5 @@ public class CommuService implements ICommuService {
 	public List<Commu> selectRecentNotice() {
 		return commuRepository.selectRecentNotice();
 	}
-
 
 }

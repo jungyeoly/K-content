@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,7 +39,6 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.model.CommuFile;
 import com.example.myapp.user.commu.service.ICommuService;
-import com.example.myapp.user.commucomment.model.CommuComment;
 import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import jakarta.servlet.http.HttpSession;
@@ -63,26 +63,19 @@ public class CmsCommuController {
 	private ICommonCodeService commonCodeService;
 
 	@GetMapping("/commu/{page}") // 관리자 커뮤니티 메인
-	public String selectAllUserPost(@RequestParam String commonCodeVal, @PathVariable int page,
-			@ModelAttribute("Commu") Commu commu, Model model, HttpSession session) {
+	public String selectAllPost(@PathVariable int page, @ModelAttribute("commu") Commu commu, Model model,
+			HttpSession session) {
 		session.setAttribute("page", page);
 
-		List<Commu> commulist = commuService.selectAllPost(page);
-		
+		List<Commu> commuList = commuService.selectAllPost(page);
 		List<String> cateList = commonCodeService.cateList("C03");
 		List<String> noticeList = commonCodeService.cateList("C06");
-		model.addAttribute("noticeList", noticeList);
-		model.addAttribute("commulist", commulist);
-		List<CommonCode> maincommonCodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
-		model.addAttribute("maincommonCodeVal", maincommonCodeVal);
-		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		model.addAttribute("commuCateCodeList", commuCateCodeList);
-		model.addAttribute("cateList", cateList);
-		int cmscommuCount = commuService.totalCommu();
+
+		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
 
-		if (cmscommuCount > 0) {
-			totalPage = (int) Math.ceil(cmscommuCount / 10.0);
+		if (commuCount > 0) {
+			totalPage = (int) Math.ceil(commuCount / 10.0);
 		}
 		int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
 		int nowPageBlock = (int) Math.ceil(page / 10.0);
@@ -99,17 +92,20 @@ public class CmsCommuController {
 		model.addAttribute("nowPageBlock", nowPageBlock);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("commuList", commuList);
+		model.addAttribute("cateList", cateList);
 
 		session.setAttribute("nowPage", page);
 
-		return "/cms/commu/list";
+		return "cms/commu/list";
 	}
 
-	
 	@GetMapping("/commu/ajax/{page}")
 	public ResponseEntity<Map<String, Object>> loadadminPosts(@PathVariable int page) {
 		List<Commu> commulist = commuService.selectAllPost(page);
-		
+		List<String> cateList = commonCodeService.cateList("C03");
+		List<String> noticeList = commonCodeService.cateList("C06");
 
 		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
@@ -128,6 +124,8 @@ public class CmsCommuController {
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("commulist", commulist);
+		response.put("cateList", cateList);
+		response.put("noticeList", noticeList);
 		response.put("totalPageCount", totalPage);
 		response.put("nowPage", page);
 		response.put("totalPageBlock", totalPageBlock);
@@ -144,7 +142,7 @@ public class CmsCommuController {
 			@RequestParam(required = false) int page, HttpSession session) {
 		List<Commu> posts = commuService.selectPostListByCategory(commuCateCode, page);
 		int commuCategoryCount = commuService.totalCommuByCategory(commuCateCode);
-		
+
 		int totalPage = 0;
 		if (commuCategoryCount > 0) {
 			totalPage = (int) Math.ceil(commuCategoryCount / 10.0);
@@ -160,8 +158,7 @@ public class CmsCommuController {
 		}
 
 		Map<String, Object> response = new HashMap<>();
-		
-		
+
 		response.put("posts", posts);
 		response.put("totalPageCount", totalPage);
 		response.put("nowPage", page);
@@ -169,12 +166,10 @@ public class CmsCommuController {
 		response.put("nowPageBlock", nowPageBlock);
 		response.put("startPage", startPage);
 		response.put("endPage", endPage);
-		
 
 		return ResponseEntity.ok(response);
 	}
-	
-	
+
 	// 커뮤니티 게시글 검색
 	@GetMapping("/commu/search/{page}")
 	public ResponseEntity<Map<String, Object>> search(@RequestParam(required = false, defaultValue = "") String keyword,
@@ -183,7 +178,7 @@ public class CmsCommuController {
 
 		try {
 			List<Commu> commuList = commuService.searchListByContentKeyword(keyword, page);
-			
+
 			int postsearchCount = commuService.selectTotalPostCountByKeyWord(keyword);
 			int totalPage = 0;
 			if (postsearchCount > 0) {
@@ -217,52 +212,25 @@ public class CmsCommuController {
 	@GetMapping("/commu/detail/{commuId}")
 	public String getCommuDetails(@PathVariable int commuId, Model model) {
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
-		model.addAttribute("CodeVal", CodeVal);
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
-		Commu commu = commuService.selectPost(commuId);
+		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
 		model.addAttribute("commu", commu);
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
-		// 게시글에 연결된 댓글 정보 조회
-		List<CommuComment> commentsWithReplies = new ArrayList<>();
-
-//		List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
-//		for (CommuComment comment : comments) {
-//			CommuComment fullComment = commuCommentService.getCommuCommentWithReplies(comment.getCommuCommentId());
-//			commentsWithReplies.add(fullComment);
-//		}
-//		model.addAttribute("comments", commentsWithReplies);
 
 		return "/cms/commu/view";
 	}
 
-	// 커뮤니티 게시글 글번호,카테고리에 따른 게시글 상세보기
-	@GetMapping("/commu/{commuCateCode}/{commuId}")
-	public String getCommuDetails(@PathVariable String commuCateCode, @PathVariable int commuId, Model model) {
-		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
-		model.addAttribute("CodeVal", CodeVal);
-		model.addAttribute("commuCateCodeList", commuCateCodeList);
-		Commu commu = commuService.selectPost(commuId);
-		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
-		model.addAttribute("commu", commu);
-		model.addAttribute("commuFiles", commuFiles);
-		model.addAttribute("commuCateCode", commu.getCommuCateCode());
-		model.addAttribute("commuId", commu.getCommuId());
-		logger.info("getCommuDetails" + commu.toString());
-
-		return "cms/commu/view";
-	}
-
 	// 카테고리별 커뮤니티 글쓰기
 	@GetMapping("/commu/write")
-	public String writePost(Model model) {
-		List<CommonCode> commonCodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
-		model.addAttribute("commonCodeVal", commonCodeVal);
+	public String writePost(HttpSession session, Model model) {
+		// CSRF 토큰을 생성하여 세션에 저장
+		String csrfToken = UUID.randomUUID().toString();
+		session.setAttribute("csrfToken", csrfToken);
+		List<CommonCode> commonCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C06");
+		model.addAttribute("commonCodeList", commonCodeList);
 		model.addAttribute("isCommunWritePage", true);
-		logger.info("Fetched commonCodeVal: " + commonCodeVal);// 실제 데이터 확인
 
 		return "cms/commu/write";
 	}
@@ -271,14 +239,19 @@ public class CmsCommuController {
 	@PostMapping("/commu/write/{commuCateCode}")
 	public String writePost(Commu commu, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
-			RedirectAttributes redirectAttrs, HttpSession session) {
-
+			RedirectAttributes redirectAttrs, HttpSession session, String csrfToken) {
+		logger.info("/cms/commu/write/{commuCateCode} : " + commu.toString() + csrfToken);
 		logger.info("writePost method started.");
 		logger.info("Commu object: " + commu.toString());
 
 		// 게시물 정보 로깅
 		logger.info("/cms/commu/write : " + commu.toString());
 
+		if (csrfToken == null || "".equals(csrfToken)) {
+			throw new RuntimeException("CSRF 토큰이 없습니다.");
+		} else if (!csrfToken.equals(session.getAttribute("csrfToken"))) {
+			throw new RuntimeException("잘못된 접근이 감지되었습니다.");
+		}
 		try {
 
 			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
@@ -344,15 +317,15 @@ public class CmsCommuController {
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
 		}
 
-		return "redirect:/cms/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId();
+		return "redirect:/cms/commu/detail"  + "/" + commu.getCommuId();
 
 	}
 
 	// 공지사항 게시글 수정하기(기존 게시글 정보 가져오기)
-
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
-		Commu commu = commuService.selectPost(commuId);
+		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
 		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
@@ -366,6 +339,7 @@ public class CmsCommuController {
 	}
 
 	// 게시글 수정 처리
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
@@ -441,7 +415,7 @@ public class CmsCommuController {
 			// 리다이렉트
 		}
 		redirectAttrs.addFlashAttribute("message", "게시물이 성공적으로 업데이트되었습니다.");
-		return "redirect:/cms/commu/" + commu.getCommuCateCode() + "/" + commu.getCommuId();
+		return "redirect:/cms/commu/detail"+ "/" + commu.getCommuId();
 
 	}
 
@@ -514,7 +488,7 @@ public class CmsCommuController {
 	// 게시글 신고
 	@PostMapping("/commu/report/{commuId}")
 	public String reportCommu(@PathVariable int commuId, RedirectAttributes redirectAttributes) {
-		Commu commu = commuService.selectPost(commuId);
+		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		if (commu != null) {
 			commuService.reportPost(commuId);
 			redirectAttributes.addFlashAttribute("message", "게시글이 신고되었습니다.");
@@ -524,5 +498,4 @@ public class CmsCommuController {
 		return "redirect:/cms/commu";
 	}
 
-	
 }

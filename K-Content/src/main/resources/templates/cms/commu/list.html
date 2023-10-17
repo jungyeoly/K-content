@@ -52,19 +52,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="commu : ${commulist}" class="commu-row"
-					th:attr="data-commu-id=${commu.commuId}">
+				<tr th:each="cate : ${commulist}" class="commu-row"
+					th:attr="data-commu-id=${commu.commuId}"  onclick="cmsDetail(this)">
 					<td th:text="${commu.commuId}"></td>
-					<td
-						th:if="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal} ? 'notice-class' : ''">
-						NOTICE</td>
-					<td
-						th:unless="${commu.commonCodeVal} == ${maincommonCodeVal.get(0).commonCodeVal}">
-						[[${commu.commonCodeVal}]]</td>
-
-					<td><a
-						th:href="@{/cms/commu/detail/{id}(id=${commu.commuId})}"
-						th:text="${commu.commuTitle}"></a></td>
+					<td  th:text="${commu.commonCodeDscr}"
+						style="font-weight: bold">카테고리명</td>
+					<td th:text="${commu.commuTitle}"></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>

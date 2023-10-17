@@ -22,19 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 });
 
-document.querySelector('.cancel-btn').addEventListener('click', function(event) {
-    event.preventDefault(); // 취소 버튼의 기본 동작을 막습니다.
+document.querySelector('.cancel-btn').addEventListener('click', function() {
     
     const titleInput = document.getElementById('title');
-    titleInput.value = "[공지]"; // 제목 필드의 값을 "[공지]"로 설정합니다.
-    
-    // 페이지의 나머지 input 필드의 값을 초기화
-    const formElements = event.target.form.elements;
-    for (let i = 0; i < formElements.length; i++) {
-        if (formElements[i].type === "text" && formElements[i].id !== 'title') {
-            formElements[i].value = ''; // input 필드 값을 초기화
-        }
-    }
+      // 현재 페이지의 경로가 '/cms/commu/write'인지 확인하여 해당 경로에서만 [공지]를 추가
+    if (window.location.pathname === '/cms/commu/write') {
+        titleInput.value = "[공지]";
+}
 });
 
 
@@ -95,22 +89,28 @@ function validateForm() {
 	return true;
 }
 
-document.querySelector('form').addEventListener('submit', function(event) {
+function showModal(title, content) {
+        return new Promise((resolve) => {
+        Swal.fire({
+            title: title,
+            text: content,
+            icon: 'warning',
+            confirmButtonText: '확인'
+        }).then(() => {
+            resolve();
+        });
+    });
+}
+
+
+document.querySelector('form').addEventListener('submit',async function(event) {
 	event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
 
 	// validateForm 함수를 호출하고, 결과가 true이면 폼 제출
-	if (validateForm()) {
-		this.submit();
-	}
+	  if (validateForm()) {
+        this.submit(); // 폼 제출
+    }
 });
-
-
-function showModal(title, content, callback) {
-	document.getElementById('commonModalLabel').textContent = title;
-	document.querySelector('.modal-body').textContent = content;
-	var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
-
-
 
 
 	const confirmButton = document.querySelector('.modal-footer .btn-confirm');
@@ -121,16 +121,9 @@ function showModal(title, content, callback) {
 
 		// 새로운 콜백으로 이벤트 리스너를 설정
 		newConfirmBtn.onclick = function() {
-			if (callback) callback();
-			commonModal.hide();
+			
 		};
 	}
-
-	commonModal.show();
-	document.querySelector('.modal-backdrop').remove();
-}
-
-
 
 document.getElementById('category').addEventListener('change', function() {
 	let commuCateCode = this.value;
@@ -143,12 +136,13 @@ document.getElementById('category').addEventListener('change', function() {
 	}
 });
 document.addEventListener('DOMContentLoaded', function() {
+	const titleInput = document.getElementById('title');
 	// 현재 페이지의 경로가 '/cms/commu/write'인지 확인
 	if (window.location.pathname === '/cms/commu/write') {
-		const titleInput = document.getElementById('title');
-
+		
+ const savedTitle = localStorage.getItem('titleValue');
 		// 페이지 로드 시 제목 필드에 기본값 설정
-		titleInput.value = "[공지]";
+	  titleInput.value = savedTitle ? savedTitle : "[공지]";
 
 		// 입력 필드에서 키를 누를 때마다 이 함수를 호출
 		titleInput.addEventListener('input', function() {
@@ -156,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!this.value.startsWith("[공지]")) {
 				this.value = "[공지] " + this.value;
 			}
+			localStorage.setItem('titleValue', this.value);
 		});
 	}
 

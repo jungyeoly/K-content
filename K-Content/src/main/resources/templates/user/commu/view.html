@@ -1,105 +1,107 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-    <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
-    <link rel="stylesheet" href="/css/common.css">
-    <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
+<link rel="stylesheet" href="/css/common.css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
 </head>
 <body>
-<input type="hidden" id="commuId" name="commuId" th:value="${commu.commuId}">
-<div th:replace="~{/include/header :: header}"></div>
-<header th:replace="~{include/body-header :: userNavBar}"></header>
+	<input type="hidden" id="commuId" name="commuId"
+		th:value="${commu.commuId}">
+	<div th:replace="~{/include/header :: header}"></div>
+	<header th:replace="~{include/body-header :: userNavBar}"></header>
 
-<div class="container mb-3">
-    <div class="commu-no menu fw-bold">
-        <!-- 일반 카테고리 출력 -->
-        <span th:each="code : ${commuCateCodeList}"
-              th:if="${code.commonCode} == ${commu.commuCateCode}"
-              th:text="${code.commonCodeVal}">카테고리명</span>
+	<div class="container mb-3">
+		<div class="commu-no menu fw-bold">
+			<!-- 일반 카테고리 출력 -->
+			<span th:each="code : ${commuCateCodeList}"
+				th:if="${code.commonCode} == ${commu.commuCateCode}"
+				th:text="${code.commonCodeDscr}">카테고리명</span>
 
-        <!-- commu.commuCateCode가 "C06"일 때만 NOTICE 출력 -->
-        <span th:if="${commu.commuCateCode} == 'C06'" th:text="'NOTICE'"></span>
-    </div>
+			<!-- commu.commuCateCode가 "C06"일 때만 NOTICE 출력 -->
+			<span th:if="${commu.commuCateCode} == 'C06'" th:text="'공지사항'"></span>
 
-    <div class="commu-header d-flex justify-content-between fw-bold">
-        <div class="title">[[${commu.commuTitle}]]</div>
-    </div>
-    <div class="info-container">
-        <div class="username">[[${commu.commuMberId}]]</div>
-        <span class="separator">|</span>
-        <div class="registdate">[[${commu.commuRegistDate}]]</div>
-        <div class="readcnt">조회 [[${commu.commuReadCnt}]]</div>
-    </div>
+		</div>
 
-    <div class="separator"></div>
-    <!-- 얇은 선 추가 -->
+		<div class="commu-header d-flex justify-content-between fw-bold">
+			<div class="title">[[${commu.commuTitle}]]</div>
+		</div>
+		<div class="info-container">
+			<div class="username">[[${commu.commuMberId}]]</div>
+			<span class="separator">|</span>
+			<div class="registdate">[[${commu.commuRegistDate}]]</div>
+			<div class="readcnt">조회 [[${commu.commuReadCnt}]]</div>
+		</div>
 
-    <div class="detail-cntnt">
-        <div th:each="file : ${commuFiles}" class="text-center img-div">
-            <img th:src="@{'/' + ${file.commuFilePath}}">
-        </div>
-        <div class="commu-cntnt text-start cntnt-div">
-            <div class="cntnt">[[${commu.commuCntnt}]]</div>
-        </div>
-    </div>
-    <div class="file-download-section"
-         th:if="${#lists.size(commuFiles) > 0}">
-        <div class="download-container">
-            <div class="zip-file-download">
-                원본 첨부파일 (<span th:text="${#lists.size(commuFiles)}">0</span>)
-            </div>
-            <a th:href="@{/download-all-images/{commuId}(commuId=${commuId})}"
-               th:if="${#lists.size(commuFiles) > 1}"
-               class="btn btn-primary file-download">본문 이미지 다운로드</a>
-        </div>
-
-        <ul class="file-links">
-            <li th:each="file : ${commuFiles}"><a
-                    th:href="@{'/download/' + ${file.commuFileId}}" download
-                    class="download-link"> <span th:text="${file.commuFileName}">FileName</span>
-            </a></li>
-        </ul>
-    </div>
-
-    <div class="d-flex btn-div">
-        <a th:href="@{/commu/1}" class="list-link btn">목록</a>
-        <div class="btns">
-            <div
-                    th:if="${#authentication.principal.username} == ${commu.commuMberId}">
-                <a
-                        th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
-                        class="btn me-2">수정</a>
-                <form
-                        th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
-                        method="post">
-                    <input type="hidden" id="commuId" name="commuId" th:value="${commu.commuId}">
-                    <button type="button" class="btn delete"
-                            onclick="showDeleteConfirmModal()">삭제
-                    </button>
-                </form>
-            </div>
-
-            <form
-                    th:if="${#authentication.principal.username} != ${commu.commuMberId}"
-                    th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
-                    method="post">
-                <button type="button" class="btn report"
-                        th:if="${commu.commuCateCode != 'C06'}"
-                        onclick="showReportConfirmModal()">신고하기
-                </button>
-            </form>
-
-        </div>
-    </div>
-
-    <div id="comment-Box">
-    </div>
+		<div class="separator"></div>
 
 
-    <div th:insert="~{include/common-modal :: commonmodal}"></div>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script th:src="@{/js/commu/view.js}" defer></script>
-</div>
+		<div class="detail-cntnt">
+			<div th:each="file : ${commuFiles}" class="text-center img-div">
+				<img th:src="@{'/' + ${file.commuFilePath}}">
+			</div>
+			<div class="commu-cntnt text-start cntnt-div">
+				<div class="cntnt">[[${commu.commuCntnt}]]</div>
+			</div>
+		</div>
+		<div class="file-download-section"
+			th:if="${#lists.size(commuFiles) > 0}">
+			<div class="download-container">
+				<div class="zip-file-download">
+					원본 첨부파일 (<span th:text="${#lists.size(commuFiles)}">0</span>)
+				</div>
+				<a th:href="@{/download-all-images/{commuId}(commuId=${commuId})}"
+					th:if="${#lists.size(commuFiles) > 1}"
+					class="btn btn-primary file-download">본문 이미지 다운로드</a>
+			</div>
+
+			<ul class="file-links">
+				<li th:each="file : ${commuFiles}"><a
+					th:href="@{'/download/' + ${file.commuFileId}}" download
+					class="download-link"> <span th:text="${file.commuFileName}">FileName</span>
+				</a></li>
+			</ul>
+		</div>
+
+		<div class="d-flex btn-div" id="buttons">
+			<a th:href="@{/commu/1(commonCodeDscr ='전체')}" class="list-link btn">목록</a>
+			<div class="btns">
+				<div
+					th:if="${#authentication.principal.username} == ${commu.commuMberId}">
+					<a
+						th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+						class="btn me-2">수정</a>
+					<form
+						th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
+						method="post">
+						<input type="hidden" id="commuId" name="commuId"
+							th:value="${commu.commuId}">
+						<button type="button" class="btn delete"
+							onclick="showDeleteConfirmModal()">삭제</button>
+					</form>
+				</div>
+
+				<form
+					th:if="${#authentication.principal.username} != ${commu.commuMberId}"
+					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
+					method="post">
+					<button type="button" id="report" class="btn report"
+						th:if="${commu.commuCateCode != 'C06'}"
+						onclick="showReportConfirmModal()">신고하기</button>
+				</form>
+
+			</div>
+		</div>
+
+		<div id="comment-Box"></div>
+
+
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+		<script th:src="@{/js/commu/view.js}" defer></script>
+	</div>
 </body>
 </html>

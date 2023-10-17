@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
     <link rel="stylesheet" href="/css/common.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
 <body>
@@ -48,7 +49,7 @@
                         <button class="update-comment"
                                 th:data-id="${comment.commuCommentId}" th:text="수정">
                         </button>
-                        <button th:commentID="${comment.getCommuCommentId()}"
+                        <button id="delete" th:commentID="${comment.getCommuCommentId()}"
                                 th:refID="${comment.getCommuCommentRefId()}"
                                 onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                 th:data-id="${comment.commuCommentId}">삭제
@@ -92,7 +93,7 @@
                                     <button class="update-comment"
                                             th:data-id="${refComment.commuCommentId}" th:text="수정">
                                     </button>
-                                    <button th:commentID="${refComment.getCommuCommentId()}"
+                                    <button id="delete" th:commentID="${refComment.getCommuCommentId()}"
                                             th:refID="${refComment.getCommuCommentRefId()}"
                                             onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
                                             th:data-id="${refComment.commuCommentId}">삭제
@@ -106,6 +107,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script th:src="@{/js/commu/comment.js}" defer></script>
 </body>

@@ -43,7 +43,7 @@ public class CmsInqryController {
 	@GetMapping("/inqry/{page}")
 	public String selectCmsInqryList(@PathVariable int page, HttpSession session, Model model) {
 		session.setAttribute("page", page);
-
+		
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
 		model.addAttribute("inqryList", inqryList);
 		
@@ -106,7 +106,12 @@ public class CmsInqryController {
 	}
 
 	@GetMapping("/inqry")
-	public String selectInqryList(HttpSession session, Model model) {
+	public String selectInqryList(HttpSession session, Model model,  @RequestParam(required = false) Integer inqryId) {
+		
+		if (inqryId != null) {
+			model.addAttribute("unInqryId", inqryId);			
+		}
+		
 		return "cms/inqry/main";
 	}
 

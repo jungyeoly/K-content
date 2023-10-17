@@ -24,27 +24,39 @@
 <script th:inline="javascript">
     $(document).ready(function () {
         let page = "[[${session.page}]]"
-       	
-        if (page == 'null') {
-            page = 1;
-        }
-        
-        $.ajax({
-            url: "/cs/inqry/" + page,
-            type: "GET",
-            success: function (data) {
-                var layout = $(".layout");
-                layout.append(data);
-                $.ajax({
-    				url: "/cs/inqry/paging",
-    				method: "get",
-    				data: {"page" : page, "activeTab" : "menu1"},
-    				success: function(data) {
-   						$("#allPage").append(data);
-    				}
-    			})
+      	let unInqryId = `[[${unInqryId}]]`
+      		
+      	if (unInqryId != "null") {
+      		$.ajax({
+				url: "/cs/inqry/detail/" + unInqryId,
+				method: "get",
+				success: function(data) {
+					let layout = $(".layout");
+					layout.find(".container").remove();
+					layout.append(data);
+				}
+			});
+      	} else {
+      		if (page == 'null') {
+                page = 1;
             }
-        })
+            $.ajax({
+                url: "/cs/inqry/" + page,
+                type: "GET",
+                success: function (data) {
+                    var layout = $(".layout");
+                    layout.append(data);
+                    $.ajax({
+        				url: "/cs/inqry/paging",
+        				method: "get",
+        				data: {"page" : page, "activeTab" : "menu1"},
+        				success: function(data) {
+       						$("#allPage").append(data);
+        				}
+        			})
+                }
+            })
+      	}
     })
 </script>
 </body>

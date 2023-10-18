@@ -18,6 +18,7 @@
 
         FROM tb_goods
         where goods_delete_yn = 'N'
+        order by goods_name
         ]]>
     </select>
     <select id="getAGoods" resultType="com.example.myapp.cms.goods.model.Goods">

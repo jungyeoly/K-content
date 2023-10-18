@@ -2,87 +2,111 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-    <div th:insert="~{/include/new-admin-head :: newAdminHead}"></div>
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
     <link rel="stylesheet" th:href="@{/css/content/content.css}">
     <link rel="stylesheet" th:href="@{/css/goods/new-make-goods-in-nav.css}">
 </head>
+
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-
 <div>
-    <div class="page container">
+    <div class="page">
+        <form action="" class="validation-form" onsubmit="createGoods();" novalidate>
+            <input type="hidden" id="goodsId" th:value="${goods.getGoodsId()}">
+            <div class="img-side">
+                <h3 style="text-align: center">상품사진</h3>
+                <hr>
+                <div class="img" id="pictures">
+                    <img th:src="@{'/img/goods/' + ${goods.goodsFileId}}" th:goodsId="${goods.goodsFileId}"
+                         th:id="${goods.goodsFileId}" alt="" class="photoFrame">
+                </div>
 
-        <input type="hidden" id="goodsId" th:value="${goods.getGoodsId()}">
-        <div class="img-side">
-            <h3 style="text-align: center">상품사진</h3>
-            <hr>
-            <div class="img" id="pictures">
-                <img th:src="@{'/img/goods/' + ${goods.goodsFileId}}" th:goodsId="${goods.goodsFileId}"
-                     th:id="${goods.goodsFileId}" alt="" class="photoFrame">
             </div>
+            <div class="info-side">
+                <h3 style="text-align: center">상품정보</h3>
+                <hr>
+                <div class="table">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 번호</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsId()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 이름</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsName()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 브랜드</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsBrand()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 가격(원)</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsPrice()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 구매링크</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsPurchsLink()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 키워드</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsKwrd()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 등록일자</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsRegistDate()}">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">상품 수정일자</span>
+                        </div>
+                        <div type="text" class="form-control" aria-describedby="basic-addon1"
+                             th:text="${goods.getGoodsUpdateDate()}">
+                        </div>
+                    </div>
+                    <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
 
-        </div>
-        <div class="info-side">
-            <h3 style="text-align: center">상품정보</h3>
-            <hr>
-            <div class="table">
-                <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
-                <table class="table caption-top">
-                    <caption>상품 상세 정보</caption>
-                    <tbody>
-                    <tr>
-                        <th scope="row">상품 번호</th>
-                        <td th:text="${goods.getGoodsId()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 이름</th>
-                        <td th:text="${goods.getGoodsName()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 브랜드</th>
-                        <td th:text="${goods.getGoodsBrand()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 가격(원)</th>
-                        <td th:text="${goods.getGoodsPrice()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 구매링크</th>
-                        <td th:text="${goods.getGoodsPurchsLink()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 키워드</th>
-                        <td th:text="${goods.getGoodsKwrd()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 등록일자</th>
-                        <td th:text="${goods.getGoodsRegistDate()}"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 수정일자</th>
-                        <td th:text="${goods.getGoodsUpdateDate()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <div class="button-box">
+                        <button type="button" class="btn btn-primary" onclick="updateGoods()">수정</button>
+                        <button type="button" class="btn danger" onclick="deleteGoods()">삭제</button>
+                    </div>
+                </div>
+
+
             </div>
-
-            <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
-
-            <div class="button-box">
-                <button type="button" class="btn btn-primary"  onclick="updateGoods()">수정</button>
-                <button type="button" class="btn danger"  onclick="deleteGoods()">삭제</button>
-            </div>
-        </div>
-
+        </form>
 
     </div>
 
-
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/goods/goodsDetail.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/goods/goodsDetail.js" defer></script>
 
 </body>
 </html>

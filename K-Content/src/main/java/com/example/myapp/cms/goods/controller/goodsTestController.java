@@ -46,9 +46,9 @@ public class goodsTestController {
         int bbsCount = goodsService.totalGoods();
         int totalPage = 0;
         if (bbsCount > 0) {
-            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
+            totalPage = (int) Math.ceil(bbsCount / 9.0);
         }
-        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int totalPageBlock = (int) (Math.ceil(totalPage / 9.0));
         int nowPageBlock = (int) Math.ceil(page / 10.0);
         int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
@@ -111,11 +111,13 @@ public class goodsTestController {
 
         return "cms/goods/new-make-goods-in-nav";
     }
+
     @GetMapping("/cntnt/form")
     public String getMakeGoodsFormInMakeCntnt() {
 
         return "cms/goods/new-make-goods-in-cntnt-make-form";
     }
+
     // 상품 생성
     @PostMapping("")
     public ResponseEntity<String> createGoods(@RequestParam("goodsTitle") String goodsTitle,
@@ -312,7 +314,7 @@ public class goodsTestController {
         int totalPage = 0;
 
         if (bbsCount > 0) {
-            totalPage = (int) Math.ceil(bbsCount / 10.0) ;
+            totalPage = (int) Math.ceil(bbsCount / 10.0);
         }
         int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
         int nowPageBlock = (int) Math.ceil(page / 10.0);

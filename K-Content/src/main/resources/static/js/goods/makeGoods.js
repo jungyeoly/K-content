@@ -31,6 +31,7 @@ function removeFile(id) {
 }
 
 function createGoods() {
+    event.preventDefault();
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -38,6 +39,23 @@ function createGoods() {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
     }
+
+    console.log(keywordDivList.length);
+    if (keywordDivList.length == 0) {
+        Swal.fire({
+            title: '누락 데이터가 있습니다!',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            reverseButtons: true,
+
+        }).then(result => {
+            if (result.isConfirmed) {
+                return;
+            }
+        });
+    }
+
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
@@ -73,9 +91,19 @@ function createGoods() {
         processData: false,
         contentType: false,
         success: function () {
-            alert("상품이 등록되었습니다!");
-            location.href = '/cs/test/goods';
 
+            Swal.fire({
+                title: '상품이 등록 되었습니다.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '확인',
+                reverseButtons: true,
+
+            }).then(result => {
+                if (result.isConfirmed) {
+                    location.href = '/cs/test/goods';
+                }
+            });
 
         }, error: function (error) {
             console.error('에러 발생: ', error);
@@ -83,8 +111,25 @@ function createGoods() {
     });
 }
 
+window.addEventListener('load', () => {
+    const forms = document.getElementsByClassName('validation-form');
+
+    Array.prototype.filter.call(forms, (form) => {
+        form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    });
+}, false);
+
+
 // 굿즈 생성, 컨텐츠 생성에서
 function createGoodsInCntnt() {
+    event.preventDefault();
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -92,6 +137,21 @@ function createGoodsInCntnt() {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
     }
+    if (keywordDivList.length == 0) {
+        Swal.fire({
+            title: '키워드를 입력하세요!',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            reverseButtons: true,
+
+        }).then(result => {
+            if (result.isConfirmed) {
+                return;
+            }
+        });
+    }
+
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
     console.log(file);
@@ -105,6 +165,7 @@ function createGoodsInCntnt() {
     formData.append("keywordList", keywordDivList);
     formData.append("goodsFile", selectedFile);
 
+
     $.ajax({
         url: '/cs/test/goods',
         type: 'POST',
@@ -112,12 +173,33 @@ function createGoodsInCntnt() {
         processData: false,
         contentType: false,
         success: function () {
-            alert("상품이 등록되었습니다!");
-            location.href = '/cs/test/goods/cntnt'; //이걸 으데로 이동시켜야?
 
+            Swal.fire({
+                title: '상품이 등록 되었습니다.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '확인',
+                reverseButtons: true,
+
+            }).then(result => {
+                if (result.isConfirmed) {
+                    location.href = '/cs/test/goods/cntnt'; //이걸 으데로 이동시켜야?
+                }
+            });
 
         }, error: function (error) {
-            console.error('에러 발생: ', error);
+            Swal.fire({
+                title: '상품 생성에 실패했습니다.',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '확인',
+                reverseButtons: true,
+
+            }).then(result => {
+                if (result.isConfirmed) {
+                    console.error('에러 발생: ', error);
+                }
+            });
         }
     });
 }
@@ -157,17 +239,19 @@ function makeKeyword() {
 }
 
 function updateGoodsIf() {
+    event.preventDefault();
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
 
     if (selectedFile == null) {
         updateGoodsNoFile();
     } else {
-        updateGoods();
+        updateGoodsForm();
     }
 }
 
 function updateGoodsNoFile() {
+    event.preventDefault();
     console.log("없는거 호출");
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
@@ -178,7 +262,21 @@ function updateGoodsNoFile() {
         keywordDivList.push(trimmedStr);
         console.log("trimmedStr:" + trimmedStr)
     }
+    console.log(keywordDivList.length);
+    if (keywordDivList.length == 0) {
+        Swal.fire({
+            title: '누락 데이터가 있습니다!',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            reverseButtons: true,
 
+        }).then(result => {
+            if (result.isConfirmed) {
+                return;
+            }
+        });
+    }
     var formData = new FormData();
     formData.append("goodsId", $("#goodsId").val());
     formData.append("goodsTitle", $("#name").val());
@@ -196,8 +294,18 @@ function updateGoodsNoFile() {
         processData: false,
         contentType: false,
         success: function () {
-            alert("상품이 수정되었습니다!")
-            location.href = '/cs/test/goods';
+            Swal.fire({
+                title: '상품 수정 완료',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '확인',
+                reverseButtons: true,
+
+            }).then(result => {
+                if (result.isConfirmed) {
+                    location.href = '/cs/test/goods';
+                }
+            });
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }
@@ -205,7 +313,9 @@ function updateGoodsNoFile() {
 
 }
 
-function updateGoods() {
+function updateGoodsForm() {
+    event.preventDefault();
+    console.log(document.getElementById("goodsId"));
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -214,6 +324,21 @@ function updateGoods() {
         var trimmedStr = keywordDivCount[i].textContent.replace(/^\s+|\s+$/g, "");
         keywordDivList.push(trimmedStr);
         console.log("trimmedStr:" + trimmedStr)
+    }
+    console.log(keywordDivList.length);
+    if (keywordDivList.length == 0) {
+        Swal.fire({
+            title: '누락 데이터가 있습니다!',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            reverseButtons: true,
+
+        }).then(result => {
+            if (result.isConfirmed) {
+                return;
+            }
+        });
     }
     const fileInput = document.getElementById('input-file');
     const selectedFile = fileInput.files[0];
@@ -235,8 +360,18 @@ function updateGoods() {
         processData: false,
         contentType: false,
         success: function () {
-            alert("상품이 수정되었습니다!")
-            location.href = '/cs/test/goods';
+            Swal.fire({
+                title: '상품 수정 완료',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '확인',
+                reverseButtons: true,
+
+            }).then(result => {
+                if (result.isConfirmed) {
+                    location.href = '/cs/test/goods';
+                }
+            });
         }, error: function (error) {
             console.error('에러 발생: ', error);
         }

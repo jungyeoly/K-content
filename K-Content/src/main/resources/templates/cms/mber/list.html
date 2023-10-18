@@ -204,9 +204,13 @@
 
 			var findType = document.getElementById("findType").value;
 			var findKeyword = document.getElementById("findKeyword").value;
-
-			// 검색 결과를 비동기로 가져오는 함수 호출
+			
+	
+			if(!findKeyword) {
+				loadMberData(currentPage);
+			} else{
 			searchMber(findType, findKeyword);
+			}
 		});
 
 		function searchMber(findType, findKeyword) {

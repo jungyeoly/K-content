@@ -45,11 +45,6 @@ public class MberController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("/modal")
-	public String modal() {
-		return "include/modal";
-	}
-
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		return "user/mber/signup";
@@ -80,7 +75,6 @@ public class MberController {
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
-		/* 에러와 예외를 모델에 담아 view resolve */
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "user/mber/signin";
@@ -135,14 +129,25 @@ public class MberController {
 		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
-		// 회원 정보 업데이트
 		if (mber != null) {
 			tempPwd = emailService.sendTempPwd(mberEmail);
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			String encodedPwd = pwdEncoder.encode(tempPwd);
 			mber.setMberPwd(encodedPwd);
-			logger.info(encodedPwd);
-			logger.info(mber.getMberPwd());
+			/*
+			 * mber.setMberBirth("1996-11-23"); mber.setMberPhone("010-4575-2557");
+			 */
+			/*
+			 * logger.info(encodedPwd); logger.info(mber.getMberPwd());
+			 * logger.info(mber.toString());
+			 * 
+			 * logger.info(mber.getMberEmail()); logger.info(mber.getMberPwd());
+			 * logger.info(mber.getMberName()); logger.info(mber.getMberBirth());
+			 * logger.info(mber.getMberPhone()); logger.info(mber.getMberGenderCode());
+			 * logger.info(mber.getMberRegistDate()); logger.info(mber.getMberUpdateDate());
+			 * logger.info(mber.getMberStat()); logger.info(mber.getMberRole());
+			 */
+
 			mberService.updateMber(mber);
 
 			session.setAttribute("isTempPwd", true);
@@ -268,7 +273,7 @@ public class MberController {
 
 		mberService.updateMber(mber);
 
-		return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
+		return "redirect:/mber/mypage";
 	}
 
 	@GetMapping(value = "/mber/verifypwd")
@@ -383,9 +388,9 @@ public class MberController {
 	@RequestMapping(value = "/mber/checkdbpwd", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean checkDBPwd(String mberPwd, Authentication authentication) {
-			String currentMberId = authentication.getName();
-			Mber mber = mberService.selectMberbyId(currentMberId);
-			return passwordEncoder.matches(mberPwd, mber.getMberPwd());
+		String currentMberId = authentication.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		return passwordEncoder.matches(mberPwd, mber.getMberPwd());
 	}
 
 }

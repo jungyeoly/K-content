@@ -73,10 +73,11 @@ public class SpringSecurityConfig {
 				    */        
 						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
 								"/mber/mailauth", "/mber/**", "/mber/resetpwd", "/mber/checkpwd")
-						.permitAll().requestMatchers(HttpMethod.GET, "/mber/mypage", "/cs/**", "/user/**")
-						.hasAnyRole("ADMIN").requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**")
+						.permitAll()
+						.requestMatchers(HttpMethod.GET, "/mber/mypage", "/cms/**", "/user/**").hasAnyRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/mber/mypage", "/user/**")
 						.hasAnyRole("USER").anyRequest().authenticated())
-						/*.anyRequest().permitAll())*/
+				/* .anyRequest().permitAll()) */
 				// Form 로그인을 활용하는 경우
 				.formLogin(formLogin -> formLogin.loginPage("/mber/signin").loginProcessingUrl("/mber/signin")
 						.usernameParameter("mberId").passwordParameter("mberPwd").defaultSuccessUrl("/", true)

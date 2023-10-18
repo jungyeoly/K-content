@@ -1,7 +1,6 @@
 package com.example.myapp.user.commucomment.service;
 
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,8 @@ public class CommuCommentService implements ICommuCommentService {
     }
 
     @Override
-    public void updateCommuComment(int commentId, String commCntnt) {
-        commucommentRepository.updateCommuComment(commentId, commCntnt);
+    public void updateCommuComment(int commentId, String commuCommentCntnt) {
+        commucommentRepository.updateCommuComment(commentId, commuCommentCntnt);
     }
 
 

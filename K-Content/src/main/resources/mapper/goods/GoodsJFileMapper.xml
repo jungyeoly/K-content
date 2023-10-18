@@ -36,7 +36,7 @@
                            goods_delete_yn
                     FROM tb_goods
                     where goods_delete_yn = 'N'
-                    ORDER BY goods_id desc) g)
+                    ORDER BY goods_name) g)
 
                  LEFT OUTER JOIN tb_goods_file f
                                  ON goods_id = f.goods_file_goods_id
@@ -65,6 +65,7 @@
                                  ON g.goods_id = f.goods_file_goods_id
         WHERE g.goods_id = #{goodsId}
           and g.goods_delete_yn = 'N'
+        order by g.goods_name
         ]]>
     </select>
     <select id="getAGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
@@ -111,6 +112,7 @@
           and (g.goods_kwrd LIKE ('%' || #{search} || '%')
             OR g.goods_brand LIKE ('%' || #{search} || '%')
             OR g.goods_name LIKE ('%' || #{search} || '%'))
+        order by g.goods_name
         ]]>
     </select>
 </mapper>

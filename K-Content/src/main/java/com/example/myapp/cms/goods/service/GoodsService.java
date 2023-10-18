@@ -33,8 +33,8 @@ public class GoodsService implements IGoodsService {
 
     @Override
     public List<Goods> getAllGoodsJFile(int page) {
-        int start = (page-1)*10 + 1;
-        return goodsRepository.getAllGoodsJFile(start, start+9);
+        int start = (page-1)*9 + 1;
+        return goodsRepository.getAllGoodsJFile(start, start+8);
     }
     @Override
     public int totalGoods() {

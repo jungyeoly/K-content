@@ -114,29 +114,72 @@ function updateCntnt(cntntId) {
 
 //콘텐츠 삭제 처리
 function deleteCntnt() {
-    if (confirm('컨텐츠를 삭제하시겠습니까?')) {
-        $.ajax({
-            url: '/cs/test/content', type: 'patch',
-            data: {
-                cntntId: document.getElementById("cntntId").value
-            }, // 데이터 객체 전달
-            success: function (data2) {
-                if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/test");
-                } else {
-                    window.location.replace("/cs/test");
+    Swal.fire({
+        title: '삭제 여부',
+        text: '컨텐츠를 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cs/test/content', type: 'patch',
+                data: {
+                    cntntId: document.getElementById("cntntId").value
+                }, // 데이터 객체 전달
+                success: function (data2) {
+                    Swal.fire({
+                        title: '삭제 완료',
+                        text: '컨텐츠 삭제가 완료 되었습니다.',
+                        icon: 'success',
+                        confirmButtonText: '확인'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.replace("/cs/test");
+                        }
+                    });
+                }, error: function (error) {
+                    console.error('에러 발생: ', error);
                 }
-            }, error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-    }
-
+            });
+        }
+    });
 }
+
+// function deleteCntnt() {
+//     if (confirm('컨텐츠를 삭제하시겠습니까?')) {
+//         $.ajax({
+//             url: '/cs/test/content', type: 'patch',
+//             data: {
+//                 cntntId: document.getElementById("cntntId").value
+//             }, // 데이터 객체 전달
+//             success: function (data2) {
+//                 if (confirm('삭제가 완료 되었습니다')) {
+//                     window.location.replace("/cs/test");
+//                 } else {
+//                     window.location.replace("/cs/test");
+//                 }
+//             }, error: function (error) {
+//                 console.error('에러 발생: ', error);
+//             }
+//         });
+//     }
+//
+// }
 
 //상품클릭시 이동할건지 물어봄
 function moveGoods(goodsUrl) {
-    if (confirm('해당 상품 판매 사이트로 이동하시겠습니까?')) {
-        window.open(goodsUrl);
-    }
+    Swal.fire({
+        title: '이동 여부',
+        text: '해당 상품 판매 사이트로 이동하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.open(goodsUrl);
+        }
+    });
 }

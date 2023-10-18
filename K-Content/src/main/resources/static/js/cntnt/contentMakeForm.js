@@ -34,7 +34,16 @@ function makeKeyword() {
 
     var word = inputWord.replace(/(\s*)/g, '');
     if (word == null || word == '') {
-        alert("키워드를 입력하세요!");
+
+        Swal.fire({
+            title: '공백 불가',
+            text: '키워드를 입력하세요',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        }).then((result) => {
+        });
+
+
     } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
@@ -208,15 +217,41 @@ function createContent() {
         contentType: 'application/json',
         success: function (data) {
             if (data == '수정') {
-                alert("컨텐츠가 수정되었습니다!")
+                Swal.fire({
+                    title: '콘텐츠 수정 완료',
+                    text: '콘텐츠 수정이 완료되었습니다.',
+                    icon: 'success',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/cs/test';
+                    }
+                });
             } else {
-                alert("컨텐츠가 생성되었습니다!")
+                Swal.fire({
+                    title: '콘텐츠 생성 완료',
+                    text: '콘텐츠 생성이 완료되었습니다.',
+                    icon: 'success',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/cs/test';
+                    }
+                });
             }
-
-            location.href = '/cs/test';
         },
         error: function (error) {
             console.error('에러 발생: ', error);
+            Swal.fire({
+                title: '콘텐츠 생성 실패',
+                text: '콘텐츠 생성이 생성이 실패했습니다. 개발자에게 문의해주세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                }
+            });
         }
     });
 }

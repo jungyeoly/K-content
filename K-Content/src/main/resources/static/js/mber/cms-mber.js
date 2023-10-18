@@ -123,6 +123,7 @@ document.getElementById("search-btn").addEventListener("click", function(event) 
 	console.log(findType);
 	console.log(findKeyword);
 
+
 	// 검색 결과를 비동기로 가져오는 함수 호출
 	searchMber(findType, findKeyword);
 });

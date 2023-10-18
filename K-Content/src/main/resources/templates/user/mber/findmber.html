@@ -49,7 +49,7 @@
 									<div class="col-md-12">
 										<input type="email" id="findid_mber_email"
 											class="form-control form-bid" name="mberEmail"
-											placeholder="이메일" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+											placeholder="이메일 입력" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 											required>
 										<div class="invalid-feedback" id="mail-input-check-warn">이메일을
 											입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
@@ -90,12 +90,12 @@
 									<div class="row">
 										<div class="col-md-12 mb-3">
 											<input type="text" class="form-control form-bid"
-												id="findpwd_mber_id" name="mberId" placeholder="아이디"
+												id="findpwd_mber_id" name="mberId" placeholder="아이디 입력"
 												required>
 										</div>
 										<div class="col-md-12 mb-3">
 											<input type="text" class="form-control form-bid"
-												id="findpwd_mber_email" name="mberEmail" placeholder="이메일"
+												id="findpwd_mber_email" name="mberEmail" placeholder="이메일 입력"
 												required>
 											<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
 												이메일입니다.</div>
@@ -153,10 +153,24 @@
 						if (response) {
 							sendMaskIdBtnText.removeClass("d-none");
 							sendMaskIdBtnText.text('마스킹 아이디 전송 완료');
-							alert("마스킹된 아이디가 이메일로 전송되었습니다.");
-							window.location.href = "/mber/signin";
+						    Swal.fire({
+				                title: '아이디 찾기 이메일 전송 완료',
+				                text: '마스킹된 아이디가 이메일로 전송되었습니다. 이메일 확인해주시기 바랍니다.',
+				                icon: 'success',
+				                confirmButtonText: '확인',
+				                confirmButtonColor: '#14dbc8',
+				            }).then((result) => {
+				                if (result.isConfirmed) {
+									window.location.href = "/mber/signin";
+				                }
+				            });
 						} else {
-							alert("존재하지 않는 이메일입니다. 다시 시도해주세요.");
+							 Swal.fire({
+					                title: '오류',
+					                text: '존재하지 않는 이메일입니다. 다시 시도해주세요.',
+					                icon: 'error',
+					                confirmButtonText: '확인'
+					            });
 							sendMaskIdBtnText.removeClass("d-none");
 
 						}
@@ -165,7 +179,12 @@
 						// 오류 발생 시 스피너 숨김
 						sendMaskIdBtnText.removeClass("d-none");
 						$("#maskid-spinner").addClass("d-none");
-						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+						 Swal.fire({
+				                title: '오류',
+				                text: '서버 오류가 발생했습니다. 다시 시도해주세요.',
+				                icon: 'error',
+				                confirmButtonText: '확인'
+				            });
 					}
 				});
 			});
@@ -221,10 +240,30 @@
 																					true);
 																	sendTempPwdBtnText
 																			.text('임시비밀번호 전송 완료');
-																	alert("임시 비밀번호가 이메일로 전송되었습니다.");
-																	window.location.href = "/mber/signin";
+																    Swal.fire({
+														                title: '임시 비밀번호 이메일 전송 완료',
+														                text: '임시 비밀번호가 이메일로 전송되었습니다. 임시 비밀번호로 로그인해주시기 바랍니다.',
+														                icon: 'success',
+														                confirmButtonText: '확인',
+														                confirmButtonColor: '#14dbc8',
+														            }).then((result) => {
+														                if (result.isConfirmed) {
+																			window.location.href = "/mber/signin";
+														                }
+														            });
+												
 																} else {
-																	alert("존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.");
+																
+																	 Swal.fire({
+															                title: '오류',
+															                text: '존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.',
+															                icon: 'error',
+															                confirmButtonText: '확인'
+															            });
+																
+																
+																
+																
 																}
 															},
 															error : function() {
@@ -233,8 +272,11 @@
 																		"#findpwd-spinner")
 																		.addClass(
 																				"d-none");
-
-																alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+																  Swal.fire({
+														                title: '서버 오류가 발생했습니다. 다시 시도해주세요.',
+														                icon: 'error',
+														                confirmButtonText: '확인'
+														            });
 																sendTempPwdBtnText
 																		.removeClass("d-none");
 															}

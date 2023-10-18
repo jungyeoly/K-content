@@ -50,7 +50,10 @@
  background-color: #f1f1f1;
  border-color: #ccc;
 }
- 
+ .commu-row:hover {
+  background-color: #14dbc8;
+    cursor: pointer;  /* 마우스 포인터를 손 모양으로 변경 */
+}
 .page-link:focus, .page-link:hover {
   color: #000;
   background-color: #fafafa; 

@@ -403,17 +403,13 @@ public class CommuController {
 
 	}
 	
-	@GetMapping("commu/errorpage")
-	public String showErrorPage() {
-		return "user/commu/errorpage"; //권한 에러 페이지 반환
-	}
 	// 게시글 수정하기(기존 게시글 정보 가져오기)
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model, Principal principal) {
 		//권한 검사
 		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		if(!commu.getCommuMberId().equals(principal.getName())) {
-			    return "redirect:/commu/errorpage"; // 권한이 없으면 에러페이지로 이동
+			    return "/error/403"; // 권한이 없으면 에러페이지로 이동
 			}
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -436,7 +432,7 @@ public class CommuController {
 		 Commu existingCommu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		    if (!existingCommu.getCommuMberId().equals(principal.getName())) {
 		        // 현재 로그인한 사용자와 게시물 작성자가 다르면 권한이 없음
-		        return  "redirect:/commu/errorpage";
+		        return  "/error/403";
 		    }
 		// 게시물 정보 로깅
 		logger.info("/commu/update : " + commu.toString());

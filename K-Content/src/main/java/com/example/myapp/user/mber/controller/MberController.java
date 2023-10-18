@@ -45,11 +45,6 @@ public class MberController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("/modal")
-	public String modal() {
-		return "include/modal";
-	}
-
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		return "user/mber/signup";
@@ -61,11 +56,6 @@ public class MberController {
 //		if(CsrfToken==null || !CsrfToken.equals(sessionToken)) {
 //			throw new RuntimeException("CSRF Token Error.");
 //		}
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
-		System.out.println(mber.getMberEmail());
 		try {
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			String encodedPwd = pwdEncoder.encode(mber.getMberPwd());
@@ -85,7 +75,6 @@ public class MberController {
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
-		/* 에러와 예외를 모델에 담아 view resolve */
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "user/mber/signin";
@@ -140,14 +129,14 @@ public class MberController {
 		String tempPwd = "";
 		Mber mber = mberService.selectMberbyIdEmail(mberId, mberEmail);
 
-		// 회원 정보 업데이트
 		if (mber != null) {
 			tempPwd = emailService.sendTempPwd(mberEmail);
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			String encodedPwd = pwdEncoder.encode(tempPwd);
 			mber.setMberPwd(encodedPwd);
-			logger.info(encodedPwd);
-			logger.info(mber.getMberPwd());
+			mber.setMberBirth("");
+			mber.setMberPhone("");
+
 			mberService.updateMber(mber);
 
 			session.setAttribute("isTempPwd", true);
@@ -162,11 +151,8 @@ public class MberController {
 		boolean isTempPwd = session.getAttribute("isTempPwd") != null && (boolean) session.getAttribute("isTempPwd");
 
 		if (isTempPwd) {
-			// 임시 비밀번호가 생성된 경우에만 재설정 페이지로 이동
 			return "user/mber/resetpwd";
 		} else {
-			// 임시 비밀번호가 생성되지 않은 경우 다른 페이지로 리다이렉트 또는 처리
-			// 예: 오류 메시지 표시 등
 			return "redirect:/";
 		}
 	}
@@ -183,24 +169,21 @@ public class MberController {
 
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			// 현재 비밀번호가 맞는지 확인
-			if (pwdEncoder.matches(currentMberPwd, mber.getMberPwd())) {
-				String encodedPwd = pwdEncoder.encode(mberPwd);
-				mber.setMberPwd(encodedPwd);
-				mberService.updateMber(mber);
+			String encodedPwd = pwdEncoder.encode(mberPwd);
+			mber.setMberPwd(encodedPwd);
 
-				// 세션에서 임시 비밀번호 생성 여부 제거
-				session.removeAttribute("isTempPwd");
+			mber.setMberBirth("");
+			mber.setMberPhone("");
 
-				return "redirect:/";
-			} else {
-				// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
-				// 예: 오류 메시지 표시 등
-				return "redirect:/";
-			}
+			mberService.updateMber(mber);
+
+			// 세션에서 임시 비밀번호 생성 여부 제거
+			session.removeAttribute("isTempPwd");
+
+			return "redirect:/";
 		}
-		// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
-		// 예: 오류 메시지 표시 등
-		return "redirect:/";
+		model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
+		return "/mber/resetpwd";
 	}
 
 	@GetMapping(value = "/mber/mypage")
@@ -273,7 +256,7 @@ public class MberController {
 
 		mberService.updateMber(mber);
 
-		return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
+		return "redirect:/mber/mypage";
 	}
 
 	@GetMapping(value = "/mber/verifypwd")
@@ -388,9 +371,11 @@ public class MberController {
 	@RequestMapping(value = "/mber/checkdbpwd", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean checkDBPwd(String mberPwd, Authentication authentication) {
-			String currentMberId = authentication.getName();
-			Mber mber = mberService.selectMberbyId(currentMberId);
-			return passwordEncoder.matches(mberPwd, mber.getMberPwd());
+		
+		String currentMberId = authentication.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		
+		return passwordEncoder.matches(mberPwd, mber.getMberPwd());
 	}
 
 }

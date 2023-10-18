@@ -1,9 +1,7 @@
-
 $(document).ready(function() {
-	// $("#reply-box").hide();
-	// 왜 하나만 가려지는지 찾기
 
 })
+
 
 function pageRe() {
 
@@ -24,25 +22,23 @@ function pageRe() {
 }
 
 document.querySelectorAll('.reply-show').forEach(function(button) {
-    button.addEventListener('click', function(event) {
-        const clickedButton = event.currentTarget;
-
-        const commentId = clickedButton.getAttribute('data-id');
-       
+	button.addEventListener('click', function(event) {
+		const clickedButton = event.currentTarget;
+		const commentId = clickedButton.getAttribute('data-id');
+		console.log(commentId);
 		const parentDiv = clickedButton.closest('.comment-buttons');
 
-        const targetReplyBoxes = parentDiv.querySelectorAll(`.reply-box-update[data-id="${commentId}"]`);
-        targetReplyBoxes.forEach(function(targetReplyBox) {
-            if (targetReplyBox) {
-                targetReplyBox.style.display = (targetReplyBox.style.display === 'none' || !targetReplyBox.style.display) ? 'block' : 'none';
-            }
-        });
-    });
+		const targetReplyBoxes = parentDiv.querySelectorAll(`.reply-box-update[data-id="${commentId}"]`);
+		targetReplyBoxes.forEach(function(targetReplyBox) {
+			if (targetReplyBox) {
+				targetReplyBox.style.display = (targetReplyBox.style.display === 'none' || !targetReplyBox.style.display) ? 'block' : 'none';
+			}
+		});
+	});
 });
 
 
 function postComment() {
-	// registerEventHandlers();
 	$.ajax({
 		url: "/commu/detail/comment",
 		type: "POST",
@@ -52,9 +48,6 @@ function postComment() {
 			commuCommentCntnt: document.getElementById("cntnt").value
 		},
 		success: function() {
-			// 답글 추가 후 원본 댓글의 답글 수 업데이트
-		//	 updateReplyCount(formData.commuCommentRefId);
-			// console.log("dsf")
 			pageRe();
 		},
 		error: function(err) {
@@ -69,12 +62,7 @@ function postReply(commentID) {
 	// 해당 버튼 요소를 선택합니다.
 	var replyForm = $('.replyForm').find(`#${commentID}`);
 
-
-	// var textarea = replyForm.find('.input-reply-textarea');
-
 	inputText = replyForm.val();
-	console.log(replyForm.val());
-	// console.log(inputText)
 	$.ajax({
 		url: "/commu/detail/reply",
 		type: "POST",
@@ -86,9 +74,7 @@ function postReply(commentID) {
 			commuCommentRefId: commentID
 		},
 		success: function() {
-			// 답글 추가 후 원본 댓글의 답글 수 업데이트
-			// updateReplyCount(formData.commuCommentRefId);
-			// console.log("dsf")
+
 			pageRe();
 		},
 		error: function(err) {
@@ -146,51 +132,14 @@ $(document).ready(function() {
 
 	function initializeComments() {
 		$(".replies").hide();
-		updateAllReplyCounts();
-		updateCommentCount();
-	}
 
-	function updateAllReplyCounts() {
-		$(".single-comment").each(function() {
-			var commuCommentId = $(this).data("id");
-			updateReplyCount(commuCommentId);
-		});
+		updateCommentCount();
 	}
 
 	function updateCommentCount() {
 		var comments = $(".single-comment").length;
 		$(".comment-list-section h3 span").text(comments + '개');
 	}
-
-	function getTotalRepliesCount(commuCommentId) {
-		var $comment = $(".single-comment[data-id='" + commuCommentId + "']");
-		var directReplies = $comment.find(".replies .single-comment").length;
-
-		var nestedReplies = 0;
-		if (directReplies > 0) {
-			$comment.find("> .replies > .single-comment").each(function() {
-				nestedReplies += getTotalRepliesCount($(this).data('id'));
-			});
-		}
-
-		return directReplies + nestedReplies;
-	}
-
-	function updateReplyCount(commuCommentId) {
-		 var totalReplies = getTotalRepliesCount(commuCommentId);
-
-    // Update the direct count
-    $(".single-comment[data-id='" + commuCommentId + "']").find(".reply-count").text(totalReplies + '개');
-
-    // Update the "보기 버튼" with the reply count
-    $(".single-comment[data-id='" + commuCommentId + "']").find(".view-replies-btn").text("보기 (" + totalReplies + "개)");
-
-    // If the comment is nested inside another comment, update the parent comment's reply count as well.
-    var $parentComment = $(".single-comment[data-id='" + commuCommentId + "']").closest('.replies').closest('.single-comment');
-    if ($parentComment.length) {
-        updateReplyCount($parentComment.data('id'));
-    }
-}
 
 	// 초기 댓글 수 업데이트
 	updateCommentCount();
@@ -245,34 +194,48 @@ $(document).ready(function() {
 		});
 
 		$(".comment-list-section").on("click", ".update-comment", function(e) {
-			e.stopPropagation();  // 다른요소 못건들이게
+			e.stopPropagation();
 			$(".update-comment-textarea").hide();
 			$("p").show();
 
-			var $commentDiv = $(this).closest('.update');
-			commentID = $(this).data("id");
-			console.log("commentID", commentID);
-			parentUpdateDiv = $(this).closest('.update');
-			updateText = parentUpdateDiv.find('textarea').val();
-			console.log("updateText", updateText);
+			var commentid = $(this).data("id");
+
+			var $replyDiv = $(this).closest('.reply-box'); // 답글일때
+			var $commentDiv = $(this).closest('.update');  // 댓글일때
+
+			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
+			var currentText;
+
+			// 답글일 때와 댓글일 때의 텍스트 처리
+			if ($replyDiv.length) {
+				currentText = $replyDiv.find('p').text();
+			} else if ($commentDiv.length) {
+				currentText = $commentDiv.find('p').text();
+			}
 
 			if ($(this).text() === "수정") {
-				var currentCommentText = $commentDiv.find('p').text();
-				$commentDiv.find('p').hide(); // p 태그 숨기기 추가
-				$commentDiv.find('.update-comment-textarea').val(currentCommentText).show(); // textarea 보여주기
+				$textarea.val(currentText).show();
+
+				
+
+				if ($replyDiv.length) {
+					$replyDiv.find('p').hide();
+				} else if ($commentDiv.length) {
+					$commentDiv.find('p').hide();
+				}
+
 				$('.update-comment').text("수정");
 				$(this).text("저장");
-
 			} else {
+				var updateText = $textarea.val();
 				$.ajax({
 					url: "/commu/comment/update",
 					type: "POST",
 					async: true,
 					data: {
-						commuCommentId: commentID,
+						commuCommentId: commentid,
 						commuCommentCntnt: updateText
 					},
-
 					success: function() {
 						pageRe();
 					},
@@ -283,6 +246,21 @@ $(document).ready(function() {
 				});
 			}
 		});
+
+		// 취소 버튼 클릭 이벤트
+		$(".comment-list-section").on("click", ".cancel-update", function(e) {
+			e.stopPropagation();
+			var $updateButton = $(this).prev();
+			var commentid = $updateButton.data("id");
+			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
+
+			$textarea.hide();
+			$('p').show();
+
+			$updateButton.text("수정");
+			$(this).remove();  // 취소 버튼 제거
+		});
+
 	}
 
 });

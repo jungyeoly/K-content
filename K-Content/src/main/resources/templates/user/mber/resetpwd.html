@@ -10,54 +10,88 @@
 </head>
 <body>
 	<header th:insert="~{/include/mber-header :: mberNavBar}"></header>
-	<div class="bg p-5">
+	<div class="bg">
 		<video muted autoplay loop id="bgvid">
 			<source src="/img/mber/background2.mp4" type="video/mp4">
 		</video>
 		<div class="container">
 			<div class="input-form-background row">
 				<div class="input-form col-md-12 mx-auto opacity-95">
-
-					<div class="col-md-12 mb-3 text-center">
-						<a th:href="@{/}"><img src="/img/mainLogo.png" width="250"
-							height="120" class="img-fluid mb-3" alt="K-Spectrum"></a>
-						<p class="fw-bold fs-2 mb-3 menu-title">비밀번호 재설정</p>
-						임시 비밀번호로 로그인 하셨군요! <br>보안을 위해 새 비밀번호를 변경해주세요.
+					<div class="row">
+						<div class="col-md-12 mb-3 text-center">
+							<p class="fw-bold fs-2 mb-3 menu-title">비밀번호 재설정</p>
+							임시 비밀번호로 로그인 하셨군요! <br>보안을 위해 새 비밀번호를 변경해주세요.
+						</div>
 					</div>
-					<form th:action="@{/mber/resetpwd}" method="post"
-						class="validation-form" id="resetPwdForm">
 						<div th:if="${message}" class="alert alert-danger fw-bold"
 							role="alert" th:text="${message}"></div>
 
 						<div class="row">
-							<div class="col-md-12 mb-3">
-								<input type="password" class="form-control form-bid"
-									name="currentMberPwd" id="current-mber-pwd"
-									placeholder="현재 비밀번호" value="" autocomplete="off" required>
+							<div class="col-md-3">
+								<label for="current-mber-pwd" class="fw-bold text-nowrap">
+									현재 비밀번호<span class="align-middle" style="color: red;">*</span>
+								</label>
 							</div>
+							<div class="col-md-6">
+								<div class="pwd-input-wrap">
+									<input type="password" class="form-control form-bid"
+										name="currentMberPwd" id="current-mber-pwd"
+										placeholder="현재 비밀번호" onchange="checkDbPwd(this.value)"
+										value="" autocomplete="off" maxlength="16" required> <i
+										class="fa fa-eye see-pwd" id="current-see-pwd"></i>
+								</div>
+							</div>
+							<div class="col-md-10">
+								<div class="mber-feedback fw-bold"
+									id="current-check-pwd-feedback"
+									style="margin: 3px 0px -3px 10px;"></div>
+							</div>
+						</div>
+					<hr class="mb-3">
+					<div class="row mb-3">
+						<div class="col-md-3">
+							<label for="mber-pwd" class="fw-bold text-nowrap">새 비밀번호<span
+								class="align-middle" style="color: red;">*</span></label>
+						</div>
+						<div class="col-md-6">
+							<div class="pwd-input-wrap">
+								<input type="password" class="form-control form-bid"
+									id="mber-pwd" name="mberPwd" placeholder="새 비밀번호 입력"
+									maxlength="16" value="" onchange="checkPwd(this.value)"
+									required><i class="fa fa-eye see-pwd" id="see-pwd"></i>
+							</div>
+						</div>
+						<div class="col-md-10">
+							<div class="mber-feedback fw-bold" id="check-pwd-feedback"
+								style="margin: 3px 0px -3px 10px;"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-3">
+							<label for="mber-pwd-re" class="fw-bold text-nowrap">새
+								비밀번호 확인<span class="align-middle" style="color: red;">*</span>
+							</label>
+						</div>
+						<div class="col-md-6">
+							<div class="pwd-input-wrap">
+								<input type="password" class="form-control form-bid"
+									id="mber-pwd-re" placeholder="새 비밀번호 확인" maxlength="16"
+									value="" onchange="checkPasswordMatch()" required> <i
+									class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
+							</div>
+						</div>
+						<div class="col-md-10">
+							<div class="mber-feedback fw-bold"
+								id="check-pwd-confirm-feedback"
+								style="margin: 3px 0px -3px 10px;"></div>
 						</div>
 
-						<div class="row">
-							<div class="col-md-12 mb-3">
-								<input type="password" class="form-control form-bid"
-									id="mber-pwd" name="mberPwd" placeholder="비밀번호" value=""
-									required>
-								<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
-							</div>
-						</div>
-					</form>
-					<div class="row">
-						<div class="col-md-12">
-							<input type="password" class="form-control form-bid"
-								id="mber-pwd-re" placeholder="비밀번호 확인" value="" required>
-							<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
-						</div>
 					</div>
 					<hr class="mb-3">
 
 
-					<div class="row">
-						<div class="col-md-6 text-center">
+					<div class="row justify-content-evenly">
+						<div class="col-md-3 text-center">
 							<button type="button" class="btn btn-lg mb-3" id="reset-pwd-btn">
 								<span id="reset-pwd-btn-text">비밀번호 재설정</span>
 								<div
@@ -65,9 +99,9 @@
 									role="status" id="reset-pwd-spinner"></div>
 							</button>
 						</div>
-						<div class="col-md-6 text-center">
-							<button type="button" class="btn btn-lg mb-3"
-								id="changePwdNextBtn"><a th:href="@{/}">다음에 변경하기</a></button>
+						<div class="col-md-3 text-center">
+							<a th:href="@{/}"><button type="button"
+									class="btn btn-lg mb-3" id="changePwdNextBtn">다음에 변경하기</button></a>
 						</div>
 					</div>
 
@@ -78,57 +112,201 @@
 
 
 	<script>
-		$(document).ready(function() {
-			$("#reset-pwd-btn").click(function(e) {
-				const resetPwdBtnText = $('#reset-pwd-btn-text');
+		var pwdFeedback = document.getElementById("check-pwd-feedback");
+		var pwdConfirmFeedback = document
+				.getElementById("check-pwd-confirm-feedback");
 
-				resetPwdBtnText.addClass("d-none");
-				// 응답을 기다리는 동안 스피너 표시
-				$("#reset-pwd-spinner").removeClass("d-none");
-				// 입력 필드에서 이메일 값을 가져옴
-				var mberPwd = $("#mber-pwd").val();
-				var currentMberPwd = $("#current-mber-pwd").val();
-				var mberPwdRe = $("#mber-pwd-re").val(); // 비밀번호 확인 값 가져오기
+		var isPwdValid = false;
+		var isPwdConfirmValid = false;
+		var isMatchDbPwd = false;
 
-				// 비밀번호와 비밀번호 확인이 일치하는지 확인
-				if (mberPwd !== mberPwdRe) {
-					alert("입력된 새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-					resetPwdBtnText.removeClass("d-none");
-					$("#reset-pwd-spinner").addClass("d-none");
-					return; // 일치하지 않으면 함수 종료
-				}
-
-				// 서버에 AJAX 요청 보내기
-				$.ajax({
-					type : "POST",
-					url : "/mber/resetpwd",
-					data : {
-						mberPwd : mberPwd,
-						currentMberPwd : currentMberPwd
-					},
-					success : function(response) {
-						// 성공 시 스피너 숨김
-						resetPwdBtnText.removeClass("d-none");
-						$("#reset-pwd-spinner").addClass("d-none");
-						if (response) {
-							$("#reset-pwd-btn").prop('disabled', true);
-							resetPwdBtnText.text('비밀번호 재설정 완료');
-							alert("비밀번호 재설정 완료되었습니다.");
-							window.location.href = "/";
-						} else {
-							alert("오류가 발생했습니다.");
-						}
-					},
-					error : function() {
-						// 오류 발생 시 스피너 숨김
-						$("#reset-pwd-spinner").addClass("d-none");
-
-						alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-						resetPwdBtnText.removeClass("d-none");
+		function checkDbPwd(mberPwd) {
+			console.log(mberPwd);
+			$.ajax({
+				type : "POST",
+				url : "/mber/checkdbpwd",
+				data : {
+					mberPwd : mberPwd
+				},
+				success : function(response) {
+					if (response) {
+						isMatchDbPwd = true; // Update the variable if the password matches
+					} else {
+						isMatchDbPwd = false; // Update the variable if the password doesn't match
 					}
-				});
+				},
+				error : function() {
+					isMatchDbPwd = false;
+				}
 			});
+		}
+
+		function checkPwd(mberPwd) {
+
+			pwdFeedback.style.display = 'block';
+			$
+					.ajax({
+						type : "POST",
+						url : "/mber/checkpwd",
+						data : {
+							mberPwd : mberPwd
+						},
+						success : function(result) {
+							if (mberPwd.trim() == '') {
+								pwdFeedback.style.display = 'none';
+								pwdFeedback.innerHTML = "";
+								isPwdValid = false;
+								return;
+							}
+							if (result == true) {
+								pwdFeedback.style.display = 'none';
+								isPwdValid = true;
+							} else {
+								pwdFeedback.style.color = '#dc3545';
+								pwdFeedback.innerHTML = "최소 8자, 최대 16자이어야 하며, 영문, 숫자, 특수문자(!@#$%^&*)를 모두 포함해야 합니다.";
+								isPwdValid = false;
+							}
+						},
+						error : function(request, status) {
+							console.log("code:" + request.status + "\n"
+									+ "message:" + request.responseText + "\n"
+									+ "error:" + error);
+						}
+					});
+		}
+
+		// ================ 비밀번호, 비밀번호 확인과 일치 ================ //
+		function checkPasswordMatch() {
+
+			var password = document.getElementById("mber-pwd").value;
+			var confirmPassword = document.getElementById("mber-pwd-re").value;
+			var feedback = document
+					.getElementById("check-pwd-confirm-feedback");
+
+			feedback.style.display = 'block';
+
+			if (password === confirmPassword) {
+				feedback.style.color = '#198754';
+				feedback.style.display = 'none';
+				isPwdConfirmValid = true;
+			} else {
+				feedback.style.color = '#dc3545';
+				feedback.innerHTML = "비밀번호 확인이 일치하지 않습니다.";
+				feedback.style.display = 'block';
+				isPwdConfirmValid = false;
+			}
+		}
+		$(document).ready(function() {
+		    $("#reset-pwd-btn").click(function(e) {
+		        // 비밀번호가 데이터베이스 비밀번호와 일치하는지 확인합니다.
+		        if (isMatchDbPwd) {
+		            const resetPwdBtnText = $('#reset-pwd-btn-text');
+		            resetPwdBtnText.addClass("d-none");
+		            // 응답을 기다리는 동안 스피너를 표시합니다.
+		            $("#reset-pwd-spinner").removeClass("d-none");
+
+		            var mberPwd = $("#mber-pwd").val();
+		            var currentMberPwd = $("#current-mber-pwd").val();
+		            var mberPwdRe = $("#mber-pwd-re").val();
+
+		            // 새 비밀번호와 비밀번호 확인의 유효성을 검사합니다.
+		            if (mberPwd.trim() !== '' && currentMberPwd.trim() !== '' && mberPwdRe.trim() !== '') {
+		                if (isPwdValid && isPwdConfirmValid) {
+		                    // 비밀번호가 데이터베이스 비밀번호와 일치하고, 새 비밀번호의 유효성을 통과하며, 비밀번호 확인이 일치할 경우에만 AJAX 요청을 보냅니다.
+		                    $.ajax({
+		                        type: "POST",
+		                        url: "/mber/resetpwd",
+		                        data: {
+		                            mberPwd: mberPwd,
+		                            currentMberPwd: currentMberPwd
+		                        },
+		                        success: function(response) {
+		                            resetPwdBtnText.removeClass("d-none");
+		                            $("#reset-pwd-spinner").addClass("d-none");
+		                            if (response) {
+		                                $("#reset-pwd-btn").prop('disabled', true);
+		                                resetPwdBtnText.text('비밀번호 재설정 완료');
+		                                alert("비밀번호 재설정이 완료되었습니다.");
+		                                window.location.href = "/";
+		                            } else {
+		                                alert("오류가 발생했습니다.");
+		                            }
+		                        },
+		                        error: function() {
+		                            $("#reset-pwd-spinner").addClass("d-none");
+		                            alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+		                            resetPwdBtnText.removeClass("d-none");
+		                        }
+		                    });
+		                } else {
+		                	   $("#reset-pwd-spinner").addClass("d-none");
+		                	   resetPwdBtnText.removeClass("d-none");
+		                	   resetPwdBtnText.text('비밀번호 재설정');
+		                    alert("새 비밀번호와 새 비밀번호 확인이 일치하지 않거나 유효하지 않습니다.");
+		                }
+		            } else {
+		            	   $("#reset-pwd-spinner").addClass("d-none");
+		            	   resetPwdBtnText.removeClass("d-none");
+		            	   resetPwdBtnText.text('비밀번호 재설정');
+		                alert("새 비밀번호와 새 비밀번호 확인 입력 칸은 비어있는 상태일 수 없습니다. 모든 필드를 입력해주세요.");
+		            }
+		        } else {
+		            // 비밀번호가 데이터베이스 비밀번호와 일치하지 않을 때 경고 메시지를 표시합니다.
+		            alert("현재 비밀번호가 일치하지 않습니다.");
+		        }
+		    });
 		});
+		// ================ 비밀번호 보기 ================ //
+		$(document).ready(
+				function() {
+					$('#current-see-pwd')
+							.on(
+									'click',
+									function() {
+										$('input').toggleClass('active');
+										if ($('input').hasClass('active')) {
+											$(this).attr('class',
+													"fa fa-eye-slash").prev(
+													'input').attr('type',
+													"text");
+										} else {
+											$(this).attr('class', "fa fa-eye")
+													.prev('input').attr('type',
+															'password');
+										}
+									});
+					$('#see-pwd')
+							.on(
+									'click',
+									function() {
+										$('input').toggleClass('active');
+										if ($('input').hasClass('active')) {
+											$(this).attr('class',
+													"fa fa-eye-slash").prev(
+													'input').attr('type',
+													"text");
+										} else {
+											$(this).attr('class', "fa fa-eye")
+													.prev('input').attr('type',
+															'password');
+										}
+									});
+					$('#see-pwd-confirm')
+							.click(
+									function() {
+										$('input').toggleClass('active');
+										if ($('input').hasClass('active')) {
+											$(this).attr('class',
+													"fa fa-eye-slash").prev(
+													'input').attr('type',
+													"text");
+										} else {
+											$(this).attr('class', "fa fa-eye")
+													.prev('input').attr('type',
+															'password');
+										}
+									});
+				});
 	</script>
 </body>
 

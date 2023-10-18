@@ -204,9 +204,13 @@
 
 			var findType = document.getElementById("findType").value;
 			var findKeyword = document.getElementById("findKeyword").value;
-
-			// 검색 결과를 비동기로 가져오는 함수 호출
+			
+	
+			if(!findKeyword) {
+				loadMberData(currentPage);
+			} else{
 			searchMber(findType, findKeyword);
+			}
 		});
 
 		function searchMber(findType, findKeyword) {
@@ -259,9 +263,9 @@
 							html += '<td>';
 							if (mber.mberRole != '관리자') {
 								if (mber.mberStat == '비활성화') {
-									html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">변경</button>';
+									html += '<button class="btn" id="stat-btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0202\')">변경</button>';
 								} else if (mber.mberStat == '활성화') {
-									html += '<button class="btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
+									html += '<button class="btn" id="stat-btn" data-mber-id="' + mber.mberId + '" onclick="changeStatus(this.getAttribute(\'data-mber-id\'), \'C0201\')">변경</button>';
 								}
 							}
 							html += '</td>';
@@ -291,27 +295,51 @@
 			});
 		}
 
-		function changeStatus(mberId, newStatus) {
-			$.ajax({
-				type: 'POST',
-				url: '/cs/mber/change-stat',
-				data: {
-					mberId: mberId,
-					newStatus: newStatus
-				},
-				success: function(response) {
-					if (response.success) {
-						loadMberData(currentPage);
-					} else {
-						alert('상태 변경 실패했습니다.');
-					}
-				},
-				error: function() {
-					alert('서버 오류로 인해 상태 변경에 실패했습니다.');
-				}
-			});
-		}
-
+		
+		 function changeStatus(mberId, newStatus) {
+			 Swal.fire({
+                 title: '해당 계정 상태를<br>변경하시겠습니까?',
+                 icon: 'warning',
+                 showCancelButton: true,
+                 confirmButtonText: '상태 변경',
+                 confirmButtonColor: '#e66767',
+                 cancelButtonText: '취소',
+                 reverseButtons: true
+             }).then((result) => {
+                 if (result.isConfirmed) {
+                     Swal.fire({
+                         title: '계정 상태 변경 완료',
+                         text: '해당 계정 상태 변경 완료되었습니다. 변경되었는지 확인바랍니다.',
+                         icon: 'success',
+                         confirmButtonText: '확인',
+                         confirmButtonColor: '#14dbc8',
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                        		$.ajax({
+                					type: 'POST',
+                					url: '/cs/mber/change-stat',
+                					data: {
+                						mberId: mberId,
+                						newStatus: newStatus
+                					},
+                					success: function(response) {
+                						if (response.success) {
+                							loadMberData(currentPage);
+                						} else {
+                							alert('상태 변경 실패했습니다.');
+                						}
+                					},
+                					error: function() {
+                						alert('서버 오류로 인해 상태 변경에 실패했습니다.');
+                					}
+                				});
+                         }
+                     });
+                 } 
+             });
+			}
+		 
+		
 	</script>
 </body>
 </html>

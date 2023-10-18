@@ -139,24 +139,28 @@ public class CSController {
         if (role.equals("[ROLE_ADMIN]")) {
             return realImg;
         } else {
+            instagram_Selenium.isQuit();
+//            instagram_Selenium = new Instagram_Selenium();
             instagram_Selenium.instagram_Selenium();
             for (int i = 0; i < trendQueryList.size(); i++) {
-                String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-                //TODO 예외처리
-                URL urlInput = new URL(oneUrl);
-                BufferedImage urlImg = ImageIO.read(urlInput);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ImageIO.write(urlImg, "jpg", bos);
-                Base64.Encoder encoder = Base64.getEncoder();
-                String encodedString = encoder.encodeToString(bos.toByteArray());
-                //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
-                realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
-
+                try {
+                    String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+                    //TODO 예외처리
+                    URL urlInput = new URL(oneUrl);
+                    BufferedImage urlImg = ImageIO.read(urlInput);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(urlImg, "jpg", bos);
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    String encodedString = encoder.encodeToString(bos.toByteArray());
+                    //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+                    realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+                } catch (Exception e) {
+                    instagram_Selenium.chromeExit();
+                }
             }
             instagram_Selenium.chromeExit();
             return realImg;
         }
-
 
     }
 

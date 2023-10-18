@@ -59,13 +59,21 @@
 					<div class="comment-buttons">
 						<button class="reply-to-comment">댓글</button>
 
-						<button class="reply-show"
+						<button class="reply-show" th:data-id="${comment.commuCommentId}"
+							th:if="${refComments != null && refComments.size() > 0}">
+							답글(<span class="reply-count"
+								th:text="${refComments.size() + '개'}"></span>)
+						</button>
+
+
+
+						<!-- <button class="reply-show"
 						th:data-id="${comment.commuCommentId}"
 							th:if="${comment.commuCommentRefId == 0 && refComments != null && refComments.size() > 0}">
 							답글(<span class="reply-count"
 								th:text="${refComments !=null? refComments.size() + '개' : '0개'}"></span>)
 						</button>
-
+ -->
 
 						<div class="replyForm" th:data-id="${comment.commuCommentId}">
 							<input type="hidden" name="commuCommentRefId"
@@ -115,7 +123,7 @@
 
 
 
-	
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

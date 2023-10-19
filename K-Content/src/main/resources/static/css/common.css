@@ -31,11 +31,22 @@
 	font-weight: normal;
 	font-style: normal;
 }
+html,
+body {
+  height: 100%;
+}
 
 body {
 	font-family: 'NEXON Lv1 Gothic OTF Light';
 	letter-spacing: 0.1px;
 	font-weight: bold;
+	display: flex;
+ 	flex-direction: column;
+}
+
+
+main {
+  flex: 1;
 }
 
 /* 이미지 링크 드래그 막기 */

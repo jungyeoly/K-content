@@ -1,71 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:replace="~{/include/header :: header}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
-	<link rel="stylesheet" href="/css/commu-nav.css">
+<th:block th:replace="~{/include/header :: header}"></th:block>
+<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
+<link rel="stylesheet" href="/css/commu-nav.css">
 </head>
 <body>
 
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
-	
+
 	<div th:replace="~{/include/community-center :: inqry-nav}"></div>
-	
-	<div class="container">
-		<div class="menu fw-bold" th:text=#{inqury.update}>문의사항 글 수정</div>
-		<form id="userUpdate" th:action="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
-			<ul class=tb-lst>
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label for="title" th:text=#{title}>
-							제목<span class="text-danger">*</span>
-						</label>
-					</div>
-					<div class="inqry-cntnt">
-						<input type="text" id="title" name="inqryTitle" th:attr="placeholder=#{enter.title}" th:value="${inqry.inqryTitle}">
-					</div>
-				</li>
-				
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label for="cntnt" th:text=#{content}>
-							내용<span class="text-danger">*</span>
-						</label>
-					</div>
-					<div class="inqry-cntnt">
-						<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
-					</div>
-				</li>
-				
-				<li class="tit-row img-li">
-					<div class="inqry-label">
-						<label class="control-label" for="file">
-							<span th:text=#{file}>첨부파일</span><span class="fs-6 text-danger" th:text=#{max}>(최대 1개)</span>
-						</label>
-					</div>
-				    <div class="inqry-cntnt">
-						<input type="file" id="i_file" name="file">[[${inqry.inqryFileId}]]
-					</div>
-				</li>
-				
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label for="pwd" th:text=#{password}>비밀번호</label>
-					</div>
-					<div class="inqry-cntnt">
-						<input type="password" id="pwd" name="inqryPwd">
-					</div>
-				</li>
-			</ul>
-			
-			<div class="d-flex justify-content-center">
-				<input type="hidden" name="inqryId" th:value="${inqry.inqryId}">
-				<input type="hidden" name="inqryFileInqryId" th:value="${inqry.inqryFileInqryId}">
-				<a type="reset" class="btn bg-danger text-white me-2" th:href="@{/inqury}" th:text=#{cancel}>취소</a>
-				<button type="submit" class="btn insertBtn" value="글 수정" th:text=#{edit}></button>
-			</div>
-		</form>
-	</div>
+	<main>
+		<div class="container">
+			<div class="menu fw-bold" th:text=#{inqury.update}>문의사항 글 수정</div>
+			<form id="userUpdate"
+				th:action="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}"
+				method="post" enctype="multipart/form-data" class="inqry-form">
+				<ul class=tb-lst>
+					<li class="tit-row">
+						<div class="inqry-label">
+							<label for="title" th:text=#{title}> 제목<span
+								class="text-danger">*</span>
+							</label>
+						</div>
+						<div class="inqry-cntnt">
+							<input type="text" id="title" name="inqryTitle"
+								th:attr="placeholder=#{enter.title}"
+								th:value="${inqry.inqryTitle}">
+						</div>
+					</li>
+
+					<li class="tit-row">
+						<div class="inqry-label">
+							<label for="cntnt" th:text=#{content}> 내용<span
+								class="text-danger">*</span>
+							</label>
+						</div>
+						<div class="inqry-cntnt">
+							<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
+						</div>
+					</li>
+
+					<li class="tit-row img-li">
+						<div class="inqry-label">
+							<label class="control-label" for="file"> <span
+								th:text=#{file}>첨부파일</span><span class="fs-6 text-danger"
+								th:text=#{max}>(최대 1개)</span>
+							</label>
+						</div>
+						<div class="inqry-cntnt">
+							<input type="file" id="i_file" name="file">[[${inqry.inqryFileId}]]
+						</div>
+					</li>
+
+					<li class="tit-row">
+						<div class="inqry-label">
+							<label for="pwd" th:text=#{password}>비밀번호</label>
+						</div>
+						<div class="inqry-cntnt">
+							<input type="password" id="pwd" name="inqryPwd">
+						</div>
+					</li>
+				</ul>
+
+				<div class="d-flex justify-content-center">
+					<input type="hidden" name="inqryId" th:value="${inqry.inqryId}">
+					<input type="hidden" name="inqryFileInqryId"
+						th:value="${inqry.inqryFileInqryId}"> <a type="reset"
+						class="btn bg-danger text-white me-2" th:href="@{/inqury}"
+						th:text=#{cancel}>취소</a>
+					<button type="submit" class="btn insertBtn" value="글 수정"
+						th:text=#{edit}></button>
+				</div>
+			</form>
+		</div>
+	</main>
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script th:src="@{/js/inqury/inquryUpdate.js}"></script>
 </body>
 </html>

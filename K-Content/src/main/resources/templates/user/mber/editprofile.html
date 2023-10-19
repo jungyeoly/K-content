@@ -3,234 +3,210 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <th:block th:replace="~{/include/header :: header}"></th:block>
-
-<style>
-.mber-feedback {
-	font-size: 12px;
-}
-
-.emailauth-btn {
-	border-radius: 7px;
-	height: 37px;
-	font-size: 16px;
-	letter-spacing: 0;
-	line-height: 22.5px;
-	font-weight: 600;
-	transition: all 200ms linear;
-	display: inline-flex;
-	white-space: nowrap;
-	-moz-align-items: center;
-	-ms-align-items: center;
-	align-items: center;
-	-moz-justify-content: center;
-	-ms-justify-content: center;
-	justify-content: center;
-	-ms-flex-pack: center;
-	text-align: center;
-	border: none;
-	color: white;
-	background-color: var(--color-main);
-	box-shadow: 0 12px 24px -4px rgba(27, 60, 141, 0.3);
-}
-.emailauth-btn:disabled {
-	background-color: #b4bec7 !important;
-}
-
-.emailauth-btn:hover {
-	color: white;
-	background-color: #1f2029;
-	box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2);
-}
-</style>
+<link rel="stylesheet" th:href="@{/css/mber/editprofile.css}">
 </head>
 
 <body>
-	<header th:insert="~{/include/body-header :: userNavBar}"></header>
-	<div class="container">
-		<div class="menu fw-bold" th:text=#{mypage}>마이페이지</div>
-		<div
-			class="border-bottom border-top border-2 fw-bold border-dark mb-3">
-			<div class="mt-3 mb-3 row">
-				<div class="col-md-2">
-					<label for="mber_auth" class="col-form-label text-nowrap" th:text=#{account.type}>계정
-						구분</label>
-				</div>
-				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext"
-						id="mber_auth" th:value="${isAdmin ? '관리자' : '회원'}" tabindex="-1">
-				</div>
-			</div>
-			<div class="mb-3 row">
-				<div class="col-md-2">
-					<label for="mber_id" class="col-form-label text-nowrap" th:text=#{id}>아이디</label>
-				</div>
-				<div class="col-md-5">
-					<input type="text" readonly class="form-control-plaintext"
-						id="mber_id" th:value="${mber.mberId}" tabindex="-1" required>
-				</div>
-			</div>
-			<form th:action="@{/mber/update}" method="post"
-				class="validation-form" id="mberInfoForm" novalidate>
-				<div class="mb-3 row">
+	<header th:replace="~{/include/body-header :: userNavBar}"></header>
+	<main>
+		<div class="container">
+			<div class="menu fw-bold" th:text=#{mypage}>마이페이지</div>
+			<div
+				class="border-bottom border-top border-2 fw-bold border-dark mb-3">
+				<div class="mt-3 mb-3 row">
 					<div class="col-md-2">
-						<label for="mber_pwd" class="col-form-label text-nowrap" th:text=#{password}>비밀번호<span
-							class="align-middle" style="color: red;">*</span></label>
+						<label for="mber_auth" class="col-form-label text-nowrap"
+							th:text=#{account.type}>계정 구분</label>
 					</div>
 					<div class="col-md-4">
-						<input type="password" class="form-control" id="mber_pwd"
-							name="mberPwd" th:placeholder=#{password}
-							pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
-							onchange="checkPwd(this.value)" required>
+						<input type="text" readonly class="form-control-plaintext"
+							id="mber_auth" th:value="${isAdmin ? '관리자' : '회원'}" tabindex="-1">
 					</div>
-					<div class="col-md-1 align-self-center">
-						<i class="fa fa-eye see-pwd" id="see-pwd"></i>
+				</div>
+				<div class="mb-3 row">
+					<div class="col-md-2">
+						<label for="mber_id" class="col-form-label text-nowrap"
+							th:text=#{id}>아이디</label>
 					</div>
 					<div class="col-md-5">
-						<div class="mber-feedback fw-bold" id="check-pwd-feedback"></div>
+						<input type="text" readonly class="form-control-plaintext"
+							id="mber_id" th:value="${mber.mberId}" tabindex="-1" required>
 					</div>
 				</div>
+				<form th:action="@{/mber/update}" method="post"
+					class="validation-form" id="mberInfoForm" novalidate>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_pwd" class="col-form-label text-nowrap"
+								th:text=#{password}>비밀번호<span class="align-middle"
+								style="color: red;">*</span></label>
+						</div>
+						<div class="col-md-4">
+							<input type="password" class="form-control" id="mber_pwd"
+								name="mberPwd" th:placeholder=#{password}
+								pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
+								onchange="checkPwd(this.value)" required>
+						</div>
+						<div class="col-md-1 align-self-center">
+							<i class="fa fa-eye see-pwd" id="see-pwd"></i>
+						</div>
+						<div class="col-md-5">
+							<div class="mber-feedback fw-bold" id="check-pwd-feedback"></div>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_pwd_confirm" class="col-form-label text-nowrap"
+								th:text=#{con.password}>비밀번호 확인<span
+								class="align-middle" style="color: red;">*</span>
+							</label>
+						</div>
+						<div class="col-md-4">
+							<input type="password" class="form-control" id="mber_pwd_confirm"
+								th:attr="placeholder=#{con.password}"
+								pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
+								onchange="checkPasswordMatch()" required>
+						</div>
+						<div class="col-md-1 align-self-center">
+							<i class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
+						</div>
+						<div class="col-md-5 align-self-center">
+							<div class="mber-feedback fw-bold"
+								id="check-pwd-confirm-feedback"></div>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_name" class="col-form-label" th:text=#{name}>이름</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="mber_name"
+								name="mberName" th:value="${mber.mberName}"
+								onchange="checkName(this.value)" th:placeholder=#{name}>
+						</div>
+						<div class="col-md-6">
+							<div class="mber-feedback fw-bold align-self-center"
+								id="check-name-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-2">
+							<label for="mber_email" class="fw-bold col-form-label"
+								th:text=#{email}>이메일<span class="align-middle"
+								style="color: red;">*</span></label>
+						</div>
+						<div class="col-md-4">
+							<input type="email" id="mber_email" class="form-control form-bid"
+								name="mberEmail" th:attr="placeholder=#{enter.email}"
+								pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+								th:value="${mber.mberEmail}" autocomplete="off"
+								onkeyup="checkEmail(this.value)" required>
+						</div>
+						<div class="col-md-2">
+							<button type="button" tabindex="-1" id="email-check-btn"
+								class="form-control emailauth-btn">
+								<span id="email-check-btn-text" th:text=#{email.auth}>메일
+									인증</span>
+								<div
+									class="spinner-border text-info spinner-border-sm ms-2 d-none"
+									role="status" id="email-check-spinner"></div>
+							</button>
+						</div>
+						<div class="col-md-5 align-self-center">
+							<div class="mber-feedback" id="check-email-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-2">
+							<label for="auth-code-input" class="fw-bold col-form-label"
+								th:text=#{auth.num}>인증번호<span class="align-middle"
+								style="color: red;">*</span></label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" id="auth-code-input"
+								class="form-control mail-check-input"
+								th:attr="placeholder=#{enter.auth}" disabled="disabled"
+								maxlength="6"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+								onkeyup="checkAuthNum(this.value)">
+						</div>
+						<div class="col-md-6 align-self-center">
+							<div class="mber-feedback fw-bold" id="check-authnum-feedback"></div>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_gender" class="col-form-label text-nowrap"
+								th:text=#{gender}>성별<span class="align-middle"
+								style="color: red;">*</span></label>
+						</div>
+						<div class="col-md-4">
+							<select name="mberGenderCode" class="form-select"
+								id="mber_gender" required>
+								<option value="" disabled th:text=#{sel.gender}>성별 선택</option>
+								<option value="C0101"
+									th:selected="${mber.mberGenderCode} == 'C0101'" th:text=#{men}>남자</option>
+								<option value="C0102"
+									th:selected="${mber.mberGenderCode} == 'C0102'"
+									th:text=#{women}>여자</option>
+								<option value="C0103"
+									th:selected="${mber.mberGenderCode} == 'C0103'"
+									th:text=#{private}>비공개</option>
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_birth" class="col-form-label" th:text=#{birth}>생년월일</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control-plaintext" id="mber_birth"
+								th:value="${mber.mberBirth}" tabindex="-1" name="mberBirth"
+								readonly required>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<div class="col-md-2">
+							<label for="mber_phone" class="col-form-label" th:text=#{phone}>전화번호</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control"
+								th:value="${mber.mberPhone}" id="mber_phone" name="mberPhone"
+								oninput="oninputPhone(this)" maxlength="14" required>
+						</div>
+					</div>
+				</form>
 				<div class="mb-3 row">
 					<div class="col-md-2">
-						<label for="mber_pwd_confirm"
-							class="col-form-label text-nowrap" th:text=#{con.password}>비밀번호 확인<span
-							class="align-middle" style="color: red;">*</span>
-						</label>
+						<label for="mber_regist_date" class="col-form-label"
+							th:text=#{regist.date}>가입일자</label>
 					</div>
 					<div class="col-md-4">
-						<input type="password" class="form-control" id="mber_pwd_confirm"
-							th:attr="placeholder=#{con.password}"
-							pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
-							onchange="checkPasswordMatch()" required>
+						<input type="text" readonly class="form-control-plaintext"
+							id="mber_regist_date" th:value="${mber.mberRegistDate}"
+							tabindex="-1" required>
 					</div>
-					<div class="col-md-1 align-self-center">
-						<i class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
-					</div>
-					<div class="col-md-5 align-self-center">
-						<div class="mber-feedback fw-bold" id="check-pwd-confirm-feedback"></div>
-					</div>
+
 				</div>
-				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label for="mber_name" class="col-form-label" th:text=#{name}>이름</label>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control" id="mber_name"
-							name="mberName" th:value="${mber.mberName}"
-							onchange="checkName(this.value)" th:placeholder=#{name}>
-					</div>
-					<div class="col-md-6">
-						<div class="mber-feedback fw-bold align-self-center" id="check-name-feedback"></div>
-					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-2">
-						<label for="mber_email" class="fw-bold col-form-label" th:text=#{email}>이메일<span
-							class="align-middle" style="color: red;">*</span></label>
-					</div>
-					<div class="col-md-4">
-						<input type="email" id="mber_email" class="form-control form-bid"
-							name="mberEmail" th:attr="placeholder=#{enter.email}"
-							pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" th:value="${mber.mberEmail}"
-							autocomplete="off" onkeyup="checkEmail(this.value)" required>
-					</div>
-					<div class="col-md-2">
-						<button type="button" tabindex="-1" id="email-check-btn"
-							class="form-control emailauth-btn">
-							<span id="email-check-btn-text" th:text=#{email.auth}>메일 인증</span>
-							<div
-								class="spinner-border text-info spinner-border-sm ms-2 d-none"
-								role="status" id="email-check-spinner"></div>
-						</button>
-					</div>
-					<div class="col-md-5 align-self-center">
-						<div class="mber-feedback" id="check-email-feedback"></div>
-					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-2">
-						<label for="auth-code-input" class="fw-bold col-form-label" th:text=#{auth.num}>인증번호<span
-							class="align-middle" style="color: red;">*</span></label>
-					</div>
-					<div class="col-md-4">
-						<input type="text" id="auth-code-input"
-							class="form-control mail-check-input" th:attr="placeholder=#{enter.auth}"
-							disabled="disabled" maxlength="6"
-							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-							onkeyup="checkAuthNum(this.value)">
-					</div>
-					<div class="col-md-6 align-self-center">
-						<div class="mber-feedback fw-bold" id="check-authnum-feedback"></div>
-					</div>
-				</div>
-				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label for="mber_gender"
-							class="col-form-label text-nowrap" th:text=#{gender}>성별<span
-							class="align-middle" style="color: red;">*</span></label>
-					</div>
-					<div class="col-md-4">
-						<select name="mberGenderCode" class="form-select" id="mber_gender"
-							required>
-							<option value="" disabled th:text=#{sel.gender}>성별 선택</option>
-							<option value="C0101"
-								th:selected="${mber.mberGenderCode} == 'C0101'" th:text=#{men}>남자</option>
-							<option value="C0102"
-								th:selected="${mber.mberGenderCode} == 'C0102'" th:text=#{women}>여자</option>
-							<option value="C0103"
-								th:selected="${mber.mberGenderCode} == 'C0103'" th:text=#{private}>비공개</option>
-						</select>
-					</div>
-				</div>
-				<div class="mb-3 row">
-					<div class="col-md-2">
-					<label for="mber_birth" class="col-form-label" th:text=#{birth}>생년월일</label>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control-plaintext" id="mber_birth"
-							th:value="${mber.mberBirth}" tabindex="-1" name="mberBirth"
-							readonly required>
-					</div>
-				</div>
-				<div class="mb-3 row">
-					<div class="col-md-2">
-					<label for="mber_phone" class="col-form-label" th:text=#{phone}>전화번호</label>
-					</div>
-					<div class="col-md-4">
-						<input type="text" class="form-control"
-							th:value="${mber.mberPhone}" id="mber_phone" name="mberPhone"
-							oninput="oninputPhone(this)" maxlength="14" required>
-					</div>
-				</div>
-			</form>
+
+			</div>
+
 			<div class="mb-3 row">
 				<div class="col-md-2">
-				<label for="mber_regist_date" class="col-form-label" th:text=#{regist.date}>가입일자</label>
+					<button type="submit" tabindex="-1" class="btn form-control"
+						form="mberInfoForm" id="edit-btn">
+						<span id="fw-bold" th:text=#{com.edit}>수정완료</span>
+					</button>
 				</div>
-				<div class="col-md-4">
-					<input type="text" readonly class="form-control-plaintext"
-						id="mber_regist_date" th:value="${mber.mberRegistDate}"
-						tabindex="-1" required>
+				<div class="col-md-2">
+					<a th:href="@{/mber/mypage}"><button type="button"
+							tabindex="-1" class="bgwhite_btn btn form-control">
+							<span id="fw-bold" th:text=#{cancel}>취소</span>
+						</button></a>
 				</div>
-
-			</div>
-
-		</div>
-
-		<div class="mb-3 row">
-			<div class="col-md-2">
-				<button type="submit" tabindex="-1" class="btn form-control"
-					form="mberInfoForm" id="edit-btn">
-					<span id="fw-bold" th:text=#{com.edit}>수정완료</span>
-				</button>
-			</div>
-			<div class="col-md-2">
-				<a th:href="@{/mber/mypage}"><button type="button" tabindex="-1"
-						class="bgwhite_btn btn form-control">
-						<span id="fw-bold" th:text=#{cancel}>취소</span>
-					</button></a>
 			</div>
 		</div>
-	</div>
+	</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script>
 		var emailRegExp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -250,7 +226,7 @@
 
 		var spinner = document.getElementById("email-check-spinner");
 		var buttonText = document.getElementById("email-check-btn-text");
-		
+
 		var authCodeInput = document.getElementById("auth-code-input");
 
 		// ================ 이름 유효성검사 ===============//

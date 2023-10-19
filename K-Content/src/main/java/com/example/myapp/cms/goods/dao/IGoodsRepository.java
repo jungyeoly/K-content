@@ -21,7 +21,7 @@ public interface IGoodsRepository {
 
     Goods getAGoodsJFile(@Param("goodsId") int goodsId);
 
-    List<Goods> getSearchGoodsJFile(@Param("search") String search);
+    List<Goods> getSearchGoodsJFile(@Param("search") String search, @Param("start") int start, @Param("end") int end);
 
     int insertGoods(Goods goods);
 
@@ -34,5 +34,7 @@ public interface IGoodsRepository {
     void deleteGoodsFile(@Param("goodsId") int goodsId);
 
     int updateGoods(Goods goods);
+
+    int getSearchGoodsJFileCount(@Param("search") String search);
 
 }

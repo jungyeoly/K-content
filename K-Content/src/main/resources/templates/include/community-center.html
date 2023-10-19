@@ -4,11 +4,11 @@
 <div th:fragment="commu-nav">
 	<ul class="d-flex justify-content-center">
 		<li class=" mx-5 commu-cate">
-			<a class="commu-link activeNav" th:href="@{/commu/1(commonCodeDscr ='전체')}">커뮤니티</a>
+			<a class="commu-link activeNav" th:href="@{/commu/1(commonCodeDscr ='전체')}" th:text=#{community}>커뮤니티</a>
 		</li>
 		
 		<li id="cs" class="mx-5 commu-cate">
-			<a class="commu-link" th:href="@{/inqury}">문의사항</a>
+			<a class="commu-link" th:href="@{/inqury}" th:text=#{inqury}>문의사항</a>
 		</li>
 	</ul>
 </div>
@@ -16,11 +16,11 @@
 <div th:fragment="inqry-nav">
 	<ul class="d-flex justify-content-center">
 		<li class=" mx-5 commu-cate">
-			<a class="commu-link" th:href="@{/commu/1(commonCodeDscr ='전체')}">커뮤니티</a>
+			<a class="commu-link" th:href="@{/commu/1(commonCodeDscr ='전체')}" th:text=#{community}>커뮤니티</a>
 		</li>
 		
 		<li id="cs" class="mx-5 commu-cate">
-			<a class="commu-link activeNav" th:href="@{/inqury}">문의사항</a>
+			<a class="commu-link activeNav" th:href="@{/inqury}" th:text=#{inqury}>문의사항</a>
 		</li>
 	</ul>
 </div>

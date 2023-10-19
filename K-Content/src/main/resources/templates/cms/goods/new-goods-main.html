@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-          xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/content/content.css}">
-	<link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/content/content.css}">
+    <link rel="stylesheet" th:href="@{/css/goods/new-goods-main.css}">
 </head>
 
 <body>
-    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div class="pad">
-	
-	    <div class="layout d-flex justify-content-center mb-5" id="layout">
-	
-	    </div>
-	</div>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script th:inline="javascript">
-        $(document).ready(function() {
+<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+<div class="pad">
 
-            $.ajax({
-                url: "/cs/test/goods/" + 1,
-                type: "GET",
-                success: function(data) {
-                    var layout = $(".layout");
-                    layout.append(data);
-                }
-            })
+    <div class="layout d-flex justify-content-center mb-5" id="layout">
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "/cs/test/goods/" + 1,
+            type: "GET",
+            success: function (data) {
+                var layout = $(".layout");
+                layout.append(data);
+            }
         })
-    </script>
-    <script src="/js/goods/goodsListMain.js" defer></script>
+    })
+</script>
+<script src="/js/goods/goodsListMain.js" defer></script>
 
-    </body>
+</body>
 </html>

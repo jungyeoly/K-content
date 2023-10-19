@@ -24,6 +24,7 @@ public class MainCon {
     public String getCate(Model model) {
     	// 공통코드를 이용한 content의 카테고리 조회    	
     	List<String> cateList = commonCodeService.cateList("C03");
+
     	model.addAttribute("cateList", cateList);
     
       return "user/index";

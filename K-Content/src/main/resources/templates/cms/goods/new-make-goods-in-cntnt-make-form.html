@@ -9,79 +9,68 @@
 <body>
 
 <div>
-    <!--    값이 있는거 수정할 때-->
-    <div th:if="${not #strings.isEmpty(goods)}" class="page container">
-        <input type="hidden" id="goodsId" th:value="${goods.getGoodsId()}">
-        <div class="img-side">
-            <h3 style="text-align: center">상품사진</h3>
-            <hr>
-            <div class="img" id="pictures">
-                <!--            <button style="z-index: 10; position: sticky !important;"-->
-                <!--                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"-->
-                <!--                    th:key="${goods.goodsFileId}"-->
-                <!--                    onclick="delGoodsFile(this.getAttribute('key'))">X-->
-                <!--            </button>-->
 
-                <img th:src="@{'/img/goods/' + ${goods.goodsFileId}}" th:goodsId="${goods.goodsFileId}"
-                     th:id="${goods.goodsFileId}" alt="" class="photoFrame"
-                     onclick="removeFile(this.getAttribute('goodsId'))">
-
+    <!--    값이 없는거 생성할때-->
+    <div th:if="${#strings.isEmpty(goods)}" class="container page">
+        <form action="" class="validation-form" onsubmit="createGoodsInCntnt();" novalidate>
+            <div class="img-side">
+                <h3 style="text-align: center">상품사진</h3>
+                <hr>
+                <div class="img" id="pictures">
+                </div>
+                <div class="input-group mb-3 file-append-box">
+                    <input type="file" class="form-control" id="input-file" name="files" required>
+                    <label class="input-group-text" for="input-file">Upload</label>
+                    <div class="invalid-feedback">상품 이미지를 입력해주세요.</div>
+                </div>
             </div>
-            사진을 클릭하면 삭제됩니다!
-            <div class="input-group mb-3 file-append-box">
-                <input type="file" class="form-control" id="input-file" name="files"  accept="image/*"  >[[${goods.goodsFileId}]]
-                <label class="input-group-text" for="input-file">Upload</label>
-            </div>
-        </div>
-        <div class="info-side">
-            <h3 style="text-align: center">상품정보</h3>
-            <hr>
-            <div class="table">
-                <!--        <form action="/cs/goods/creategoods" method="post" enctype="multipart/form-data">-->
-                <table class="table caption-top">
-                    <caption>상품 상세 정보</caption>
-                    <tbody>
-                    <tr>
-                        <th scope="row">상품 이름</th>
-                        <td><input id="name" name="name" type="text" th:value="${goods.getGoodsName()}" required></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 브랜드</th>
-                        <td><input id="brand" name="brand" type="text" th:value="${goods.getGoodsBrand()}" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 가격(원)</th>
-                        <td><input id="price" name="price" type="text" th:value="${goods.getGoodsPrice()}" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">상품 구매링크</th>
-                        <td><input id="link" name="link" type="text" th:value="${goods.getGoodsPurchsLink()}" required>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="info-side">
+                <h3 style="text-align: center">상품정보</h3>
+                <hr>
+                <div class="table">
 
-            <div class="item keyword" id="keywordList">
-
-
-                <div class="newKeyword">
-                    <div class="keywordItem" th:each="keyword : ${keywordList}" th:id="${keyword}" style="margin-top: 20px">
-                        <button type="button" style="margin-left: 10px"
-                                class="btn btn-primary position-relative keywordButton"
-                                th:text="${keyword}">
-                        </button>
-                        <button style="z-index: 10;"
-                                class="position-absolute  translate-middle badge rounded-pill bg-danger"
-                                th:key="${keyword}"
-                                onclick="delKeyword(this.getAttribute('key'))">X
-                        </button>
-                        <!--                    <h2 th:text="${keyword}"></h2>-->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">상품 이름</span>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="상품 이름을 입력하세요"
+                               required>
+                        <div class="invalid-feedback">상품이름을 입력해주세요.</div>
                     </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">상품 브랜드</span>
+                        <input type="text" id="brand" name="brand" class="form-control" placeholder="상품 브랜드를 입력하세요"
+                               required>
+                        <div class="invalid-feedback">상품 브랜드를 입력해주세요.</div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">상품 가격</span>
+                        </div>
+                         <input type="number" id="price" name="price" max="100000000000" class="form-control" placeholder="상품 가격을 입력하세요"
+                               required>
+                        <div class="invalid-feedback">상품 가격을 입력해주세요.</div>
+                        <div class="input-group-append">
+                            <span class="input-group-text">원</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">상품 구매링크</span>
+                        <input type="text" id="link" name="link" class="form-control" placeholder="상품 구매링크를 입력하세요"
+                               required>
+                        <div class="invalid-feedback">상품 구매링크를 입력해주세요.</div>
+                    </div>
+
                 </div>
 
+                <div class="item keyword" id="keywordList">
+                    <div class="newKeyword">
+
+                    </div>
+
+
+                </div>
                 <div class="input-group mb-3">
                     <form id="searchForm" class="input-group">
                         <div class="keywordInput">
@@ -94,85 +83,11 @@
                         </button>
                     </form>
                 </div>
-            </div>
-            <input type="hidden" th:value="${goods.getGoodsId()}" id="targetGoodsId">
-            <div class="button-box">
-                <button type="button" class="btn btn-primary" onclick="updateGoodsIf()">상품 수정</button>
-                <button type="button" class="btn danger" onclick="cancle()">취소</button>
-            </div>
-        </div>
-
-
-    </div>
-
-
-    <!--    값이 없는거 생성할때-->
-    <div th:if="${#strings.isEmpty(goods)}" class="container page">
-        <div class="img-side">
-            <h3 style="text-align: center">상품사진</h3>
-            <hr>
-            <div class="img" id="pictures">
-            </div>
-            <div class="input-group mb-3 file-append-box">
-                <input type="file" class="form-control" id="input-file" name="files" required >
-                <label class="input-group-text" for="input-file">Upload</label>
-            </div>
-        </div>
-        <div class="info-side">
-            <h3 style="text-align: center">상품정보</h3>
-            <hr>
-            <div class="table">
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text">상품 이름</span>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="상품 이름을 입력하세요"
-                           required>
+                <div class="button-box">
+                    <button type="submit" class="btn btn-primary" >상품 생성</button>
                 </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text">상품 브랜드</span>
-                    <input type="text" id="brand" name="brand" class="form-control" placeholder="상품 브랜드를 입력하세요"
-                           required>
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text">상품 가격(원)</span>
-                    <input type="text" id="price" name="price" class="form-control" placeholder="상품 가격을 입력하세요"
-                           required>
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text">상품 구매링크</span>
-                    <input type="text" id="link" name="link" class="form-control" placeholder="상품 구매링크를 입력하세요"
-                           required>
-                </div>
-
             </div>
-
-            <div class="item keyword" id="keywordList">
-                <div class="newKeyword">
-
-                </div>
-
-
-
-            </div>
-            <div class="input-group mb-3">
-                <form id="searchForm" class="input-group">
-                    <div class="keywordInput">
-                        <input id="inputKeyword" type="text" class="form-control" placeholder="키워드를 입력하세요">
-                    </div>
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                            onclick="makeKeyword()">
-                        키워드
-                        추가
-                    </button>
-                </form>
-            </div>
-            <div class="button-box">
-                <button type="button" class="btn btn-primary" onclick="createGoodsInCntnt()">상품 생성</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 

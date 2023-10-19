@@ -39,6 +39,10 @@ textarea {
 	width: 100%;
 }
 
+.cntnt {
+    height: 300px;
+}
+
 textarea#cntnt {
     width: 100%;
     height: 300px;

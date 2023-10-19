@@ -28,19 +28,6 @@ $(document).ready(function () {
                 </div>
             </li> `;
                     element.insertAdjacentHTML("afterbegin", inHtml);
-                    //밑에 html 코드도 위에 붙여본겁니다. 안예쁩니다.
-                    // <li className="goods-box card-item" id="card-item" style="margin-bottom: 70px"
-                    //     onClick="recomCntntDetail(${contentList[i].cntntId})">
-                    //     <div className="card " style="width: 18rem; height: 240px">
-                    //         <figure className="card-image" style=" background-image: url(${contentList[i].cntntThumnail})">
-                    //             <img className="card-img-top" src=${contentList[i].cntntThumnail} alt="일분이"
-                    //                  style="display: none">
-                    //         </figure>
-                    //         <div className="card-desc" style="width:18rem; border:1px solid">
-                    //             ${contentList[i].cntntTitle}
-                    //         </div>
-                    //     </div>
-                    // </li>
                 }
             }
 
@@ -49,18 +36,19 @@ $(document).ready(function () {
             console.error('에러 발생: ', error);
         }
     });
-
+    const element = document.getElementById('trend');
     $.ajax({
         url: '/cs/test/insta-img', type: 'GET',
         data: requestData,
         success: function (data2) {
-            const element = document.getElementById('trend');
+
             data2.slice(1, -1);
             data2.slice(1, -1);
             console.log(data2);
             element.innerHTML = data2
         }, error: function (error) {
-            console.error('에러 발생: ', error);
+            element.innerHTML = `<img src="/img/fail_cro.png" >`;
+
         }
     });
 
@@ -114,29 +102,72 @@ function updateCntnt(cntntId) {
 
 //콘텐츠 삭제 처리
 function deleteCntnt() {
-    if (confirm('컨텐츠를 삭제하시겠습니까?')) {
-        $.ajax({
-            url: '/cs/test/content', type: 'patch',
-            data: {
-                cntntId: document.getElementById("cntntId").value
-            }, // 데이터 객체 전달
-            success: function (data2) {
-                if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/test");
-                } else {
-                    window.location.replace("/cs/test");
+    Swal.fire({
+        title: '삭제 여부',
+        text: '컨텐츠를 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cs/test/content', type: 'patch',
+                data: {
+                    cntntId: document.getElementById("cntntId").value
+                }, // 데이터 객체 전달
+                success: function (data2) {
+                    Swal.fire({
+                        title: '삭제 완료',
+                        text: '컨텐츠 삭제가 완료 되었습니다.',
+                        icon: 'success',
+                        confirmButtonText: '확인'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.replace("/cs/test");
+                        }
+                    });
+                }, error: function (error) {
+                    console.error('에러 발생: ', error);
                 }
-            }, error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-    }
-
+            });
+        }
+    });
 }
+
+// function deleteCntnt() {
+//     if (confirm('컨텐츠를 삭제하시겠습니까?')) {
+//         $.ajax({
+//             url: '/cs/test/content', type: 'patch',
+//             data: {
+//                 cntntId: document.getElementById("cntntId").value
+//             }, // 데이터 객체 전달
+//             success: function (data2) {
+//                 if (confirm('삭제가 완료 되었습니다')) {
+//                     window.location.replace("/cs/test");
+//                 } else {
+//                     window.location.replace("/cs/test");
+//                 }
+//             }, error: function (error) {
+//                 console.error('에러 발생: ', error);
+//             }
+//         });
+//     }
+//
+// }
 
 //상품클릭시 이동할건지 물어봄
 function moveGoods(goodsUrl) {
-    if (confirm('해당 상품 판매 사이트로 이동하시겠습니까?')) {
-        window.open(goodsUrl);
-    }
+    Swal.fire({
+        title: '이동 여부',
+        text: '해당 상품 판매 사이트로 이동하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.open(goodsUrl);
+        }
+    });
 }

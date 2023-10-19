@@ -17,18 +17,18 @@
 				<div class="input-form col-md-12 mx-auto opacity-95">
 
 					<div class="col-md-12 text-center">
-						<p class="fw-bold fs-2">회원가입</p>
+						<p class="fw-bold fs-2" th:text=#{sign.up}>회원가입</p>
 					</div>
 					<form th:action="@{/mber/signup}" method="post"
 						class="validation-form" id="signupForm" novalidate>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_id" class="fw-bold text-nowrap">아이디<span
+								<label for="mber_id" class="fw-bold text-nowrap" th:text=#{id}>아이디<span
 									style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_id"
-									name="mberId" placeholder="아이디 입력" autocomplete="off"
+									name="mberId" th:placeholder=#{enter.id} autocomplete="off"
 									onchange="checkId(this.value)" maxlength="12" required>
 							</div>
 							<div class="col-md-10">
@@ -37,13 +37,13 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_pwd" class="fw-bold text-nowrap">비밀번호<span
+								<label for="mber_pwd" class="fw-bold text-nowrap" th:text=#{password}>비밀번호<span
 									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
-										id="mber_pwd" name="mberPwd" placeholder="비밀번호" value=""
+										id="mber_pwd" name="mberPwd" th:placeholder=#{enter.password} value=""
 										onchange="checkPwd(this.value)" maxlength="16" required><i
 										class="fa fa-eye see-pwd" id="see-pwd"></i>
 								</div>
@@ -55,7 +55,7 @@
 						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_pwd_confirm"
-									class="fw-bold text-nowrap align-middle">비밀번호 확인<span
+									class="fw-bold text-nowrap align-middle" th:text=#{con.password}>비밀번호 확인<span
 									class="align-middle" style="color: red;">*</span>
 								</label>
 							</div>
@@ -63,7 +63,7 @@
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
 										id="mber_pwd_confirm"
-										placeholder="비밀번호 확인" onchange="checkPasswordMatch()"
+										th:placeholder=#{con.password} onchange="checkPasswordMatch()"
 										maxlength="16" required><i class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
 								</div>
 							</div>
@@ -74,19 +74,19 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_name" class="fw-bold text-nowrap">이름<span
+								<label for="mber_name" class="fw-bold text-nowrap" th:text=#{name}>이름<span
 									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_name"
-									name="mberName" placeholder="이름 입력"
+									name="mberName" th:placeholder=#{enter.name}
 									onchange="checkName(this.value)" autocomplete="off" required>
 							</div>
 							<div class="mber-feedback fw-bold" id="check-name-feedback"></div>
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_birth" class="fw-bold">생년월일</label>
+								<label for="mber_birth" class="fw-bold" th:text=#{birth}>생년월일</label>
 							</div>
 							<div class="col-md-4">
 								<input type="date" class="form-control form-bid" id="mber_birth"
@@ -94,35 +94,35 @@
 									onkeydown="return false">
 							</div>
 							<div class="col-md-2">
-								<label for="mber_gender" class="fw-bold text-nowrap">성별<span
+								<label for="mber_gender" class="fw-bold text-nowrap" th:text=#{gender}>성별<span
 									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-4">
 								<select name="mberGenderCode" class="form-select"
 									id="mber_gender" required>
-									<option value="" disabled selected>성별 선택</option>
-									<option value="C0101">남자</option>
-									<option value="C0102">여자</option>
-									<option value="C0103">비공개</option>
+									<option value="" disabled selected th:text=#{sel.gender}>성별 선택</option>
+									<option value="C0101" th:text=#{men}>남자</option>
+									<option value="C0102" th:text=#{women}>여자</option>
+									<option value="C0103" th:text=#{private}>비공개</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_email" class="fw-bold">이메일<span
+								<label for="mber_email" class="fw-bold" th:text=#{email}>이메일<span
 									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-7">
 								<input type="email" id="mber_email"
 									class="form-control form-bid" name="mberEmail"
-									placeholder="이메일 입력" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+									th:placeholder=#{enter.email} pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 									autocomplete="off" onkeyup="checkEmail(this.value)" required>
 							</div>
 							<div class="col-md-3">
 								<button type="button" tabindex="-1" id="email-check-btn"
 									name="EmailAuth" class="form-control emailauth-btn">
-									<span id="email-check-btn-text">메일 인증</span>
+									<span id="email-check-btn-text" th:text=#{email.auth}>메일 인증</span>
 									<div
 										class="spinner-border text-info spinner-border-sm ms-2 d-none"
 										role="status" id="email-check-spinner"></div>
@@ -134,12 +134,12 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="auth-code-input" class="fw-bold">인증번호<span
+								<label for="auth-code-input" class="fw-bold" th:text=#{auth.num}>인증번호<span
 									class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="auth-code-input"
-									class="form-control mail-check-input" placeholder="인증번호 입력"
+									class="form-control mail-check-input" th:placeholder=#{enter.auth}
 									disabled="disabled" maxlength="6"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									onkeyup="checkAuthNum(this.value)">
@@ -150,11 +150,11 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_phone" class="fw-bold">전화번호</label>
+								<label for="mber_phone" class="fw-bold" th:text=#{phone}>전화번호</label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="mber_phone" name="mberPhone"
-									class="form-control form-bid" placeholder="전화번호 입력"
+									class="form-control form-bid" th:attr="placeholder=#{enter_phone}"
 									oninput="oninputPhone(this)"
 									maxlength="13" autocomplete="off">
 							</div>
@@ -170,13 +170,13 @@
 								<div class="form-check form-switch">
 									<input type="checkbox" class="form-check-input" id="aggrement"
 										required> <label class="form-check-label fw-bold"
-										for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+										for="aggrement" th:text=#{agree}>개인정보 수집 및 이용에 동의합니다.</label>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="mb-2"></div>
-							<button type="submit" class="btn btn-lg" id="signup-btn">가입완료</button>
+							<button type="submit" class="btn btn-lg" id="signup-btn" th:text=#{sign.up.btn}>가입완료</button>
 						</div>
 					</form>
 				</div>

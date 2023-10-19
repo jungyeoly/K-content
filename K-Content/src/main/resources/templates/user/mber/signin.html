@@ -23,7 +23,7 @@
 								height="180" class="img-fluid" alt="K-Spectrum"></a>
 						</p>
 
-						<p class="text-center fw-bold fs-2">안녕하세요. 당신은 누구신가요?</p>
+						<p class="text-center fw-bold fs-2" th:text=#{signin.title}>안녕하세요. 당신은 누구신가요?</p>
 
 						<div th:if="${param.error != null}"
 							class="alert alert-danger fw-bold" role="alert"
@@ -32,9 +32,9 @@
 						<div class="row">
 							<div class="col-md-12 mb-3">
 								<input type="text" class="form-control form-bid" id="mber_id"
-									name="mberId" placeholder="아이디" value="" maxlength="12"
+									name="mberId" th:placeholder=#{id} value="" maxlength="12"
 									required>
-								<div class="invalid-feedback">아이디를 입력해주세요.</div>
+								<div class="invalid-feedback" th:text=#{enter.ID}>아이디를 입력해주세요.</div>
 							</div>
 						</div>
 
@@ -42,9 +42,9 @@
 							<div class="col-md-12">
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
-										id="mber_pwd" name="mberPwd" placeholder="비밀번호" value=""
+										id="mber_pwd" name="mberPwd" th:placeholder=#{password} value=""
 										maxlength="16" required><i class="fa fa-eye"
-										id=see_pwd></i> <span class="invalid-feedback">비밀번호를
+										id=see_pwd></i> <span class="invalid-feedback" th:text=#{enter.password}>비밀번호를
 										입력해주세요.</span>
 								</div>
 							</div>
@@ -56,25 +56,27 @@
 								<div class="form-check form-switch">
 									<input class="form-check-input" type="checkbox"
 										id="remember-me" name="remember-me"> <label
-										class="form-check-label fw-bold" for="remember-me">로그인
+										class="form-check-label fw-bold" for="remember-me" th:text=#{stay_login}>로그인
 										상태 유지</label>
 								</div>
 							</div>
 							<div class="col-md-6 mb-3 text-end">
 								<a th:href="@{/mber/findmber(findType='id')}"
-									class="fw-bold link-effect">아이디 찾기</a> <a
+									class="fw-bold link-effect" th:text=#{find.id}>아이디 찾기</a> <a
 									th:href="@{/mber/findmber(findType='password')}"
-									class="fw-bold link-effect">비밀번호 찾기</a>
+									class="fw-bold link-effect" th:text=#{find.password}>비밀번호 찾기</a>
 							</div>
 						</div>
 						<div class="row">
-							<button type="submit" class="btn btn-lg mb-3">로그인</button>
+							<button type="submit" class="btn btn-lg mb-3" th:text=#{sign.in}>로그인</button>
 						</div>
 						<div class="row">
-							<p class="text-center">
-								아직 회원이 아니신가요? <a th:href="@{/mber/signup}"
-									class="fw-bold link-effect">회원가입</a>
-							</p>
+							<div class="d-flex justify-content-center jusify-align-center">
+								<p class="text-center m-0 pt-1" th:text=#{signup.comments}>
+									아직 회원이 아니신가요? 
+								</p>
+								<a th:href="@{/mber/signup}" class="m-0 fw-bold link-effect" th:text=#{sign.up}>회원가입</a>
+							</div>
 						</div>
 
 					</form>

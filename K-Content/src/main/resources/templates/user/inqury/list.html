@@ -36,19 +36,19 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 입력</h1>
+					<h1 class="modal-title fs-5" id="exampleModalLabel" th:text=#{enter.password}>비밀번호 입력</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<form id="userPassword" class="password-form" th:action="@{/pwdcheck}" method="post">
 					<div class="modal-body">
 						<input type="hidden" name="inqryId"> 
-						<input type="password" class="password-input me-2 form-control"	placeholder="비밀번호" name="inqryPwd"> 
+						<input type="password" class="password-input me-2 form-control"	th:placeholder=#{password} name="inqryPwd"> 
 						<input type="submit" class="submit-btn btn btn-primary"	th:submit="@{/inqury/detail/}+${inqryId}" hidden>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-						<button type="submit" class="submit-btn btn btn-primary">확인</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text=#{cancel}>취소</button>
+						<button type="submit" class="submit-btn btn btn-primary" th:text=#{enter}>확인</button>
 					</div>
 				</form>
 			</div>

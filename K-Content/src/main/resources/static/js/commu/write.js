@@ -36,6 +36,7 @@ let selectedFiles = [];
 
 function appendFileList() {
 	const files = document.getElementById('attachment').files;
+	selectedFiles = []; // selectedFiles 배열 초기화
 	for (let i = 0; i < files.length; i++) {
 		selectedFiles.push(files[i]);
 	}
@@ -45,7 +46,6 @@ function appendFileList() {
 function displayFileList() {
 	const fileList = document.getElementById('fileList');
 	fileList.innerHTML = '';
-	console.log(fileList);
 	selectedFiles.forEach((file, index) => {
 		const li = document.createElement('li');
 		li.textContent = file.name;

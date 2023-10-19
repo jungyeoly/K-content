@@ -6,37 +6,25 @@
 	<select id="selectAllPost"
 		resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
-        select a.commu_id,
-               a.commu_title,
-               a.commu_regist_date,
-               a.commu_read_cnt,
-               a.commu_cate_code,
-               a.commu_mber_id,
-               a.rn,
-               b.common_code_dscr
-        from (
-            select rownum rn,
-                   commu_id, 
-                   commu_title,
-                   commu_regist_date,
-                   commu_read_cnt,
-                   commu_cate_code,
-                   commu_mber_id,
-                   commu_status
-            from (
-                select tb_commu.*
-                from tb_commu
-                where
-                 commu_status = 'N'
-                order by commu_id desc
-            )
-        ) a
-        JOIN tb_common_code b ON a.commu_cate_code = b.common_code 
-        WHERE a.rn BETWEEN #{start} AND #{end}
-        AND a.commu_status != 'Y' 
-        AND a.commu_status != 'R'
-        ORDER BY case when a.commu_cate_code= 'C06' then 0 else 1 end,
-         a.commu_id desc
+        SELECT * FROM (
+    SELECT a.commu_id,
+           a.commu_title,
+           a.commu_regist_date,
+           a.commu_read_cnt,
+           a.commu_cate_code,
+           a.commu_mber_id,
+           b.common_code_dscr,
+           CASE 
+               WHEN a.commu_cate_code = 'C06' THEN 0 
+               ELSE 1 
+           END as sort_order,
+           ROW_NUMBER() OVER(ORDER BY CASE WHEN a.commu_cate_code = 'C06' THEN 0 ELSE 1 END, a.commu_id DESC) as rn
+    FROM tb_commu a
+    JOIN tb_common_code b ON a.commu_cate_code = b.common_code 
+    WHERE a.commu_status = 'N'
+) 
+WHERE rn BETWEEN #{start} AND #{end} 
+        
 ]]>
 	</select>
 
@@ -79,25 +67,32 @@
 		FROM (
 		SELECT tb_commu.*
 		FROM tb_commu
-		LEFT JOIN tb_common_code ON tb_commu.commu_cate_code =
+		LEFT JOIN tb_common_code ON
+		tb_commu.commu_cate_code =
 		tb_common_code.common_code
-		WHERE commu_status = 'N'
+		WHERE commu_status
+		= 'N'
 		<if test="commuCateCode != '전체'">
 			AND tb_commu.commu_cate_code = (
 			SELECT common_code
-			FROM tb_common_code
+			FROM
+			tb_common_code
 			WHERE common_code_dscr = #{commuCateCode}
 			)
 		</if>
 		ORDER BY
-		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE 1 END,
+		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE
+		1 END,
 		commu_id DESC
 		) tb_commu
 		) a
-		JOIN tb_common_code ON a.commu_cate_code = tb_common_code.common_code
-		WHERE a.rn BETWEEN #{start} AND #{end}
+		JOIN tb_common_code ON
+		a.commu_cate_code = tb_common_code.common_code
+		WHERE a.rn BETWEEN
+		#{start} AND #{end}
 		ORDER BY
-		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE 1 END,
+		CASE WHEN tb_common_code.common_code_dscr =
+		'공지사항' THEN 0 ELSE 1 END,
 		commu_id DESC
 
 	</select>

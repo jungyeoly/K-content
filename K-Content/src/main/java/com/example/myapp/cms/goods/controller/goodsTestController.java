@@ -2,6 +2,7 @@ package com.example.myapp.cms.goods.controller;
 
 import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.model.GoodsFile;
+import com.example.myapp.cms.goods.model.PageBox;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.user.inqry.model.Inqry;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +50,7 @@ public class goodsTestController {
         if (bbsCount > 0) {
             totalPage = (int) Math.ceil(bbsCount / 9.0);
         }
-        int totalPageBlock = (int) (Math.ceil(totalPage / 9.0));
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
         int nowPageBlock = (int) Math.ceil(page / 10.0);
         int startPage = (nowPageBlock - 1) * 10 + 1;
         int endPage = 0;
@@ -90,9 +92,34 @@ public class goodsTestController {
     // 상품 검색 결과 출력
     @GetMapping("/search")
     @ResponseBody
-    public List<Goods> getSearchGoods(String search) {
-        List<Goods> goodsList = goodsService.getSearchGoodsJFile(search);
-        return goodsList;
+    public List<Object> getSearchGoods(@RequestParam(value = "search") String search, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        PageBox pageBox = new PageBox();
+        List<Object> searchResult = new ArrayList<>();
+        List<Goods> goodsList = goodsService.getSearchGoodsJFile(search, page);
+        searchResult.add(goodsList);
+        int bbsCount = goodsService.getSearchGoodsJFileCount(search);
+        int totalPage = 0;
+        if (bbsCount > 0) {
+            totalPage = (int) Math.ceil(bbsCount / 9.0);
+        }
+        int totalPageBlock = (int) (Math.ceil(totalPage / 10.0));
+        int nowPageBlock = (int) Math.ceil(page / 10.0);
+        int startPage = (nowPageBlock - 1) * 10 + 1;
+        int endPage = 0;
+        if (totalPage > nowPageBlock * 10) {
+            endPage = nowPageBlock * 10;
+        } else {
+            endPage = totalPage;
+        }
+        pageBox.setTotalPageCount(totalPage);
+        pageBox.setNowPage(page);
+        pageBox.setTotalPageBlock(totalPageBlock);
+        pageBox.setNowPageBlock(nowPageBlock);
+        pageBox.setStartPage(startPage);
+        pageBox.setEndPage(endPage);
+        searchResult.add(pageBox);
+
+        return searchResult;
     }
 
     @GetMapping("/item")
@@ -337,6 +364,8 @@ public class goodsTestController {
 
         return "cms/goods/new-goods-list-in-cntnt-make-form";
     }
+
+
 
 
 }

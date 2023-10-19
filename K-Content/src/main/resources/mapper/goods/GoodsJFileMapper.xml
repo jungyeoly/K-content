@@ -10,6 +10,19 @@
         WHERE goods_delete_yn = 'N'
         ]]>
 	</select>
+
+
+    <select id="getSearchGoodsJFileCount" resultType="int">
+		<![CDATA[
+        SELECT count(*)
+        FROM tb_goods
+        WHERE goods_delete_yn = 'N'
+          and (goods_kwrd LIKE ('%' || #{search} || '%')
+            OR goods_brand LIKE ('%' || #{search} || '%')
+            OR goods_name LIKE ('%' || #{search} || '%'))
+        ]]>
+	</select>
+
     <select id="getAllGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
         SELECT goods_id,
@@ -92,27 +105,39 @@
 
     <select id="getSearchGoodsJFile" resultType="com.example.myapp.cms.goods.model.Goods">
         <![CDATA[
-        SELECT g.goods_id,
-               g.goods_name,
-               g.goods_brand,
-               g.goods_price,
-               g.goods_purchs_link,
-               g.goods_kwrd,
-               g.goods_regist_date,
-               g.goods_update_date,
-               g.goods_delete_yn,
+        SELECT goods_id,
+               goods_name,
+               goods_brand,
+               goods_price,
+               goods_purchs_link,
+               goods_kwrd,
+               goods_regist_date,
+               goods_update_date,
+               goods_delete_yn,
+               f.goods_file_id,
                f.goods_file_path,
-               f.goods_file_name,
-               f.goods_file_id
+               f.goods_file_name
+        FROM (SELECT g.*, ROWNUM AS RNUM, COUNT(*) OVER () AS TOTCNT
+              FROM (SELECT goods_id,
+                           goods_name,
+                           goods_brand,
+                           goods_price,
+                           goods_purchs_link,
+                           goods_kwrd,
+                           goods_regist_date,
+                           goods_update_date,
+                           goods_delete_yn
+                    FROM tb_goods
+                    where goods_delete_yn = 'N'
+                      and (goods_kwrd LIKE ('%' || #{search} || '%')
+                        OR goods_brand LIKE ('%' || #{search} || '%')
+                        OR goods_name LIKE ('%' || #{search} || '%'))
+                    ORDER BY goods_name) g)
 
-        FROM tb_goods g
                  LEFT OUTER JOIN tb_goods_file f
-                                 ON g.goods_id = f.goods_file_goods_id
-        WHERE g.goods_delete_yn = 'N'
-          and (g.goods_kwrd LIKE ('%' || #{search} || '%')
-            OR g.goods_brand LIKE ('%' || #{search} || '%')
-            OR g.goods_name LIKE ('%' || #{search} || '%'))
-        order by g.goods_name
+                                 ON goods_id = f.goods_file_goods_id
+        WHERE RNUM >= #{start}
+          AND RNUM <= #{end}
         ]]>
     </select>
 </mapper>

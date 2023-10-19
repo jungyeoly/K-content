@@ -57,7 +57,7 @@
 
     <!-- 상품 -->
     <h3 class="text-center fw-bold my-4">
-        <span class="main-border">관련 상품</span>
+        <span class="main-border" th:text=#{related.goods}>관련 상품</span>
     </h3>
 
     <div>
@@ -116,7 +116,7 @@
     <hr>
     <section class="recommand">
         <h3 class="text-center fw-bold my-4">
-            <span class="main-border">키워드 관련 영상</span>
+            <span class="main-border" th:text=#{keywords.videos}>키워드 관련 영상</span>
         </h3>
         <ul class="card-list d-flex justify-content-center flex-wrap"
             id="card-list">
@@ -131,7 +131,7 @@
      data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling"
      aria-labelledby="offcanvasScrollingLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel">트랜드</h5>
+        <h5 class="offcanvas-title text-center" id="offcanvasScrollingLabel" th:text=#{trend}>트랜드</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
     </div>
@@ -149,7 +149,9 @@
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/js/cntnt/cntntDetail.js" defer></script>
 <script src="/js/cntnt/userCntntDetail.js"></script>
-
+<script type="text/javascript">
+	$("select").hide()
+</script>
 </body>
 
 </html>

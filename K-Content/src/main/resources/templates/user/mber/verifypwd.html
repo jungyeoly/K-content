@@ -10,16 +10,16 @@
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="container-md">
-		<div class="menu fw-bold">마이페이지</div>
+		<div class="menu fw-bold" th:text=#{mypage}>마이페이지</div>
 		<div
 			class="border-bottom border-top border-2 fw-bold border-dark mb-5 text-center p-5">
 			<div class="mt-5 row">
-				<div class="col-md-12">
+				<div class="col-md-12" th:text=#{verity.ment1}>
 					마이페이지는 회원님의 소중한 개인정보가 있는 공간입니다. <br>
 				</div>
 			</div>
 			<div class="mb-5 row">
-				<div class="col-md-12">접근을 위해서는 비밀번호를 입력해주세요.</div>
+				<div class="col-md-12" th:text=#{verity.ment2}>접근을 위해서는 비밀번호를 입력해주세요.</div>
 			</div>
 
 
@@ -29,13 +29,13 @@
 					<div class="col-md-3">
 						<span class="input-group-text"> <input type="password"
 							class="enter form-bid" id="mber_pwd" name="mberPwd"
-							placeholder="비밀번호 입력"
+							th:attr="placeholder=#{enter.password}"
 							pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
 							required><i class="fa fa-eye" id=see_pwd></i></span>
 					</div>
 					<div class="col-md-2">
 						<button type="submit" tabindex="-1" class="btn form-control"
-							id="edit-btn">확인</button>
+							id="edit-btn" th:text=#{enter}>확인</button>
 					</div>
 				</div>
 				<div class="mb-5 row justify-content-center">

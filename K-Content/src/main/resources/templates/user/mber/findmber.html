@@ -18,7 +18,7 @@
 				<div class="input-form col-md-12 mx-auto opacity-95">
 
 					<div class="col-md-12 text-center mb-3">
-						<p class="fw-bold fs-2 menu-title">계정 찾기</p>
+						<p class="fw-bold fs-2 menu-title" th:text=#{find.account}>계정 찾기</p>
 					</div>
 					<div class="col-md-12">
 						<ul class="nav nav-tabs justify-content-center fw-bold mb-3"
@@ -27,13 +27,13 @@
 								<button class="nav-link active" id="find-id-tab"
 									data-bs-toggle="tab" data-bs-target="#find-id-tab-pane"
 									type="button" role="tab" aria-controls="find-id-tab-pane"
-									aria-selected="${findType == 'id'}">아이디 찾기</button>
+									aria-selected="${findType == 'id'}" th:text=#{find.id}>아이디 찾기</button>
 							</li>
 							<li class="nav-item" role="presentation">
 								<button class="nav-link" id="find-password-tab"
 									data-bs-toggle="tab" data-bs-target="#find-password-tab-pane"
 									type="button" role="tab" aria-controls="find-password-tab-pane"
-									aria-selected="${findType == 'password'}">비밀번호 찾기</button>
+									aria-selected="${findType == 'password'}" th:text=#{find.password}>비밀번호 찾기</button>
 							</li>
 						</ul>
 
@@ -49,16 +49,16 @@
 									<div class="col-md-12">
 										<input type="email" id="findid_mber_email"
 											class="form-control form-bid" name="mberEmail"
-											placeholder="이메일 입력" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+											th:attr="placeholder=#{enter.email}" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 											required>
-										<div class="invalid-feedback" id="mail-input-check-warn">이메일을
+										<div class="invalid-feedback" id="mail-input-check-warn" th:text=#{email.error}>이메일을
 											입력하거나 유효한 이메일 주소 형식으로 입력하세요.</div>
 									</div>
 								</div>
 								<div class="row">
 									<button type="button" class="mb-3 btn btn-lg"
 										id="send-maskid-btn" tabindex="-1">
-										<span id="send-maskid-btn-text">마스킹 아이디 전송</span>
+										<span id="send-maskid-btn-text" th:text=#{send.id}>마스킹 아이디 전송</span>
 
 										<div
 											class="spinner-border text-info spinner-border-sm ms-2 d-none"
@@ -90,21 +90,21 @@
 									<div class="row">
 										<div class="col-md-12 mb-3">
 											<input type="text" class="form-control form-bid"
-												id="findpwd_mber_id" name="mberId" placeholder="아이디 입력"
+												id="findpwd_mber_id" name="mberId" th:attr="placeholder=#{enter_id}"
 												required>
 										</div>
 										<div class="col-md-12 mb-3">
 											<input type="text" class="form-control form-bid"
-												id="findpwd_mber_email" name="mberEmail" placeholder="이메일 입력"
+												id="findpwd_mber_email" name="mberEmail" th:attr="placeholder=#{enter.email}"
 												required>
-											<div class="invalid-feedback">이메일을 입력하지 않았거나, 존재하지 않은
+											<div class="invalid-feedback" th:text=#{email.error2}>이메일을 입력하지 않았거나, 존재하지 않은
 												이메일입니다.</div>
 										</div>
 									</div>
 									<div class="row">
 										<button type="button" class="mb-3 btn btn-lg"
 											id="send-temppwd-btn" tabindex="-1">
-											<span id="send-temppwd-btn-text">임시비밀번호 전송</span>
+											<span id="send-temppwd-btn-text" th:text=#{send.password}>임시비밀번호 전송</span>
 											<div
 												class="spinner-border text-info spinner-border-sm ms-2 d-none"
 												role="status" id="findpwd-spinner"></div>
@@ -114,7 +114,7 @@
 
 									<div class="row">
 										<div class="col-md-12">
-											<p class="text-center color-gray">보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.</p>
+											<p class="text-center color-gray" th:text=#{find.password.ment}>보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.</p>
 
 										</div>
 									</div>

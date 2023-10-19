@@ -6,8 +6,8 @@ $(document).ready(function() {
 	let currentKeyWord = null; // 현재 선택 검색 상태 저장 변수
 
 	loadPage(currentPage);
-	
-	
+
+
 
 
 	// 검색 폼 제출 이벤트 리스너 추가
@@ -18,7 +18,7 @@ $(document).ready(function() {
 		if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
 			currentKeyWord = keyword; //검색 상태 저장        
 			searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
-			$('#commusearchInput').val(''); // 검색창의 내용을 비움
+
 		} else {
 			currentKeyWord = null; //검색어가 비어있으면 검색 상태 해제
 		}
@@ -116,9 +116,19 @@ $(document).ready(function() {
 	$(document).on('click', '.cate', function() {
 		$(".cate").removeClass("active");
 		$(this).addClass("active");
+
+		// 선택한 카테고리의 텍스트를 가져와서 버튼의 텍스트로 설정
+		let selectedCategoryText = $(this).text();
+		$(".category-text").text(selectedCategoryText);
+
 		commuCateCode = $(this).data('maincate-value');
 		loadCategoryPosts(commuCateCode, 1); // 페이지를 1페이지로 초기화하여 로드
+
+		// 검색어 입력 필드 값을 초기화
+		$('#commusearchInput').val("");
+		currentKeyWord = null; // 검색 상태 해제
 	});
+
 
 	// 카테고리 클릭 이벤트
 	function loadCategoryPosts(commuCateCode, page) {
@@ -198,30 +208,49 @@ $(document).ready(function() {
 
 	function updatePostList(posts) {
 		let postListHtml = '';
-		posts.forEach(commu => {
-			postListHtml += `
-            <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
-                <td>${commu.commuId}</td>
-                <td>${commu.commonCodeDscr}</td>
-                <td>${commu.commuTitle}</td>
-                <td>${commu.commuMberId}</td>
-                <td>${commu.commuReadCnt}</td>
-                <td>${commu.commuRegistDate}</td>
-            </tr>
-        `;
-		});
+
+		// 게시글이 없는 경우
+		if (posts.length === 0) {
+			if (currentKeyWord) {  // 검색결과가 없을 때
+				postListHtml = `
+                <td>
+                     <img src="/img/fail_community_search.jpg" alt="검색결과가 없습니다.">
+                </td>
+            `;
+			} else {  //카테고리별 게시글이 없을 때
+				postListHtml = `
+                <td>
+                     <img src="/img/fail_community_category.jpg" alt="게시글이 없습니다.">
+                </td>
+            `;
+			}
+		} else {
+			posts.forEach(commu => {
+				postListHtml += `
+                <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
+                    <td>${commu.commuId}</td>
+                    <td>${commu.commonCodeDscr}</td>
+                    <td>${commu.commuTitle}</td>
+                    <td>${commu.commuMberId}</td>
+                    <td>${commu.commuReadCnt}</td>
+                    <td>${commu.commuRegistDate}</td>
+                </tr>
+            `;
+			});
+		}
+
 		$('tbody').empty().append(postListHtml);
-		
 	}
-	
-	
 
 
-	
+
+
+
+
 
 });
-	function commuDetail(row) {
-    const commuId = $(row).data('commu-id');
-    const detailUrl = `/commu/detail/${commuId}`;
-    window.location.href = detailUrl;
+function commuDetail(row) {
+	const commuId = $(row).data('commu-id');
+	const detailUrl = `/commu/detail/${commuId}`;
+	window.location.href = detailUrl;
 }

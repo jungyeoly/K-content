@@ -59,12 +59,14 @@
 						<label for="attachment">첨부파일</label>
 					</div>
 
-					<div class="commu-File">
+				<div class="commu-File">
+						<label class="file-label" for="attachment">파일 선택</label> <input
+							type="file" id="attachment" name="commuUploadFiles" multiple
+							onchange="appendFileList()">
 
-						<input type="file" id="attachment" name="commuUploadFiles"
-							multiple onchange="appendFileList()">
-						<ul id="fileList"></ul>
 					</div>
+					<ul id="fileList"></ul>
+				
 				</li>
 			</ul>
 

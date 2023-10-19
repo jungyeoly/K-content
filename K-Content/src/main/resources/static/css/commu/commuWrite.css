@@ -4,6 +4,7 @@
     display: none;
 }
 
+
 :root {
 	/* Color */
 	-color-main: #14dbc8;
@@ -16,6 +17,8 @@
 #category, #title {
 	height: 40px;
 }
+
+
 
 ul {
 	list-style: none;

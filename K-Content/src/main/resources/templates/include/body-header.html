@@ -6,7 +6,7 @@
 
 <body>
 	<header th:fragment="userNavBar">
-		<div class="d-flex px-5 my-3">
+		<div class="d-flex px-5 my-3 position-relative">
 			<div class="logo d-flex justify-content-center">
 				<a th:href="@{/}"> <img src="/img/mainLogo.png" alt="브랜드 로고">
 				</a>
@@ -15,22 +15,21 @@
 			<div class="w-100 d-flex justify-content-between">
 				<div class="navMain">
 					<ul class="contents">
-						<li id="main" class="content">
-							<a class="iconLInk" th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a> 
-							<a class="textLInk" th:href="@{/}">K-콘텐츠</a>
-						</li>
+						<li id="main" class="content"><a class="iconLInk"
+							th:href="@{/}"><i class="fa-brands fa-tiktok"></i></a> <a
+							class="textLInk" th:href="@{/}" th:text="#{contents}">K-콘텐츠</a></li>
 
-						<li id="comm" class="content">
-							<a class="iconLInk"	th:href="@{/commu/1(commonCodeDscr ='전체')}"><i class="fa-regular fa-comments"></i></a>
-							<a class="textLInk" th:href="@{/commu/1(commonCodeDscr ='전체')}">커뮤니티 센터</a>
-						</li>
+						<li id="comm" class="content"><a class="iconLInk"
+							th:href="@{/commu/1(commonCodeDscr ='전체')}"><i
+								class="fa-regular fa-comments"></i></a> <a class="textLInk"
+							th:href="@{/commu/1(commonCodeDscr ='전체')}" th:text="#{cs}">고객센터</a></li>
 					</ul>
 				</div>
 
 
 				<div class="searchDiv">
 					<form id="searchForm" class="input-group">
-						<input type="text" id="searchInput" placeholder="검색어를 입력하세요"
+						<input type="text" id="searchInput" th:placeholder="#{search.form}"
 							class="form-control">
 						<button type="submit" class="btn">
 							<i class="fa-solid fa-magnifying-glass"></i>
@@ -42,68 +41,88 @@
 					<ul class="info d-flex justify-content-end">
 						<li class="myPage m-3" sec:authorize="isAuthenticated()"><i
 							class="fa-solid fa-user"></i> <a class="infoText"
-							th:href="@{/mber/verifypwd}">내 정보</a></li>
+							th:href="@{/mber/verifypwd}" th:text=#{my.info}>내 정보</a></li>
 						<li class="myLike m-3" sec:authorize="isAuthenticated()"><i
 							class="fa-solid fa-heart"></i> <a class="infoText"
-							th:href="@{/bkmk}">좋아요</a></li>
+							th:href="@{/bkmk}" th:text=#{like}>좋아요</a></li>
 						<li class="singup m-3" sec:authorize="isAnonymous()"><i
 							class="fa-solid fa-user-plus"></i> <a class="infoText"
-							th:href="@{mber/signup}">회원가입</a></li>
+							th:href="@{mber/signup}" th:text=#{sign.up}>회원가입</a></li>
 						<li class="login m-3" sec:authorize="isAnonymous()"><i
 							class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i>
-							<a class="infoText" th:href="@{/mber/signin}">로그인</a></li>
+							<a class="infoText" th:href="@{/mber/signin}" th:text=#{sign.in}>로그인</a></li>
 						<li class="logout m-3" sec:authorize="isAuthenticated()"><i
 							class="fa-solid fa-door-open" sec:authorize="isAuthenticated()"></i>
-							<a class="infoText" th:href="@{/mber/signout}">로그아웃</a></li>
+							<a class="infoText" th:href="@{/mber/signout}" th:text=#{sign.out}>로그아웃</a></li>
 						<li class="m-3" sec:authorize="hasRole('ADMIN')"><i
 							class="fa-solid fa-gear"></i> <a class="infoText"
-							th:href="@{/cs}">관리자 페이지</a></li>
+							th:href="@{/cs}" th:text=#{admin.page}>관리자 페이지</a></li>
 					</ul>
 
 					<div class="dropdown">
 						<button class="btn btn-secondary dropdown-toggle" type="button"
-							data-bs-toggle="dropdown" aria-expanded="false">메뉴</button>
+							data-bs-toggle="dropdown" aria-expanded="false" th:text="#{menu}">메뉴</button>
 						<ul class="dropdown-menu">
 							<li class="myPage m-3" sec:authorize="isAuthenticated()"><a
-								class="dropdown-item infoText" th:href="@{/mber/verifypwd}">내
+								class="dropdown-item infoText" th:href="@{/mber/verifypwd}" th:text=#{my.info}>내
 									정보</a></li>
 							<li class="myLike m-3" sec:authorize="isAuthenticated()"><a
-								class="dropdown-item infoText" th:href="@{/bkmk}">좋아요</a></li>
+								class="dropdown-item infoText" th:href="@{/bkmk}" th:text=#{like}>좋아요</a></li>
 							<li class="singup m-3" sec:authorize="isAnonymous()"><a
-								class="dropdown-item infoText" th:href="@{mber/signup}">회원가입</a>
+								class="dropdown-item infoText" th:href="@{mber/signup}" th:text=#{sign.up}>회원가입</a>
 							</li>
 							<li class="login m-3" sec:authorize="isAnonymous()"><a
-								class="dropdown-item infoText" th:href="@{/mber/signin}">로그인</a>
+								class="dropdown-item infoText" th:href="@{/mber/signin}" th:text=#{sign.in}>로그인</a>
 							</li>
 							<li class="logout m-3" sec:authorize="isAuthenticated()"><a
-								class="dropdown-item infoText" th:href="@{/mber/signout}">로그아웃</a>
+								class="dropdown-item infoText" th:href="@{/mber/signout}" th:text=#{sign.out}>로그아웃</a>
 							</li>
 							<li class="m-3" sec:authorize="hasRole('ADMIN')"><a
-								class="dropdown-item infoText" th:href="@{/cs}">관리자 페이지</a></li>
+								class="dropdown-item infoText" th:href="@{/cs}" th:text=#{admin.page}>관리자 페이지</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 
+			<div class="position-absolute i18n">
+				<select id="locales" class="form-select" aria-label="Default select example">
+					<option value="" th:text="#{lang.select}"></option>
+					<option value="en" th:text="#{lang.eng}"></option>
+					<option value="kr" th:text="#{lang.kor}"></option>
+				</select>
+			</div>
 		</div>
+
+
 
 		<hr class="mb-5 text-main"
 			style="opacity: 1; height: 3px; background: var(- -color-main);">
-	
+
 		<script>
-			$("#searchForm").submit(function(event) {
-				event.preventDefault();
-	
-				var keyword = $("#searchInput").val();
-				console.log(keyword);
-				$.ajax({
-					url: "/user/content",
-					type: "POST",
-					data: { keyword : keyword },
-					success: function(data) {
-						location.href = "/?keyword=" + encodeURIComponent(keyword);
-					}
-				})
+			$("#searchForm").submit(
+					function(event) {
+						event.preventDefault();
+
+						var keyword = $("#searchInput").val();
+						console.log(keyword);
+						$.ajax({
+							url : "/user/content",
+							type : "POST",
+							data : {
+								keyword : keyword
+							},
+							success : function(data) {
+								location.href = "/?keyword="
+										+ encodeURIComponent(keyword);
+							}
+						})
+					});
+
+			$("#locales").change(function() {
+				var selectedOption = $('#locales').val();
+				if (selectedOption != '') {
+					window.location.replace('?lang=' + selectedOption);
+				}
 			});
 		</script>
 	</header>

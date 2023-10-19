@@ -280,3 +280,12 @@ button:hover{
     margin-left: 50px;
     margin-top: 30px;
 }
+
+.i18n {
+	right: 60px;
+	bottom: -60px;
+}
+
+#locales {
+	font-size: .7em;
+} 

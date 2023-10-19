@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <th:block th:replace="~{/include/header :: header}"></th:block>
 <link rel="stylesheet" th:href="@{/css/content/content.css}">
-<link href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@4.0.8/css/line.min.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@4.0.8/css/line.min.css"
+	rel="stylesheet">
 </head>
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
-	
+
 	<div id="main-cate" class="categories-nav mb-5">
 		<ul class="categories">
-			<li th:each= "cate : ${cateList}"  class="cate mx-3" th:data-maincate-value="${cate}">[[${cate}]]</li>
+			<!-- <li th:each="cate : ${cateList}" class="cate mx-3"
+				th:data-maincate-value="${cate}">[[${cate}]]</li> -->
+				<li class="cate mx-3" data-maincate-value="All" th:text=#{all}>전체</li>
+				<li class="cate mx-3" data-maincate-value="POP" th:text=#{pop}>음악</li>
+				<li class="cate mx-3" data-maincate-value="Celebrity" th:text=#{celebrity}>연예인</li>
+				<li class="cate mx-3" data-maincate-value="Food" th:text=#{food}>음식</li>
+				<li class="cate mx-3" data-maincate-value="Movie" th:text=#{movie}>영화</li>
+				<li class="cate mx-3" data-maincate-value="Sports" th:text=#{sports}>스포츠</li>
+				<li class="cate mx-3" data-maincate-value="Fashion" th:text=#{fashion}>패션</li>
+				<li class="cate mx-3" data-maincate-value="Beauty" th:text=#{beauty}>미용</li>
+				<li class="cate mx-3" data-maincate-value="Drama" th:text=#{drama}>드라마</li>
+				<li class="cate mx-3" data-maincate-value="Travel" th:text=#{travel}>여행</li>
+				<li class="cate mx-3" data-maincate-value="Game" th:text=#{game}>게임</li>				
 		</ul>
 	</div>
-	
-	<div class="layout">
 
-	</div>
-	
-	<div th:if="${session.isTempPwd != null}" class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div class="layout"></div>
+
+	<div th:if="${session.isTempPwd != null}"
+		class="toast-container position-fixed bottom-0 end-0 p-3">
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true" style="display: hidden">
 			<div class="toast-header fw-bold">
@@ -38,30 +51,29 @@
 		</div>
 	</div>
 	<div class="progress-wrap">
-		<svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+		<svg class="progress-circle svg-content" width="100%" height="100%"
+			viewBox="-1 -1 102 102">
 			<path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
 		</svg>
 	</div>
-  	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
+
 	<script th:src="@{/js/body-header.js}"></script>
 	<script th:src="@{/js/content/content.js}"></script>
-	<script th:src="@{/js/scroll-to-top.js}"></script>	
-	<!-- <script th:inline="javascript" th:src="@{/js/content/scroll.js}"></script> -->
+	<script th:src="@{/js/scroll-to-top.js}"></script>
 	<script th:inline="javascript" th:if="${session.isTempPwd != null}">
-	    function showTempPwdToast() {
-	
-	        const toastLiveExample = document.getElementById('liveToast');
-	        toastLiveExample.removeAttribute('display');
-	        const toastBootstrap = new bootstrap.Toast(toastLiveExample);
-	        toastBootstrap.show();
-	    }
-	
-	    // 페이지 로드 시 토스트를 확인하여 표시 여부 결정
-	    window.onload = showTempPwdToast;
-	
-	    // 콘텐츠 클릭 시 디테일 페이지 보여주기
+	function showTempPwdToast() {
+
+			const toastLiveExample = document.getElementById('liveToast');
+			toastLiveExample.removeAttribute('display');
+			const toastBootstrap = new bootstrap.Toast(toastLiveExample);
+			toastBootstrap.show();
+		}
+
+		// 페이지 로드 시 토스트를 확인하여 표시 여부 결정
+		window.onload = showTempPwdToast;
+		// 콘텐츠 클릭 시 디테일 페이지 보여주기
 	</script>
 
 

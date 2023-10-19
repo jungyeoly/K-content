@@ -6,8 +6,8 @@
 <link rel="stylesheet" th:href="@{/css/mber/verifypwd.css}">
 </head>
 <body>
-
-	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	<header th:replace="~{/include/body-header :: userNavBar}"></header>
+	<main>
 	<div class="container-md">
 		<div class="menu fw-bold">회원 탈퇴</div>
 		<div
@@ -44,8 +44,8 @@
 				</div>
 			</form>
 		</div>
-
 	</div>
+	</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script>
 	

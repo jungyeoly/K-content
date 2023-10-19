@@ -19,7 +19,7 @@
 				<div class="input-form col-md-12 mx-auto opacity-95">
 					<div class="row">
 						<div class="col-md-12 mb-3 text-center">
-							<p class="fw-bold fs-2 mb-3 menu-title">비밀번호 재설정</p>
+							<p class="fw-bold fs-2 mb-3 menu-title" th:text=#{reset.password}>비밀번호 재설정</p>
 							임시 비밀번호로 로그인 하셨군요! <br>보안을 위해 새 비밀번호를 변경해주세요.
 						</div>
 					</div>
@@ -28,7 +28,7 @@
 
 						<div class="row">
 							<div class="col-md-3">
-								<label for="current-mber-pwd" class="fw-bold text-nowrap">
+								<label for="current-mber-pwd" class="fw-bold text-nowrap" th:text=#{current.password}>
 									현재 비밀번호<span class="align-middle" style="color: red;">*</span>
 								</label>
 							</div>
@@ -36,7 +36,7 @@
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
 										name="currentMberPwd" id="current-mber-pwd"
-										placeholder="현재 비밀번호" onchange="checkDbPwd(this.value)"
+										th:attr="placeholder=#{current.password}" onchange="checkDbPwd(this.value)"
 										value="" autocomplete="off" maxlength="16" required> <i
 										class="fa fa-eye see-pwd" id="current-see-pwd"></i>
 								</div>
@@ -50,13 +50,13 @@
 					<hr class="mb-3">
 					<div class="row mb-3">
 						<div class="col-md-3">
-							<label for="mber-pwd" class="fw-bold text-nowrap">새 비밀번호<span
+							<label for="mber-pwd" class="fw-bold text-nowrap" th:text=#{new.password}>새 비밀번호<span
 								class="align-middle" style="color: red;">*</span></label>
 						</div>
 						<div class="col-md-6">
 							<div class="pwd-input-wrap">
 								<input type="password" class="form-control form-bid"
-									id="mber-pwd" name="mberPwd" placeholder="새 비밀번호 입력"
+									id="mber-pwd" name="mberPwd" th:attr="placeholder=#{enter.new.password}"
 									maxlength="16" value="" onchange="checkPwd(this.value)"
 									required><i class="fa fa-eye see-pwd" id="see-pwd"></i>
 							</div>
@@ -68,14 +68,14 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-md-3">
-							<label for="mber-pwd-re" class="fw-bold text-nowrap">새
+							<label for="mber-pwd-re" class="fw-bold text-nowrap" th:text=#{con.new.password}>새
 								비밀번호 확인<span class="align-middle" style="color: red;">*</span>
 							</label>
 						</div>
 						<div class="col-md-6">
 							<div class="pwd-input-wrap">
 								<input type="password" class="form-control form-bid"
-									id="mber-pwd-re" placeholder="새 비밀번호 확인" maxlength="16"
+									id="mber-pwd-re" th:attr="placeholder=#{con.new.password}" maxlength="16"
 									value="" onchange="checkPasswordMatch()" required> <i
 									class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
 							</div>
@@ -93,7 +93,7 @@
 					<div class="row justify-content-evenly">
 						<div class="col-md-3 text-center">
 							<button type="button" class="btn btn-lg mb-3" id="reset-pwd-btn">
-								<span id="reset-pwd-btn-text">비밀번호 재설정</span>
+								<span id="reset-pwd-btn-text" th:text=#{reset.password}>비밀번호 재설정</span>
 								<div
 									class="spinner-border text-info spinner-border-sm ms-2 d-none"
 									role="status" id="reset-pwd-spinner"></div>
@@ -101,7 +101,7 @@
 						</div>
 						<div class="col-md-3 text-center">
 							<a th:href="@{/}"><button type="button"
-									class="btn btn-lg mb-3" id="changePwdNextBtn">다음에 변경하기</button></a>
+									class="btn btn-lg mb-3" id="changePwdNextBtn" th:text=#{next.time}>다음에 변경하기</button></a>
 						</div>
 					</div>
 

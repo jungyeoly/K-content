@@ -9,32 +9,32 @@
 <body>
 	<header th:insert="~{/include/body-header :: userNavBar}"></header>
 	<div class="container">
-		<div class="menu fw-bold">마이페이지</div>
+		<div class="menu fw-bold" th:text=#{mypage}>마이페이지</div>
 		<div
 			class="border-bottom border-top border-2 fw-bold border-dark mb-3">
 			<div class="mt-3 mb-3 row">
-				<label for="mber_auth" class="col-sm-2 col-form-label">계정 구분</label>
+				<label for="mber_auth" class="col-sm-2 col-form-label" th:text=#{account.type}>계정 구분</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_auth" th:value="${isAdmin ? '관리자' : '회원'}" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_id" class="col-sm-2 col-form-label">아이디</label>
+				<label for="mber_id" class="col-sm-2 col-form-label" th:text=#{id}>아이디</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_id" th:value="${mber.mberId}" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_pwd" class="col-sm-2 col-form-label">비밀번호</label>
+				<label for="mber_pwd" class="col-sm-2 col-form-label" th:text=#{password}>비밀번호</label>
 				<div class="col-md-4">
 					<input type="password" readonly class="form-control-plaintext"
 						id="mber_pwd" value="********" tabindex="-1">
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_name" class="col-sm-2 col-form-label">이름</label>
+				<label for="mber_name" class="col-sm-2 col-form-label" th:text=#{name}>이름</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_name" th:value="${mber.mberName}" tabindex="-1">
@@ -42,7 +42,7 @@
 
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_email" class="col-sm-2 col-form-label">이메일</label>
+				<label for="mber_email" class="col-sm-2 col-form-label" th:text=#{email}>이메일</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_email" th:value="${mber.mberEmail}" tabindex="-1">
@@ -50,7 +50,7 @@
 
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_gender" class="col-sm-2 col-form-label">성별</label>
+				<label for="mber_gender" class="col-sm-2 col-form-label" th:text=#{gender}>성별</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_gender" th:if="${mber.mberGenderCode} == 'C0101'"
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_birth" class="col-sm-2 col-form-label">생년월일</label>
+				<label for="mber_birth" class="col-sm-2 col-form-label" th:text=#{birth}>생년월일</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="mber_birth" th:if="${mber.mberBirth}==null" value="-"
@@ -75,7 +75,7 @@
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="mber_phone" class="col-sm-2 col-form-label">전화번호</label>
+				<label for="mber_phone" class="col-sm-2 col-form-label" th:text=#{phone}>전화번호</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						th:if="${mber.mberPhone}==null" value="-" id="mber_phone"
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">가입일시</label>
+				<label for="inputPassword" class="col-sm-2 col-form-label" th:text=#{regist.date}>가입일시</label>
 				<div class="col-md-4">
 					<input type="text" readonly class="form-control-plaintext"
 						id="inputPassword" th:value="${mber.mberRegistDate}" tabindex="-1">
@@ -94,7 +94,7 @@
 				<div class="col-md-2">
 					<a th:href="@{/mber/deletember}"><button type="button"
 							tabindex="-1" id="mail-check-btn" class="btn delete form-control">
-							<span id="fw-bold">계정탈퇴</span>
+							<span id="fw-bold" th:text=#{withdrawal}>계정탈퇴</span>
 						</button></a>
 				</div>
 			</div>
@@ -104,7 +104,7 @@
 		<div class="mb-3 row">
 			<div class="col-md-2">
 				<a th:href="@{/mber/editprofile}"><button type="button"
-						tabindex="-1" class="btn form-control" id="edit-btn">수정하기</button></a>
+						tabindex="-1" class="btn form-control" id="edit-btn" th:text=#{edit}>수정하기</button></a>
 			</div>
 		</div>
 	</div>

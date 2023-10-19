@@ -21,7 +21,7 @@
 			<!-- 제목 -->
 			<li class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
-					<label>제목</label>
+					<label th:text=#{title}>제목</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt">
 					[[${inqry.inqryTitle}]]
@@ -32,7 +32,7 @@
 			<li class="inqry-sub-li d-flex">
 				<div>
 					<div class="inqry-sub-cntnt label">
-						<label>작성자</label>
+						<label th:text=#{writer}>작성자</label>
 					</div>
 					<div class="inqry-sub-cntnt cntnt" id="write">
 						[[${inqry.inqryMberId}]]
@@ -41,7 +41,7 @@
 				
 				<div>
 					<div class="inqry-sub-cntnt label">
-						<label>등록일시</label>
+						<label th:text=#{write_date}>등록일시</label>
 					</div>
 					<div class="inqry-sub-cntnt cntnt">
 						[[${inqry.inqryRegistDate}]]
@@ -52,7 +52,7 @@
 			<!-- 내용 -->
 			<li class="inqry-sub-li" style="height:300px">
 				<div class="inqry-sub-cntnt label" style="height:300px;">
-					<label>내용</label>
+					<label th:text=#{content}>내용</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${inqry.inqryCntnt}]]
@@ -62,7 +62,7 @@
 			<!-- 첨부파일 -->
 			<li th:if="${inqry.inqryFileId}" class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
-					<label>첨부파일</label>
+					<label th:text=#{file}>첨부파일</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt">
 					<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}" id="inqry-img">
@@ -72,7 +72,7 @@
 			<!-- 답글 -->
 			<li th:if="${reply}" class="inqry-sub-li" style="height:300px">
 				<div class="inqry-sub-cntnt label" style="height:300px">
-					<label>답변</label>
+					<label th:text=#{reply}>답변</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${reply.inqryCntnt}]]
@@ -83,15 +83,15 @@
 		
 		<!-- 버튼 -->
 		<div class="text-center position-relative">
-			<a th:href="@{/inqury}" class="btn text-white">목록</a>
+			<a th:href="@{/inqury}" class="btn text-white" th:text=#{list}>목록</a>
 			
 			<div th:if="${inqry.inqryGroupOrd} == 0" class="position-absolute end-0 top-0">
 	 			<div th:if="${#authentication.name} == ${inqry.inqryMberId}" class="btns d-flex">
-					<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2 text-white">수정</a>
+					<a th:href="@{/inqury/update/{inqryId}(inqryId=${inqry.inqryId})}" class="btn me-2 text-white" th:text=#{edit}>수정</a>
 					<form id="userDelete" th:action="@{/inqury/delete/{id}(id=${inqry.inqryId})}" method="post">
 						<input type="hidden" name="inqryId" th:value=${inqry.inqryId}>
 						<input th:if="${inqry.inqryFileId}" type="hidden" name="inqryFileId" th:value="${inqry.inqryFileId}">
-						<input type="submit" class="btn delete" value="삭제">
+						<button type="submit" class="btn delete" value="삭제" th:text=#{delete}>삭제</button>
 					</form>
 				</div>
 			</div>

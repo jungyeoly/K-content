@@ -23,8 +23,10 @@
 						class="validation-form" id="signupForm" novalidate>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_id" class="fw-bold text-nowrap" th:text=#{id}>아이디<span
-									style="color: red;">*</span></label>
+								<label for="mber_id" class="fw-bold text-nowrap">
+									<span th:text=#{id}>아이디</span>
+									<span style="color: red;">*</span>
+								</label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_id"
@@ -37,8 +39,10 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_pwd" class="fw-bold text-nowrap" th:text=#{password}>비밀번호<span
-									class="align-middle" style="color: red;">*</span></label>
+								<label for="mber_pwd" class="fw-bold text-nowrap">
+									<span th:text=#{password}>비밀번호</span>
+									<span class="align-middle" style="color: red;">*</span>
+								</label>
 							</div>
 							<div class="col-md-10">
 								<div class="pwd-input-wrap">
@@ -55,8 +59,9 @@
 						<div class="row mb-4">
 							<div class="col-md-2">
 								<label for="mber_pwd_confirm"
-									class="fw-bold text-nowrap align-middle" th:text=#{con.password}>비밀번호 확인<span
-									class="align-middle" style="color: red;">*</span>
+									class="fw-bold text-nowrap align-middle">
+									<span th:text=#{con.password}>비밀번호 확인</span>
+									<span class="align-middle" style="color: red;">*</span>
 								</label>
 							</div>
 							<div class="col-md-10">
@@ -74,8 +79,10 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_name" class="fw-bold text-nowrap" th:text=#{name}>이름<span
-									class="align-middle" style="color: red;">*</span></label>
+								<label for="mber_name" class="fw-bold text-nowrap">
+									<span th:text=#{name}>이름</span>
+									<span class="align-middle" style="color: red;">*</span>
+								</label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_name"
@@ -94,8 +101,10 @@
 									onkeydown="return false">
 							</div>
 							<div class="col-md-2">
-								<label for="mber_gender" class="fw-bold text-nowrap" th:text=#{gender}>성별<span
-									class="align-middle" style="color: red;">*</span></label>
+								<label for="mber_gender" class="fw-bold text-nowrap">
+									<span th:text=#{gender}>성별</span>
+									<span class="align-middle" style="color: red;">*</span>
+								</label>
 							</div>
 							<div class="col-md-4">
 								<select name="mberGenderCode" class="form-select"
@@ -110,8 +119,9 @@
 
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="mber_email" class="fw-bold" th:text=#{email}>이메일<span
-									class="align-middle" style="color: red;">*</span></label>
+								<label for="mber_email" class="fw-bold">
+								<span th:text=#{email}>이메일</span>
+								<span class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-7">
 								<input type="email" id="mber_email"
@@ -134,8 +144,9 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col-md-2">
-								<label for="auth-code-input" class="fw-bold" th:text=#{auth.num}>인증번호<span
-									class="align-middle" style="color: red;">*</span></label>
+								<label for="auth-code-input" class="fw-bold">
+								<span th:text=#{auth.num}>인증번호</span>
+								<span class="align-middle" style="color: red;">*</span></label>
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="auth-code-input"
@@ -154,7 +165,7 @@
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="mber_phone" name="mberPhone"
-									class="form-control form-bid" th:attr="placeholder=#{enter_phone}"
+									class="form-control form-bid" th:attr="placeholder=#{enter.phone}"
 									oninput="oninputPhone(this)"
 									maxlength="13" autocomplete="off">
 							</div>

@@ -1,9 +1,11 @@
-@media (min-width: 1024px) {
-    .page {
+@media (min-width: 1000px) {
+    .validation-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-gap: 20px;
-        gap: 20px;
+        justify-items: stretch;
+        grid-gap: 30px;
+        gap: 30px;
+
     }
 
     .img-side {
@@ -16,25 +18,32 @@
         grid-row: 1 / 2;
     }
 }
-
-@media (max-width: 1023px) {
+/*.validation-form{*/
+/*    display: flex;*/
+/*}*/
+@media (max-width: 999px) {
     /*세로로 어떻게 바꾸지? 플랙스 랩*/
     .page {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        /*display: grid;*/
+        /*grid-template-columns: 1fr 1.5fr;*/
+        /*grid-gap: 30px;*/
+        /*gap: 30px;*/
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    .img-side {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
+    /*.img-side {*/
+    /*    grid-column: 1 / 2;*/
+    /*    grid-row: 1 / 2;*/
+    /*}*/
 
-    .info-side {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-    }
+    /*.info-side {*/
+    /*    grid-column: 2 / 3;*/
+    /*    grid-row: 1 / 2;*/
+    /*}*/
 }
-.keywordItem{
+
+.keywordItem {
     margin-top: 20px;
 }
 
@@ -91,24 +100,43 @@ img {
     /*margin: inherit;*/
 }
 
+.page {
+    margin-top: 80px;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
 /*.page{
     padding-right: 20px;
     padding-left: 20px;
 }*/
-th{
+th {
     white-space: nowrap;
 }
-#button-addon2{
+
+#button-addon2 {
     width: 130px;
 }
-#inputKeyword{
+
+#inputKeyword {
     height: 50px;
     border-radius: 10px 0px 0px 10px;
 }
-.keywordButton{
+
+.keywordButton {
     padding: 5px 20px;
 }
+
 .badge {
     margin: 0px !important;
-    position: absolute !important;
+    /*position: absolute !important;*/
+}
+
+.img-side {
+    border: #b6b6b6 2px solid;
+    padding: 30px;
+}
+.info-side{
+    border: #b6b6b6 2px solid;
+    padding: 30px;
 }

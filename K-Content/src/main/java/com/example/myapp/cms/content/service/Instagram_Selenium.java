@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
+
 import java.time.Duration;
 
 @Service
@@ -19,17 +20,26 @@ public class Instagram_Selenium {
     public static final String WEB_DRIVER_PATH_WIN = "src/main/resources/chromedriver_win.exe";
     private String base_url;
 
+    public void isQuit() {
+        if (driver != null) {
+            System.out.println("지금 null이 아님");
+            driver.quit();
+        }
+    }
+
     public void instagram_Selenium() {
+
         //System Property SetUp
-                String os = System.getProperty("os.name").toLowerCase();
+        String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("win")) {
             System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH_WIN);
         } else if (os.contains("mac")) {
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+            System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         }
 
         driver = new ChromeDriver();
+
     }
 
     public String crawl(String query) {
@@ -52,9 +62,10 @@ public class Instagram_Selenium {
             // 웹드라이버 한 번만 띄우려고 닫지 않았
 //            driver.close();
         }
-return "";
+        return "";
     }
-    public void chromeExit(){
+
+    public void chromeExit() {
         driver.close();
     }
 }

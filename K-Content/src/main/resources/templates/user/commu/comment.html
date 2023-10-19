@@ -41,7 +41,7 @@
 					<div class="comment-content update">
 						<p th:text="${comment.commuCommentCntnt}">CommuCommentCntnt</p>
 						<textarea class="update-comment-textarea hidden"
-							th:id="${comment.getCommuCommentId()}"></textarea>
+							th:data-id="${comment.getCommuCommentId()}"></textarea>
 						<div
 							th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
 							<button class="update-comment"
@@ -59,21 +59,12 @@
 					<div class="comment-buttons">
 						<button class="reply-to-comment">댓글</button>
 
+						<!--대댓글  -->
 						<button class="reply-show" th:data-id="${comment.commuCommentId}"
-							th:if="${refComments != null && refComments.size() > 0}">
+							th:if="${replyCountMap[comment.commuCommentId] > 0}">
 							답글(<span class="reply-count"
-								th:text="${refComments.size() + '개'}"></span>)
+								th:text="${replyCountMap[comment.commuCommentId]} + '개'"></span>)
 						</button>
-
-
-
-						<!-- <button class="reply-show"
-						th:data-id="${comment.commuCommentId}"
-							th:if="${comment.commuCommentRefId == 0 && refComments != null && refComments.size() > 0}">
-							답글(<span class="reply-count"
-								th:text="${refComments !=null? refComments.size() + '개' : '0개'}"></span>)
-						</button>
- -->
 
 						<div class="replyForm" th:data-id="${comment.commuCommentId}">
 							<input type="hidden" name="commuCommentRefId"
@@ -99,7 +90,7 @@
 									: &nbsp;
 									<p th:text="${refComment.getCommuCommentCntnt()}"></p>
 									<textarea class="update-comment-textarea hidden"
-										th:id="${refComment.getCommuCommentId()}"></textarea>
+										th:data-id="${refComment.getCommuCommentId()}"></textarea>
 									<div
 										th:if="${#authentication.principal.username} == ${refComment.commuCommentMberId}"
 										style="margin-left: auto">

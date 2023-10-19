@@ -141,8 +141,11 @@ public class MberController {
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			String encodedPwd = pwdEncoder.encode(tempPwd);
 			mber.setMberPwd(encodedPwd);
-			logger.info(encodedPwd);
-			logger.info(mber.getMberPwd());
+
+			mber.setMberBirth("");
+			mber.setMberPhone("");
+
+
 			mberService.updateMber(mber);
 
 			session.setAttribute("isTempPwd", true);
@@ -157,11 +160,8 @@ public class MberController {
 		boolean isTempPwd = session.getAttribute("isTempPwd") != null && (boolean) session.getAttribute("isTempPwd");
 
 		if (isTempPwd) {
-			// 임시 비밀번호가 생성된 경우에만 재설정 페이지로 이동
 			return "user/mber/resetpwd";
 		} else {
-			// 임시 비밀번호가 생성되지 않은 경우 다른 페이지로 리다이렉트 또는 처리
-			// 예: 오류 메시지 표시 등
 			return "redirect:/";
 		}
 	}
@@ -178,24 +178,21 @@ public class MberController {
 
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			// 현재 비밀번호가 맞는지 확인
-			if (pwdEncoder.matches(currentMberPwd, mber.getMberPwd())) {
-				String encodedPwd = pwdEncoder.encode(mberPwd);
-				mber.setMberPwd(encodedPwd);
-				mberService.updateMber(mber);
+			String encodedPwd = pwdEncoder.encode(mberPwd);
+			mber.setMberPwd(encodedPwd);
 
-				// 세션에서 임시 비밀번호 생성 여부 제거
-				session.removeAttribute("isTempPwd");
+			mber.setMberBirth("");
+			mber.setMberPhone("");
 
-				return "redirect:/";
-			} else {
-				// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
-				// 예: 오류 메시지 표시 등
-				return "redirect:/";
-			}
+			mberService.updateMber(mber);
+
+			// 세션에서 임시 비밀번호 생성 여부 제거
+			session.removeAttribute("isTempPwd");
+
+			return "redirect:/";
 		}
-		// 현재 비밀번호가 일치하지 않는 경우 오류 메시지 처리 또는 리다이렉트
-		// 예: 오류 메시지 표시 등
-		return "redirect:/";
+		model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
+		return "/mber/resetpwd";
 	}
 
 	@GetMapping(value = "/mber/mypage")
@@ -383,9 +380,12 @@ public class MberController {
 	@RequestMapping(value = "/mber/checkdbpwd", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean checkDBPwd(String mberPwd, Authentication authentication) {
-			String currentMberId = authentication.getName();
-			Mber mber = mberService.selectMberbyId(currentMberId);
-			return passwordEncoder.matches(mberPwd, mber.getMberPwd());
+
+		String currentMberId = authentication.getName();
+		Mber mber = mberService.selectMberbyId(currentMberId);
+		
+		return passwordEncoder.matches(mberPwd, mber.getMberPwd());
+
 	}
 
 }

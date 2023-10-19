@@ -11,7 +11,7 @@
         </div>
     </header>
 
-    <section class="primary">
+    <section class="primary" style="margin-bottom: 50px">
         <ul th:if="${goodsList !=null}" class="card-list" id="card-list">
             <div th:each="goods : ${goodsList}" id="goodsBox" class="border">
                 <div class="single-category mb-30"
@@ -22,6 +22,7 @@
                              th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}" alt="">
                         <div class="category-caption p-2">
                             <h6 style="text-align: center;" th:text="${goods.goodsName}"></h6>
+                            <h5 style="text-align: center;" th:text="${goods.goodsBrand}"></h5>
                         </div>
                     </div>
                 </div>
@@ -35,7 +36,7 @@
     </div>
 
 
-    <nav aria-label="Page navigation" class="d-flex justify-content-center">
+    <nav aria-label="Page navigation" class="d-flex justify-content-center " id="page-nav">
         <ul class="pagination">
             <li class="page-item" th:if="${nowPageBlock>1}">
                 <a class="page-link prepage" id="prepage" onclick="prePageF()" aria-label="Previous">

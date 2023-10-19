@@ -1,22 +1,45 @@
 //상품 삭제화면 요청
 function deleteGoods() {
-    if (confirm('상품을 삭제하시겠습니까?')) {
-        $.ajax({
-            url: '/cs/test/goods', type: 'patch',
-            data: {
-                goodsId: document.getElementById("goodsId").value
-            }, // 데이터 객체 전달
-            success: function (data2) {
-                if (confirm('삭제가 완료 되었습니다')) {
-                    window.location.replace("/cs/test/goods");
-                } else {
-                    window.location.replace("/cs/test/goods");
+
+
+    Swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        reverseButtons: true,
+
+    }).then(result => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cs/test/goods', type: 'patch',
+                data: {
+                    goodsId: document.getElementById("goodsId").value
+                }, // 데이터 객체 전달
+                success: function (data2) {
+
+                    Swal.fire({
+                        title: '상품이 삭제 되었습니다.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '확인',
+                        reverseButtons: true,
+
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            window.location.replace("/cs/test/goods");
+                        }
+                    });
+
+                }, error: function (error) {
+                    console.error('에러 발생: ', error);
                 }
-            }, error: function (error) {
-                console.error('에러 발생: ', error);
-            }
-        });
-    }
+            });
+        }
+    });
 }
 
 //상품 수정화면 요청

@@ -15,7 +15,7 @@ public interface IGoodsService {
 
     List<Goods> getAllGoodsJFile(int page);
 
-    List<Goods> getSearchGoodsJFile(String search);
+    List<Goods> getSearchGoodsJFile(String search, int page);
 
     int totalGoods();
 
@@ -26,4 +26,6 @@ public interface IGoodsService {
     int updateGoods(Goods goods, GoodsFile goodsFile);
 
     void updateGoods(Goods goods);
+
+    int getSearchGoodsJFileCount(String search);
 }

@@ -24,7 +24,7 @@
     <update id="updateCommuComment"
             parameterType="com.example.myapp.user.commucomment.model.CommuComment">
         UPDATE TB_COMMU_COMMENT
-        SET COMMU_COMMENT_CNTNT       = #{commentCntnt},
+        SET COMMU_COMMENT_CNTNT       = #{commuCommentCntnt},
             COMMU_COMMENT_UPDATE_DATE =  to_char(sysdate,'yyyy.mm.dd hh24:mi')
         WHERE COMMU_COMMENT_ID = #{commentId}
     </update>

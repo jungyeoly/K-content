@@ -33,16 +33,17 @@ public class GoodsService implements IGoodsService {
 
     @Override
     public List<Goods> getAllGoodsJFile(int page) {
-        int start = (page-1)*10 + 1;
-        return goodsRepository.getAllGoodsJFile(start, start+9);
+        int start = (page-1)*9 + 1;
+        return goodsRepository.getAllGoodsJFile(start, start+8);
     }
     @Override
     public int totalGoods() {
         return goodsRepository.totalGoods();
     }
     @Override
-    public List<Goods> getSearchGoodsJFile(String search) {
-        return goodsRepository.getSearchGoodsJFile(search);
+    public List<Goods> getSearchGoodsJFile(String search, int page) {
+        int start = (page-1)*9 + 1;
+        return goodsRepository.getSearchGoodsJFile(search, start, start+8);
     }
 
     @Override
@@ -82,5 +83,10 @@ public class GoodsService implements IGoodsService {
     @Override
     public void updateGoods(Goods goods) {
         goodsRepository.updateGoods(goods);
+    }
+
+    @Override
+    public int getSearchGoodsJFileCount(String search) {
+        return goodsRepository.getSearchGoodsJFileCount(search);
     }
 }

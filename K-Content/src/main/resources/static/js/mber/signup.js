@@ -186,7 +186,7 @@ $(document).ready(function() {
 
 // ================ 비밀번호, 비밀번호 확인과 일치 ================ //
 function checkPasswordMatch() {
-	
+
     var password = document.getElementById("mber_pwd").value;
     var confirmPassword = document.getElementById("mber_pwd_confirm").value;
     var feedback = document.getElementById("check-pwd-confirm-feedback");
@@ -200,8 +200,8 @@ function checkPasswordMatch() {
 } else {
         feedback.style.color = '#dc3545';
         feedback.innerHTML = "비밀번호 확인이 일치하지 않습니다.";
-		feedback.style.display = 'block';    
-		isPwdConfirmValid = false;	   
+		feedback.style.display = 'block';
+		isPwdConfirmValid = false;
 }
 }
 
@@ -264,7 +264,7 @@ $(document).ready(function() {
 						serverAuthCode = response.trim();
 
 						emailFeedback.innerText = '인증 메일이 발송되었습니다.';
-
+						console.log('이메일인증번호:', serverAuthCode);
 						authCodeInput.disabled = false;
 						authCodeInput.style.backgroundColor = 'white';
 						emailCheckBtn.blur();
@@ -327,7 +327,7 @@ function oninputPhone(target) {
 // 유효성 검사
 function validateForm() {
 	if (isIdValid && isPwdValid && isPwdConfirmValid && isNameValid && isEmailValid && isAuthNumValid) {
-		
+
 		return true;
 	} else {
 		alert("모든 필수 항목을 올바르게 작성해주세요.");

@@ -1,37 +1,63 @@
 function searchKeyword() {
+    const firstPage = 1;
     $.ajax({
         url: '/cs/test/goods/search',
         type: 'GET',
         data: {
-            search: document.getElementById("search-input").value
+            search: document.getElementById("search-input").value,
+            page: firstPage
         },
         success: function (data) {
+
             const element = document.getElementById('card-list');
             element.innerHTML = "";
-            if (data.length != 0) {
-                for (var i = 0; i < data.length; i++) {
+            const elementPage = document.getElementById('page-nav');
+            elementPage.innerHTML = "";
+
+            if (data[0].length != 0) {
+                for (var i = 0; i < data[0].length; i++) {
                     inHtml = `
                         <div id="goodsBox" className="border"> 
-                                <div class="single-category mb-30" onclick="detail(${data[i].goodsId})">
-                                    <div class="category-img">
-                                        <img style="width: 300px; height: 400px;margin:auto; display: block"" src="/img/goods/${data[i].goodsFileId}"
-                                             alt="">
-                                            <div class="category-caption p-2">
-                                                <h6 style="text-align: center; ">${data[i].goodsName}</h6>
-                                            </div>
+                            <div class="single-category mb-30" onclick="detail(${data[0][i].goodsId})">
+                                <div class="category-img">
+                                    <img style="width: 300px; height: 400px;margin:auto; display: block"" src="/img/goods/${data[0][i].goodsFileId}"
+                                        alt="">
+                                    <div class="category-caption p-2">
+                                        <h6 style="text-align: center; ">${data[0][i].goodsName}</h6>
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                `;
+                    `;
                     element.insertAdjacentHTML('beforeend', inHtml);
                 }
             } else {
                 inHtml = ` <div class="container text-center mt-5">
-            <img alt="" src="/img/fail_goods.png">
-        </div>`;
+                    <img alt="" src="/img/fail_goods.png">
+                </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }
 
+            var startPage = data[1].startPage;
+            var endPage = data[1].endPage;
+            var htmlString = '';
+            for (var i = startPage; i <= endPage; i++) {
+                htmlString += '<li class="page-item' + (i === data[1].nowPage ? ' active' : '') + '"><a class="page-link selpage" id="selpage" pageNum="' + i + '" onclick=selPageF(' + i + ') data-selpage="' + i + '">' + i + '</a></li>';
+            }
+
+            if (data[1].nowPageBlock > 1) {
+                htmlString = '<li class="page-item"><a class="page-link prepage" id="prepage" onclick="prePageF()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>' + htmlString;
+            }
+
+            if (data[1].nowPageBlock < data[1].totalPageBlock) {
+                htmlString += '<li class="page-item"><a class="page-link nexpage" id="nexpage" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
+            }
+
+            var paginationList = document.createElement('ul');
+            paginationList.setAttribute('class', 'pagination');
+            paginationList.setAttribute('id', 'paginationList');
+            paginationList.innerHTML = htmlString;
+            elementPage.appendChild(paginationList);
 
         },
         error: function (error) {
@@ -39,6 +65,7 @@ function searchKeyword() {
         }
     });
 }
+
 
 function detail(goodsId) {
     // 상품 상세 화면 보여주기
@@ -55,15 +82,64 @@ function detail(goodsId) {
 }
 
 function selPageF(pageNum) {
+    console.log("pageNum: " + pageNum);
 
     $.ajax({
-        url: "/cs/test/goods/" + pageNum,
-        method: "get",
+        url: "/cs/test/goods/search",
+        type: 'GET',
+        data: {
+            search: document.getElementById("search-input").value,
+            page: pageNum
+        },
         success: function (data) {
-
-            const element = document.getElementById('layout');
+            const element = document.getElementById('card-list');
             element.innerHTML = "";
-            element.insertAdjacentHTML('beforeend', data);
+            const elementPage = document.getElementById('page-nav');
+            elementPage.innerHTML = "";
+            if (data[0].length != 0) {
+                for (var i = 0; i < data[0].length; i++) {
+                    inHtml = `
+                        <div id="goodsBox" className="border"> 
+                            <div class="single-category mb-30" onclick="detail(${data[0][i].goodsId})">
+                                <div class="category-img">
+                                    <img style="width: 300px; height: 400px;margin:auto; display: block"" src="/img/goods/${data[0][i].goodsFileId}"
+                                        alt="">
+                                    <div class="category-caption p-2">
+                                        <h6 style="text-align: center; ">${data[0][i].goodsName}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    element.insertAdjacentHTML('beforeend', inHtml);
+                }
+            } else {
+                inHtml = ` <div class="container text-center mt-5">
+                    <img alt="" src="/img/fail_goods.png">
+                </div>`;
+                element.insertAdjacentHTML('beforeend', inHtml);
+            }
+            var startPage = data[1].startPage;
+            var endPage = data[1].endPage;
+            var htmlString = '';
+            for (var i = startPage; i <= endPage; i++) {
+                htmlString += '<li class="page-item' + (i === data[1].nowPage ? ' active' : '') + '"><a class="page-link selpage" id="selpage" pageNum="' + i + '" onclick=selPageF(' + i + ') data-selpage="' + i + '">' + i + '</a></li>';
+            }
+
+            if (data[1].nowPageBlock > 1) {
+                htmlString = '<li class="page-item"><a class="page-link prepage" id="prepage" onclick="prePageF()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>' + htmlString;
+            }
+
+            if (data[1].nowPageBlock < data[1].totalPageBlock) {
+                htmlString += '<li class="page-item"><a class="page-link nexpage" id="nexpage" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
+            }
+
+            var paginationList = document.createElement('ul');
+            paginationList.setAttribute('class', 'pagination');
+            paginationList.setAttribute('id', 'paginationList');
+            paginationList.innerHTML = htmlString;
+            elementPage.appendChild(paginationList);
+
         }
     })
 }

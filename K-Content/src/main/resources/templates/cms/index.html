@@ -96,7 +96,6 @@
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)',
                         'rgb(255, 205, 86)'
-                        // 여기에 더 많은 색상 추가 가능
                     ],
                 }]
             },
@@ -114,28 +113,21 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '일자별 가입자 회원 수 통계',
+                    label: '일별 가입자 회원 수 통계',
                     data: data,
                     borderColor: '#14dbc8',
                     borderWidth: 2,
-                    fill: true
+                    fill: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: [{
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    }],
-                    y: [{
-                        beginAtZero: true,
-                        stepSize: 1,
-                        min: 0
-                    }]
+                    y: {
+                    	   beginAtZero: true,
+                           stepSize: 1,       
+                    }
                 }
             }
         });
@@ -147,7 +139,6 @@
 		        method: 'GET',
 		        dataType: 'json',
 		        success: function (data) {
-		        	console.log(data);
 		            const labels = data.map(item => item.GENDER);
 		            const counts = data.map(item => item.COUNT);
 		            createChart(labels, counts);
@@ -164,7 +155,6 @@
 		        method: 'GET',
 		        dataType: 'json',
 		        success: function (data) {
-		        	console.log(data);
 		            const labels = data.map(item => item.SIGNUP_DATE);
 		            const counts = data.map(item => item.SIGNUP_COUNT);
 		            createLineChart(labels, counts);
@@ -181,7 +171,6 @@
 				url : '/cs/recent-notice',
 				dataType : 'json',
 				success : function(data) {
-					// 회원 정보를 표시할 HTML을 생성
 					var html = '';
 					data.forEach(function(commu) {
 						html += '<tr>';
@@ -191,7 +180,6 @@
 
 						html += '</tr>';
 					});
-					// 최근공지사항 리스트 테이블 업데이트
 					$('#notice-table tbody').html(html);
 
 				},

@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<meta charset="UTF-8">
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">
 </head>
@@ -14,7 +13,8 @@
 		<form th:action="@{/cs/commu/write/${commu.commuCateCode}}"
 			method="post" enctype="multipart/form-data"
 			onsubmit="return validateForm()">
-<input type="hidden" name="csrfToken" id="csrfToken" th:value="${session.csrfToken}">
+			<input type="hidden" name="csrfToken" id="csrfToken"
+				th:value="${session.csrfToken}">
 			<ul class=tb-lst>
 				<li class="admin-row">
 					<div class="commu-label">
@@ -22,17 +22,13 @@
 					</div>
 					<div class="commu-category">
 						<select id="category" name="commuCateCode">
-							<option value="">카테고리를 선택해주세요.</option>
 							<option th:each="cms : ${commonCodeList}"
-								th:if="${cms != null}" th:value="${cms.commonCode}"
-								th:text="${cms.commonCodeDscr}"
+								th:if="${cms != null && cms.commonCodeVal != 'All'}"
+								th:value="${cms.commonCode}" th:text="${cms.commonCodeDscr}"
 								th:selected="${cms.commonCodeVal == 'NOTICE'}">카테고리명</option>
 						</select>
 					</div>
-
-
 				</li>
-
 				<li class="tit-row">
 					<div class="commu-label">
 						<label for="title">제목 <span class="required">*</span></label>
@@ -42,9 +38,7 @@
 						<input type="text" id="title" name="commuTitle"
 							placeholder="제목을 입력하세요.">
 					</div>
-
 				</li>
-
 				<li class="tit-row">
 					<div class="commu-label">
 						<label for="cntnt">내용 <span class="required">*</span></label>
@@ -53,33 +47,30 @@
 						<textarea id="cntnt" name="commuCntnt" placeholder="내용을 입력하세요."></textarea>
 					</div>
 				</li>
-
 				<li class="tit-row">
 					<div class="commu-label">
 						<label for="attachment">첨부파일</label>
 					</div>
-
-				<div class="commu-File">
-						<label class="file-label" for="attachment">파일 선택</label> <input
-							type="file" id="attachment" name="commuUploadFiles" multiple
-							onchange="appendFileList()">
-
+					<div class="commu-File">
+						<label class="file-label" id="fileSelectButton" for="attachment">파일
+							선택</label> <input type="file" id="attachment" name="commuUploadFiles"
+							multiple onchange="appendFileList()" style="display: none;">
+						<ul id="fileList"></ul>
 					</div>
-					<ul id="fileList"></ul>
-				
+
 				</li>
 			</ul>
-
 
 			<div class="d-flex justify-content-center">
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
-					sec:authorize="isAuthenticated()"> <a th:href="@{/cs/commu/1(commonCodeDscr ='전체')}" class="btn me-2 cancel-btn" data-action="cancel">취소</a>
-				<input type="submit" class="btn commuBtn" data-action="confirm"
-					value="등록">
+					sec:authorize="isAuthenticated()"> <a
+					th:href="@{/cs/commu/1(commonCodeDscr ='전체')}"
+					class="btn me-2 cancel-btn" data-action="cancel">취소</a> <input
+					type="submit" class="btn commuBtn" data-action="confirm" value="등록">
 			</div>
 		</form>
 	</div>
+	<script th:src="@{/js/commu/write.js}"></script>
 </body>
-<script th:src="@{/js/commu/write.js}"></script>
 </html>

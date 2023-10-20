@@ -413,7 +413,6 @@ public class CommuController {
 			}
 		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-
 		model.addAttribute("commu", commu);
 		model.addAttribute("commuFiles", commuFiles);
 		model.addAttribute("commuCateCodeList", commuCateCodeList);

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
@@ -14,21 +14,21 @@
 						<i class="fa fa-bar-chart"></i> 전체 회원 수
 					</div>
 					<div class="card-body">
-						<canvas id="myPieChart" width="100%" height="100"></canvas>
+						<canvas id="signupChart" width="200" height="200"></canvas>
 					</div>
-					<div class="card-footer small text-muted">Updated yesterday
+					<div class="card-footer small text-muted" th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated yesterday
 						at 11:59 PM</div>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fa fa-pie-chart"></i> 성별 통계
+						<i class="fa fa-pie-chart"></i> 회원 성별 통계
 					</div>
 					<div class="card-body">
-						<canvas id="myPieChart" width="100%" height="100"></canvas>
+						<canvas id="genderChart" width="200" height="200"></canvas>
 					</div>
-					<div class="card-footer small text-muted">Updated yesterday
+					<div class="card-footer small text-muted" th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated yesterday
 						at 11:59 PM</div>
 				</div>
 			</div>
@@ -74,12 +74,107 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
-
+	
 		$(document).ready(function() {
+			loadGenderChart();
+			loadsignupChart();
 			loadNoticeData();
 		});
+  
+
+    function createChart(labels, counts) {
+        const ctx = document.getElementById('genderChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                        // 여기에 더 많은 색상 추가 가능
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+    
+    function createLineChart(labels, data) {
+        var ctx = document.getElementById('signupChart').getContext('2d');
+        var signupChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '일자별 가입자 회원 수 통계',
+                    data: data,
+                    borderColor: '#14dbc8',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }],
+                    y: [{
+                        beginAtZero: true,
+                        stepSize: 1,
+                        min: 0
+                    }]
+                }
+            }
+        });
+    }
+
+     function loadGenderChart() {
+		    $.ajax({
+		        url: '/cs/mber/gender-stat',
+		        method: 'GET',
+		        dataType: 'json',
+		        success: function (data) {
+		        	console.log(data);
+		            const labels = data.map(item => item.GENDER);
+		            const counts = data.map(item => item.COUNT);
+		            createChart(labels, counts);
+		        },
+		        error: function (error) {
+		        	console.log('에러 발생: ', error);
+		        }
+		    });
+	  }
+    
+     function loadsignupChart() {
+		    $.ajax({
+		        url: '/cs/mber/signup-stat',
+		        method: 'GET',
+		        dataType: 'json',
+		        success: function (data) {
+		        	console.log(data);
+		            const labels = data.map(item => item.SIGNUP_DATE);
+		            const counts = data.map(item => item.SIGNUP_COUNT);
+		            createLineChart(labels, counts);
+		        },
+		        error: function (error) {
+		        	console.log('에러 발생: ', error);
+		        }
+		    });
+	  }
+     
 		function loadNoticeData() {
 			$.ajax({
 				type : 'GET',

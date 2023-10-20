@@ -236,4 +236,24 @@ FROM (
 		    )
    ]]>
 	</select>
+	
+	<select id="getGenderStat" resultType="map">
+    <![CDATA[
+		    SELECT B1.common_code_dscr AS gender, COUNT(*) AS count
+		    FROM tb_mber A
+		    JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
+		    GROUP BY B1.common_code_dscr
+    ]]>
+	</select>
+	
+	<select id="getSignupStat" resultType="map">
+    <![CDATA[
+		SELECT TO_CHAR(TO_DATE(mber_regist_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS signup_date, COUNT(*) AS signup_count
+		FROM tb_mber
+		WHERE TO_DATE(mber_regist_date, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE) - 9
+		GROUP BY TO_CHAR(TO_DATE(mber_regist_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD')
+		ORDER BY TO_CHAR(TO_DATE(mber_regist_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD')
+    ]]>
+</select>
+
 </mapper>

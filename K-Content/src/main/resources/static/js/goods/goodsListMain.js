@@ -33,7 +33,7 @@ function searchKeyword() {
                 }
             } else {
                 inHtml = ` <div class="container text-center mt-5">
-                    <img alt="" src="/img/fail_goods.png">
+                    <img alt="" src="/img/fail_goods_admin.png">
                 </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }
@@ -115,7 +115,7 @@ function selPageF(pageNum) {
                 }
             } else {
                 inHtml = ` <div class="container text-center mt-5">
-                    <img alt="" src="/img/fail_goods.png">
+                    <img alt="" src="/img/fail_goods_admin.png">
                 </div>`;
                 element.insertAdjacentHTML('beforeend', inHtml);
             }

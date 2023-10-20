@@ -41,4 +41,8 @@ public interface IMberRepository {
 	List<Mber> searchMber(@Param("findType") String findType, @Param("findKeyword") String findKeyword, @Param("start") int start, @Param("end") int end);
 	
 	int cntSeach(@Param("findType") String findType, @Param("findKeyword") String findKeyword);
+
+	List<Map<String, Object>> getGenderStat();
+	
+	List<Map<String, Object>> getSignupStat();
 }

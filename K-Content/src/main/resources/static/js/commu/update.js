@@ -6,18 +6,16 @@ const commuId = titleInput.getAttribute('data-commu-id');
 
 // 현재 페이지의 경로가 /cs로 시작하는지 확인
 var isCsPage = window.location.pathname.startsWith('/cs');
-console.log("isCsPage:", isCsPage);
 // /cs로 시작하는 페이지에서만 실행
 if (isCsPage) {
 	var updateURL = `/cs/commu/update/${commuCateCode}/${commuId}`;
-	console.log("isCsPage:", isCsPage);
 	if (window.location.pathname === updateURL) {
 		// 페이지 로드 시 제목 필드의 기본값을 "[공지]"로 설정
 		if (!titleInput.value.startsWith("[공지]")) {
 			titleInput.value = "[공지] " + titleInput.value;
 		}
 
-		titleInput.addEventListener('input', enforcePrefix);
+		titleInput.addEventListener('input');
 
 		titleInput.addEventListener('keydown', function(e) {
 			const cursorPos = titleInput.selectionStart;
@@ -127,7 +125,6 @@ const fileSelectButton = document.getElementById('fileSelectButton');
 if (fileSelectButton) {
 	fileSelectButton.onclick = function(event) {
 		event.preventDefault();
-		console.log("fileSelectButton clicked.");
 		const attachmentElem = document.getElementById('attachment');
 		if (attachmentElem) attachmentElem.click();
 	};
@@ -138,7 +135,6 @@ const categoryElem = document.getElementById('category');
 
 if (categoryElem) {
 	categoryElem.addEventListener('change', function() {
-		console.log("categoryElem value changed.");
 		let commuCateCode = this.value;
 		let form = document.querySelector('form');
 		let commuIdElem = document.getElementById('commuId');
@@ -219,7 +215,6 @@ async function deleteFileFromServer(commuFileId) {
 		body: body
 	})
 		.then(response => {
-			console.log(response);
 			if (!response.ok) {
 				throw new Error("Network response was not ok");
 			}
@@ -243,7 +238,6 @@ function onSubmitForm(event) {
 		formData.append('commuUploadFiles', file);
 	}
 
-	console.log('Sending request to:', actionURL);
 
 	fetch(actionURL, {
 		method: 'POST',
@@ -259,26 +253,23 @@ function onSubmitForm(event) {
 		})
 		.then(data => {
 			if (typeof data === "string") {
-				// 서버에서 반환한 HTML 내용으로 현재 페이지를 대체합니다.
-				document.open();
-				document.write(data);
-				document.close();
-				// 또는 지정된 URL로 리다이렉트하려면 다음을 사용합니다:
-				// window.location.href = "YOUR_REDIRECT_URL";
-			} else {
-				console.log('Received JSON:', data);
-				if (data.success) {
-					console.log('Request was successful');
-				} else {
-					showModal("Error", data.message);
-					console.error('Request failed with error:', data.message);
-				}
-			}
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			showModal("Error", error.message);
-		});
+				// 서버에서 반환한 HTML 내용으로 지정된 컨테이너의 내용을 대체합니다.
+                const container = document.getElementById('responseContainer');
+                container.innerHTML = data;
+            } else {
+                console.log('Received JSON:', data);
+                if (data.success) {
+                    console.log('Request was successful');
+                } else {
+                    showModal("Error", data.message);
+                    console.error('Request failed with error:', data.message);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModal("Error", error.message);
+        });
 }
 
 // 이벤트 리스너 추가

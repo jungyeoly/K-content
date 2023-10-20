@@ -3,11 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
-<link rel="stylesheet" href="/css/common.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css"
-	rel="stylesheet">
-<meta charset="UTF-8">
+<th:block th:replace="~{/include/header :: header}"></th:block>
 </head>
 <body>
 	<div id="comment-Box">
@@ -111,13 +107,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script th:src="@{/js/commu/comment.js}" defer></script>
 </body>
 

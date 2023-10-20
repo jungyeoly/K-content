@@ -36,4 +36,8 @@ public interface IMberService {
 	List<Mber> searchMber(String findType, String findKeyword, int page);
 	
 	int cntSearch(String findType, String findKeyword);
+
+	List<Map<String, Object>> getGenderStat();
+
+	List<Map<String, Object>> getSignupStat();
 }

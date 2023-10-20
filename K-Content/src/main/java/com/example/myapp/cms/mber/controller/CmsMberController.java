@@ -22,6 +22,7 @@ import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.mber.model.Mber;
 import com.example.myapp.user.mber.service.IMberService;
 
+@PreAuthorize("hasRole('ADMIN')")
 @Controller
 @RequestMapping("/cs")
 public class CmsMberController {
@@ -63,7 +64,6 @@ public class CmsMberController {
 		return "cms/mber/list";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/mber/list/{page}")
 	@ResponseBody
 	public List<Mber> getMberList(@PathVariable int page, Model model) {
@@ -147,6 +147,20 @@ public class CmsMberController {
 		model.addAttribute("endPage", endPage);
 		
 		return "cms/mber/paging";
+	}
+	
+	@GetMapping("/mber/gender-stat")
+	@ResponseBody
+	public List<Map<String, Object>> getGenderStat() {
+		List<Map<String, Object>> genderStat = mberService.getGenderStat();
+		return genderStat;
+	}
+	
+	@GetMapping("/mber/signup-stat")
+	@ResponseBody
+	public List<Map<String, Object>> getSignupStat() {
+		List<Map<String, Object>> signupStat = mberService.getSignupStat();
+		return signupStat;
 	}
 	
 }

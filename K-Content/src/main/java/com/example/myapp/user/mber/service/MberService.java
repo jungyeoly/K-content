@@ -1,6 +1,7 @@
 package com.example.myapp.user.mber.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,4 +97,14 @@ public class MberService implements IMberService {
 	public int cntSearch(String findType, String findKeyword) {
 		return mberRepository.cntSeach(findType, findKeyword);
 	}
+	
+	@Override
+	 public List<Map<String, Object>> getGenderStat() {
+        return mberRepository.getGenderStat();
+    }
+	
+	@Override
+	 public List<Map<String, Object>> getSignupStat() {
+       return mberRepository.getSignupStat();
+   }
 }

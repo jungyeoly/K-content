@@ -57,3 +57,9 @@ function updateGoods() {
     document.getElementById("goodsIdf").value = goodsID;
     document.getElementById('updateGoods').submit();
 }
+
+let parentDiv = document.getElementById('goodsPurchsText');
+let childDiv = document.getElementById('goodsPurchsLink');
+
+let childHeight = childDiv.clientHeight;
+parentDiv.style.height = childHeight + 'px';

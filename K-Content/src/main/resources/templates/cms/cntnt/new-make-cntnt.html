@@ -32,7 +32,7 @@
                 <select name="category" id="category" style="margin-top: 1rem; margin-bottom: 1rem">
                     <option id="commonCode"
                             th:each="category : ${category}" th:value="${category.getCommonCode()}"
-                            th:text="${category.getCommonCodeVal()}" th:data-maincate-value="${category}"
+                            th:text="${category.getCommonCodeDscr()}" th:data-maincate-value="${category}"
                             th:selected="${category.getCommonCode()} == ${content.getCntntCateCode()}"
                     ></option>
                 </select>
@@ -150,7 +150,7 @@
                 <select name="category" id="category" style="margin-top: 1rem; margin-bottom: 1rem">
                     <option id="commonCode"
                             th:each="category : ${category}" th:value="${category.getCommonCode()}"
-                            th:data-maincate-value="${category}"  th:text="${category.getCommonCodeVal()}"
+                          th:text="${category.getCommonCodeDscr()}"
                     ></option>
                 </select>
 

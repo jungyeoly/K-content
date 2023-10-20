@@ -37,9 +37,10 @@
 					class="validation-form" id="mberInfoForm" novalidate>
 					<div class="mb-3 row">
 						<div class="col-md-2">
-							<label for="mber_pwd" class="col-form-label text-nowrap"
-								th:text=#{password}>비밀번호<span class="align-middle"
-								style="color: red;">*</span></label>
+							<label for="mber_pwd" class="col-form-label text-nowrap">
+								<span th:text=#{password}>비밀번호</span>
+								<span class="align-middle" style="color: red;">*</span>
+							</label>
 						</div>
 						<div class="col-md-4">
 							<input type="password" class="form-control" id="mber_pwd"
@@ -56,9 +57,9 @@
 					</div>
 					<div class="mb-3 row">
 						<div class="col-md-2">
-							<label for="mber_pwd_confirm" class="col-form-label text-nowrap"
-								th:text=#{con.password}>비밀번호 확인<span
-								class="align-middle" style="color: red;">*</span>
+							<label for="mber_pwd_confirm" class="col-form-label text-nowrap">
+								<span th:text=#{con.password}>비밀번호 확인</span>
+								<span class="align-middle" style="color: red;">*</span>
 							</label>
 						</div>
 						<div class="col-md-4">
@@ -91,9 +92,9 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-md-2">
-							<label for="mber_email" class="fw-bold col-form-label"
-								th:text=#{email}>이메일<span class="align-middle"
-								style="color: red;">*</span></label>
+							<label for="mber_email" class="fw-bold col-form-label">
+							<span th:text=#{email}>이메일</span>
+							<span class="align-middle" style="color: red;">*</span></label>
 						</div>
 						<div class="col-md-4">
 							<input type="email" id="mber_email" class="form-control form-bid"
@@ -118,9 +119,9 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-md-2">
-							<label for="auth-code-input" class="fw-bold col-form-label"
-								th:text=#{auth.num}>인증번호<span class="align-middle"
-								style="color: red;">*</span></label>
+							<label for="auth-code-input" class="fw-bold col-form-label">
+								<span th:text=#{auth.num}>인증번호</span>
+								<span class="align-middle" style="color: red;">*</span></label>
 						</div>
 						<div class="col-md-4">
 							<input type="text" id="auth-code-input"
@@ -136,9 +137,9 @@
 					</div>
 					<div class="mb-3 row">
 						<div class="col-md-2">
-							<label for="mber_gender" class="col-form-label text-nowrap"
-								th:text=#{gender}>성별<span class="align-middle"
-								style="color: red;">*</span></label>
+							<label for="mber_gender" class="col-form-label text-nowrap">
+								<span th:text=#{gender}>성별</span>
+								<span class="align-middle" style="color: red;">*</span></label>
 						</div>
 						<div class="col-md-4">
 							<select name="mberGenderCode" class="form-select"

@@ -358,8 +358,6 @@ public class CmsCommuController {
 			List<CommuFile> commuFiles = new ArrayList<>();
 
 			if (commuUploadFiles != null && commuUploadFiles.length > 0) {
-				logger.info("Processing uploaded files for updating.");
-
 				for (MultipartFile uploadFile : commuUploadFiles) {
 					if (!uploadFile.isEmpty()) {
 						String originalName = uploadFile.getOriginalFilename();

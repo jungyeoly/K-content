@@ -2,11 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link rel="stylesheet" th:href="@{/css/commu/commuUpdate.css}">
 <link rel="stylesheet" href="/css/common.css">
-<link rel="stylesheet" href="/css/admin-body-header.css">
-<meta charset="UTF-8">
-<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
@@ -23,17 +21,17 @@
 					<div class="commu-label">
 						<label for="category">카테고리</label>
 					</div>
-				<div class="commu-category">
+					<div class="commu-category">
 						<select id="category" name="commuCateCode">
 							<option th:each="code : ${CodeVal}"
-								th:if="${code != null}" th:value="${code.commonCode}"
-								th:text="${code.commonCodeDscr}"
+								th:if="${code != null && code.commonCodeVal != 'All'}"
+								th:value="${code.commonCode}" th:text="${code.commonCodeDscr}"
 								th:selected="${code.commonCodeDscr == '공지사항'}">카테고리명</option>
 						</select>
 					</div>
 
 				</li>
-				
+
 				<li class="tit-row">
 					<div class="commu-label">
 						<label for="title">제목</label>
@@ -86,8 +84,9 @@
 				<input type="hidden" name="commuMberId"
 					th:value="${#authentication.principal.username}"
 					sec:authorize="isAuthenticated()"> <a type="reset"
-					class="btn me-2 cancel-btn" th:href="@{/cs/commu/detail/{commuId}(commuId=${commu.commuId})}">취소</a> 
-					<input	type="submit" class="btn saveBtn" value="저장"> <input
+					class="btn me-2 cancel-btn"
+					th:href="@{/cs/commu/detail/{commuId}(commuId=${commu.commuId})}">취소</a>
+				<input type="submit" class="btn saveBtn" value="저장"> <input
 					type="hidden" name="filesToDelete" id="filesToDelete">
 
 			</div>

@@ -2,15 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<link rel="stylesheet" href="/css/commu/commuList.css">
-<link rel="stylesheet" href="/css/common.css">
-<link rel="stylesheet" href="/css/admin-body-header.css">
-<meta charset="UTF-8">
 <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+<link rel="stylesheet" href="/css/commu/commuList.css">
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-
 	<div class="container">
 		<div class="d-flex justify-content-center">
 			<div class="cmssearchDiv">
@@ -89,10 +85,6 @@
 			</ul>
 		</nav>
 	</div>
-
-
-
-
+	<script th:src="@{/js/commu/admincommulist.js}"></script>
 </body>
-<script th:src="@{/js/commu/admincommulist.js}"></script>
 </html>

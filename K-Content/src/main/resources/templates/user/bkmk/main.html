@@ -1,56 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-    <th:block th:replace="~{/include/header :: header}"></th:block>
-    <link rel="stylesheet" th:href="@{/css/bkmk/bkmk.css}">
+	<th:block th:replace="~{/include/header :: header}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/bkmk/bkmk.css}">
 </head>
 <body>
 <header th:insert="~{/include/body-header :: userNavBar}"></header>
+<main>
+	<div id="container" class="container">
+		<ul class="tab d-flex justify-content-around text-white">
+			<li class="on" data-tab="menu1" th:text=#{bkmk.goods}>콘텐츠 즐겨찾기</li>
+			<li data-tab="menu2" th:text=#{bkmk.content}>상품 즐겨찾기</li>
+		</ul>
 
-<div id="container" class="container">
-    <ul class="tab d-flex justify-content-around text-white">
-        <li class="on" data-tab="menu1" th:text=#{bkmk.goods}>콘텐츠 즐겨찾기</li>
-        <li data-tab="menu2" th:text=#{bkmk.content}>상품 즐겨찾기</li>
-    </ul>
+		<div id="menu1" class="tabcont on">
+			<div class="container text-center mt-5"
+				 th:if="${#lists.isEmpty(cntntList)}">
+				<img alt="" src="/img/fail_cntnt.png">
+			</div>
 
-    <div id="menu1" class="tabcont on">
-        <div class="container text-center mt-5" th:if="${#lists.isEmpty(cntntList)}">
-            <img alt="" src="/img/fail_cntnt.png">
-        </div>
+			<div class="d-flex flex-wrap justify-content-center">
+				<div th:each="cntnt : ${cntntList}"
+					 class="card mx-3 my-3 position-relative"
+					 th:cntntId="${cntnt.cntntId}"
+					 onclick="cntntDetail(this.getAttribute('cntntId'))">
+					<i
+							class="fa-solid fa-x position-absolute text-danger cntntI fw-bold end-0 top-0 p-1"></i>
+					<img th:src="${cntnt.CntntThumnail}" class="card-img-top"
+						 alt="...">
+					<div class="card-body">
+						<p class="card-text">[[${cntnt.cntntTitle}]]</p>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="d-flex flex-wrap justify-content-center">
-            <div th:each="cntnt : ${cntntList}" class="card mx-3 my-3 position-relative"
-                 th:cntntId="${cntnt.cntntId}" onclick="cntntDetail(this.getAttribute('cntntId'))">
-                <i class="fa-solid fa-x position-absolute text-danger cntntI fw-bold end-0 top-0 p-1"></i>
-                <img th:src="${cntnt.CntntThumnail}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">[[${cntnt.cntntTitle}]]</p>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div id="menu2" class="tabcont">
+			<div class="container text-center mt-5"
+				 th:if="${#lists.isEmpty(goodsList)}">
+				<img alt="" src="/img/fail_goods.png">
+			</div>
 
-    <div id="menu2" class="tabcont">
-        <div class="container text-center mt-5" th:if="${#lists.isEmpty(goodsList)}">
-            <img alt="" src="/img/fail_goods_admin.png">
-        </div>
-
-        <div class="d-flex flex-wrap justify-content-center">
-            <div th:each="goods : ${goodsList}" class="card mx-3 my-3 position-relative" th:goodsId="${goods.goodsId}"
-                 th:goodsUrl="${goods.getGoodsPurchsLink()}" onclick="moveGoods(this.getAttribute('goodsUrl'))">
-                <i class="fa-solid fa-x position-absolute text-danger goodsI fw-bold end-0 top-0 p-1"></i>
-                <img class="card-img-top"
-                     th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}">
-                <div class="card-body">
-                    <p class="card-text my-1">[[${goods.goodsName}]]</p>
-                    <p class="card-text my-1">[[${goods.goodsBrand}]]</p>
-                    <p class="card-text my-1">[[${goods.goodsPrice}]]</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+			<div class="d-flex flex-wrap justify-content-center">
+				<div th:each="goods : ${goodsList}"
+					 class="card mx-3 my-3 position-relative"
+					 th:goodsId="${goods.goodsId}"
+					 th:goodsUrl="${goods.getGoodsPurchsLink()}"
+					 onclick="moveGoods(this.getAttribute('goodsUrl'))">
+					<i
+							class="fa-solid fa-x position-absolute text-danger goodsI fw-bold end-0 top-0 p-1"></i>
+					<img class="card-img-top"
+						 th:src="@{/img/goods/{image}(image=${goods.goodsFileId})}">
+					<div class="card-body">
+						<p class="card-text my-1">[[${goods.goodsName}]]</p>
+						<p class="card-text my-1">[[${goods.goodsBrand}]]</p>
+						<p class="card-text my-1">[[${goods.goodsPrice}]]</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 <script th:src="@{/js/bkmk/bkmk.js}"></script>
 
 </body>

@@ -31,8 +31,8 @@ function delKeyword(key) {
 // 키워드 생성
 function makeKeyword() {
     var inputWord = document.getElementById("inputKeyword").value;
-
-    var word = inputWord.replace(/(\s*)/g, '');
+    var refineWord = inputWord.toLowerCase();
+    var word = refineWord.replace(/(\s*)/g, '');
     if (word == null || word == '') {
 
         Swal.fire({
@@ -169,8 +169,25 @@ function delGoods(goodsID) {
     cntntGoodsSet.delete(goodsID);
 }
 
+window.addEventListener('load', () => {
+    const forms = document.getElementsByClassName('validation-form');
+
+    Array.prototype.filter.call(forms, (form) => {
+        form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+                console.log("sdfsdf");
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    });
+}, false);
+
 //컨텐츠 생성 폼 제출
 function createContent() {
+    event.preventDefault();
     var keywordDivList = [];
     var goodsDivList = [];
     var keywordDiv = document.getElementById("keywordList");
@@ -183,6 +200,20 @@ function createContent() {
         keywordDivList.push(trimmedStr);
     }
 
+    if (keywordDivList.length == 0) {
+        Swal.fire({
+            title: '키워드를 입력해주세요',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            reverseButtons: true,
+
+        }).then(result => {
+            if (result.isConfirmed) {
+                return;
+            }
+        });
+    }
 
     for (i = 0; i < goodsDivCount.length; i++) {
         goodsDivList.push(goodsDivCount[i].value);
@@ -209,14 +240,15 @@ function createContent() {
         };
     }
     console.log(sendData)
-    //콘텐츠 생성/수정
+    // 콘텐츠 생성/수정
     $.ajax({
         url: '/cs/test/content',
         type: 'POST',
         data: JSON.stringify(sendData),
         contentType: 'application/json',
         success: function (data) {
-            if (data == '수정') {
+            console.log(data)
+            if (data == '수정완료') {
                 Swal.fire({
                     title: '콘텐츠 수정 완료',
                     text: '콘텐츠 수정이 완료되었습니다.',
@@ -227,7 +259,7 @@ function createContent() {
                         location.href = '/cs/test';
                     }
                 });
-            } else {
+            } else if (data == '생성완료') {
                 Swal.fire({
                     title: '콘텐츠 생성 완료',
                     text: '콘텐츠 생성이 완료되었습니다.',
@@ -244,7 +276,7 @@ function createContent() {
             console.error('에러 발생: ', error);
             Swal.fire({
                 title: '콘텐츠 생성 실패',
-                text: '콘텐츠 생성이 생성이 실패했습니다. 개발자에게 문의해주세요',
+                text: '콘텐츠 생성이 생성이 실패했습니다.',
                 icon: 'error',
                 confirmButtonText: '확인'
             }).then((result) => {

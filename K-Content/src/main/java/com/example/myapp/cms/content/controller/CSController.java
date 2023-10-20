@@ -11,6 +11,8 @@ import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -224,7 +226,7 @@ public class CSController {
     //콘텐츠 생성/수정
     @PostMapping("/content")
     @ResponseBody
-    public String postCntntForm(@RequestBody CntntInsertForm receivedData) {
+    public ResponseEntity<String> postCntntForm(@RequestBody CntntInsertForm receivedData) {
         CmsContent content = new CmsContent();
 
         content.setCntntUrl(receivedData.getCntntUrl());
@@ -238,15 +240,28 @@ public class CSController {
         content.setCntntKwrd(keyword);
 
         List<Integer> goodsList = receivedData.getGoodsList();
+        int rowsAffected = 0;
         if (receivedData.getIs().equals("수정")) {
             content.setCntntId(receivedData.getCntntId());
-            contentService.updateAContent(content, goodsList);
+            rowsAffected = contentService.updateAContent(content, goodsList);
+            System.out.println("rowsAffected: " + rowsAffected);
         } else if (receivedData.getIs().equals("생성")) {
-            contentService.insertAContent(content, goodsList);
+            rowsAffected = contentService.insertAContent(content, goodsList);
+            System.out.println("생성 rowsAffected: " + rowsAffected);
         }
-        return receivedData.getIs();
-        // 성공 여부 리턴
+
+        if (rowsAffected <= 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("cntnt 업로드 실패");
+        } else {
+            if (receivedData.getIs().equals("수정")) {
+                return ResponseEntity.ok("수정완료");
+            } else if (receivedData.getIs().equals("생성")) {
+                return ResponseEntity.ok("생성완료");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("cntnt 업로드 실패");
     }
+
 
     @GetMapping("paging")
     public String paging(

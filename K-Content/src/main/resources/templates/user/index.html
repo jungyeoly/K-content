@@ -9,8 +9,8 @@
 	rel="stylesheet">
 </head>
 <body>
-	<header th:insert="~{/include/body-header :: userNavBar}"></header>
-
+	<header th:replace="~{/include/body-header :: userNavBar}"></header>
+	<main>
 	<div id="main-cate" class="categories-nav mb-5">
 		<ul class="categories">
 			<!-- <li th:each="cate : ${cateList}" class="cate mx-3"
@@ -56,7 +56,7 @@
 			<path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
 		</svg>
 	</div>
-
+</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 
 	<script th:src="@{/js/body-header.js}"></script>

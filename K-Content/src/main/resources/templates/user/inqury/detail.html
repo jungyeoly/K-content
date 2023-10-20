@@ -10,7 +10,7 @@
 	<header th:replace="~{include/body-header :: userNavBar}"></header>
 	
 	<div th:replace="~{/include/community-center :: inqry-nav}"></div>
-	
+	<main>
 	<div class="container mb-3">
 		<!-- inqry 번호 -->
 		<div class="inqry-no menu fw-bold">[[${inqry.inqryId}]]</div>
@@ -97,6 +97,8 @@
 			</div>
 		</div>
 	</div>
+	</main>
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script th:src="@{/js/inqury/inquryDelete.js}"></script>
 </body>
 </html>

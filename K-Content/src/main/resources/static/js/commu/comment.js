@@ -197,25 +197,27 @@ $(document).ready(function() {
 			e.stopPropagation();
 			$(".update-comment-textarea").hide();
 			$("p").show();
-
+			
 			var commentid = $(this).data("id");
 
 			var $replyDiv = $(this).closest('.reply-box'); // 답글일때
 			var $commentDiv = $(this).closest('.update');  // 댓글일때
 
 			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
+			console.log($textarea);
 			var currentText;
 
 			// 답글일 때와 댓글일 때의 텍스트 처리
 			if ($replyDiv.length) {
 				currentText = $replyDiv.find('p').text();
+				console.log($replyDiv);
 			} else if ($commentDiv.length) {
 				currentText = $commentDiv.find('p').text();
 			}
 
 			if ($(this).text() === "수정") {
 				$textarea.val(currentText).show();
-
+	console.log($textarea);
 				
 
 				if ($replyDiv.length) {
@@ -228,6 +230,7 @@ $(document).ready(function() {
 				$(this).text("저장");
 			} else {
 				var updateText = $textarea.val();
+				console.log(updateText);
 				$.ajax({
 					url: "/commu/comment/update",
 					type: "POST",

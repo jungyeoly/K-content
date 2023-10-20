@@ -21,7 +21,8 @@
 		<div class="d-flex">
 			<div class="commuDropdown">
 				<button class="dropbtn position-relative">
-					카테고리 <span class="position-absolute end-0 pe-3"><i
+					<span class="category-text">카테고리</span> <span
+						class="position-absolute end-0 pe-3"><i
 						class="fa-solid fa-angle-down"></i></span>
 				</button>
 				<div class="d-flex">
@@ -58,13 +59,15 @@
 			</thead>
 			<tbody>
 				<tr th:each="cate : ${commulist}" class="commu-row"
-					th:attr="data-commu-id=${commu.commuId}" onclick="commuDetail(this)">
+					th:attr="data-commu-id=${commu.commuId}"
+					onclick="commuDetail(this)">
 					<td th:text="${commu.commuId}"></td>
 					<td th:text="${commu.commonCodeDscr}" style="font-weight: bold">카테고리명</td>
 					<td th:text="${commu.commuTitle}"></td>
 					<td th:text="${commu.commuMberId}"></td>
 					<td th:text="${commu.commuReadCnt}"></td>
 					<td th:text="${commu.commuRegistDate}"></td>
+
 				</tr>
 
 			</tbody>

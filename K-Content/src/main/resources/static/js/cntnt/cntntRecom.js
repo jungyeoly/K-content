@@ -57,7 +57,11 @@ function cntntMake(spaArr, url) {
     document.getElementById("cntntTitle").value = spaArr;
     document.getElementById('contentMake').submit();
 }
-
+function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+        searchButton();
+    }
+}
 function searchButton() {
     $.ajax({
         url: '/cs/test/youtube/keyword', type: 'GET',

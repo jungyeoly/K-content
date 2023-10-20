@@ -12,7 +12,7 @@
 		<div class="menu fw-bold" id="commuId">공지사항([[${commu.commuId}]])</div>
 		<form
 			th:action="@{/cs/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
-			method="post" enctype="multipart/form-data"
+			method="post" enctype="multipart/form-data" id="updateForm"
 			onsubmit="return validateForm()">
 
 			<ul class=tb-lst>
@@ -54,15 +54,15 @@
 
 				<li class="tit-row">
 					<div class="commu-label">
-						<label for="attachment">첨부파일</label>
+						<label for="adminAttachment">첨부파일</label>
 
 					</div>
 
 					<div class="commu-File">
-						<input type="file" id="attachment" name="commuUploadFiles"
+						<input type="file" id="adminAttachment" name="commuUploadFiles"
 							multiple onchange="appendFileList()" style="display: none;">
 						<button id="fileSelectButton"
-							onclick="document.getElementById('attachment').click();">파일
+							onclick="document.getElementById('attachAttachment').click();">파일
 							선택</button>
 						<!-- 기존 첨부파일 목록 -->
 						<ul>
@@ -91,6 +91,7 @@
 
 			</div>
 		</form>
+		
 	</div>
 	<div th:insert="~{include/common-modal :: commonmodal}"></div>
 	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->

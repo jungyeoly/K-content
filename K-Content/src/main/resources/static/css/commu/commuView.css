@@ -281,7 +281,7 @@ img {
 	display: flex;
 	position: absolute;
 	top: 1em;
-	right: 100px;
+	right: 0px;
 	gap: 10px;
 }
 

@@ -56,6 +56,13 @@
 
     </select>
 
+<!--게시글 ID에 따른 댓글의 ID만 조회 -->
+
+<select id="selectAllCommentIdsByPostId" parameterType="int" resultType="int">
+    SELECT COMMU_COMMENT_ID
+    FROM TB_COMMU_COMMENT
+    WHERE COMMU_COMMENT_COMMU_ID = #{commuId}
+</select>
 
     <!--특정 ID를 가진 댓글의 정보를 조회 -->
     <select id="selectCommuCommentById" parameterType="int"

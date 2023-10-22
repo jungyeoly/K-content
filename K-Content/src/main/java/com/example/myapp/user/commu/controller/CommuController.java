@@ -437,8 +437,6 @@ public class CommuController {
 		logger.info("/commu/update : " + commu.toString());
 
 		try {
-			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));

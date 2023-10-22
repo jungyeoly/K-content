@@ -14,7 +14,7 @@
 			<div class="menu fw-bold" id="commuId">[[${commu.commuId}]]</div>
 			<form
 				th:action="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
-				method="post" enctype="multipart/form-data"
+				method="post" enctype="multipart/form-data" id="updateForm"
 				onsubmit="return validateForm()">
 
 				<ul class=tb-lst>
@@ -90,8 +90,6 @@
 		</div>
 	</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
-	<div th:insert="~{include/common-modal :: commonmodal}"></div>
-	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
 	<script th:src="@{/js/commu/update.js}"></script>
 </body>
 </html>

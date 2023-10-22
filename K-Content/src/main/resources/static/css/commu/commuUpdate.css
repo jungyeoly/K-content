@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+.admin-row {
+	display:none;
+}
 :root {
 	/* Color */ 
 	-color-main: #14dbc8;

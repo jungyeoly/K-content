@@ -6,18 +6,17 @@
 <link rel="stylesheet" th:href="@{/css/commu/commuUpdate.css}">
 <link rel="stylesheet" href="/css/common.css">
 </head>
-<body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	<div class="container">
 		<div class="menu fw-bold" id="commuId">공지사항([[${commu.commuId}]])</div>
 		<form
 			th:action="@{/cs/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
-			method="post" enctype="multipart/form-data" id="updateForm"
+			method="post" enctype="multipart/form-data" id="adminUpdateForm"
 			onsubmit="return validateForm()">
 
 			<ul class=tb-lst>
 
-				<li class="tit-row">
+				<li class="admin-row">
 					<div class="commu-label">
 						<label for="category">카테고리</label>
 					</div>
@@ -59,10 +58,10 @@
 					</div>
 
 					<div class="commu-File">
-						<input type="file" id="adminAttachment" name="commuUploadFiles"
+						<input type="file" id="adminAttachment" name="commuAdminUploadFiles"
 							multiple onchange="appendFileList()" style="display: none;">
 						<button id="fileSelectButton"
-							onclick="document.getElementById('attachAttachment').click();">파일
+							onclick="document.getElementById('adminAttachment').click();">파일
 							선택</button>
 						<!-- 기존 첨부파일 목록 -->
 						<ul>
@@ -75,7 +74,7 @@
 						</ul>
 
 						<!-- 새로 추가할 파일들의 목록 -->
-						<ul id="fileList"></ul>
+						<ul id="adminFileList"></ul>
 					</div>
 			</ul>
 
@@ -91,11 +90,7 @@
 
 			</div>
 		</form>
-		
 	</div>
-	<div th:insert="~{include/common-modal :: commonmodal}"></div>
-	<!--공통모달창 내용을 자기가 원하는대로 바꾸고싶을때  -->
-
 	<script th:src="@{/js/commu/update.js}"></script>
 </body>
 </html>

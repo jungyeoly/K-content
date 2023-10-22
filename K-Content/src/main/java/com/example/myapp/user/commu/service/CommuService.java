@@ -89,6 +89,7 @@ public class CommuService implements ICommuService {
 		}
 
 		commuRepository.updatePost(commu);
+		System.out.println((commu));
 		if (files != null && !files.isEmpty()) {
 			for (CommuFile file : files) {
 				// commuFileId 값이 없는 경우 새 파일로 간주
@@ -101,12 +102,14 @@ public class CommuService implements ICommuService {
 						file.setCommuFileCommuId(commu.getCommuId());
 						System.out.println(file.toString());
 						commuRepository.insertFileData(file); // 새 파일 정보를 DB에 추가
+						System.out.println((file));
 					}
 				}
 				// commuFileId 값이 있는 경우 기존 파일로 간주
 				else {
 					if (file.getCommuFileName() != null && !file.getCommuFileName().isEmpty()) {
 						commuRepository.updateFiledata(file); // 기존 파일 정보를 DB에서 업데이트
+						System.out.println(file);
 					} else {
 						commuRepository.deleteFileById(file.getCommuFileId()); // 파일 정보를 DB에서 삭제
 					}

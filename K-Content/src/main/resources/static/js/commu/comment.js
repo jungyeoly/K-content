@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
 
 })
@@ -197,13 +200,17 @@ $(document).ready(function() {
 			e.stopPropagation();
 			$(".update-comment-textarea").hide();
 			$("p").show();
-			
+
 			var commentid = $(this).data("id");
 
 			var $replyDiv = $(this).closest('.reply-box'); // 답글일때
 			var $commentDiv = $(this).closest('.update');  // 댓글일때
 
-			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
+		  var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');  // 해당 data-id 값을 가진 textarea만 선택
+		console.log($textarea);
+    $textarea.show();  // 선택한 textarea만 보여줌
+
+
 			console.log($textarea);
 			var currentText;
 
@@ -217,8 +224,8 @@ $(document).ready(function() {
 
 			if ($(this).text() === "수정") {
 				$textarea.val(currentText).show();
-	console.log($textarea);
-				
+				console.log($textarea);
+
 
 				if ($replyDiv.length) {
 					$replyDiv.find('p').hide();
@@ -227,6 +234,9 @@ $(document).ready(function() {
 				}
 
 				$('.update-comment').text("수정");
+				// 취소 버튼 추가
+    var cancelButton = '<button class="cancel-update">취소</button>';
+    $(this).after(cancelButton);
 				$(this).text("저장");
 			} else {
 				var updateText = $textarea.val();

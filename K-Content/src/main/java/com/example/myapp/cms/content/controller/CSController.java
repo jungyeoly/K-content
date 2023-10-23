@@ -244,10 +244,8 @@ public class CSController {
         if (receivedData.getIs().equals("수정")) {
             content.setCntntId(receivedData.getCntntId());
             rowsAffected = contentService.updateAContent(content, goodsList);
-            System.out.println("rowsAffected: " + rowsAffected);
         } else if (receivedData.getIs().equals("생성")) {
             rowsAffected = contentService.insertAContent(content, goodsList);
-            System.out.println("생성 rowsAffected: " + rowsAffected);
         }
 
         if (rowsAffected <= 0) {

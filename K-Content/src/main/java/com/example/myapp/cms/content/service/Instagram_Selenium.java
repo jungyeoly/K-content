@@ -22,7 +22,6 @@ public class Instagram_Selenium {
 
     public void isQuit() {
         if (driver != null) {
-            System.out.println("지금 null이 아님");
             driver.quit();
         }
     }

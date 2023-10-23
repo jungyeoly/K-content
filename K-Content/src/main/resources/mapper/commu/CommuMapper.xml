@@ -172,9 +172,21 @@ WHERE rn BETWEEN #{start} AND #{end}
    commu_status, commu_type, commu_read_cnt)
 VALUES
   (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
-   'N', 'G', 0)
+   'N',
+   ]]>
+   <choose>
+       <!-- If COMMU_CATE_CODE is "C06", set COMMU_TYPE to 'N' -->
+       <when test="commuCateCode == 'C06'">
+           'N'
+       </when>
+       <otherwise>
+           'G'
+       </otherwise>
+   </choose>
+   <![CDATA[
+   , 0)
 	]]>
-	</insert>
+</insert>
 
 	<insert id="insertFileData"
 		parameterType="com.example.myapp.user.commu.model.CommuFile">

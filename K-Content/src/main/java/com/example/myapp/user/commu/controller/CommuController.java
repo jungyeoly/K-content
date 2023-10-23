@@ -362,8 +362,10 @@ public class CommuController {
 						Path savePath = Paths.get(savefileName);
 
 						try {
+							logger.info("Attempting to save the file at: " + savePath);
 							uploadFile.transferTo(savePath);
 							logger.info("File saved successfully at: " + savePath);
+
 
 							// 웹 접근 경로 설정 (url 변수 활용)
 							String webAccessPath = url + uuid + "_" + fileName; // url 변수 사용

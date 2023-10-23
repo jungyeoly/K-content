@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import com.example.myapp.user.inqry.service.IInqryService;
 
 import jakarta.servlet.http.HttpSession;
 
+@PreAuthorize("hasRole('ADMIN')")
 @Controller
 @RequestMapping("/cs")
 public class CmsInqryController {

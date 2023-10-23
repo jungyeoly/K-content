@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -236,6 +235,8 @@ public class CmsCommuController {
 	}
 
 	// 커뮤니티 글쓰기 및 파일 업로드를 처리하는 메서드
+
+	// 커뮤니티 글쓰기 및 파일 업로드를 처리하는 메서드
 	@PostMapping("/commu/write/{commuCateCode}")
 	public String writePost(Commu commu, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
@@ -319,8 +320,8 @@ public class CmsCommuController {
 
 	}
 
+
 	// 공지사항 게시글 수정하기(기존 게시글 정보 가져오기)
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model) {
 		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
@@ -337,10 +338,9 @@ public class CmsCommuController {
 	}
 
 	// 게시글 수정 처리
-	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
-			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
+			@RequestParam("commuAdminUploadFiles") MultipartFile[] commuAdminUploadFiles, BindingResult results,
 			RedirectAttributes redirectAttrs) {
 		logger.info("updatePostAndFiles method started.");
 
@@ -348,8 +348,6 @@ public class CmsCommuController {
 		logger.info("/cs/commu/update : " + commu.toString());
 
 		try {
-			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
@@ -357,10 +355,10 @@ public class CmsCommuController {
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();
 
-			if (commuUploadFiles != null && commuUploadFiles.length > 0) {
+			if (commuAdminUploadFiles != null && commuAdminUploadFiles.length > 0) {
 				logger.info("Processing uploaded files for updating.");
 
-				for (MultipartFile uploadFile : commuUploadFiles) {
+				for (MultipartFile uploadFile : commuAdminUploadFiles) {
 					if (!uploadFile.isEmpty()) {
 						String originalName = uploadFile.getOriginalFilename();
 						String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
@@ -394,7 +392,6 @@ public class CmsCommuController {
 						}
 					}
 				}
-
 				if (!commuFiles.isEmpty()) {
 					commuService.updatePostAndFiles(commu, commuFiles);
 					logger.info("Successfully updated Commu and/or CommuFiles in the DB.");
@@ -407,9 +404,7 @@ public class CmsCommuController {
 		} catch (Exception e) {
 			logger.error("Error during update:", e);
 			redirectAttrs.addFlashAttribute("message", e.getMessage());
-			logger.info("updatePostAndFiles method completed.");
-			return "redirect:/cs/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정
-																										// 페이지로
+			return "redirect:/cs/commu/update/" + commu.getCommuCateCode() + "/" + commu.getCommuId(); // 실패시 다시 수정 페이지로
 			// 리다이렉트
 		}
 		redirectAttrs.addFlashAttribute("message", "게시물이 성공적으로 업데이트되었습니다.");

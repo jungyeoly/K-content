@@ -50,5 +50,10 @@ public class CommuCommentService implements ICommuCommentService {
         commucommentRepository.updateCommuComment(commentId, commuCommentCntnt);
     }
 
+	@Override
+	public List<Integer> selectAllCommentIdsByPostId(int commuId) {
+		return commucommentRepository.selectAllCommentIdsByPostId(commuId);
+	}
+
 
 }

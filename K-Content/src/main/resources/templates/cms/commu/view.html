@@ -2,15 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
+<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 <link rel="stylesheet" th:href="@{/css/commu/commuView.css}">
 <link rel="stylesheet" href="/css/common.css">
-<link
-	href="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
-"
-	rel="stylesheet">
-<meta charset="UTF-8">
-<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
 </head>
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
@@ -39,7 +33,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 
 		<div class="detail-cntnt">
 			<div th:each="file : ${commuFiles}" class="text-center img-div">
-				<img th:src="@{'/' + ${file.commuFilePath}}">
+				<img th:src="@{'/' + ${file.commuFilePath}}" alt="파일을 다운받는데 실패하였습니다.">
 			</div>
 			<div class="commu-cntnt text-start cntnt-div">
 				<div class="cntnt">[[${commu.commuCntnt}]]</div>
@@ -62,7 +56,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 						<button type="button" class="btn delete"
 							onclick="showDeleteConfirmModal()">삭제</button>
 					</form>
-				</div>
+				</div>	
 
 				<form
 					th:if="${#authentication.principal.username} != ${commu.commuMberId}"
@@ -75,12 +69,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css
 			</div>
 		</div>
 		<div id="comment-Box"></div>
-		<script
-			src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js
-"></script>
-		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-		<script th:src="@{/js/commu/view.js}"></script>
 	</div>
+	<script th:src="@{/js/commu/view.js}"></script>
 </body>
 </html>

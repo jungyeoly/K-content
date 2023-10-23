@@ -43,7 +43,7 @@ function createGoods() {
     console.log(keywordDivList.length);
     if (keywordDivList.length == 0) {
         Swal.fire({
-            title: '누락 데이터가 있습니다!',
+            title: '키워드를 입력해주세요',
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: '확인',
@@ -117,6 +117,7 @@ window.addEventListener('load', () => {
     Array.prototype.filter.call(forms, (form) => {
         form.addEventListener('submit', function (event) {
             if (form.checkValidity() === false) {
+                console.log("sdfsdfsd");
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -215,7 +216,13 @@ function makeKeyword() {
 
     var word = inputWord.replace(/(\s*)/g, '');
     if (word == null || word == '' || word == ' ') {
-        alert("키워드를 입력하세요!");
+        Swal.fire({
+            title: '공백 불가',
+            text: '키워드를 입력하세요',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        }).then((result) => {
+        });
     } else {
         const thisDiv = document.getElementsByClassName('newKeyword')[0];
         innerHtml = `
@@ -252,7 +259,6 @@ function updateGoodsIf() {
 
 function updateGoodsNoFile() {
     event.preventDefault();
-    console.log("없는거 호출");
     var keywordDivList = [];
     var keywordDiv = document.getElementById("keywordList");
     var keywordDivCount = keywordDiv.getElementsByClassName("keywordButton");
@@ -265,7 +271,7 @@ function updateGoodsNoFile() {
     console.log(keywordDivList.length);
     if (keywordDivList.length == 0) {
         Swal.fire({
-            title: '누락 데이터가 있습니다!',
+            title: '키워드를 입력해주세요',
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: '확인',
@@ -328,7 +334,7 @@ function updateGoodsForm() {
     console.log(keywordDivList.length);
     if (keywordDivList.length == 0) {
         Swal.fire({
-            title: '누락 데이터가 있습니다!',
+            title: '키워드를 입력해주세요',
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             confirmButtonText: '확인',

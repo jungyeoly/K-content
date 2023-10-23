@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    showLoadingOverlay();
     var requestData = {
         trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1),
         cntntId: document.getElementById("cntntId").value
@@ -46,7 +47,9 @@ $(document).ready(function () {
             data2.slice(1, -1);
             console.log(data2);
             element.innerHTML = data2
+            hideLoadingOverlay();
         }, error: function (error) {
+            hideLoadingOverlay();
             element.innerHTML = `<img src="/img/fail_cro.png" >`;
 
         }
@@ -69,7 +72,17 @@ $(document).ready(function () {
     });
 
 });
+function showLoadingOverlay() {
+    console.log("보이시");
+    document.getElementById('loadingOverlay').style.display = '';
+    document.getElementById('loadingOverlay').style.display = 'block';
+}
 
+function hideLoadingOverlay() {
+    console.log("지우기");
+    document.getElementById('loadingOverlay').style.display = '';
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
 //콘텐츠 상세 화면 출력
 function recomCntntDetail(cntntId) {
     const formHtml = `

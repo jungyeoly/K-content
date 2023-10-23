@@ -144,5 +144,15 @@
     		WHERE inqry_file_id = #{inqryFileId}
     	]]>
     </delete>
+    
+   	<update id="updateCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			UPDATE tb_inqry
+			SET inqry_title = #{inqryTitle},
+				inqry_pwd = #{inqryPwd}
+			WHERE inqry_ref_id = #{inqryId}
+			AND inqry_group_ord = 1
+		]]>
+	</update>
 
 </mapper>

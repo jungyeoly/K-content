@@ -171,9 +171,10 @@ public class CmsInqryController {
 	@GetMapping("/inqry/update/{inqryId}")
 	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal, Authentication authentication) {
 		CmsInqry cmsInqry = cmsInqryService.selectCmsInqry(inqryId);
-		
+		String re = cmsInqryService.getCmsInqry(cmsInqry.getInqryRefId());
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			model.addAttribute("inqry", cmsInqry);
+			model.addAttribute("re", re);
 			return "cms/inqry/update";
 		} else {
 			model.addAttribute("message", "잘못된 접근입니다."); 

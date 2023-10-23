@@ -68,9 +68,9 @@ public class SpringSecurityConfig {
 				            ).hasAnyRole("ADMIN")
 				        	.requestMatchers(
 				        			"/mber/**"
-				            ).hasAnyRole("MBER")
+				            ).hasAnyRole("MBER")				    */  
 				            .anyRequest().permitAll()) // 모두 접근 가능
-				    */        
+      /*
 						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
 								"/mber/mailauth", "/mber/**", "/mber/resetpwd", "/mber/checkpwd")
 						.permitAll()

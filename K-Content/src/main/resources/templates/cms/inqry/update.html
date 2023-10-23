@@ -14,32 +14,32 @@
 					<li class="tit-row">
 						<div class="inqry-label">
 							<label>
-								문의내용<span class="text-danger">*</span>
+								문의 제목<span class="text-danger">*</span>
 							</label>
 						</div>
 						<div class="inqry-cntnt">
-							RE:[[${inqry.inqryTitle}]]
+							ㄴ[[${inqry.inqryTitle}]]
 						</div>
 					</li>
 					<li class="tit-row">
 						<div class="inqry-label">
 							<label>
-								문의내용<span class="text-danger">*</span>
+								문의 내용<span class="text-danger">*</span>
 							</label>
 						</div>
 						<div class="inqry-cntnt cntnt">
-							[[${inqry.inqryCntnt}]]
+							[[${re}]]
 						</div>
 					</li>
 
 					<li class="tit-row">
 						<div class="inqry-label">
 							<label for="cntnt">
-								내용<span class="text-danger">*</span>
+								답변<span class="text-danger">*</span>
 							</label>
 						</div>
 						<div class="inqry-cntnt">
-							<textarea id="cntnt" name="inqryCntnt"></textarea>
+							<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
 						</div>
 					</li>
 				</ul>

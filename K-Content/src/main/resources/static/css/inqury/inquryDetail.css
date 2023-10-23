@@ -21,7 +21,7 @@
 
 .label {
 	width : 200px;
-	border-right: 1px solid #e4e4e4;
+	border-right: 1px solid #888888;
 }
 
 .inqry-cntnt {
@@ -30,13 +30,13 @@
 
 .inqry-sub-li {
 	height: auto;
-	border-bottom: 1px solid #e4e4e4;
+	border-bottom: 1px solid #888888;
 }
 
 #write {
 	width: 20em;
-	border-right: 1px solid #e4e4e4;
-}
+	border-right: 1px solid #888888;
+	}
 
 #inqry-img {
 	width: 10em;

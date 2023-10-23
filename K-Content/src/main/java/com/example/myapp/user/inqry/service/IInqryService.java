@@ -22,4 +22,6 @@ public interface IInqryService {
 	
 	void deleteInqry(int inqryId);
 	void deleteInqry(int inqryId, String inqryFileId);
+	
+	void updateCmsInqry(Inqry inqry);
 }

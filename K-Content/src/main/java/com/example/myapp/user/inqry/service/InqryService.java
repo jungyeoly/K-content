@@ -85,4 +85,9 @@ public class InqryService implements IInqryService{
 			inqryRepository.deleteInqry(inqryId);
 		}
 	}
+
+	@Override
+	public void updateCmsInqry(Inqry inqry) {
+		inqryRepository.updateCmsInqry(inqry);
+	}
 }

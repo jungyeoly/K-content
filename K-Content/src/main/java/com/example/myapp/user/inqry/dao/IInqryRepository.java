@@ -33,4 +33,7 @@ public interface IInqryRepository {
 	void deleteInqryFile(String inqryFileId);
 	
 	String getInqryFileId(int inqryId);
+	
+	void updateCmsInqry(Inqry inqry);
+	
 }

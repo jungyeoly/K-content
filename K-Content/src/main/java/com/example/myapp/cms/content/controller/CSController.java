@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.util.*;
 
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/cs/test")
 public class CSController {
     @Autowired
@@ -49,14 +51,6 @@ public class CSController {
         return "cms/cntnt/new-cntnt-recom";
     }
 
-    //    @GetMapping("/recomm/main")
-//    public List<YouTubeItem> showYouTubeMain(String search, @RequestParam(value = "items", required = false, defaultValue = "25") String items, Model model) {
-//        int max = Integer.parseInt(items);
-//        List<YouTubeItem> result = youTubeApiService.youTubeSearch(searchKeyword, max);
-//
-//        return result;
-//
-//    }
     @GetMapping("/youtube/keyword")
     @ResponseBody
     public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
@@ -244,10 +238,8 @@ public class CSController {
         if (receivedData.getIs().equals("수정")) {
             content.setCntntId(receivedData.getCntntId());
             rowsAffected = contentService.updateAContent(content, goodsList);
-            System.out.println("rowsAffected: " + rowsAffected);
         } else if (receivedData.getIs().equals("생성")) {
             rowsAffected = contentService.insertAContent(content, goodsList);
-            System.out.println("생성 rowsAffected: " + rowsAffected);
         }
 
         if (rowsAffected <= 0) {

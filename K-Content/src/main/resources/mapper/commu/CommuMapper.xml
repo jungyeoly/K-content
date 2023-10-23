@@ -1,107 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.example.myapp.user.commu.dao.ICommuRepository">
+        namespace="com.example.myapp.user.commu.dao.ICommuRepository">
 
-	<select id="selectAllPost"
-		resultType="com.example.myapp.user.commu.model.Commu">
+    <select id="selectAllPost"
+            resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
         SELECT * FROM (
-    SELECT a.commu_id,
-           a.commu_title,
-           a.commu_regist_date,
-           a.commu_read_cnt,
-           a.commu_cate_code,
-           a.commu_mber_id,
-           b.common_code_dscr,
-           CASE 
-               WHEN a.commu_cate_code = 'C06' THEN 0 
-               ELSE 1 
-           END as sort_order,
-           ROW_NUMBER() OVER(ORDER BY CASE WHEN a.commu_cate_code = 'C06' THEN 0 ELSE 1 END, a.commu_id DESC) as rn
-    FROM tb_commu a
-    JOIN tb_common_code b ON a.commu_cate_code = b.common_code 
-    WHERE a.commu_status = 'N'
-) 
-WHERE rn BETWEEN #{start} AND #{end} 
-        
-]]>
+                          SELECT a.commu_id,
+                                 a.commu_title,
+                                 a.commu_regist_date,
+                                 a.commu_read_cnt,
+                                 a.commu_cate_code,
+                                 a.commu_mber_id,
+                                 b.common_code_dscr,
+                                 CASE
+                                     WHEN a.commu_cate_code = 'C06' THEN 0
+                                     ELSE 1
+                                     END as sort_order,
+                                 ROW_NUMBER() OVER(ORDER BY CASE WHEN a.commu_cate_code = 'C06' THEN 0 ELSE 1 END, a.commu_id DESC) as rn
+                          FROM tb_commu a
+                                   JOIN tb_common_code b ON a.commu_cate_code = b.common_code
+                          WHERE a.commu_status = 'N'
+                      )
+        WHERE rn BETWEEN #{start} AND #{end}
+
+        ]]>
 	</select>
 
 
-	<select id="totalCommu" resultType="int">
+    <select id="totalCommu" resultType="int">
 	<![CDATA[
-	select count(*)
-	from tb_commu
-	 where commu_status = 'N'
-  ]]>
+        select count(*)
+        from tb_commu
+        where commu_status = 'N'
+        ]]>
 	</select>
 
-	<select id="totalCommuByCategory" parameterType="string"
-		resultType="int">
+    <select id="totalCommuByCategory" parameterType="string"
+            resultType="int">
 	<![CDATA[
-	SELECT count(*)
-	FROM tb_commu a
-	LEFT JOIN tb_common_code b ON a.commu_cate_code = b.common_code
-	WHERE commu_status = 'N' 
-	AND (#{commu_cate_code} = '전체' OR b.common_code_dscr = #{commu_cate_code})
-	
-	]]>
+        SELECT count(*)
+        FROM tb_commu a
+                 LEFT JOIN tb_common_code b ON a.commu_cate_code = b.common_code
+        WHERE commu_status = 'N'
+          AND (#{commu_cate_code} = '전체' OR b.common_code_dscr = #{commu_cate_code})
+
+        ]]>
 	</select>
 
 
 
-	<select id="selectPostListByCategory" parameterType="hashmap"
-		resultType="com.example.myapp.user.commu.model.Commu">
-		SELECT a.commu_id,
-		a.commu_title,
-		a.commu_regist_date,
-		a.commu_read_cnt,
-		a.commu_cate_code,
-		a.commu_mber_id,
-		a.rn,
-		tb_common_code.common_code_dscr
-		FROM (
-		SELECT tb_commu.*,
-		rownum rn
-		FROM (
-		SELECT tb_commu.*
-		FROM tb_commu
-		LEFT JOIN tb_common_code ON
-		tb_commu.commu_cate_code =
-		tb_common_code.common_code
-		WHERE commu_status
-		= 'N'
-		<if test="commuCateCode != '전체'">
-			AND tb_commu.commu_cate_code = (
-			SELECT common_code
-			FROM
-			tb_common_code
-			WHERE common_code_dscr = #{commuCateCode}
-			)
-		</if>
-		ORDER BY
-		CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE
-		1 END,
-		commu_id DESC
-		) tb_commu
-		) a
-		JOIN tb_common_code ON
-		a.commu_cate_code = tb_common_code.common_code
-		WHERE a.rn BETWEEN
-		#{start} AND #{end}
-		ORDER BY
-		CASE WHEN tb_common_code.common_code_dscr =
-		'공지사항' THEN 0 ELSE 1 END,
-		commu_id DESC
+    <select id="selectPostListByCategory" parameterType="hashmap"
+            resultType="com.example.myapp.user.commu.model.Commu">
+        SELECT a.commu_id,
+        a.commu_title,
+        a.commu_regist_date,
+        a.commu_read_cnt,
+        a.commu_cate_code,
+        a.commu_mber_id,
+        a.rn,
+        tb_common_code.common_code_dscr
+        FROM (
+        SELECT tb_commu.*,
+        rownum rn
+        FROM (
+        SELECT tb_commu.*
+        FROM tb_commu
+        LEFT JOIN tb_common_code ON
+        tb_commu.commu_cate_code =
+        tb_common_code.common_code
+        WHERE commu_status
+        = 'N'
+        <if test="commuCateCode != '전체'">
+            AND tb_commu.commu_cate_code = (
+            SELECT common_code
+            FROM
+            tb_common_code
+            WHERE common_code_dscr = #{commuCateCode}
+            )
+        </if>
+        ORDER BY
+        CASE WHEN tb_common_code.common_code_dscr = '공지사항' THEN 0 ELSE
+        1 END,
+        commu_id DESC
+        ) tb_commu
+        ) a
+        JOIN tb_common_code ON
+        a.commu_cate_code = tb_common_code.common_code
+        WHERE a.rn BETWEEN
+        #{start} AND #{end}
+        ORDER BY
+        CASE WHEN tb_common_code.common_code_dscr =
+        '공지사항' THEN 0 ELSE 1 END,
+        commu_id DESC
 
-	</select>
-
-
+    </select>
 
 
-	<select id="selectPost"
-		resultType="com.example.myapp.user.commu.model.Commu">
+
+
+    <select id="selectPost"
+            resultType="com.example.myapp.user.commu.model.Commu">
 <![CDATA[
         select commu_id,
                commu_title,
@@ -112,7 +112,7 @@ WHERE rn BETWEEN #{start} AND #{end}
                commu_cate_code,
                commu_mber_id
         from tb_commu
-      	where commu_id =#{commuId}
+        where commu_id =#{commuId}
         ]]>
 	</select>
 
@@ -122,23 +122,23 @@ WHERE rn BETWEEN #{start} AND #{end}
 
 
 
-	<select id="selectFilesByPostId"
-		resultType="com.example.myapp.user.commu.model.CommuFile">
+    <select id="selectFilesByPostId"
+            resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
-		select commu_file_id,
-			   commu_file_name,
-			   commu_file_size,
-			   commu_file_ext,
-			   commu_file_path,
-			   commu_file_regist_date,
-			   commu_file_update_date,
-			   commu_file_commu_id
-			   from tb_commu_file
-			  where commu_file_commu_id=#{commuId} 
-		  ]]>
+        select commu_file_id,
+               commu_file_name,
+               commu_file_size,
+               commu_file_ext,
+               commu_file_path,
+               commu_file_regist_date,
+               commu_file_update_date,
+               commu_file_commu_id
+        from tb_commu_file
+        where commu_file_commu_id=#{commuId}
+        ]]>
 	</select>
 
-	<update id="updateReadCnt" parameterType="int">
+    <update id="updateReadCnt" parameterType="int">
 	<![CDATA[
         update tb_commu
         set commu_read_cnt = commu_read_cnt + 1
@@ -146,7 +146,7 @@ WHERE rn BETWEEN #{start} AND #{end}
         ]]>
 	</update>
 
-	<select id="selectMaxPost" resultType="int">
+    <select id="selectMaxPost" resultType="int">
 	<![CDATA[
         select NVL(MAX(commu_file_commu_id), 0) AS "commuFileCommuId"
         from tb_commu_file
@@ -155,18 +155,18 @@ WHERE rn BETWEEN #{start} AND #{end}
 
 
 
-	<select id="selectMaxCommuFileCommuId" parameterType="int"
-		resultType="int">
+    <select id="selectMaxCommuFileCommuId" parameterType="int"
+            resultType="int">
 	<![CDATA[
-		select NVL(MAX(commu_file_commu_id),0) as "commuFileCommuId"
-		from tb_commu_file
-	]]>
+        select NVL(MAX(commu_file_commu_id),0) as "commuFileCommuId"
+        from tb_commu_file
+        ]]>
 	</select>
 
-	<insert id="insertPost"
-		parameterType="com.example.myapp.user.commu.model.Commu"
-		useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
-	<![CDATA[
+    <insert id="insertPost"
+            parameterType="com.example.myapp.user.commu.model.Commu"
+            useGeneratedKeys="true" keyProperty="commuId" keyColumn="commu_id">
+        <![CDATA[
 	insert into tb_commu
   (commu_id, commu_title, commu_cntnt, commu_cate_code, commu_regist_date, commu_mber_id,
    commu_status, commu_type, commu_read_cnt)
@@ -174,183 +174,183 @@ VALUES
   (commu_seq.NEXTVAL, #{commuTitle}, #{commuCntnt}, #{commuCateCode}, #{commuRegistDate}, #{commuMberId},
    'N',
    ]]>
-   <choose>
-       <!-- If COMMU_CATE_CODE is "C06", set COMMU_TYPE to 'N' -->
-       <when test="commuCateCode == 'C06'">
-           'N'
-       </when>
-       <otherwise>
-           'G'
-       </otherwise>
-   </choose>
-   <![CDATA[
+        <choose>
+            <!-- If COMMU_CATE_CODE is "C06", set COMMU_TYPE to 'N' -->
+            <when test="commuCateCode == 'C06'">
+                'N'
+            </when>
+            <otherwise>
+                'G'
+            </otherwise>
+        </choose>
+        <![CDATA[
    , 0)
 	]]>
-</insert>
+    </insert>
 
-	<insert id="insertFileData"
-		parameterType="com.example.myapp.user.commu.model.CommuFile">
+    <insert id="insertFileData"
+            parameterType="com.example.myapp.user.commu.model.CommuFile">
     <![CDATA[
-    insert into tb_commu_file
-    (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
-    VALUES
-        (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),#{commuFileCommuId})
-    ]]>
+        insert into tb_commu_file
+        (commu_file_id, commu_file_name, commu_file_size, commu_file_ext, commu_file_path, commu_file_regist_date, commu_file_commu_id)
+        VALUES
+            (#{commuFileId}, #{commuFileName}, #{commuFileSize}, #{commuFileExt}, #{commuFilePath},  to_char(sysdate,'yyyy.mm.dd hh24:mi'),#{commuFileCommuId})
+        ]]>
 	</insert>
 
 
-	<select id="getFile"
-		resultType="com.example.myapp.user.commu.model.CommuFile">
+    <select id="getFile"
+            resultType="com.example.myapp.user.commu.model.CommuFile">
 	<![CDATA[
-		SELECT
-		commu_file_id AS "commuFileId",
-		commu_file_name AS "commuFileName",
-		commu_file_size AS "commuFileSize",
-		commu_file_ext AS "commuFileExt",
-		commu_file_path AS "commuFilePath",
-		commu_file_regist_date AS "commuFileRegistDate",
-		commu_file_update_date AS "commuFileUpdateDate",
-		commu_file_commu_id AS "commuFileCommuId"
-		FROM tb_commu_file
-		WHERE commu_file_id=#{commuFileId}
-	]]>
-	</select>
-
-	<update id="updatePost"
-		parameterType="com.example.myapp.user.commu.model.Commu">
-<![CDATA[
-update tb_commu
-set commu_title=#{commuTitle},
-    commu_cntnt=#{commuCntnt},
-    commu_update_date=#{commuUpdateDate},
-    commu_read_cnt=#{commuReadCnt},
-    commu_cate_code=#{commuCateCode},
-    commu_mber_id=#{commuMberId}
-where commu_id=#{commuId}
-]]>
-	</update>
-
-	<update id="updateFiledata"
-		parameterType="com.example.myapp.user.commu.model.CommuFile">
-<![CDATA[
-update tb_commu_file
-set 
-	commu_file_name=#{commuFileName},
-    commu_file_size=#{commuFileSize},
-    commu_file_ext=#{commuFileExt},
-    commu_file_path=#{commuFilePath},
-    commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi') 
-where commu_file_id=#{commuFileId}
-]]>
-	</update>
-
-
-	<update id="deletePostStatus" parameterType="int">
-		UPDATE tb_commu
-		SET
-		commu_status = 'Y'
-		WHERE commu_id = #{commuId}
-
-	</update>
-
-
-	<delete id="deleteFileById"
-		parameterType="com.example.myapp.user.commu.model.CommuFile">
-<![CDATA[
-    DELETE FROM tb_commu_file
-    WHERE commu_file_id = #{commuFileId}
-]]>
-	</delete>
-	
-
-	<select id="getAllFilesByCommuId"
-		resultType="com.example.myapp.user.commu.model.CommuFile">
-	<![CDATA[
-   select commu_file_id,
-			   commu_file_name,
-			   commu_file_size,
-			   commu_file_ext,
-			   commu_file_path,
-			   commu_file_regist_date,
-			   commu_file_update_date,
-			   commu_file_commu_id
-			   from tb_commu_file
-			  where commu_file_commu_id=#{commuId} 
-		  ]]>
-	</select>
-
-	<update id="reportPost" parameterType="int">
-	<![CDATA[
-	update tb_commu
-	set commu_status='R'
-	where commu_id=#{commuId}
-		  ]]>
-	</update>
-
-	<!-- 키워드와 일치하는 게시물의 총 수를 반환 -->
-	<select id="selectTotalPostCountByKeyWord"
-		parameterType="string" resultType="int">
-    <![CDATA[
-    SELECT COUNT(*) 
-    FROM tb_commu
-    WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
-    AND commu_status = 'N'
-    ]]>
-	</select>
-
-	<!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
-	<select id="searchListByContentKeyWord" parameterType="hashmap"
-		resultType="com.example.myapp.user.commu.model.Commu">
-      <![CDATA[
-    SELECT
-        c.commu_id AS "commuId",
-        c.commu_title AS "commuTitle",
-        c.commu_cntnt AS "commuCntnt",
-        c.commu_regist_date AS "commuRegistDate",
-        c.commu_read_cnt AS "commuReadCnt",
-        c.commu_cate_code AS "commuCateCode",
-        c.commu_mber_id AS "commuMberId",
-        c.rn,
-        cc.common_code_dscr
-    FROM (
         SELECT
-            commu_id,
-            commu_title,
-            commu_cntnt,
-            commu_regist_date,
-            commu_read_cnt,
-            commu_cate_code,
-            commu_mber_id,
-          ROW_NUMBER() OVER(ORDER BY commu_id DESC) AS rn
+            commu_file_id AS "commuFileId",
+            commu_file_name AS "commuFileName",
+            commu_file_size AS "commuFileSize",
+            commu_file_ext AS "commuFileExt",
+            commu_file_path AS "commuFilePath",
+            commu_file_regist_date AS "commuFileRegistDate",
+            commu_file_update_date AS "commuFileUpdateDate",
+            commu_file_commu_id AS "commuFileCommuId"
+        FROM tb_commu_file
+        WHERE commu_file_id=#{commuFileId}
+        ]]>
+	</select>
+
+    <update id="updatePost"
+            parameterType="com.example.myapp.user.commu.model.Commu">
+<![CDATA[
+        update tb_commu
+        set commu_title=#{commuTitle},
+            commu_cntnt=#{commuCntnt},
+            commu_update_date=#{commuUpdateDate},
+            commu_read_cnt=#{commuReadCnt},
+            commu_cate_code=#{commuCateCode},
+            commu_mber_id=#{commuMberId}
+        where commu_id=#{commuId}
+        ]]>
+	</update>
+
+    <update id="updateFiledata"
+            parameterType="com.example.myapp.user.commu.model.CommuFile">
+<![CDATA[
+        update tb_commu_file
+        set
+            commu_file_name=#{commuFileName},
+            commu_file_size=#{commuFileSize},
+            commu_file_ext=#{commuFileExt},
+            commu_file_path=#{commuFilePath},
+            commu_file_update_date= to_char(sysdate,'yyyy.mm.dd hh24:mi')
+        where commu_file_id=#{commuFileId}
+        ]]>
+	</update>
+
+
+    <update id="deletePostStatus" parameterType="int">
+        UPDATE tb_commu
+        SET
+            commu_status = 'Y'
+        WHERE commu_id = #{commuId}
+
+    </update>
+
+
+    <delete id="deleteFileById"
+            parameterType="com.example.myapp.user.commu.model.CommuFile">
+<![CDATA[
+        DELETE FROM tb_commu_file
+        WHERE commu_file_id = #{commuFileId}
+        ]]>
+	</delete>
+
+
+    <select id="getAllFilesByCommuId"
+            resultType="com.example.myapp.user.commu.model.CommuFile">
+	<![CDATA[
+        select commu_file_id,
+               commu_file_name,
+               commu_file_size,
+               commu_file_ext,
+               commu_file_path,
+               commu_file_regist_date,
+               commu_file_update_date,
+               commu_file_commu_id
+        from tb_commu_file
+        where commu_file_commu_id=#{commuId}
+        ]]>
+	</select>
+
+    <update id="reportPost" parameterType="int">
+	<![CDATA[
+        update tb_commu
+        set commu_status='R'
+        where commu_id=#{commuId}
+        ]]>
+	</update>
+
+    <!-- 키워드와 일치하는 게시물의 총 수를 반환 -->
+    <select id="selectTotalPostCountByKeyWord"
+            parameterType="string" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*)
         FROM tb_commu
         WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
-        AND commu_status = 'N'
-    ) c
-    JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
-    WHERE c.rn BETWEEN #{start} AND #{end}
-    ]]>
+          AND commu_status = 'N'
+        ]]>
 	</select>
 
-	<select id="selectRecentNotice"
-		resultType="com.example.myapp.user.commu.model.Commu">
+    <!-- 키워드와 일치하는 게시물의 리스트를 반환 -->
+    <select id="searchListByContentKeyWord" parameterType="hashmap"
+            resultType="com.example.myapp.user.commu.model.Commu">
+      <![CDATA[
+        SELECT
+            c.commu_id AS "commuId",
+            c.commu_title AS "commuTitle",
+            c.commu_cntnt AS "commuCntnt",
+            c.commu_regist_date AS "commuRegistDate",
+            c.commu_read_cnt AS "commuReadCnt",
+            c.commu_cate_code AS "commuCateCode",
+            c.commu_mber_id AS "commuMberId",
+            c.rn,
+            cc.common_code_dscr
+        FROM (
+                 SELECT
+                     commu_id,
+                     commu_title,
+                     commu_cntnt,
+                     commu_regist_date,
+                     commu_read_cnt,
+                     commu_cate_code,
+                     commu_mber_id,
+                     ROW_NUMBER() OVER(ORDER BY commu_id DESC) AS rn
+                 FROM tb_commu
+                 WHERE (commu_title LIKE #{keyword} OR commu_cntnt LIKE #{keyword})
+                   AND commu_status = 'N'
+             ) c
+                 JOIN tb_common_code cc ON c.commu_cate_code = cc.common_code
+        WHERE c.rn BETWEEN #{start} AND #{end}
+        ]]>
+	</select>
+
+    <select id="selectRecentNotice"
+            resultType="com.example.myapp.user.commu.model.Commu">
 	<![CDATA[
-					SELECT *
-				FROM (
-				    SELECT c.commu_id,
-				           c.commu_title,
-				           c.commu_cntnt,
-				           c.commu_regist_date,
-				           c.commu_update_date,
-				           c.commu_read_cnt,
-				           c.commu_cate_code,
-				           c.commu_mber_id
-				    FROM tb_commu c
-				    JOIN tb_mber m ON c.commu_mber_id = m.mber_id
-				    WHERE m.MBER_ROLE_CODE = 'C0402' and commu_status ='N' and commu_cate_code ='C06'
-				    ORDER BY c.commu_regist_date DESC
-				) 
-				WHERE ROWNUM <= 5
-	        ]]>
+        SELECT *
+        FROM (
+                 SELECT c.commu_id,
+                        c.commu_title,
+                        c.commu_cntnt,
+                        c.commu_regist_date,
+                        c.commu_update_date,
+                        c.commu_read_cnt,
+                        c.commu_cate_code,
+                        c.commu_mber_id
+                 FROM tb_commu c
+                          JOIN tb_mber m ON c.commu_mber_id = m.mber_id
+                 WHERE m.MBER_ROLE_CODE = 'C0402' and commu_status ='N' and commu_cate_code ='C06'
+                 ORDER BY c.commu_regist_date DESC
+             )
+        WHERE ROWNUM <= 5
+        ]]>
 	</select>
 
 

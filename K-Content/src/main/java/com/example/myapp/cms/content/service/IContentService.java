@@ -19,7 +19,9 @@ public interface IContentService {
     void updateDelStat(int cntntId);
 
     int totalCntnt(String commonCodeVal);
-
+    
+    int contentTotalCnt();
+    
     int totalSearch(List<String> keywordList);
 }
 

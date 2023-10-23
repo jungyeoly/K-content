@@ -86,7 +86,12 @@ function loadMberData(page) {
 				$(".pagination").hide();
 			},
 			error: function() {
-				alert('데이터를 불러오는데 실패했습니다.');
+					 Swal.fire({
+			                    title: '데이터를 불러오는데 실패했습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 			}
 		});
 }
@@ -97,7 +102,7 @@ function updatePagination() {
 	var startPage = "[[${startPage}]]";
 	var endPage = "[[${endPage}]]";
 	var totalPageBlock = "[[${totalPage}]]";
-	
+
 	console.log(currentPage)
 	console.log(startPage)
 	console.log(endPage)
@@ -192,7 +197,12 @@ function searchMber(findType, findKeyword) {
 
 		},
 		error: function() {
-			alert('검색에 실패했습니다.');
+			 Swal.fire({
+			                    title: '검색에 실패했습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 		}
 	});
 }
@@ -209,11 +219,21 @@ function changeStatus(mberId, newStatus) {
 			if (response.success) {
 				loadMberData(currentPage);
 			} else {
-				alert('상태 변경 실패했습니다.');
+					 Swal.fire({
+			                    title: '상태 변경 실패했습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 			}
 		},
 		error: function() {
-			alert('서버 오류로 인해 상태 변경에 실패했습니다.');
+				 Swal.fire({
+			                    title: '서버 오류로 인해 상태 변경에 실패했습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 		}
 	});
 }

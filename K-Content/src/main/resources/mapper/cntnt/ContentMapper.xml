@@ -205,7 +205,15 @@
 	        </if>
 	    )
 	</select>
-
-
+	
+ 	 <select id="contentTotalCnt" resultType="int">
+ 		 <![CDATA[
+	       	SELECT count(*)
+			FROM tb_cntnt a
+			JOIN tb_common_code b
+			ON a.cntnt_cate_code = b.common_code
+			WHERE cntnt_delete_yn = 'N'
+	    ]]>
+	</select>
 
 </mapper>

@@ -3,11 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 현재 페이지의 경로가 '/cs/commu/write'인지 확인
 	if (window.location.pathname === '/cs/commu/write') {
-		// localStorage에서 제목 값을 가져옵니다.
-		const savedTitle = localStorage.getItem('titleValue');
-
-		// 저장된 제목 값이 있으면 그 값을 사용하고, 없으면 기본값을 사용합니다.
-		titleInput.value = savedTitle ? savedTitle : "[공지]";
+		
+		// 입력 필드를 항상 비워짐으로 설정
+		titleInput.value = "";
 
 		// 입력 필드에서 키를 누를 때마다 이 함수를 호출
 		titleInput.addEventListener('input', function() {
@@ -15,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!this.value.startsWith("[공지]")) {
 				this.value = "[공지] " + this.value;
 			}
-
-			// 사용자가 입력한 값을 localStorage에 저장합니다.
-			localStorage.setItem('titleValue', this.value);
 		});
 	}
 });
@@ -135,14 +130,13 @@ document.getElementById('category').addEventListener('change', function() {
 		form.setAttribute('action', "/commu/write/" + commuCateCode);
 	}
 });
+
 document.addEventListener('DOMContentLoaded', function() {
 	const titleInput = document.getElementById('title');
 	// 현재 페이지의 경로가 '/cs/commu/write'인지 확인
 	if (window.location.pathname === '/cs/commu/write') {
-		
- const savedTitle = localStorage.getItem('titleValue');
 		// 페이지 로드 시 제목 필드에 기본값 설정
-	  titleInput.value = savedTitle ? savedTitle : "[공지]";
+		titleInput.value = "[공지]";
 
 		// 입력 필드에서 키를 누를 때마다 이 함수를 호출
 		titleInput.addEventListener('input', function() {
@@ -150,9 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!this.value.startsWith("[공지]")) {
 				this.value = "[공지] " + this.value;
 			}
-			localStorage.setItem('titleValue', this.value);
 		});
 	}
-
 });
+
 

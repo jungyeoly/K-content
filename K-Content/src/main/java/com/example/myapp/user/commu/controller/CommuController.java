@@ -437,8 +437,6 @@ public class CommuController {
 		logger.info("/commu/update : " + commu.toString());
 
 		try {
-			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
@@ -516,19 +514,29 @@ public class CommuController {
 			for (CommuFile file : attachedFiles) {
 				commuService.deleteFileById(file.getCommuFileId());
 			}
-
+			
+			
+			  //게시글과 연결된 모든 댓글 가져오기
+			List<Integer> commentIds =commuCommentService.selectAllCommentIdsByPostId(commuId);
+		
+			
+			  // 해당 게시글의 모든 댓글 및 대댓글을 삭제합니다.
+	        for(int commentId : commentIds) {
+	            commuCommentService.deleteCommuCommentAndRepliesByMainRefId(commentId);
+	            commuCommentService.deleteCommuCommentRepl(commentId);
+	        }
 			// 게시글 상태를 "삭제상태"로 변경합니다.
 			commuService.deletePost(commuId);
 
-			redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일이 성공적으로 삭제되었습니다.");
-			return "redirect:/commu/1"; // 게시글 목록 페이지로 리다이렉트
+			  redirectAttrs.addFlashAttribute("message", "게시물 및 관련 파일 및 댓글이 성공적으로 삭제되었습니다.");
+		        return "redirect:/commu/1"; // 게시글 목록 페이지로 리다이렉트
 
-		} catch (Exception e) {
-			logger.error("Error during deletion:", e);
-			redirectAttrs.addFlashAttribute("message", "게시물 및 파일 삭제 중 오류가 발생하였습니다.");
-			return "redirect:/commu/" + commuId; // 게시글 상세 페이지로 리다이렉트
+		    } catch (Exception e) {
+		        logger.error("Error during deletion:", e);
+		        redirectAttrs.addFlashAttribute("message", "게시물 및 파일 및 댓글 삭제 중 오류가 발생하였습니다.");
+		        return "redirect:/commu/" + commuId; // 게시글 상세 페이지로 리다이렉트
+		    }
 		}
-	}
 
 	// 게시글에 첨부파일 삭제
 	@PostMapping("/commu/delete-file")

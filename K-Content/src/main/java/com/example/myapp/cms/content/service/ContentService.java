@@ -105,12 +105,16 @@ public class ContentService implements IContentService {
 	public int totalCntnt(String commonCodeVal) {
 		return contentRepository.totalContent(commonCodeVal);
 	}
+	@Override
+	public int contentTotalCnt() {
+		return contentRepository.contentTotalCnt();
+	}
 
 	@Override
 	public int totalSearch(List<String> keywordList) {
 		return contentRepository.totalSearch(keywordList);
 	}
-
+	
 	@Override
 	public List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page) {
 		int start = (page-1)*9 + 1;

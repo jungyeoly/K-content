@@ -249,6 +249,7 @@ where commu_file_id=#{commuFileId}
     WHERE commu_file_id = #{commuFileId}
 ]]>
 	</delete>
+	
 
 	<select id="getAllFilesByCommuId"
 		resultType="com.example.myapp.user.commu.model.CommuFile">

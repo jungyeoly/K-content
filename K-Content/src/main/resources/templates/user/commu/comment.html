@@ -80,8 +80,8 @@
 								th:each="refComment : ${refComments}"
 								th:if="${refComment.commuCommentRefId == comment.getCommuCommentId()}">
 								<hr style="margin-bottom: 10px">
-								<div th:class="${refComment.getCommuCommentId()}"
-									style="display: flex">
+							 	<div th:class="${refComment.getCommuCommentId()}"
+									style="display: flex"> 
 									<h7 th:text="${refComment.getCommuCommentMberId()}"></h7>
 									: &nbsp;
 									<p th:text="${refComment.getCommuCommentCntnt()}"></p>

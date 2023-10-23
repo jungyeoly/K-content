@@ -109,6 +109,14 @@ FROM (
 		 	SELECT COUNT(*) FROM tb_mber
 		]]>
 	</select>
+	
+	<select id="getActiveMberCount"
+		resultType="int">
+		<![CDATA[
+		    SELECT COUNT(*) FROM tb_mber
+        	WHERE mber_stat_code != 'C0201'
+		]]>
+	</select>
 
 	<insert id="insertMber"
 		parameterType="com.example.myapp.user.mber.model.Mber">
@@ -239,10 +247,11 @@ FROM (
 	
 	<select id="getGenderStat" resultType="map">
     <![CDATA[
-		    SELECT B1.common_code_dscr AS gender, COUNT(*) AS count
-		    FROM tb_mber A
-		    JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
-		    GROUP BY B1.common_code_dscr
+		SELECT B1.common_code_dscr AS gender, COUNT(*) AS count
+	    FROM tb_mber A
+	    JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
+	    WHERE A.mber_stat_code != 'C0201'
+	    GROUP BY B1.common_code_dscr
     ]]>
 	</select>
 	

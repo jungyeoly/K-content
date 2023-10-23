@@ -18,6 +18,8 @@ public interface IMberService {
 	List<Mber> selectMberList(int page);
 	
 	int getMberTotalCount();
+	
+	int getActiveMberCount();
 
 	void insertMber(Mber mber);
 

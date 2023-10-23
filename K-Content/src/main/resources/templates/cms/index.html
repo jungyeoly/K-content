@@ -7,17 +7,26 @@
 <body>
 	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 	<div class="container mt-5">
+		<div class="row mb-5">
+			<div class="col-md-12 text-center">
+				<h4 class="fw-bold">총 <span class="num" style="color:#14dbc8" th:text="${activeMberCnt}" id="mberCnt"></span>명의 회원이 K-Spectrum의 <span class="num" style="color:#14dbc8" th:text="${contentTotalCnt}" id="contentCnt"></span>개의 컨텐츠를 즐기는 중입니다.</h4>
+			</div>
+			<div class="col-md-12 text-center">
+				<span class="fw-bold fs-6">지금도 다양한 컨텐츠들이 생겨나고 있습니다.</span>
+			</div>
+		</div>
 		<div class="row justify-content-center mb-5">
 			<div class="col-md-4">
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fa fa-bar-chart"></i> 전체 회원 수
+						<i class="fa fa-bar-chart"></i> 일별 회원 가입자 수
 					</div>
 					<div class="card-body">
 						<canvas id="signupChart" width="200" height="200"></canvas>
 					</div>
-					<div class="card-footer small text-muted" th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated yesterday
-						at 11:59 PM</div>
+					<div class="card-footer small text-muted"
+						th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated
+						yesterday at 11:59 PM</div>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -28,8 +37,9 @@
 					<div class="card-body">
 						<canvas id="genderChart" width="200" height="200"></canvas>
 					</div>
-					<div class="card-footer small text-muted" th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated yesterday
-						at 11:59 PM</div>
+					<div class="card-footer small text-muted"
+						th:text="'Updated ' + ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm:ss')}">Updated
+						yesterday at 11:59 PM</div>
 				</div>
 			</div>
 		</div>
@@ -113,7 +123,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '일별 가입자 회원 수 통계',
+                    label: '일별 회원 가입자 수 통계',
                     data: data,
                     borderColor: '#14dbc8',
                     borderWidth: 2,
@@ -188,7 +198,38 @@
 				}
 			});
 		}
+
+	/* 	$(function(){
+		    $('.num').each(function(){
+		        $(this).prop('Counter', 0).animate({
+		            Counter: $(this).text()}, {
+		            duration: 2000,
+		            easing: 'swing',
+		            step: function (now){
+		                $(this).text(Math.ceil(now));
+		            }
+		        });
+		    });
+		}); */
 		
+		$(function(){
+		    $('.num').each(function(){
+		        var num = $(this).text().replace(/,/g, ''); // 현재 콤마가 있는 경우 제거
+		        $(this).prop('Counter', 0).animate({
+		            Counter: num
+		        }, {
+		            duration: 2000,
+		            easing: 'swing',
+		            step: function (now) {
+		                $(this).text(addCommas(Math.ceil(now))); // 콤마가 추가된 값으로 설정
+		            }
+		        });
+		    });
+		    
+		    function addCommas(number) {
+		        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		    }
+		});
 	</script>
 </body>
 </html>

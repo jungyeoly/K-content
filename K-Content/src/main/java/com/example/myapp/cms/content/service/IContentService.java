@@ -20,6 +20,8 @@ public interface IContentService {
     
     int totalCntnt(String commonCodeVal);
     
+    int contentTotalCnt();
+    
     int totalSearch(List<String> keywordList);
 }
 

@@ -178,7 +178,12 @@
 						$(".pagination").hide();
 					},
 					error: function() {
-						alert('데이터를 불러오는데 실패했습니다.');
+					 	 Swal.fire({
+			                    title: '데이터를 불러오는데 실패했습니다.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 					}
 				});
 		}
@@ -290,7 +295,12 @@
 
 				},
 				error: function() {
-					alert('검색에 실패했습니다.');
+				 	 Swal.fire({
+		                    title: '검색에 실패했습니다.',
+		                    icon: 'error',
+		                    confirmButtonText: '확인',
+		                    confirmButtonColor: '#14dbc8'
+		                });
 				}
 			});
 		}
@@ -298,7 +308,7 @@
 		
 		 function changeStatus(mberId, newStatus) {
 			 Swal.fire({
-                 title: '해당 계정 상태를<br>변경하시겠습니까?',
+                 title: '해당 계정 상태를 변경하시겠습니까?',
                  icon: 'warning',
                  showCancelButton: true,
                  confirmButtonText: '상태 변경',
@@ -326,11 +336,21 @@
                 						if (response.success) {
                 							loadMberData(currentPage);
                 						} else {
-                							alert('상태 변경 실패했습니다.');
+                						 	 Swal.fire({
+                				                    title: '상태 변경 실패했습니다.',
+                				                    icon: 'error',
+                				                    confirmButtonText: '확인',
+                				                    confirmButtonColor: '#14dbc8'
+                				                });
                 						}
                 					},
                 					error: function() {
-                						alert('서버 오류로 인해 상태 변경에 실패했습니다.');
+                						 Swal.fire({
+         				                    title: '서버 오류로 인해 상태 변경에 실패했습니다.',
+         				                    icon: 'error',
+         				                    confirmButtonText: '확인',
+         				                    confirmButtonColor: '#14dbc8'
+         				                });
                 					}
                 				});
                          }

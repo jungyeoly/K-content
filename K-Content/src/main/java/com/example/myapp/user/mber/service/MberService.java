@@ -44,6 +44,11 @@ public class MberService implements IMberService {
 	}
 
 	@Override
+	public int getActiveMberCount() {
+		return mberRepository.getActiveMberCount();
+	}
+
+	@Override
 	public void insertMber(Mber mber) {
 		mberRepository.insertMber(mber);
 	}

@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.myapp.cms.content.service.IContentService;
 import com.example.myapp.cms.inqry.model.CmsInqry;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.service.ICommuService;
+import com.example.myapp.user.mber.model.Mber;
+import com.example.myapp.user.mber.service.IMberService;
 
 @PreAuthorize("hasRole('ADMIN')")
 @Controller
@@ -26,10 +29,20 @@ public class CsController {
 	@Autowired
 	ICmsInqryService cmsInqryService;
 
+	@Autowired
+	IMberService mberService;
+	
+	@Autowired
+	IContentService contentService;
+	
 	@GetMapping("")
 	public String csMain(Model model) {
 		List<CmsInqry> inqryList = cmsInqryService.selectRecentInqry();
-
+		int activeMberCnt = mberService.getActiveMberCount();
+		int contentTotalCnt = contentService.contentTotalCnt();
+		
+		model.addAttribute("contentTotalCnt", contentTotalCnt);
+		model.addAttribute("activeMberCnt", activeMberCnt);
 		model.addAttribute("inqryList", inqryList);
 		return "cms/index";
 	}

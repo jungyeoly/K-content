@@ -34,12 +34,12 @@
 					</div>
 				</div>
 				<form th:action="@{/mber/update}" method="post"
-					class="validation-form" id="mberInfoForm" novalidate>
+					class="validation-form" id="mberEditForm" novalidate>
 					<div class="mb-3 row">
 						<div class="col-md-2">
 							<label for="mber_pwd" class="col-form-label text-nowrap">
-								<span th:text=#{password}>비밀번호</span>
-								<span class="align-middle" style="color: red;">*</span>
+								<span th:text=#{password}>비밀번호</span> <span class="align-middle"
+								style="color: red;">*</span>
 							</label>
 						</div>
 						<div class="col-md-4">
@@ -58,8 +58,8 @@
 					<div class="mb-3 row">
 						<div class="col-md-2">
 							<label for="mber_pwd_confirm" class="col-form-label text-nowrap">
-								<span th:text=#{con.password}>비밀번호 확인</span>
-								<span class="align-middle" style="color: red;">*</span>
+								<span th:text=#{con.password}>비밀번호 확인</span> <span
+								class="align-middle" style="color: red;">*</span>
 							</label>
 						</div>
 						<div class="col-md-4">
@@ -92,54 +92,27 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-md-2">
-							<label for="mber_email" class="fw-bold col-form-label">
-							<span th:text=#{email}>이메일</span>
-							<span class="align-middle" style="color: red;">*</span></label>
+							<label for="mber_email" class="fw-bold col-form-label"> <span
+								th:text=#{email}>이메일</span></label>
 						</div>
 						<div class="col-md-4">
-							<input type="email" id="mber_email" class="form-control form-bid"
-								name="mberEmail" th:attr="placeholder=#{enter.email}"
+							<input type="email" id="mber_email"
+								class="form-control-plaintext" name="mberEmail"
+								th:attr="placeholder=#{enter.email}"
 								pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-								th:value="${mber.mberEmail}" autocomplete="off"
-								onkeyup="checkEmail(this.value)" required>
-						</div>
-						<div class="col-md-2">
-							<button type="button" tabindex="-1" id="email-check-btn"
-								class="form-control emailauth-btn">
-								<span id="email-check-btn-text" th:text=#{email.auth}>메일
-									인증</span>
-								<div
-									class="spinner-border text-info spinner-border-sm ms-2 d-none"
-									role="status" id="email-check-spinner"></div>
-							</button>
+								th:value="${mber.mberEmail}" autocomplete="off" readonly
+								required>
 						</div>
 						<div class="col-md-5 align-self-center">
 							<div class="mber-feedback" id="check-email-feedback"></div>
 						</div>
 					</div>
-					<div class="row mb-3">
-						<div class="col-md-2">
-							<label for="auth-code-input" class="fw-bold col-form-label">
-								<span th:text=#{auth.num}>인증번호</span>
-								<span class="align-middle" style="color: red;">*</span></label>
-						</div>
-						<div class="col-md-4">
-							<input type="text" id="auth-code-input"
-								class="form-control mail-check-input"
-								th:attr="placeholder=#{enter.auth}" disabled="disabled"
-								maxlength="6"
-								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-								onkeyup="checkAuthNum(this.value)">
-						</div>
-						<div class="col-md-6 align-self-center">
-							<div class="mber-feedback fw-bold" id="check-authnum-feedback"></div>
-						</div>
-					</div>
 					<div class="mb-3 row">
 						<div class="col-md-2">
 							<label for="mber_gender" class="col-form-label text-nowrap">
-								<span th:text=#{gender}>성별</span>
-								<span class="align-middle" style="color: red;">*</span></label>
+								<span th:text=#{gender}>성별</span> <span class="align-middle"
+								style="color: red;">*</span>
+							</label>
 						</div>
 						<div class="col-md-4">
 							<select name="mberGenderCode" class="form-select"
@@ -161,9 +134,9 @@
 							<label for="mber_birth" class="col-form-label" th:text=#{birth}>생년월일</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control-plaintext" id="mber_birth"
+							<input type="date" class="form-control" id="mber_birth"
 								th:value="${mber.mberBirth}" tabindex="-1" name="mberBirth"
-								readonly required>
+								onkeydown="return false" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -172,8 +145,12 @@
 						</div>
 						<div class="col-md-4">
 							<input type="text" class="form-control"
-								th:value="${mber.mberPhone}" id="mber_phone" name="mberPhone"
-								oninput="oninputPhone(this)" maxlength="14" required>
+								th:if="${mber.mberPhone}==null" value="" id="mber_phone"
+								name="mberPhone" oninput="oninputPhone(this)" maxlength="14"
+								required> <input type="text" class="form-control"
+								th:unless="${mber.mberPhone}==null" th:value="${mber.mberPhone}"
+								id="mber_phone" name="mberPhone" oninput="oninputPhone(this)"
+								maxlength="14" required>
 						</div>
 					</div>
 				</form>
@@ -195,7 +172,7 @@
 			<div class="mb-3 row">
 				<div class="col-md-2">
 					<button type="submit" tabindex="-1" class="btn form-control"
-						form="mberInfoForm" id="edit-btn">
+						form="mberEditForm" id="edit-btn">
 						<span id="fw-bold" th:text=#{com.edit}>수정완료</span>
 					</button>
 				</div>
@@ -210,13 +187,10 @@
 	</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script>
-		var emailRegExp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-		var emailCheckBtn = document.getElementById("email-check-btn");
 		var pwdFeedback = document.getElementById("check-pwd-feedback");
 		var isPwdValid = false;
 		var isPwdConfirmValid = false;
-		var isEmailExistCheck = false;
-		var isAuthNumValid = false;
+		var isNameValid = false;
 
 		var idFeedback = document.getElementById("check-id-feedback");
 		var pwdFeedback = document.getElementById("check-pwd-feedback");
@@ -232,6 +206,7 @@
 
 		// ================ 이름 유효성검사 ===============//
 		function checkName(mberName) {
+			console.log("여기 오니2");
 			$.ajax({
 				type : "POST",
 				url : "/mber/checkname",
@@ -263,6 +238,10 @@
 
 		}
 
+		$(document).ready(function() {
+		  checkName(document.getElementById("mber_name").value);
+		 });
+		 
 		// ================ 비밀번호 유효성검사 ===============//
 		function checkPwd(mberPwd) {
 			pwdFeedback.style.display = 'block';
@@ -346,130 +325,7 @@
 					/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g,
 					"$1-$2-$3");
 		}
-		// ================ 이메일 유효성검사 ===============//
-		function checkEmail(mberEmail) {
-			emailFeedback.style.display = 'block';
-			if (mberEmail.trim() == '') {
-				emailFeedback.style.display = 'none';
-				emailFeedback.innerHTML = "";
-				isEmailValid = false;
-				return;
-			} else if (!emailRegExp.test(mberEmail)) {
-				emailFeedback.style.color = '#dc3545';
-				emailFeedback.innerHTML = "이메일 형식에 맞게 입력해주세요.";
-				isEmailValid = false;
-				return;
-			} else if (emailRegExp.test(mberEmail)) {
-				emailFeedback.style.color = '#198754';
-				emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
-				isEmailValid = true;
-			}
-		}
 
-		// ================ 이메일 중복 검사 후 인증 메일 ================ //
-		$(document)
-				.ready(
-						function() {
-
-							emailCheckBtn
-									.addEventListener(
-											'click',
-											function() {
-												var mberEmail = document
-														.getElementById('mber_email').value;
-
-												if (emailRegExp.test(mberEmail)) {
-													document
-															.getElementById('mber_email').readOnly = true;
-													$
-															.ajax({
-																type : "POST",
-																url : "/mber/checkemail",
-																data : {
-																	mberEmail : mberEmail
-																},
-																success : function(
-																		result) {
-
-																	if (result == false) {
-																		emailFeedback.style.color = '#198754';
-																		emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
-																		document
-																				.getElementById('mber_email').readOnly = true;
-																		isEmailExistCheck = true;
-																		// 이메일 중복 체크가 성공하면 이메일 인증 요청을 보냅니다.
-																		sendEmailAuthRequest();
-																	} else if (result == true) {
-																		emailFeedback.style.color = '#dc3545';
-																		emailFeedback.innerHTML = "이미 존재하는 이메일입니다.";
-																		document
-																				.getElementById('mber_email').readOnly = false;
-																		isEmailExistCheck = false;
-
-																	}
-																},
-																error : function(
-																		request,
-																		status) {
-																	console
-																			.log("code:"
-																					+ request.status
-																					+ "\n"
-																					+ "message:"
-																					+ request.responseText
-																					+ "\n"
-																					+ "error:"
-																					+ error);
-																}
-															});
-												}
-
-												function sendEmailAuthRequest() {
-													// 이메일 유효성 검증 통과했고, 이메일 중복 체크 완료했을 때
-													if (isEmailValid
-															&& isEmailExistCheck) {
-														console.log('이메일:',
-																mberEmail);
-
-														emailFeedback.style.display = 'block';
-														emailFeedback.innerHTML = "";
-														emailFeedback.readOnly = true;
-														spinner.classList
-																.remove('d-none');
-														buttonText.innerText = '';
-
-														$
-																.ajax({
-																	type : 'POST',
-
-																	url : '/mber/emailauth',
-																	data : {
-																		mberEmail : mberEmail
-																	},
-																	success : function(
-																			response) {
-																		spinner.classList
-																				.add('d-none');
-																		buttonText.innerText = '메일 인증';
-																		serverAuthCode = response
-																				.trim();
-																		emailFeedback.innerText = '인증 메일이 발송되었습니다.';
-																		authCodeInput.disabled = false;
-																		authCodeInput.style.backgroundColor = 'white';
-																		emailCheckBtn
-																				.blur();
-																	},
-																	error : function() {
-																		emailFeedback.innerText = '이메일 입력 오류';
-																		emailCheckBtn
-																				.blur();
-																	}
-																});
-													}
-												}
-											});
-
-						});
 		// ================ 인증번호 검사 ================ //
 		function checkAuthNum(enteredAuthNum) {
 			authNumFeedback.style.display = 'block';
@@ -512,44 +368,62 @@
 				});
 			}
 		}
-		// ================ 이메일 유효성검사 ===============//
-		function checkEmail(mberEmail) {
-			emailFeedback.style.display = 'block';
-			if (mberEmail.trim() == '') {
-				emailFeedback.style.display = 'none';
-				emailFeedback.innerHTML = "";
-				isEmailValid = false;
-				return;
-			} else if (!emailRegExp.test(mberEmail)) {
-				emailFeedback.style.color = '#dc3545';
-				emailFeedback.innerHTML = "이메일 형식에 맞게 입력해주세요.";
-				isEmailValid = false;
-				return;
-			} else if (emailRegExp.test(mberEmail)) {
-				emailFeedback.style.color = '#198754';
-				emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
-				isEmailValid = true;
-			}
-		}
+	
 		// 유효성 검사
 		function validateForm() {
-			if (isPwdValid && isPwdConfirmValid && isNameValid && isEmailValid
-					&& isAuthNumValid) {
-
-				return true;
-			} else {
-				alert("모든 필수 항목을 올바르게 작성해주세요.");
-				return false;
-			}
+		
 		}
 
 		document.getElementById("edit-btn").addEventListener("click",
 				function(event) {
-
-					if (!validateForm()) {
-						event.preventDefault();
-					}
+			event.preventDefault();
+			if (isPwdValid && isPwdConfirmValid && isNameValid) {
+				   Swal.fire({
+	                    title: '정말로 계정 정보를 수정하시겠습니까?',
+	                    text: '복구할 수 없습니다. 다시 한번 확인해주세요.',
+	                    icon: 'warning',
+	                    showCancelButton: true,
+	                    confirmButtonText: '수정',
+	                    confirmButtonColor: '#e66767',
+	                    cancelButtonText: '취소',
+	                    reverseButtons: false
+	                }).then((result) => {
+	                    if (result.isConfirmed) {
+	                        Swal.fire({
+	                            title: '계정 정보 수정 완료',
+	                            text: '회원님의 계정 정보가 수정 완료되었습니다.',
+	                            icon: 'success',
+	                            confirmButtonText: '확인',
+	                            confirmButtonColor: '#14dbc8',
+	                        }).then((result) => {
+	                            if (result.isConfirmed) {
+	                                document.getElementById('mberEditForm').submit();
+	                            }
+	                        });
+	                    }
+	                });
+			} else {
+				 Swal.fire({
+	                    title: '모든 필수 항목을 올바르게 작성해주세요.',
+	                    icon: 'error',
+	                    confirmButtonText: '확인',
+	                    confirmButtonColor: '#14dbc8'
+	                });
+				}
+			
 				});
+		
+		// ================ 오늘 날짜 ================ //
+		function getTodayDate() {
+			const today = new Date();
+			const year = today.getFullYear();
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			return `${year}-${month}-${day}`;
+		}
+
+		// 오늘 날짜를 가져와서 "min" 속성에 설정
+		document.getElementById('mber_birth').setAttribute('max', getTodayDate());
 	</script>
 </body>
 </html>

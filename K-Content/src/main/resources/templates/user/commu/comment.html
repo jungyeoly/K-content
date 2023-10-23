@@ -37,11 +37,11 @@
 					<div class="comment-content update">
 						<p th:text="${comment.commuCommentCntnt}">CommuCommentCntnt</p>
 						<textarea class="update-comment-textarea hidden"
-							th:data-id="${comment.getCommuCommentId()}"></textarea>
+							th:data-original-id="${comment.getCommuCommentId()}"></textarea>
 						<div
 							th:if="${#authentication.principal.username} == ${comment.commuCommentMberId}">
 							<button class="update-comment"
-								th:data-id="${comment.commuCommentId}" th:text="수정"></button>
+								th:data-original-id="${comment.commuCommentId}" th:text="수정"></button>
 							<button id="delete" th:commentID="${comment.getCommuCommentId()}"
 								th:refID="${comment.getCommuCommentRefId()}"
 								onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
@@ -62,11 +62,11 @@
 								th:text="${replyCountMap[comment.commuCommentId]} + '개'"></span>)
 						</button>
 
-						<div class="replyForm" th:data-id="${comment.commuCommentId}">
+						<div class="replyForm" th:data-replyform-id="${comment.commuCommentId}">
 							<input type="hidden" name="commuCommentRefId"
 								th:value="${comment.commuCommentId}">
 							<textarea th:id="${comment.commuCommentId}"
-								class="input-reply-textarea" rows="2" placeholder="댓글을 입력하세요."></textarea>
+								class="input-reply-textarea" rows="2"placeholder="댓글을 입력하세요." required></textarea>
 							<button type="button" class="cancel-reply">취소</button>
 							<button th:commentID="${comment.getCommuCommentId()}"
 								type="button"
@@ -76,7 +76,7 @@
 
 						<div class="reply-box">
 							<div class="reply-box-update"
-								th:data-id="${comment.commuCommentId}"
+								th:data-reply-id="${comment.commuCommentId}"
 								th:each="refComment : ${refComments}"
 								th:if="${refComment.commuCommentRefId == comment.getCommuCommentId()}">
 								<hr style="margin-bottom: 10px">
@@ -86,12 +86,12 @@
 									: &nbsp;
 									<p th:text="${refComment.getCommuCommentCntnt()}"></p>
 									<textarea class="update-comment-textarea hidden"
-										th:data-id="${refComment.getCommuCommentId()}"></textarea>
+										th:data-reply-id="${refComment.getCommuCommentId()}"></textarea>
 									<div
 										th:if="${#authentication.principal.username} == ${refComment.commuCommentMberId}"
 										style="margin-left: auto">
 										<button class="update-comment"
-											th:data-id="${refComment.commuCommentId}" th:text="수정">
+											th:data-reply-id="${refComment.commuCommentId}" th:text="수정">
 										</button>
 										<button id="delete_ref"
 											th:commentID="${refComment.getCommuCommentId()}"

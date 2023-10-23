@@ -146,15 +146,18 @@ function checkEmail(mberEmail) {
 	if (mberEmail.trim() == '') {
 		emailFeedback.style.display = 'none';
 		emailFeedback.innerHTML = "";
+		emailCheckBtn.disabled = true;
 		isEmailValid = false;
 		return;
 	} else if (!emailRegExp.test(mberEmail)) {
 		emailFeedback.style.color = '#dc3545';
+		emailCheckBtn.disabled = true;
 		emailFeedback.innerHTML = "이메일 형식에 맞게 입력해주세요.";
 		isEmailValid = false;
 		return;
 	} else if (emailRegExp.test(mberEmail)) {
 		emailFeedback.style.color = '#198754';
+		emailCheckBtn.disabled = false;
 		emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
 		isEmailValid = true;
 	}
@@ -224,15 +227,13 @@ $(document).ready(function() {
 						emailFeedback.innerHTML = "이메일 인증을 하러 가볼까요?";
 						document.getElementById('mber_email').readOnly = true;
 						isEmailExistCheck = true;
-						// 이메일 중복 체크가 성공하면 이메일 인증 요청을 보냅니다.
 						sendEmailAuthRequest();
 					} else if (result == true) {
 						emailFeedback.style.color = '#dc3545';
 						emailFeedback.innerHTML = "이미 존재하는 이메일입니다.";
 						document.getElementById('mber_email').readOnly = false;
 						isEmailExistCheck = false;
-
-					}
+					} 
 				},
 				error: function(request, status) {
 					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -330,7 +331,12 @@ function validateForm() {
 
 		return true;
 	} else {
-		alert("모든 필수 항목을 올바르게 작성해주세요.");
+		 Swal.fire({
+			                    title: '모든 필수 항목을 올바르게 작성해주세요.',
+			                    icon: 'error',
+			                    confirmButtonText: '확인',
+			                    confirmButtonColor: '#14dbc8'
+			                });
 		return false;
 	}
 }

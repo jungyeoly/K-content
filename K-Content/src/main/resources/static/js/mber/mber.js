@@ -13,6 +13,7 @@ window.addEventListener('load', () => {
 	});
 }, false);
 
+
 $(document).ready(function() {
 	$('.see-pwd').on('click', function() {
 		var passwordInput = $('#mber_pwd');

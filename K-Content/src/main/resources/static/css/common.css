@@ -300,3 +300,8 @@ button:hover{
 #locales {
 	font-size: .7em;
 } 
+
+.swal2-title {
+	font-size: 25px;
+	word-break: keep-all	
+}

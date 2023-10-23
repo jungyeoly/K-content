@@ -90,7 +90,7 @@
 									<div class="row">
 										<div class="col-md-12 mb-3">
 											<input type="text" class="form-control form-bid"
-												id="findpwd_mber_id" name="mberId" th:attr="placeholder=#{enter_id}"
+												id="findpwd_mber_id" name="mberId" th:attr="placeholder=#{enter.id}"
 												required>
 										</div>
 										<div class="col-md-12 mb-3">
@@ -130,7 +130,7 @@
 	<script>
 		$(document).ready(function() {
 			$("#send-maskid-btn").click(function(e) {
-
+				$("#send-maskid-btn").attr("disabled", true);
 				const sendMaskIdBtnText = $('#send-maskid-btn-text');
 				// 응답을 기다리는 동안 스피너 표시
 				sendMaskIdBtnText.addClass("d-none");
@@ -147,6 +147,7 @@
 						mberEmail : mberEmail
 					},
 					success : function(response) {
+						$("#send-maskid-btn").attr("disabled", false);
 						sendMaskIdBtnText.removeClass("d-none");
 						// 성공 시 스피너 숨김
 						$("#maskid-spinner").addClass("d-none");
@@ -165,6 +166,7 @@
 				                }
 				            });
 						} else {
+							$("#send-maskid-btn").attr("disabled", false);
 							 Swal.fire({
 					                title: '오류',
 					                text: '존재하지 않는 이메일입니다. 다시 시도해주세요.',
@@ -198,7 +200,7 @@
 							$("#send-temppwd-btn")
 									.click(
 											function(e) {
-
+												$("#send-temppwd-btn").attr("disabled", true);
 												const sendTempPwdBtnText = $('#send-temppwd-btn-text');
 
 												sendTempPwdBtnText
@@ -225,7 +227,7 @@
 															},
 															success : function(
 																	response) {
-																// 성공 시 스피너 숨김
+																$("#send-temppwd-btn").attr("disabled", false);
 																sendTempPwdBtnText
 																		.removeClass("d-none");
 																$(
@@ -253,7 +255,7 @@
 														            });
 												
 																} else {
-																
+																	$("#send-temppwd-btn").attr("disabled", false);
 																	 Swal.fire({
 															                title: '오류',
 															                text: '존재하지 않는 아이디 또는 이메일이거나, 계정정보의 아이디와 이메일이 일치하지 않습니다. 다시 시도해주세요.',

@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
 
 })
@@ -182,6 +185,14 @@ $(document).ready(function() {
 		// 댓글 등록
 		$("#commentForm button").on("click", function(e) {
 			e.preventDefault();
+
+			var commuCommentCntnt = $("#commentForm").find("[name='commuCommentCntnt']").val().trim(); // 앞뒤 공백 제거
+
+			if (!commuCommentCntnt) { // 댓글 내용이 없는 경우
+				alert("댓글 내용을 입력해주세요.");
+				return; // 댓글 등록 중단
+			}
+
 			var formData = {
 				commuCommentCommuId: $("#commentForm").find("[name='commuCommentCommuId']").val(),
 				commuCommentCntnt: $("#commentForm").find("[name='commuCommentCntnt']").val()
@@ -192,41 +203,59 @@ $(document).ready(function() {
 				updateCommentCount();
 			});
 		});
-
 		$(".comment-list-section").on("click", ".update-comment", function(e) {
 			e.stopPropagation();
-			$(".update-comment-textarea").hide();
-			$("p").show();
-			
-			var commentid = $(this).data("id");
+			//다른 textarea 숨기기
+			$('.replyForm textarea').hide();
+			$('.replyForm button').hide();
+			$(".reply-id").show();
 
-			var $replyDiv = $(this).closest('.reply-box'); // 답글일때
-			var $commentDiv = $(this).closest('.update');  // 댓글일때
+			var originalCommentId = $(this).data("original-id");
+			var replyCommentId = $(this).data("reply-id");
 
-			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
-			console.log($textarea);
-			var currentText;
+			var isReply = false;
+			var commentIdToUse;
 
-			// 답글일 때와 댓글일 때의 텍스트 처리
-			if ($replyDiv.length) {
-				currentText = $replyDiv.find('p').text();
-				console.log($replyDiv);
-			} else if ($commentDiv.length) {
-				currentText = $commentDiv.find('p').text();
+			if (originalCommentId) {
+				commentIdToUse = originalCommentId;
+			} else if (replyCommentId) {
+				commentIdToUse = replyCommentId;
+				isReply = true;
 			}
 
+			var $textarea;
+			if (isReply) {
+				$textarea = $('.update-comment-textarea[data-reply-id="' + commentIdToUse + '"]');
+			} else {
+				$textarea = $('.update-comment-textarea[data-id="' + commentIdToUse + '"]'); // 이 부분은 원래 댓글에 대한 data-id를 참조하려는 경우를 위해 유지
+			}
+			$textarea.show();
+
+			var currentText;
+			var $currentP;
+
+
+			if (isReply) {
+				$currentP = $(this).closest('.reply-box').find('p');
+			} else {
+				$currentP = $(this).closest('.update').find('p');
+			}
+
+			currentText = $currentP.text();
 			if ($(this).text() === "수정") {
 				$textarea.val(currentText).show();
-	console.log($textarea);
-				
-
-				if ($replyDiv.length) {
-					$replyDiv.find('p').hide();
-				} else if ($commentDiv.length) {
-					$commentDiv.find('p').hide();
-				}
+				$currentP.hide();
 
 				$('.update-comment').text("수정");
+				var updateText = $textarea.val().trim();
+
+				if (!updateText) {
+					alert("댓글 내용을 입력해주세요.");
+					return;
+				}
+				// 취소 버튼 추가
+				var cancelButton = '<button class="cancel-update">취소</button>';
+				$(this).after(cancelButton);
 				$(this).text("저장");
 			} else {
 				var updateText = $textarea.val();
@@ -258,11 +287,12 @@ $(document).ready(function() {
 			var $textarea = $('.update-comment-textarea[data-id="' + commentid + '"]');
 
 			$textarea.hide();
-			$('p').show();
+			 $textarea.closest('.comment-box').find('p').show();
 
 			$updateButton.text("수정");
-			$(this).remove();  // 취소 버튼 제거
-		});
+			$(this).remove(); //취소 버튼 제거
+		
+		});			
 
 	}
 

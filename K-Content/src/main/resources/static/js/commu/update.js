@@ -1,5 +1,3 @@
-
-
 const titleInput = document.getElementById('title');
 const commuCateCode = titleInput.getAttribute('data-commu-cate-code');
 const commuId = titleInput.getAttribute('data-commu-id');
@@ -16,6 +14,7 @@ if (isCsPage) {
 		if (!titleInput.value.startsWith("[공지]")) {
 			titleInput.value = "[공지] " + titleInput.value;
 		}
+
 
 		titleInput.addEventListener('input', enforcePrefix);
 
@@ -41,27 +40,43 @@ if (isCsPage) {
 	}
 }
 
+//임시 삭제 파일 목록 배열 추가
+let tempDeletedFiles = [];
 
 // 선택한 파일들을 저장하는 배열
 let selectedFiles = [];
 
-// 사용자가 파일을 선택했을 때, 선택한 파일들을 selectedFiles 배열에 추가하는 함수
+function getCurrentPageType() {
+	return window.location.pathname.includes('/cs') ? 'admin' : 'user';
+}
+
+
+// 사용자나 관리자가 파일을 선택했을 때, 선택한 파일들을 selectedFiles 배열에 추가하는 함수
 function appendFileList() {
 	console.log("appendFileList() started.");
-	const fileInputElement = document.getElementById('attachment');
+	const pageType = getCurrentPageType();
+	const attachmentId = pageType === 'admin' ? 'adminAttachment' : 'attachment';
+	const fileInputElement = document.getElementById(attachmentId);
 	if (!fileInputElement) return;
 	const files = fileInputElement.files;
+	console.log(appendFileList);
 	for (let i = 0; i < files.length; i++) {
-		selectedFiles.push(files[i]);
+		if (!selectedFiles.some(file => file.name === files[i].name)) {
+			selectedFiles.push(files[i]);
+			console.log(files.length);
+		}
 	}
 	displayFileList();
+	console.log(displayFileList);
 	console.log("appendFileList() completed.");
 }
 
 // selectedFiles 배열에 있는 모든 파일을 목록 형태로 표시하는 함수를 정의합니다. 삭제 버튼도 추가되며, 버튼을 클릭하면 해당 파일이 배열에서 제거
 function displayFileList() {
 	console.log("displayFileList() started.");
-	const fileList = document.getElementById('fileList');
+	const pageType = getCurrentPageType();
+	const fileListId = pageType === 'admin' ? 'adminFileList' : 'fileList';
+	const fileList = document.getElementById(fileListId);
 	if (!fileList) return;
 	fileList.innerHTML = '';
 	selectedFiles.forEach((file, index) => {
@@ -81,6 +96,8 @@ function displayFileList() {
 	console.log("displayFileList() completed.");
 }
 
+
+
 //양식의 유효성을 검사하는 함수를 정의합니다. 만약 양식이 유효하지 않으면, 모달을 표시하여 사용자에게 알림
 async function validateForm() {
 	console.log("validateForm() started.");
@@ -93,45 +110,57 @@ async function validateForm() {
 	const cntnt = cntntElem ? cntntElem.value : "";
 
 	if (!title || title.trim() === "") {
-		showModal("Error", "제목을 입력하세요.");
+		await showModal("K-Spectrum", "제목을 입력하세요.");
 		return false;
 	}
 	if (!category || category.trim() === "") {
-		showModal("Error", "카테고리를 선택하세요.");
+		await showModal("K-Spectrum", "카테고리를 선택하세요.");
 		return false;
 	}
 	if (!cntnt || cntnt.trim() === "") {
-		showModal("Error", "내용을 입력하세요.");
+		await showModal("K-Spectrum", "내용을 입력하세요.");
 		return false;
 	}
 	return true;
 }
 
 // 주어진 제목과 내용으로 모달을 표시하는 함수를 정의
-function showModal(title, content) {
-	console.log("showModal() called with title:", title, "and content:", content);
-	const commonModalLabelElem = document.getElementById('commonModalLabel');
-	const modalBodyElem = document.querySelector('.modal-body');
-	if (!commonModalLabelElem || !modalBodyElem) return;
-
-	commonModalLabelElem.textContent = title;
-	modalBodyElem.textContent = content;
-
-	var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
-	commonModal.show();
-	console.log("showModal() displayed modal with title:", title);
+async function showModal(title, content) {
+	return new Promise((resolve) => {
+		Swal.fire({
+			title: title,
+			text: content,
+			icon: 'warning',
+			confirmButtonText: '확인'
+		}).then(() => {
+			resolve();
+		});
+	});
 }
+
 
 // 파일 선택 버튼이 클릭되면, 파일 입력 요소를 클릭하는 이벤트 핸들러를 추가
 const fileSelectButton = document.getElementById('fileSelectButton');
 if (fileSelectButton) {
 	fileSelectButton.onclick = function(event) {
 		event.preventDefault();
-		console.log("fileSelectButton clicked.");
-		const attachmentElem = document.getElementById('attachment');
+		const pageType = getCurrentPageType();
+
+		console.log("fileSelectButton clicked on", pageType, "page.");
+
+		let attachmentId;
+		if (pageType === 'admin') {
+			attachmentId = 'adminAttachment';
+			console.log(attachmentId);
+		} else {
+			attachmentId = 'attachment';
+		}
+
+		const attachmentElem = document.getElementById(attachmentId);
 		if (attachmentElem) attachmentElem.click();
 	};
 }
+
 
 // 카테고리 선택 요소에 이벤트 핸들러를 추가하여, 카테고리가 변경되면 폼의 액션 URL을 업데이트
 const categoryElem = document.getElementById('category');
@@ -144,7 +173,7 @@ if (categoryElem) {
 		let commuIdElem = document.getElementById('commuId');
 		let commuId = commuIdElem ? parseInt(commuIdElem.textContent) : null;
 
-		// 현재 페이지의 호스트와 포트를 반환합니다 (예: http://localhost:8083)
+		// 현재 페이지의 호스트와 포트를 반환합니다
 		const baseURL = window.location.origin;
 
 		// 현재 경로가 /cs로 시작하는지 확인
@@ -155,6 +184,9 @@ if (categoryElem) {
 		form.setAttribute('action', `${baseURL}${newPath}`);
 	});
 }
+
+const formElem = document.querySelector('form');
+
 
 // 파일 목록에서 특정 파일을 클릭하면 그 파일을 목록에서 제거하는 이벤트 핸들러를 추가
 const commuFileElem = document.querySelector('.commu-File');
@@ -176,15 +208,9 @@ function removeFileFromDisplayList(event, buttonElement) {
 	const fileId = buttonElement.getAttribute('data-fileId');
 
 	if (listItem.getAttribute('data-type') === 'existing') {
-		deleteFileFromServer(fileId).then((response) => {
-			if (response && response.success) {
-				listItem.remove();
-			} else {
-				showModal("Error", response.message || "파일을 삭제하는 동안 오류가 발생했습니다.");
-			}
-		}).catch((error) => {
-			showModal("Error", error.message || "파일을 삭제하는 동안 오류가 발생했습니다.");
-		});
+		// 서버에서 즉시 삭제하지 않고 tempDeletedFiles 배열에 추가
+		tempDeletedFiles.push(fileId);
+		listItem.remove();
 	} else {
 		const index = selectedFiles.findIndex(file => file.name === fileName);
 		if (index > -1) {
@@ -193,10 +219,9 @@ function removeFileFromDisplayList(event, buttonElement) {
 		displayFileList();
 	}
 }
-
 // 서버에서 특정 파일을 삭제하는 비동기 함수를 정의
 async function deleteFileFromServer(commuFileId) {
-	// window.location.origin은 현재 페이지의 호스트와 포트를 반환합니다 (예: http://localhost:8083)
+	// window.location.origin은 현재 페이지의 호스트와 포트를 반환합니다 
 	const baseURL = window.location.origin;
 
 	// 현재 페이지의 경로가 '/cs'로 시작하는지 확인
@@ -206,6 +231,7 @@ async function deleteFileFromServer(commuFileId) {
 
 	// 전체 URL 생성
 	let url = `${baseURL}${path}`;
+	console.log(url);
 
 	const headers = {
 		"Content-Type": "application/json;charset=UTF-8",
@@ -227,59 +253,43 @@ async function deleteFileFromServer(commuFileId) {
 		});
 }
 
-function onSubmitForm(event) {
-	event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+	// 저장 버튼에 대한 이벤트 핸들러
+	const saveButton = document.querySelector('.saveBtn');
+	if (saveButton) {
+		saveButton.addEventListener('click', async function(event) {
+			// 폼 제출 기본 동작 막기
+			event.preventDefault();
 
-	const form = document.querySelector('form');
 
-	// window.location.origin은 현재 페이지의 호스트와 포트를 반환합니다
-	const baseURL = window.location.origin;
-	let path = new URL(form.action).pathname;
-
-	let actionURL = path.startsWith('/cs') ? `${baseURL}${path}` : `${baseURL}/cs${path}`;
-
-	const formData = new FormData(document.querySelector('form'));
-	for (let file of selectedFiles) {
-		formData.append('commuUploadFiles', file);
-	}
-
-	console.log('Sending request to:', actionURL);
-
-	fetch(actionURL, {
-		method: 'POST',
-		body: formData
-	})
-		.then(response => {
-			const contentType = response.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
-				return response.json();
-			} else {
-				return response.text();
-			}
-		})
-		.then(data => {
-			if (typeof data === "string") {
-				// 서버에서 반환한 HTML 내용으로 현재 페이지를 대체합니다.
-				document.open();
-				document.write(data);
-				document.close();
-				// 또는 지정된 URL로 리다이렉트하려면 다음을 사용합니다:
-				// window.location.href = "YOUR_REDIRECT_URL";
-			} else {
-				console.log('Received JSON:', data);
-				if (data.success) {
-					console.log('Request was successful');
-				} else {
-					showModal("Error", data.message);
-					console.error('Request failed with error:', data.message);
+			for (const fileId of tempDeletedFiles) {
+				try {
+					const response = await deleteFileFromServer(fileId);
+					if (response.success) {
+						console.log(`File with ID ${fileId} deleted successfully.`);
+					} else {
+						console.error(`Failed to delete file with ID ${fileId}.`);
+					}
+				} catch (error) {
+					console.error(`Error deleting file with ID ${fileId}: ${error.message}`);
 				}
 			}
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			showModal("Error", error.message);
-		});
-}
+			// 모든 작업이 완료되었을 때 폼 제출
+			// 유효성 검사를 통과한 경우에만 폼 제출
+			const isValid = await validateForm();
 
-// 이벤트 리스너 추가
-document.querySelector('form').addEventListener('submit', onSubmitForm);
+			if (isValid) {
+				const userForm = document.querySelector('#updateForm');
+				const adminForm = document.querySelector('#adminUpdateForm');
+
+				if (userForm) {
+					userForm.submit();
+				} else if (adminForm) {
+					adminForm.submit();
+				}
+			}
+
+		});
+	}
+	// 취소 버튼은 이미 <a> 태그로 되어 있어서 별도의 이벤트 핸들러가 필요 없습니다.
+});

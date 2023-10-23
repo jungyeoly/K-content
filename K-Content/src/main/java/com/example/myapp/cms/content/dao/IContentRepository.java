@@ -30,5 +30,7 @@ public interface IContentRepository {
     
     int totalContent(@Param("commonCodeVal") String commonCodeVal);
     
+    int contentTotalCnt();
+    
     int totalSearch(@Param("keywordList") List<String> keywordList);
 }

@@ -8,17 +8,19 @@ public interface IContentService {
 
     CmsContent getAContent(int id);
 
-    boolean insertAContent(CmsContent content, List<Integer> goodsList);
+    int insertAContent(CmsContent content, List<Integer> goodsList);
 
-    boolean updateAContent(CmsContent content, List<Integer> goodsList);
+    int updateAContent(CmsContent content, List<Integer> goodsList);
 
     List<CmsContent> getContentByKeyword(List<String> keywordList);
-    
+
     List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page);
 
     void updateDelStat(int cntntId);
-    
+
     int totalCntnt(String commonCodeVal);
+    
+    int contentTotalCnt();
     
     int totalSearch(List<String> keywordList);
 }

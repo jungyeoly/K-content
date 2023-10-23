@@ -1,37 +1,3 @@
-$(document).ready(function () {
-
-
-    // star.click(function (event, goodsId) {
-    //     event.preventDefault();
-    //     if ($(this).hasClass("fa-regular")) {
-    //         $(this).addClass("fa-solid").removeClass("fa-regular");
-    //         $(this).css("color", "#14dbc8");
-    //         console.log(goodsId)
-    //         goodsBkmk(goodsId);
-    //     } else {
-    //         $(this).addClass("fa-regular").removeClass("fa-solid");
-    //         $(this).css("color", "");
-    //         cancleGoodsBkmk(goodsId);
-    //     }
-    // })
-    var requestData = {
-        trendQueryList: document.getElementById("trendQueryList").value.slice(1, -1),
-        cntntId: document.getElementById("cntntId").value
-    };
-    $.ajax({
-        url: '/cs/insta-img', type: 'GET',
-        data: requestData,
-        success: function (data2) {
-            const element = document.getElementById('trend');
-            data2.slice(1, -1);
-            data2.slice(1, -1);
-            console.log(data2);
-            element.innerHTML = data2
-        }, error: function (error) {
-            console.error('에러 발생: ', error);
-        }
-    });
-})
 const bkmk = $("#cntntBkmk");
 // var star = $(".goodsBkmk");
 // 컨텐츠 좋아요
@@ -113,6 +79,8 @@ function cancleGoodsBkmk(goodsId) {
         }
     });
 }
+
+
 
 function clickGoods(goodsId) {
     target = document.getElementById(goodsId);

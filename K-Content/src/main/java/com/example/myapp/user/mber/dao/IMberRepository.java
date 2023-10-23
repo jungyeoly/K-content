@@ -21,6 +21,8 @@ public interface IMberRepository {
 	List<Mber> selectMberList(@Param("start") int start, @Param("end") int end);
 	
 	int getMberTotalCount();
+	
+	int getActiveMberCount();
 
 	void insertMber(Mber mber);
 

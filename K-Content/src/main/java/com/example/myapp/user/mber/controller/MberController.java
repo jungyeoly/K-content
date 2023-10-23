@@ -80,7 +80,6 @@ public class MberController {
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
-		/* 에러와 예외를 모델에 담아 view resolve */
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "user/mber/signin";
@@ -119,10 +118,8 @@ public class MberController {
 	@PostMapping(value = "/mber/checkauthnum")
 	@ResponseBody
 	public boolean checkAuthNum(@RequestParam String enteredAuthNum, HttpSession session) {
-		// 세션에 저장된 인증 코드를 가져옵니다.
 		String savedAuthNum = (String) session.getAttribute("authNum");
 
-		// 사용자가 입력한 인증 코드와 세션에 저장된 인증 코드를 비교합니다.
 		boolean isAuthCodeValid = savedAuthNum != null && savedAuthNum.equals(enteredAuthNum);
 
 		return isAuthCodeValid;
@@ -171,13 +168,11 @@ public class MberController {
 			HttpSession session) {
 		boolean isTempPwd = session.getAttribute("isTempPwd") != null && (boolean) session.getAttribute("isTempPwd");
 		if (isTempPwd) {
-			// 비밀번호 재설정 로직을 수행
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			logger.info(authentication.getName());
 			Mber mber = mberService.selectMberbyId(authentication.getName());
 
 			PasswordEncoder pwdEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-			// 현재 비밀번호가 맞는지 확인
 			String encodedPwd = pwdEncoder.encode(mberPwd);
 			mber.setMberPwd(encodedPwd);
 
@@ -186,7 +181,6 @@ public class MberController {
 
 			mberService.updateMber(mber);
 
-			// 세션에서 임시 비밀번호 생성 여부 제거
 			session.removeAttribute("isTempPwd");
 
 			return "redirect:/";
@@ -247,10 +241,8 @@ public class MberController {
 		return "user/mber/editprofile";
 	}
 
-	// 회원 정보 수정 처리
 	@PostMapping(value = "/mber/update")
 	public String updateProfile(Model model, @ModelAttribute("mber") Mber updatedMber, Authentication auth) {
-		// 현재 로그인한 회원의 아이디를 가져옵니다.
 		String currentMberId = auth.getName();
 
 		Mber mber = mberService.selectMberbyId(currentMberId);
@@ -258,14 +250,13 @@ public class MberController {
 		String encodedPwd = pwdEncoder.encode(updatedMber.getMberPwd());
 		mber.setMberPwd(encodedPwd);
 		mber.setMberName(updatedMber.getMberName());
-		mber.setMberEmail(updatedMber.getMberEmail());
 		mber.setMberGenderCode(updatedMber.getMberGenderCode());
 		mber.setMberBirth(updatedMber.getMberBirth());
 		mber.setMberPhone(updatedMber.getMberPhone());
 
 		mberService.updateMber(mber);
 
-		return "redirect:/mber/mypage"; // 수정이 완료되면 마이페이지로 리다이렉트
+		return "redirect:/mber/mypage";
 	}
 
 	@GetMapping(value = "/mber/verifypwd")
@@ -306,9 +297,9 @@ public class MberController {
 			model.addAttribute("exception", "계정 정보가 없습니다. 로그인 해주세요.");
 			return "redirect:/mber/signin";
 		} else if (session.getAttribute("pwdVerificationSuccess") != "Y") {
-			session.removeAttribute("pwdVerificationSuccess"); // 플래그 제거
+			session.removeAttribute("pwdVerificationSuccess");
 			model.addAttribute("message", "비밀번호 확인이 필요합니다.");
-			return "user/mber/verifypwd"; // 또는 다른 페이지로 리다이렉트
+			return "user/mber/verifypwd";
 		}
 
 		return "user/mber/deletember";

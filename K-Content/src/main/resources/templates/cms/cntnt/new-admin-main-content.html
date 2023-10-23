@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
 <head>
-<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-<link rel="stylesheet" th:href="@{/css/content/content.css}">
-<link rel="stylesheet"
-	th:href="@{/css/content/new-admin-cntnt-main.css}">
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/content/content.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/content/new-admin-cntnt-main.css}">
 
 </head>
 
 <body>
-	<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-	<div hidden id="myDiv" th:data-cate="${session.cate}"></div>
+<header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+<div hidden id="myDiv" th:data-cate="${session.cate}"></div>
 
-	<div class="search"
-		style="width: 50%; margin: auto; padding-top: 30px; height: 80%;">
-		<form id="searchForm" class="input-group">
-			<input type="text" id="search-input" placeholder="검색어를 입력하세요"
-				class="form-control">
-			<button type="button" class="btn" onclick="searchButton()">
-				<i class="fa-solid fa-magnifying-glass"></i>
-			</button>
-		</form>
-	</div>
+<div class="search"
+     style="width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+    <div style="display: flex">
+        <input type="text" id="search-input" placeholder="검색어를 입력하세요"
+               class="form-control" onkeydown="handleKeyDown(event)">
+        <button type="button" class="btn" onclick="searchButton()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+</div>
 
-	<section class="primary container">
+<section class="primary container">
 
-		<div id="main-cate" class="categories-nav">
-			<ul class="categories">
-				<li th:each="cate : ${cateList}" class="cate"
-					th:data-maincate-value="${cate}">[[${cate}]]</li>
-			</ul>
-		</div>
+    <div id="main-cate" class="categories-nav">
+        <ul class="categories">
+            <li th:each="cate : ${cateList}" class="cate"
+                th:data-maincate-value="${cate}">[[${cate}]]
+            </li>
+        </ul>
+    </div>
 
-		<ul class="card-list" id="card-list">
+    <ul class="card-list" id="card-list">
 
-		</ul>
+    </ul>
 
-		<div class="position-relative">
-			<nav aria-label="Page navigation"
-				class="d-flex justify-content-center" id="page">
-			</nav>
+    <div class="position-relative">
+        <nav aria-label="Page navigation"
+             class="d-flex justify-content-center" id="page">
+        </nav>
 
-			<div class="col-2 position-absolute top-0 end-0 button-box">
-				<a class="btn border" href="test/content/new">생성</a> <a
-					class="btn border" type="button" href="test/recomm">추천</a>
-			</div>
-		</div>
+        <div class="col-2 position-absolute top-0 end-0 button-box">
+            <a class="btn border" href="test/content/new">생성</a> <a
+                class="btn border" type="button" href="test/recomm">추천</a>
+        </div>
+    </div>
 
-	</section>
+</section>
 
-	<script src="/vendor/jquery/jquery.min.js"></script>
-	<script th:src="@{/js/cntnt/cntntManagement.js}"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script th:src="@{/js/cntnt/cntntManagement.js}"></script>
 
-	<script type="text/javascript" th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
+
     $(document).ready(function () {
-    	var cate = $('#myDiv').data('cate');
-    	var page = 1;
+        var cate = $('#myDiv').data('cate');
+        var page = 1;
 
         $.ajax({
             url: '/cs/test/contents/' + page,
@@ -86,46 +88,46 @@
         })
 
         $(".cate").click(function () {
-        	$("#search-input").val("");
+            $("#search-input").val("");
             cate = this.getAttribute('data-maincate-value');
 
             switch (cate) {
-				case '전체':
-				    cate = 'All';
-				    break;
-				case '음악':
-				    cate = 'POP';
-				    break;
-				case '연예인':
-				    cate = 'Celebrity';
-				    break;
-				case '음식':
-				    cate = 'Food';
-				    break;
-				case '영화':
-				    cate = 'Movie';
-				    break;
-				case '스포츠':
-				    cate = 'Sports';
-				    break;
-				case '패션':
-				    cate = 'Fashion';
-				    break;
-				case '미용':
-				    cate = 'Beauty';
-				    break;
-				case '드라마':
-				    cate = 'Drama';
-				    break;
-				case '여행':
-				    cate = 'Travel';
-				    break;
-				case '게임':
-				    cate = 'Game';
-				    break;
-			  default:
-			    cate = 'All';
-			}
+                case '전체':
+                    cate = 'All';
+                    break;
+                case '음악':
+                    cate = 'POP';
+                    break;
+                case '연예인':
+                    cate = 'Celebrity';
+                    break;
+                case '음식':
+                    cate = 'Food';
+                    break;
+                case '영화':
+                    cate = 'Movie';
+                    break;
+                case '스포츠':
+                    cate = 'Sports';
+                    break;
+                case '패션':
+                    cate = 'Fashion';
+                    break;
+                case '미용':
+                    cate = 'Beauty';
+                    break;
+                case '드라마':
+                    cate = 'Drama';
+                    break;
+                case '여행':
+                    cate = 'Travel';
+                    break;
+                case '게임':
+                    cate = 'Game';
+                    break;
+                default:
+                    cate = 'All';
+            }
 
             $.ajax({
                 url: '/cs/test/contents/' + 1,
@@ -177,21 +179,21 @@
         $(document).on("click", ".selpage", function () {
             var nowPage = $(this).data("selpage");
             if ($("#search-input").val()) {
-            	var keyword = $("#search-input").val();
+                var keyword = $("#search-input").val();
 
                 $.ajax({
-                	url: "/cs/test/contents/search",
-                	method: "get",
-                	data: {
-                		'searchKeyword' : keyword,
-                		'page' : nowPage
-                	},
-                	success: function (contentList) {
-	                    const element = $('#card-list');
-	                    element.empty();
+                    url: "/cs/test/contents/search",
+                    method: "get",
+                    data: {
+                        'searchKeyword': keyword,
+                        'page': nowPage
+                    },
+                    success: function (contentList) {
+                        const element = $('#card-list');
+                        element.empty();
 
-	                    for (i = 0; i < contentList.length; i++) {
-	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+                        for (i = 0; i < contentList.length; i++) {
+                            inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
 							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
 							                    <img src=${contentList[i].cntntThumnail} >
 							                </figure>
@@ -199,26 +201,26 @@
 							                   ${contentList[i].cntntTitle}
 							                </div>
 							            </li>`;
-	                        element.append(inHtml);
-	                    }
-	                    $(".page-item").removeClass("active");
-	                    $("#" + nowPage).addClass("active");
+                            element.append(inHtml);
+                        }
+                        $(".page-item").removeClass("active");
+                        $("#" + nowPage).addClass("active");
 
-	                }, error: function (error) {
-	                    console.error('에러 발생: ', error);
-	                }
+                    }, error: function (error) {
+                        console.error('에러 발생: ', error);
+                    }
                 })
             } else {
-	            $.ajax({
-	                url: "/cs/test/contents/" + nowPage,
-	                method: "get",
-	                data: {'page': nowPage, 'cate': cate},
-	                success: function (contentList) {
-	                    const element = $('#card-list');
-	                    element.empty();
+                $.ajax({
+                    url: "/cs/test/contents/" + nowPage,
+                    method: "get",
+                    data: {'page': nowPage, 'cate': cate},
+                    success: function (contentList) {
+                        const element = $('#card-list');
+                        element.empty();
 
-	                    for (i = 0; i < contentList.length; i++) {
-	                        inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
+                        for (i = 0; i < contentList.length; i++) {
+                            inHtml = `<li class="card-item" id="card-item" onclick="cntntDetail(${contentList[i].cntntId})">
 							                <figure class="card-image"style="background-image: url(${contentList[i].cntntThumnail})">
 							                    <img src=${contentList[i].cntntThumnail} >
 							                </figure>
@@ -226,15 +228,15 @@
 							                   ${contentList[i].cntntTitle}
 							                </div>
 							            </li>`;
-	                        element.append(inHtml);
-	                    }
-	                    $(".page-item").removeClass("active");
-	                    $("#" + nowPage).addClass("active");
+                            element.append(inHtml);
+                        }
+                        $(".page-item").removeClass("active");
+                        $("#" + nowPage).addClass("active");
 
-	                }, error: function (error) {
-	                    console.error('에러 발생: ', error);
-	                }
-	            })
+                    }, error: function (error) {
+                        console.error('에러 발생: ', error);
+                    }
+                })
             }
         })
 
@@ -280,15 +282,21 @@
     });
 
     function paging(cate) {
-    	var page = 1;
-    	$.ajax({
-        	url: '/cs/test/paging',
-        	type: 'GET',
-        	data: {'page' : page, 'cate' : cate},
-        	success : function (data) {
-        		$("#page").append(data);
-        	}
+        var page = 1;
+        $.ajax({
+            url: '/cs/test/paging',
+            type: 'GET',
+            data: {'page': page, 'cate': cate},
+            success: function (data) {
+                $("#page").append(data);
+            }
         })
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            searchButton();
+        }
     }
 
     function searchButton() {
@@ -313,10 +321,10 @@
 						                   ${contentList[i].cntntTitle}
 						                </div>
 						            </li>`;
-            		element.insertAdjacentHTML("afterbegin", inHtml);
+                        element.insertAdjacentHTML("afterbegin", inHtml);
                     }
                 } else {
-	                    inHtml = `<div class="container text-center mt-5">
+                    inHtml = `<div class="container text-center mt-5">
 						         <img alt="" src="/img/fail_cntnt.png">
 						            </div>`;
                     element.insertAdjacentHTML("afterbegin", inHtml);
@@ -325,23 +333,23 @@
                 var nowPage = $(this).data("selpage");
                 var keyword = document.getElementById('search-input').value;
 
-		        $.ajax({
-					url: "/cs/test/search/paging",
-					type: "GET",
-					data: {'page': nowPage, 'searchKeyword' : keyword },
-					success: function (data) {
-						$("#page").empty();
-						$("#page").append(data);
-					}
-				})
-           	}
-        , error: function (error) {
+                $.ajax({
+                    url: "/cs/test/search/paging",
+                    type: "GET",
+                    data: {'page': nowPage, 'searchKeyword': keyword},
+                    success: function (data) {
+                        $("#page").empty();
+                        $("#page").append(data);
+                    }
+                })
+            }
+            , error: function (error) {
                 console.error('에러 발생: ', error);
             }
         });
     }
 </script>
-	<script th:inline="javascript" th:if="${session.isTempPwd != null}">
+<script th:inline="javascript" th:if="${session.isTempPwd != null}">
     function showTempPwdToast() {
 
         const toastLiveExample = document.getElementById('liveToast');

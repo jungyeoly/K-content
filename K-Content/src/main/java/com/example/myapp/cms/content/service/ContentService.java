@@ -32,12 +32,13 @@ public class ContentService implements IContentService {
     @Override
     // 굿즈 매핑 트랜잭션
     @Transactional
-    public boolean insertAContent(CmsContent contentForm, List<Integer> goodsList) {
+    public int insertAContent(CmsContent contentForm, List<Integer> goodsList) {
         int contentId = 0;
         int rowsAffected = 0;
+        int rowsAffectedCntnt = 0;
         List<Boolean> resultList = new ArrayList<>();
         try {
-            contentRepository.insertAContent(contentForm);
+            rowsAffectedCntnt =  contentRepository.insertAContent(contentForm);
             contentId = contentForm.getCntntId();
 
             for (int i = 0; i < goodsList.size(); i++) {
@@ -45,15 +46,15 @@ public class ContentService implements IContentService {
                 rowsAffected = cntntGoodsMappingRepository.insertMappingDate(contentId, goodsId);
             }
             // INSERT 작업의 성공 여부 확인
-            if (contentId > 0 && rowsAffected > 0) {
-                return true;
+            if (rowsAffectedCntnt > 0 && rowsAffected > 0) {
+                return rowsAffectedCntnt;
             } else {
-                return false; // 실패
+                return rowsAffectedCntnt; // 실패
             }
         } catch (Exception e) {
             // 예외 처리
             e.printStackTrace();
-            return false; // 실패
+            return rowsAffectedCntnt; // 실패
         }
 
         //cntnt Goods mapping insert
@@ -63,7 +64,7 @@ public class ContentService implements IContentService {
 
     @Override
     @Transactional
-    public boolean updateAContent(CmsContent contentForm, List<Integer> goodsList) {
+    public int updateAContent(CmsContent contentForm, List<Integer> goodsList) {
         int rowsAffected = 0;
         List<Boolean> resultList = new ArrayList<>();
         try {
@@ -77,14 +78,14 @@ public class ContentService implements IContentService {
             }
             // INSERT 작업의 성공 여부 확인
             if (contentId > 0 && rowsAffected > 0) {
-                return true;
+                return rowsAffected;
             } else {
-                return false; // 실패
+                return rowsAffected; // 실패
             }
         } catch (Exception e) {
             // 예외 처리
             e.printStackTrace();
-            return false; // 실패
+            return rowsAffected; // 실패
         }
 
         //cntnt Goods mapping insert
@@ -104,12 +105,16 @@ public class ContentService implements IContentService {
 	public int totalCntnt(String commonCodeVal) {
 		return contentRepository.totalContent(commonCodeVal);
 	}
+	@Override
+	public int contentTotalCnt() {
+		return contentRepository.contentTotalCnt();
+	}
 
 	@Override
 	public int totalSearch(List<String> keywordList) {
 		return contentRepository.totalSearch(keywordList);
 	}
-
+	
 	@Override
 	public List<CmsContent> getPagingContentBySearch(List<String> keywordList, int page) {
 		int start = (page-1)*9 + 1;

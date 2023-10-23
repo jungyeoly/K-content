@@ -61,5 +61,10 @@ public class CmsInqryService implements ICmsInqryService{
 	public int countAns() {
 		return cmsInqryRepository.countAns();
 	}
-	
+
+	@Override
+	public String getCmsInqry(int inqryRefId) {
+		return cmsInqryRepository.getCmsInqry(inqryRefId);
+	}
+
 }

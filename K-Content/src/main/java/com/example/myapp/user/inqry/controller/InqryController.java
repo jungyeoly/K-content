@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class InqryController {
 	
 	@Autowired
 	ICmsInqryService cmsInqryService;
-
+		
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
 		session.removeAttribute("message");
@@ -132,14 +133,16 @@ public class InqryController {
 		}
 		return "user/inqury/detail";
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
 		Inqry inqry = new Inqry();
 	    model.addAttribute("inqry", inqry);
 		return "user/inqury/write";
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@PostMapping("/inqury/insert")
 	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs, HttpSession session, Authentication authentication) {
 		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
@@ -186,7 +189,8 @@ public class InqryController {
 			return "user/inqury/write";
 		}
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@GetMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Model model, HttpSession session, Authentication authentication) {
 		Inqry inqry = inqryService.selectInqry(inqryId);
@@ -201,6 +205,7 @@ public class InqryController {
 		}
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Inqry inqry, RedirectAttributes redirectAttrs, Model model, HttpSession session) {
 
@@ -231,9 +236,15 @@ public class InqryController {
 				Path realPath = path.resolve(file.getInqryFileId()).normalize();
 
 				inqryService.updateInqry(inqry, file);
+				if (cmsInqryService.countInqry(inqryId) > 1) {
+					inqryService.updateCmsInqry(inqry);
+				}
 				mfile.transferTo(realPath);
 			} else {
 				inqryService.updateInqry(inqry);
+				if (cmsInqryService.countInqry(inqryId) > 1) {
+					inqryService.updateCmsInqry(inqry);
+				}
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -241,7 +252,8 @@ public class InqryController {
 		}
 		return "redirect:/inqury/detail/" + inqryId;
 	};
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@PostMapping(value="inqury/delete/{inqryId}")
 	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model, Authentication authentication) {
 		try {

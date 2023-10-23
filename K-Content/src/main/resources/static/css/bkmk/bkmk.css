@@ -45,6 +45,7 @@ ul.tab li.on{
 
 .card{
 	width: 285px;
+	cursor: pointer;
 }
 
 .card img{

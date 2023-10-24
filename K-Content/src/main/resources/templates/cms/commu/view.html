@@ -17,7 +17,7 @@
 				th:text="${code.commonCodeDscr}">카테고리명</span>
 
 			<!-- commu.commuCateCode가 "C06"일 때만 NOTICE 출력 -->
-			<span th:if="${commu.commuCateCode} == 'C06'" th:text="'공지사항'"></span>
+			<span th:if="${commu.commuCateCode} == 'C0601'" th:text="'공지사항'"></span>
 		</div>
 
 		<div class="commu-header d-flex justify-content-between fw-bold">
@@ -65,7 +65,7 @@
 					th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 					method="post">
 					<button type="button" id="report" class="btn report"
-						th:if="${commu.commuCateCode != 'C06'}"
+						th:if="${commu.commuCateCode != 'C0601'}"
 						onclick="showReportConfirmModal()">신고하기</button>
 				</form>
 			</div>

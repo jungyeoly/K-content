@@ -132,6 +132,8 @@ $(document).ready(function() {
 
 	// 카테고리 클릭 이벤트
 	function loadCategoryPosts(commuCateCode, page) {
+		
+		console.log(commuCateCode);
 		switch (commuCateCode) {
 			case '전체':
 				commuCateCode = '전체';

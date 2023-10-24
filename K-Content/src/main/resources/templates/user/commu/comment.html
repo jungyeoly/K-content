@@ -7,14 +7,14 @@
 			th:value="${commu.commuId}">
 		<!-- 댓글 리스트 영역 시작 -->
 		<div class="comment-list-section"
-			th:unless="${commu.commuCateCode} == 'C06'">
+			th:unless="${commu.commuCateCode} == 'C0601'">
 			<h3>
 				댓글 <span
 					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
 			</h3>
 			<!-- 댓글 작성 영역 -->
 			<div th:if="${#authentication.principal}"
-				th:unless="${commu.commuCateCode} == 'C06'">
+				th:unless="${commu.commuCateCode} == 'C0601'">
 				<div class="comment-section">
 					<textarea id="cntnt" name="commuCommentCntnt" rows="4"
 						placeholder="댓글을 입력하세요."></textarea>

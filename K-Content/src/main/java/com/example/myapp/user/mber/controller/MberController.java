@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,11 +46,6 @@ public class MberController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("/modal")
-	public String modal() {
-		return "include/modal";
-	}
-
 	@RequestMapping(value = "/mber/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		return "user/mber/signup";
@@ -80,6 +76,7 @@ public class MberController {
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
+		  
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "user/mber/signin";
@@ -139,10 +136,13 @@ public class MberController {
 			String encodedPwd = pwdEncoder.encode(tempPwd);
 			mber.setMberPwd(encodedPwd);
 
-			mber.setMberBirth("");
-			mber.setMberPhone("");
-
-
+			if(mber.getMberBirth()== null) {
+				mber.setMberBirth("");				
+			}
+			if(mber.getMberPhone()== null) {
+				mber.setMberPhone("");
+			}
+			
 			mberService.updateMber(mber);
 
 			session.setAttribute("isTempPwd", true);
@@ -176,9 +176,12 @@ public class MberController {
 			String encodedPwd = pwdEncoder.encode(mberPwd);
 			mber.setMberPwd(encodedPwd);
 
-			mber.setMberBirth("");
-			mber.setMberPhone("");
-
+			if(mber.getMberBirth()== null) {
+				mber.setMberBirth("");				
+			}
+			if(mber.getMberPhone()== null) {
+				mber.setMberPhone("");
+			}
 			mberService.updateMber(mber);
 
 			session.removeAttribute("isTempPwd");
@@ -189,6 +192,7 @@ public class MberController {
 		return "/mber/resetpwd";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/mber/mypage")
 	public String myPage(Model model, Authentication auth, HttpSession session) {
 		String currentMberId = auth.getName();
@@ -217,7 +221,8 @@ public class MberController {
 		model.addAttribute("isAdmin", isAdmin);
 		return "user/mber/mypage";
 	}
-
+	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/mber/editprofile")
 	public String mberInfo(Model model, Authentication auth) {
 
@@ -259,6 +264,7 @@ public class MberController {
 		return "redirect:/mber/mypage";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/mber/verifypwd")
 	public String verifyPwd(Model model, Authentication auth) {
 		String currentMberId = auth.getName();

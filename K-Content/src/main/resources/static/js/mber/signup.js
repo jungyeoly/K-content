@@ -212,6 +212,7 @@ function checkPasswordMatch() {
 $(document).ready(function() {
 
 	emailCheckBtn.addEventListener('click', function() {
+
 		var mberEmail = document.getElementById('mber_email').value;
 
 		if (emailRegExp.test(mberEmail)) {
@@ -269,10 +270,12 @@ $(document).ready(function() {
 						authCodeInput.disabled = false;
 						authCodeInput.style.backgroundColor = 'white';
 						emailCheckBtn.blur();
+						emailCheckBtn.disabled=true;
 					},
 					error: function() {
 						emailFeedback.innerText = '이메일 입력 오류';
 						emailCheckBtn.blur();
+						emailCheckBtn.disabled=false;
 					}
 				});
 			}

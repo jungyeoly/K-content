@@ -25,7 +25,6 @@ document.querySelectorAll('.reply-show').forEach(function(button) {
 	button.addEventListener('click', function(event) {
 		const clickedButton = event.currentTarget;
 		const commentId = clickedButton.getAttribute('data-id');
-		console.log(commentId);
 		const parentDiv = clickedButton.closest('.comment-buttons');
 
 		const targetReplyBoxes = parentDiv.querySelectorAll(`.reply-box-update[data-id="${commentId}"]`);
@@ -51,7 +50,6 @@ function postComment() {
 			pageRe();
 		},
 		error: function(err) {
-			console.log(err);
 			alert("댓글 작성 중 오류 발생");
 		}
 	});
@@ -74,11 +72,9 @@ function postReply(commentID) {
 			commuCommentRefId: commentID
 		},
 		success: function() {
-
 			pageRe();
 		},
 		error: function(err) {
-			console.log(err);
 			alert("댓글 작성 중 오류 발생");
 		}
 	});
@@ -109,7 +105,6 @@ function deleteComment(commentID, refID) {
 					pageRe();
 				},
 				error: function(err) {
-					console.log(err);
 					Swal.fire({
 						title: '오류!',
 						text: '댓글 작성 중 오류 발생',
@@ -121,7 +116,6 @@ function deleteComment(commentID, refID) {
 		}
 	});
 }
-
 
 // 페이지 로딩 시 댓글과 답글 관련 초기 설정
 initializeComments();
@@ -153,16 +147,16 @@ $(".comment-list-section").on("click", ".single-comment", function(e) {
 $(".comment-list-section").on("click", ".reply-show", function(e) {
 	e.stopPropagation();
 
- var targetReplyBox = $(this).closest(".single-comment").find(".reply-box");
+	var targetReplyBox = $(this).closest(".single-comment").find(".reply-box");
 
-    // 모든 다른 답글 폼을 숨깁니다.
-    $(".reply-box").not(targetReplyBox).hide();
+	// 모든 다른 답글 폼을 숨깁니다.
+	$(".reply-box").not(targetReplyBox).hide();
 
-    // 모든 textarea도 숨깁니다.
-    $('.update-comment-textarea').hide();
+	// 모든 textarea도 숨깁니다.
+	$('.update-comment-textarea').hide();
 
-    // 클릭된 "답글" 버튼에 해당하는 답글 폼의 상태를 토글합니다.
-    targetReplyBox.toggle();
+	// 클릭된 "답글" 버튼에 해당하는 답글 폼의 상태를 토글합니다.
+	targetReplyBox.toggle();
 });
 
 $(".comment-list-section").on("click", ".reply-to-comment", function(e) {
@@ -199,13 +193,121 @@ $("#commentForm button").on("click", function(e) {
 });
 $(".comment-list-section").on("click", ".update-comment", function(e) {
 	e.stopPropagation();
+	//모든 textarea와 버튼을 숨김
+	$('.update-comment-textarea').hide();
+
+	// 기존의 취소 버튼을 모두 숨깁니다.
+	$('.cancel-update').hide();
 	//다른 textarea 숨기기
 	$('.replyForm textarea').hide();
 	$('.replyForm button').hide();
 	$(".reply-id").show();
+	// 현재 클릭된 버튼의 텍스트만 "수정"으로 변경합니다.
+
+
+	// 모든 댓글과 답글의 수정 및 삭제 버튼을 표시
+	/*$('.update-comment').text("수정");*/
+	$('#delete, #delete_ref').show();
+
+	// 모든 댓글과 답글의 원래 내용(p 태그)을 표시
+	$('.update p, .reply-box-update p').show();
+
 
 	var originalCommentId = $(this).data("original-id");
 	var replyCommentId = $(this).data("reply-id");
+
+	var isReply = false;
+	var commentIdToUse;
+
+	if (originalCommentId != null) {
+		commentIdToUse = originalCommentId;
+	} else if (replyCommentId) {
+		commentIdToUse = replyCommentId;
+		isReply = true;
+	}
+
+	var $textarea;
+	if (isReply) {
+		$textarea = $('.update-comment-textarea[data-reply-id="' + commentIdToUse + '"]');
+
+	} else {
+		$textarea = $('.update-comment-textarea[data-original-id="' + commentIdToUse + '"]'); // 이 부분은 원래 댓글에 대한 data-id를 참조하려는 경우를 위해 유지
+		var chtext = $textarea.val();
+		var chtext = $textarea.val().trim();("chtext " + chtext);
+	}
+	$textarea.show();
+
+	var currentText;
+	var $currentP;
+
+
+	if (isReply) {
+		$currentP = $(this).closest('.reply-box-update').find('p').first();
+
+	} else {
+		$currentP = $(this).closest('.update').find('p').first();
+		// 이제 현재 textarea를 보여주고, 원래의 텍스트를 숨깁니다.
+		$textarea.val($currentP.text()).show();
+		$currentP.hide();
+
+	}
+
+	currentText = $currentP.text();
+
+	if ($(this).text() === "수정") {
+		//삭제 버튼 숨기기
+		$(this).closest('div').find('#delete, #delete_ref').hide();
+		$textarea.val(currentText).show();
+
+		$textarea.show();
+		$currentP.hide();
+
+		$('.update-comment').text("수정");
+		var chtext = $textarea.val().trim();
+			if (chtext == null) {
+			alert("댓글 내용을 입력해주세요.");
+			return;
+		}
+
+		// 취소 버튼 추가
+		var cancelButton = '<button class="cancel-update">취소</button>';
+		$(this).after(cancelButton);
+		$(this).text("저장");
+		// 수정된 내용을 textarea에 반영
+		$textarea.val(chtext).show();
+
+	} else {
+		var chtext = $textarea.val().trim();
+	
+		if (chtext == null) {
+			alert("댓글 내용을 입력해주세요.");
+			return;
+		}
+
+		$.ajax({
+			url: "/commu/comment/update",
+			type: "POST",
+			async: true,
+			data: {
+				commuCommentId: commentIdToUse,
+				commuCommentCntnt: chtext
+			},
+			success: function() {
+				pageRe();
+			},
+			error: function(err) {
+				alert("댓글 수정 중 오류 발생");
+			}
+		});
+	}
+});
+
+// 취소 버튼 클릭 이벤트
+$(".comment-list-section").on("click", ".cancel-update", function(e) {
+	e.stopPropagation();
+	var $updateButton = $(this).prev();
+	var originalCommentId = $updateButton.data("original-id");
+	var replyCommentId = $updateButton.data("reply-id");
 
 	var isReply = false;
 	var commentIdToUse;
@@ -221,104 +323,22 @@ $(".comment-list-section").on("click", ".update-comment", function(e) {
 	if (isReply) {
 		$textarea = $('.update-comment-textarea[data-reply-id="' + commentIdToUse + '"]');
 	} else {
-		$textarea = $('.update-comment-textarea[data-original-id="' + commentIdToUse + '"]'); // 이 부분은 원래 댓글에 대한 data-id를 참조하려는 경우를 위해 유지
+		$textarea = $('.update-comment-textarea[data-original-id="' + commentIdToUse + '"]');
 	}
-	$textarea.show();
 
-	var currentText;
+	$textarea.hide();
+
 	var $currentP;
-
-
 	if (isReply) {
-	$currentP = $(this).closest('.reply-box-update').find('p').first();
-	console.log('답글 수정중', $currentP.text());
-} else {
-	$currentP = $(this).closest('.update').find('p').first();
-	console.log('댓글 수정중', $currentP.text());
-	
-}
-
-
-	currentText = $currentP.text();
-	if ($(this).text() === "수정") {
-		//삭제 버튼 숨기기
-		    $(this).closest('div').find('#delete, #delete_ref').hide();
-		$textarea.val(currentText).show();
-		$currentP.hide();
-	
-
-		$('.update-comment').text("수정");
-		var updateText = $textarea.val().trim();
-
-		if (!updateText) {
-			alert("댓글 내용을 입력해주세요.");
-			return;
-		}
-		// 취소 버튼 추가
-		var cancelButton = '<button class="cancel-update">취소</button>';
-		$(this).after(cancelButton);
-		$(this).text("저장");
+		$currentP = $textarea.closest('.reply-box').find('p');
 	} else {
-		var updateText = $textarea.val();
-		console.log(updateText);
-		$.ajax({
-			url: "/commu/comment/update",
-			type: "POST",
-			async: true,
-			data: {
-				commuCommentId:commentIdToUse,
-				commuCommentCntnt: updateText
-			},
-			success: function() {
-				pageRe();
-			},
-			error: function(err) {
-				console.log(err);
-				alert("댓글 수정 중 오류 발생");
-			}
-		});
+		$currentP = $textarea.closest('.update').find('p');
 	}
+
+	$currentP.show();
+
+	$updateButton.text("수정");
+
+	$(this).hide(); //취소 버튼 숨기기
+	$(this).closest('div').find('#delete, #delete_ref').show();
 });
-
-// 취소 버튼 클릭 이벤트
-$(".comment-list-section").on("click", ".cancel-update", function(e) {
-    e.stopPropagation();
-    var $updateButton = $(this).prev();
-    var originalCommentId = $updateButton.data("original-id");
-    var replyCommentId = $updateButton.data("reply-id");
-
-    var isReply = false;
-    var commentIdToUse;
-
-    if (originalCommentId) {
-        commentIdToUse = originalCommentId;
-    } else if (replyCommentId) {
-        commentIdToUse = replyCommentId;
-        isReply = true;
-    }
-
-    var $textarea;
-    if (isReply) {
-        $textarea = $('.update-comment-textarea[data-reply-id="' + commentIdToUse + '"]');
-    } else {
-        $textarea = $('.update-comment-textarea[data-original-id="' + commentIdToUse + '"]');
-    }
-
-    $textarea.hide();
-
-    var $currentP;
-    if (isReply) {
-        $currentP = $textarea.closest('.reply-box').find('p');
-    } else {
-        $currentP = $textarea.closest('.update').find('p');
-    }
-    
-    $currentP.show();
-    
-    $updateButton.text("수정");
-    
-    $(this).hide(); //취소 버튼 숨기기
-  $(this).closest('div').find('#delete, #delete_ref').show();
-});
-
-

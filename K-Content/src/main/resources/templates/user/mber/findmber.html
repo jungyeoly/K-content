@@ -174,7 +174,6 @@
 					                confirmButtonText: '확인'
 					            });
 							sendMaskIdBtnText.removeClass("d-none");
-
 						}
 					},
 					error : function() {
@@ -187,6 +186,7 @@
 				                icon: 'error',
 				                confirmButtonText: '확인'
 				            });
+						 $("#send-maskid-btn").attr("disabled", false);
 					}
 				});
 			});
@@ -262,7 +262,7 @@
 															                icon: 'error',
 															                confirmButtonText: '확인'
 															            });
-																
+																	 $("#send-temppwd-btn").attr("disabled", false);
 																
 																
 																
@@ -281,6 +281,7 @@
 														            });
 																sendTempPwdBtnText
 																		.removeClass("d-none");
+																$("#send-temppwd-btn").attr("disabled", false);
 															}
 														});
 											});

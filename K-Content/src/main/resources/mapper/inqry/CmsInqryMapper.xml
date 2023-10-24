@@ -187,11 +187,18 @@
 		]]>
 	</update>
 	
-	
 	<delete id="deleteCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
 		<![CDATA[
 			DELETE FROM tb_inqry
 			WHERE inqry_id = #{inqryId}
 		]]>
 	</delete>
+	
+	<select id="getCmsInqry" parameterType="int">
+		<![CDATA[
+			SELECT inqry_cntnt 
+			FROM tb_inqry 
+			WHERE inqry_id=#{inqryRefId}
+		]]>
+	</select>
 </mapper>

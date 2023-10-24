@@ -13,10 +13,6 @@ h5 {
     max-width: 100%
 }
 
-#searchForm {
-    margin-top: 20px;
-}
-
 .newKeyword {
     flex-wrap: wrap;
     /*margin-top: 20px;*/

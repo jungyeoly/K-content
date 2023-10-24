@@ -36,7 +36,7 @@
 			ON a.goods_bkmk_mber_id = c.mber_id
 			JOIN tb_goods_file d
 			ON b.goods_id = d.goods_file_goods_id
-			WHERE a.goods_bkmk_mber_id='wook1123'
+			WHERE a.goods_bkmk_mber_id=#{mberId}
 			AND b.goods_delete_yn = 'N'
 			ORDER BY a.goods_bkmk_regist_date DESC
 		]]>

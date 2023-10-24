@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import com.example.myapp.user.inqry.service.IInqryService;
 
 import jakarta.servlet.http.HttpSession;
 
+@PreAuthorize("hasRole('ADMIN')")
 @Controller
 @RequestMapping("/cs")
 public class CmsInqryController {
@@ -171,9 +173,10 @@ public class CmsInqryController {
 	@GetMapping("/inqry/update/{inqryId}")
 	public String updateInqry(@PathVariable int inqryId, Model model, Principal principal, Authentication authentication) {
 		CmsInqry cmsInqry = cmsInqryService.selectCmsInqry(inqryId);
-		
+		String re = cmsInqryService.getCmsInqry(cmsInqry.getInqryRefId());
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			model.addAttribute("inqry", cmsInqry);
+			model.addAttribute("re", re);
 			return "cms/inqry/update";
 		} else {
 			model.addAttribute("message", "잘못된 접근입니다."); 

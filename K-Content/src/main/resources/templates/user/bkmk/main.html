@@ -6,13 +6,13 @@
 	<link rel="stylesheet" th:href="@{/css/bkmk/bkmk.css}">
 </head>
 <body>
-<header th:insert="~{/include/body-header :: userNavBar}"></header>
-<main>
-	<div id="container" class="container">
-		<ul class="tab d-flex justify-content-around text-white">
-			<li class="on" data-tab="menu1" th:text=#{bkmk.goods}>콘텐츠 즐겨찾기</li>
-			<li data-tab="menu2" th:text=#{bkmk.content}>상품 즐겨찾기</li>
-		</ul>
+	<header th:insert="~{/include/body-header :: userNavBar}"></header>
+	<main>
+		<div id="container" class="container">
+			<ul class="tab d-flex justify-content-around text-white">
+				<li class="on" data-tab="menu1" th:text=#{bkmk.content}>콘텐츠 즐겨찾기</li>
+				<li data-tab="menu2" th:text=#{bkmk.goods}>상품 즐겨찾기</li>
+			</ul>
 
 		<div id="menu1" class="tabcont on">
 			<div class="container text-center mt-5"

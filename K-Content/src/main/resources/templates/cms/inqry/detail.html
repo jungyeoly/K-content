@@ -10,7 +10,7 @@
 			<!-- 제목 -->
 			<li class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
-					<label>제목</label>
+					<label>문의 제목</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt">
 					[[${inqry.inqryTitle}]]
@@ -41,7 +41,7 @@
 			<!-- 내용 -->
 			<li class="inqry-sub-li" style="height:300px">
 				<div class="inqry-sub-cntnt label" style="height:300px">
-					<label>내용</label>
+					<label>문의 내용</label>
 				</div>
 				<div class="inqry-sub-cntnt cntnt" style="height:300px">
 					[[${inqry.inqryCntnt}]]
@@ -59,7 +59,7 @@
 			</li>
 			
 			<!-- 답글 -->
-			<li th:if="${reply}" class="inqry-sub-li" style="height:300px">
+			<li th:if="${reply}" class="inqry-sub-li" style="height:300px; border-top: double 3px black;">
 				<div class="inqry-sub-cntnt label" style="height:300px">
 					<label>답변</label>
 				</div>

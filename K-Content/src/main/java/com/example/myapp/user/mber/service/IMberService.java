@@ -2,7 +2,6 @@ package com.example.myapp.user.mber.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map;
 
 import org.apache.ibatis.javassist.NotFoundException;
 
@@ -16,9 +15,9 @@ public interface IMberService {
 	Mber selectMberbyIdEmail(String mberId, String mberEmail);
 
 	List<Mber> selectMberList(int page);
-	
+
 	int getMberTotalCount();
-	
+
 	int getActiveMberCount();
 
 	void insertMber(Mber mber);
@@ -32,11 +31,11 @@ public interface IMberService {
 	boolean isMberId(String mberId);
 
 	boolean isMberEmail(String mberEmail);
-	
+
 	void changeMberStatus(String mberId, String newStatus);
-	
+
 	List<Mber> searchMber(String findType, String findKeyword, int page);
-	
+
 	int cntSearch(String findType, String findKeyword);
 
 	List<Map<String, Object>> getGenderStat();

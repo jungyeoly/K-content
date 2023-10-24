@@ -380,7 +380,7 @@ public class MberController {
 
 		String currentMberId = authentication.getName();
 		Mber mber = mberService.selectMberbyId(currentMberId);
-		
+
 		return passwordEncoder.matches(mberPwd, mber.getMberPwd());
 
 	}

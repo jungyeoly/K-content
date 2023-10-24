@@ -28,7 +28,7 @@
 			        inqry_update_date,
 			        inqry_delete_yn,
 			        inqry_mber_id
-			    from 
+			    from
 			        (select tb_inqry.*
 			        from tb_inqry
 			        where inqry_group_ord = 0
@@ -78,7 +78,7 @@
         INSERT INTO tb_inqry
         (inqry_id, inqry_ref_id, inqry_group_ord, inqry_title, inqry_cntnt, inqry_pwd, inqry_regist_date,
          inqry_update_date, inqry_delete_yn, inqry_mber_id)
-        VALUES (inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd}, to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})	
+        VALUES (inqry_seq.nextval, #{inqryRefId}, 0, #{inqryTitle}, #{inqryCntnt}, #{inqryPwd}, to_char(sysdate, 'yyyy.mm.dd hh24:mi'), null, 'N', #{inqryMberId})
 	</insert>
 
     <insert id="insertFile" parameterType="com.example.myapp.user.inqry.model.InqryFile">
@@ -126,7 +126,7 @@
     <select id="getInqryFileId" parameterType="int" resultType="String">
 		<![CDATA[
 			SELECT inqry_file_id
-			FROM tb_inqry_file 
+			FROM tb_inqry_file
 			WHERE inqry_file_inqry_id=#{inqryId}
 		]]>
 	</select>
@@ -137,14 +137,14 @@
     		WHERE inqry_id = #{inqryId}
     	]]>
     </delete>
-    
+
     <delete id="deleteInqryFile" parameterType="String">
     	<![CDATA[
     		DELETE FROM tb_inqry_file
     		WHERE inqry_file_id = #{inqryFileId}
     	]]>
     </delete>
-    
+
    	<update id="updateCmsInqry" parameterType="com.example.myapp.cms.inqry.model.CmsInqry">
 		<![CDATA[
 			UPDATE tb_inqry

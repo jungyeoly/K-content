@@ -20,10 +20,10 @@
 		WHERE rn between #{start} and #{end}
 		ORDER BY rn
 	</select>
-	
+
 	<select id="searchUserContent" parameterType="String" resultType="com.example.myapp.user.content.model.Content">
-		<![CDATA[ 		
-			SELECT 
+		<![CDATA[
+			SELECT
 				cc.common_code_val,
 				c.cntnt_id,
 				c.cntnt_title,
@@ -31,17 +31,17 @@
 				c.cntnt_regist_date,
 				c.cntnt_update_date,
 				cc.common_code_val
-			FROM 
+			FROM
 				tb_cntnt c
-			JOIN 
+			JOIN
 				tb_common_code cc
-			ON 
+			ON
 				c.cntnt_cate_code = cc.common_code
-			WHERE 
+			WHERE
 				c.cntnt_title LIKE '%'||#{keyword}||'%'
-			OR 
+			OR
 				c.cntnt_kwrd LIKE '%'||#{keyword}||'%'
-			OR 
+			OR
 				cc.common_code_val LIKE '%'||#{keyword}||'%'
 		]]>
 	</select>

@@ -28,7 +28,7 @@ import java.util.*;
 
 @Controller
 @PreAuthorize("hasRole('ADMIN')")
-@RequestMapping("/cs/test")
+@RequestMapping("/cs/cntnt")
 public class CmsCntntController {
     @Autowired
     YouTubeApiService youTubeApiService;
@@ -213,7 +213,6 @@ public class CmsCntntController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-//        return "cms/cntnt/newcontentMakeForm";
         return "cms/cntnt/new-make-cntnt";
     }
 

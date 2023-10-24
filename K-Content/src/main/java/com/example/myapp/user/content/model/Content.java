@@ -16,7 +16,7 @@ public class Content {
     private String cntntUpdateDate;
     private String cntntDeleteYn;
     private String cntntCateCode;
-    
+
     private int goodsId;
     private String goodsName;
     private String goodsBrand;
@@ -26,7 +26,7 @@ public class Content {
     private String goodsRegistDate;
     private String goodsUpdateDate;
     private String goodsDeleteYn;
-    
+
     private String commonCodeVal;
     private String cntntThumnail;
 }

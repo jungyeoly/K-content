@@ -59,7 +59,7 @@ public class CommuService implements ICommuService {
 	public CommuFile getFile(String commuFileId) {
 		return commuRepository.getFile(commuFileId);
 	}
-	
+
 	//게시글만 조회
 		public Commu selectPostWithoutIncreasingReadCnt(int commuId) {
 		    return commuRepository.selectPost(commuId);
@@ -89,27 +89,23 @@ public class CommuService implements ICommuService {
 		}
 
 		commuRepository.updatePost(commu);
-		System.out.println((commu));
+
 		if (files != null && !files.isEmpty()) {
 			for (CommuFile file : files) {
 				// commuFileId 값이 없는 경우 새 파일로 간주
-				System.out.println(file.getCommuFileId());
 				if (file.getCommuFileId() == null || file.getCommuFileId().trim().isEmpty()) {
-					System.out.println(file.getCommuFileName());
 					file.setCommuFileId(UUID.randomUUID().toString()); // 새 uuid 생성
 					if (file.getCommuFileName() != null && !file.getCommuFileName().isEmpty()) {
 
 						file.setCommuFileCommuId(commu.getCommuId());
-						System.out.println(file.toString());
 						commuRepository.insertFileData(file); // 새 파일 정보를 DB에 추가
-						System.out.println((file));
+
 					}
 				}
 				// commuFileId 값이 있는 경우 기존 파일로 간주
 				else {
 					if (file.getCommuFileName() != null && !file.getCommuFileName().isEmpty()) {
 						commuRepository.updateFiledata(file); // 기존 파일 정보를 DB에서 업데이트
-						System.out.println(file);
 					} else {
 						commuRepository.deleteFileById(file.getCommuFileId()); // 파일 정보를 DB에서 삭제
 					}
@@ -129,16 +125,14 @@ public class CommuService implements ICommuService {
 	public void deletePost(int commuId) {
 		// 게시글과 연결된 첨부파일 목록을 가져옵니다.
 		List<CommuFile> attachedFiles = selectFilesByPostId(commuId);
-		System.out.println(selectFilesByPostId(commuId));
 		// 각 첨부파일을 삭제합니다.
 		for (CommuFile file : attachedFiles) {
 			deleteFileById(file.getCommuFileId());
-			System.out.println(file.getCommuFileId());
 		}
 
 		// 게시글 상태를 "삭제상태"로 변경합니다.
 		commuRepository.deletePostStatus(commuId);
-		System.out.println(commuId);
+
 	}
 
 	@Override
@@ -162,7 +156,7 @@ public class CommuService implements ICommuService {
 		commuRepository.reportPost(commuId);
 	}
 
-	
+
 
 	public int totalCommu() {
 		return commuRepository.totalCommu();
@@ -173,7 +167,7 @@ public class CommuService implements ICommuService {
 		int start = (page - 1) * 10 + 1;
 		return commuRepository.selectPostListByCategory(commuCateCode, start, start+9);
 	}
-	
+
 	@Override
 	public int totalCommuByCategory(String commuCateCode) {
 		return commuRepository.totalCommuByCategory(commuCateCode);

@@ -7,6 +7,6 @@ import com.example.myapp.user.content.model.Content;
 
 public interface IContentUserService {
 	List<Content> selectUserContent(String commonCodeVal, int start, int end);
-	
+
 	List<Content> searchUserContent(String keyword);
 }

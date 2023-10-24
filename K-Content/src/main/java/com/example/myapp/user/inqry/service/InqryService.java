@@ -1,11 +1,12 @@
 package com.example.myapp.user.inqry.service;
 
 import java.util.List;
+
+import com.example.myapp.user.inqry.dao.IInqryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.myapp.user.inqry.dao.IInqryRepository;
 import com.example.myapp.user.inqry.model.Inqry;
 import com.example.myapp.user.inqry.model.InqryFile;
 
@@ -75,9 +76,9 @@ public class InqryService implements IInqryService{
 
 	@Transactional
 	public void deleteInqry(int inqryId) {
-		inqryRepository.deleteInqry(inqryId);		
+		inqryRepository.deleteInqry(inqryId);
 	}
-	
+
 	@Transactional
 	public void deleteInqry(int inqryId, String inqryFileId) {
 		if(inqryFileId != null && !inqryFileId.equals("")) {

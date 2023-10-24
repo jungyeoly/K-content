@@ -1,7 +1,7 @@
 .page-link {
-  color: #000; 
+  color: #000;
   background-color: #fff;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }
 
 .page-item.active .page-link {
@@ -10,15 +10,17 @@
  font-weight:bold;
  background-color: #f1f1f1;
  border-color: #ccc;
- 
+
 }
 
 .page-link:focus, .page-link:hover {
   color: #000;
-  background-color: #fafafa; 
+  background-color: #fafafa;
   border-color: #ccc;
 }
-
+tbody{
+	cursor: pointer;
+}
 .container {
 	position: relative;
 }

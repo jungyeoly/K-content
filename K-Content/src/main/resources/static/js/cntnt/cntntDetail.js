@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
     const element = document.getElementById('trend');
     $.ajax({
-        url: '/cs/cntnt/insta-img', type: 'GET',
+        url: '/cntnt/insta-img', type: 'GET',
         data: requestData,
         success: function (data2) {
 

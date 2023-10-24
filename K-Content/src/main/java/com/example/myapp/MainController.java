@@ -1,7 +1,6 @@
-package com.example.myapp.user;
+package com.example.myapp;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,21 +11,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 
 @Controller
-public class MainCon {
+public class MainController {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	ICommonCodeService commonCodeService;
+    @Autowired
+    ICommonCodeService commonCodeService;
 
 
     @GetMapping("/")
     public String getCate(Model model) {
-    	// 공통코드를 이용한 content의 카테고리 조회    	
-    	List<String> cateList = commonCodeService.cateList("C03");
+        // 공통코드를 이용한 content의 카테고리 조회
+        List<String> cateList = commonCodeService.cateList("C03");
 
-    	model.addAttribute("cateList", cateList);
-    
-      return "user/index";
+        model.addAttribute("cateList", cateList);
+
+        return "user/index";
     }
 }

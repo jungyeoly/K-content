@@ -30,7 +30,7 @@
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control form-bid" id="mber_id"
-									name="mberId" th:placeholder=#{enter.id} autocomplete="off"
+									name="mberId"  th:attr="placeholder=#{enter.id}" autocomplete="off"
 									onchange="checkId(this.value)" maxlength="12" required>
 							</div>
 							<div class="col-md-10">
@@ -47,7 +47,7 @@
 							<div class="col-md-10">
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
-										id="mber_pwd" name="mberPwd" th:placeholder=#{enter.password} value=""
+										id="mber_pwd" name="mberPwd" th:attr="placeholder=#{enter.password}" value=""
 										onchange="checkPwd(this.value)" maxlength="16" required><i
 										class="fa fa-eye see-pwd" id="see-pwd"></i>
 								</div>
@@ -68,7 +68,7 @@
 								<div class="pwd-input-wrap">
 									<input type="password" class="form-control form-bid"
 										id="mber_pwd_confirm"
-										th:placeholder=#{con.password} onchange="checkPasswordMatch()"
+										th:attr="placeholder=#{con.password}" onchange="checkPasswordMatch()"
 										maxlength="16" required><i class="fa fa-eye see-pwd" id="see-pwd-confirm"></i>
 								</div>
 							</div>
@@ -126,7 +126,7 @@
 							<div class="col-md-7">
 								<input type="email" id="mber_email"
 									class="form-control form-bid" name="mberEmail"
-									th:placeholder=#{enter.email} pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+									th:attr="placeholder=#{enter.email}" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
 									autocomplete="off" onkeyup="checkEmail(this.value)" required>
 							</div>
 							<div class="col-md-3">
@@ -150,7 +150,7 @@
 							</div>
 							<div class="col-md-10">
 								<input type="text" id="auth-code-input"
-									class="form-control mail-check-input" th:placeholder=#{enter.auth}
+									class="form-control mail-check-input" th:attr="placeholder=#{enter.auth}"
 									disabled="disabled" maxlength="6"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
 									onkeyup="checkAuthNum(this.value)">

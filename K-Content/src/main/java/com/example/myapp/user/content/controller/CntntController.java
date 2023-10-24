@@ -6,11 +6,9 @@ import com.example.myapp.cms.content.model.CmsContent;
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.service.ICntntGoodsMappingService;
 import com.example.myapp.cms.content.service.IContentService;
-import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
-import com.example.myapp.user.bkmk.model.CntntBkmk;
 import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
 import com.example.myapp.user.bkmk.service.IBkmkService;
 import org.slf4j.Logger;
@@ -34,7 +32,7 @@ import javax.imageio.ImageIO;
 
 
 @Controller
-public class contentUserController {
+public class CntntController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -64,7 +62,7 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-        
+
         session.setAttribute("cate", cate);
         model.addAttribute("contentList", contentList);
 
@@ -84,8 +82,8 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-        
-        
+
+
         model.addAttribute("contentList", contentList);
 
         return "user/content/list";
@@ -131,14 +129,10 @@ public class contentUserController {
 
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
 
-        // 얘를 vo를 바꿔서 좋아요 테이블이랑 조인 해야할듯?
         List<GoodsJFileJBklkList> goodsJFileJBklkList = new ArrayList<GoodsJFileJBklkList>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            //일단 파일이 하나라고 가정....
             goodsJFileJBklkList.add(
                     bkmkService.selectGoodsJBkmk(userId, goodsIdByCntnt.get(i).getGoodsId()));
-//                    goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-
         }
 
         model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);

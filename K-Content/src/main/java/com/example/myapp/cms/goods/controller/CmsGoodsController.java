@@ -29,7 +29,7 @@ import java.util.UUID;
 @Controller
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/cs/test/goods")
-public class goodsTestController {
+public class CmsGoodsController {
     @Autowired
     IGoodsService goodsService;
     @Value("${part4.upload.path}")

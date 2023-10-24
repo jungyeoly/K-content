@@ -29,7 +29,7 @@ import java.util.*;
 @Controller
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/cs/test")
-public class CSController {
+public class CmsCntntController {
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired

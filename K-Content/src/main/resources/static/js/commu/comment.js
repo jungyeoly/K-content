@@ -230,9 +230,12 @@ $(".comment-list-section").on("click", ".update-comment", function(e) {
 
 
 	if (isReply) {
-	$currentP = $(this).closest('.reply-box').find('p').first();
+	$currentP = $(this).closest('.reply-box-update').find('p').first();
+	console.log('답글 수정중', $currentP.text());
 } else {
 	$currentP = $(this).closest('.update').find('p').first();
+	console.log('댓글 수정중', $currentP.text());
+	
 }
 
 

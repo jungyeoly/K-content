@@ -4,14 +4,12 @@ import com.example.myapp.cms.goods.model.Goods;
 import com.example.myapp.cms.goods.model.GoodsFile;
 import com.example.myapp.cms.goods.model.PageBox;
 import com.example.myapp.cms.goods.service.IGoodsService;
-import com.example.myapp.user.inqry.model.Inqry;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,7 @@ import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ADMIN')")
-@RequestMapping("/cs/test/goods")
+@RequestMapping("/cs/cntnt/goods")
 public class CmsGoodsController {
     @Autowired
     IGoodsService goodsService;

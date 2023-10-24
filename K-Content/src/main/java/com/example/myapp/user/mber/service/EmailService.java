@@ -38,7 +38,7 @@ public class EmailService implements IEmailService {
 	Date now = new Date();
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 날짜 포맷을 지정
 	String nowTime = dateFormat.format(now); // 현재 날짜를 포맷에 맞게 문자열로 변환
-	
+
 	@Value("${spring.mail.username}")
 	private String id;
 
@@ -90,7 +90,7 @@ public class EmailService implements IEmailService {
 
 	// 인증번호 메일 내용 생성
 	private String generateAuthEmailContent(String authNum) {
-		 
+
 		String msg = "";
 		msg += "<div><div style=\"width:700px;margin : 50px auto 0;border: 1px solid #D5D9E2;font-family:'Noto Sans KR',sans-serif;\">";
 		msg += "<div style=\"height: 96px;\">";
@@ -134,7 +134,7 @@ public class EmailService implements IEmailService {
 		msg += "</div>";
 		msg += "</div>";
 		msg += "</div>";
-		
+
 		return msg;
 	}
 
@@ -232,7 +232,7 @@ public class EmailService implements IEmailService {
 		msg += "</div>";
 		msg += "</div>";
 		msg += "</div>";
-		
+
 		return msg;
 	}
 

@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,11 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import com.example.myapp.user.mber.model.MberUserDetails;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,8 +48,8 @@ public class SpringSecurityConfig {
 		http.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
 					/*		.requestMatchers(
-									"/css/**", 
-									"/img/**", 
+									"/css/**",
+									"/img/**",
 									"/js/**",
 									"/",
 									"/content/**"
@@ -68,7 +63,7 @@ public class SpringSecurityConfig {
 				            ).hasAnyRole("ADMIN")
 				        	.requestMatchers(
 				        			"/mber/**"
-				            ).hasAnyRole("MBER")				    */  
+				            ).hasAnyRole("MBER")				    */
 				            .anyRequest().permitAll()) // 모두 접근 가능
       /*
 						.requestMatchers("/css/**", "/img/**", "/", "/js/**", "/content/**", "/cms/**", "/user/**",
@@ -86,7 +81,7 @@ public class SpringSecurityConfig {
 							public void onAuthenticationSuccess(HttpServletRequest request,
 									HttpServletResponse response, Authentication authentication)
 									throws IOException, ServletException {
-						
+
 								response.sendRedirect("/mber/resetpwd");
 							}
 						}).failureHandler(customFailureHandler).permitAll())

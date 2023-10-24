@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface IInqryRepository {
 	List<Inqry> selectInqryList(@Param("start") int start, @Param("end") int end);
-	
+
 	Inqry selectInqry(int inqryId);
 
 	int totalInqry();
@@ -21,19 +21,19 @@ public interface IInqryRepository {
 	void insertInqry(Inqry inqry);
 
 	void insertFile(InqryFile file);
-	
+
 	int selectinqryFileId();
-	
+
 	void updateInqry(Inqry inqry);
-	
+
 	void updateInqryFile(InqryFile file);
-	
+
 	void deleteInqry(int inqryId);
-	
+
 	void deleteInqryFile(String inqryFileId);
-	
+
 	String getInqryFileId(int inqryId);
-	
+
 	void updateCmsInqry(Inqry inqry);
-	
+
 }

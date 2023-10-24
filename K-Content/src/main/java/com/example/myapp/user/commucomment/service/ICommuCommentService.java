@@ -16,6 +16,6 @@ public interface ICommuCommentService {
 
     void deleteCommuCommentRepl(int commuId);
    void updateCommuComment(int commentId, String commuCommentCntnt );
-   
+
    List<Integer> selectAllCommentIdsByPostId(int commuId);
 }

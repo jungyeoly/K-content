@@ -61,7 +61,7 @@
         var page = 1;
 
         $.ajax({
-            url: '/cs/test/contents/' + page,
+            url: '/cs/cntnt/contents/' + page,
             type: 'GET',
             data: {'page': page, 'cate': cate},
             success: function (contentList) {
@@ -130,7 +130,7 @@
             }
 
             $.ajax({
-                url: '/cs/test/contents/' + 1,
+                url: '/cs/cntnt/contents/' + 1,
                 type: 'GET',
                 data: {'page': page, 'cate': cate},
                 success: function (contentList) {
@@ -164,7 +164,7 @@
                     pageNav.empty();
 
                     $.ajax({
-                        url: '/cs/test/paging',
+                        url: '/cs/cntnt/paging',
                         type: 'GET',
                         data: {'page': page, 'cate': cate},
                         success: function (data) {
@@ -182,7 +182,7 @@
                 var keyword = $("#search-input").val();
 
                 $.ajax({
-                    url: "/cs/test/contents/search",
+                    url: "/cs/cntnt/contents/search",
                     method: "get",
                     data: {
                         'searchKeyword': keyword,
@@ -212,7 +212,7 @@
                 })
             } else {
                 $.ajax({
-                    url: "/cs/test/contents/" + nowPage,
+                    url: "/cs/cntnt/contents/" + nowPage,
                     method: "get",
                     data: {'page': nowPage, 'cate': cate},
                     success: function (contentList) {
@@ -244,7 +244,7 @@
             var prePage = $(this).data("prepage") - 1;
 
             $.ajax({
-                url: "/cs/test/contents/" + prePage,
+                url: "/cs/cntnt/contents/" + prePage,
                 method: "get",
                 success: function (contentList) {
                     const element = document.getElementById('card-list');
@@ -272,7 +272,7 @@
             var nexPage = $(this).data("nexpage") + 1;
 
             $.ajax({
-                url: "/cs/test/contents/" + prePage,
+                url: "/cs/cntnt/contents/" + prePage,
                 method: "get",
                 seccess: function (contentList) {
                     console.log(contentList);
@@ -284,7 +284,7 @@
     function paging(cate) {
         var page = 1;
         $.ajax({
-            url: '/cs/test/paging',
+            url: '/cs/cntnt/paging',
             type: 'GET',
             data: {'page': page, 'cate': cate},
             success: function (data) {
@@ -305,7 +305,7 @@
         };
 
         $.ajax({
-            url: '/cs/test/contents/search',
+            url: '/cs/cntnt/contents/search',
             type: 'GET',
             data: requestData,
             success: function (contentList) {
@@ -334,7 +334,7 @@
                 var keyword = document.getElementById('search-input').value;
 
                 $.ajax({
-                    url: "/cs/test/search/paging",
+                    url: "/cs/cntnt/search/paging",
                     type: "GET",
                     data: {'page': nowPage, 'searchKeyword': keyword},
                     success: function (data) {

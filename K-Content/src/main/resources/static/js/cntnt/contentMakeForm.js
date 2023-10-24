@@ -5,7 +5,7 @@ $(document).ready(function () {
     console.log("cntntURL" + cntntURL);
 
     $.ajax({
-        url: '/cs/test/youtube/iframe',
+        url: '/cs/cntnt/youtube/iframe',
         type: 'GET',
         data: {
             targetContentIdF: cntntURL
@@ -70,8 +70,8 @@ function goodsNewPage() {
 
     const setString = JSON.stringify(Array.from(cntntGoodsSet));
     console.log("setString: " + setString);
-    const url = `/cs/test/goods/cntnt?goods=${encodeURIComponent(setString)}`;
-    window.open(url, "/cs/test/goods/cntnt", "width=1200, height=800");
+    const url = `/cs/cntnt/goods/cntnt?goods=${encodeURIComponent(setString)}`;
+    window.open(url, "/cs/cntnt/goods/cntnt", "width=1200, height=800");
 
 }
 
@@ -106,7 +106,7 @@ function selectGoods(receivedData) {
     };
     // console.log("requestData: "+requestData);
     $.ajax({
-        url: '/cs/test/goods/item',
+        url: '/cs/cntnt/goods/item',
         type: 'GET',
         data: requestData,
         success: function (data) {
@@ -242,7 +242,7 @@ function createContent() {
     console.log(sendData)
     // 콘텐츠 생성/수정
     $.ajax({
-        url: '/cs/test/content',
+        url: '/cs/cntnt/content',
         type: 'POST',
         data: JSON.stringify(sendData),
         contentType: 'application/json',
@@ -256,7 +256,7 @@ function createContent() {
                     confirmButtonText: '확인'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/cs/test';
+                        location.href = '/cs/cntnt';
                     }
                 });
             } else if (data == '생성완료') {
@@ -267,7 +267,7 @@ function createContent() {
                     confirmButtonText: '확인'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        location.href = '/cs/test';
+                        location.href = '/cs/cntnt';
                     }
                 });
             }

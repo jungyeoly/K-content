@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.myapp.user.bkmk.model.CntntBkmk;
-import com.example.myapp.user.bkmk.model.GoodsBkmk;
 import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
 import com.example.myapp.user.bkmk.service.IBkmkService;
 
@@ -25,15 +24,15 @@ public class BkmkController {
 
     @Autowired
     IBkmkService bkmkService;
-    
+
     @GetMapping("/bkmk")
     public String selectBkmkList(Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
-        
+
         List<CntntBkmk> selectCntntBkmkList = bkmkService.selectCntntBkmkList(userId);
         List<GoodsJFileJBklkList> selectGoodsMkmkList = bkmkService.selectGoodsBkmkList(userId);
-        
+
         for (int i = 0; i < selectCntntBkmkList.size(); i++) {
             List<String> contentUrlSplit = List.of(selectCntntBkmkList.get(i).getCntntUrl().split("/"));
             String partOfUrl = contentUrlSplit.get(3);
@@ -44,10 +43,10 @@ public class BkmkController {
 
         model.addAttribute("cntntList", selectCntntBkmkList);
         model.addAttribute("goodsList", selectGoodsMkmkList);
-        
+
         logger.info(selectCntntBkmkList.toString());
         logger.info(selectGoodsMkmkList.toString());
-        
+
         return "user/bkmk/main";
     }
     //콘텐츠 좋아요

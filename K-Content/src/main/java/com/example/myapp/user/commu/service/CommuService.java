@@ -59,7 +59,7 @@ public class CommuService implements ICommuService {
 	public CommuFile getFile(String commuFileId) {
 		return commuRepository.getFile(commuFileId);
 	}
-	
+
 	//게시글만 조회
 		public Commu selectPostWithoutIncreasingReadCnt(int commuId) {
 		    return commuRepository.selectPost(commuId);
@@ -162,7 +162,7 @@ public class CommuService implements ICommuService {
 		commuRepository.reportPost(commuId);
 	}
 
-	
+
 
 	public int totalCommu() {
 		return commuRepository.totalCommu();
@@ -173,7 +173,7 @@ public class CommuService implements ICommuService {
 		int start = (page - 1) * 10 + 1;
 		return commuRepository.selectPostListByCategory(commuCateCode, start, start+9);
 	}
-	
+
 	@Override
 	public int totalCommuByCategory(String commuCateCode) {
 		return commuRepository.totalCommuByCategory(commuCateCode);

@@ -6,7 +6,7 @@ $(document).ready(function () {
     };
     // 추천 콘텐츠
     $.ajax({
-        url: '/cs/test/content/keyword', type: 'GET',
+        url: '/cs/cntnt/content/keyword', type: 'GET',
         data: requestData,
         success: function (contentList) {
             const element = document.getElementById('card-list');
@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
     const element = document.getElementById('trend');
     $.ajax({
-        url: '/cs/test/insta-img', type: 'GET',
+        url: '/cs/cntnt/insta-img', type: 'GET',
         data: requestData,
         success: function (data2) {
 
@@ -60,7 +60,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-        url: '/cs/test/youtube/iframe', type: 'GET', data: requestData, // 데이터 객체 전달
+        url: '/cs/cntnt/youtube/iframe', type: 'GET', data: requestData, // 데이터 객체 전달
         success: function (data2) {
             // 서버에서 받은 데이터를 result 요소에 추가합니다.
             const element = document.getElementById('iframe');
@@ -102,7 +102,7 @@ function updateCntnt(cntntId) {
     cntntId = document.getElementById('cntntId').value;
     // console.log(cntntId);
     const formHtml = `
-                    <form id="updateCntnt" action="/cs/test/content/modify-form" method="get">
+                    <form id="updateCntnt" action="/cs/cntnt/content/modify-form" method="get">
                         <input  id="targetContentIdF" name="targetContentIdF"  />
                     </form>`;
 
@@ -125,7 +125,7 @@ function deleteCntnt() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/cs/test/content', type: 'patch',
+                url: '/cs/cntnt/content', type: 'patch',
                 data: {
                     cntntId: document.getElementById("cntntId").value
                 }, // 데이터 객체 전달
@@ -137,7 +137,7 @@ function deleteCntnt() {
                         confirmButtonText: '확인'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.replace("/cs/test");
+                            window.location.replace("/cs/cntnt");
                         }
                     });
                 }, error: function (error) {
@@ -151,15 +151,15 @@ function deleteCntnt() {
 // function deleteCntnt() {
 //     if (confirm('컨텐츠를 삭제하시겠습니까?')) {
 //         $.ajax({
-//             url: '/cs/test/content', type: 'patch',
+//             url: '/cs/cntnt/content', type: 'patch',
 //             data: {
 //                 cntntId: document.getElementById("cntntId").value
 //             }, // 데이터 객체 전달
 //             success: function (data2) {
 //                 if (confirm('삭제가 완료 되었습니다')) {
-//                     window.location.replace("/cs/test");
+//                     window.location.replace("/cs/cntnt");
 //                 } else {
-//                     window.location.replace("/cs/test");
+//                     window.location.replace("/cs/cntnt");
 //                 }
 //             }, error: function (error) {
 //                 console.error('에러 발생: ', error);

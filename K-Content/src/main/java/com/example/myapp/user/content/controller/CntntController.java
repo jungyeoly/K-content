@@ -1,11 +1,16 @@
 package com.example.myapp.user.content.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 import com.example.myapp.cms.content.model.CmsContent;
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.service.ICntntGoodsMappingService;
 import com.example.myapp.cms.content.service.IContentService;
+import com.example.myapp.cms.content.service.Instagram_Selenium;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
@@ -28,6 +33,8 @@ import com.example.myapp.user.content.service.IContentUserService;
 
 import jakarta.servlet.http.HttpSession;
 
+import javax.imageio.ImageIO;
+
 
 @Controller
 public class CntntController {
@@ -46,7 +53,8 @@ public class CntntController {
     IGoodsService goodsService;
     @Autowired
     IBkmkService bkmkService;
-
+    @Autowired
+    Instagram_Selenium instagram_Selenium;
     @GetMapping("/user/content")
     public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model, HttpSession session) {
         // 카테고리 별 조회
@@ -145,6 +153,39 @@ public class CntntController {
         model.addAttribute("trendQueryList", trendQueryList);
         return "user/content/contentDetail";
     }
+    //콘텐츠 상세 페이지인스타 크롤링
+    @GetMapping("/cntnt/insta-img")
+    @ResponseBody
+    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList, Authentication authentication) throws IOException {
 
+        List<String> realImg = new ArrayList<>();
+        String role = authentication.getAuthorities().toString();
+        if (role.equals("[ROLE_ADMIN]")) {
+            return realImg;
+        } else {
+            instagram_Selenium.isQuit();
+//            instagram_Selenium = new Instagram_Selenium();
+            instagram_Selenium.instagram_Selenium();
+            for (int i = 0; i < trendQueryList.size(); i++) {
+                try {
+                    String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+                    //TODO 예외처리
+                    URL urlInput = new URL(oneUrl);
+                    BufferedImage urlImg = ImageIO.read(urlInput);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(urlImg, "jpg", bos);
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    String encodedString = encoder.encodeToString(bos.toByteArray());
+                    //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+                    realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+                } catch (Exception e) {
+                    instagram_Selenium.chromeExit();
+                }
+            }
+            instagram_Selenium.chromeExit();
+            return realImg;
+        }
+
+    }
 
 }

@@ -1,5 +1,5 @@
 :root {
-	/* Color */ 
+	/* Color */
 	--color-main: #14dbc8;
 }
 .tab {
@@ -8,7 +8,9 @@
 	padding: 0px;
 	overflow: hidden;
 }
-
+ul{
+	cursor: pointer;
+}
 .tab li {
 	float: left;
 	width: 100%;

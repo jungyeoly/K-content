@@ -76,10 +76,6 @@ public class CommuCommentController {
 
         }
 
-        for (int i = 0; i < refComment.size(); i++) {
-            System.out.println(refComment.get(i).getCommuCommentId());
-        }
-
         model.addAttribute("replyCountMap", replyCountMap);
         model.addAttribute("refComments", refComment);
         model.addAttribute("comments", comments);

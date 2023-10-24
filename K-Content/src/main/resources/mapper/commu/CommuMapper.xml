@@ -15,10 +15,10 @@
                                  a.commu_mber_id,
                                  b.common_code_dscr,
                                  CASE
-                                     WHEN a.commu_cate_code = 'C06' THEN 0
+                                     WHEN a.commu_cate_code = 'C0601' THEN 0
                                      ELSE 1
                                      END as sort_order,
-                                 ROW_NUMBER() OVER(ORDER BY CASE WHEN a.commu_cate_code = 'C06' THEN 0 ELSE 1 END, a.commu_id DESC) as rn
+                                 ROW_NUMBER() OVER(ORDER BY CASE WHEN a.commu_cate_code = 'C0601' THEN 0 ELSE 1 END, a.commu_id DESC) as rn
                           FROM tb_commu a
                                    JOIN tb_common_code b ON a.commu_cate_code = b.common_code
                           WHERE a.commu_status = 'N'
@@ -175,8 +175,8 @@ VALUES
    'N',
    ]]>
         <choose>
-            <!-- If COMMU_CATE_CODE is "C06", set COMMU_TYPE to 'N' -->
-            <when test="commuCateCode == 'C06'">
+            <!-- If COMMU_CATE_CODE is "C0601", set COMMU_TYPE to 'N' -->
+            <when test="commuCateCode == 'C0601'">
                 'N'
             </when>
             <otherwise>
@@ -346,7 +346,7 @@ VALUES
                         c.commu_mber_id
                  FROM tb_commu c
                           JOIN tb_mber m ON c.commu_mber_id = m.mber_id
-                 WHERE m.MBER_ROLE_CODE = 'C0402' and commu_status ='N' and commu_cate_code ='C06'
+                 WHERE m.MBER_ROLE_CODE = 'C0402' and commu_status ='N' and commu_cate_code ='C0601'
                  ORDER BY c.commu_regist_date DESC
              )
         WHERE ROWNUM <= 5

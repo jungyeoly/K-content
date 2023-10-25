@@ -32,26 +32,12 @@
 						</div>
 					</li>
 
-					<li class="tit-row">
-						<div class="inqry-label">
-							<label for="cntnt">
-								답변<span class="text-danger">*</span>
-							</label>
-						</div>
-
-
-<!--						여기수정-->
-
-					</li>
-<!--					<div class="inqry-cntnt" class="summernote" style="width: 80%" th:utext="${inqry.inqryCntnt}">-->
-<!--					</div>-->
+				</ul>
 					<div class="inqry-cntnt">
 						<textarea id="cntnt" class="summernote" name="inqryCntnt"th:text="${inqry.inqryCntnt}"></textarea>
 					</div>
-				</ul>
 
-				<div class="d-flex justify-content-center">
-					<!-- <input type="hidden" name="inqryId" th:value="${inqry.inqryId}"> -->
+				<div class="d-flex justify-content-center mt-3">
 					<a type="reset" class="btn text-white me-2" th:href="@{/cs/inqry}">취소</a>
 					<input type="submit" class="btn insertBtn" value="글 수정">
 				</div>

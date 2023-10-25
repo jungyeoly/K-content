@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{/include/summer_head :: newAdminHead}"></th:block>
+<!--    <link rel="stylesheet" th:href="@{/css/commu/commuWrite.css}">-->
+</head>
+<body>
+<textarea class="summernote" id="cntntID" name="content"  maxlength="600"></textarea>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#cntntID').summernote({
+            placeholder: '내용을 작성하세요️',
+            height: 400,
+            maxHeight: 400
+        });
+    });
+</script>
+</html>

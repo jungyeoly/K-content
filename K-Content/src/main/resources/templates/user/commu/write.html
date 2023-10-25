@@ -45,14 +45,9 @@
 
 					</li>
 
-					<li class="tit-row">
-						<div class="commu-label">
-							<label for="cntnt">내용 <span class="required">*</span></label>
-						</div>
-						<div class="commu-cntnt">
-							<textarea id="cntnt" name="commuCntnt" placeholder="내용을 입력하세요."></textarea>
-						</div>
-					</li>
+					<div class="commu-cntnt">
+						<textarea class="summernote" id="cntnt" name="commuCntnt" placeholder="내용을 입력하세요." maxlength="600"></textarea>
+					</div>
 
 					<li class="tit-row">
 						<div class="commu-label">
@@ -84,7 +79,7 @@
 			</form>
 		</div>
 	</main>
-	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>	
+	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>
 	<script th:src="@{/js/commu/write.js}"></script>
 </body>
 </html>

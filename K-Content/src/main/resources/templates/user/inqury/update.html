@@ -30,17 +30,9 @@
 						</div>
 					</li>
 
-					<li class="tit-row">
-						<div class="inqry-label">
-							<label for="cntnt" th:text=#{content}>내용<span
-								class="text-danger">*</span>
-							</label>
-						</div>
-						<div class="inqry-cntnt">
-							<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
-						</div>
-					</li>
-
+					<div class="inqry-cntnt">
+						<textarea id="cntnt" name="inqryCntnt" th:utext="${inqry.inqryCntnt}"></textarea>
+					</div>
 					<li class="tit-row img-li">
 						<div class="inqry-label">
 							<label class="control-label" for="file"> <span

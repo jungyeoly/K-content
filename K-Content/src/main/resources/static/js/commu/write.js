@@ -1,9 +1,16 @@
+
+$('#cntnt').summernote({
+	placeholder: '내용을 작성하세요',
+	height: 400,
+	maxHeight: 400
+});
+
 document.addEventListener('DOMContentLoaded', function() {
 	const titleInput = document.getElementById('title');
 
 	// 현재 페이지의 경로가 '/cs/commu/write'인지 확인
 	if (window.location.pathname === '/cs/commu/write') {
-		
+
 		// 입력 필드를 항상 비워짐으로 설정
 		titleInput.value = "";
 
@@ -18,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.querySelector('.cancel-btn').addEventListener('click', function() {
-    
+
     const titleInput = document.getElementById('title');
       // 현재 페이지의 경로가 '/cs/commu/write'인지 확인하여 해당 경로에서만 [공지]를 추가
     if (window.location.pathname === '/cs/commu/write') {
@@ -68,17 +75,17 @@ function validateForm() {
 	}
 
 	if (!category || category.trim() === "") {
-		showModal("K-Spectrum", "카테고리를 선택하세요.");
+		showModal("카테고리를 선택하세요.", "다시 확인해주세요.");
 		return false;
 	}
 
 	if (!title || title.trim() === "") {
-		showModal("K-Spectrum", "제목을 입력하세요.");
+		showModal("제목을 입력하세요.", "다시 확인해주세요.");
 		return false;
 	}
 
 	if (!cntnt || cntnt.trim() === "") {
-		showModal("K-Spectrum", "내용을 입력하세요.");
+		showModal("내용을 입력하세요.", "다시 확인해주세요.");
 		return false;
 	}
 	return true;
@@ -90,7 +97,8 @@ function showModal(title, content) {
             title: title,
             text: content,
             icon: 'warning',
-            confirmButtonText: '확인'
+            confirmButtonText: '확인',
+			confirmButtonColor: '#14dbc8'
         }).then(() => {
             resolve();
         });
@@ -116,7 +124,7 @@ document.querySelector('form').addEventListener('submit',async function(event) {
 
 		// 새로운 콜백으로 이벤트 리스너를 설정
 		newConfirmBtn.onclick = function() {
-			
+
 		};
 	}
 

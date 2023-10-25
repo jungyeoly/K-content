@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<header th:replace="~{include/body-header :: userNavBar}"></header>
+<!--	<header th:replace="~{include/body-header :: userNavBar}"></header>-->
 	<main>
 		<div class="container">
 			<div class="inqry-menu fw-bold">문의사항 글 생성</div>
@@ -25,16 +25,9 @@
 						</div>
 					</li>
 
-					<li class="tit-row">
-						<div class="inqry-label">
-							<label for="cntnt"> 내용 <span class="text-danger">*</span>
-							</label>
-						</div>
-						<div class="inqry-cntnt">
-							<textarea id="cntnt" name="inqryCntnt"></textarea>
-						</div>
-					</li>
-
+					<div class="inqry-cntnt">
+						<textarea id="cntnt" class="summernote" name="inqryCntnt"></textarea>
+					</div>
 					<li class="tit-row img-li">
 						<div class="inqry-label">
 							<label class="control-label" for="file"> 첨부파일 <span

@@ -14,9 +14,8 @@ $(function () {
         Swal.fire({
             title: '삭제하시겠습니까?',
             icon: 'warning',
-
             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            confirmButtonColor: '#14dbc8', // confrim 버튼 색깔 지정
             cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
             confirmButtonText: '확인', // confirm 버튼 텍스트 지정
             cancelButtonText: '취소', // cancel 버튼 텍스트 지정
@@ -46,9 +45,8 @@ $(function () {
         Swal.fire({
             title: '삭제하시겠습니까?',
             icon: 'warning',
-
             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            confirmButtonColor: '#14dbc8', // confrim 버튼 색깔 지정
             cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
             confirmButtonText: '확인', // confirm 버튼 텍스트 지정
             cancelButtonText: '취소', // cancel 버튼 텍스트 지정
@@ -89,7 +87,8 @@ function moveGoods(goodsUrl) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: '확인',
-        cancelButtonText: '취소'
+        cancelButtonText: '취소',
+        confirmButtonColor: '#14dbc8'
     }).then((result) => {
         if (result.isConfirmed) {
             window.open(goodsUrl);

@@ -3,10 +3,10 @@
 <div class="container mb-3">
 	<!-- inqry 번호 -->
 		<div class="inqry-no inqry-menu fw-bold">[[${inqry.inqryId}]]</div>
-		
+
 		<!-- inqry form -->
 		<ul class="inqry-sub">
-		
+
 			<!-- 제목 -->
 			<li class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
@@ -16,7 +16,7 @@
 					[[${inqry.inqryTitle}]]
 				</div>
 			</li>
-		
+
 			<!-- 글 정보 -->
 			<li class="inqry-sub-li row">
 				<div class="col">
@@ -27,7 +27,7 @@
 						[[${inqry.inqryMberId}]]
 					</div>
 				</div>
-				
+
 				<div class="col">
 					<div class="inqry-sub-cntnt label border-left">
 						<label>등록일시</label>
@@ -37,17 +37,11 @@
 					</div>
 				</div>
 			</li>
-		
+
 			<!-- 내용 -->
-			<li class="inqry-sub-li" style="height:300px">
-				<div class="inqry-sub-cntnt label" style="height:300px">
-					<label>문의 내용</label>
-				</div>
-				<div class="inqry-sub-cntnt cntnt" style="height:300px">
-					[[${inqry.inqryCntnt}]]
-				</div>
-			</li>
-			
+
+			<div class="inqry-sub-cntnt cntnt" style="height: 300px" th:utext="${inqry.inqryCntnt}">
+			</div>
 			<!-- 첨부파일 -->
 			<li th:if="${inqry.inqryFileId}" class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
@@ -57,23 +51,23 @@
 					<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}" id="inqry-img">
 				</div>
 			</li>
-			
+
 			<!-- 답글 -->
 			<li th:if="${reply}" class="inqry-sub-li" style="height:300px; border-top: double 3px black;">
 				<div class="inqry-sub-cntnt label" style="height:300px">
 					<label>답변</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt" style="height:300px">
-					[[${reply.inqryCntnt}]]
+				<div class="inqry-sub-cntnt cntnt" style="height: 300px; width: 80%" th:utext="${reply.inqryCntnt}">
 				</div>
+
 			</li>
-			
+
 		</ul>
-		
+
 		<!-- 버튼 -->
 		<div class="text-center position-relative">
 			<a th:href="@{/cs/inqry}" class="btn text-white p-2">목록</a>
-			
+
 			<div class="position-absolute end-0 top-0">
 	 			<div class="btns d-flex">
 					<div th:if="${reply} != null" class="d-flex">
@@ -82,7 +76,7 @@
 							<input type="submit" class="btn delete" value="삭제">
 						</form>
 					</div>
-					
+
 					<a th:if="${cnt == 1}" th:unless="${reply}" th:href="@{/cs/inqry/write}" class="btn text-white">답글달기</a>
 				</div>
 			</div>

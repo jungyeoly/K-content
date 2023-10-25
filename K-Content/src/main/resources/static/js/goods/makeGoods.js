@@ -45,7 +45,7 @@ function createGoods() {
         Swal.fire({
             title: '키워드를 입력해주세요',
             icon: 'warning',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#14dbc8',
             confirmButtonText: '확인',
             reverseButtons: true,
 
@@ -95,7 +95,7 @@ function createGoods() {
             Swal.fire({
                 title: '상품이 등록 되었습니다.',
                 icon: 'success',
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#14dbc8',
                 confirmButtonText: '확인',
                 reverseButtons: true,
 
@@ -142,7 +142,7 @@ function createGoodsInCntnt() {
         Swal.fire({
             title: '키워드를 입력하세요!',
             icon: 'warning',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#14dbc8',
             confirmButtonText: '확인',
             reverseButtons: true,
 
@@ -178,7 +178,7 @@ function createGoodsInCntnt() {
             Swal.fire({
                 title: '상품이 등록 되었습니다.',
                 icon: 'success',
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#14dbc8',
                 confirmButtonText: '확인',
                 reverseButtons: true,
 
@@ -192,7 +192,7 @@ function createGoodsInCntnt() {
             Swal.fire({
                 title: '상품 생성에 실패했습니다.',
                 icon: 'warning',
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#14dbc8',
                 confirmButtonText: '확인',
                 reverseButtons: true,
 
@@ -220,7 +220,8 @@ function makeKeyword() {
             title: '공백 불가',
             text: '키워드를 입력하세요',
             icon: 'warning',
-            confirmButtonText: '확인'
+            confirmButtonText: '확인',
+            confirmButtonColor: '#14dbc8'
         }).then((result) => {
         });
     } else {
@@ -273,7 +274,7 @@ function updateGoodsNoFile() {
         Swal.fire({
             title: '키워드를 입력해주세요',
             icon: 'warning',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#14dbc8',
             confirmButtonText: '확인',
             reverseButtons: true,
 
@@ -303,7 +304,7 @@ function updateGoodsNoFile() {
             Swal.fire({
                 title: '상품 수정 완료',
                 icon: 'success',
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#14dbc8',
                 confirmButtonText: '확인',
                 reverseButtons: true,
 
@@ -336,7 +337,7 @@ function updateGoodsForm() {
         Swal.fire({
             title: '키워드를 입력해주세요',
             icon: 'warning',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#14dbc8',
             confirmButtonText: '확인',
             reverseButtons: true,
 
@@ -369,7 +370,7 @@ function updateGoodsForm() {
             Swal.fire({
                 title: '상품 수정 완료',
                 icon: 'success',
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#14dbc8',
                 confirmButtonText: '확인',
                 reverseButtons: true,
 

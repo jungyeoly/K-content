@@ -82,7 +82,7 @@ function deleteComment(commentID, refID) {
         text: "이 작업은 되돌릴 수 없습니다.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#14dbc8',
         cancelButtonColor: '#d33',
         confirmButtonText: '예, 삭제합니다!',
         cancelButtonText: '취소'
@@ -104,7 +104,8 @@ function deleteComment(commentID, refID) {
                         title: '오류!',
                         text: '댓글 작성 중 오류 발생',
                         icon: 'error',
-                        confirmButtonText: '확인'
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#14dbc8'
                     });
                 }
             });
@@ -186,6 +187,8 @@ $("#commentForm button").on("click", function (e) {
         updateCommentCount();
     });
 });
+
+
 $(".comment-list-section").on("click", ".update-comment", function (e) {
     e.stopPropagation();
     //모든 textarea와 버튼을 숨김
@@ -197,8 +200,6 @@ $(".comment-list-section").on("click", ".update-comment", function (e) {
     $('.replyForm textarea').hide();
     $('.replyForm button').hide();
     $(".reply-id").show();
-    // 현재 클릭된 버튼의 텍스트만 "수정"으로 변경합니다.
-
 
     // 모든 댓글과 답글의 수정 및 삭제 버튼을 표시
     /*$('.update-comment').text("수정");*/
@@ -210,10 +211,8 @@ $(".comment-list-section").on("click", ".update-comment", function (e) {
 
     var originalCommentId = $(this).data("original-id");
     var replyCommentId = $(this).data("reply-id");
-
     var isReply = false;
     var commentIdToUse;
-
     if (originalCommentId != null) {
         commentIdToUse = originalCommentId;
     } else if (replyCommentId) {
@@ -224,11 +223,10 @@ $(".comment-list-section").on("click", ".update-comment", function (e) {
     var $textarea;
     if (isReply) {
         $textarea = $('.update-comment-textarea[data-reply-id="' + commentIdToUse + '"]');
-
+        var chtext = $textarea.val().trim();
     } else {
         $textarea = $('.update-comment-textarea[data-original-id="' + commentIdToUse + '"]'); // 이 부분은 원래 댓글에 대한 data-id를 참조하려는 경우를 위해 유지
         var chtext = $textarea.val().trim();
-        console.log("chtext " + chtext);
     }
     $textarea.show();
 
@@ -273,26 +271,25 @@ $(".comment-list-section").on("click", ".update-comment", function (e) {
 
     } else {
         // var chtext = $textarea.val().trim();
-        console.log("chtext " + chtext);
         if (chtext == null) {
             alert("댓글 내용을 입력해주세요.");
             return;
         }
 
         $.ajax({
-        	url: "/commu/comment/update",
-        	type: "POST",
-        	async: true,
-        	data: {
-        		commuCommentId: commentIdToUse,
-        		commuCommentCntnt: chtext
-        	},
-        	success: function() {
-        		pageRe();
-        	},
-        	error: function(err) {
-        		alert("댓글 수정 중 오류 발생");
-        	}
+            url: "/commu/comment/update",
+            type: "POST",
+            async: true,
+            data: {
+                commuCommentId: commentIdToUse,
+                commuCommentCntnt: chtext
+            },
+            success: function () {
+                pageRe();
+            },
+            error: function (err) {
+                alert("댓글 수정 중 오류 발생");
+            }
         });
     }
 });

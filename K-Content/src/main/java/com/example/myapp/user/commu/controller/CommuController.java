@@ -337,10 +337,10 @@ public class CommuController {
 		try {
 
 			// 게시물 내용에서 줄 바꿈을 HTML 태그로 변경
-			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
+//			commu.setCommuCntnt(commu.getCommuCntnt().replace("\r\n", "<br>"));
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+//			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();
@@ -441,7 +441,7 @@ public class CommuController {
 		try {
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+//			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();

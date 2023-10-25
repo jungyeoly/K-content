@@ -1,67 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>답글쓰기</title>
+    <meta charset="UTF-8">
+    <title>답글쓰기</title>
 
-	<th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
-	<link rel="stylesheet" th:href="@{/css/inqury/inqry-common.css}">
-	<link rel="stylesheet" th:href="@{/css/inqury/cms.css}">
+    <th:block th:replace="~{/include/new-admin-head :: newAdminHead}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/inqury/inquryWrite.css}">
+    <link rel="stylesheet" th:href="@{/css/inqury/inqry-common.css}">
+    <link rel="stylesheet" th:href="@{/css/inqury/cms.css}">
 </head>
 <body>
 <div class="page">
-  <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
+    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 
-	<div class="container">
-		<div class="inqry-menu fw-bold">문의사항 글 생성</div>
-		<form th:action="@{/cs/inqry/write}" method="post" enctype="multipart/form-data" class="inqry-form" id="userWrite">
-			<ul class=tb-lst>
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label>문의제목</label>
-					</div>
-					<div class="inqry-cntnt">
-						RE:[[${inqry.inqryTitle}]]
-					</div>
-				</li>
+    <div class="container">
+        <div class="inqry-menu fw-bold">문의사항 글 생성</div>
+        <form th:action="@{/cs/inqry/write}" method="post" enctype="multipart/form-data" class="inqry-form"
+              id="userWrite">
+            <ul class=tb-lst>
+                <li class="tit-row">
+                    <div class="inqry-label">
+                        <label>문의제목</label>
+                    </div>
+                    <div class="inqry-cntnt">
+                        RE:[[${inqry.inqryTitle}]]
+                    </div>
+                </li>
 
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label for="cntnt">문의내용</label>
-					</div>
-					<div class="inqry-cntnt">
-						[[${inqry.inqryCntnt}]]
-					</div>
-				</li>
-
-				<li th:if="${inqry.inqryFileId}" class="tit-row">
-					<div class="inqry-label">
-						<label for="image">첨부파일</label>
-					</div>
-					<div class="inqry-cntnt">
-						<img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}" id="inqry-img">
-					</div>
-				</li>
+                <li class="tit-row">
+                    <div class="inqry-label">
+                        <label for="cntnt">문의내용</label>
+                    </div>
+                    <!--					<div class="inqry-cntnt">-->
+                    <!--						[[${inqry.inqryCntnt}]]-->
+                    <!--					</div>-->
+                    <div class="inqry-cntnt" th:utext="${inqry.inqryCntnt}"></div>
+                </li>
 
 
-				<li class="tit-row">
-					<div class="inqry-label">
-						<label>답변</label>
-					</div>
-					<div class="inqry-cntnt">
-						<textarea id="cntnt" name="inqryCntnt"></textarea>
-					</div>
-				</li>
-			</ul>
+                <li th:if="${inqry.inqryFileId}" class="tit-row">
+                    <div class="inqry-label">
+                        <label for="image">첨부파일</label>
+                    </div>
+                    <div class="inqry-cntnt">
+                        <img alt="" th:src="@{/img/photo/{image}(image=${inqry.inqryFileId})}" id="inqry-img">
+                    </div>
+                </li>
 
-			<div class="d-flex justify-content-center">
-				<!-- <input type="hidden" name="inqryId" th:value="${inqry.inqryId}"> -->
-				<a type="reset" class="btn bg-danger text-white me-2" th:href="@{/cs/inqry}">취소</a>
-				<input type="submit" class="btn insertBtn" value="글 쓰기">
-			</div>
-		</form>
-	</div>
+
+                <li class="tit-row">
+                    <div class="inqry-label">
+                        <label>답변</label>
+                    </div>
+                </li>
+                <div class="inqry-cntnt">
+                    <textarea id="cntnt" class="summernote" name="inqryCntnt"></textarea>
+                </div>
+            </ul>
+
+            <div class="d-flex justify-content-center">
+                <!-- <input type="hidden" name="inqryId" th:value="${inqry.inqryId}"> -->
+                <a type="reset" class="btn bg-danger text-white me-2" th:href="@{/cs/inqry}">취소</a>
+                <input type="submit" class="btn insertBtn" value="글 쓰기">
+            </div>
+        </form>
+    </div>
 
 </div>
 

@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('#cntnt').summernote({
+        placeholder: '내용을 작성하세요',
+        height: 400,
+        maxHeight: 400
+    });
     $("#userUpdate").submit(function(event) {
         event.preventDefault();
 
@@ -9,6 +14,7 @@ $(document).ready(function() {
                 title: '내용을 입력해주세요',
                 icon: 'warning',
                 confirmButtonText: '확인',
+                confirmButtonColor: '#14dbc8'
             });
         } else {
             Swal.fire({
@@ -18,6 +24,7 @@ $(document).ready(function() {
                 cancelButtonColor: '#d33',
                 confirmButtonText: '확인',
                 cancelButtonText: '취소',
+                confirmButtonColor: '#14dbc8',
 				reverseButtons: true, // 버튼 순서 거꾸로
             }).then((result) => {
                 if (result.isConfirmed) {

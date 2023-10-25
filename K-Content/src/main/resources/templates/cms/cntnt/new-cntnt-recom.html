@@ -10,9 +10,9 @@
 
 <body>
 <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
-<div class="search" style=" width: 50%; margin: auto; padding-top: 30px; height: 80%;">
+<div class="search" style=" width: 70%; margin-left: 10%; padding-top: 30px; height: 80%;">
    <div style="display: flex">
-        <div class="screen-title">컨텐츠 추천</div>
+        <div class="screen-title btn">컨텐츠 추천</div>
         <input type="text" id="search-input" placeholder="검색어를 입력하세요" class="form-control" onkeydown="handleKeyDown(event)">
         <input type="button" class="btn" onclick="searchButton()" value="찾기">
    </div>

@@ -35,7 +35,7 @@ $(document).ready(function() {
 	
 			
 	$(window).scroll(function() {
-		if ( Math.round($(window).scrollTop()) == $(document).height() - $(window).height() ) {
+		if ( Math.round($(window).scrollTop()) + 1 >= $(document).height() - $(window).height() ) {
 			start = end + 1;
 			end = start + 14;
 			$.ajax({

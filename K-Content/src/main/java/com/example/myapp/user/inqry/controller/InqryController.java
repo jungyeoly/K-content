@@ -134,7 +134,7 @@ public class InqryController {
 		return "user/inqury/detail";
 	}
 
-
+	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@GetMapping("/inqury/insert")
 	public String insertInqry(Model model) {
 		Inqry inqry = new Inqry();

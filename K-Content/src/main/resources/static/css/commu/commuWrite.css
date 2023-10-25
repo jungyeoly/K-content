@@ -22,7 +22,7 @@
 
 
 
-ul {
+.tb-lst ul {
 	list-style: none;
 	padding: 0;
 }
@@ -44,7 +44,7 @@ ul {
 	display:flex;
 }
 
-li {
+.tb-lst li {
 	border-bottom: 1px solid #e4e4e4;
 }
 #fileSelectButton {
@@ -109,10 +109,6 @@ textarea#cntnt {
 	background: rgb(192, 192, 192);
 	text-align: center;
 	padding: 0px !important;
-}
-
-.fa-solid {
-	line-height: 100px;
 }
 
 .drag-area.active {

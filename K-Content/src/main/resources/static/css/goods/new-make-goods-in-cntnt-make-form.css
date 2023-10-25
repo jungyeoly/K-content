@@ -11,7 +11,9 @@
 .keyword {
     display: flex;
 }
-
+#keywordList{
+    margin-bottom: 20px;
+}
 .button-box {
     display: flex;
     justify-content: flex-end;

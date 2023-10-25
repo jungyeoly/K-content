@@ -12,16 +12,16 @@ public interface IInqryService {
 
 	void insertInqry(Inqry inqry);
 	void insertInqry(Inqry inqry, InqryFile file);
-	
+
 	int selectinqryFileId();
-	
+
 	void updateInqry(Inqry inqry);
 	void updateInqry(Inqry inqry, InqryFile file);
-	
+
 	String getInqryFileId(int inqryId);
-	
+
 	void deleteInqry(int inqryId);
 	void deleteInqry(int inqryId, String inqryFileId);
-	
+
 	void updateCmsInqry(Inqry inqry);
 }

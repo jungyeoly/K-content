@@ -26,7 +26,7 @@ function addBorder() {
 function searchKeyword() {
     const firstPage = 1;
     $.ajax({
-        url: '/cs/test/goods/search',
+        url: '/cs/cntnt/goods/search',
         type: 'GET',
         data: {
             search: document.getElementById("search-input").value,
@@ -130,7 +130,7 @@ function detail(goodsId) {
     // 상품 상세 화면 보여주기
     // 상품 담아가
     // const formHtml = `
-    //                 <form id="goodsDetail" action="/cs/test/goods/detail" method="get">
+    //                 <form id="goodsDetail" action="/cs/cntnt/goods/detail" method="get">
     //                     <input  id="goodsId" name="goodsId"  />
     //                 </form>`;
     //
@@ -145,7 +145,7 @@ function searchSelPageF(pageNum) {
     console.log("pageNum: " + pageNum);
 
     $.ajax({
-        url: "/cs/test/goods/search",
+        url: "/cs/cntnt/goods/search",
         type: 'GET',
         data: {
             search: document.getElementById("search-input").value,
@@ -210,7 +210,7 @@ function searchSelPageF(pageNum) {
 function selPageF(pageNum) {
 
     $.ajax({
-        url: "/cs/test/goods/cntnt/" + pageNum,
+        url: "/cs/cntnt/goods/cntnt/" + pageNum,
         method: "get",
         success: function (data) {
 
@@ -225,7 +225,7 @@ function selPageF(pageNum) {
 function prePageF(pageNum) {
     var prePage = pageNum - 1;
     $.ajax({
-        url: "/cs/test/goods/cntnt/" + prePage,
+        url: "/cs/cntnt/goods/cntnt/" + prePage,
         method: "get",
         success: function (data) {
 
@@ -242,7 +242,7 @@ $(".nexpage").click(function () {
     var nexPage = $(this).data("nexpage") + 1;
 
     $.ajax({
-        url: "/cs/test/goods/cntnt/" + nexPage,
+        url: "/cs/cntnt/goods/cntnt/" + nexPage,
         method: "get",
         seccess: function (data) {
             const element = document.getElementById('layout');

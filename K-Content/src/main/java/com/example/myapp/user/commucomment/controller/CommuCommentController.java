@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.myapp.commoncode.model.CommonCode;
-import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.commu.model.Commu;
 import com.example.myapp.user.commu.service.ICommuService;
+import com.example.myapp.commoncode.model.CommonCode;
+import com.example.myapp.commoncode.service.ICommonCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +37,18 @@ public class CommuCommentController {
     @GetMapping("/commu/detail/comment")
     public String getCommuCommentDetails(@RequestParam("commuId") int commuId, Model model) {
         List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
- 
+
         model.addAttribute("commuCateCodeList", commuCateCodeList);
         Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
         model.addAttribute("commu", commu);
-        
+
         List<CommuComment> comments = commuCommentService.selectCommuCommentsByCommuCommentCommuId(commuId);
-       
+
         List<Integer> keys = new ArrayList<>();
         List<CommuComment> refComment = new ArrayList<>();
         List<CommuComment> values = new ArrayList<>();
-      
-        
+
+
         for (int i = 0; i < comments.size(); i++) {
             if (comments.get(i).getCommuCommentRefId() == 0) {
                 keys.add(comments.get(i).getCommuCommentId());
@@ -55,7 +56,7 @@ public class CommuCommentController {
                 values.add(comments.get(i));
             }
         }
-        
+
         for (int i = 0; i < values.size(); i++) {
             for (int j = 0; j < keys.size(); j++) {
                 if (keys.get(j) == values.get(i).getCommuCommentRefId()) {
@@ -72,11 +73,7 @@ public class CommuCommentController {
         		}
         	}
         	replyCountMap.put(key,count);
-        	
-        }
 
-        for (int i = 0; i < refComment.size(); i++) {
-            System.out.println(refComment.get(i).getCommuCommentId());
         }
 
         model.addAttribute("replyCountMap", replyCountMap);

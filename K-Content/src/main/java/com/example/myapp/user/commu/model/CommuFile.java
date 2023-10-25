@@ -12,7 +12,7 @@ public class CommuFile {
 	    private String commuFileExt; //파일 확장자
 	    private String commuFilePath; //파일경로
 
-	    private String commuFileRegistDate; //등록일시  
+	    private String commuFileRegistDate; //등록일시
 	    private String commuFileUpdateDate; //수정일시
 	    private int commuFileCommuId; // 게시글 ID (첨부파일이 있는 글번호)
 }

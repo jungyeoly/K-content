@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.myapp.cms.inqry.model.CmsInqry;
-import com.example.myapp.cms.inqry.service.CmsInqryService;
 import com.example.myapp.cms.inqry.service.ICmsInqryService;
 import com.example.myapp.commoncode.service.ICommonCodeService;
 import com.example.myapp.user.inqry.model.Inqry;
@@ -45,22 +44,22 @@ public class CmsInqryController {
 	@GetMapping("/inqry/{page}")
 	public String selectCmsInqryList(@PathVariable int page, HttpSession session, Model model) {
 		session.setAttribute("page", page);
-		
+
 		List<Inqry> inqryList = inqryService.selectInqryList(page);
 		model.addAttribute("inqryList", inqryList);
-		
+
 		List<CmsInqry> unansList = cmsInqryService.selectUnansInqryList(page);
 		model.addAttribute("unansList", unansList);
-		
+
 		return "cms/inqry/list";
 	}
-	
+
 	@GetMapping("/inqry/paging")
 	public String inqryPaging(@RequestParam(defaultValue = "1") int page, @RequestParam String activeTab, Model model) {
 		if (activeTab.equals("menu1")) {
 			int bbsCount = inqryService.totalInqry();
 			int totalPage = 0;
-	
+
 			if(bbsCount > 0) {
 				totalPage= (int)Math.ceil(bbsCount/10.0);
 			}
@@ -109,11 +108,11 @@ public class CmsInqryController {
 
 	@GetMapping("/inqry")
 	public String selectInqryList(HttpSession session, Model model,  @RequestParam(required = false) Integer inqryId) {
-		
+
 		if (inqryId != null) {
-			model.addAttribute("unInqryId", inqryId);			
+			model.addAttribute("unInqryId", inqryId);
 		}
-		
+
 		return "cms/inqry/main";
 	}
 
@@ -157,12 +156,12 @@ public class CmsInqryController {
 		cmsInqry.setInqryTitle(inqry.getInqryTitle());
 		cmsInqry.setInqryRefId(inqryId);
 		cmsInqry.setInqryGroupOrd(1);
-		
+
 		String pwd = inqry.getInqryPwd();
 		if(pwd == null || pwd == "") {
 			cmsInqry.setInqryPwd("");
 		} else {
-			cmsInqry.setInqryPwd(pwd);			
+			cmsInqry.setInqryPwd(pwd);
 		}
 		cmsInqry.setInqryMberId(principal.getName());
 		cmsInqryService.writeCmsInqry(cmsInqry);
@@ -179,18 +178,18 @@ public class CmsInqryController {
 			model.addAttribute("re", re);
 			return "cms/inqry/update";
 		} else {
-			model.addAttribute("message", "잘못된 접근입니다."); 
+			model.addAttribute("message", "잘못된 접근입니다.");
 			return "redirect:/cs/inqry";
 		}
 	}
-	
+
 	@PostMapping("/inqry/update/{inqryId}")
 	public String updateInqry(@PathVariable int inqryId, CmsInqry cmsInqry) {
 		cmsInqryService.updateCmsInqry(cmsInqry);
-		
+
 		return "redirect:/cs/inqry";
 	}
-	
+
 	@PostMapping("/inqry/delete/{inqryId}")
 	public String deleteInqry(@PathVariable int inqryId, Authentication authentication, Principal principal, RedirectAttributes redirectAttrs) {
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {

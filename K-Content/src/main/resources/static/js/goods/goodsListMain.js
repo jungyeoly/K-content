@@ -1,7 +1,7 @@
 function searchKeyword() {
     const firstPage = 1;
     $.ajax({
-        url: '/cs/test/goods/search',
+        url: '/cs/cntnt/goods/search',
         type: 'GET',
         data: {
             search: document.getElementById("search-input").value,
@@ -70,7 +70,7 @@ function searchKeyword() {
 function detail(goodsId) {
     // 상품 상세 화면 보여주기
     const formHtml = `
-                    <form id="goodsDetail" action="/cs/test/goods/detail" method="get">
+                    <form id="goodsDetail" action="/cs/cntnt/goods/detail" method="get">
                         <input  id="goodsId" name="goodsId"  />
                     </form>`;
 
@@ -85,7 +85,7 @@ function selPageF(pageNum) {
     console.log("pageNum: " + pageNum);
 
     $.ajax({
-        url: "/cs/test/goods/search",
+        url: "/cs/cntnt/goods/search",
         type: 'GET',
         data: {
             search: document.getElementById("search-input").value,
@@ -147,7 +147,7 @@ function selPageF(pageNum) {
 function prePageF(pageNum) {
     var prePage = pageNum - 1;
     $.ajax({
-        url: "/cs/test/goods/" + prePage,
+        url: "/cs/cntnt/goods/" + prePage,
         method: "get",
         success: function (data) {
 
@@ -163,7 +163,7 @@ $(".nexpage").click(function () {
         var nexPage = $(this).data("nexpage") + 1;
 
         $.ajax({
-            url: "/cs/test/goods/" + nexPage,
+            url: "/cs/cntnt/goods/" + nexPage,
             method: "get",
             seccess: function (data) {
                 const element = document.getElementById('layout');

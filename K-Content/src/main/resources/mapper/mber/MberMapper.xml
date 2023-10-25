@@ -22,7 +22,7 @@
 				ON A.mber_stat_code = B1.common_code
 				JOIN tb_common_code B2
 				ON A.mber_role_code = B2.common_code
-				WHERE A.mber_id = #{mberId}            
+				WHERE A.mber_id = #{mberId}
 		]]>
 	</select>
 
@@ -78,7 +78,7 @@ SELECT rn, mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mbe
 FROM (
     SELECT rownum rn, mber_id, mber_email, mber_pwd, mber_name, mber_birth, mber_phone, mber_regist_date, mber_update_date, mber_gender_code, mber_stat, mber_role
     FROM (
-        SELECT 
+        SELECT
             A.mber_id,
             A.mber_email,
             A.mber_pwd,
@@ -87,9 +87,9 @@ FROM (
             A.mber_phone,
             A.mber_regist_date,
             A.mber_update_date,
-            B1.common_code_dscr AS mber_gender_code, 
+            B1.common_code_dscr AS mber_gender_code,
             B2.common_code_dscr AS mber_stat,
-            B3.common_code_dscr AS mber_role    
+            B3.common_code_dscr AS mber_role
         FROM tb_mber A
         JOIN tb_common_code B1
         ON A.mber_gender_code = B1.common_code
@@ -98,7 +98,7 @@ FROM (
         JOIN tb_common_code B3
         ON A.mber_role_code = B3.common_code
         ORDER BY mber_role, A.mber_regist_date desc, A.mber_id
-      )	
+      )
     )  WHERE rn between #{start} and #{end}
 	  ]]>
 	</select>
@@ -109,7 +109,7 @@ FROM (
 		 	SELECT COUNT(*) FROM tb_mber
 		]]>
 	</select>
-	
+
 	<select id="getActiveMberCount"
 		resultType="int">
 		<![CDATA[
@@ -208,7 +208,7 @@ FROM (
 			    JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
 			    JOIN tb_common_code B2 ON A.mber_stat_code = B2.common_code
 			    JOIN tb_common_code B3 ON A.mber_role_code = B3.common_code
-			    WHERE 
+			    WHERE
 			        (
 			            (#{findType} IS NULL) OR
 			            (
@@ -224,7 +224,7 @@ FROM (
 		order by rn
 	    ]]>
 	</select>
-	
+
 	<select id="cntSeach" resultType="int">
      <![CDATA[
 		SELECT count(*)
@@ -232,7 +232,7 @@ FROM (
 		JOIN tb_common_code B1 ON A.mber_gender_code = B1.common_code
 		JOIN tb_common_code B2 ON A.mber_stat_code = B2.common_code
 		JOIN tb_common_code B3 ON A.mber_role_code = B3.common_code
-		WHERE 
+		WHERE
 		    (
 		        (#{findType} IS NULL) OR
 	            (
@@ -244,7 +244,7 @@ FROM (
 		    )
    ]]>
 	</select>
-	
+
 	<select id="getGenderStat" resultType="map">
     <![CDATA[
 		SELECT B1.common_code_dscr AS gender, COUNT(*) AS count
@@ -254,7 +254,7 @@ FROM (
 	    GROUP BY B1.common_code_dscr
     ]]>
 	</select>
-	
+
 	<select id="getSignupStat" resultType="map">
     <![CDATA[
 		SELECT TO_CHAR(TO_DATE(mber_regist_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS signup_date, COUNT(*) AS signup_count

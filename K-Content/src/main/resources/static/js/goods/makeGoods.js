@@ -85,7 +85,7 @@ function createGoods() {
     console.log(formData);
 
     $.ajax({
-        url: '/cs/test/goods',
+        url: '/cs/cntnt/goods',
         type: 'POST',
         data: formData,
         processData: false,
@@ -101,7 +101,7 @@ function createGoods() {
 
             }).then(result => {
                 if (result.isConfirmed) {
-                    location.href = '/cs/test/goods';
+                    location.href = '/cs/cntnt/goods';
                 }
             });
 
@@ -168,7 +168,7 @@ function createGoodsInCntnt() {
 
 
     $.ajax({
-        url: '/cs/test/goods',
+        url: '/cs/cntnt/goods',
         type: 'POST',
         data: formData,
         processData: false,
@@ -184,7 +184,7 @@ function createGoodsInCntnt() {
 
             }).then(result => {
                 if (result.isConfirmed) {
-                    location.href = '/cs/test/goods/cntnt'; //이걸 으데로 이동시켜야?
+                    location.href = '/cs/cntnt/goods/cntnt'; //이걸 으데로 이동시켜야?
                 }
             });
 
@@ -294,7 +294,7 @@ function updateGoodsNoFile() {
     console.log("formData: " + formData)
 
     $.ajax({
-        url: '/cs/test/goods/form/nofile',
+        url: '/cs/cntnt/goods/form/nofile',
         type: 'patch',
         data: formData,
         processData: false,
@@ -309,7 +309,7 @@ function updateGoodsNoFile() {
 
             }).then(result => {
                 if (result.isConfirmed) {
-                    location.href = '/cs/test/goods';
+                    location.href = '/cs/cntnt/goods';
                 }
             });
         }, error: function (error) {
@@ -360,7 +360,7 @@ function updateGoodsForm() {
     console.log("formData: " + formData)
 
     $.ajax({
-        url: '/cs/test/goods/form',
+        url: '/cs/cntnt/goods/form',
         type: 'patch',
         data: formData,
         processData: false,
@@ -375,7 +375,7 @@ function updateGoodsForm() {
 
             }).then(result => {
                 if (result.isConfirmed) {
-                    location.href = '/cs/test/goods';
+                    location.href = '/cs/cntnt/goods';
                 }
             });
         }, error: function (error) {
@@ -386,7 +386,7 @@ function updateGoodsForm() {
 }
 
 function cancle() {
-    location.href = "/cs/test/goods";
+    location.href = "/cs/cntnt/goods";
 }
 
 function delGoodsFile(key) {

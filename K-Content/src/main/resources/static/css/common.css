@@ -299,9 +299,10 @@ button:hover{
 
 #locales {
 	font-size: .7em;
-} 
+    cursor: pointer;
+}
 
 .swal2-title {
 	font-size: 25px;
-	word-break: keep-all	
+	word-break: keep-all
 }

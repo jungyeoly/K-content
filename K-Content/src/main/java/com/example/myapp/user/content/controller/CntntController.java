@@ -1,16 +1,19 @@
 package com.example.myapp.user.content.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 import com.example.myapp.cms.content.model.CmsContent;
 import com.example.myapp.cms.content.model.CntntGoodsMapping;
 import com.example.myapp.cms.content.service.ICntntGoodsMappingService;
 import com.example.myapp.cms.content.service.IContentService;
-import com.example.myapp.cms.goods.model.Goods;
+import com.example.myapp.cms.content.service.Instagram_Selenium;
 import com.example.myapp.cms.goods.service.IGoodsService;
 import com.example.myapp.commoncode.model.CommonCode;
 import com.example.myapp.commoncode.service.ICommonCodeService;
-import com.example.myapp.user.bkmk.model.CntntBkmk;
 import com.example.myapp.user.bkmk.model.GoodsJFileJBklkList;
 import com.example.myapp.user.bkmk.service.IBkmkService;
 import org.slf4j.Logger;
@@ -34,7 +37,7 @@ import javax.imageio.ImageIO;
 
 
 @Controller
-public class contentUserController {
+public class CntntController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -50,7 +53,8 @@ public class contentUserController {
     IGoodsService goodsService;
     @Autowired
     IBkmkService bkmkService;
-
+    @Autowired
+    Instagram_Selenium instagram_Selenium;
     @GetMapping("/user/content")
     public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model, HttpSession session) {
         // 카테고리 별 조회
@@ -64,7 +68,7 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-        
+
         session.setAttribute("cate", cate);
         model.addAttribute("contentList", contentList);
 
@@ -84,8 +88,8 @@ public class contentUserController {
             String resultCode = partOfUrl2.get(1);
             contentList.get(i).setCntntThumnail("https://i.ytimg.com/vi/" + resultCode + "/hqdefault.jpg");
         }
-        
-        
+
+
         model.addAttribute("contentList", contentList);
 
         return "user/content/list";
@@ -131,14 +135,10 @@ public class contentUserController {
 
         List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
 
-        // 얘를 vo를 바꿔서 좋아요 테이블이랑 조인 해야할듯?
         List<GoodsJFileJBklkList> goodsJFileJBklkList = new ArrayList<GoodsJFileJBklkList>();
         for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            //일단 파일이 하나라고 가정....
             goodsJFileJBklkList.add(
                     bkmkService.selectGoodsJBkmk(userId, goodsIdByCntnt.get(i).getGoodsId()));
-//                    goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
-
         }
 
         model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);
@@ -153,6 +153,39 @@ public class contentUserController {
         model.addAttribute("trendQueryList", trendQueryList);
         return "user/content/contentDetail";
     }
+    //콘텐츠 상세 페이지인스타 크롤링
+    @GetMapping("/cntnt/insta-img")
+    @ResponseBody
+    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList, Authentication authentication) throws IOException {
 
+        List<String> realImg = new ArrayList<>();
+        String role = authentication.getAuthorities().toString();
+        if (role.equals("[ROLE_ADMIN]")) {
+            return realImg;
+        } else {
+            instagram_Selenium.isQuit();
+//            instagram_Selenium = new Instagram_Selenium();
+            instagram_Selenium.instagram_Selenium();
+            for (int i = 0; i < trendQueryList.size(); i++) {
+                try {
+                    String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
+                    //TODO 예외처리
+                    URL urlInput = new URL(oneUrl);
+                    BufferedImage urlImg = ImageIO.read(urlInput);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(urlImg, "jpg", bos);
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    String encodedString = encoder.encodeToString(bos.toByteArray());
+                    //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
+                    realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
+                } catch (Exception e) {
+                    instagram_Selenium.chromeExit();
+                }
+            }
+            instagram_Selenium.chromeExit();
+            return realImg;
+        }
+
+    }
 
 }

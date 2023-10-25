@@ -13,7 +13,7 @@ public class ContentUserService implements IContentUserService {
 
 	@Autowired
 	IContentUserRepository contentRepository;
-	
+
 	@Override
 	public List<Content> selectUserContent(String commonCodeVal, int start, int end) {
 		return contentRepository.selectUserContent(commonCodeVal, start, end);

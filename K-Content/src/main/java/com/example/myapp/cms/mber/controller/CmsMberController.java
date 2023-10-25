@@ -114,11 +114,11 @@ public class CmsMberController {
 	@ResponseBody
 	public List<Mber> searchMber(@RequestParam(required = false) String findType,
 			@RequestParam(required = false) String findKeyword, @RequestParam int page, Model model) {
-		
+
 		List<Mber> mber = mberService.searchMber(findType, findKeyword, page);
 		return mber;
 	}
-	
+
 	@GetMapping("/mber/paging")
 	public String paging(@RequestParam(required = false) String findType,
 			@RequestParam(required = false) String findKeyword, @RequestParam int page, Model model) {
@@ -145,22 +145,22 @@ public class CmsMberController {
 		model.addAttribute("nowPageBlock", nowPageBlock);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "cms/mber/paging";
 	}
-	
+
 	@GetMapping("/mber/gender-stat")
 	@ResponseBody
 	public List<Map<String, Object>> getGenderStat() {
 		List<Map<String, Object>> genderStat = mberService.getGenderStat();
 		return genderStat;
 	}
-	
+
 	@GetMapping("/mber/signup-stat")
 	@ResponseBody
 	public List<Map<String, Object>> getSignupStat() {
 		List<Map<String, Object>> signupStat = mberService.getSignupStat();
 		return signupStat;
 	}
-	
+
 }

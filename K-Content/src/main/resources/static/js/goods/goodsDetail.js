@@ -15,7 +15,7 @@ function deleteGoods() {
     }).then(result => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/cs/test/goods', type: 'patch',
+                url: '/cs/cntnt/goods', type: 'patch',
                 data: {
                     goodsId: document.getElementById("goodsId").value
                 }, // 데이터 객체 전달
@@ -30,7 +30,7 @@ function deleteGoods() {
 
                     }).then(result => {
                         if (result.isConfirmed) {
-                            window.location.replace("/cs/test/goods");
+                            window.location.replace("/cs/cntnt/goods");
                         }
                     });
 
@@ -47,7 +47,7 @@ function updateGoods() {
     goodsID = document.getElementById('goodsId').value;
 
     const formHtml = `
-                    <form id="updateGoods" action="/cs/test/goods/modify-form" method="get">
+                    <form id="updateGoods" action="/cs/cntnt/goods/modify-form" method="get">
                         <input  id="goodsIdf" name="goodsId"  />
                     </form>`;
 

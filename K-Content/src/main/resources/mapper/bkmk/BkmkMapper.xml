@@ -22,7 +22,7 @@
 	</select>
 	<select id="selectGoodsBkmkList" resultType="com.example.myapp.user.bkmk.model.GoodsJFileJBklkList">
 		<![CDATA[
-			SELECT 
+			SELECT
 				b.goods_id,
 			    b.goods_name,
 			    b.goods_brand,
@@ -32,7 +32,7 @@
 			FROM tb_goods_bkmk a
 			JOIN tb_goods b
 			ON a.goods_bkmk_goods_id = b.goods_id
-			JOIN tb_mber c 
+			JOIN tb_mber c
 			ON a.goods_bkmk_mber_id = c.mber_id
 			JOIN tb_goods_file d
 			ON b.goods_id = d.goods_file_goods_id

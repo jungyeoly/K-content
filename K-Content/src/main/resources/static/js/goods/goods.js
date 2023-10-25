@@ -1,7 +1,7 @@
 // $(document).ready(function () {
 //
 //     $.ajax({
-//         url: '/cs/test/goods/list',
+//         url: '/cs/cntnt/goods/list',
 //         type: 'GET',
 //         success: function (data) {
 //             const element = document.getElementById('goodsPad');
@@ -50,7 +50,7 @@
 //         search: document.getElementById("search").value
 //     };
 //     $.ajax({
-//         url: '/cs/test/goods/search',
+//         url: '/cs/cntnt/goods/search',
 //         type: 'GET',
 //         data: requestData,
 //         success: function (data) {

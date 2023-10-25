@@ -86,7 +86,9 @@ img {
     width: 600px;
     margin: auto;
 }
-
+#keywordList{
+    margin-bottom: 20px;
+}
 .newKeyword {
     display: flex;
     flex-wrap: wrap;

@@ -27,9 +27,9 @@ import java.net.URL;
 import java.util.*;
 
 @Controller
-@PreAuthorize("hasRole('ADMIN')")
-@RequestMapping("/cs/test")
-public class CSController {
+
+@RequestMapping("/cs/cntnt")
+public class CmsCntntController {
     @Autowired
     YouTubeApiService youTubeApiService;
     @Autowired
@@ -41,16 +41,16 @@ public class CSController {
     @Autowired
     IGoodsService goodsService;
     @Autowired
-    Instagram_Selenium instagram_Selenium;
-    @Autowired
     ICommonCodeService commonCodeService;
 
     // 콘텐츠 추천 페이지
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/recomm")
     public String showYouTube() {
         return "cms/cntnt/new-cntnt-recom";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/youtube/keyword")
     @ResponseBody
     public List<YouTubeItem> searchYouTube(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, @RequestParam(value = "items", required = false, defaultValue = "20") String items) {
@@ -61,6 +61,7 @@ public class CSController {
     }
 
     //관리자 컨텐츠 메인화면
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public String test(@RequestParam(required = false, defaultValue = "All") String cate, Model model, HttpSession session) {
         List<String> cateList = commonCodeService.cateList("C03");
@@ -69,7 +70,7 @@ public class CSController {
         return "cms/cntnt/new-admin-main-content";
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/contents/{page}")
     @ResponseBody
     public List<CmsContent> getallcntnt(
@@ -125,42 +126,9 @@ public class CSController {
         return restultCode;
     }
 
-    //콘텐츠 상세 페이지인스타 크롤링
-    @GetMapping("/insta-img")
-    @ResponseBody
-    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList, Authentication authentication) throws IOException {
-
-        List<String> realImg = new ArrayList<>();
-        String role = authentication.getAuthorities().toString();
-        if (role.equals("[ROLE_ADMIN]")) {
-            return realImg;
-        } else {
-            instagram_Selenium.isQuit();
-//            instagram_Selenium = new Instagram_Selenium();
-            instagram_Selenium.instagram_Selenium();
-            for (int i = 0; i < trendQueryList.size(); i++) {
-                try {
-                    String oneUrl = instagram_Selenium.crawl(trendQueryList.get(i));
-                    //TODO 예외처리
-                    URL urlInput = new URL(oneUrl);
-                    BufferedImage urlImg = ImageIO.read(urlInput);
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    ImageIO.write(urlImg, "jpg", bos);
-                    Base64.Encoder encoder = Base64.getEncoder();
-                    String encodedString = encoder.encodeToString(bos.toByteArray());
-                    //TODO encodedString만 보내고 태그는 자바사크립트에서 적기 @!!!!
-                    realImg.add("<img src=data:image/jpg;base64," + encodedString + " style=\"width: 200px; height: auto;\" >");
-                } catch (Exception e) {
-                    instagram_Selenium.chromeExit();
-                }
-            }
-            instagram_Selenium.chromeExit();
-            return realImg;
-        }
-
-    }
 
     //콘텐츠 생성 페이지
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/content/new")
     public String getMakeContentFormNew(Model model) {
         List<CommonCode> commonCodes = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
@@ -169,6 +137,7 @@ public class CSController {
     }
 
     //콘텐츠 생성 페이지 form 유튜브
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/content-form")
     public String getMakeContentForm(String cntntURL, String cntntTitle, Model model) {
         CmsContent cntnt = new CmsContent();
@@ -182,6 +151,7 @@ public class CSController {
     }
 
     // 기존 콘텐츠 수정 form
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/content/modify-form")
     public String getUpdateContentForm(int targetContentIdF, Model model) {
         //기존 콘텐츠 데이터 뽑기
@@ -213,11 +183,11 @@ public class CSController {
             trendQueryList.add(keywordList.get(i));
         }
         model.addAttribute("trendQueryList", trendQueryList);
-//        return "cms/cntnt/newcontentMakeForm";
         return "cms/cntnt/new-make-cntnt";
     }
 
     //콘텐츠 생성/수정
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/content")
     @ResponseBody
     public ResponseEntity<String> postCntntForm(@RequestBody CntntInsertForm receivedData) {
@@ -367,6 +337,7 @@ public class CSController {
     }
 
     //콘텐츠 삭제 처리
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/content")
     public String deleteContentForm(@RequestParam(value = "cntntId") int cntntId, Model model, HttpSession session) {
         //update content

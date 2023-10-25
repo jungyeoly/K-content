@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -42,6 +43,7 @@ import com.example.myapp.user.commucomment.service.ICommuCommentService;
 
 import jakarta.servlet.http.HttpSession;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/cs")
 @Controller
 public class CmsCommuController {
@@ -254,7 +256,7 @@ public class CmsCommuController {
 			throw new RuntimeException("잘못된 접근이 감지되었습니다.");
 		}
 		try {
-			
+
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
 			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));

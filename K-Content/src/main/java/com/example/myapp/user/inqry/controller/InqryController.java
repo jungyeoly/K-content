@@ -44,13 +44,13 @@ public class InqryController {
 
 	@Autowired
 	IInqryService inqryService;
-	
+
 	@Autowired
 	ICommonCodeService commonCodeSerivce;
-	
+
 	@Autowired
 	ICmsInqryService cmsInqryService;
-		
+
 	@GetMapping("/inqury/{page}")
 	public String selectInqryList(@PathVariable int page, HttpSession session, Model model) {
 		session.removeAttribute("message");
@@ -117,7 +117,7 @@ public class InqryController {
 	@RequestMapping("/inqury/detail/{inqryId}")
 	public String selectInqry(@PathVariable int inqryId, Model model, HttpSession session) {
 		int inqryPwdId = (int) session.getAttribute("inqryPwdId");
-		
+
 		if (inqryPwdId == inqryId || inqryService.selectInqry(inqryId).getInqryPwd() == null) {
 			if (inqryService.selectInqry(inqryId).getInqryGroupOrd() == 1) {
 				Inqry reply = inqryService.selectInqry(inqryId);
@@ -141,18 +141,18 @@ public class InqryController {
 	    model.addAttribute("inqry", inqry);
 		return "user/inqury/write";
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@PostMapping("/inqury/insert")
 	public String insertInqry(Inqry inqry, BindingResult results, RedirectAttributes redirectAttrs, HttpSession session, Authentication authentication) {
 		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		 String userId = userDetails.getUsername();
-		 
+
 		try {
 			int inqryId = inqryService.selectinqryFileId();
 			inqry.setInqryRefId(inqryId);
 			inqry.setInqryMberId(userId);
-			
+
 			MultipartFile mfile = inqry.getFile();
 
 			if (mfile != null && !mfile.isEmpty()) {
@@ -189,7 +189,7 @@ public class InqryController {
 			return "user/inqury/write";
 		}
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@GetMapping(value="/inqury/update/{inqryId}")
 	public String updateInqury(@PathVariable int inqryId, Model model, HttpSession session, Authentication authentication) {
@@ -252,7 +252,7 @@ public class InqryController {
 		}
 		return "redirect:/inqury/detail/" + inqryId;
 	};
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN', 'MBER')")
 	@PostMapping(value="inqury/delete/{inqryId}")
 	public String deleteInqry(@PathVariable int inqryId, HttpSession session, RedirectAttributes model, Authentication authentication) {
@@ -260,7 +260,7 @@ public class InqryController {
 				Inqry inqry = inqryService.selectInqry(inqryId);
 				UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 				String loginId = userDetails.getUsername();
-				
+
 				if (loginId.equals(inqry.getInqryMberId())) {
 					inqryService.deleteInqry(inqryId);
 					return "redirect:/inqury";

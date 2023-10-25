@@ -117,7 +117,7 @@ public class CommuController {
 		List<Commu> commuList = commuService.selectAllPost(page);
 		List<String> cateList = commonCodeService.cateList("C03");
 		List<String> noticeList = commonCodeService.cateList("C06");
-		
+
 
 		int commuCount = commuService.totalCommu();
 		int totalPage = 0;
@@ -228,11 +228,11 @@ public class CommuController {
 		model.addAttribute("commu", commu);
 		model.addAttribute("commuFiles", commuFiles);
 		logger.info("getCommuDetails" + commu.toString());
-	
+
 		return "user/commu/view";
 	}
 
-	
+
 	// 게시글에 있는 첨부파일 단일 다운로드
 	@GetMapping("/download/{commuFileId}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String commuFileId) {
@@ -310,7 +310,7 @@ public class CommuController {
 		String csrfToken = UUID.randomUUID().toString();
 	session.setAttribute("csrfToken", csrfToken);
 		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
-		
+
 		model.addAttribute("commuCateCodeList", commuCateCodeList);
 		model.addAttribute("isCommunWritePage", true);
 
@@ -332,7 +332,7 @@ public class CommuController {
 		}else if(!csrfToken.equals(session.getAttribute("csrfToken"))) {
 			throw new RuntimeException("잘못된 접근이 감지되었습니다.");
 		}
-		
+
 
 		try {
 
@@ -362,8 +362,10 @@ public class CommuController {
 						Path savePath = Paths.get(savefileName);
 
 						try {
+							logger.info("Attempting to save the file at: " + savePath);
 							uploadFile.transferTo(savePath);
 							logger.info("File saved successfully at: " + savePath);
+
 
 							// 웹 접근 경로 설정 (url 변수 활용)
 							String webAccessPath = url + uuid + "_" + fileName; // url 변수 사용
@@ -402,7 +404,7 @@ public class CommuController {
 		return "redirect:/commu/detail" +  "/" + commu.getCommuId();
 
 	}
-	
+
 	// 게시글 수정하기(기존 게시글 정보 가져오기)
 	@GetMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePost(@PathVariable int commuId, @PathVariable String commuCateCode, Model model, Principal principal) {
@@ -426,7 +428,7 @@ public class CommuController {
 	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
 			@RequestParam("commuUploadFiles") MultipartFile[] commuUploadFiles, BindingResult results,
 			RedirectAttributes redirectAttrs, Principal principal) {
-		
+
 		//권한 검사
 		 Commu existingCommu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
 		    if (!existingCommu.getCommuMberId().equals(principal.getName())) {
@@ -514,12 +516,12 @@ public class CommuController {
 			for (CommuFile file : attachedFiles) {
 				commuService.deleteFileById(file.getCommuFileId());
 			}
-			
-			
+
+
 			  //게시글과 연결된 모든 댓글 가져오기
 			List<Integer> commentIds =commuCommentService.selectAllCommentIdsByPostId(commuId);
-		
-			
+
+
 			  // 해당 게시글의 모든 댓글 및 대댓글을 삭제합니다.
 	        for(int commentId : commentIds) {
 	            commuCommentService.deleteCommuCommentAndRepliesByMainRefId(commentId);

@@ -102,12 +102,12 @@ public class MberService implements IMberService {
 	public int cntSearch(String findType, String findKeyword) {
 		return mberRepository.cntSeach(findType, findKeyword);
 	}
-	
+
 	@Override
 	 public List<Map<String, Object>> getGenderStat() {
         return mberRepository.getGenderStat();
     }
-	
+
 	@Override
 	 public List<Map<String, Object>> getSignupStat() {
        return mberRepository.getSignupStat();

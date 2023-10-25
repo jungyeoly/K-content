@@ -10,7 +10,7 @@ public class MberUserDetails extends User {
 	private static final long serialVersionUID = 1L;
 
 	private String mberGender;
-		
+
 	private boolean enabled;
 
 	public MberUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, String mberGender, boolean enabled) {
@@ -22,7 +22,7 @@ public class MberUserDetails extends User {
 	public String getMberGender() {
 		return this.mberGender;
 	}
-	
+
     @Override
     public boolean isEnabled() {
         return enabled;

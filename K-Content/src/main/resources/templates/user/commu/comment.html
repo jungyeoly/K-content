@@ -13,6 +13,7 @@
 					th:text="${comments != null ? comments.size() + '개' : '0개'}"></span>
 			</h3>
 			<!-- 댓글 작성 영역 -->
+			<div th:if="${#authorization.expr('isAuthenticated()')}">
 			<div th:if="${#authentication.principal}"
 				th:unless="${commu.commuCateCode} == 'C0601'">
 				<div class="comment-section">
@@ -21,7 +22,9 @@
 					<button type="button" onclick="postComment()">등록</button>
 				</div>
 			</div>
+			</div>
 			<!-- 댓글 및 대댓글 출력 -->
+				<div th:if="${#authorization.expr('isAuthenticated()')}">
 			<div th:each="comment : ${comments}"
 				th:if="${comment.commuCommentRefId == 0}">
 
@@ -58,11 +61,13 @@
 								th:text="${replyCountMap[comment.commuCommentId]} + '개'"></span>)
 						</button>
 
-						<div class="replyForm" th:data-replyform-id="${comment.commuCommentId}">
+						<div class="replyForm"
+							th:data-replyform-id="${comment.commuCommentId}">
 							<input type="hidden" name="commuCommentRefId"
 								th:value="${comment.commuCommentId}">
 							<textarea th:id="${comment.commuCommentId}"
-								class="input-reply-textarea" rows="2"placeholder="댓글을 입력하세요." required></textarea>
+								class="input-reply-textarea" rows="2" placeholder="댓글을 입력하세요."
+								required></textarea>
 							<button type="button" class="cancel-reply">취소</button>
 							<button th:commentID="${comment.getCommuCommentId()}"
 								type="button"
@@ -76,8 +81,8 @@
 								th:each="refComment : ${refComments}"
 								th:if="${refComment.commuCommentRefId == comment.getCommuCommentId()}">
 								<hr style="margin-bottom: 10px">
-							 	<div th:class="${refComment.getCommuCommentId()}"
-									style="display: flex"> 
+								<div th:class="${refComment.getCommuCommentId()}"
+									style="display: flex">
 									<h7 th:text="${refComment.getCommuCommentMberId()}"></h7>
 									: &nbsp;
 									<p th:text="${refComment.getCommuCommentCntnt()}"></p>
@@ -101,6 +106,7 @@
 					</div>
 				</div>
 			</div>
+			    </div>
 		</div>
 	</div>
 	<script th:src="@{/js/commu/comment.js}" defer></script>

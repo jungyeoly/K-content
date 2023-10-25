@@ -71,7 +71,7 @@
 				<div class="btns">
 					<div th:if="${#authorization.expr('isAuthenticated()')}">
 						<div class="d-flex"
-							th:if="${#authentication.principal.username} != ${commu.commuMberId}">
+							th:if="${#authentication.principal.username} == ${commu.commuMberId}">
 							<a
 								th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
 								class="btn me-2" th:if="${commu.commuCateCode != 'C0601'}">수정</a>

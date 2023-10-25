@@ -230,6 +230,7 @@ $(document).ready(function() {
 			posts.forEach(commu => {
 				let commuIdText = commu.commonCodeDscr === '공지사항' ? '공지' : commu.commuId;
 
+			
 				postListHtml += `
                 <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
                     <td>${commuIdText}</td>

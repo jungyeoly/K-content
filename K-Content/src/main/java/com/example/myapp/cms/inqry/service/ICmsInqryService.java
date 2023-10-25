@@ -15,4 +15,5 @@ public interface ICmsInqryService {
 	void deleteCmsInqry(int inqryId);
 	List<CmsInqry> selectRecentInqry();
 	String getCmsInqry(int inqryRefId);
+	CmsInqry selectCmsReply(int inqryId);
 }

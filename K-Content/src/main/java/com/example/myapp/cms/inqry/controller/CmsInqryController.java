@@ -130,7 +130,11 @@ public class CmsInqryController {
             model.addAttribute("inqry", inqry);
 
             if (cnt == 2) {
-                Inqry reply = inqryService.selectInqry(inqry.getInqryRefId());
+				/* Inqry reply = inqryService.selectInqry(inqry.getInqryRefId()); */
+                CmsInqry reply = cmsInqryService.selectCmsReply(inqry.getInqryRefId());
+                System.out.println("-----------------------------------");
+                System.out.println(reply);
+                System.out.println("-----------------------------------");
                 model.addAttribute("reply", reply);
             }
         }

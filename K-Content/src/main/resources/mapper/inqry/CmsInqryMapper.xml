@@ -106,6 +106,30 @@
 		]]>
 	</select>
 	
+	<select id="selectCmsReply" parameterType="int" resultType="com.example.myapp.cms.inqry.model.CmsInqry">
+		<![CDATA[
+			SELECT
+			    i.inqry_id,
+			    i.inqry_ref_id,
+			    i.inqry_group_ord,
+			    i.inqry_title,
+			    i.inqry_cntnt,
+			    i.inqry_pwd,
+			    i.inqry_regist_date,
+			    i.inqry_update_date,
+			    i.inqry_delete_yn,
+			    i.inqry_mber_id,
+			    f.inqry_file_id,
+			    f.inqry_file_inqry_id
+			FROM tb_inqry i
+			LEFT JOIN tb_inqry_file f
+			on i.inqry_id = f.inqry_file_inqry_id
+			WHERE inqry_ref_id=#{inqryId}
+			AND inqry_group_ord=1
+			AND inqry_delete_yn='N'
+		]]>
+	</select>
+	
 		<select id="selectRecentInqry"
 		resultType="com.example.myapp.cms.inqry.model.CmsInqry">
 	<![CDATA[

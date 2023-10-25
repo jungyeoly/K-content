@@ -67,4 +67,9 @@ public class CmsInqryService implements ICmsInqryService{
 		return cmsInqryRepository.getCmsInqry(inqryRefId);
 	}
 
+	@Override
+	public CmsInqry selectCmsReply(int inqryId) {
+		return cmsInqryRepository.selectCmsReply(inqryId);
+	}
+
 }

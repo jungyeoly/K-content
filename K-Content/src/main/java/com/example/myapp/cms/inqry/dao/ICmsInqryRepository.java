@@ -15,7 +15,7 @@ public interface ICmsInqryRepository {
 	List<CmsInqry> selectUnansInqryList(@Param("start") int start, @Param("end") int end);
 
 	CmsInqry selectCmsInqry(int inqryId);	// 상세조회
-
+	CmsInqry selectCmsReply(int inqryId);
 	void writeCmsInqry(CmsInqry cmsInqry);	// 답글 쓰기
 
 	int countInqry(int inqryRefId);	// 답글 달린 글 여부 확인

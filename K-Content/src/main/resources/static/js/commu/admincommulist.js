@@ -231,7 +231,7 @@ $(document).ready(function() {
 				let commuIdText = commu.commonCodeDscr === '공지사항' ? '공지' : commu.commuId;
 
 				postListHtml += `
-                <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
+                <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="cmsDetail(this)">
                     <td>${commuIdText}</td>
                     <td>${commu.commonCodeDscr}</td>
                     <td>${commu.commuTitle}</td>

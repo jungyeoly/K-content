@@ -40,7 +40,7 @@
 					<img th:src="@{'/' + ${file.commuFilePath}}"
 						alt="파일을 다운받는데 실패하였습니다.">
 				</div>
-				<div class="commu-cntnt text-start cntnt-div" >
+				<div class="commu-cntnt text-start cntnt-div">
 					<div class="cntnt" id="summernote" th:utext="${commu.commuCntnt}"></div>
 				</div>
 			</div>
@@ -65,36 +65,42 @@
 			</div>
 
 			<div class="d-flex btn-div" id="buttons">
+
 				<a th:href="@{/commu/1(commonCodeDscr ='전체')}" class="list-link btn">목록</a>
+
 				<div class="btns">
-					<div
-						th:if="${#authentication.principal.username} == ${commu.commuMberId}">
-						<a
-							th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
-							class="btn me-2" th:if="${commu.commuCateCode != 'C0601'}">수정</a>
-						<form
-							th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
-							method="post">
-							<input type="hidden" id="commuId" name="commuId"
-								th:value="${commu.commuId}">
-							<button type="button" class="btn delete"
-								th:if="${commu.commuCateCode != 'C0601'}" 
-								onclick="showDeleteConfirmModal()">삭제</button>
-						</form>
+					<div th:if="${#authorization.expr('isAuthenticated()')}">
+						<div class="d-flex"
+							th:if="${#authentication.principal.username} != ${commu.commuMberId}">
+							<a
+								th:href="@{/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
+								class="btn me-2" th:if="${commu.commuCateCode != 'C0601'}">수정</a>
+							<form
+								th:action="@{/commu/deletepost/{commuId}(commuId=${commu.commuId})}"
+								method="post">
+								<input type="hidden" id="commuId" name="commuId"
+									th:value="${commu.commuId}">
+								<button type="button" class="btn delete"
+									th:if="${commu.commuCateCode != 'C0601'}"
+									onclick="showDeleteConfirmModal()">삭제</button>
+							</form>
+						</div>
 					</div>
 
-					<form
+					<!-- <form
 						th:if="${#authentication.principal.username} != ${commu.commuMberId}"
 						th:action="@{/commu/report/{commuId}(commuId=${commu.commuId})}"
 						method="post">
 						<button type="button" id="report" class="btn report"
 							th:if="${commu.commuCateCode != 'C0601'}"
 							onclick="showReportConfirmModal()">신고하기</button>
-					</form>
+					</form> -->
 
 				</div>
+
 			</div>
 			<div id="comment-Box"></div>
+
 		</div>
 	</main>
 	<footer th:insert="~{/include/body-footer :: userFooter}"></footer>

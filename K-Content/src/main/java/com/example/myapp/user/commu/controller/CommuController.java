@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.ByteArrayOutputStream;
@@ -503,7 +504,7 @@ public class CommuController {
 		return "redirect:/commu/detail" + "/" + commu.getCommuId();
 
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	// 게시글 삭제(삭제상태 변경)
 	@PostMapping("/commu/deletepost/{commuId}")
 	public String deletePost(@PathVariable int commuId, RedirectAttributes redirectAttrs) {

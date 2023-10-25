@@ -228,7 +228,7 @@ $(document).ready(function() {
 			}
 		} else {
 			posts.forEach(commu => {
-				let commuIdText = commu.commonCodeDscr === '공지사항' ? '공지' : commu.commuId;
+				let commuIdText = commu.commonCodeDscr === '공지사항' ? `<span style="color:red;">공지</span>` : commu.commuId;
 
 				postListHtml += `
                 <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="cmsDetail(this)">

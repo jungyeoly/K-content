@@ -16,7 +16,7 @@ $(document).ready(function() {
 		let keyword = $('#commusearchInput').val();
 
 		if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
-			currentKeyWord = keyword; //검색 상태 저장        
+			currentKeyWord = keyword; //검색 상태 저장
 			searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
 
 		} else {
@@ -132,7 +132,7 @@ $(document).ready(function() {
 
 	// 카테고리 클릭 이벤트
 	function loadCategoryPosts(commuCateCode, page) {
-		
+
 		console.log(commuCateCode);
 		switch (commuCateCode) {
 			case '전체':
@@ -228,9 +228,11 @@ $(document).ready(function() {
 			}
 		} else {
 			posts.forEach(commu => {
+				let commuIdText = commu.commonCodeDscr === '공지사항' ? '공지' : commu.commuId;
+
 				postListHtml += `
                 <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
-                    <td>${commu.commuId}</td>
+                    <td>${commuIdText}</td>
                     <td>${commu.commonCodeDscr}</td>
                     <td>${commu.commuTitle}</td>
                     <td>${commu.commuMberId}</td>

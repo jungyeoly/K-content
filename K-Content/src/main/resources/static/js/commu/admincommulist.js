@@ -13,7 +13,7 @@ $(document).ready(function() {
 		let keyword = $('#searchInput').val();
 
 		if (keyword.trim() !== "") { // 검색어가 비어있지 않은 경우
-			currentKeyWord = keyword; //검색 상태 저장        
+			currentKeyWord = keyword; //검색 상태 저장
 			searchPosts(keyword, 1); // 첫 페이지부터 검색 결과를 보여줌
 
 		} else {
@@ -121,7 +121,7 @@ $(document).ready(function() {
 
 		commuCateCode = $(this).data('maincate-value');
 		loadCategoryPosts(commuCateCode, 1); // 페이지를 1페이지로 초기화하여 로드
-		
+
 		// 검색어 입력 필드 값을 초기화
 		$('#searchInput').val("");
 		currentKeyWord = null; // 검색 상태 해제
@@ -213,13 +213,13 @@ $(document).ready(function() {
 
 		// 게시글이 없는 경우
 		if (posts.length === 0) {
-			if (currentKeyWord) {  // 검색어가 있을 때
+			if (currentKeyWord) {  // 검색결과가 없을 때
 				postListHtml = `
                 <td>
                      <img src="/img/fail_community_search.jpg" alt="검색결과가 없습니다.">
                 </td>
             `;
-			} else {  // 검색어가 없을 때 (기본 메시지)
+			} else {  //카테고리별 게시글이 없을 때
 				postListHtml = `
                 <td>
                      <img src="/img/fail_community_category.jpg" alt="게시글이 없습니다.">
@@ -228,9 +228,11 @@ $(document).ready(function() {
 			}
 		} else {
 			posts.forEach(commu => {
+				let commuIdText = commu.commonCodeDscr === '공지사항' ? '공지' : commu.commuId;
+
 				postListHtml += `
-                <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="cmsDetail(this)">
-                    <td>${commu.commuId}</td>
+                <tr class="commu-row" data-commu-id="${commu.commuId}" onclick="commuDetail(this)">
+                    <td>${commuIdText}</td>
                     <td>${commu.commonCodeDscr}</td>
                     <td>${commu.commuTitle}</td>
                     <td>${commu.commuMberId}</td>

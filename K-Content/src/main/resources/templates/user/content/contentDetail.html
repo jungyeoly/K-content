@@ -26,9 +26,9 @@
             </div>
             <div>
 
-                <i id="cntntBkmk" sec:authorize="!hasRole('ADMIN')"
+                <i id="cntntBkmk" sec:authorize="hasRole('MBER')"
                    th:if="${isCntntBklk <=0 }" class="fa-regular fa-heart fs-3 me-2"></i>
-                <i id="cntntBkmk" sec:authorize="!hasRole('ADMIN')"
+                <i id="cntntBkmk" sec:authorize="hasRole('MBER')"
                    th:if="${isCntntBklk > 0}" class="fa-heart fs-3 me-2 fa-solid"
                    style="color: #14dbc8"></i>
                 <!--                    <i id="cntntBkmk" th:if="${'isCntntBklk'}" class="fa-regular fa-heart fs-3 me-2"></i>-->
@@ -69,7 +69,7 @@
             <!-- 값이 있을때-->
             <ul
                     class="card-list d-flex flex-wrap justify-content-around rel-pro"
-                    th:if="${GoodsJFileJBklkList.size()} != 0">
+                    th:if="${GoodsJFileJBklkList.size()} > 0">
                 <li class="item goods-box card-item m-3 "
                     th:each="goods : ${GoodsJFileJBklkList}">
                     <div id="goods" class="goods">
@@ -95,13 +95,13 @@
 
                             <i th:id="${goods.goodsId}"
                                th:if="${not #strings.isEmpty(goods.goodsBkmkRegistDate)}"
-                               sec:authorize="!hasRole('ADMIN')"
+                               sec:authorize="hasRole('MBER')"
                                class="goodsBkmk fa-heart position-absolute top-0 end-0 fs-3 fa-solid"
                                style="color: #14dbc8" th:goodsId="${goods.goodsId}"
                                onclick="clickGoods(this.getAttribute('goodsId'))"></i> <i
                                 th:id="${goods.goodsId}"
                                 th:if="${ #strings.isEmpty(goods.goodsBkmkRegistDate)}"
-                                sec:authorize="!hasRole('ADMIN')"
+                                sec:authorize="hasRole('MBER')"
                                 class="goodsBkmk fa-regular fa-heart position-absolute top-0 end-0 fs-3"
                                 th:goodsId="${goods.goodsId}"
                                 onclick="clickGoods(this.getAttribute('goodsId'))"></i>

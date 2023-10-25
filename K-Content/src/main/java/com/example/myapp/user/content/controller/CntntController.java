@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,7 @@ public class CntntController {
     IBkmkService bkmkService;
     @Autowired
     Instagram_Selenium instagram_Selenium;
+
     @GetMapping("/user/content")
     public String selectUserContentList(@RequestParam(required = false, defaultValue = "All") String cate, @RequestParam(required = false, defaultValue = "1") Integer start, @RequestParam(required = false, defaultValue = "15") Integer end, Model model, HttpSession session) {
         // 카테고리 별 조회
@@ -116,13 +119,35 @@ public class CntntController {
 
 
     @GetMapping("/user/content/detail")
-    public String getAContent(Authentication authentication, int targetContentIdF, Model model) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String userId = userDetails.getUsername();
-        int selectCntntBkmk = bkmkService.selectCntntBkmk(userId, targetContentIdF);
-        model.addAttribute("isCntntBklk", selectCntntBkmk);
+    public String getAContent(int targetContentIdF, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().toString();
+        List<Object> goodsJFileJBklkList = new ArrayList<Object>();
+        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
+        if (role.equals("[ROLE_ADMIN]") || role.equals("[ROLE_MBER]")) {
+            // 사용자가 인증되었을 때 실행할 코드
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String userId = userDetails.getUsername();
+            int selectCntntBkmk = bkmkService.selectCntntBkmk(userId, targetContentIdF);
+            model.addAttribute("isCntntBklk", selectCntntBkmk);
 
 
+
+            for (int i = 0; i < goodsIdByCntnt.size(); i++) {
+                goodsJFileJBklkList.add(
+                        bkmkService.selectGoodsJBkmk(userId, goodsIdByCntnt.get(i).getGoodsId()));
+            }
+
+        } else {
+            for (int i = 0; i < goodsIdByCntnt.size(); i++) {
+                goodsJFileJBklkList.add(
+                        goodsService.getGoodsJFileByGoodsId(goodsIdByCntnt.get(i).getGoodsId()));
+            }
+        }
+
+
+        model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);
         CmsContent content = csContentService.getAContent(targetContentIdF);
         model.addAttribute("content", content);
 
@@ -132,16 +157,6 @@ public class CntntController {
 
         List<String> keywordList = Arrays.stream(content.getCntntKwrd().split(",")).toList();
         model.addAttribute("keywordList", keywordList);
-
-        List<CntntGoodsMapping> goodsIdByCntnt = cntntGoodsMappingService.getAllGoodsByContent(targetContentIdF);
-
-        List<GoodsJFileJBklkList> goodsJFileJBklkList = new ArrayList<GoodsJFileJBklkList>();
-        for (int i = 0; i < goodsIdByCntnt.size(); i++) {
-            goodsJFileJBklkList.add(
-                    bkmkService.selectGoodsJBkmk(userId, goodsIdByCntnt.get(i).getGoodsId()));
-        }
-
-        model.addAttribute("GoodsJFileJBklkList", goodsJFileJBklkList);
 
 
         // 쿼리 앞에 키워드 가져와서 뽑기
@@ -153,11 +168,12 @@ public class CntntController {
         model.addAttribute("trendQueryList", trendQueryList);
         return "user/content/contentDetail";
     }
+
     //콘텐츠 상세 페이지인스타 크롤링
     @GetMapping("/cntnt/insta-img")
     @ResponseBody
-    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList, Authentication authentication) throws IOException {
-
+    public List<String> getInstaImg(@RequestParam(value = "trendQueryList") List<String> trendQueryList) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> realImg = new ArrayList<>();
         String role = authentication.getAuthorities().toString();
         if (role.equals("[ROLE_ADMIN]")) {

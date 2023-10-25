@@ -84,7 +84,7 @@ function moveGoods(goodsUrl) {
     Swal.fire({
         title: '이동 여부',
         text: '해당 상품 판매 사이트로 이동하시겠습니까?',
-        icon: 'warning',
+        icon: 'question',
         showCancelButton: true,
         confirmButtonText: '확인',
         cancelButtonText: '취소',

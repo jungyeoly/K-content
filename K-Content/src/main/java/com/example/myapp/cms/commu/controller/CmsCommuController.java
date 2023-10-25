@@ -259,7 +259,7 @@ public class CmsCommuController {
 
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+//			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();
@@ -338,7 +338,19 @@ public class CmsCommuController {
 
 		return "cms/commu/update";
 	}
-
+	@GetMapping("/summer")
+	public String summer() {
+//		Commu commu = commuService.selectPostWithoutIncreasingReadCnt(commuId);
+//		List<CommuFile> commuFiles = commuService.selectFilesByPostId(commuId);
+//		List<CommonCode> commuCateCodeList = commonCodeService.findCommonCateCodeByUpperCommonCode("C03");
+//		List<CommonCode> CodeVal = commonCodeService.findByCommonCodeVal("NOTICE");
+//		model.addAttribute("CodeVal", CodeVal);
+//		model.addAttribute("commu", commu);
+//		model.addAttribute("commuCateCodeList", commuCateCodeList);
+//		model.addAttribute("commuFiles", commuFiles);
+//		logger.info("Editing Commu: " + commu.toString());
+		return "cms/commu/summertest";
+	}
 	// 게시글 수정 처리
 	@PostMapping("/commu/update/{commuCateCode}/{commuId}")
 	public String updatePostAndFiles(Commu commu, @PathVariable int commuId, @PathVariable String commuCateCode,
@@ -352,7 +364,7 @@ public class CmsCommuController {
 		try {
 			// 게시물 제목과 내용에 대해 HTML 태그를 제거 (XSS 방지)
 			commu.setCommuTitle(Jsoup.clean(commu.getCommuTitle(), Safelist.basic()));
-			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
+//			commu.setCommuCntnt(Jsoup.clean(commu.getCommuCntnt(), Safelist.basic()));
 
 			// 첨부파일 리스트 초기화
 			List<CommuFile> commuFiles = new ArrayList<>();

@@ -17,7 +17,7 @@
 	display: table-cell;
 	padding: 15px;
 	vertical-align: top;
-} 
+}
 
 .label {
 	width : 200px;
@@ -40,4 +40,7 @@
 
 #inqry-img {
 	width: 10em;
+}
+.cntnt{
+	width: 80%;
 }

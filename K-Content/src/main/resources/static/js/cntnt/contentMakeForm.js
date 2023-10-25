@@ -39,7 +39,8 @@ function makeKeyword() {
             title: '공백 불가',
             text: '키워드를 입력하세요',
             icon: 'warning',
-            confirmButtonText: '확인'
+            confirmButtonText: '확인',
+            confirmButtonColor: '#14dbc8'
         }).then((result) => {
         });
 
@@ -204,9 +205,9 @@ function createContent() {
         Swal.fire({
             title: '키워드를 입력해주세요',
             icon: 'warning',
-            confirmButtonColor: '#3085d6',
             confirmButtonText: '확인',
             reverseButtons: true,
+            confirmButtonColor: '#14dbc8'
 
         }).then(result => {
             if (result.isConfirmed) {
@@ -253,7 +254,8 @@ function createContent() {
                     title: '콘텐츠 수정 완료',
                     text: '콘텐츠 수정이 완료되었습니다.',
                     icon: 'success',
-                    confirmButtonText: '확인'
+                    confirmButtonText: '확인',
+                    confirmButtonColor: '#14dbc8'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.href = '/cs/cntnt';
@@ -264,7 +266,8 @@ function createContent() {
                     title: '콘텐츠 생성 완료',
                     text: '콘텐츠 생성이 완료되었습니다.',
                     icon: 'success',
-                    confirmButtonText: '확인'
+                    confirmButtonText: '확인',
+                    confirmButtonColor: '#14dbc8'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.href = '/cs/cntnt';
@@ -278,7 +281,8 @@ function createContent() {
                 title: '콘텐츠 생성 실패',
                 text: '콘텐츠 생성이 생성이 실패했습니다.',
                 icon: 'error',
-                confirmButtonText: '확인'
+                confirmButtonText: '확인',
+                confirmButtonColor: '#14dbc8'
             }).then((result) => {
                 if (result.isConfirmed) {
 

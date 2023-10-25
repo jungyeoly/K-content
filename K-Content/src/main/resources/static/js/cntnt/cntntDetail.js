@@ -121,7 +121,8 @@ function deleteCntnt() {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: '확인',
-        cancelButtonText: '취소'
+        cancelButtonText: '취소',
+        confirmButtonColor: '#14dbc8'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -134,7 +135,8 @@ function deleteCntnt() {
                         title: '삭제 완료',
                         text: '컨텐츠 삭제가 완료 되었습니다.',
                         icon: 'success',
-                        confirmButtonText: '확인'
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#14dbc8'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.replace("/cs/cntnt");
@@ -177,7 +179,8 @@ function moveGoods(goodsUrl) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: '확인',
-        cancelButtonText: '취소'
+        cancelButtonText: '취소',
+        confirmButtonColor: '#14dbc8'
     }).then((result) => {
         if (result.isConfirmed) {
             window.open(goodsUrl);

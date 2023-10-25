@@ -18,7 +18,8 @@ function showDeleteConfirmModal() {
 		icon: 'warning',
 		showCancelButton: true,
 		confirmButtonText: '확인',
-		cancelButtonText: '취소'
+		cancelButtonText: '취소',
+		confirmButtonColor: '#14dbc8'
 	}).then((result) => {
 		if (result.isConfirmed) {
 			const deleteForm = document.querySelector('form[method="post"]');

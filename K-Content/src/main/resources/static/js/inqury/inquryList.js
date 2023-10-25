@@ -32,8 +32,7 @@ $(function() {
 			Swal.fire({
 				title: '비밀번호를 입력해주세요',
 				icon: 'warning',
-
-				confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				confirmButtonColor: '#14dbc8', // confrim 버튼 색깔 지정
 				confirmButtonText: '확인',
 
 			});
@@ -53,8 +52,7 @@ $(function() {
 					Swal.fire({
 						title: '비밀번호가 일치하지 않습니다.',
 						icon: 'warning',
-
-						confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+						confirmButtonColor: '#14dbc8', // confrim 버튼 색깔 지정
 						confirmButtonText: '확인',
 
 					});
@@ -67,12 +65,12 @@ $(function() {
 		e.preventDefault();
 		var inqryId = $("#exampleModal").find("input[name='inqryId']").val();
 			var enteredPwd = $("#exampleModal").find("input[name='inqryPwd']").val();
-		
+
 		if (enteredPwd === "") {
 			alert("비밀번호를 입력하세요.");
 			return;
-		}		
-		
+		}
+
 		$.ajax({
 			url: "/inqury/check-password",
 			method: "post",

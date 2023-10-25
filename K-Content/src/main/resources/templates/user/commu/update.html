@@ -45,15 +45,10 @@
 								th:value="${commu.commuTitle}" placeholder="제목을 입력하세요.">
 						</div>
 					</li>
-					<li class="tit-row">
-						<div class="commu-label">
-							<label for="cntnt">내용</label>
-						</div>
-						<div class="commu-cntnt">
+					<div class="commu-cntnt">
 							<textarea id="cntnt" name="commuCntnt"
-								th:text="${commu.commuCntnt}"></textarea>
-						</div>
-					</li>
+									  th:text="${commu.commuCntnt}"></textarea>
+					</div>
 					<li class="tit-row">
 						<div class="commu-label">
 							<label for="attachment">첨부파일</label>

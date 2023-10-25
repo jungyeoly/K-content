@@ -27,8 +27,8 @@
 								문의 내용<span class="text-danger">*</span>
 							</label>
 						</div>
-						<div class="inqry-cntnt cntnt">
-							[[${re}]]
+						<div class="inqry-cntnt cntnt" th:utext="${re}">
+
 						</div>
 					</li>
 
@@ -38,10 +38,16 @@
 								답변<span class="text-danger">*</span>
 							</label>
 						</div>
-						<div class="inqry-cntnt">
-							<textarea id="cntnt" name="inqryCntnt">[[${inqry.inqryCntnt}]]</textarea>
-						</div>
+
+
+<!--						여기수정-->
+
 					</li>
+<!--					<div class="inqry-cntnt" class="summernote" style="width: 80%" th:utext="${inqry.inqryCntnt}">-->
+<!--					</div>-->
+					<div class="inqry-cntnt">
+						<textarea id="cntnt" class="summernote" name="inqryCntnt"th:text="${inqry.inqryCntnt}"></textarea>
+					</div>
 				</ul>
 
 				<div class="d-flex justify-content-center">

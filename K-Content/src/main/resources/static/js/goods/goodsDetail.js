@@ -6,12 +6,11 @@ function deleteGoods() {
         title: '정말 삭제하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#14dbc8',
         cancelButtonColor: '#d33',
         confirmButtonText: '확인',
         cancelButtonText: '취소',
-        reverseButtons: true,
-
+        reverseButtons: true
     }).then(result => {
         if (result.isConfirmed) {
             $.ajax({
@@ -24,9 +23,9 @@ function deleteGoods() {
                     Swal.fire({
                         title: '상품이 삭제 되었습니다.',
                         icon: 'success',
-                        confirmButtonColor: '#3085d6',
+                        confirmButtonColor: '#14dbc8',
                         confirmButtonText: '확인',
-                        reverseButtons: true,
+                        reverseButtons: true
 
                     }).then(result => {
                         if (result.isConfirmed) {

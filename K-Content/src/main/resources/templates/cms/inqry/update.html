@@ -8,7 +8,8 @@
 	<div class="page">
 	    <header th:insert="~{/include/admin-body-header :: adminNavBar}"></header>
 		<div class="container">
-			<div class="inqry-menu fw-bold">문의사항 글 수정</div>
+
+			<div class="inqry-menu fw-bold">문의#[[${inqry.inqryId}]]</div>
 			<form id="userUpdate" th:action="@{/cs/inqry/update/{inqryId}(inqryId=${inqry.inqryId})}" method="post" enctype="multipart/form-data" class="inqry-form">
 				<ul class=tb-lst>
 					<li class="tit-row">
@@ -33,7 +34,8 @@
 					</li>
 
 				</ul>
-					<div class="inqry-cntnt">
+				<div class="inqry-menu fw-bold">문의사항 답변 수정</div>
+					<div class="inqry-cntnt"  style="border-top: 4px solid;">
 						<textarea id="cntnt" class="summernote" name="inqryCntnt"th:text="${inqry.inqryCntnt}"></textarea>
 					</div>
 

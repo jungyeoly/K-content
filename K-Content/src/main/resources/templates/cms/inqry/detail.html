@@ -2,7 +2,7 @@
 
 <div class="container mb-3">
 	<!-- inqry 번호 -->
-		<div class="inqry-no inqry-menu fw-bold">[[${inqry.inqryId}]]</div>
+		<div class="inqry-no inqry-menu fw-bold">문의#[[${inqry.inqryId}]]</div>
 
 		<!-- inqry form -->
 		<ul class="inqry-sub">
@@ -28,7 +28,7 @@
 					</div>
 				</div>
 			</li>
-			
+
 			<li class="inqry-sub-li row">
 				<div class="col">
 					<div class="inqry-sub-cntnt label">
@@ -41,17 +41,17 @@
 			</li>
 
 			<!-- 내용 -->
-			
+
 			<div class="col border-bottom">
 				<div class="inqry-sub-cntnt label">
 					<label>내용</label>
 				</div>
-				
+
 				<div class="inqry-sub-cntnt cntnt" style="height: 300px" th:utext="${inqry.inqryCntnt}">
 				</div>
 			</div>
 
-			
+
 			<!-- 첨부파일 -->
 			<li th:if="${inqry.inqryFileId}" class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
@@ -63,17 +63,24 @@
 			</li>
 
 			<!-- 답글 -->
-			<li th:if="${reply}" class="inqry-sub-li" style="height:300px; border-top: double 3px black;">
-				<div class="inqry-sub-cntnt label" style="height:300px">
-					<label>답변</label>
-				</div>
-				
-				<div class="inqry-sub-cntnt cntnt" style="height: 300px; width: 80%" th:utext="${reply.inqryCntnt}"></div>
-			</li>
+<!--			<li th:if="${reply}" class="inqry-sub-li" style="height:300px; border-top: double 3px black;">-->
+<!--				<div class="inqry-sub-cntnt label" style="height:300px">-->
+<!--					<label>답변</label>-->
+<!--				</div>-->
+
+<!--				<div class="inqry-sub-cntnt cntnt" style="height: 300px; width: 80%" th:utext="${reply.inqryCntnt}"></div>-->
+<!--			</li>-->
 		</ul>
 
+	<div th:if="${not #strings.isEmpty(reply)}">
+		<div class="inqry-menu fw-bold">문의사항 답변</div>
+		<div class="col-md-12 border-top border-4 border-black">
+			<div class="inqry-sub-cntnt cntnt" style="width: 10%;" th:utext="${reply.inqryCntnt}"></div>
+		<hr class="h-4">
+		</div>
+	</div>
 		<!-- 버튼 -->
-		<div class="text-center position-relative">
+		<div class="text-center position-relative mt-4">
 			<a th:href="@{/cs/inqry}" class="btn text-white p-2">목록</a>
 
 			<div class="position-absolute end-0 top-0">

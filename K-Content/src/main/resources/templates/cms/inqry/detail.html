@@ -27,9 +27,11 @@
 						[[${inqry.inqryMberId}]]
 					</div>
 				</div>
-
+			</li>
+			
+			<li class="inqry-sub-li row">
 				<div class="col">
-					<div class="inqry-sub-cntnt label border-left">
+					<div class="inqry-sub-cntnt label">
 						<label>등록일시</label>
 					</div>
 					<div class="inqry-sub-cntnt cntnt" id="registDate">
@@ -39,9 +41,17 @@
 			</li>
 
 			<!-- 내용 -->
-
-			<div class="inqry-sub-cntnt cntnt" style="height: 300px" th:utext="${inqry.inqryCntnt}">
+			
+			<div class="col border-bottom">
+				<div class="inqry-sub-cntnt label">
+					<label>내용</label>
+				</div>
+				
+				<div class="inqry-sub-cntnt cntnt" style="height: 300px" th:utext="${inqry.inqryCntnt}">
+				</div>
 			</div>
+
+			
 			<!-- 첨부파일 -->
 			<li th:if="${inqry.inqryFileId}" class="inqry-sub-li">
 				<div class="inqry-sub-cntnt label">
@@ -57,11 +67,9 @@
 				<div class="inqry-sub-cntnt label" style="height:300px">
 					<label>답변</label>
 				</div>
-				<div class="inqry-sub-cntnt cntnt" style="height: 300px; width: 80%" th:utext="${reply.inqryCntnt}">
-				</div>
-
+				
+				<div class="inqry-sub-cntnt cntnt" style="height: 300px; width: 80%" th:utext="${reply.inqryCntnt}"></div>
 			</li>
-
 		</ul>
 
 		<!-- 버튼 -->

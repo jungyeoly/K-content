@@ -73,6 +73,7 @@ public class MberController {
 		return "user/mber/signin";
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "/mber/signin", method = RequestMethod.GET)
 	public String signin(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {

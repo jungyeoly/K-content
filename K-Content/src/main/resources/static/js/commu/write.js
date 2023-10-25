@@ -88,6 +88,11 @@ function validateForm() {
 		showModal("내용을 입력하세요.", "다시 확인해주세요.");
 		return false;
 	}
+	
+	   if (cntnt.length > 2000) {
+        showModal("입력된 내용이 너무 깁니다.", "한글 입력시 최대 1000자까지 입력 가능합니다.");
+        return false;
+    }
 	return true;
 }
 

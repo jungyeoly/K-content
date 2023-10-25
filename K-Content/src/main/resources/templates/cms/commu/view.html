@@ -46,8 +46,7 @@
 			<a th:href="@{/cs/commu/1(commonCodeDscr ='전체')}"
 				class="list-link btn">목록</a>
 			<div class="btns">
-				<div
-					th:if="${#authentication.principal.username} == ${commu.commuMberId}">
+				<div>
 					<a
 						th:href="@{/cs/commu/update/{commuCateCode}/{commuId}(commuCateCode=${commu.commuCateCode}, commuId=${commu.commuId})}"
 						class="btn me-2">수정</a>

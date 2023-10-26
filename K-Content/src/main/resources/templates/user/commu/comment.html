@@ -100,7 +100,10 @@
 											onclick="deleteComment(this.getAttribute('commentID'),this.getAttribute('refID') )"
 											th:data-id="${refComment.commuCommentId}">삭제</button>
 									</div>
+									
 								</div>
+								<div class="RefComment-date"
+						th:text="${refComment.commuCommentRegistDate}">Date</div>
 							</div>
 						</div>
 					</div>

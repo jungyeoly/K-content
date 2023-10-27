@@ -2,6 +2,14 @@
     display: none;
 }
 
+
+.RefComment-date {
+font-size: 15px;
+    color: #333;
+    margin-bottom: 10px;
+    resize: none;
+}
+
 #report {
     display: none;
 }
@@ -12,6 +20,7 @@
 
 .reply-box {
     display: none;
+    font-size: 18px;
 }
 
 .replyForm {
@@ -73,6 +82,7 @@
     display: flex;
     justify-content: space-between; /* 내용과 버튼을 양쪽 끝으로 배치 */
     align-items: center; /* 내용과 버튼을 중앙으로 정렬 */
+    font-size: 18px;
 }
 
 /* 댓글 내용 스타일링 */
@@ -83,7 +93,7 @@
 
 /* 댓글 날짜 스타일링 */
 .comment-date {
-    font-size: 13px;
+    font-size: 15px;
     color: #333;
     margin-bottom: 10px;
     resize: none;

@@ -1,5 +1,6 @@
 package com.example.myapp.cms.content.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
@@ -16,8 +17,12 @@ public class Instagram_Selenium {
     private WebDriver driver;
     //Properties
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static final String WEB_DRIVER_PATH = "src/main/resources/chromedriver";
-    public static final String WEB_DRIVER_PATH_WIN = "src/main/resources/chromedriver_win.exe";
+//    public static final String WEB_DRIVER_PATH = "src/main/resources/chromedriver";
+    //    public static final String WEB_DRIVER_PATH_WIN = "src/main/resources/chromedriver_win.exe";
+    @Value("${web.driver.path.win}")
+    private String webDriverPathWin;
+    @Value("${web.driver.path.mac}")
+    private String webDriverPathMac;
     private String base_url;
 
     public void isQuit() {
@@ -32,9 +37,9 @@ public class Instagram_Selenium {
         String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("win")) {
-            System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH_WIN);
+            System.setProperty(WEB_DRIVER_ID, webDriverPathWin);
         } else if (os.contains("mac")) {
-            System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+            System.setProperty(WEB_DRIVER_ID, webDriverPathMac);
         }
 
         driver = new ChromeDriver();

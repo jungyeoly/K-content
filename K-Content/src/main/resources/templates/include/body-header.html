@@ -47,7 +47,7 @@
 							th:href="@{/bkmk}" th:text=#{like}>좋아요</a></li>
 						<li class="singup m-3" sec:authorize="isAnonymous()"><i
 							class="fa-solid fa-user-plus"></i> <a class="infoText"
-							th:href="@{mber/signup}" th:text=#{sign.up}>회원가입</a></li>
+							th:href="@{/mber/signup}" th:text=#{sign.up}>회원가입</a></li>
 						<li class="login m-3" sec:authorize="isAnonymous()"><i
 							class="fa-solid fa-door-closed" sec:authorize="isAnonymous()"></i>
 							<a class="infoText" th:href="@{/mber/signin}" th:text=#{sign.in}>로그인</a></li>
@@ -69,7 +69,7 @@
 							<li class="myLike m-3" sec:authorize="isAuthenticated()"><a
 								class="dropdown-item infoText" th:href="@{/bkmk}" th:text=#{like}>좋아요</a></li>
 							<li class="singup m-3" sec:authorize="isAnonymous()"><a
-								class="dropdown-item infoText" th:href="@{mber/signup}" th:text=#{sign.up}>회원가입</a>
+								class="dropdown-item infoText" th:href="@{/mber/signup}" th:text=#{sign.up}>회원가입</a>
 							</li>
 							<li class="login m-3" sec:authorize="isAnonymous()"><a
 								class="dropdown-item infoText" th:href="@{/mber/signin}" th:text=#{sign.in}>로그인</a>

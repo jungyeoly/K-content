@@ -11,6 +11,8 @@ $.ajax({
 	}
 });
 
+
+
 function showDeleteConfirmModal() {
 	Swal.fire({
 		title: '삭제 확인',

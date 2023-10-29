@@ -59,10 +59,10 @@ img, a {
 }
 
 .page-link {
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  cursor: pointer;
+	color: #000;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	cursor: pointer;
 }
 
 .page-item.active .page-link {

@@ -66,9 +66,10 @@ public class ContentService implements IContentService {
     @Transactional
     public int updateAContent(CmsContent contentForm, List<Integer> goodsList) {
         int rowsAffected = 0;
+        int rowsAffectedCntnt = 0;
         List<Boolean> resultList = new ArrayList<>();
         try {
-            contentRepository.updateAContent(contentForm);
+            rowsAffectedCntnt=  contentRepository.updateAContent(contentForm);
             int contentId = contentForm.getCntntId();
 
             cntntGoodsMappingRepository.delMappingDate(contentId);
@@ -77,15 +78,15 @@ public class ContentService implements IContentService {
                 rowsAffected = cntntGoodsMappingRepository.insertMappingDate(contentId, goodsId);
             }
             // INSERT 작업의 성공 여부 확인
-            if (contentId > 0 && rowsAffected > 0) {
-                return rowsAffected;
+            if (rowsAffectedCntnt > 0 && rowsAffected > 0) {
+                return rowsAffectedCntnt;
             } else {
-                return rowsAffected; // 실패
+                return rowsAffectedCntnt; // 실패
             }
         } catch (Exception e) {
             // 예외 처리
             e.printStackTrace();
-            return rowsAffected; // 실패
+            return rowsAffectedCntnt; // 실패
         }
 
         //cntnt Goods mapping insert

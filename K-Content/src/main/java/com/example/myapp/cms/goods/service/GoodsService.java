@@ -50,10 +50,10 @@ public class GoodsService implements IGoodsService {
     @Transactional
     public int insertGoods(Goods goods, GoodsFile goodsFile) {
 
-        goodsRepository.insertGoods(goods);
+        int rowsAffected =  goodsRepository.insertGoods(goods);
         int goodsId = goods.getGoodsId();
         goodsFile.setGoodsFileGoodsId(goodsId);
-        int rowsAffected = goodsRepository.insertGoodsFile(goodsFile);
+        goodsRepository.insertGoodsFile(goodsFile);
 
         return rowsAffected;
     }
@@ -72,10 +72,10 @@ public class GoodsService implements IGoodsService {
     @Transactional
     public int updateGoods(Goods goods, GoodsFile goodsFile) {
         goodsRepository.deleteGoodsFile(goods.getGoodsId());
-        goodsRepository.updateGoods(goods);
+        int rowsAffected = goodsRepository.updateGoods(goods);
         int goodsId = goods.getGoodsId();
         goodsFile.setGoodsFileGoodsId(goodsId);
-        int rowsAffected = goodsRepository.insertGoodsFile(goodsFile);
+         goodsRepository.insertGoodsFile(goodsFile);
 
         return rowsAffected;
     }

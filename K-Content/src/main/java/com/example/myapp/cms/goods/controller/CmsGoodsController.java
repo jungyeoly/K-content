@@ -30,8 +30,7 @@ import java.util.UUID;
 public class CmsGoodsController {
     @Autowired
     IGoodsService goodsService;
-    @Value("${part4.upload.path}")
-    private String uploadPath;
+
     @Value("${goods}")
     private String url;
 
@@ -154,52 +153,48 @@ public class CmsGoodsController {
                                               @RequestParam("keywordList") List<String> keywordListJson,
                                               @RequestParam("goodsFile") MultipartFile goodsFile) throws IOException {
 
-//        try {
+        try {
 
-        String keywordlist = keywordListJson.toString();
+            String keywordlist = keywordListJson.toString();
 
-        String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
-        String originalEncodingFilename = Normalizer.normalize(goodsFile.getOriginalFilename(), Normalizer.Form.NFC);
-        UUID uuid = UUID.randomUUID();
-        String uuidString = uuid.toString();
-        String originalFilename = originalEncodingFilename;
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String newFilename = uuidString + "_" + originalFilename;
+            String keyword = keywordListJson.toString().substring(1, keywordlist.length() - 1);
+            String originalEncodingFilename = Normalizer.normalize(goodsFile.getOriginalFilename(), Normalizer.Form.NFC);
+            UUID uuid = UUID.randomUUID();
+            String uuidString = uuid.toString();
+            String originalFilename = originalEncodingFilename;
+            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFilename = uuidString + "_" + originalFilename;
 
-        GoodsFile newGoodsFile = new GoodsFile();
-        Goods newGoods = new Goods();
+            GoodsFile newGoodsFile = new GoodsFile();
+            Goods newGoods = new Goods();
 
-        newGoodsFile.setGoodsFileID(newFilename);
-        newGoodsFile.setGoodsFileName(originalFilename);
-        newGoodsFile.setGoodsFileExt(fileExtension);
-        newGoodsFile.setGoodsFileSize(goodsFile.getSize());
-        newGoodsFile.setGoodsFilePath(url);
+            newGoodsFile.setGoodsFileID(newFilename);
+            newGoodsFile.setGoodsFileName(originalFilename);
+            newGoodsFile.setGoodsFileExt(fileExtension);
+            newGoodsFile.setGoodsFileSize(goodsFile.getSize());
+            newGoodsFile.setGoodsFilePath(url);
 
-        newGoods.setGoodsName(goodsTitle);
-        newGoods.setGoodsBrand(goodsBrand);
-        newGoods.setGoodsPrice(Integer.parseInt(goodsPrice));
-        newGoods.setGoodsPurchsLink(goodsURL);
-        newGoods.setGoodsKwrd(keyword);
+            newGoods.setGoodsName(goodsTitle);
+            newGoods.setGoodsBrand(goodsBrand);
+            newGoods.setGoodsPrice(Integer.parseInt(goodsPrice));
+            newGoods.setGoodsPurchsLink(goodsURL);
+            newGoods.setGoodsKwrd(keyword);
 
-        Path path = Paths.get(uploadPath + url).toAbsolutePath().normalize();
+            Path path = Paths.get(url).toAbsolutePath().normalize();
 
 //        newFilename = new String(newFilename.getBytes(StandardCharsets.ISO_8859_1),"UTF-8");
-        Path realPath = path.resolve(newFilename).normalize();
+            Path realPath = path.resolve(newFilename).normalize();
 
-        int rowsAffected = goodsService.insertGoods(newGoods, newGoodsFile);
-        goodsFile.transferTo(realPath);
+            goodsService.insertGoods(newGoods, newGoodsFile);
+            goodsFile.transferTo(realPath);
 
-        if (rowsAffected <= 0) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("goods 업로드 실패");
-        }
-        return ResponseEntity.ok("goods 업로드 및 처리 완료");
+            return ResponseEntity.ok("goods 업로드 및 처리 완료");
 //TODO try catch 문 작성
 
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("굿즈 업로드 실패");
-//        }    // JSON 문자열을 객체로 변환 (keywordListJson)
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("goods 업로드 실패");
+        }    // JSON 문자열을 객체로 변환 (keywordListJson)
 
 
     }
@@ -261,7 +256,7 @@ public class CmsGoodsController {
         newGoods.setGoodsPurchsLink(goodsURL);
         newGoods.setGoodsKwrd(keyword);
 
-        Path path = Paths.get(uploadPath + url).toAbsolutePath().normalize();
+        Path path = Paths.get(url).toAbsolutePath().normalize();
 
 //        newFilename = new String(newFilename.getBytes(StandardCharsets.ISO_8859_1),"UTF-8");
         Path realPath = path.resolve(newFilename).normalize();
@@ -364,8 +359,6 @@ public class CmsGoodsController {
 
         return "cms/goods/new-goods-list-in-cntnt-make-form";
     }
-
-
 
 
 }
